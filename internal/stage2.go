@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/IBM/sarama"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
@@ -128,7 +129,7 @@ func fetchEncodev10() []byte {
 }
 
 // Metadata response, get topic UUID
-// ToDo: how to get UUID ? "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9" ?
+// ToDo: how to get UUID ? "82e9d296-c412-49f0-bcc9-b03cdcc4888a" ?
 func fetchEncodev16() []byte {
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1000))
@@ -173,7 +174,7 @@ func fetchEncodev16() []byte {
 		}
 	}{
 		{
-			topicUUID: "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9",
+			topicUUID: "82e9d296-c412-49f0-bcc9-b03cdcc4888a",
 			partitions: []struct {
 				partition          int32
 				currentLeaderEpoch int32
@@ -264,7 +265,7 @@ type PartitionResponse struct {
 	LastStableOffset    int64
 	LogStartOffset      int64
 	AbortedTransactions []AbortedTransaction
-	Records             []byte // Placeholder for actual record data
+	Records             []RecordBatch
 }
 
 type AbortedTransaction struct {
@@ -401,18 +402,21 @@ func fetchDecode(response []byte) (*FetchResponse, error) {
 			}
 			fmt.Printf("Number of bytes: %d\n", numBytes-1)
 			if numBytes-1 > 0 {
-				recordBatch, err := fetchDecodeRecordBatch(&decoder)
-				if err != nil {
-					return nil, fmt.Errorf("failed to decode in func: %w", err)
+				for decoder.Remaining() > 10 { // TODO how to loop ?
+					fmt.Printf("Starting decode record batch, remaining: %d\n", decoder.Remaining())
+					recordBatch, err := fetchDecodeRecordBatch(&decoder)
+					if err != nil {
+						return nil, fmt.Errorf("failed to decode in func: %w", err)
+					}
+					fmt.Printf("Record batch: %v\n", recordBatch)
+					partition.Records = append(partition.Records, *recordBatch)
 				}
-				fmt.Printf("Record batch: %v\n", recordBatch)
 			}
 
 			decoder.GetEmptyTaggedFieldArray()
 		}
 		decoder.GetEmptyTaggedFieldArray()
 	}
-
 	decoder.GetEmptyTaggedFieldArray()
 
 	if decoder.Remaining() != 0 {
@@ -453,6 +457,74 @@ type RecordHeader struct {
 	Value []byte
 }
 
+func fetchDecodeRecord(decoder *decoder.RealDecoder) (*Record, error) {
+	record := &Record{}
+
+	length, err := decoder.GetCustomInt()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	record.Length = int32(length)
+	fmt.Printf("Length: %d\n", length)
+
+	attributes, err := decoder.GetInt8()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	record.Attributes = attributes
+	fmt.Printf("Attributes: %d\n", attributes)
+
+	timestampDelta, err := decoder.GetCustomInt()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	record.TimestampDelta = timestampDelta
+	fmt.Printf("Timestamp delta: %d\n", timestampDelta)
+
+	offsetDelta, err := decoder.GetCustomInt()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	record.OffsetDelta = int32(offsetDelta)
+	fmt.Printf("Offset delta: %d\n", offsetDelta)
+
+	keyLength, err := decoder.GetCustomInt()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	fmt.Printf("Key length: %d\n", keyLength)
+
+	var key []byte
+	if keyLength > 0 {
+		key, err = decoder.GetRawBytes(int(keyLength) - 1)
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode in func: %w", err)
+		}
+		record.Key = key
+		fmt.Printf("Key: %s\n", key)
+	} else {
+		record.Key = nil
+		fmt.Printf("Key: <NULL>\n")
+	}
+
+	valueLength, err := decoder.GetCustomInt()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	fmt.Printf("Value length: %d\n", valueLength)
+
+	value, err := decoder.GetRawBytes(int(valueLength) / 2) // XXX ?
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	record.Value = value
+	fmt.Printf("Value: %s\n", value)
+
+	decoder.GetEmptyTaggedFieldArray()
+
+	return record, nil
+}
+
 func fetchDecodeRecordBatch(decoder *decoder.RealDecoder) (*RecordBatch, error) {
 	batch := &RecordBatch{}
 
@@ -477,6 +549,85 @@ func fetchDecodeRecordBatch(decoder *decoder.RealDecoder) (*RecordBatch, error) 
 	batch.PartitionLeaderEpoch = partitionLeaderEpoch
 	fmt.Printf("Partition leader epoch: %d\n", partitionLeaderEpoch)
 
+	magicByte, err := decoder.GetInt8()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.Magic = magicByte
+	fmt.Printf("Magic: %d\n", magicByte)
+
+	crc32, err := decoder.GetInt32()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.CRC = crc32
+	fmt.Printf("CRC: %d\n", crc32)
+
+	something, err := decoder.GetInt16()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	fmt.Printf("Something: %d\n", something)
+
+	lastOffsetDelta, err := decoder.GetInt32()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.LastOffsetDelta = lastOffsetDelta
+	fmt.Printf("Last offset delta: %d\n", lastOffsetDelta)
+
+	firstTimestamp, err := decoder.GetInt64()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.FirstTimestamp = firstTimestamp
+	fmt.Printf("First timestamp: %d\n", firstTimestamp)
+
+	lastTimestamp, err := decoder.GetInt64()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	// batch.LastTimestamp = lastTimestamp
+	fmt.Printf("Last timestamp: %d\n", lastTimestamp)
+
+	producerId, err := decoder.GetInt64()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.ProducerId = producerId
+	fmt.Printf("Producer ID: %d\n", producerId)
+
+	producerEpoch, err := decoder.GetInt16()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.ProducerEpoch = producerEpoch
+	fmt.Printf("Producer epoch: %d\n", producerEpoch)
+
+	baseSequence, err := decoder.GetInt32()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	batch.BaseSequence = baseSequence
+	fmt.Printf("Base sequence: %d\n", baseSequence)
+
+	sizeOfRecords, err := decoder.GetInt32()
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode in func: %w", err)
+	}
+	// batch.SizeOfRecords = sizeOfRecords
+	fmt.Printf("Size of records: %d\n", sizeOfRecords)
+	if sizeOfRecords > 0 {
+		record, err := fetchDecodeRecord(decoder)
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode in func: %w", err)
+		}
+		fmt.Printf("Record: %v\n", record)
+		batch.Records = append(batch.Records, *record)
+	}
+
+	fmt.Printf("RecordBatch: %v\n", batch)
+
 	return batch, nil
 }
 
@@ -484,16 +635,18 @@ func fetch(broker net.Conn) (*sarama.ApiVersionsResponse, error) {
 	message := fetchEncodev16()
 	broker.Write(message)
 
-	response := make([]byte, 4) // length
-	broker.Read(response)
-	length := int32(binary.BigEndian.Uint32(response))
+	lengthResponse := make([]byte, 4) // length
+	broker.Read(lengthResponse)
+	length := int32(binary.BigEndian.Uint32(lengthResponse))
 	fmt.Printf("Length: %d\n", length)
 
-	response = make([]byte, length)
+	response := make([]byte, length)
+
+	time.Sleep(100 * time.Millisecond)
 	broker.Read(response)
 
 	fmt.Printf("Hexdump of response:\n")
-	for i, b := range response {
+	for i, b := range append(lengthResponse, response...) {
 		if i%16 == 0 {
 			fmt.Printf("\n%04x  ", i)
 		}
@@ -563,3 +716,7 @@ func decodeUUID(encodedUUID []byte) (string, error) {
 
 	return uuid, nil
 }
+
+// test with no messages
+// 1 message
+// more than 1 message
