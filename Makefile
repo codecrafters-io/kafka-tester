@@ -10,6 +10,11 @@ release:
 build:
 	go build -o dist/main.out ./cmd/tester
 
+test_base_with_kafka: build
+	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"st1\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Bind to a port\"}]" \
+	dist/main.out
+
 test:
 	TESTER_DIR=$(shell pwd) go test -v ./internal/
 
