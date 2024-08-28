@@ -21,7 +21,7 @@ func ApiVersions(b *protocol.Broker, request *ApiVersionsRequest) (*ApiVersionsR
 	}
 	header.Encode(&encoder)
 	request.Encode(&encoder)
-	message := protocol.PackMessage(&encoder)
+	message := encoder.PackMessage()
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {

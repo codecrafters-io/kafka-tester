@@ -4,8 +4,6 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
-
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 // Broker represents a single Kafka broker connection. All operations on this object are entirely concurrency-safe.
@@ -71,15 +69,4 @@ func (b *Broker) receive() ([]byte, error) {
 	}
 
 	return response, nil
-}
-
-func PackMessage(encoder *encoder.RealEncoder) []byte {
-	encoded := encoder.Bytes()[:encoder.Offset()]
-	length := int32(len(encoded))
-
-	message := make([]byte, 4+length)
-	binary.BigEndian.PutUint32(message[:4], uint32(length))
-	copy(message[4:], encoded)
-
-	return message
 }

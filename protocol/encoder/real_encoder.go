@@ -192,3 +192,14 @@ func (re *realEncoder) PutEmptyTaggedFieldArray() {
 func (re *realEncoder) offset() int {
 	return re.off
 }
+
+func (re *RealEncoder) PackMessage() []byte {
+	encoded := re.Bytes()[:re.Offset()]
+	length := int32(len(encoded))
+
+	message := make([]byte, 4+length)
+	binary.BigEndian.PutUint32(message[:4], uint32(length))
+	copy(message[4:], encoded)
+
+	return message
+}
