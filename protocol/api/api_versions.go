@@ -8,40 +8,75 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-// ApiVersions returns api version response or error
-func ApiVersions(b *protocol.Broker, request *ApiVersionsRequest) (*ApiVersionsResponse, error) {
+func GetAPIVersions(prettyPrint bool) {
+	broker := protocol.NewBroker("localhost:9092")
+	if err := broker.Connect(); err != nil {
+		panic(err)
+	}
+	defer broker.Close()
+
+	response, err := ApiVersions(broker, &ApiVersionsRequest{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
+	if err != nil {
+		panic(err)
+	}
+
+	if prettyPrint {
+		PrintAPIVersions(response)
+	}
+}
+
+func EncodeApiVersionsRequest(header *RequestHeader, request *ApiVersionsRequest) ([]byte, error) {
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
+	header.Encode(&encoder)
+	request.Encode(&encoder)
+	message := encoder.PackMessage()
+
+	return message, nil
+}
+
+func DecodeApiVersionsResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
+
+	responseHeader := ResponseHeader{}
+	if err := responseHeader.Decode(&decoder); err != nil {
+		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
+	}
+
+	apiVersionsResponse := ApiVersionsResponse{Version: version}
+	if err := apiVersionsResponse.Decode(&decoder, version); err != nil {
+		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
+	}
+
+	return &responseHeader, &apiVersionsResponse, nil
+}
+
+// ApiVersions returns api version response or error
+func ApiVersions(b *protocol.Broker, request *ApiVersionsRequest) (*ApiVersionsResponse, error) {
 	header := RequestHeader{
 		ApiKey:        18,
 		ApiVersion:    request.Version,
 		CorrelationId: 0, // ToDo: Don't hardcode the value here
 		ClientId:      request.ClientSoftwareName,
 	}
-	header.Encode(&encoder)
-	request.Encode(&encoder)
-	message := encoder.PackMessage()
+	message, err := EncodeApiVersionsRequest(&header, request)
+	if err != nil {
+		return nil, err
+	}
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
 		return nil, err
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(response)
-
-	responseHeader := ResponseHeader{}
-	if err := responseHeader.Decode(&decoder); err != nil {
-		return nil, fmt.Errorf("failed to decode header: %w", err)
+	_, apiVersionsResponse, err := DecodeApiVersionsResponse(response, request.Version)
+	if err != nil {
+		return nil, err
 	}
 
-	apiVersionsResponse := ApiVersionsResponse{Version: request.Version}
-	if err := apiVersionsResponse.Decode(&decoder, request.Version); err != nil {
-		return nil, fmt.Errorf("failed to decode response: %w", err)
-	}
-
-	return &apiVersionsResponse, nil
+	return apiVersionsResponse, nil
 }
 
 func PrintAPIVersions(response *ApiVersionsResponse) {
