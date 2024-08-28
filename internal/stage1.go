@@ -12,7 +12,7 @@ import (
 )
 
 func getAPIVersionsV3(broker net.Conn) (*kafkaapi.ApiVersionsResponse, error) {
-	request := kafkaapi.ApiVersionsRequest{Version: 2, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"}
+	request := kafkaapi.ApiVersionsRequest{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"}
 
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
@@ -53,41 +53,19 @@ func getAPIVersionsV3(broker net.Conn) (*kafkaapi.ApiVersionsResponse, error) {
 	return &apiVersionsResponse, nil
 }
 
-// // ApiVersions return api version response or error
-// func (b *Broker) ApiVersions(request *ApiVersionsRequest) (*kafkaapi.ApiVersionsResponse, error) {
-// 	response := new(ApiVersionsResponse)
-
-// 	err := b.sendAndReceive(request, response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return response, nil
-// }
-
-func printAPIVersions(response *kafkaapi.ApiVersionsResponse) {
-	fmt.Printf("API versions supported by the broker are:\n")
-	fmt.Println("API Key\tMinVersion\tMaxVersion\t")
-	apiVersionKeys := response.ApiKeys
-	// For each API, the broker will return the minimum and maximum supported version
-	for _, key := range apiVersionKeys {
-		fmt.Println(key.ApiKey, "\t", key.MinVersion, "\t", key.MaxVersion)
-	}
-}
-
 func GetAPIVersions(prettyPrint bool) {
-	broker, err := protocol.Connect("localhost:9092")
-	if err != nil {
+	broker := protocol.NewBroker("localhost:9092")
+	if err := broker.Connect(); err != nil {
 		panic(err)
 	}
 	defer broker.Close()
 
-	response, err := getAPIVersionsV3(broker)
+	response, err := kafkaapi.ApiVersions(broker, &kafkaapi.ApiVersionsRequest{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
 	if err != nil {
 		panic(err)
 	}
 
 	if prettyPrint {
-		printAPIVersions(response)
+		kafkaapi.PrintAPIVersions(response)
 	}
 }
