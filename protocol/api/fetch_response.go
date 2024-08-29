@@ -98,17 +98,12 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	if numAbortedTransactions > 0 {
 		pr.AbortedTransactions = make([]AbortedTransaction, numAbortedTransactions)
 		for k := range pr.AbortedTransactions {
-			producerID, err := pd.GetInt64()
+			abortedTransaction := AbortedTransaction{}
+			err := abortedTransaction.Decode(pd)
 			if err != nil {
-				return fmt.Errorf("failed to decode in func: %w", err)
+				return fmt.Errorf("failed to decode aborted transaction in partition response: %w", err)
 			}
-			pr.AbortedTransactions[k].ProducerID = producerID
-
-			firstOffset, err := pd.GetInt64()
-			if err != nil {
-				return fmt.Errorf("failed to decode in func: %w", err)
-			}
-			pr.AbortedTransactions[k].FirstOffset = firstOffset
+			pr.AbortedTransactions[k] = abortedTransaction
 		}
 	}
 
@@ -143,6 +138,18 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 type AbortedTransaction struct {
 	ProducerID  int64
 	FirstOffset int64
+}
+
+func (ab *AbortedTransaction) Decode(pd *decoder.RealDecoder) (err error) {
+	if ab.ProducerID, err = pd.GetInt64(); err != nil {
+		return fmt.Errorf("failed to decode producerID in aborted transaction: %w", err)
+	}
+
+	if ab.FirstOffset, err = pd.GetInt64(); err != nil {
+		return fmt.Errorf("failed to decode firstOffset in aborted transaction: %w", err)
+	}
+
+	return nil
 }
 
 type RecordBatch struct {
