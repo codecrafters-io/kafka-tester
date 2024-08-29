@@ -6,19 +6,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 )
 
-type ResponseHeader struct {
-	CorrelationId int32
-}
-
-func (h *ResponseHeader) Decode(decoder *decoder.RealDecoder) error {
-	correlation_id, err := decoder.GetInt32()
-	if err != nil {
-		return fmt.Errorf("failed to decode in func: %w", err)
-	}
-	h.CorrelationId = correlation_id
-	return nil
-}
-
 // ApiVersionsResponseKey contains the APIs supported by the broker.
 type ApiVersionsResponseKey struct {
 	// Version defines the protocol version to use for encode and decode
@@ -34,20 +21,20 @@ type ApiVersionsResponseKey struct {
 func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
-		return fmt.Errorf("failed to decode: %w", err)
+		return fmt.Errorf("failed to decode apiKey in api versions response key: %w", err)
 	}
 
 	if a.MinVersion, err = pd.GetInt16(); err != nil {
-		return fmt.Errorf("failed to decode: %w", err)
+		return fmt.Errorf("failed to decode minVersion in api versions response key: %w", err)
 	}
 
 	if a.MaxVersion, err = pd.GetInt16(); err != nil {
-		return fmt.Errorf("failed to decode: %w", err)
+		return fmt.Errorf("failed to decode maxVersion in api versions response key: %w", err)
 	}
 
 	if version >= 3 {
 		if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-			return fmt.Errorf("failed to decode: %w", err)
+			return fmt.Errorf("failed to decode taggedFieldArray in api versions response key: %w", err)
 		}
 	}
 
@@ -68,19 +55,19 @@ type ApiVersionsResponse struct {
 func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
-		return fmt.Errorf("failed to decode in func: %w", err)
+		return fmt.Errorf("failed to decode errorCode in api versions response: %w", err)
 	}
 
 	var numApiKeys int
 	if r.Version >= 3 {
 		numApiKeys, err = pd.GetCompactArrayLength()
 		if err != nil {
-			return fmt.Errorf("failed to decode in func: %w", err)
+			return fmt.Errorf("failed to decode numApiKeys in api versions response: %w", err)
 		}
 	} else {
 		numApiKeys, err = pd.GetArrayLength()
 		if err != nil {
-			return fmt.Errorf("failed to decode in func: %w", err)
+			return fmt.Errorf("failed to decode numApiKeys in api versions response: %w", err)
 		}
 	}
 
@@ -93,19 +80,21 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 		r.ApiKeys[i] = block
 	}
 
-	if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
-		return fmt.Errorf("failed to decode in func: %w", err)
+	if r.Version >= 1 {
+		if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
+			return fmt.Errorf("failed to decode throttleTimeMs in api versions response: %w", err)
+		}
 	}
 
 	if r.Version >= 3 {
 		if _, err = pd.GetEmptyTaggedFieldArray(); err != nil {
-			return err
+			return fmt.Errorf("failed to decode taggedFieldArray in api versions response: %w", err)
 		}
 	}
 
 	// Check if there are any remaining bytes in the decoder
 	if pd.Remaining() != 0 {
-		return fmt.Errorf("remaining bytes in decoder: %d", pd.Remaining())
+		return fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", pd.Remaining())
 	}
 
 	return nil
