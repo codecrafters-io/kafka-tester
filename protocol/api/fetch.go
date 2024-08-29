@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
@@ -23,7 +24,7 @@ func Fetch() {
 		FetchSessionEpoch: 0,
 		Topics: []Topic{
 			{
-				TopicUUID: "a4c85eb9-307c-43ee-98a6-166e6d7a2e91",
+				TopicUUID: "0f62a58e-617b-462f-9161-132a1946d66a",
 				Partitions: []Partition{
 					{
 						ID:                 0,
@@ -57,34 +58,34 @@ func EncodeFetchRequest(header *RequestHeader, request *FetchRequest) ([]byte, e
 	return message, nil
 }
 
-// func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) {
-// 	decoder := decoder.RealDecoder{}
-// 	decoder.Init(response)
+func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) {
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
 
-// 	responseHeader := ResponseHeader{}
-// 	if err := responseHeader.Decode(&decoder); err != nil {
-// 		return nil, fmt.Errorf("failed to decode header: %w", err)
-// 	}
+	responseHeader := ResponseHeader{}
+	if err := responseHeader.DecodeV1(&decoder); err != nil {
+		return nil, fmt.Errorf("failed to decode header: %w", err)
+	}
 
-// 	return &responseHeader, nil
-// }
+	return &responseHeader, nil
+}
 
-// func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *FetchResponse, error) {
-// 	decoder := decoder.RealDecoder{}
-// 	decoder.Init(response)
+func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *FetchResponse, error) {
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
 
-// 	responseHeader := ResponseHeader{}
-// 	if err := responseHeader.Decode(&decoder); err != nil {
-// 		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
-// 	}
+	responseHeader := ResponseHeader{}
+	if err := responseHeader.DecodeV1(&decoder); err != nil {
+		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
+	}
 
-// 	FetchResponse := FetchResponse{Version: version}
-// 	if err := FetchResponse.Decode(&decoder, version); err != nil {
-// 		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
-// 	}
+	fetchResponse := FetchResponse{Version: version}
+	if err := fetchResponse.Decode(&decoder, version); err != nil {
+		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
+	}
 
-// 	return &responseHeader, &FetchResponse, nil
-// }
+	return &responseHeader, &fetchResponse, nil
+}
 
 // Fetch returns api version response or error
 func fetch(b *protocol.Broker, request *FetchRequest) ([]byte, error) {
@@ -104,12 +105,24 @@ func fetch(b *protocol.Broker, request *FetchRequest) ([]byte, error) {
 		return nil, err
 	}
 
-	fmt.Printf("response: %v\n", response)
+	protocol.PrintHexdump(response)
 
-	// _, FetchResponse, err := DecodeFetchHeaderAndResponse(response, request.Version)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	responseHeader, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16)
+	if err != nil {
+		return nil, err
+	}
 
-	return response, nil
+	fmt.Printf("responseHeader: %v\n", responseHeader.CorrelationId)
+
+	for _, topicResponse := range fetchResponse.Responses {
+		for _, partitionResponse := range topicResponse.Partitions {
+			for _, record := range partitionResponse.Records {
+				for _, r := range record.Records {
+					fmt.Printf("message: %s\n", r.Value)
+				}
+			}
+		}
+	}
+
+	return nil, nil
 }
