@@ -21,7 +21,23 @@ func Fetch() {
 		IsolationLevel:    0,
 		FetchSessionID:    0,
 		FetchSessionEpoch: 0,
-		Topics:            []Topic{},
+		Topics: []Topic{
+			{
+				TopicUUID: "a4c85eb9-307c-43ee-98a6-166e6d7a2e91",
+				Partitions: []Partition{
+					{
+						ID:                 0,
+						CurrentLeaderEpoch: 0,
+						FetchOffset:        0,
+						LastFetchedOffset:  -1,
+						LogStartOffset:     -1,
+						PartitionMaxBytes:  1048576,
+					},
+				},
+			},
+		},
+		ForgottenTopics: []ForgottenTopic{},
+		RackID:          "",
 	})
 	if err != nil {
 		panic(err)

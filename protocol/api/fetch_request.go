@@ -44,6 +44,8 @@ func (t *Topic) Encode(enc *encoder.RealEncoder) {
 	for _, partition := range t.Partitions {
 		partition.Encode(enc)
 	}
+
+	enc.PutEmptyTaggedFieldArray()
 }
 
 type ForgottenTopic struct {
