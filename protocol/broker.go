@@ -4,6 +4,10 @@ import (
 	"encoding/binary"
 	"fmt"
 	"net"
+	"time"
+
+	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 // Broker represents a single Kafka broker connection. All operations on this object are entirely concurrency-safe.
@@ -20,18 +24,70 @@ func NewBroker(addr string) *Broker {
 }
 
 func (b *Broker) Connect() error {
-	conn, err := net.Dial("tcp", b.addr)
-	if err != nil {
-		fmt.Printf("Failed to connect to broker %s: %s\n", b.addr, err)
-		return err
+	RETRIES := 10
+
+	retries := 0
+	var err error
+	var conn net.Conn
+	for {
+		conn, err = net.Dial("tcp", b.addr)
+		if err != nil && retries > RETRIES {
+			return err
+		}
+		if err != nil {
+			retries += 1
+			time.Sleep(1000 * time.Millisecond)
+		} else {
+			break
+		}
 	}
 	b.conn = conn
 
 	return nil
 }
 
+func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
+	RETRIES := 10
+	logger.Debugf("Connecting to broker at: %s", b.addr)
+
+	retries := 0
+	var err error
+	var conn net.Conn
+	for {
+		conn, err = net.Dial("tcp", b.addr)
+		if err != nil && retries > RETRIES {
+			logger.Infof("All retries failed. Exiting.")
+			return err
+		}
+
+		if err != nil {
+			if executable.HasExited() {
+				return fmt.Errorf("Looks like your program has terminated. A Kafka server is expected to be a long-running process.")
+			}
+
+			// Don't print errors in the first second
+			if retries > 2 {
+				logger.Infof("Failed to connect to broker at %s, retrying in 1s", b.addr)
+			}
+
+			retries += 1
+			time.Sleep(1000 * time.Millisecond)
+		} else {
+			break
+		}
+	}
+	logger.Debugf("Connection to broker at %s successful", b.addr)
+	b.conn = conn
+
+	return nil
+}
+
 func (b *Broker) Close() error {
-	return b.conn.Close()
+	err := b.conn.Close()
+	if err != nil {
+		return fmt.Errorf("Failed to close connection to broker at %s: %s", b.addr, err)
+	}
+	return nil
 }
 
 func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
@@ -48,7 +104,6 @@ func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
 	return response, nil
 }
 
-// b.lock must be held by caller
 func (b *Broker) send(message []byte) error {
 	_, err := b.conn.Write(message) // ToDo possible errors ?
 	return err
@@ -61,7 +116,11 @@ func (b *Broker) receive() ([]byte, error) {
 		return nil, err
 	}
 	length := int32(binary.BigEndian.Uint32(response))
+	// fmt.Printf("Length of response: %d\n", length)
 
+	// ToDo ReadUntilOrTimeout
+
+	time.Sleep(1000 * time.Millisecond) // ToDo: Remove this ? How ?
 	response = make([]byte, length)
 	_, err = b.conn.Read(response)
 	if err != nil {
