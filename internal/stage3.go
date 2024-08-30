@@ -39,10 +39,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		ClientSoftwareVersion: "0.1",
 	}
 
-	message, err := kafkaapi.EncodeApiVersionsRequest(&header, &request)
-	if err != nil {
-		return err
-	}
+	message := kafkaapi.EncodeApiVersionsRequest(&header, &request)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {

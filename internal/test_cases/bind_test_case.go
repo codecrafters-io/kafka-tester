@@ -30,7 +30,7 @@ func (t BindTestCase) Run(executable *kafka_executable.KafkaExecutable, logger *
 
 		if err != nil {
 			if executable.HasExited() {
-				return fmt.Errorf("Looks like your program has terminated. A redis server is expected to be a long-running process.")
+				return fmt.Errorf("Looks like your program has terminated. A kafka server is expected to be a long-running process.")
 			}
 
 			// Don't print errors in the first second
