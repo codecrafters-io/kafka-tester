@@ -13,14 +13,14 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(enc *encoder.RealEncoder) {
-	enc.PutInt32(p.ID)
-	enc.PutInt32(p.CurrentLeaderEpoch)
-	enc.PutInt64(p.FetchOffset)
-	enc.PutInt32(p.LastFetchedOffset)
-	enc.PutInt64(p.LogStartOffset)
-	enc.PutInt32(p.PartitionMaxBytes)
-	enc.PutEmptyTaggedFieldArray()
+func (p *Partition) Encode(pe *encoder.RealEncoder) {
+	pe.PutInt32(p.ID)
+	pe.PutInt32(p.CurrentLeaderEpoch)
+	pe.PutInt64(p.FetchOffset)
+	pe.PutInt32(p.LastFetchedOffset)
+	pe.PutInt64(p.LogStartOffset)
+	pe.PutInt32(p.PartitionMaxBytes)
+	pe.PutEmptyTaggedFieldArray()
 }
 
 type Topic struct {
@@ -28,24 +28,24 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(enc *encoder.RealEncoder) {
+func (t *Topic) Encode(pe *encoder.RealEncoder) {
 	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
 	}
-	if err := enc.PutRawBytes(uuidBytes); err != nil {
+	if err := pe.PutRawBytes(uuidBytes); err != nil {
 		return
 	}
 
 	// Encode partitions array length
-	enc.PutCompactArrayLength(len(t.Partitions))
+	pe.PutCompactArrayLength(len(t.Partitions))
 
 	// Encode each partition
 	for _, partition := range t.Partitions {
-		partition.Encode(enc)
+		partition.Encode(pe)
 	}
 
-	enc.PutEmptyTaggedFieldArray()
+	pe.PutEmptyTaggedFieldArray()
 }
 
 type ForgottenTopic struct {
@@ -53,16 +53,16 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(enc *encoder.RealEncoder) {
+func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
 	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
 	}
-	if err := enc.PutRawBytes(uuidBytes); err != nil {
+	if err := pe.PutRawBytes(uuidBytes); err != nil {
 		return
 	}
 
-	enc.PutCompactInt32Array(f.Partitions)
+	pe.PutCompactInt32Array(f.Partitions)
 }
 
 type FetchRequest struct {
@@ -77,31 +77,31 @@ type FetchRequest struct {
 	RackID            string
 }
 
-func (r *FetchRequest) Encode(enc *encoder.RealEncoder) {
-	enc.PutInt32(r.MaxWaitMS)
-	enc.PutInt32(r.MinBytes)
-	enc.PutInt32(r.MaxBytes)
-	enc.PutInt8(r.IsolationLevel)
-	enc.PutInt32(r.FetchSessionID)
-	enc.PutInt32(r.FetchSessionEpoch)
+func (r *FetchRequest) Encode(pe *encoder.RealEncoder) {
+	pe.PutInt32(r.MaxWaitMS)
+	pe.PutInt32(r.MinBytes)
+	pe.PutInt32(r.MaxBytes)
+	pe.PutInt8(r.IsolationLevel)
+	pe.PutInt32(r.FetchSessionID)
+	pe.PutInt32(r.FetchSessionEpoch)
 
 	// Encode topics array length
-	enc.PutCompactArrayLength(len(r.Topics))
+	pe.PutCompactArrayLength(len(r.Topics))
 
 	// Encode each topic
 	for _, topic := range r.Topics {
-		topic.Encode(enc)
+		topic.Encode(pe)
 	}
 
 	// Encode forgotten topics array length
-	enc.PutCompactArrayLength(len(r.ForgottenTopics))
+	pe.PutCompactArrayLength(len(r.ForgottenTopics))
 
 	// Encode each forgotten topic
 	for _, forgottenTopic := range r.ForgottenTopics {
-		forgottenTopic.Encode(enc)
+		forgottenTopic.Encode(pe)
 	}
 
-	enc.PutCompactString(r.RackID)
+	pe.PutCompactString(r.RackID)
 
-	enc.PutEmptyTaggedFieldArray()
+	pe.PutEmptyTaggedFieldArray()
 }
