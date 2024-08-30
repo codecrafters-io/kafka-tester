@@ -15,7 +15,7 @@ func GetAPIVersions(prettyPrint bool) {
 	}
 	defer broker.Close()
 
-	response, err := ApiVersions(broker, &ApiVersionsRequest{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
+	response, err := ApiVersions(broker, &ApiVersionsRequestBody{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
 	if err != nil {
 		panic(err)
 	}
@@ -25,15 +25,15 @@ func GetAPIVersions(prettyPrint bool) {
 	}
 }
 
-func EncodeApiVersionsRequest(header *RequestHeader, request *ApiVersionsRequest) []byte {
+func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
-	header.EncodeV1(&encoder)
-	request.Encode(&encoder)
-	message := encoder.PackMessage()
+	request.Header.EncodeV1(&encoder)
+	request.Body.Encode(&encoder)
+	messageBytes := encoder.PackMessage()
 
-	return message
+	return messageBytes
 }
 
 func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, error) {
@@ -69,21 +69,25 @@ func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*Respon
 }
 
 // ApiVersions returns api version response or error
-func ApiVersions(b *protocol.Broker, request *ApiVersionsRequest) (*ApiVersionsResponse, error) {
+func ApiVersions(b *protocol.Broker, requestBody *ApiVersionsRequestBody) (*ApiVersionsResponse, error) {
 	header := RequestHeader{
 		ApiKey:        18,
-		ApiVersion:    request.Version,
+		ApiVersion:    requestBody.Version,
 		CorrelationId: 0, // ToDo: Don't hardcode the value here
-		ClientId:      request.ClientSoftwareName,
+		ClientId:      requestBody.ClientSoftwareName,
 	}
-	message := EncodeApiVersionsRequest(&header, request)
+	request := ApiVersionsRequest{
+		Header: header,
+		Body:   *requestBody,
+	}
+	message := EncodeApiVersionsRequest(&request)
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
 		return nil, err
 	}
 
-	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, request.Version)
+	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, requestBody.Version)
 	if err != nil {
 		return nil, err
 	}

@@ -26,19 +26,21 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	correlationId := int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
 
-	header := kafkaapi.RequestHeader{
-		ApiKey:        18,
-		ApiVersion:    3,
-		CorrelationId: correlationId,
-		ClientId:      "kafka-cli",
-	}
 	request := kafkaapi.ApiVersionsRequest{
-		Version:               3,
-		ClientSoftwareName:    "kafka-cli",
-		ClientSoftwareVersion: "0.1",
+		Header: kafkaapi.RequestHeader{
+			ApiKey:        18,
+			ApiVersion:    3,
+			CorrelationId: correlationId,
+			ClientId:      "kafka-cli",
+		},
+		Body: kafkaapi.ApiVersionsRequestBody{
+			Version:               3,
+			ClientSoftwareName:    "kafka-cli",
+			ClientSoftwareVersion: "0.1",
+		},
 	}
 
-	message := kafkaapi.EncodeApiVersionsRequest(&header, &request)
+	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {

@@ -4,7 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-type ApiVersionsRequest struct {
+type ApiVersionsRequestBody struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ClientSoftwareName contains the name of the client.
@@ -13,11 +13,16 @@ type ApiVersionsRequest struct {
 	ClientSoftwareVersion string
 }
 
-func (r *ApiVersionsRequest) Encode(enc *encoder.RealEncoder) {
+func (r *ApiVersionsRequestBody) Encode(enc *encoder.RealEncoder) {
 	if r.Version >= 3 {
 		enc.PutEmptyTaggedFieldArray()
 		enc.PutCompactString(r.ClientSoftwareName)
 		enc.PutCompactString(r.ClientSoftwareVersion)
 		enc.PutEmptyTaggedFieldArray()
 	}
+}
+
+type ApiVersionsRequest struct {
+	Header RequestHeader
+	Body   ApiVersionsRequestBody
 }

@@ -27,19 +27,21 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	defer broker.Close()
 
-	header := kafkaapi.RequestHeader{
-		ApiKey:        18,
-		ApiVersion:    -1,
-		CorrelationId: correlationId,
-		ClientId:      "kafka-cli",
-	}
 	request := kafkaapi.ApiVersionsRequest{
-		Version:               -1,
-		ClientSoftwareName:    "kafka-cli",
-		ClientSoftwareVersion: "0.1",
+		Header: kafkaapi.RequestHeader{
+			ApiKey:        18,
+			ApiVersion:    -1,
+			CorrelationId: correlationId,
+			ClientId:      "kafka-cli",
+		},
+		Body: kafkaapi.ApiVersionsRequestBody{
+			Version:               -1,
+			ClientSoftwareName:    "kafka-cli",
+			ClientSoftwareVersion: "0.1",
+		},
 	}
 
-	message := kafkaapi.EncodeApiVersionsRequest(&header, &request)
+	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
