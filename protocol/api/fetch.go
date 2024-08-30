@@ -47,7 +47,7 @@ func Fetch() {
 	fmt.Printf("response: %v\n", response)
 }
 
-func EncodeFetchRequest(header *RequestHeader, request *FetchRequest) ([]byte, error) {
+func EncodeFetchRequest(header *RequestHeader, request *FetchRequest) []byte {
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
@@ -55,7 +55,7 @@ func EncodeFetchRequest(header *RequestHeader, request *FetchRequest) ([]byte, e
 	request.Encode(&encoder)
 	message := encoder.PackMessage()
 
-	return message, nil
+	return message
 }
 
 func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) {
@@ -95,10 +95,7 @@ func fetch(b *protocol.Broker, request *FetchRequest) ([]byte, error) {
 		CorrelationId: 0,
 		ClientId:      "kafka-tester",
 	}
-	message, err := EncodeFetchRequest(&header, request)
-	if err != nil {
-		return nil, err
-	}
+	message := EncodeFetchRequest(&header, request)
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
