@@ -25,23 +25,38 @@ func GetAPIVersions(prettyPrint bool) {
 	}
 }
 
-func EncodeApiVersionsRequest(header *RequestHeader, request *ApiVersionsRequest) ([]byte, error) {
+func EncodeApiVersionsRequest(header *RequestHeader, request *ApiVersionsRequest) []byte {
 	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
-	header.Encode(&encoder)
+	header.EncodeV1(&encoder)
 	request.Encode(&encoder)
 	message := encoder.PackMessage()
 
-	return message, nil
+	return message
 }
 
-func DecodeApiVersionsResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
+func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 
 	responseHeader := ResponseHeader{}
-	if err := responseHeader.Decode(&decoder); err != nil {
+	if err := responseHeader.DecodeV0(&decoder); err != nil {
+		return nil, fmt.Errorf("failed to decode header: %w", err)
+	}
+
+	return &responseHeader, nil
+}
+
+func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
+
+	// TODO: Needs to be rewritten
+	// Use methods in the stage4.go
+	// If err occurs, they return nil :/
+	responseHeader := ResponseHeader{}
+	if err := responseHeader.DecodeV0(&decoder); err != nil {
 		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
 	}
 
@@ -61,17 +76,14 @@ func ApiVersions(b *protocol.Broker, request *ApiVersionsRequest) (*ApiVersionsR
 		CorrelationId: 0, // ToDo: Don't hardcode the value here
 		ClientId:      request.ClientSoftwareName,
 	}
-	message, err := EncodeApiVersionsRequest(&header, request)
-	if err != nil {
-		return nil, err
-	}
+	message := EncodeApiVersionsRequest(&header, request)
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
 		return nil, err
 	}
 
-	_, apiVersionsResponse, err := DecodeApiVersionsResponse(response, request.Version)
+	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, request.Version)
 	if err != nil {
 		return nil, err
 	}
