@@ -16,5 +16,29 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testBindToPort,
 			Timeout:  15 * time.Second,
 		},
+		{
+			Slug:     "st2",
+			TestFunc: testHardcodedCorrelationId,
+		},
+		{
+			Slug:     "st3",
+			TestFunc: testCorrelationId,
+		},
+		{
+			Slug:     "st4",
+			TestFunc: testAPIVersionErrorCase,
+		},
+		{
+			Slug:     "st6",
+			TestFunc: testAPIVersion,
+		},
+		{
+			Slug:     "st7",
+			TestFunc: testAPIVersionwFetchKey,
+		},
+		{
+			Slug:     "st8",
+			TestFunc: testFetchError,
+		},
 	},
 }
