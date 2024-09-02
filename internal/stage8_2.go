@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetchError(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchError2(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -27,8 +27,7 @@ func testFetchError(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	defer broker.Close()
 
-	// Error 100 inside partition response
-	// TODO: This is not easy to encode for users
+	// Passsing an impossible topic UUID also leads to -1: unexpected server error
 	request := kafkaapi.FetchRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        1,
@@ -45,7 +44,7 @@ func testFetchError(stageHarness *test_case_harness.TestCaseHarness) error {
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "0f62a58e-617b-462f-9161-132a1946d66a",
+					TopicUUID: "00000000-0000-0000-0000-000000000000",
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -80,20 +79,10 @@ func testFetchError(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
-	// ToDo: Confirm with @paul
+	if responseBody.ErrorCode != -1 {
+		return fmt.Errorf("expected error code to be -1, got %v", responseBody.ErrorCode)
+	}
 	logger.Successf("✓ ErrorCode: %v", responseBody.ErrorCode)
-	if len(responseBody.Responses) == 0 {
-		return fmt.Errorf("expected responses to be non-empty")
-	}
-	if len(responseBody.Responses[0].Partitions) == 0 {
-		return fmt.Errorf("expected partitions to be non-empty")
-	}
-
-	errorCode := responseBody.Responses[0].Partitions[0].ErrorCode
-	if errorCode != 100 {
-		return fmt.Errorf("expected error code to be 100, got %v", errorCode)
-	}
-	logger.Successf("✓ Partitions => ErrorCode: 100 (UNKNOWN_TOPIC_ID)")
 
 	return nil
 }
