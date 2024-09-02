@@ -56,7 +56,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		return fmt.Errorf("correlationId mismatch: expected %v, got %v", correlationId, responseHeader.CorrelationId)
 	}
 
-	logger.Successf("✓ correlationId: %v", responseHeader.CorrelationId)
+	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	return nil
 }

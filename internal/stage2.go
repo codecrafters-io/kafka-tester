@@ -52,7 +52,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	logger.Successf("✓ correlationId: %v", responseHeader.CorrelationId)
+	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	return nil
 }

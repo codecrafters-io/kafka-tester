@@ -56,7 +56,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	if responseHeader.CorrelationId != correlationId {
 		return fmt.Errorf("expected correlationId to be %v, got %v", correlationId, responseHeader.CorrelationId)
 	}
-	logger.Successf("✓ correlationId: %v", responseHeader.CorrelationId)
+	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	MAX_VERSION := int16(3)
 	for _, apiVersionKey := range responseBody.ApiKeys {
