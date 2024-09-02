@@ -40,5 +40,17 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "st8",
 			TestFunc: testFetchError,
 		},
+		{
+			Slug:     "st8_2",
+			TestFunc: testFetchError2,
+		},
+		{
+			Slug:     "st9",
+			TestFunc: testEmptyFetch,
+		},
+		{
+			Slug:     "st10",
+			TestFunc: testFetch,
+		},
 	},
 }
