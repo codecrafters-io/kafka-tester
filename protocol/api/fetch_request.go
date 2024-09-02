@@ -66,6 +66,11 @@ func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
 }
 
 type FetchRequest struct {
+	Header RequestHeader
+	Body   FetchRequestBody
+}
+
+type FetchRequestBody struct {
 	MaxWaitMS         int32
 	MinBytes          int32
 	MaxBytes          int32
@@ -77,7 +82,7 @@ type FetchRequest struct {
 	RackID            string
 }
 
-func (r *FetchRequest) Encode(pe *encoder.RealEncoder) {
+func (r *FetchRequestBody) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)

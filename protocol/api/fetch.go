@@ -15,7 +15,7 @@ func Fetch() {
 	}
 	defer broker.Close()
 
-	response, err := fetch(broker, &FetchRequest{
+	response, err := fetch(broker, &FetchRequestBody{
 		MaxWaitMS:         500,
 		MinBytes:          1,
 		MaxBytes:          52428800,
@@ -47,12 +47,13 @@ func Fetch() {
 	fmt.Printf("response: %v\n", response)
 }
 
-func EncodeFetchRequest(header *RequestHeader, request *FetchRequest) []byte {
+func EncodeFetchRequest(request *FetchRequest) []byte {
 	encoder := encoder.RealEncoder{}
+	// bytes.Buffer{}
 	encoder.Init(make([]byte, 1024))
 
-	header.EncodeV2(&encoder)
-	request.Encode(&encoder)
+	request.Header.EncodeV2(&encoder)
+	request.Body.Encode(&encoder)
 	message := encoder.PackMessage()
 
 	return message
@@ -88,14 +89,18 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 }
 
 // Fetch returns api version response or error
-func fetch(b *protocol.Broker, request *FetchRequest) ([]byte, error) {
-	header := RequestHeader{
-		ApiKey:        1,
-		ApiVersion:    16,
-		CorrelationId: 0,
-		ClientId:      "kafka-tester",
+func fetch(b *protocol.Broker, requestBody *FetchRequestBody) ([]byte, error) {
+	request := FetchRequest{
+		Header: RequestHeader{
+			ApiKey:        1,
+			ApiVersion:    16,
+			CorrelationId: 0,
+			ClientId:      "kafka-tester",
+		},
+		Body: *requestBody,
 	}
-	message := EncodeFetchRequest(&header, request)
+
+	message := EncodeFetchRequest(&request)
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
