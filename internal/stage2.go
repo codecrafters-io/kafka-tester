@@ -1,12 +1,12 @@
 package internal
 
 import (
-	"math"
+	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/tester-utils/random"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -24,13 +24,13 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	}
 	defer broker.Close()
 
-	correlationId := int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
+	correlationId := 7
 
 	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    3,
-			CorrelationId: correlationId,
+			CorrelationId: int32(correlationId),
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
@@ -42,17 +42,33 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
-	response, err := broker.SendAndReceive(message)
+	err := broker.Send(message)
+	if err != nil {
+		return err
+	}
+	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
 
-	responseHeader, err := kafkaapi.DecodeApiVersionsHeader(response, 3)
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
+
+	_, err = decoder.GetInt32()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to decode message length in response: %w", err)
 	}
 
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+	responseCorrelationId, err := decoder.GetInt32()
+	if err != nil {
+		return fmt.Errorf("failed to decode correlation_id in response: %w", err)
+	}
+
+	if responseCorrelationId != int32(correlationId) {
+		return fmt.Errorf("correlation_id in response does not match: %v", responseCorrelationId)
+	}
+
+	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
 
 	return nil
 }
