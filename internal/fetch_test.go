@@ -18,6 +18,7 @@ func TestFetchv163messages1(t *testing.T) {
 		panic(err)
 	}
 
+	// b = b[:7]
 	messages := []string{}
 	decoder := decoder.RealDecoder{}
 	decoder.Init(b)
