@@ -15,6 +15,44 @@ type FetchResponse struct {
 	Responses      []TopicResponse
 }
 
+func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err error) {
+	r.Version = version
+
+	if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
+		return fmt.Errorf("failed to decode throttleTimeMs in fetch response: %w", err)
+	}
+
+	if r.ErrorCode, err = pd.GetInt16(); err != nil {
+		return fmt.Errorf("failed to decode errorCode in fetch response: %w", err)
+	}
+
+	if r.SessionID, err = pd.GetInt32(); err != nil {
+		return fmt.Errorf("failed to decode sessionID in fetch response: %w", err)
+	}
+
+	numResponses, err := pd.GetCompactArrayLength()
+	if err != nil {
+		return fmt.Errorf("failed to decode numResponses in fetch response: %w", err)
+	}
+
+	r.Responses = make([]TopicResponse, numResponses)
+	for i := range r.Responses {
+		topicResponse := TopicResponse{}
+		err := topicResponse.Decode(pd)
+		if err != nil {
+			return fmt.Errorf("failed to decode topic response in fetch response: %w", err)
+		}
+		r.Responses[i] = topicResponse
+	}
+	pd.GetEmptyTaggedFieldArray()
+
+	if pd.Remaining() != 0 {
+		return fmt.Errorf("remaining bytes in decoder: %d", pd.Remaining())
+	}
+
+	return nil
+}
+
 type TopicResponse struct {
 	Topic      string
 	Partitions []PartitionResponse
@@ -290,42 +328,4 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 type RecordHeader struct {
 	Key   string
 	Value []byte
-}
-
-func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err error) {
-	r.Version = version
-
-	if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
-		return fmt.Errorf("failed to decode throttleTimeMs in fetch response: %w", err)
-	}
-
-	if r.ErrorCode, err = pd.GetInt16(); err != nil {
-		return fmt.Errorf("failed to decode errorCode in fetch response: %w", err)
-	}
-
-	if r.SessionID, err = pd.GetInt32(); err != nil {
-		return fmt.Errorf("failed to decode sessionID in fetch response: %w", err)
-	}
-
-	numResponses, err := pd.GetCompactArrayLength()
-	if err != nil {
-		return fmt.Errorf("failed to decode numResponses in fetch response: %w", err)
-	}
-
-	r.Responses = make([]TopicResponse, numResponses)
-	for i := range r.Responses {
-		topicResponse := TopicResponse{}
-		err := topicResponse.Decode(pd)
-		if err != nil {
-			return fmt.Errorf("failed to decode topic response in fetch response: %w", err)
-		}
-		r.Responses[i] = topicResponse
-	}
-	pd.GetEmptyTaggedFieldArray()
-
-	if pd.Remaining() != 0 {
-		return fmt.Errorf("remaining bytes in decoder: %d", pd.Remaining())
-	}
-
-	return nil
 }
