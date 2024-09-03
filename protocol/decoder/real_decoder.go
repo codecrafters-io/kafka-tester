@@ -4,13 +4,16 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math"
+	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/inspectable_byte_string"
 )
 
 type RealDecoder struct {
-	raw []byte
-	off int
+	raw               []byte
+	initialBufferSize int
+	off               int
 }
 
 // primitives
@@ -18,6 +21,7 @@ type RealDecoder struct {
 func (rd *RealDecoder) Init(raw []byte) {
 	rd.raw = raw
 	rd.off = 0
+	rd.initialBufferSize = len(raw)
 }
 
 func (rd *RealDecoder) GetInt8() (int8, error) {
@@ -70,9 +74,6 @@ func (rd *RealDecoder) GetFloat64() (float64, error) {
 	return tmp, nil
 }
 
-// Confirm that this is the one google protobuf uses
-// And write protocol level error messages
-// ToDo Tests for all of these
 func (rd *RealDecoder) GetUnsignedVarint() (uint64, error) {
 	tmp, n := binary.Uvarint(rd.raw[rd.off:])
 	if n == 0 {
@@ -434,115 +435,25 @@ func (rd *RealDecoder) Offset() int {
 	return rd.off
 }
 
-func (rd *RealDecoder) GetProtoVarint() (uint64, error) {
-	var result []uint8
-	var shift uint
-
-	for {
-		if rd.Remaining() < 1 {
-			rd.off = len(rd.raw)
-			return 0, errors.ErrInsufficientData
-		}
-
-		b := rd.raw[rd.off]
-		fmt.Printf("Byte: %08b\n", b)
-		rd.off++
-
-		// Add the 7 least significant bits to the result
-		result = append(result, b&0x7F)
-		shift += 7
-
-		// If the most significant bit is 0, we're done
-		if b&0x80 == 0 {
-			fmt.Printf("Break\n")
-			break
-		}
-
-		// Prevent shift from exceeding 63 (max for uint64)
-		if shift >= 64 {
-			return 0, errors.ErrVarintOverflow
-		}
-	}
-	fmt.Printf("Result: %d\n", result)
-	fmt.Printf("Shift: %d\n", shift)
-	reversedResult := make([]uint8, len(result))
-
-	// Reverse the byte order
-	for i := 0; i < len(result); i++ {
-		fmt.Printf("Result[%d]: %d\n", i, result[i])
-		reversedResult[i] = result[len(result)-i-1]
-	}
-
-	concatenatedResult := ""
-	for i := 0; i < len(reversedResult); i++ {
-		fmt.Printf("Reversed Result[%d]: %d\n", i, reversedResult[i])
-		concatenatedResult += string(reversedResult[i])
-	}
-
-	fmt.Printf("Concatenated Result: %s\n", concatenatedResult)
-
-	// Reverse the byte order
-	// size := int(math.Ceil(float64(shift) / 8))
-	// buf := make([]byte, size*8)
-	fmt.Printf("Result: %v\n", result)
-
-	return 0, nil
+func (rd *RealDecoder) InitialBufferSize() int {
+	return rd.initialBufferSize
 }
 
-func (rd *RealDecoder) GetUnsignedVarInt() (int64, error) {
-	var bytes []byte
+func (rd *RealDecoder) FormatDetailedError(message string) string {
+	lines := []string{}
 
-	for {
-		if rd.Remaining() < 1 {
-			rd.off = len(rd.raw)
-			return -1, errors.ErrInsufficientData
-		}
+	offset := rd.InitialBufferSize() - rd.Remaining()
+	receivedBytes := rd.raw
+	receivedByteString := inspectable_byte_string.NewInspectableByteString(receivedBytes)
 
-		// Read the next byte
-		b := rd.raw[rd.off]
-		rd.off++
+	suffix := ""
 
-		// Drop the continuation bit and add to the slice
-		bytes = append(bytes, b&0x7F)
-
-		// If the most significant bit is not set, we're done reading bytes
-		if b&0x80 == 0 {
-			break
-		}
+	if len(receivedBytes) == 0 {
+		suffix = " (no content received)"
 	}
 
-	// Reverse the order of the bytes to convert to big-endian
-	for i, j := 0, len(bytes)-1; i < j; i, j = i+1, j-1 {
-		bytes[i], bytes[j] = bytes[j], bytes[i]
-	}
+	lines = append(lines, receivedByteString.FormatWithHighlightedOffset(offset, "error", "Received: ", suffix))
+	lines = append(lines, fmt.Sprintf("Error: %s", message))
 
-	// Combine the bytes into an int64
-	var result int64
-	for _, b := range bytes {
-		result = (result << 7) | int64(b)
-	}
-
-	fmt.Printf("Result: %d\n", result)
-
-	return result, nil
-}
-
-func (rd *RealDecoder) GetSignedVarInt() (int64, error) {
-	result, err := rd.GetUnsignedVarInt()
-	if err != nil {
-		return -1, err
-	}
-
-	// Zig-Zag encoding
-	// Positive integers p are encoded as 2 * p (the even numbers)
-	// while negative integers n are encoded as 2 * |n| - 1 (the odd numbers).
-	if result%2 == 0 {
-		result = result / 2
-	} else {
-		result = -(result + 1) / 2
-	}
-
-	fmt.Printf("Result: %d\n", result)
-
-	return result, nil
+	return strings.Join(lines, "\n")
 }
