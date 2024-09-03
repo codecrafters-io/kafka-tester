@@ -1,8 +1,10 @@
 package protocol
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
+	"io"
 	"net"
 	"time"
 
@@ -91,7 +93,7 @@ func (b *Broker) Close() error {
 }
 
 func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
-	err := b.send(request)
+	err := b.Send(request)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +106,7 @@ func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
 	return response, nil
 }
 
-func (b *Broker) send(message []byte) error {
+func (b *Broker) Send(message []byte) error {
 	_, err := b.conn.Write(message) // ToDo possible errors ?
 	return err
 }
@@ -119,7 +121,6 @@ func (b *Broker) receive() ([]byte, error) {
 	// fmt.Printf("Length of response: %d\n", length)
 
 	// ToDo ReadUntilOrTimeout
-
 	time.Sleep(1000 * time.Millisecond) // ToDo: Remove this ? How ?
 	response = make([]byte, length)
 	_, err = b.conn.Read(response)
@@ -128,4 +129,16 @@ func (b *Broker) receive() ([]byte, error) {
 	}
 
 	return response, nil
+}
+
+func (b *Broker) ReceiveRaw() ([]byte, error) {
+	// We don't read the length of the response first,
+	// We read the entire response first and then decode it
+	var buf bytes.Buffer
+	_, err := io.Copy(&buf, b.conn)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
 }
