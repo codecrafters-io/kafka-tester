@@ -107,8 +107,25 @@ func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
 }
 
 func (b *Broker) Send(message []byte) error {
-	_, err := b.conn.Write(message) // ToDo possible errors ?
-	return err
+	// Set a deadline for the write operation
+	err := b.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
+	if err != nil {
+		return fmt.Errorf("failed to set write deadline: %v", err)
+	}
+
+	_, err = b.conn.Write(message)
+
+	// Reset the write deadline
+	b.conn.SetWriteDeadline(time.Time{})
+
+	if err != nil {
+		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
+			return fmt.Errorf("write operation timed out")
+		}
+		return fmt.Errorf("error writing to connection: %v", err)
+	}
+
+	return nil
 }
 
 func (b *Broker) receive() ([]byte, error) {
