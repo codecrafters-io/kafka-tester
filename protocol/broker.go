@@ -163,7 +163,6 @@ func (b *Broker) ReceiveRaw() ([]byte, error) {
 
 	if err != nil && err != io.EOF {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-			return nil, fmt.Errorf("read operation timed out")
 		} else {
 			return nil, fmt.Errorf("error reading from connection: %v", err)
 		}
