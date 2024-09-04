@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
 func Fetch() {
@@ -65,7 +66,10 @@ func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) 
 
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV1(&decoder); err != nil {
-		return nil, fmt.Errorf("failed to decode header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("Fetch")
+		}
+		return nil, err
 	}
 
 	return &responseHeader, nil
@@ -77,12 +81,18 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV1(&decoder); err != nil {
-		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("Fetch")
+		}
+		return nil, nil, err
 	}
 
 	fetchResponse := FetchResponse{Version: version}
 	if err := fetchResponse.Decode(&decoder, version); err != nil {
-		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, nil, decodingErr.WithAddedContext("responseBody").WithAddedContext("Fetch")
+		}
+		return nil, nil, err
 	}
 
 	return &responseHeader, &fetchResponse, nil
