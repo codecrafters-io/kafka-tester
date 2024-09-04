@@ -132,13 +132,30 @@ func (b *Broker) receive() ([]byte, error) {
 }
 
 func (b *Broker) ReceiveRaw() ([]byte, error) {
-	// We don't read the length of the response first,
-	// We read the entire response first and then decode it
 	var buf bytes.Buffer
-	_, err := io.Copy(&buf, b.conn)
+	fmt.Printf("Receiving raw response\n")
+
+	// Set a deadline for the read operation
+	err := b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
+	// Use a limited reader to prevent reading indefinitely
+	limitedReader := io.LimitReader(b.conn, 1024*1024) // Limit to 1MB, adjust as needed
+	_, err = io.Copy(&buf, limitedReader)
+
+	// Reset the read deadline
+	b.conn.SetReadDeadline(time.Time{})
+
+	if err != nil && err != io.EOF {
+		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
+			fmt.Printf("Read operation timed out\n")
+		} else {
+			return nil, fmt.Errorf("error reading from connection: %v", err)
+		}
+	}
+
+	fmt.Printf("Received raw response\n")
 	return buf.Bytes(), nil
 }
