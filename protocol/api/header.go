@@ -1,10 +1,9 @@
 package kafkaapi
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
 // RequestHeader defines the header for a Kafka request
@@ -42,7 +41,10 @@ type ResponseHeader struct {
 func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
-		return fmt.Errorf("failed to decode correlation_id in response header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+		}
+		return err
 	}
 	h.CorrelationId = correlation_id
 	return nil
@@ -51,7 +53,10 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder) error {
 func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
-		return fmt.Errorf("failed to decode correlation_id in response header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+		}
+		return err
 	}
 	h.CorrelationId = correlation_id
 
