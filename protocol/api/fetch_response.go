@@ -63,7 +63,7 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("taggedFieldArray").WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("FetchResponse")
 		}
 		return err
 	}
@@ -117,12 +117,10 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 		}
 		tr.Partitions[j] = partition
 	}
-	// Add errors for all the EmptyTaggedFieldArray calls
-	// ToDo
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("taggedFieldArray")
+			return decodingErr
 		}
 		return err
 	}
@@ -233,7 +231,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("taggedFieldArray")
+			return decodingErr
 		}
 		return err
 	}
@@ -474,7 +472,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("taggedFieldArray")
+			return decodingErr
 		}
 		return err
 	}

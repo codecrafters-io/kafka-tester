@@ -45,7 +45,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16) 
 	if version >= 3 {
 		if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("taggedFieldArray").WithAddedContext("ApiVersionsResponseKey")
+				return decodingErr.WithAddedContext("ApiVersionsResponseKey")
 			}
 			return err
 		}
@@ -117,7 +117,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 	if r.Version >= 3 {
 		if _, err = pd.GetEmptyTaggedFieldArray(); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("taggedFieldArray").WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext("ApiVersionsResponse")
 			}
 			return err
 		}
