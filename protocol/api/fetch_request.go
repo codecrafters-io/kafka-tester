@@ -33,9 +33,7 @@ func (t *Topic) Encode(pe *encoder.RealEncoder) {
 	if err != nil {
 		return
 	}
-	if err := pe.PutRawBytes(uuidBytes); err != nil {
-		return
-	}
+	pe.PutRawBytes(uuidBytes)
 
 	// Encode partitions array length
 	pe.PutCompactArrayLength(len(t.Partitions))
@@ -58,9 +56,7 @@ func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
 	if err != nil {
 		return
 	}
-	if err := pe.PutRawBytes(uuidBytes); err != nil {
-		return
-	}
+	pe.PutRawBytes(uuidBytes)
 
 	pe.PutCompactInt32Array(f.Partitions)
 }
