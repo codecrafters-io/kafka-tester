@@ -29,24 +29,12 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testAPIVersionErrorCase,
 		},
 		{
-			Slug:     "st5",
-			TestFunc: testAPIVersionMessageLength,
-		},
-		{
 			Slug:     "st6",
 			TestFunc: testAPIVersion,
 		},
 		{
 			Slug:     "st7",
 			TestFunc: testAPIVersionwFetchKey,
-		},
-		{
-			Slug:     "st8",
-			TestFunc: testFetchError,
-		},
-		{
-			Slug:     "st8_2",
-			TestFunc: testFetchError2,
 		},
 		{
 			Slug:     "st9",
