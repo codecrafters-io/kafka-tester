@@ -135,12 +135,9 @@ func (b *Broker) receive() ([]byte, error) {
 		return nil, err
 	}
 	length := int32(binary.BigEndian.Uint32(response))
-	// fmt.Printf("Length of response: %d\n", length)
 
-	// ToDo ReadUntilOrTimeout
-	time.Sleep(1000 * time.Millisecond) // ToDo: Remove this ? How ?
 	response = make([]byte, length)
-	_, err = b.conn.Read(response)
+	_, err = io.ReadFull(b.conn, response)
 	if err != nil {
 		return nil, err
 	}
