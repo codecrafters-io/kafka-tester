@@ -452,22 +452,6 @@ func (rd *RealDecoder) GetRawBytes(length int) ([]byte, error) {
 	return rd.raw[start:rd.off], nil
 }
 
-func (rd *RealDecoder) peek(offset, length int) (*RealDecoder, error) {
-	if rd.Remaining() < offset+length {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", rd.Remaining(), length), "PEEK")
-	}
-	off := rd.off + offset
-	return &RealDecoder{raw: rd.raw[off : off+length]}, nil
-}
-
-func (rd *RealDecoder) peekInt8(offset int) (int8, error) {
-	const byteLen = 1
-	if rd.Remaining() < offset+byteLen {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", rd.Remaining(), byteLen), "PEEK_INT8")
-	}
-	return int8(rd.raw[rd.off+offset]), nil
-}
-
 func (rd *RealDecoder) Offset() int {
 	return rd.off
 }
