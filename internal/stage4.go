@@ -7,6 +7,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -43,27 +45,55 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
-	response, err := broker.SendAndReceive(message)
+	err := broker.Send(message)
+	if err != nil {
+		return err
+	}
+	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
 
-	responseHeader, responseBody, _ := kafkaapi.DecodeApiVersionsHeaderAndResponse(response, -1)
-	// We can encounter an error here, but we will soldier on
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
 
-	// Necessary sanity checks, now that we don't check the error
-	if responseHeader == nil {
-		return fmt.Errorf("responseHeader is nil")
+	_, err = decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("expected correlationId to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	responseCorrelationId, err := decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
-	if responseBody.ErrorCode != 35 {
-		return fmt.Errorf("expected error code to be 35, got %v", responseBody.ErrorCode)
+	if responseCorrelationId != int32(correlationId) {
+		return fmt.Errorf("correlation_id in response : %v, does not match: %v", responseCorrelationId, correlationId)
 	}
+
+	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+
+	errorCode, err := decoder.GetInt16()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("errorCode").WithAddedContext("ApiVersionsResponse")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
+	}
+
+	if errorCode != 35 {
+		return fmt.Errorf("expected error code to be 35, got %v", errorCode)
+	}
+
 	logger.Successf("✓ ErrorCode: 35 (UNSUPPORTED_VERSION)")
 
 	return nil
