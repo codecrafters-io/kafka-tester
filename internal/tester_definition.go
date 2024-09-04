@@ -29,6 +29,10 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testAPIVersionErrorCase,
 		},
 		{
+			Slug:     "st5",
+			TestFunc: testAPIVersionMessageLength,
+		},
+		{
 			Slug:     "st6",
 			TestFunc: testAPIVersion,
 		},

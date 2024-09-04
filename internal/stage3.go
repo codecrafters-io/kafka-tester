@@ -53,7 +53,6 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("response: %v\n", response)
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)

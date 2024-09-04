@@ -147,7 +147,6 @@ func (b *Broker) receive() ([]byte, error) {
 
 func (b *Broker) ReceiveRaw() ([]byte, error) {
 	var buf bytes.Buffer
-	fmt.Printf("Receiving raw response\n")
 
 	// Set a deadline for the read operation
 	err := b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
@@ -164,12 +163,11 @@ func (b *Broker) ReceiveRaw() ([]byte, error) {
 
 	if err != nil && err != io.EOF {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-			fmt.Printf("Read operation timed out\n")
+			return nil, fmt.Errorf("read operation timed out")
 		} else {
 			return nil, fmt.Errorf("error reading from connection: %v", err)
 		}
 	}
 
-	fmt.Printf("Received raw response\n")
 	return buf.Bytes(), nil
 }

@@ -16,7 +16,7 @@ func Fetch() {
 	}
 	defer broker.Close()
 
-	response, err := fetch(broker, &FetchRequestBody{
+	_, err := fetch(broker, &FetchRequestBody{
 		MaxWaitMS:         500,
 		MinBytes:          1,
 		MaxBytes:          52428800,
@@ -44,8 +44,6 @@ func Fetch() {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Printf("response: %v\n", response)
 }
 
 func EncodeFetchRequest(request *FetchRequest) []byte {
@@ -119,12 +117,10 @@ func fetch(b *protocol.Broker, requestBody *FetchRequestBody) ([]byte, error) {
 
 	protocol.PrintHexdump(response)
 
-	responseHeader, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16)
+	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16)
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("responseHeader: %v\n", responseHeader.CorrelationId)
 
 	for _, topicResponse := range fetchResponse.Responses {
 		for _, partitionResponse := range topicResponse.Partitions {
