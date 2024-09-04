@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
 func GetAPIVersions(prettyPrint bool) {
@@ -42,27 +43,34 @@ func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, e
 
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder); err != nil {
-		return nil, fmt.Errorf("failed to decode header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+		}
+		return nil, err
 	}
 
 	return &responseHeader, nil
 }
 
+// If an error is encountered while decoding, the returned objects are nil
 func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 
-	// TODO: Needs to be rewritten
-	// Use methods in the stage4.go
-	// If err occurs, they return nil :/
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder); err != nil {
-		return nil, nil, fmt.Errorf("failed to decode header: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+		}
+		return nil, nil, err
 	}
 
 	apiVersionsResponse := ApiVersionsResponse{Version: version}
 	if err := apiVersionsResponse.Decode(&decoder, version); err != nil {
-		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return nil, nil, decodingErr.WithAddedContext("responseBody").WithAddedContext("ApiVersions")
+		}
+		return nil, nil, err
 	}
 
 	return &responseHeader, &apiVersionsResponse, nil
