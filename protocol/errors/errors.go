@@ -1,22 +1,36 @@
 package errors
 
+import (
+	"fmt"
+)
+
 type PacketDecodingError struct {
-	message string
+	Message string
+	Context []string
 }
 
-func (err PacketDecodingError) Error() string {
-	return err.message
+func (e *PacketDecodingError) Error() string {
+	return fmt.Sprintf("Error: %s\nContext:\n%s", e.Message, getFormattedContext(e.Context))
 }
 
-var (
-	ErrInsufficientData = PacketDecodingError{"insufficient data"}
-)
+func NewPacketDecodingError(message string, context ...string) *PacketDecodingError {
+	return &PacketDecodingError{
+		Message: message,
+		Context: context,
+	}
+}
 
-var (
-	ErrInvalidArrayLength     = PacketDecodingError{"invalid array length"}
-	ErrInvalidByteSliceLength = PacketDecodingError{"invalid byteslice length"}
-	ErrInvalidStringLength    = PacketDecodingError{"invalid string length"}
-	ErrVarintOverflow         = PacketDecodingError{"varint overflow"}
-	ErrUVarintOverflow        = PacketDecodingError{"uvarint overflow"}
-	ErrInvalidBool            = PacketDecodingError{"invalid bool"}
-)
+func (e *PacketDecodingError) WithAddedContext(context string) *PacketDecodingError {
+	e.Context = append([]string{context}, e.Context...)
+	return e
+}
+
+func getFormattedContext(arr []string) string {
+	outputString := ""
+	prefix := ""
+	for _, v := range arr {
+		outputString += fmt.Sprintf("%s- %s\n", prefix, v)
+		prefix += "  "
+	}
+	return outputString
+}
