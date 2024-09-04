@@ -45,14 +45,26 @@ func testAPIVersionMessageLength(stageHarness *test_case_harness.TestCaseHarness
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
-	// We rely on message length to read that many bytes
-	response, err := broker.SendAndReceive(message)
+	err := broker.Send(message)
+	if err != nil {
+		return err
+	}
+	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+
+	_, err = decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
+	}
 
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
@@ -84,10 +96,24 @@ func testAPIVersionMessageLength(stageHarness *test_case_harness.TestCaseHarness
 
 	logger.Successf("✓ ErrorCode: 35 (UNSUPPORTED_VERSION)")
 
+	_, err = decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("numKeys").WithAddedContext("ApiVersionsResponse")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
+	}
+
+	_, _ = decoder.GetInt16()
+	_, _ = decoder.GetInt16()
+	_, _ = decoder.GetInt16()
+
 	// Can't check this, not sure how to decode the rest of the message
-	// if decoder.Remaining() != 0 {
-	// 	return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", decoder.Remaining()), "ApiVersionsResponse")
-	// }
+	// Can't check this, not sure how to decode the rest of the message
+	if decoder.Remaining() != 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", decoder.Remaining()), "ApiVersionsResponse")
+	}
 
 	return nil
 }
