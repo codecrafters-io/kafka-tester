@@ -81,7 +81,7 @@ func ApiVersions(b *protocol.Broker, requestBody *ApiVersionsRequestBody) (*ApiV
 	header := RequestHeader{
 		ApiKey:        18,
 		ApiVersion:    requestBody.Version,
-		CorrelationId: 0, // ToDo: Don't hardcode the value here
+		CorrelationId: 0,
 		ClientId:      requestBody.ClientSoftwareName,
 	}
 	request := ApiVersionsRequest{
