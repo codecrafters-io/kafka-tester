@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -56,16 +57,24 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	_, err = decoder.GetInt32()
 	if err != nil {
-		return fmt.Errorf("failed to decode message length in response: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
 	}
 
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
-		return fmt.Errorf("failed to decode correlation_id in response: %w", err)
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
 	}
 
 	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("correlation_id in response does not match: %v", responseCorrelationId)
+		return fmt.Errorf("correlation_id in response : %v, does not match: %v", responseCorrelationId, correlationId)
 	}
 
 	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
