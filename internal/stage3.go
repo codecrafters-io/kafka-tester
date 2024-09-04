@@ -7,6 +7,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -31,7 +33,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    3,
-			CorrelationId: correlationId,
+			CorrelationId: int32(correlationId),
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
@@ -43,20 +45,42 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
-	response, err := broker.SendAndReceive(message)
+	err := broker.Send(message)
 	if err != nil {
 		return err
 	}
-	responseHeader, err := kafkaapi.DecodeApiVersionsHeader(response, 3)
+	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
+	fmt.Printf("response: %v\n", response)
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("correlationId mismatch: expected %v, got %v", correlationId, responseHeader.CorrelationId)
+	decoder := decoder.RealDecoder{}
+	decoder.Init(response)
+
+	_, err = decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
 	}
 
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+	responseCorrelationId, err := decoder.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
+			return decoder.FormatDetailedError(err.Error())
+		}
+		return err
+	}
+
+	if responseCorrelationId != int32(correlationId) {
+		return fmt.Errorf("correlation_id in response : %v, does not match: %v", responseCorrelationId, correlationId)
+	}
+
+	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
 
 	return nil
 }
