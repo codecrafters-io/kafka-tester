@@ -108,6 +108,7 @@ func (re *RealEncoder) PutCompactString(in string) {
 func (re *RealEncoder) PutNullableCompactString(in *string) {
 	if in == nil {
 		re.PutInt8(0)
+		return
 	}
 	re.PutCompactString(*in)
 }

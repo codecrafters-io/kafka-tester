@@ -14,6 +14,13 @@ jobs:
         with:
           go-version: 1.22.x
 
+      - name: Install Kafka
+        run: |
+          wget --progress=dot:giga https://dlcdn.apache.org/kafka/3.8.0/kafka_2.13-3.8.0.tgz
+          tar -xzf kafka_2.13-3.8.0.tgz
+          sudo mv kafka_2.13-3.8.0/ /usr/local/kafka
+          export PATH=$PATH:/usr/local/kafka/bin
+
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -32,7 +39,7 @@ jobs:
         with:
           go-version: 1.22.x
 
-      - uses: dominikh/staticcheck-action@v1.3.0
+      - uses: dominikh/staticcheck-action@v1.3.1
         with:
-          version: "2023.1"
+          version: "2024.1"
           install-go: false

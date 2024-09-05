@@ -473,5 +473,6 @@ func (rd *RealDecoder) FormatDetailedError(message string) error {
 	lines = append(lines, receivedByteString.FormatWithHighlightedOffset(offset, "error", "Received: ", suffix))
 	lines = append(lines, message)
 
+	//lint:ignore SA1006 we are okay with this
 	return fmt.Errorf(strings.Join(lines, "\n"))
 }

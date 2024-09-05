@@ -52,6 +52,7 @@ func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, e
 	return &responseHeader, nil
 }
 
+// DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
 	decoder := decoder.RealDecoder{}
