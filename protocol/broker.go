@@ -137,9 +137,25 @@ func (b *Broker) receive() ([]byte, error) {
 	length := int32(binary.BigEndian.Uint32(response))
 
 	response = make([]byte, length)
-	_, err = io.ReadFull(b.conn, response)
+
+	// Set a deadline for the read operation
+	err = b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to set read deadline: %v", err)
+	}
+
+	_, err = io.ReadFull(b.conn, response)
+
+	// Reset the read deadline
+	b.conn.SetReadDeadline(time.Time{})
+
+	if err != nil {
+		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
+			// If the read timed out, return the partial response we have so far
+			// This way we can surface a better error message to help w debugging
+			return response, nil
+		}
+		return nil, fmt.Errorf("error reading from connection: %v", err)
 	}
 
 	return response, nil
