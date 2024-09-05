@@ -3,7 +3,6 @@ Debug = true
 [33m[stage-8] [0m[94mRunning tests for Stage #8: cm4[0m
 [33m[stage-8] [0m[94m$ ./your_program.sh[0m
 [33m[stage-8] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-8] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-8] [0m[92m✓ Correlation ID: -713223315[0m
 [33m[stage-8] [0m[92m✓ ErrorCode: 0[0m
@@ -27,7 +26,6 @@ Debug = true
 [33m[stage-6] [0m[94m$ ./your_program.sh[0m
 [33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-6] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-6] [0m[92m✓ Correlation ID: -198843362[0m
 [33m[stage-6] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-6] [0m[92mTest passed.[0m
@@ -48,7 +46,6 @@ Debug = true
 [33m[stage-4] [0m[94m$ ./your_program.sh[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-4] [0m[92m✓ Correlation ID: -488288628[0m
 [33m[stage-4] [0m[92m✓ ErrorCode: 35 (UNSUPPORTED_VERSION)[0m
 [33m[stage-4] [0m[92mTest passed.[0m
@@ -59,7 +56,6 @@ Debug = true
 [33m[stage-3] [0m[94m$ ./your_program.sh[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-3] [0m[92m✓ Correlation ID: 1743371062[0m
 [33m[stage-3] [0m[92mTest passed.[0m
 [33m[stage-3] [0m[36mTerminating program[0m
@@ -68,7 +64,6 @@ Debug = true
 [33m[stage-2] [0m[94mRunning tests for Stage #2: nv3[0m
 [33m[stage-2] [0m[94m$ ./your_program.sh[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-2] [0m[92m✓ Correlation ID: 7[0m
 [33m[stage-2] [0m[92mTest passed.[0m
