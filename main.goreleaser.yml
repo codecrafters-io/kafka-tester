@@ -11,6 +11,5 @@ archives:
     format: tar.gz
     files:
       - test.sh
-    file_info:
-      test.sh:
-        mode: 0755
+        info:
+          mode: 0755
