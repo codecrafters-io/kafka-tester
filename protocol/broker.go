@@ -69,7 +69,8 @@ func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 
 			// Don't print errors in the first second
 			if retries > 2 {
-				logger.Infof("Failed to connect to broker at %s, retrying in 1s", b.addr)
+				// ToDo: fixtures fail
+				// logger.Infof("Failed to connect to broker at %s, retrying in 1s", b.addr)
 			}
 
 			retries += 1
