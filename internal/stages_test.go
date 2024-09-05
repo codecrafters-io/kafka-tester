@@ -11,7 +11,7 @@ func TestStages(t *testing.T) {
 	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
-		"transactions_pass": {
+		"base_stages_pass": {
 			UntilStageSlug:      "cm4",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
