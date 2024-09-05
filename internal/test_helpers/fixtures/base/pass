@@ -1,6 +1,6 @@
 Debug = true
 
-[33m[stage-8] [0m[94mRunning tests for Stage #8: st10[0m
+[33m[stage-8] [0m[94mRunning tests for Stage #8: cm4[0m
 [33m[stage-8] [0m[94m$ ./your_program.sh[0m
 [33m[stage-8] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
@@ -12,11 +12,10 @@ Debug = true
 [33m[stage-8] [0m[36mTerminating program[0m
 [33m[stage-8] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-7] [0m[94mRunning tests for Stage #7: st9[0m
+[33m[stage-7] [0m[94mRunning tests for Stage #7: dh6[0m
 [33m[stage-7] [0m[94m$ ./your_program.sh[0m
 [33m[stage-7] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-7] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-7] [0m[92m✓ Correlation ID: -1481017504[0m
 [33m[stage-7] [0m[92m✓ ErrorCode: 0[0m
 [33m[stage-7] [0m[92m✓ Responses: [][0m
@@ -24,18 +23,18 @@ Debug = true
 [33m[stage-7] [0m[36mTerminating program[0m
 [33m[stage-7] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-6] [0m[94mRunning tests for Stage #6: st7[0m
+[33m[stage-6] [0m[94mRunning tests for Stage #6: gs0[0m
 [33m[stage-6] [0m[94m$ ./your_program.sh[0m
 [33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-6] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-6] [0m[92m✓ Correlation ID: -198843362[0m
 [33m[stage-6] [0m[92m✓ API version 16 is supported for FETCH[0m
-[33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
 [33m[stage-6] [0m[92mTest passed.[0m
 [33m[stage-6] [0m[36mTerminating program[0m
 [33m[stage-6] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-5] [0m[94mRunning tests for Stage #5: st6[0m
+[33m[stage-5] [0m[94mRunning tests for Stage #5: pv1[0m
 [33m[stage-5] [0m[94m$ ./your_program.sh[0m
 [33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -45,7 +44,7 @@ Debug = true
 [33m[stage-5] [0m[36mTerminating program[0m
 [33m[stage-5] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-4] [0m[94mRunning tests for Stage #4: st4[0m
+[33m[stage-4] [0m[94mRunning tests for Stage #4: nc5[0m
 [33m[stage-4] [0m[94m$ ./your_program.sh[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -56,7 +55,7 @@ Debug = true
 [33m[stage-4] [0m[36mTerminating program[0m
 [33m[stage-4] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-3] [0m[94mRunning tests for Stage #3: st3[0m
+[33m[stage-3] [0m[94mRunning tests for Stage #3: wa6[0m
 [33m[stage-3] [0m[94m$ ./your_program.sh[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -66,7 +65,7 @@ Debug = true
 [33m[stage-3] [0m[36mTerminating program[0m
 [33m[stage-3] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-2] [0m[94mRunning tests for Stage #2: st2[0m
+[33m[stage-2] [0m[94mRunning tests for Stage #2: nv3[0m
 [33m[stage-2] [0m[94m$ ./your_program.sh[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[your_program] [0mStarting Kafka using KRaft (Kafka Raft Metadata)
@@ -76,7 +75,7 @@ Debug = true
 [33m[stage-2] [0m[36mTerminating program[0m
 [33m[stage-2] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-1] [0m[94mRunning tests for Stage #1: st1[0m
+[33m[stage-1] [0m[94mRunning tests for Stage #1: vi6[0m
 [33m[stage-1] [0m[94m$ ./your_program.sh[0m
 [33m[stage-1] [0m[94mConnecting to port 9092...[0m
 [33m[stage-1] [0m[36mConnection successful[0m

@@ -12,36 +12,36 @@ var testerDefinition = tester_definition.TesterDefinition{
 	LegacyExecutableFileName: "your_program.sh",
 	TestCases: []tester_definition.TestCase{
 		{
-			Slug:     "st1",
+			Slug:     "vi6",
 			TestFunc: testBindToPort,
 			Timeout:  15 * time.Second,
 		},
 		{
-			Slug:     "st2",
+			Slug:     "nv3",
 			TestFunc: testHardcodedCorrelationId,
 		},
 		{
-			Slug:     "st3",
+			Slug:     "wa6",
 			TestFunc: testCorrelationId,
 		},
 		{
-			Slug:     "st4",
+			Slug:     "nc5",
 			TestFunc: testAPIVersionErrorCase,
 		},
 		{
-			Slug:     "st6",
+			Slug:     "pv1",
 			TestFunc: testAPIVersion,
 		},
 		{
-			Slug:     "st7",
+			Slug:     "gs0",
 			TestFunc: testAPIVersionwFetchKey,
 		},
 		{
-			Slug:     "st9",
+			Slug:     "dh6",
 			TestFunc: testEmptyFetch,
 		},
 		{
-			Slug:     "st10",
+			Slug:     "cm4",
 			TestFunc: testFetch,
 		},
 	},

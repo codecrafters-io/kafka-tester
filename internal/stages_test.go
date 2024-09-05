@@ -12,7 +12,7 @@ func TestStages(t *testing.T) {
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
 		"transactions_pass": {
-			UntilStageSlug:      "st10",
+			UntilStageSlug:      "cm4",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
