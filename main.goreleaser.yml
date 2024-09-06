@@ -10,7 +10,4 @@ archives:
   - name_template: "{{ .Tag }}_{{ .Os }}_{{ .Arch }}"
     format: tar.gz
     files:
-      - src: test.sh
-        dst: test.sh
-        info:
-          mode: 0755
+      - test.sh
