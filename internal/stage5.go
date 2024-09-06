@@ -54,12 +54,12 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("expected correlationId to be %v, got %v", correlationId, responseHeader.CorrelationId)
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
 	}
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("expected error code to be 0, got %v", responseBody.ErrorCode)
+		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
@@ -69,7 +69,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 			if apiVersionKey.MaxVersion >= MAX_VERSION {
 				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION)
 			} else {
-				return fmt.Errorf("expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
+				return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
 			}
 		}
 	}

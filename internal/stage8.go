@@ -76,12 +76,12 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("expected correlationId to be %v, got %v", correlationId, responseHeader.CorrelationId)
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
 	}
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("expected error code to be 0, got %v", responseBody.ErrorCode)
+		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
@@ -90,15 +90,15 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	for _, topic := range responseBody.Responses {
 		for _, partition := range topic.Partitions {
 			if len(partition.Records) == 0 {
-				return fmt.Errorf("expected partition.Records to have length greater than 0, got %v", len(partition.Records))
+				return fmt.Errorf("Expected partition.Records to have length greater than 0, got %v", len(partition.Records))
 			}
 			for _, record := range partition.Records {
 				if len(record.Records) == 0 {
-					return fmt.Errorf("expected record.Records to have length greater than 0, got %v", len(record.Records))
+					return fmt.Errorf("Expected record.Records to have length greater than 0, got %v", len(record.Records))
 				}
 				for _, r := range record.Records {
 					if r.Value == nil {
-						return fmt.Errorf("expected record.Value to not be nil")
+						return fmt.Errorf("Expected record.Value to not be nil")
 					}
 					msgValues = append(msgValues, string(r.Value))
 				}
@@ -110,7 +110,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	sort.Strings(expectedMsgValues)
 
 	if !reflect.DeepEqual(msgValues, expectedMsgValues) {
-		return fmt.Errorf("expected msgValues to be %v, got %v", expectedMsgValues, msgValues)
+		return fmt.Errorf("Expected message values to be %v, got %v", expectedMsgValues, msgValues)
 	}
 
 	logger.Successf("✓ Messages: %q", msgValues)

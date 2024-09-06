@@ -76,7 +76,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("correlation_id in response : %v, does not match: %v", responseCorrelationId, correlationId)
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
 	}
 
 	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
