@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
+func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -27,34 +27,28 @@ func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	defer broker.Close()
 
-	request := kafkaapi.FetchRequest{
+	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
-			ApiKey:        1,
-			ApiVersion:    16,
+			ApiKey:        18,
+			ApiVersion:    3,
 			CorrelationId: correlationId,
-			ClientId:      "kafka-tester",
+			ClientId:      "kafka-cli",
 		},
-		Body: kafkaapi.FetchRequestBody{
-			MaxWaitMS:         500,
-			MinBytes:          1,
-			MaxBytes:          52428800,
-			IsolationLevel:    0,
-			FetchSessionID:    0,
-			FetchSessionEpoch: 0,
-			Topics:            []kafkaapi.Topic{},
-			ForgottenTopics:   []kafkaapi.ForgottenTopic{},
-			RackID:            "",
+		Body: kafkaapi.ApiVersionsRequestBody{
+			Version:               3,
+			ClientSoftwareName:    "kafka-cli",
+			ClientSoftwareVersion: "0.1",
 		},
 	}
 
-	message := kafkaapi.EncodeFetchRequest(&request)
+	message := kafkaapi.EncodeApiVersionsRequest(&request)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16)
+	responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response, 3)
 	if err != nil {
 		return err
 	}
@@ -69,10 +63,16 @@ func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	if len(responseBody.Responses) != 0 {
-		return fmt.Errorf("expected responses to be empty, got %v", responseBody.Responses)
+	MAX_VERSION := int16(3)
+	for _, apiVersionKey := range responseBody.ApiKeys {
+		if apiVersionKey.ApiKey == 18 {
+			if apiVersionKey.MaxVersion >= MAX_VERSION {
+				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION)
+			} else {
+				return fmt.Errorf("expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
+			}
+		}
 	}
-	logger.Successf("✓ Responses: %v", responseBody.Responses)
 
 	return nil
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
+func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -63,13 +63,13 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	MAX_VERSION := int16(3)
+	MAX_VERSION := int16(16)
 	for _, apiVersionKey := range responseBody.ApiKeys {
-		if apiVersionKey.ApiKey == 18 {
+		if apiVersionKey.ApiKey == 1 {
 			if apiVersionKey.MaxVersion >= MAX_VERSION {
-				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION)
+				logger.Successf("✓ API version %v is supported for FETCH", MAX_VERSION)
 			} else {
-				return fmt.Errorf("expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
+				return fmt.Errorf("expected API version %v to be supported for FETCH, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
 			}
 		}
 	}
