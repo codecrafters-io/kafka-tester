@@ -2,6 +2,7 @@ package kafkaapi
 
 import (
 	"fmt"
+	"hash/crc32"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
@@ -313,7 +314,21 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 		}
 		return err
 	}
-	// TODO: validate CRC
+
+	crcTable := crc32.MakeTable(crc32.Castagnoli)
+	// BatchLength / Message Size contains the size of the message excluding the BaseOffset & the BatchLength
+	// From the BatchLength, we need to subtract 9 bytes to get the size of the message that is used in computing the CRC
+	// The 9 bytes are:
+	// - PartitionLeaderEpoch : 4 bytes
+	// - MagicByte : 1 byte
+	// - CRC : 4 bytes
+	data, _ := pd.GetRawBytesFromOffset(int(rb.BatchLength) - 9)
+	computedChecksum := crc32.Checksum(data, crcTable)
+	// ToDo: Add debug logging ?
+	// fmt.Printf("CRC-32C checksum: 0x%08x 0x%08x\n", checksum, uint32(rb.CRC))
+	if computedChecksum != uint32(rb.CRC) {
+		return errors.NewPacketDecodingError(fmt.Sprintf("CRC mismatch: calculated %08x, expected %08x", computedChecksum, uint32(rb.CRC)), "CRC")
+	}
 
 	if rb.Attributes, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

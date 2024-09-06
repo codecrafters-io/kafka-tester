@@ -456,6 +456,22 @@ func (rd *RealDecoder) Offset() int {
 	return rd.off
 }
 
+func (rd *RealDecoder) GetRawBytesFromOffset(length int) ([]byte, error) {
+	if length < 0 {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be >= 0, got %d", length), "RAW_BYTES_FROM_OFFSET")
+	}
+
+	if rd.off >= len(rd.raw) {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(rd.raw), rd.off), "RAW_BYTES_FROM_OFFSET")
+	}
+
+	if rd.off+length > len(rd.raw) {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(rd.raw), rd.off), "RAW_BYTES_FROM_OFFSET")
+	}
+
+	return rd.raw[rd.off : rd.off+length], nil
+}
+
 // FormatDetailedError formats the error message with the received bytes and the offset
 func (rd *RealDecoder) FormatDetailedError(message string) error {
 	lines := []string{}
