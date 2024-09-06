@@ -37,7 +37,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               -1,
+			Version:               3,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
 		},
@@ -94,7 +94,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return fmt.Errorf("expected error code to be 35, got %v", errorCode)
 	}
 
-	logger.Successf("✓ ErrorCode: 35 (UNSUPPORTED_VERSION)")
+	logger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
 
 	return nil
 }

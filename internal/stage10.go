@@ -83,7 +83,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	if responseBody.ErrorCode != 0 {
 		return fmt.Errorf("expected error code to be 0, got %v", responseBody.ErrorCode)
 	}
-	logger.Successf("✓ ErrorCode: %v", responseBody.ErrorCode)
+	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 	msgValues := []string{}
 	expectedMsgValues := []string{"m1", "m2", "m3"}
