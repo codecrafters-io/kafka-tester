@@ -1,9 +1,315 @@
+slug: "kafka"
+name: "Build your own Kafka"
+short_name: "Kafka"
+release_status: "alpha"
+
+description_md: |-
+  Kafka is a distributed event streaming platform capable of handling high-throughput message processing. In this challenge, you'll build a toy Kafka clone that's capable of accepting and responding to APIVersions & Fetch API requests. You'll also learn about encoding and decoding messages using the Kafka wire protocol. You'll also learn about handling the network protocol, event loops, TCP sockets and more.
+
+short_description_md: |-
+  Learn about TCP sockets, the Kafka wire protocol, event loops and more.
+
+completion_percentage: 15
+
+languages:
+  - slug: "go"
+  - slug: "python"
+  - slug: "rust"
+
+marketing:
+  difficulty: medium
+  sample_extension_idea_title: "On Disk Storage"
+  sample_extension_idea_description: "A Kafka broker that can read and write to disk"
+  testimonials:
+    - author_name: "Ananthalakshmi Sankar"
+      author_description: "Automation Engineer at Apple"
+      author_avatar: "https://codecrafters.io/images/external/testimonials/oxta.jpeg"
+      link: "https://github.com/anu294"
+      text: "There are few sites I like as much that have a step by step guide. The real-time feedback is so good, it's creepy!"
+
+    - author_name: "Patrick Burris"
+      author_description: "Senior Software Developer, CenturyLink"
+      author_avatar: "https://codecrafters.io/images/external/testimonials/patrick-burris.jpeg"
+      link: "https://github.com/Jumballaya"
+      text: |-
+        I think the instant feedback right there in the git push is really cool.
+        Didn't even know that was possible!
+
 stages:
   - slug: "vi6"
+    name: "Bind to a port"
+    difficulty: easy
+    description_md: |-
+      In this stage, you'll implement a TCP server that listens on port 9092.
+
+      [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) is the underlying protocol used by protocols like HTTP, SSH and others
+      you're probably familiar with. Kafka clients & brokers use TCP to communicate with each other.
+
+      Don't worry if you're unfamiliar with the TCP protocol, or what Kafka clients & brokers are. You'll learn more about this in the
+      next stages.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then try to connect to your TCP server on port 9092. If the connection succeeds, you'll pass this stage.
+
+      ### Notes
+
+      - 9092 is the default port that Kafka uses.
+      - If you already have a Kafka server running on your machine and listening on port 9092, you'll see a "port already in use" error when running your code. Try stopping the existing Kafka server and running your code again.
+
+    marketing_md: |-
+      In this stage, you'll start a TCP server on port 9092, which is the
+      default port that Redis uses.
+
   - slug: "nv3"
+    name: "Respond with a Correlation ID"
+    difficulty: easy
+    description_md: |-
+      In this stage, you'll start implementing the Kafka wire protocol.
+      The response structure is as follows:
+
+      ResponseHeader: V0
+
+      ResponseHeader:
+        CorrelationId: INT32
+
+      The response is structured as follows:
+
+      ```
+      +---------------+--------------------+------------------+
+      | MessageLength | ResponseHeader     | ResponseBody     |
+      +---------------+--------------------+------------------+
+      | INT32         | RESPONSE_HEADER_V0 | RESPONSE_BODY_V3 |
+      +---------------+--------------------+------------------+
+      ```
+
+      In general each response in the Kafka wire protocol starts with a INT32 containing the length of the entire message, followed by the ResponseHeader and then the ResponseBody.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then try to connect to your server. It will then send a `APIVersions` request. You don't need to implement the logic to parse this request yet, you need to just send the header with a hardcoded correlation ID.
+
+      In this stage, you don't need to add the actual message length, just send a INT32 with any value. And hardcode the CorrelationId to `7`.
+
+    marketing_md: |-
+      In this stage, you'll start implementing the ResponseHeader.
+
   - slug: "wa6"
+    name: "Parse Correlation ID in RequestHeader"
+    difficulty: medium
+    description_md: |-
+      In this stage, you'll continue implementing the Kafka wire protocol.
+      The request structure is as follows:
+
+      RequestHeader: V1
+
+      RequestHeader:
+        RequestApiKey: INT16
+        RequestApiVersion: INT16
+        CorrelationId: INT32
+        ClientId: NULLABLE_STRING
+
+      The request is structured as follows:
+
+      ```
+      +---------------+--------------------+------------------+
+      | MessageLength | RequestHeader      | RequestBody      |
+      +---------------+--------------------+------------------+
+      | INT32         | REQUEST_HEADER_V1  | REQUEST_BODY_V3  |
+      +---------------+--------------------+------------------+
+      ```
+
+      In general each request in the Kafka wire protocol starts with a INT32 containing the length of the entire message, followed by the RequestHeader and then the RequestBody.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then try to connect to your server on port 9092 and send a `APIVersions-V3` request. The tester will validate that the correlation ID in the response header matches 
+      the correlation ID in the request header.
+
+      Although your server's response will need to contain the "message length" field (an int32), the tester will not verify this value in this stage.
+
+    marketing_md: |-
+      In this stage, you'll start decoding the RequestHeader.
+
   - slug: "nc5"
+    name: "Parse APIVersion in RequestHeader"
+    difficulty: medium
+    description_md: |-
+      In this stage, you'll continue decoding the RequestHeader.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then connect to your server on port 9092 and send a `APIVersions:V3` request with an invalid `APIVersion` of -1.
+      The tester will validate that the correlation ID in the response header matches 
+      the correlation ID in the request header. The tester will also validate that the error code in the response body is 35.
+      This is the error code for `UNSUPPORTED_VERSION`.
+      We are intentionally triggering this error to test that your server is correctly populating the error code in the response body. 
+
+      Although your server's response will need to contain the "message length" field (an int32), the tester will not verify this value in this stage.
+
+      ### Notes
+      - We will send an `APIVersions` request with an `APIVersion` of -1.
+
+    marketing_md: |-
+      In this stage, you'll start encoding your response to the `APIVersions` requests.
+
   - slug: "pv1"
+    name: "Implement API keys endpoint"
+    difficulty: hard
+    description_md: |-
+      In this stage, you'll implement the ResponseBody for the `APIVersions` request.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then connect to your server on port 9092 and send a valid `APIVersions:V3` request.
+      The tester will validate that the correlation ID in the response header matches the correlation ID in the request header.
+      The tester will also validate that the error code in the response body is 0.
+      Then, it will validate that the response body contains atleast one APIVersionsKey response, for the APIKey `18` (API_VERSIONS).
+      And that the `MaxVersion` for the `ApiKey` `18` is atleast `3`.
+
+      ### Notes
+      - From this stage onwards, we expect you to send well formed responses. The total response length should be prefixed to your response, and we will only read that many bytes. 
+      - If extra bytes are remaining after decoding all the fields of the response body, it will be an error.
+      - You can expect to receive V3 of the APIVersions request, and also send V3 of the APIVersions response.
+
+    marketing_md: |-
+      In this stage, you'll need to implement the `APIVersions:V3` response.
+
   - slug: "gs0"
+    name: "Include Fetch in the APIVersions response"
+    difficulty: medium
+    description_md: |-
+      In this stage, you'll add Fetch to the APIVersions response.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then connect to your server on port 9092 and send a valid `APIVersions:V3` request.
+      The tester will validate that the correlation ID in the response header matches the correlation ID in the request header.
+      The tester will also validate that the error code in the response body is 0.
+      Then, it will validate that the response body contains atleast one APIVersionsKey response, for the APIKey `1` (FETCH).
+      And that the `MaxVersion` for the `ApiKey` `1` is atleast `16`.
+
+      ### Notes
+      - You can expect to receive V3 of the APIVersions request, and also send V3 of the APIVersions response.
+
+    marketing_md: |-
+      In this stage, you'll add the Fetch API to the APIVersions response.
+
   - slug: "dh6"
+    name: "Fetch response with 0 messages"
+    difficulty: medium
+    description_md: |-
+      In this stage, you'll implement the Fetch response for a topic with 0 messages.
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then connect to your server on port 9092 and send a `Fetch:V16` request. The tester will validate that the correlation ID in the response header matches 
+      the correlation ID in the request header. The tester will also validate that the error code in the response body is 0.
+      Then, it will validate that the response body contains no topicResponses. (But as the response body contains COMPACT_ARRAY of topicResponses, the length should be prefixed as 1).
+      The hexdump of a sample kafka response for this request is given below.
+
+      ```
+      0000   00 00 00 11 5e 33 46 cc 00 00 00 00 00 00 00 0a   ....^3F.........
+      0010   b9 c1 2e 01 00                                    .....
+      ```
+
+      ### Notes
+      - We will send an `Fetch` request with an `APIVersion` of 16.
+
+    marketing_md: |-
+      In this stage, you'll start encoding your response to the `Fetch` requests.
+
   - slug: "cm4"
+    name: "Fetch response with hardcoded message"
+    difficulty: hard
+    description_md: |-
+      In this stage, you'll implement the Fetch response for a topic with multiple messages (hardcoded).
+
+      ### Tests
+
+      The tester will execute your program like this:
+
+      ```bash
+      $ ./your_program.sh
+      ```
+
+      It'll then connect to your server on port 9092 and send a `Fetch:V16` request. The tester will validate that the correlation ID in the response header matches 
+      the correlation ID in the request header. The tester will also validate that the error code in the response body is 0.
+      Then, it will validate that the response body contains a topicResponse for the topic provided in the request.
+      And that the topicResponse contains a partitionResponse for the partition provided in the request.
+
+      The partitionResponse should contain a messageSet with a RecordBatch.
+      Which should in turn contain a Record which should contain a string with the hardcoded message. 
+
+      You need to send 3 such messages in the response. 
+      The messages should be `m1, m2, m3`.
+
+      The RecordBatch has a CRC field, which is computed using the Castagnoli polynomial. This CRC field in the response should match with the CRC computed from the RecordBatch contents.
+
+      The hexdump of a sample kafka response for this request is given below.
+
+      ```
+      0000   00 00 00 df b4 5e ed c3 00 00 00 00 00 00 00 1d   .....^..........
+      0010   0d 45 6f 02 7d 98 b8 a8 4a 42 4e c8 a4 fa bc e4   .Eo.}...JBN.....
+      0020   c9 5d 18 a6 02 00 00 00 00 00 00 00 00 00 00 00   .]..............
+      0030   00 00 03 00 00 00 00 00 00 00 03 00 00 00 00 00   ................
+      0040   00 00 00 00 ff ff ff ff 97 01 00 00 00 00 00 00   ................
+      0050   00 00 00 00 00 44 00 00 00 00 02 59 1e f5 8f 00   .....D.....Y....
+      0060   00 00 00 00 01 00 00 01 91 b2 3a 23 db 00 00 01   ..........:#....
+      0070   91 b2 3a 25 f8 00 00 00 00 00 00 00 00 00 00 00   ..:%............
+      0080   00 00 00 00 00 00 02 10 00 00 00 01 04 6d 31 00   .............m1.
+      0090   12 00 ba 08 02 01 04 6d 32 00 00 00 00 00 00 00   .......m2.......
+      00a0   00 02 00 00 00 3a 00 00 00 00 02 ce df 14 77 00   .....:........w.
+      00b0   00 00 00 00 00 00 00 01 91 b2 3a 29 cc 00 00 01   ..........:)....
+      00c0   91 b2 3a 29 cc 00 00 00 00 00 00 00 00 00 00 00   ..:)............
+      00d0   00 00 02 00 00 00 01 10 00 00 00 01 04 6d 33 00   .............m3.
+      00e0   00 00 00                                          ...
+      ```
+
+      ### Notes
+      - We will send an `Fetch` request with an `APIVersion` of 16.
+
+    marketing_md: |-
+      In this stage, you'll implement the Fetch response for a topic with multiple messages.
