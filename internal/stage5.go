@@ -63,15 +63,26 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
+	if len(responseBody.ApiKeys) < 1 {
+		return fmt.Errorf("Expected API keys array to be non-empty")
+	}
+	logger.Successf("✓ API keys array is non-empty")
+
+	foundAPIKey := false
 	MAX_VERSION := int16(3)
 	for _, apiVersionKey := range responseBody.ApiKeys {
 		if apiVersionKey.ApiKey == 18 {
+			foundAPIKey = true
 			if apiVersionKey.MaxVersion >= MAX_VERSION {
 				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION)
 			} else {
 				return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
 			}
 		}
+	}
+
+	if !foundAPIKey {
+		return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
 	}
 
 	return nil
