@@ -63,15 +63,35 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	MAX_VERSION := int16(16)
+	if len(responseBody.ApiKeys) < 2 {
+		return fmt.Errorf("Expected API keys array to include atleast 2 keys (API_VERSIONS and FETCH), got %v", len(responseBody.ApiKeys))
+	}
+	logger.Successf("✓ API keys array is non-empty")
+
+	foundAPIKey := 0
+	MAX_VERSION_APIVERSION := int16(3)
+	MAX_VERSION_FETCH := int16(16)
 	for _, apiVersionKey := range responseBody.ApiKeys {
 		if apiVersionKey.ApiKey == 1 {
-			if apiVersionKey.MaxVersion >= MAX_VERSION {
-				logger.Successf("✓ API version %v is supported for FETCH", MAX_VERSION)
+			foundAPIKey += 1
+			if apiVersionKey.MaxVersion >= MAX_VERSION_FETCH {
+				logger.Successf("✓ API version %v is supported for FETCH", MAX_VERSION_FETCH)
 			} else {
-				return fmt.Errorf("Expected API version %v to be supported for FETCH, got %v", MAX_VERSION, apiVersionKey.MaxVersion)
+				return fmt.Errorf("Expected API version %v to be supported for FETCH, got %v", MAX_VERSION_FETCH, apiVersionKey.MaxVersion)
 			}
 		}
+		if apiVersionKey.ApiKey == 18 {
+			foundAPIKey += 1
+			if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
+				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
+			} else {
+				return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION_APIVERSION, apiVersionKey.MaxVersion)
+			}
+		}
+	}
+
+	if foundAPIKey != 2 {
+		return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS) & 1 (FETCH)")
 	}
 
 	return nil
