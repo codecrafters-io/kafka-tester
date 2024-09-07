@@ -39,6 +39,7 @@ Debug = true
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-5] [0m[92m✓ Correlation ID: 806511965[0m
 [33m[stage-5] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
+[33m[stage-5] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-5] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
 [33m[stage-5] [0m[92mTest passed.[0m
 [33m[stage-5] [0m[36mTerminating program[0m
