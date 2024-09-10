@@ -25,7 +25,7 @@ func (rd *RealDecoder) Init(raw []byte) {
 func (rd *RealDecoder) GetInt8() (int8, error) {
 	if rd.Remaining() < 1 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int8 length to be 1 byte, got %d bytes", rd.off), "INT8")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int8 length to be 1 byte, got %d bytes", rd.Remaining()), "INT8")
 	}
 	tmp := int8(rd.raw[rd.off])
 	rd.off++
@@ -35,7 +35,7 @@ func (rd *RealDecoder) GetInt8() (int8, error) {
 func (rd *RealDecoder) GetInt16() (int16, error) {
 	if rd.Remaining() < 2 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int16 length to be 2 bytes, got %d bytes", rd.off), "INT16")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int16 length to be 2 bytes, got %d bytes", rd.Remaining()), "INT16")
 	}
 	tmp := int16(binary.BigEndian.Uint16(rd.raw[rd.off:]))
 	rd.off += 2
@@ -45,7 +45,7 @@ func (rd *RealDecoder) GetInt16() (int16, error) {
 func (rd *RealDecoder) GetInt32() (int32, error) {
 	if rd.Remaining() < 4 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 length to be 4 bytes, got %d bytes", rd.off), "INT32")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 length to be 4 bytes, got %d bytes", rd.Remaining()), "INT32")
 	}
 	tmp := int32(binary.BigEndian.Uint32(rd.raw[rd.off:]))
 	rd.off += 4
@@ -55,7 +55,7 @@ func (rd *RealDecoder) GetInt32() (int32, error) {
 func (rd *RealDecoder) GetInt64() (int64, error) {
 	if rd.Remaining() < 8 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 length to be 8 bytes, got %d bytes", rd.off), "INT64")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 length to be 8 bytes, got %d bytes", rd.Remaining()), "INT64")
 	}
 	tmp := int64(binary.BigEndian.Uint64(rd.raw[rd.off:]))
 	rd.off += 8
@@ -65,7 +65,7 @@ func (rd *RealDecoder) GetInt64() (int64, error) {
 func (rd *RealDecoder) GetFloat64() (float64, error) {
 	if rd.Remaining() < 8 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected float64 length to be 8 bytes, got %d bytes", rd.off), "FLOAT64")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected float64 length to be 8 bytes, got %d bytes", rd.Remaining()), "FLOAT64")
 	}
 	tmp := math.Float64frombits(binary.BigEndian.Uint64(rd.raw[rd.off:]))
 	rd.off += 8
@@ -105,7 +105,7 @@ func (rd *RealDecoder) GetSignedVarint() (int64, error) {
 func (rd *RealDecoder) GetArrayLength() (int, error) {
 	if rd.Remaining() < 4 {
 		rd.off = len(rd.raw)
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rd.off), "ARRAY_LENGTH")
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rd.Remaining()), "ARRAY_LENGTH")
 	}
 	tmp := int(int32(binary.BigEndian.Uint32(rd.raw[rd.off:])))
 	rd.off += 4
@@ -138,7 +138,7 @@ func (rd *RealDecoder) GetCompactArrayLength() (int, error) {
 func (rd *RealDecoder) GetBool() (bool, error) {
 	b, err := rd.GetInt8()
 	if err != nil {
-		return false, errors.NewPacketDecodingError(fmt.Sprintf("Expected bool length to be 1 byte, got %d bytes", rd.off), "BOOL")
+		return false, errors.NewPacketDecodingError(fmt.Sprintf("Expected bool length to be 1 byte, got %d bytes", rd.Remaining()), "BOOL")
 	}
 	if b == 0 {
 		return false, nil
@@ -354,7 +354,7 @@ func (rd *RealDecoder) GetInt32Array() ([]int32, error) {
 
 	if rd.Remaining() < 4*n {
 		rd.off = len(rd.raw)
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 array length to be %d bytes, got %d bytes", 4*n, rd.off), "INT32_ARRAY")
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 array length to be %d bytes, got %d bytes", 4*n, rd.Remaining()), "INT32_ARRAY")
 	}
 
 	if n == 0 {
@@ -384,7 +384,7 @@ func (rd *RealDecoder) GetInt64Array() ([]int64, error) {
 
 	if rd.Remaining() < 8*n {
 		rd.off = len(rd.raw)
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 array length to be %d bytes, got %d bytes", 8*n, rd.off), "INT64_ARRAY")
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 array length to be %d bytes, got %d bytes", 8*n, rd.Remaining()), "INT64_ARRAY")
 	}
 
 	if n == 0 {
