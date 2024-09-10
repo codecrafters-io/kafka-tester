@@ -14,7 +14,7 @@ type FetchResponse struct {
 	ThrottleTimeMs int32
 	ErrorCode      int16
 	SessionID      int32
-	Responses      []TopicResponse
+	TopicResponses []TopicResponse
 }
 
 func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err error) {
@@ -49,8 +49,8 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 		return err
 	}
 
-	r.Responses = make([]TopicResponse, numResponses)
-	for i := range r.Responses {
+	r.TopicResponses = make([]TopicResponse, numResponses)
+	for i := range r.TopicResponses {
 		topicResponse := TopicResponse{}
 		err := topicResponse.Decode(pd)
 		if err != nil {
@@ -59,7 +59,7 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 			}
 			return err
 		}
-		r.Responses[i] = topicResponse
+		r.TopicResponses[i] = topicResponse
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
@@ -77,8 +77,8 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 }
 
 type TopicResponse struct {
-	Topic      string
-	Partitions []PartitionResponse
+	Topic              string
+	PartitionResponses []PartitionResponse
 }
 
 func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
@@ -105,9 +105,9 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 		}
 		return err
 	}
-	tr.Partitions = make([]PartitionResponse, numPartitions)
+	tr.PartitionResponses = make([]PartitionResponse, numPartitions)
 
-	for j := range tr.Partitions {
+	for j := range tr.PartitionResponses {
 		partition := PartitionResponse{}
 		err := partition.Decode(pd)
 		if err != nil {
@@ -116,7 +116,7 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 			}
 			return err
 		}
-		tr.Partitions[j] = partition
+		tr.PartitionResponses[j] = partition
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
@@ -324,7 +324,6 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 	// - CRC : 4 bytes
 	data, _ := pd.GetRawBytesFromOffset(int(rb.BatchLength) - 9)
 	computedChecksum := crc32.Checksum(data, crcTable)
-	// ToDo: Add debug logging ?
 	// fmt.Printf("CRC-32C checksum: 0x%08x 0x%08x\n", checksum, uint32(rb.CRC))
 	if computedChecksum != uint32(rb.CRC) {
 		return errors.NewPacketDecodingError(fmt.Sprintf("CRC mismatch: calculated %08x, expected %08x", computedChecksum, uint32(rb.CRC)), "crc")

@@ -87,12 +87,12 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	msgValues := []string{}
 	expectedMsgValues := []string{"m1", "m2", "m3"}
-	for _, topic := range responseBody.Responses {
-		for _, partition := range topic.Partitions {
-			if len(partition.RecordBatches) == 0 {
-				return fmt.Errorf("Expected partition.RecordBatches to have length greater than 0, got %v", len(partition.RecordBatches))
+	for _, topicResponse := range responseBody.TopicResponses {
+		for _, partitionResponse := range topicResponse.PartitionResponses {
+			if len(partitionResponse.RecordBatches) == 0 {
+				return fmt.Errorf("Expected partition.RecordBatches to have length greater than 0, got %v", len(partitionResponse.RecordBatches))
 			}
-			for _, recordBatch := range partition.RecordBatches {
+			for _, recordBatch := range partitionResponse.RecordBatches {
 				if len(recordBatch.Records) == 0 {
 					return fmt.Errorf("Expected recordBatch.Records to have length greater than 0, got %v", len(recordBatch.Records))
 				}

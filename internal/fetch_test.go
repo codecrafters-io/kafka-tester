@@ -40,17 +40,17 @@ func TestFetchv16_0m(t *testing.T) {
 	assert.Equal(t, 0, int(response.ErrorCode))
 	assert.Equal(t, 0, int(response.ThrottleTimeMs))
 	assert.Equal(t, 1339416177, int(response.SessionID))
-	assert.Equal(t, 1, len(response.Responses))
-	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Responses[0].Topic)
-	assert.Equal(t, 0, len(response.Responses[0].Partitions[0].RecordBatches))
+	assert.Equal(t, 1, len(response.TopicResponses))
+	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.TopicResponses[0].Topic)
+	assert.Equal(t, 0, len(response.TopicResponses[0].PartitionResponses[0].RecordBatches))
 
-	for _, partition := range response.Responses {
-		assert.Equal(t, 1, len(partition.Partitions))
-		assert.Equal(t, 0, int(partition.Partitions[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.Partitions[0].ErrorCode))
-		assert.Equal(t, 0, int(partition.Partitions[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.Partitions[0].LogStartOffset))
-		assert.Equal(t, 0, len(partition.Partitions[0].RecordBatches))
+	for _, partition := range response.TopicResponses {
+		assert.Equal(t, 1, len(partition.PartitionResponses))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LastStableOffset))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
+		assert.Equal(t, 0, len(partition.PartitionResponses[0].RecordBatches))
 	}
 }
 
@@ -85,11 +85,11 @@ func TestFetchv16_1m(t *testing.T) {
 	assert.Equal(t, 0, int(response.ErrorCode))
 	assert.Equal(t, 0, int(response.ThrottleTimeMs))
 	assert.Equal(t, 2056797604, int(response.SessionID))
-	assert.Equal(t, 1, len(response.Responses))
-	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.Responses[0].Topic)
+	assert.Equal(t, 1, len(response.TopicResponses))
+	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.TopicResponses[0].Topic)
 
-	for _, partition := range response.Responses {
-		for _, partition := range partition.Partitions {
+	for _, partition := range response.TopicResponses {
+		for _, partition := range partition.PartitionResponses {
 			assert.Equal(t, 0, int(partition.ErrorCode))
 			assert.Equal(t, 1, int(partition.LastStableOffset))
 			assert.Equal(t, 0, int(partition.LogStartOffset))
@@ -134,16 +134,16 @@ func TestFetchv16_2m(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 1, len(response.Responses))
-	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.Responses[0].Topic)
-	for _, partition := range response.Responses {
-		assert.Equal(t, 1, len(partition.Partitions))
-		assert.Equal(t, 0, int(partition.Partitions[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.Partitions[0].ErrorCode))
-		assert.Equal(t, 2, int(partition.Partitions[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.Partitions[0].LogStartOffset))
-		assert.Equal(t, 2, len(partition.Partitions[0].RecordBatches))
-		for _, partition := range partition.Partitions {
+	assert.Equal(t, 1, len(response.TopicResponses))
+	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.TopicResponses[0].Topic)
+	for _, partition := range response.TopicResponses {
+		assert.Equal(t, 1, len(partition.PartitionResponses))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
+		assert.Equal(t, 2, int(partition.PartitionResponses[0].LastStableOffset))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
+		assert.Equal(t, 2, len(partition.PartitionResponses[0].RecordBatches))
+		for _, partition := range partition.PartitionResponses {
 			assert.Equal(t, 2, len(partition.RecordBatches))
 			for _, recordBatch := range partition.RecordBatches {
 				for _, message := range recordBatch.Records {
@@ -184,16 +184,16 @@ func TestFetchv16_3m(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 1, len(response.Responses))
-	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Responses[0].Topic)
-	for _, partition := range response.Responses {
-		assert.Equal(t, 1, len(partition.Partitions))
-		assert.Equal(t, 0, int(partition.Partitions[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.Partitions[0].ErrorCode))
-		assert.Equal(t, 3, int(partition.Partitions[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.Partitions[0].LogStartOffset))
-		assert.Equal(t, 3, len(partition.Partitions[0].RecordBatches))
-		for _, partition := range partition.Partitions {
+	assert.Equal(t, 1, len(response.TopicResponses))
+	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.TopicResponses[0].Topic)
+	for _, partition := range response.TopicResponses {
+		assert.Equal(t, 1, len(partition.PartitionResponses))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
+		assert.Equal(t, 3, int(partition.PartitionResponses[0].LastStableOffset))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
+		assert.Equal(t, 3, len(partition.PartitionResponses[0].RecordBatches))
+		for _, partition := range partition.PartitionResponses {
 			assert.Equal(t, 3, len(partition.RecordBatches))
 			for _, recordBatch := range partition.RecordBatches {
 				for _, message := range recordBatch.Records {

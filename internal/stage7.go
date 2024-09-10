@@ -69,10 +69,10 @@ func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	if len(responseBody.Responses) != 0 {
-		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.Responses)
+	if len(responseBody.TopicResponses) != 0 {
+		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.TopicResponses)
 	}
-	logger.Successf("✓ Responses: %v", responseBody.Responses)
+	logger.Successf("✓ Topic responses: %v", responseBody.TopicResponses)
 
 	return nil
 }
