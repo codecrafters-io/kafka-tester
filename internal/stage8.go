@@ -89,14 +89,14 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	expectedMsgValues := []string{"m1", "m2", "m3"}
 	for _, topic := range responseBody.Responses {
 		for _, partition := range topic.Partitions {
-			if len(partition.Records) == 0 {
-				return fmt.Errorf("Expected partition.Records to have length greater than 0, got %v", len(partition.Records))
+			if len(partition.RecordBatches) == 0 {
+				return fmt.Errorf("Expected partition.RecordBatches to have length greater than 0, got %v", len(partition.RecordBatches))
 			}
-			for _, record := range partition.Records {
-				if len(record.Records) == 0 {
-					return fmt.Errorf("Expected record.Records to have length greater than 0, got %v", len(record.Records))
+			for _, recordBatch := range partition.RecordBatches {
+				if len(recordBatch.Records) == 0 {
+					return fmt.Errorf("Expected recordBatch.Records to have length greater than 0, got %v", len(recordBatch.Records))
 				}
-				for _, r := range record.Records {
+				for _, r := range recordBatch.Records {
 					if r.Value == nil {
 						return fmt.Errorf("Expected record.Value to not be nil")
 					}

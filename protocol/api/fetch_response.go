@@ -136,7 +136,7 @@ type PartitionResponse struct {
 	LastStableOffset    int64
 	LogStartOffset      int64
 	AbortedTransactions []AbortedTransaction
-	Records             []RecordBatch
+	RecordBatches       []RecordBatch
 	PreferedReadReplica int32
 }
 
@@ -226,7 +226,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 			}
 			return err
 		}
-		pr.Records = append(pr.Records, recordBatch)
+		pr.RecordBatches = append(pr.RecordBatches, recordBatch)
 		k++
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()

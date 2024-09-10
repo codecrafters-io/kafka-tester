@@ -124,8 +124,8 @@ func fetch(b *protocol.Broker, requestBody *FetchRequestBody) ([]byte, error) {
 
 	for _, topicResponse := range fetchResponse.Responses {
 		for _, partitionResponse := range topicResponse.Partitions {
-			for _, record := range partitionResponse.Records {
-				for _, r := range record.Records {
+			for _, recordBatch := range partitionResponse.RecordBatches {
+				for _, r := range recordBatch.Records {
 					fmt.Printf("message: %s\n", r.Value)
 				}
 			}
