@@ -23,21 +23,21 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16) 
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("apiKey").WithAddedContext("ApiVersionsResponseKey")
+			return decodingErr.WithAddedContext("api_key")
 		}
 		return err
 	}
 
 	if a.MinVersion, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("minVersion").WithAddedContext("ApiVersionsResponseKey")
+			return decodingErr.WithAddedContext("min_version")
 		}
 		return err
 	}
 
 	if a.MaxVersion, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("maxVersion").WithAddedContext("ApiVersionsResponseKey")
+			return decodingErr.WithAddedContext("max_version")
 		}
 		return err
 	}
@@ -45,7 +45,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16) 
 	if version >= 3 {
 		if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("ApiVersionsResponseKey")
+				return decodingErr.WithAddedContext("TAG_BUFFER")
 			}
 			return err
 		}
@@ -69,7 +69,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("errorCode").WithAddedContext("ApiVersionsResponse")
+			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
 	}
@@ -79,7 +79,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 		numApiKeys, err = pd.GetCompactArrayLength()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("numApiKeys").WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext("num_api_keys")
 			}
 			return err
 		}
@@ -87,7 +87,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 		numApiKeys, err = pd.GetArrayLength()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("numApiKeys").WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext("num_api_keys")
 			}
 			return err
 		}
@@ -98,7 +98,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 		var block ApiVersionsResponseKey
 		if err = block.Decode(pd, r.Version); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("apiVersionsResponseKey[%d]", i)).WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext(fmt.Sprintf("ApiVersionsResponseKey[%d]", i))
 			}
 			return err
 		}
@@ -108,7 +108,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 	if r.Version >= 1 {
 		if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("throttleTimeMs").WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext("throttle_time_ms")
 			}
 			return err
 		}
@@ -117,7 +117,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 	if r.Version >= 3 {
 		if _, err = pd.GetEmptyTaggedFieldArray(); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("ApiVersionsResponse")
+				return decodingErr.WithAddedContext("TAG_BUFFER")
 			}
 			return err
 		}
@@ -125,7 +125,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16) (er
 
 	// Check if there are any remaining bytes in the decoder
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", pd.Remaining()), "ApiVersionsResponse")
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", pd.Remaining()))
 	}
 
 	return nil

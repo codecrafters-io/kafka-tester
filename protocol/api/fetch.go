@@ -65,7 +65,7 @@ func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) 
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV1(&decoder); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("Fetch")
+			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 		}
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV1(&decoder); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("Fetch")
+			return nil, nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 		}
 		return nil, nil, err
 	}
@@ -88,7 +88,7 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 	fetchResponse := FetchResponse{Version: version}
 	if err := fetchResponse.Decode(&decoder, version); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseBody").WithAddedContext("Fetch")
+			return nil, nil, decodingErr.WithAddedContext("Response Body").WithAddedContext("Fetch Response v16")
 		}
 		return nil, nil, err
 	}

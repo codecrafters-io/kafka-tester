@@ -44,7 +44,7 @@ func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, e
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
 		}
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*Respon
 	responseHeader := ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+			return nil, nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
 		}
 		return nil, nil, err
 	}
@@ -69,7 +69,7 @@ func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*Respon
 	apiVersionsResponse := ApiVersionsResponse{Version: version}
 	if err := apiVersionsResponse.Decode(&decoder, version); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseBody").WithAddedContext("ApiVersions")
+			return nil, nil, decodingErr.WithAddedContext("Response Body").WithAddedContext("ApiVersions v3")
 		}
 		return nil, nil, err
 	}

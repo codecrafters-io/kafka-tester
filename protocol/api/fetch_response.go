@@ -22,21 +22,21 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 
 	if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("throttleTimeMs").WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("throttle_time_ms")
 		}
 		return err
 	}
 
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("errorCode").WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
 	}
 
 	if r.SessionID, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("sessionID").WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("session_id")
 		}
 		return err
 	}
@@ -44,7 +44,7 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 	numResponses, err := pd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("numResponses").WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("num_responses")
 		}
 		return err
 	}
@@ -55,7 +55,7 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 		err := topicResponse.Decode(pd)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("topicResponse[%d]", i)).WithAddedContext("FetchResponse")
+				return decodingErr.WithAddedContext(fmt.Sprintf("TopicResponse[%d]", i))
 			}
 			return err
 		}
@@ -64,13 +64,13 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16) (err erro
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("FetchResponse")
+			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
 	}
 
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding FetchResponse", pd.Remaining()), "FetchResponse")
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding FetchResponse", pd.Remaining()))
 	}
 
 	return nil
@@ -85,14 +85,14 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("topicUUIDBytes")
+			return decodingErr.WithAddedContext("topic_id_bytes")
 		}
 		return err
 	}
 	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("topicUUID").WithAddedContext("topicResponse")
+			return decodingErr.WithAddedContext("topic_id")
 		}
 		return err
 	}
@@ -101,7 +101,7 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	numPartitions, err := pd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("numPartitions")
+			return decodingErr.WithAddedContext("num_partitions")
 		}
 		return err
 	}
@@ -112,7 +112,7 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 		err := partition.Decode(pd)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("partitionResponse[%d]", j))
+				return decodingErr.WithAddedContext(fmt.Sprintf("PartitionResponse[%d]", j))
 			}
 			return err
 		}
@@ -121,7 +121,7 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr
+			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
 	}
@@ -143,35 +143,35 @@ type PartitionResponse struct {
 func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	if pr.PartitionIndex, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("partitionIndex")
+			return decodingErr.WithAddedContext("partition_index")
 		}
 		return err
 	}
 
 	if pr.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("errorCode")
+			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
 	}
 
 	if pr.HighWatermark, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("highWatermark")
+			return decodingErr.WithAddedContext("high_watermark")
 		}
 		return err
 	}
 
 	if pr.LastStableOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("lastStableOffset")
+			return decodingErr.WithAddedContext("last_stable_offset")
 		}
 		return err
 	}
 
 	if pr.LogStartOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("logStartOffset")
+			return decodingErr.WithAddedContext("log_start_offset")
 		}
 		return err
 	}
@@ -179,7 +179,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	numAbortedTransactions, err := pd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("numAbortedTransactions")
+			return decodingErr.WithAddedContext("num_aborted_transactions")
 		}
 		return err
 	}
@@ -191,7 +191,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 			err := abortedTransaction.Decode(pd)
 			if err != nil {
 				if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-					return decodingErr.WithAddedContext(fmt.Sprintf("abortedTransaction[%d]", k))
+					return decodingErr.WithAddedContext(fmt.Sprintf("AbortedTransaction[%d]", k))
 				}
 				return err
 			}
@@ -201,7 +201,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 
 	if pr.PreferedReadReplica, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("preferedReadReplica")
+			return decodingErr.WithAddedContext("preferred_read_replica")
 		}
 		return err
 	}
@@ -210,7 +210,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	numBytes, err := pd.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("compactRecordsLength")
+			return decodingErr.WithAddedContext("compact_records_length")
 		}
 		return err
 	}
@@ -222,7 +222,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 		err := recordBatch.Decode(pd)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("recordBatch[%d]", k))
+				return decodingErr.WithAddedContext(fmt.Sprintf("RecordBatch[%d]", k))
 			}
 			return err
 		}
@@ -232,7 +232,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder) (err error) {
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr
+			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
 	}
@@ -248,14 +248,14 @@ type AbortedTransaction struct {
 func (ab *AbortedTransaction) Decode(pd *decoder.RealDecoder) (err error) {
 	if ab.ProducerID, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("producerID").WithAddedContext("abortedTransaction")
+			return decodingErr.WithAddedContext("producer_id")
 		}
 		return err
 	}
 
 	if ab.FirstOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("firstOffset").WithAddedContext("abortedTransaction")
+			return decodingErr.WithAddedContext("first_offset")
 		}
 		return err
 	}
@@ -282,35 +282,35 @@ type RecordBatch struct {
 func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 	if rb.BaseOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("baseOffset")
+			return decodingErr.WithAddedContext("base_offset")
 		}
 		return err
 	}
 
 	if rb.BatchLength, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("batchLength")
+			return decodingErr.WithAddedContext("batch_length")
 		}
 		return err
 	}
 
 	if rb.PartitionLeaderEpoch, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("partitionLeaderEpoch")
+			return decodingErr.WithAddedContext("partition_leader_epoch")
 		}
 		return err
 	}
 
 	if rb.Magic, err = pd.GetInt8(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("magicByte")
+			return decodingErr.WithAddedContext("magic_byte")
 		}
 		return err
 	}
 
 	if rb.CRC, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("CRC")
+			return decodingErr.WithAddedContext("crc")
 		}
 		return err
 	}
@@ -327,54 +327,54 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 	// ToDo: Add debug logging ?
 	// fmt.Printf("CRC-32C checksum: 0x%08x 0x%08x\n", checksum, uint32(rb.CRC))
 	if computedChecksum != uint32(rb.CRC) {
-		return errors.NewPacketDecodingError(fmt.Sprintf("CRC mismatch: calculated %08x, expected %08x", computedChecksum, uint32(rb.CRC)), "CRC")
+		return errors.NewPacketDecodingError(fmt.Sprintf("CRC mismatch: calculated %08x, expected %08x", computedChecksum, uint32(rb.CRC)), "crc")
 	}
 
 	if rb.Attributes, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("recordAttributes")
+			return decodingErr.WithAddedContext("record_attributes")
 		}
 		return err
 	}
 
 	if rb.LastOffsetDelta, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("lastOffsetDelta")
+			return decodingErr.WithAddedContext("last_offset_delta")
 		}
 		return err
 	}
 
 	if rb.FirstTimestamp, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("firstTimestamp")
+			return decodingErr.WithAddedContext("base_timestamp")
 		}
 		return err
 	}
 
 	if rb.MaxTimestamp, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("maxTimestamp")
+			return decodingErr.WithAddedContext("max_timestamp")
 		}
 		return err
 	}
 
 	if rb.ProducerId, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("producerId")
+			return decodingErr.WithAddedContext("producer_id")
 		}
 		return err
 	}
 
 	if rb.ProducerEpoch, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("producerEpoch")
+			return decodingErr.WithAddedContext("producer_epoch")
 		}
 		return err
 	}
 
 	if rb.BaseSequence, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("baseSequence")
+			return decodingErr.WithAddedContext("base_sequence")
 		}
 		return err
 	}
@@ -382,7 +382,7 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 	numRecords, err := pd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("numRecords")
+			return decodingErr.WithAddedContext("num_records")
 		}
 		return err
 	}
@@ -392,7 +392,7 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder) (err error) {
 		err := record.Decode(pd)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("record[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("Record[%d]", i))
 			}
 			return err
 		}
@@ -431,7 +431,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 
 	if r.TimestampDelta, err = pd.GetSignedVarint(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("timestampDelta")
+			return decodingErr.WithAddedContext("timestamp_delta")
 		}
 		return err
 	}
@@ -439,7 +439,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	offsetDelta, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("offsetDelta")
+			return decodingErr.WithAddedContext("offset_delta")
 		}
 		return err
 	}
@@ -448,7 +448,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	keyLength, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("keyLength")
+			return decodingErr.WithAddedContext("key_length")
 		}
 		return err
 	}
@@ -458,7 +458,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 		key, err = pd.GetRawBytes(int(keyLength) - 1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext("messageKey")
+				return decodingErr.WithAddedContext("key")
 			}
 			return err
 		}
@@ -470,7 +470,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	valueLength, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("valueLength")
+			return decodingErr.WithAddedContext("value_length")
 		}
 		return err
 	}
@@ -478,7 +478,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	value, err := pd.GetRawBytes(int(valueLength))
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("messageValue")
+			return decodingErr.WithAddedContext("value")
 		}
 		return err
 	}
@@ -487,7 +487,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder) (err error) {
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr
+			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
 	}

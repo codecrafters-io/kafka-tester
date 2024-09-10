@@ -42,7 +42,7 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+			return decodingErr.WithAddedContext("correlation_id")
 		}
 		return err
 	}
@@ -54,7 +54,7 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+			return decodingErr.WithAddedContext("correlation_id")
 		}
 		return err
 	}
