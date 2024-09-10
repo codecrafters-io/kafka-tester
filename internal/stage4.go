@@ -45,15 +45,19 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
+	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	err := broker.Send(message)
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+
 	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)

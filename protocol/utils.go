@@ -2,6 +2,7 @@ package protocol
 
 import (
 	"fmt"
+	"strings"
 )
 
 func PrintHexdump(data []byte) {
@@ -13,4 +14,51 @@ func PrintHexdump(data []byte) {
 		fmt.Printf("%02x ", b)
 	}
 	fmt.Println()
+}
+
+func getFormattedHexdump(data []byte) string {
+	formattedHexdump := ""
+	for i, b := range data {
+		if i%16 == 0 {
+			formattedHexdump += fmt.Sprintf("\n%04x  ", i)
+		}
+		formattedHexdump += fmt.Sprintf("%02x ", b)
+	}
+	return formattedHexdump
+}
+
+func GetFormattedHexdump(data []byte) string {
+	var formattedHexdump strings.Builder
+	var asciiChars strings.Builder
+
+	for i, b := range data {
+		if i%16 == 0 && i != 0 {
+			formattedHexdump.WriteString("  " + asciiChars.String() + "\n")
+			asciiChars.Reset()
+		}
+		if i%16 == 0 {
+			formattedHexdump.WriteString(fmt.Sprintf("%04x  ", i))
+		}
+		formattedHexdump.WriteString(fmt.Sprintf("%02x ", b))
+
+		// Add ASCII representation
+		if b >= 32 && b <= 126 {
+			asciiChars.WriteByte(b)
+		} else {
+			asciiChars.WriteByte('.')
+		}
+	}
+
+	// Pad the last line if necessary
+	if len(data)%16 != 0 {
+		padding := 16 - (len(data) % 16)
+		for i := 0; i < padding; i++ {
+			formattedHexdump.WriteString("   ")
+		}
+	}
+
+	// Add the final ASCII representation
+	formattedHexdump.WriteString("  " + asciiChars.String())
+
+	return formattedHexdump.String()
 }
