@@ -22,6 +22,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	logger := stageHarness.Logger
 
 	correlationId := int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
+	apiVersion := getInvalidAPIVersion()
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
@@ -32,7 +33,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
-			ApiVersion:    -1,
+			ApiVersion:    int16(apiVersion),
 			CorrelationId: correlationId,
 			ClientId:      "kafka-cli",
 		},
@@ -97,4 +98,12 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	logger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
 
 	return nil
+}
+
+func getInvalidAPIVersion() int {
+	apiVersion := 1
+	for apiVersion <= 3 && apiVersion >= 0 {
+		apiVersion = random.RandomInt(0, math.MaxInt16)
+	}
+	return random.RandomElementFromArray([]int{apiVersion, -apiVersion})
 }
