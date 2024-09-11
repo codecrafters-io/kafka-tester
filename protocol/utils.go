@@ -22,13 +22,16 @@ func GetFormattedHexdump(data []byte) string {
 	var formattedHexdump strings.Builder
 	var asciiChars strings.Builder
 
+	formattedHexdump.WriteString("Idx  | Hex                                             | ASCII\n")
+	formattedHexdump.WriteString("-----+-------------------------------------------------+-----------------\n")
+
 	for i, b := range data {
 		if i%16 == 0 && i != 0 {
-			formattedHexdump.WriteString("  " + asciiChars.String() + "\n")
+			formattedHexdump.WriteString("| " + asciiChars.String() + "\n")
 			asciiChars.Reset()
 		}
 		if i%16 == 0 {
-			formattedHexdump.WriteString(fmt.Sprintf("%04x  ", i))
+			formattedHexdump.WriteString(fmt.Sprintf("%04x | ", i))
 		}
 		formattedHexdump.WriteString(fmt.Sprintf("%02x ", b))
 
@@ -49,7 +52,7 @@ func GetFormattedHexdump(data []byte) string {
 	}
 
 	// Add the final ASCII representation
-	formattedHexdump.WriteString("  " + asciiChars.String())
+	formattedHexdump.WriteString("| " + asciiChars.String())
 
 	return formattedHexdump.String()
 }
