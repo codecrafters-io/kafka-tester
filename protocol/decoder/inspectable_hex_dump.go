@@ -47,7 +47,7 @@ func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, hig
 }
 
 func (s InspectableHexDump) FormattedString() string {
-	return protocol.GetFormattedHexdump(s.bytes)
+	return protocol.GetFormattedHexdumpForErrors(s.bytes)
 }
 
 func (s InspectableHexDump) TruncateAroundOffset(offset int) InspectableHexDump {
@@ -77,22 +77,21 @@ func (s InspectableHexDump) GetOffsetInHexdump(byteOffset int) int {
 	if s.truncationStartIndex != 0 {
 		byteOffset = byteOffset - s.truncationStartIndex
 	}
-	prefixLength := 5
 
 	formattedBytesBefore := string(s.bytes[:byteOffset])
 	hexdumpLength := len(formattedBytesBefore) * 3
 	if hexdumpLength == 0 {
-		return prefixLength
+		return 1
 	}
 
-	return hexdumpLength + prefixLength - 1
+	return hexdumpLength + 1
 }
 
 func (s InspectableHexDump) GetOffsetInAsciiString(byteOffset int) int {
 	if s.truncationStartIndex != 0 {
 		byteOffset = byteOffset - s.truncationStartIndex
 	}
-	prefixLength := 56
+	prefixLength := 50
 
 	formattedBytesBefore := string(s.bytes[:byteOffset])
 	asciiLength := len(formattedBytesBefore)
@@ -100,5 +99,5 @@ func (s InspectableHexDump) GetOffsetInAsciiString(byteOffset int) int {
 		return prefixLength
 	}
 
-	return asciiLength + prefixLength - 1
+	return asciiLength + prefixLength
 }
