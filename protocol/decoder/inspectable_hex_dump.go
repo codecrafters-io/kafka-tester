@@ -1,7 +1,6 @@
 package decoder
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -27,19 +26,19 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 //
 // > Received: "+OK\r\n"
 // >                 ^ error
-func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, highlightText string, formattedStringPrefix string, formattedStringSuffix string) string {
+func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, highlightText string) string {
 	s = s.TruncateAroundOffset(highlightOffset)
 
 	lines := []string{}
 
-	lines = append(lines, fmt.Sprintf("%s%s%s", formattedStringPrefix, s.FormattedString(), formattedStringSuffix))
+	lines = append(lines, s.FormattedString())
 
 	offsetPointerLine1 := ""
-	offsetPointerLine1 += strings.Repeat(" ", len(formattedStringPrefix)+s.GetOffsetInHexdump(highlightOffset))
+	offsetPointerLine1 += strings.Repeat(" ", s.GetOffsetInHexdump(highlightOffset))
 	offsetPointerLine1 += "^ " + highlightText
 
 	offsetPointerLine2 := ""
-	offsetPointerLine2 += strings.Repeat(" ", len(formattedStringPrefix)+s.GetOffsetInAsciiString(highlightOffset))
+	offsetPointerLine2 += strings.Repeat(" ", s.GetOffsetInAsciiString(highlightOffset))
 	offsetPointerLine2 += "^ " + highlightText
 
 	lines = append(lines, offsetPointerLine1)
@@ -60,6 +59,12 @@ func (s InspectableHexDump) TruncateAroundOffset(offset int) InspectableHexDump 
 		bytes:                s.bytes[start:end],
 		truncationStartIndex: start,
 	}
+}
+
+func (s InspectableHexDump) GetByteIndicesAfterTruncation(offset int) (int, int) {
+	start := max(0, offset-5)
+	end := max(0, min(len(s.bytes), start+16))
+	return start, end
 }
 
 // GetOffsetInFormattedString returns a string that represents the byteOffset in the formatted string

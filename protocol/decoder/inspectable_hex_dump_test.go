@@ -62,15 +62,14 @@ func TestFormatWithHighlightedOffset(t *testing.T) {
 	ibs := NewInspectableHexDump(bytes)
 	highlightOffset := 5
 	highlightText := "error"
-	formattedStringPrefix := "Received: "
 
 	expected := strings.TrimSpace(`
-Received: 0000  48 65 6c 6c 6f 20 57 6f 72 6c 64 21               Hello World! (suffix)
-                             ^ error
-                                                                      ^ error
+0000  48 65 6c 6c 6f 20 57 6f 72 6c 64 21               Hello World!
+                   ^ error
+                                                            ^ error
 	`)
-	result := ibs.FormatWithHighlightedOffset(highlightOffset, highlightText, formattedStringPrefix, " (suffix)")
-	fmt.Println(result)
+	result := ibs.FormatWithHighlightedOffset(highlightOffset, highlightText)
+
 	assert.Equal(t, expected, result)
 }
 
@@ -79,14 +78,13 @@ func TestFormatWithHighlightedOffset2(t *testing.T) {
 	ibs := NewInspectableHexDump(bytes)
 	highlightOffset := 10
 	highlightText := "this is the error, innit"
-	formattedStringPrefix := "Received: "
 
 	expected := strings.TrimSpace(`
-Received: 0000  6f 20 45 61 72 74 68 20 26 20 4d 6f 6f 6f 6f 6e   o Earth & Moooon (suffix)
-                             ^ this is the error, innit
-                                                                      ^ this is the error, innit
+0000  6f 20 45 61 72 74 68 20 26 20 4d 6f 6f 6f 6f 6e   o Earth & Moooon
+                   ^ this is the error, innit
+                                                            ^ this is the error, innit
 	`)
-	result := ibs.FormatWithHighlightedOffset(highlightOffset, highlightText, formattedStringPrefix, " (suffix)")
+	result := ibs.FormatWithHighlightedOffset(highlightOffset, highlightText)
 
 	assert.Equal(t, expected, result)
 }
