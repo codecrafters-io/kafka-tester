@@ -7,6 +7,7 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,13 +24,13 @@ func TestFetchv16_0m(t *testing.T) {
 
 	header := kafkaapi.ResponseHeader{}
 
-	if err = header.DecodeV1(&decoder); err != nil {
+	if err = header.DecodeV1(&decoder, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16); err != nil {
+	if err = response.Decode(&decoder, 16, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
@@ -67,13 +68,13 @@ func TestFetchv16_1m(t *testing.T) {
 
 	header := kafkaapi.ResponseHeader{}
 
-	if err = header.DecodeV1(&decoder); err != nil {
+	if err = header.DecodeV1(&decoder, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16); err != nil {
+	if err = response.Decode(&decoder, 16, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
@@ -120,13 +121,13 @@ func TestFetchv16_2m(t *testing.T) {
 
 	header := kafkaapi.ResponseHeader{}
 
-	if err = header.DecodeV1(&decoder); err != nil {
+	if err = header.DecodeV1(&decoder, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16); err != nil {
+	if err = response.Decode(&decoder, 16, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
@@ -170,13 +171,13 @@ func TestFetchv16_3m(t *testing.T) {
 
 	header := kafkaapi.ResponseHeader{}
 
-	if err = header.DecodeV1(&decoder); err != nil {
+	if err = header.DecodeV1(&decoder, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16); err != nil {
+	if err = response.Decode(&decoder, 16, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
@@ -218,13 +219,13 @@ func TestAPIVersionv3(t *testing.T) {
 	decoder.Init(b)
 
 	responseHeader := kafkaapi.ResponseHeader{}
-	if err := responseHeader.DecodeV0(&decoder); err != nil {
+	if err := responseHeader.DecodeV0(&decoder, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
 
 	apiVersionsResponse := kafkaapi.ApiVersionsResponse{Version: 3}
-	if err := apiVersionsResponse.Decode(&decoder, 3); err != nil {
+	if err := apiVersionsResponse.Decode(&decoder, 3, logger.GetLogger(true, ""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		panic("I QUIT")
 	}
