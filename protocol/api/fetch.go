@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func Fetch() {
@@ -40,7 +41,7 @@ func Fetch() {
 		},
 		ForgottenTopics: []ForgottenTopic{},
 		RackID:          "",
-	})
+	}, logger.GetLogger(true, ""))
 	if err != nil {
 		panic(err)
 	}
@@ -58,12 +59,15 @@ func EncodeFetchRequest(request *FetchRequest) []byte {
 	return message
 }
 
-func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) {
+func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefix()
 
 	responseHeader := ResponseHeader{}
-	if err := responseHeader.DecodeV1(&decoder); err != nil {
+	logger.Debugf("- .ResponseHeader")
+	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 		}
@@ -73,12 +77,15 @@ func DecodeFetchHeader(response []byte, version int16) (*ResponseHeader, error) 
 	return &responseHeader, nil
 }
 
-func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *FetchResponse, error) {
+func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefix()
 
 	responseHeader := ResponseHeader{}
-	if err := responseHeader.DecodeV1(&decoder); err != nil {
+	logger.Debugf("- .ResponseHeader")
+	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 		}
@@ -86,7 +93,8 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 	}
 
 	fetchResponse := FetchResponse{Version: version}
-	if err := fetchResponse.Decode(&decoder, version); err != nil {
+	logger.Debugf("- .ResponseBody")
+	if err := fetchResponse.Decode(&decoder, version, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, nil, decodingErr.WithAddedContext("Response Body").WithAddedContext("Fetch Response v16")
 		}
@@ -97,7 +105,7 @@ func DecodeFetchHeaderAndResponse(response []byte, version int16) (*ResponseHead
 }
 
 // Fetch returns api version response or error
-func fetch(b *protocol.Broker, requestBody *FetchRequestBody) ([]byte, error) {
+func fetch(b *protocol.Broker, requestBody *FetchRequestBody, logger *logger.Logger) ([]byte, error) {
 	request := FetchRequest{
 		Header: RequestHeader{
 			ApiKey:        1,
@@ -117,7 +125,7 @@ func fetch(b *protocol.Broker, requestBody *FetchRequestBody) ([]byte, error) {
 
 	protocol.PrintHexdump(response)
 
-	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16)
+	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
 		return nil, err
 	}
