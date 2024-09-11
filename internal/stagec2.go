@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testc2(stageHarness *test_case_harness.TestCaseHarness) error {
+func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
