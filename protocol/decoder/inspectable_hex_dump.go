@@ -69,7 +69,7 @@ func (s InspectableHexDump) TruncateAroundOffset(offset int) InspectableHexDump 
 
 func (s InspectableHexDump) GetByteIndicesAfterTruncation(offset int) (int, int) {
 	start := max(0, offset-5)
-	end := max(0, min(len(s.bytes), start+16))
+	end := start + min(len(s.bytes), 16) - 1
 	return start, end
 }
 
