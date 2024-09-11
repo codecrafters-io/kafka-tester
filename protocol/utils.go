@@ -3,6 +3,8 @@ package protocol
 import (
 	"fmt"
 	"strings"
+
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func PrintHexdump(data []byte) {
@@ -61,4 +63,8 @@ func GetFormattedHexdump(data []byte) string {
 	formattedHexdump.WriteString("  " + asciiChars.String())
 
 	return formattedHexdump.String()
+}
+
+func LogWithIndentation(logger *logger.Logger, indentation int, message string, args ...interface{}) {
+	logger.Debugf(fmt.Sprintf("%s%s", strings.Repeat(" ", indentation*2), message), args...)
 }
