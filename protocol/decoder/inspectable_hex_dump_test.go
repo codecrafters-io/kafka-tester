@@ -64,6 +64,7 @@ func TestFormatWithHighlightedOffset(t *testing.T) {
 	highlightText := "error"
 
 	expected := strings.TrimSpace(`
+Hex (bytes 0-12)                                | ASCII
 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
                 ^ error
                                                        ^ error
@@ -80,6 +81,7 @@ func TestFormatWithHighlightedOffset2(t *testing.T) {
 	highlightText := "this is the error, innit"
 
 	expected := strings.TrimSpace(`
+Hex (bytes 5-16)                                | ASCII
 6f 20 45 61 72 74 68 20 26 20 4d 6f 6f 6f 6f 6e | o Earth & Moooon
                 ^ this is the error, innit
                                                        ^ this is the error, innit

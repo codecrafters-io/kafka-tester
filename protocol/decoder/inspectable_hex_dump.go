@@ -1,6 +1,7 @@
 package decoder
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -31,7 +32,8 @@ func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, hig
 
 	lines := []string{}
 
-	lines = append(lines, s.FormattedString())
+	byteRangeStart, byteRangeEnd := s.GetByteIndicesAfterTruncation(highlightOffset)
+	lines = append(lines, s.FormmattedStringWithHeading(byteRangeStart, byteRangeEnd))
 
 	offsetPointerLine1 := ""
 	offsetPointerLine1 += strings.Repeat(" ", s.GetOffsetInHexdump(highlightOffset))
@@ -48,6 +50,13 @@ func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, hig
 
 func (s InspectableHexDump) FormattedString() string {
 	return protocol.GetFormattedHexdumpForErrors(s.bytes)
+}
+
+func (s InspectableHexDump) FormmattedStringWithHeading(byteRangeStart int, byteRangeEnd int) string {
+	heading := fmt.Sprintf("Hex (bytes %d-%d)", byteRangeStart, byteRangeEnd)
+	prefixLength := 50 - 2
+	heading += strings.Repeat(" ", prefixLength-len(heading)) + "| ASCII\n"
+	return heading + s.FormattedString()
 }
 
 func (s InspectableHexDump) TruncateAroundOffset(offset int) InspectableHexDump {
