@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"reflect"
-	"sort"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -45,7 +44,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "7d98b8a8-4a42-4ec8-a4fa-bce4c95d18a6",
+					TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c",
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -89,7 +88,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 	msgValues := []string{}
-	expectedMsgValues := []string{"m1", "m2", "m3"}
+	expectedMsgValues := []string{"Hello World!"}
 	for _, topicResponse := range responseBody.TopicResponses {
 		for _, partitionResponse := range topicResponse.PartitionResponses {
 			if len(partitionResponse.RecordBatches) == 0 {
@@ -108,9 +107,6 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			}
 		}
 	}
-
-	sort.Strings(msgValues)
-	sort.Strings(expectedMsgValues)
 
 	if !reflect.DeepEqual(msgValues, expectedMsgValues) {
 		return fmt.Errorf("Expected message values to be %v, got %v", expectedMsgValues, msgValues)
