@@ -42,20 +42,26 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
+	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	err := broker.Send(message)
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+
 	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
 
-	_, err = decoder.GetInt32()
+	logger.Debugf("- .Response")
+	messageLength, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
@@ -63,7 +69,9 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		}
 		return err
 	}
+	protocol.LogWithIndentation(logger, 1, "✔️ .message_length (%d)", messageLength)
 
+	logger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -72,6 +80,8 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		}
 		return err
 	}
+	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
+	logger.ResetSecondaryPrefix()
 
 	if responseCorrelationId != int32(correlationId) {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)

@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
-	"github.com/codecrafters-io/tester-utils/inspectable_byte_string"
 )
 
 type RealDecoder struct {
@@ -489,15 +488,10 @@ func (rd *RealDecoder) FormatDetailedError(message string) error {
 
 	offset := rd.Offset()
 	receivedBytes := rd.raw
-	receivedByteString := inspectable_byte_string.NewInspectableByteString(receivedBytes)
+	receivedByteString := NewInspectableHexDump(receivedBytes)
 
-	suffix := ""
-
-	if len(receivedBytes) == 0 {
-		suffix = " (no content received)"
-	}
-
-	lines = append(lines, receivedByteString.FormatWithHighlightedOffset(offset, "error", "Received: ", suffix))
+	lines = append(lines, "Received:")
+	lines = append(lines, receivedByteString.FormatWithHighlightedOffset(offset))
 	lines = append(lines, message)
 
 	//lint:ignore SA1006 we are okay with this
