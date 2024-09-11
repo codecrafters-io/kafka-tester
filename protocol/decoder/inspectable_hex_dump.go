@@ -27,7 +27,7 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 //
 // > Received: "+OK\r\n"
 // >                 ^ error
-func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, highlightText string) string {
+func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int) string {
 	s = s.TruncateAroundOffset(highlightOffset)
 
 	lines := []string{}
@@ -36,15 +36,12 @@ func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int, hig
 	lines = append(lines, s.FormmattedStringWithHeading(byteRangeStart, byteRangeEnd))
 
 	offsetPointerLine1 := ""
-	offsetPointerLine1 += strings.Repeat(" ", s.GetOffsetInHexdump(highlightOffset))
-	offsetPointerLine1 += "^ " + highlightText
+	offsetPointerLine1 += strings.Repeat(" ", s.GetOffsetInHexdump(highlightOffset)) + "^"
 
-	offsetPointerLine2 := ""
-	offsetPointerLine2 += strings.Repeat(" ", s.GetOffsetInAsciiString(highlightOffset))
-	offsetPointerLine2 += "^ " + highlightText
+	diff := s.GetOffsetInAsciiString(highlightOffset) - len(offsetPointerLine1)
+	offsetPointerLine1 += strings.Repeat(" ", diff) + "^"
 
 	lines = append(lines, offsetPointerLine1)
-	lines = append(lines, offsetPointerLine2)
 	return strings.Join(lines, "\n")
 }
 
