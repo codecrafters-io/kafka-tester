@@ -73,7 +73,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger.Infof("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	logger.Infof("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
 		return err
 	}

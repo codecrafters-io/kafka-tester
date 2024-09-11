@@ -61,8 +61,10 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
 
-	_, err = decoder.GetInt32()
+	logger.Debugf("- .Response")
+	messageLength, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
@@ -70,7 +72,9 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
+	protocol.LogWithIndentation(logger, 1, "✔️ .message_length (%d)", messageLength)
 
+	logger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -79,12 +83,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-
-	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
-	}
-
-	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
 
 	errorCode, err := decoder.GetInt16()
 	if err != nil {
@@ -94,6 +93,14 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
+	protocol.LogWithIndentation(logger, 1, "✔️ .error_code (%d)", errorCode)
+	logger.ResetSecondaryPrefix()
+
+	if responseCorrelationId != int32(correlationId) {
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
+	}
+
+	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
 
 	if errorCode != 35 {
 		return fmt.Errorf("Expected Error code to be 35, got %v", errorCode)
