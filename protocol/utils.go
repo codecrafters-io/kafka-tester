@@ -18,17 +18,6 @@ func PrintHexdump(data []byte) {
 	fmt.Println()
 }
 
-func getFormattedHexdump(data []byte) string {
-	formattedHexdump := ""
-	for i, b := range data {
-		if i%16 == 0 {
-			formattedHexdump += fmt.Sprintf("\n%04x  ", i)
-		}
-		formattedHexdump += fmt.Sprintf("%02x ", b)
-	}
-	return formattedHexdump
-}
-
 func GetFormattedHexdump(data []byte) string {
 	var formattedHexdump strings.Builder
 	var asciiChars strings.Builder
