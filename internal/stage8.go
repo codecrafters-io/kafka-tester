@@ -64,11 +64,14 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
+	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	logger.Infof("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16)
 	if err != nil {
