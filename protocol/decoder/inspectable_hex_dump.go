@@ -73,12 +73,6 @@ func (s InspectableHexDump) GetByteIndicesAfterTruncation(offset int) (int, int)
 	return start, end
 }
 
-// GetOffsetInFormattedString returns a string that represents the byteOffset in the formatted string
-//
-// For example:
-//   - If the string is "+OK\r\n"
-//   - And byteOffset is 4 (i.e. \n, the 5th byte)
-//   - The return value will be 6 (i.e. the 6th character in the formatted string)
 func (s InspectableHexDump) GetOffsetInHexdump(byteOffset int) int {
 	if s.truncationStartIndex != 0 {
 		byteOffset = byteOffset - s.truncationStartIndex
