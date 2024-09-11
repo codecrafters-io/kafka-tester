@@ -60,7 +60,7 @@ func GetFormattedHexdumpForErrors(data []byte) string {
 
 	for i, b := range data {
 		if i%16 == 0 && i != 0 {
-			formattedHexdump.WriteString("  " + asciiChars.String() + "\n")
+			formattedHexdump.WriteString("| " + asciiChars.String() + "\n")
 			asciiChars.Reset()
 		}
 		formattedHexdump.WriteString(fmt.Sprintf("%02x ", b))
@@ -82,7 +82,7 @@ func GetFormattedHexdumpForErrors(data []byte) string {
 	}
 
 	// Add the final ASCII representation
-	formattedHexdump.WriteString("  " + asciiChars.String())
+	formattedHexdump.WriteString("| " + asciiChars.String())
 
 	return formattedHexdump.String()
 }
