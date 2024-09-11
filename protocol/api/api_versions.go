@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func GetAPIVersions(prettyPrint bool) {
@@ -37,14 +38,17 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	return messageBytes
 }
 
-func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, error) {
+func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefix()
 
 	responseHeader := ResponseHeader{}
-	if err := responseHeader.DecodeV0(&decoder); err != nil {
+	logger.Debugf("- .ResponseHeader")
+	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
 		}
 		return nil, err
 	}
@@ -54,22 +58,26 @@ func DecodeApiVersionsHeader(response []byte, version int16) (*ResponseHeader, e
 
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeApiVersionsHeaderAndResponse(response []byte, version int16) (*ResponseHeader, *ApiVersionsResponse, error) {
+func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefix()
 
 	responseHeader := ResponseHeader{}
-	if err := responseHeader.DecodeV0(&decoder); err != nil {
+	logger.Debugf("- .ResponseHeader")
+	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseHeader").WithAddedContext("ApiVersions")
+			return nil, nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
 		}
 		return nil, nil, err
 	}
 
 	apiVersionsResponse := ApiVersionsResponse{Version: version}
-	if err := apiVersionsResponse.Decode(&decoder, version); err != nil {
+	logger.Debugf("- .ResponseBody")
+	if err := apiVersionsResponse.Decode(&decoder, version, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, nil, decodingErr.WithAddedContext("responseBody").WithAddedContext("ApiVersions")
+			return nil, nil, decodingErr.WithAddedContext("Response Body").WithAddedContext("ApiVersions v3")
 		}
 		return nil, nil, err
 	}
@@ -96,7 +104,7 @@ func ApiVersions(b *protocol.Broker, requestBody *ApiVersionsRequestBody) (*ApiV
 		return nil, err
 	}
 
-	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, requestBody.Version)
+	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, requestBody.Version, logger.GetLogger(true, ""))
 	if err != nil {
 		return nil, err
 	}

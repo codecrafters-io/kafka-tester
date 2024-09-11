@@ -23,9 +23,11 @@ func TestStages(t *testing.T) {
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
 }
+
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"": {regexp.MustCompile(`Failed to connect to broker .*`)},
+		"hexdump": {regexp.MustCompile(` [0-9a-fA-F]{4} \| [0-9a-fA-F ]{47} | .*`)},
+		"":        {regexp.MustCompile(`Failed to connect to broker .*`)},
 	}
 
 	for replacement, regexes := range replacements {

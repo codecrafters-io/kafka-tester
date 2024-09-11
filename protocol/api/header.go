@@ -1,9 +1,11 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 // RequestHeader defines the header for a Kafka request
@@ -38,29 +40,39 @@ type ResponseHeader struct {
 	CorrelationId int32
 }
 
-func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder) error {
+func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+			return decodingErr.WithAddedContext("correlation_id")
 		}
 		return err
 	}
 	h.CorrelationId = correlation_id
+	protocol.LogWithIndentation(logger, indentation, "✔️ .correlation_id (%d)", correlation_id)
+
 	return nil
 }
 
-func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder) error {
+func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("correlationId").WithAddedContext("ResponseHeader")
+			return decodingErr.WithAddedContext("correlation_id")
 		}
 		return err
 	}
 	h.CorrelationId = correlation_id
+	protocol.LogWithIndentation(logger, indentation, "✔️ .correlation_id (%d)", correlation_id)
 
-	decoder.GetEmptyTaggedFieldArray()
+	_, err = decoder.GetEmptyTaggedFieldArray()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
 
 	return nil
 }

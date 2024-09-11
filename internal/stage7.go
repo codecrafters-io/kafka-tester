@@ -48,13 +48,16 @@ func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
+	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	logger.Infof("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
 		return err
 	}
@@ -69,10 +72,10 @@ func testEmptyFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	if len(responseBody.Responses) != 0 {
-		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.Responses)
+	if len(responseBody.TopicResponses) != 0 {
+		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.TopicResponses)
 	}
-	logger.Successf("✓ Responses: %v", responseBody.Responses)
+	logger.Successf("✓ Topic responses: %v", responseBody.TopicResponses)
 
 	return nil
 }

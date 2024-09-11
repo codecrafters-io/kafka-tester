@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"reflect"
-	"sort"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -45,7 +44,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "7d98b8a8-4a42-4ec8-a4fa-bce4c95d18a6",
+					TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c",
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -64,13 +63,16 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
+	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
+	logger.Infof("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	logger.Infof("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
 		return err
 	}
@@ -86,17 +88,17 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 	msgValues := []string{}
-	expectedMsgValues := []string{"m1", "m2", "m3"}
-	for _, topic := range responseBody.Responses {
-		for _, partition := range topic.Partitions {
-			if len(partition.Records) == 0 {
-				return fmt.Errorf("Expected partition.Records to have length greater than 0, got %v", len(partition.Records))
+	expectedMsgValues := []string{"Hello World!"}
+	for _, topicResponse := range responseBody.TopicResponses {
+		for _, partitionResponse := range topicResponse.PartitionResponses {
+			if len(partitionResponse.RecordBatches) == 0 {
+				return fmt.Errorf("Expected partition.RecordBatches to have length greater than 0, got %v", len(partitionResponse.RecordBatches))
 			}
-			for _, record := range partition.Records {
-				if len(record.Records) == 0 {
-					return fmt.Errorf("Expected record.Records to have length greater than 0, got %v", len(record.Records))
+			for _, recordBatch := range partitionResponse.RecordBatches {
+				if len(recordBatch.Records) == 0 {
+					return fmt.Errorf("Expected recordBatch.Records to have length greater than 0, got %v", len(recordBatch.Records))
 				}
-				for _, r := range record.Records {
+				for _, r := range recordBatch.Records {
 					if r.Value == nil {
 						return fmt.Errorf("Expected record.Value to not be nil")
 					}
@@ -105,9 +107,6 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			}
 		}
 	}
-
-	sort.Strings(msgValues)
-	sort.Strings(expectedMsgValues)
 
 	if !reflect.DeepEqual(msgValues, expectedMsgValues) {
 		return fmt.Errorf("Expected message values to be %v, got %v", expectedMsgValues, msgValues)
