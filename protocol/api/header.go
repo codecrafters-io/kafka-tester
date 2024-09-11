@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 // RequestHeader defines the header for a Kafka request
@@ -50,7 +51,7 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder) error {
 	return nil
 }
 
-func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder) error {
+func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -59,8 +60,16 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder) error {
 		return err
 	}
 	h.CorrelationId = correlation_id
+	logWithIndentation(logger, indentation, "✔️ .correlation_id (%d)", correlation_id)
 
-	decoder.GetEmptyTaggedFieldArray()
+	_, err = decoder.GetEmptyTaggedFieldArray()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	logWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
 
 	return nil
 }
