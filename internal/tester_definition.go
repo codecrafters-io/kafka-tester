@@ -46,7 +46,11 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "dh6",
-			TestFunc: testEmptyFetch,
+			TestFunc: testFetchWithNoTopics,
+		},
+		{
+			Slug:     "hn6",
+			TestFunc: testFetchWithEmptyTopic,
 		},
 		{
 			Slug:     "cm4",
