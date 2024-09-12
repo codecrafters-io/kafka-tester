@@ -18,6 +18,7 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 	logger := stageHarness.Logger
 
 	correlationId := getRandomCorrelationId()
+	UUID := "00000000-0000-0000-0000-000000000001"
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
@@ -41,7 +42,7 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "00000000-0000-0000-0000-000000000001",
+					TopicUUID: UUID,
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -92,6 +93,11 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 	if len(topicResponse.PartitionResponses) != 1 {
 		return fmt.Errorf("Expected PartitionResponses to have length 1, got %v", len(topicResponse.PartitionResponses))
 	}
+
+	if topicResponse.Topic != UUID {
+		return fmt.Errorf("Expected Topic to be empty, got %v", topicResponse.Topic)
+	}
+	logger.Successf("✓ Topic UUID: %v", topicResponse.Topic)
 
 	partitionResponse := topicResponse.PartitionResponses[0]
 
