@@ -19,7 +19,7 @@ Debug = true
 [33m[stage-10] [0m[94mHexdump of received "Fetch" response: [0m
 [33m[stage-10] [0m[94mIdx  | Hex                                             | ASCII[0m
 [33m[stage-10] [0m[94m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-10] [0m[94m0000 | d5 7d 13 6d 00 00 00 00 00 00 00 01 02 40 33 02 | .}.m.........@3.[0m
+[33m[stage-10] [0m[94m0000 | d5 7d 13 6d 00 00 00 00 00 00 00 06 bf 6c 82 02 | .}.m.........l..[0m
 [33m[stage-10] [0m[94m0010 | bf d9 9e 5e 32 35 45 52 81 f8 d4 af 17 41 97 0c | ...^25ER.....A..[0m
 [33m[stage-10] [0m[94m0020 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 | ................[0m
 [33m[stage-10] [0m[94m0030 | 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 | ................[0m
@@ -36,7 +36,7 @@ Debug = true
 [33m[stage-10] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-10] [Decoder] [0m[36m  ✔️ .session_id (16924723)[0m
+[33m[stage-10] [Decoder] [0m[36m  ✔️ .session_id (113208450)[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .num_responses (1)[0m
 [33m[stage-10] [Decoder] [0m[36m  - .TopicResponse[0][0m
 [33m[stage-10] [Decoder] [0m[36m    ✔️ .topic_id (bfd99e5e-3235-4552-81f8-d4af1741970c)[0m
@@ -100,7 +100,7 @@ Debug = true
 [33m[stage-9] [0m[94mHexdump of received "Fetch" response: [0m
 [33m[stage-9] [0m[94mIdx  | Hex                                             | ASCII[0m
 [33m[stage-9] [0m[94m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-9] [0m[94m0000 | a7 b9 77 60 00 00 00 00 00 00 00 1c ba 4b 06 01 | ..w`.........K..[0m
+[33m[stage-9] [0m[94m0000 | a7 b9 77 60 00 00 00 00 00 00 00 18 fd f5 14 01 | ..w`............[0m
 [33m[stage-9] [0m[94m0010 | 00                                              | .[0m
 [33m[stage-9] [0m[94m[0m
 [33m[stage-9] [Decoder] [0m[36m- .ResponseHeader[0m
@@ -109,7 +109,7 @@ Debug = true
 [33m[stage-9] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-9] [Decoder] [0m[36m  ✔️ .session_id (481970950)[0m
+[33m[stage-9] [Decoder] [0m[36m  ✔️ .session_id (419296532)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .num_responses (0)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
 [33m[stage-9] [0m[92m✓ Correlation ID: -1481017504[0m
@@ -162,7 +162,7 @@ Debug = true
 [33m[stage-8] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-8] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-8] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-8] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-8] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-8] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-8] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-8] [0m[94m[0m
@@ -530,7 +530,7 @@ Debug = true
 [33m[stage-7] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-7] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-7] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-7] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-7] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-7] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-7] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-7] [0m[94m[0m
@@ -839,9 +839,7 @@ Debug = true
 [33m[stage-7] [0m[92m✓ Correlation ID: -488288628[0m
 [33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-7] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-7] [0m[92m[0m
 [33m[stage-7] [0m[94mHexdump of received "ApiVersions" response: [0m
 [33m[stage-7] [0m[94mIdx  | Hex                                             | ASCII[0m
 [33m[stage-7] [0m[94m-----+-------------------------------------------------+-----------------[0m
@@ -873,7 +871,7 @@ Debug = true
 [33m[stage-7] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-7] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-7] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-7] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-7] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-7] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-7] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-7] [0m[94m[0m
@@ -1182,9 +1180,7 @@ Debug = true
 [33m[stage-7] [0m[92m✓ Correlation ID: 1743371062[0m
 [33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-7] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-7] [0m[92m[0m
 [33m[stage-7] [0m[92mTest passed.[0m
 [33m[stage-7] [0m[36mTerminating program[0m
 [33m[stage-7] [0m[36mProgram terminated successfully[0m
@@ -1232,7 +1228,7 @@ Debug = true
 [33m[stage-6] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-6] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-6] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-6] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-6] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-6] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-6] [0m[94m[0m
@@ -1541,7 +1537,6 @@ Debug = true
 [33m[stage-6] [0m[92m✓ Correlation ID: 1326167655[0m
 [33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-6] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
 [33m[stage-6] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: -364544713)[0m
 [33m[stage-6] [0m[94mHexdump of sent "ApiVersions" request: [0m
@@ -1582,7 +1577,7 @@ Debug = true
 [33m[stage-6] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-6] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-6] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-6] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-6] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-6] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-6] [0m[94m[0m
@@ -1891,7 +1886,6 @@ Debug = true
 [33m[stage-6] [0m[92m✓ Correlation ID: -364544713[0m
 [33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-6] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
 [33m[stage-6] [0m[92mTest passed.[0m
 [33m[stage-6] [0m[36mTerminating program[0m
@@ -1940,7 +1934,7 @@ Debug = true
 [33m[stage-5] [0m[94m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-5] [0m[94m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-5] [0m[94m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-5] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 06 e5 02 17 02 11 | ................[0m
+[33m[stage-5] [0m[94m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ad 02 17 02 11 | ................[0m
 [33m[stage-5] [0m[94m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-5] [0m[94m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-5] [0m[94m[0m
@@ -2326,7 +2320,7 @@ Debug = true
 [33m[stage-3] [0m[94m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
 [33m[stage-3] [0m[94m01a0 | 00 00 4b 00 00 00 00 00 00 00 00 00 03 00 17 02 | ..K.............[0m
 [33m[stage-3] [0m[94m01b0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-3] [0m[94m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 06 e5 | n...............[0m
+[33m[stage-3] [0m[94m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 b7 | n...............[0m
 [33m[stage-3] [0m[94m01d0 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-3] [0m[94m01e0 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-3] [0m[94m[0m
@@ -2382,7 +2376,7 @@ Debug = true
 [33m[stage-2] [0m[94m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
 [33m[stage-2] [0m[94m01a0 | 00 00 4b 00 00 00 00 00 00 00 00 00 03 00 17 02 | ..K.............[0m
 [33m[stage-2] [0m[94m01b0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-2] [0m[94m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 06 e5 | n...............[0m
+[33m[stage-2] [0m[94m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 b7 | n...............[0m
 [33m[stage-2] [0m[94m01d0 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-2] [0m[94m01e0 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-2] [0m[94m[0m
