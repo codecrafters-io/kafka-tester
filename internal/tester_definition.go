@@ -33,6 +33,14 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testAPIVersion,
 		},
 		{
+			Slug:     "nh4",
+			TestFunc: testSequentialRequests,
+		},
+		{
+			Slug:     "sk0",
+			TestFunc: testConcurrentRequests,
+		},
+		{
 			Slug:     "gs0",
 			TestFunc: testAPIVersionwFetchKey,
 		},
@@ -43,6 +51,14 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "cm4",
 			TestFunc: testFetch,
+		},
+		{
+			Slug:     "eg2",
+			TestFunc: testSingleFetchFromDisk,
+		},
+		{
+			Slug:     "fd8",
+			TestFunc: testMultiFetchFromDisk,
 		},
 	},
 }

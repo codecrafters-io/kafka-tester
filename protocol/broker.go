@@ -99,7 +99,7 @@ func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	response, err := b.receive()
+	response, err := b.Receive()
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +129,7 @@ func (b *Broker) Send(message []byte) error {
 	return nil
 }
 
-func (b *Broker) receive() ([]byte, error) {
+func (b *Broker) Receive() ([]byte, error) {
 	response := make([]byte, 4) // length
 	_, err := b.conn.Read(response)
 	if err != nil {

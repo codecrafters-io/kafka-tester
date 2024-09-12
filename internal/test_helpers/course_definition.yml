@@ -205,6 +205,10 @@ stages:
     marketing_md: |-
       In this stage, you'll need to implement the `APIVersions:V3` response.
 
+  - slug: "nh4"
+
+  - slug: "sk0"
+
   - slug: "gs0"
     name: "Include Fetch in the APIVersions response"
     difficulty: medium
@@ -313,3 +317,7 @@ stages:
 
     marketing_md: |-
       In this stage, you'll implement the Fetch response for a topic with multiple messages.
+
+  - slug: "eg2"
+
+  - slug: "fd8"
