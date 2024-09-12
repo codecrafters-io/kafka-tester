@@ -1,98 +1,14 @@
 Debug = true
 
-[33m[stage-11] [0m[94mRunning tests for Stage #11: cm4[0m
-[33m[stage-11] [0m[94m$ ./your_program.sh[0m
-[33m[stage-11] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[stage-11] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-11] [0m[94mSending "Fetch" (version: 16) request (Correlation id: -713223315)[0m
-[33m[stage-11] [0m[36mHexdump of sent "Fetch" request: [0m
-[33m[stage-11] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-11] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-11] [0m[36m0000 | 00 00 00 60 00 01 00 10 d5 7d 13 6d 00 09 6b 61 | ...`.....}.m..ka[0m
-[33m[stage-11] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
-[33m[stage-11] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 bf d9 | . ..............[0m
-[33m[stage-11] [0m[36m0030 | 9e 5e 32 35 45 52 81 f8 d4 af 17 41 97 0c 02 00 | .^25ER.....A....[0m
-[33m[stage-11] [0m[36m0040 | 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 ff | ................[0m
-[33m[stage-11] [0m[36m0050 | ff ff ff ff ff ff ff ff ff ff ff 00 10 00 00 00 | ................[0m
-[33m[stage-11] [0m[36m0060 | 00 01 01 00                                     | ....[0m
-[33m[stage-11] [0m[36m[0m
-[33m[stage-11] [0m[36mHexdump of received "Fetch" response: [0m
-[33m[stage-11] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-11] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-11] [0m[36m0000 | d5 7d 13 6d 00 00 00 00 00 00 00 06 6c 76 c6 02 | .}.m........lv..[0m
-[33m[stage-11] [0m[36m0010 | bf d9 9e 5e 32 35 45 52 81 f8 d4 af 17 41 97 0c | ...^25ER.....A..[0m
-[33m[stage-11] [0m[36m0020 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 | ................[0m
-[33m[stage-11] [0m[36m0030 | 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 | ................[0m
-[33m[stage-11] [0m[36m0040 | ff ff ff ff 51 00 00 00 00 00 00 00 00 00 00 00 | ....Q...........[0m
-[33m[stage-11] [0m[36m0050 | 44 00 00 00 00 02 98 ec 18 d3 00 00 00 00 00 00 | D...............[0m
-[33m[stage-11] [0m[36m0060 | 00 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b | .....[m......[m.[0m
-[33m[stage-11] [0m[36m0070 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
-[33m[stage-11] [0m[36m0080 | 00 01 24 00 00 00 01 18 48 65 6c 6c 6f 20 57 6f | ..$.....Hello Wo[0m
-[33m[stage-11] [0m[36m0090 | 72 6c 64 21 00 00 00 00                         | rld!....[0m
-[33m[stage-11] [0m[36m[0m
-[33m[stage-11] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .correlation_id (-713223315)[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-11] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .session_id (107771590)[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .num_responses (1)[0m
-[33m[stage-11] [Decoder] [0m[36m  - .TopicResponse[0][0m
-[33m[stage-11] [Decoder] [0m[36m    ✔️ .topic_id (bfd99e5e-3235-4552-81f8-d4af1741970c)[0m
-[33m[stage-11] [Decoder] [0m[36m    ✔️ .num_partitions (1)[0m
-[33m[stage-11] [Decoder] [0m[36m    - .PartitionResponse[0][0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .high_watermark (1)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .last_stable_offset (1)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .log_start_offset (0)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .num_aborted_transactions (0)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .preferred_read_replica (-1)[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .compact_records_length (80)[0m
-[33m[stage-11] [Decoder] [0m[36m      - .RecordBatch[0][0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .base_offset (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .batch_length (68)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .partition_leader_epoch (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .magic_byte (2)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .crc (-1729357613)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .record_attributes (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .last_offset_delta (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .base_timestamp (1726045973899)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .max_timestamp (1726045973899)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .producer_id (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .producer_epoch (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .base_sequence (0)[0m
-[33m[stage-11] [Decoder] [0m[36m        ✔️ .num_records (1)[0m
-[33m[stage-11] [Decoder] [0m[36m        - .Record[0][0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .length (36)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .attributes (0)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .timestamp_delta (0)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .offset_delta (0)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .key_length (-1)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .key[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .value_length (12)[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .value[0m
-[33m[stage-11] [Decoder] [0m[36m          ✔️ .TAG_BUFFER[0m
-[33m[stage-11] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
-[33m[stage-11] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-11] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-11] [0m[92m✓ Correlation ID: -713223315[0m
-[33m[stage-11] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-11] [0m[92m✓ Messages: ["Hello World!"][0m
-[33m[stage-11] [0m[92mTest passed.[0m
-[33m[stage-11] [0m[36mTerminating program[0m
-[33m[stage-11] [0m[36mProgram terminated successfully[0m
-
 [33m[stage-10] [0m[94mRunning tests for Stage #10: hn6[0m
 [33m[stage-10] [0m[94m$ ./your_program.sh[0m
 [33m[stage-10] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-10] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-10] [0m[94mSending "Fetch" (version: 16) request (Correlation id: -1481017504)[0m
+[33m[stage-10] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 177586623)[0m
 [33m[stage-10] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-10] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-10] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-10] [0m[36m0000 | 00 00 00 60 00 01 00 10 a7 b9 77 60 00 09 6b 61 | ...`......w`..ka[0m
+[33m[stage-10] [0m[36m0000 | 00 00 00 60 00 01 00 10 0a 95 c1 bf 00 09 6b 61 | ...`..........ka[0m
 [33m[stage-10] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
 [33m[stage-10] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 00 00 | . ..............[0m
 [33m[stage-10] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 01 02 00 | ................[0m
@@ -103,19 +19,19 @@ Debug = true
 [33m[stage-10] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-10] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-10] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-10] [0m[36m0000 | a7 b9 77 60 00 00 00 00 00 00 00 1a f1 39 60 02 | ..w`.........9`.[0m
+[33m[stage-10] [0m[36m0000 | 0a 95 c1 bf 00 00 00 00 00 00 00 05 f0 d6 a3 02 | ................[0m
 [33m[stage-10] [0m[36m0010 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 | ................[0m
 [33m[stage-10] [0m[36m0020 | 02 00 00 00 00 00 64 ff ff ff ff ff ff ff ff ff | ......d.........[0m
 [33m[stage-10] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 | ................[0m
 [33m[stage-10] [0m[36m0040 | ff ff ff ff 01 00 00 00                         | ........[0m
 [33m[stage-10] [0m[36m[0m
 [33m[stage-10] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-10] [Decoder] [0m[36m  ✔️ .correlation_id (-1481017504)[0m
+[33m[stage-10] [Decoder] [0m[36m  ✔️ .correlation_id (177586623)[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
 [33m[stage-10] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-10] [Decoder] [0m[36m  ✔️ .session_id (452016480)[0m
+[33m[stage-10] [Decoder] [0m[36m  ✔️ .session_id (99669667)[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .num_responses (1)[0m
 [33m[stage-10] [Decoder] [0m[36m  - .TopicResponse[0][0m
 [33m[stage-10] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-0000-0000-000000000001)[0m
@@ -132,8 +48,9 @@ Debug = true
 [33m[stage-10] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
 [33m[stage-10] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
 [33m[stage-10] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-10] [0m[92m✓ Correlation ID: -1481017504[0m
+[33m[stage-10] [0m[92m✓ Correlation ID: 177586623[0m
 [33m[stage-10] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
+[33m[stage-10] [0m[92m✓ Topic UUID: 00000000-0000-0000-0000-000000000001[0m
 [33m[stage-10] [0m[92m✓ PartitionResponse Error code: 100 (UNKNOWN_TOPIC_ID)[0m
 [33m[stage-10] [0m[92m✓ RecordBatches: [][0m
 [33m[stage-10] [0m[92mTest passed.[0m
@@ -144,11 +61,11 @@ Debug = true
 [33m[stage-9] [0m[94m$ ./your_program.sh[0m
 [33m[stage-9] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-9] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-9] [0m[94mSending "Fetch" (version: 16) request (Correlation id: -198843362)[0m
+[33m[stage-9] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1616512461)[0m
 [33m[stage-9] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-9] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-9] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-9] [0m[36m0000 | 00 00 00 30 00 01 00 10 f4 25 e4 1e 00 0c 6b 61 | ...0.....%....ka[0m
+[33m[stage-9] [0m[36m0000 | 00 00 00 30 00 01 00 10 60 5a 05 cd 00 0c 6b 61 | ...0....`Z....ka[0m
 [33m[stage-9] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 f4 00 | fka-tester......[0m
 [33m[stage-9] [0m[36m0020 | 00 00 01 03 20 00 00 00 00 00 00 00 00 00 00 00 | .... ...........[0m
 [33m[stage-9] [0m[36m0030 | 01 01 01 00                                     | ....[0m
@@ -156,19 +73,19 @@ Debug = true
 [33m[stage-9] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-9] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-9] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-9] [0m[36m0000 | f4 25 e4 1e 00 00 00 00 00 00 00 2d 49 26 e5 01 | .%.........-I&..[0m
+[33m[stage-9] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 00 00 1d c0 91 fa 01 | `Z..............[0m
 [33m[stage-9] [0m[36m0010 | 00                                              | .[0m
 [33m[stage-9] [0m[36m[0m
 [33m[stage-9] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-9] [Decoder] [0m[36m  ✔️ .correlation_id (-198843362)[0m
+[33m[stage-9] [Decoder] [0m[36m  ✔️ .correlation_id (1616512461)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
 [33m[stage-9] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-9] [Decoder] [0m[36m  ✔️ .session_id (759768805)[0m
+[33m[stage-9] [Decoder] [0m[36m  ✔️ .session_id (499159546)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .num_responses (0)[0m
 [33m[stage-9] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-9] [0m[92m✓ Correlation ID: -198843362[0m
+[33m[stage-9] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[stage-9] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-9] [0m[92m✓ Topic responses: [][0m
 [33m[stage-9] [0m[92mTest passed.[0m
@@ -179,18 +96,18 @@ Debug = true
 [33m[stage-8] [0m[94m$ ./your_program.sh[0m
 [33m[stage-8] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-8] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-8] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: 806511965)[0m
+[33m[stage-8] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: 96710698)[0m
 [33m[stage-8] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-8] [0m[36m0000 | 00 00 00 23 00 12 00 03 30 12 65 5d 00 09 6b 61 | ...#....0.e]..ka[0m
+[33m[stage-8] [0m[36m0000 | 00 00 00 23 00 12 00 03 05 c3 b0 2a 00 09 6b 61 | ...#.......*..ka[0m
 [33m[stage-8] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-8] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-8] [0m[36m[0m
 [33m[stage-8] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-8] [0m[36m0000 | 30 12 65 5d 00 00 3c 00 00 00 00 00 0b 00 00 01 | 0.e]..<.........[0m
+[33m[stage-8] [0m[36m0000 | 05 c3 b0 2a 00 00 3c 00 00 00 00 00 0b 00 00 01 | ...*..<.........[0m
 [33m[stage-8] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
 [33m[stage-8] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
 [33m[stage-8] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
@@ -218,12 +135,12 @@ Debug = true
 [33m[stage-8] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-8] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-8] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-8] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
+[33m[stage-8] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
 [33m[stage-8] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-8] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-8] [0m[36m[0m
 [33m[stage-8] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-8] [Decoder] [0m[36m  ✔️ .correlation_id (806511965)[0m
+[33m[stage-8] [Decoder] [0m[36m  ✔️ .correlation_id (96710698)[0m
 [33m[stage-8] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-8] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
 [33m[stage-8] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
@@ -524,7 +441,7 @@ Debug = true
 [33m[stage-8] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
 [33m[stage-8] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-8] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-8] [0m[92m✓ Correlation ID: 806511965[0m
+[33m[stage-8] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[stage-8] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-8] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-8] [0m[92m✓ API version 16 is supported for FETCH[0m
@@ -539,9 +456,15 @@ Debug = true
 [33m[stage-7] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-7] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-7] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-7] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[stage-7] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-7] [0m[94mSending request 1 of 3: "ApiVersions" (version: 3) request (Correlation id: 1743371062)[0m
+[33m[stage-7] [0m[94mSending request 1 of 2: "ApiVersions" (version: 3) request (Correlation id: -488288628)[0m
+[33m[stage-7] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[stage-7] [0m[36m0000 | 00 00 00 23 00 12 00 03 e2 e5 4e 8c 00 09 6b 61 | ...#......N...ka[0m
+[33m[stage-7] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
+[33m[stage-7] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
+[33m[stage-7] [0m[36m[0m
+[33m[stage-7] [0m[94mSending request 2 of 2: "ApiVersions" (version: 3) request (Correlation id: 1743371062)[0m
 [33m[stage-7] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -549,706 +472,6 @@ Debug = true
 [33m[stage-7] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-7] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-7] [0m[36m[0m
-[33m[stage-7] [0m[94mSending request 2 of 3: "ApiVersions" (version: 3) request (Correlation id: -637123654)[0m
-[33m[stage-7] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-7] [0m[36m0000 | 00 00 00 23 00 12 00 03 da 06 43 ba 00 09 6b 61 | ...#......C...ka[0m
-[33m[stage-7] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-7] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
-[33m[stage-7] [0m[36m[0m
-[33m[stage-7] [0m[94mSending request 3 of 3: "ApiVersions" (version: 3) request (Correlation id: 1326167655)[0m
-[33m[stage-7] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-7] [0m[36m0000 | 00 00 00 23 00 12 00 03 4f 0b b6 67 00 09 6b 61 | ...#....O..g..ka[0m
-[33m[stage-7] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-7] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
-[33m[stage-7] [0m[36m[0m
-[33m[stage-7] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-7] [0m[36m0000 | 4f 0b b6 67 00 00 3c 00 00 00 00 00 0b 00 00 01 | O..g..<.........[0m
-[33m[stage-7] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
-[33m[stage-7] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
-[33m[stage-7] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
-[33m[stage-7] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
-[33m[stage-7] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
-[33m[stage-7] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 03 00 | ................[0m
-[33m[stage-7] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
-[33m[stage-7] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
-[33m[stage-7] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
-[33m[stage-7] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
-[33m[stage-7] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
-[33m[stage-7] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
-[33m[stage-7] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
-[33m[stage-7] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
-[33m[stage-7] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
-[33m[stage-7] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
-[33m[stage-7] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
-[33m[stage-7] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
-[33m[stage-7] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
-[33m[stage-7] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
-[33m[stage-7] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 01 00 00 39 | .3......7......9[0m
-[33m[stage-7] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
-[33m[stage-7] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
-[33m[stage-7] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
-[33m[stage-7] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
-[33m[stage-7] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
-[33m[stage-7] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-7] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
-[33m[stage-7] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
-[33m[stage-7] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
-[33m[stage-7] [0m[36m[0m
-[33m[stage-7] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .correlation_id (1326167655)[0m
-[33m[stage-7] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (11)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[1][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (16)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[2][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (8)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[3][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (12)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[4][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (8)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[5][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[6][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (10)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[7][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (11)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[8][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (12)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[9][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (13)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[10][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (14)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[11][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (15)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[12][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (16)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[13][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (17)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[14][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (18)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[15][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (19)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (7)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[16][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (20)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (6)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[17][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (21)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[18][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (22)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[19][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (23)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[20][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (24)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[21][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (25)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[22][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (26)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[23][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (27)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[24][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (28)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[25][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (29)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[26][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (30)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[27][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (31)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[28][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (32)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[29][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (33)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[30][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (34)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[31][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (35)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[32][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (36)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[33][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (37)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[34][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (38)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[35][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (39)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[36][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (40)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[37][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (41)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[38][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (42)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[39][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (43)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[40][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (44)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[41][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (45)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[42][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (46)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[43][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (47)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[44][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (48)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[45][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (49)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[46][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (50)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[47][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (51)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[48][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (55)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[49][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (57)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[50][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (60)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[51][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (61)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[52][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (64)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[53][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (65)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[54][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (66)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[55][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (68)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[56][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (69)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[57][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (74)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[58][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (75)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [0m[92m✓ Correlation ID: 1326167655[0m
-[33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-7] [0m[92m✓ Test 3 of 3: Passed[0m
-[33m[stage-7] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-7] [0m[36m0000 | da 06 43 ba 00 00 3c 00 00 00 00 00 0b 00 00 01 | ..C...<.........[0m
-[33m[stage-7] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
-[33m[stage-7] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
-[33m[stage-7] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
-[33m[stage-7] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
-[33m[stage-7] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
-[33m[stage-7] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 03 00 | ................[0m
-[33m[stage-7] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
-[33m[stage-7] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
-[33m[stage-7] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
-[33m[stage-7] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
-[33m[stage-7] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
-[33m[stage-7] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
-[33m[stage-7] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
-[33m[stage-7] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
-[33m[stage-7] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
-[33m[stage-7] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
-[33m[stage-7] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
-[33m[stage-7] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
-[33m[stage-7] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
-[33m[stage-7] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
-[33m[stage-7] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 01 00 00 39 | .3......7......9[0m
-[33m[stage-7] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
-[33m[stage-7] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
-[33m[stage-7] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
-[33m[stage-7] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
-[33m[stage-7] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
-[33m[stage-7] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-7] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
-[33m[stage-7] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
-[33m[stage-7] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
-[33m[stage-7] [0m[36m[0m
-[33m[stage-7] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .correlation_id (-637123654)[0m
-[33m[stage-7] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (11)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[1][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (16)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[2][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (8)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[3][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (12)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[4][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (8)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[5][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[6][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (10)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[7][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (11)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[8][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (12)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[9][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (13)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[10][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (14)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[11][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (15)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[12][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (16)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[13][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (17)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[14][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (18)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[15][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (19)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (7)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[16][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (20)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (6)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[17][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (21)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[18][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (22)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[19][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (23)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[20][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (24)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[21][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (25)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[22][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (26)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[23][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (27)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[24][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (28)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[25][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (29)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[26][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (30)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[27][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (31)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[28][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (32)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[29][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (33)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[30][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (34)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[31][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (35)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[32][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (36)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[33][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (37)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[34][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (38)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[35][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (39)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[36][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (40)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[37][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (41)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[38][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (42)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[39][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (43)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[40][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (44)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[41][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (45)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[42][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (46)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[43][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (47)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[44][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (48)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[45][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (49)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[46][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (50)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[47][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (51)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[48][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (55)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[49][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (57)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[50][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (60)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[51][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (61)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[52][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (64)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[53][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (65)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[54][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (66)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[55][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (68)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[56][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (69)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[57][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (74)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[58][0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (75)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
-[33m[stage-7] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-7] [0m[92m✓ Correlation ID: -637123654[0m
-[33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-7] [0m[92m✓ Test 2 of 3: Passed[0m
 [33m[stage-7] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -1280,7 +503,7 @@ Debug = true
 [33m[stage-7] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-7] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-7] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-7] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
+[33m[stage-7] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
 [33m[stage-7] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-7] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-7] [0m[36m[0m
@@ -1590,7 +813,349 @@ Debug = true
 [33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-7] [0m[92m✓ Test 1 of 3: Passed[0m
+[33m[stage-7] [0m[92m✓ Test 2 of 2: Passed[0m
+[33m[stage-7] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[stage-7] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[stage-7] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[stage-7] [0m[36m0000 | e2 e5 4e 8c 00 00 3c 00 00 00 00 00 0b 00 00 01 | ..N...<.........[0m
+[33m[stage-7] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
+[33m[stage-7] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
+[33m[stage-7] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
+[33m[stage-7] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
+[33m[stage-7] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
+[33m[stage-7] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 03 00 | ................[0m
+[33m[stage-7] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
+[33m[stage-7] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
+[33m[stage-7] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
+[33m[stage-7] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
+[33m[stage-7] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
+[33m[stage-7] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
+[33m[stage-7] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
+[33m[stage-7] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
+[33m[stage-7] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
+[33m[stage-7] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
+[33m[stage-7] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
+[33m[stage-7] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
+[33m[stage-7] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
+[33m[stage-7] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
+[33m[stage-7] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 01 00 00 39 | .3......7......9[0m
+[33m[stage-7] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
+[33m[stage-7] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
+[33m[stage-7] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
+[33m[stage-7] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
+[33m[stage-7] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
+[33m[stage-7] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
+[33m[stage-7] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
+[33m[stage-7] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
+[33m[stage-7] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
+[33m[stage-7] [0m[36m[0m
+[33m[stage-7] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[stage-7] [Decoder] [0m[36m  ✔️ .correlation_id (-488288628)[0m
+[33m[stage-7] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[stage-7] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
+[33m[stage-7] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[0][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (11)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[1][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (16)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[2][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (8)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[3][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (12)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[4][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (8)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[5][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (9)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[6][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (10)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[7][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (11)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[8][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (12)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[9][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (13)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[10][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (14)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[11][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (15)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[12][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (16)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[13][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (17)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[14][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (18)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[15][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (19)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (7)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[16][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (20)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (6)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[17][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (21)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[18][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (22)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[19][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (23)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[20][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (24)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[21][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (25)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[22][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (26)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[23][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (27)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[24][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (28)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[25][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (29)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[26][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (30)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[27][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (31)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[28][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (32)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[29][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (33)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[30][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (34)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[31][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (35)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[32][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (36)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[33][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (37)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[34][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (38)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[35][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (39)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[36][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (40)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[37][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (41)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[38][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (42)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[39][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (43)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[40][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (44)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[41][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (45)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[42][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (46)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[43][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (47)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[44][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (48)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[45][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (49)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[46][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (50)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[47][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (51)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[48][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (55)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[49][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (57)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[50][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (60)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[51][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (61)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[52][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (64)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[53][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (65)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[54][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (66)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[55][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (68)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[56][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (69)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[57][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (74)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  - .ApiKeys[58][0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .api_key (75)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
+[33m[stage-7] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
+[33m[stage-7] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-7] [0m[92m✓ Correlation ID: -488288628[0m
+[33m[stage-7] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
+[33m[stage-7] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-7] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
+[33m[stage-7] [0m[92m✓ Test 1 of 2: Passed[0m
 [33m[stage-7] [0m[92mTest passed.[0m
 [33m[stage-7] [0m[36mTerminating program[0m
 [33m[stage-7] [0m[36mProgram terminated successfully[0m
@@ -1599,18 +1164,18 @@ Debug = true
 [33m[stage-6] [0m[94m$ ./your_program.sh[0m
 [33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-6] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-6] [0m[94mSending request 1 of 4: "ApiVersions" (version: 3) request (Correlation id: -603145331)[0m
+[33m[stage-6] [0m[94mSending request 1 of 2: "ApiVersions" (version: 3) request (Correlation id: 920599922)[0m
 [33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 dc 0c bb 8d 00 09 6b 61 | ...#..........ka[0m
+[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 36 df 3d 72 00 09 6b 61 | ...#....6.=r..ka[0m
 [33m[stage-6] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-6] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-6] [0m[36m[0m
 [33m[stage-6] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | dc 0c bb 8d 00 00 3c 00 00 00 00 00 0b 00 00 01 | ......<.........[0m
+[33m[stage-6] [0m[36m0000 | 36 df 3d 72 00 00 3c 00 00 00 00 00 0b 00 00 01 | 6.=r..<.........[0m
 [33m[stage-6] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
 [33m[stage-6] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
 [33m[stage-6] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
@@ -1638,12 +1203,12 @@ Debug = true
 [33m[stage-6] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-6] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-6] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
+[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
 [33m[stage-6] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-6] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-6] [0m[36m[0m
 [33m[stage-6] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (-603145331)[0m
+[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (920599922)[0m
 [33m[stage-6] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
@@ -1944,23 +1509,23 @@ Debug = true
 [33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [0m[92m✓ Correlation ID: -603145331[0m
+[33m[stage-6] [0m[92m✓ Correlation ID: 920599922[0m
 [33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-6] [0m[92m✓ Test 1 of 4: Passed[0m
-[33m[stage-6] [0m[94mSending request 2 of 4: "ApiVersions" (version: 3) request (Correlation id: -1708295437)[0m
+[33m[stage-6] [0m[92m✓ Test 1 of 2: Passed[0m
+[33m[stage-6] [0m[94mSending request 2 of 2: "ApiVersions" (version: 3) request (Correlation id: 152863943)[0m
 [33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 9a 2d 7a f3 00 09 6b 61 | ...#.....-z...ka[0m
+[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 09 1c 84 c7 00 09 6b 61 | ...#..........ka[0m
 [33m[stage-6] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-6] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-6] [0m[36m[0m
 [33m[stage-6] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 9a 2d 7a f3 00 00 3c 00 00 00 00 00 0b 00 00 01 | .-z...<.........[0m
+[33m[stage-6] [0m[36m0000 | 09 1c 84 c7 00 00 3c 00 00 00 00 00 0b 00 00 01 | ......<.........[0m
 [33m[stage-6] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
 [33m[stage-6] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
 [33m[stage-6] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
@@ -1988,12 +1553,12 @@ Debug = true
 [33m[stage-6] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-6] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-6] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
+[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
 [33m[stage-6] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-6] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-6] [0m[36m[0m
 [33m[stage-6] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (-1708295437)[0m
+[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (152863943)[0m
 [33m[stage-6] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
@@ -2294,711 +1859,11 @@ Debug = true
 [33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-6] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [0m[92m✓ Correlation ID: -1708295437[0m
+[33m[stage-6] [0m[92m✓ Correlation ID: 152863943[0m
 [33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-6] [0m[92m✓ Test 2 of 4: Passed[0m
-[33m[stage-6] [0m[94mSending request 3 of 4: "ApiVersions" (version: 3) request (Correlation id: 2114261907)[0m
-[33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 7e 05 13 93 00 09 6b 61 | ...#....~.....ka[0m
-[33m[stage-6] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-6] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 7e 05 13 93 00 00 3c 00 00 00 00 00 0b 00 00 01 | ~.....<.........[0m
-[33m[stage-6] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
-[33m[stage-6] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
-[33m[stage-6] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
-[33m[stage-6] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
-[33m[stage-6] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
-[33m[stage-6] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 03 00 | ................[0m
-[33m[stage-6] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
-[33m[stage-6] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
-[33m[stage-6] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
-[33m[stage-6] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
-[33m[stage-6] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
-[33m[stage-6] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
-[33m[stage-6] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
-[33m[stage-6] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
-[33m[stage-6] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
-[33m[stage-6] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
-[33m[stage-6] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
-[33m[stage-6] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
-[33m[stage-6] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
-[33m[stage-6] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
-[33m[stage-6] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 01 00 00 39 | .3......7......9[0m
-[33m[stage-6] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
-[33m[stage-6] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
-[33m[stage-6] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
-[33m[stage-6] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
-[33m[stage-6] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
-[33m[stage-6] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
-[33m[stage-6] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
-[33m[stage-6] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (2114261907)[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[1][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (16)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[2][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (8)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[3][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[4][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (8)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[5][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[6][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (10)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[7][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[8][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[9][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (13)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[10][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (14)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[11][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (15)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[12][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (16)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[13][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (17)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[14][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (18)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[15][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (19)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (7)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[16][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (20)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (6)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[17][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (21)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[18][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (22)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[19][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (23)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[20][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (24)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[21][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (25)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[22][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (26)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[23][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (27)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[24][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (28)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[25][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (29)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[26][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (30)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[27][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (31)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[28][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (32)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[29][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (33)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[30][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (34)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[31][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (35)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[32][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (36)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[33][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (37)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[34][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (38)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[35][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (39)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[36][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (40)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[37][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (41)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[38][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (42)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[39][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (43)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[40][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (44)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[41][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (45)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[42][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (46)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[43][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (47)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[44][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (48)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[45][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (49)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[46][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (50)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[47][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (51)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[48][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (55)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[49][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (57)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[50][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (60)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[51][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (61)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[52][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (64)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[53][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (65)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[54][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (66)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[55][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (68)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[56][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (69)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[57][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (74)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[58][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (75)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [0m[92m✓ Correlation ID: 2114261907[0m
-[33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-6] [0m[92m✓ Test 3 of 4: Passed[0m
-[33m[stage-6] [0m[94mSending request 4 of 4: "ApiVersions" (version: 3) request (Correlation id: -2118400058)[0m
-[33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 03 81 bb c7 c6 00 09 6b 61 | ...#..........ka[0m
-[33m[stage-6] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-6] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 81 bb c7 c6 00 00 3c 00 00 00 00 00 0b 00 00 01 | ......<.........[0m
-[33m[stage-6] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
-[33m[stage-6] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
-[33m[stage-6] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
-[33m[stage-6] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
-[33m[stage-6] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
-[33m[stage-6] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 03 00 | ................[0m
-[33m[stage-6] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
-[33m[stage-6] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
-[33m[stage-6] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
-[33m[stage-6] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
-[33m[stage-6] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
-[33m[stage-6] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
-[33m[stage-6] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
-[33m[stage-6] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
-[33m[stage-6] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
-[33m[stage-6] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
-[33m[stage-6] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
-[33m[stage-6] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
-[33m[stage-6] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
-[33m[stage-6] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
-[33m[stage-6] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 01 00 00 39 | .3......7......9[0m
-[33m[stage-6] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
-[33m[stage-6] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
-[33m[stage-6] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
-[33m[stage-6] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
-[33m[stage-6] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
-[33m[stage-6] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-6] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
-[33m[stage-6] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
-[33m[stage-6] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .correlation_id (-2118400058)[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[1][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (16)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[2][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (8)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[3][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[4][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (8)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[5][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[6][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (10)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[7][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[8][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[9][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (13)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[10][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (14)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[11][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (15)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[12][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (16)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[13][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (17)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[14][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (18)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[15][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (19)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (7)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[16][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (20)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (6)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[17][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (21)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[18][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (22)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[19][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (23)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[20][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (24)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[21][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (25)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[22][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (26)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[23][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (27)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[24][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (28)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[25][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (29)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[26][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (30)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[27][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (31)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[28][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (32)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[29][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (33)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[30][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (34)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[31][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (35)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[32][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (36)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[33][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (37)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[34][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (38)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[35][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (39)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[36][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (40)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[37][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (41)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[38][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (42)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[39][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (43)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[40][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (44)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[41][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (45)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[42][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (46)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[43][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (47)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[44][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (48)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[45][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (49)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[46][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (50)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[47][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (51)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[48][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (55)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[49][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (57)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[50][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (60)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[51][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (61)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[52][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (64)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[53][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (65)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[54][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (66)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[55][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (68)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[56][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (69)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[57][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (74)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[58][0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .api_key (75)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-6] [0m[92m✓ Correlation ID: -2118400058[0m
-[33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-6] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
-[33m[stage-6] [0m[92m✓ Test 4 of 4: Passed[0m
+[33m[stage-6] [0m[92m✓ Test 2 of 2: Passed[0m
 [33m[stage-6] [0m[92mTest passed.[0m
 [33m[stage-6] [0m[36mTerminating program[0m
 [33m[stage-6] [0m[36mProgram terminated successfully[0m
@@ -3007,18 +1872,18 @@ Debug = true
 [33m[stage-5] [0m[94m$ ./your_program.sh[0m
 [33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-5] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: 1560570431)[0m
+[33m[stage-5] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: 1378041351)[0m
 [33m[stage-5] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-5] [0m[36m0000 | 00 00 00 23 00 12 00 03 5d 04 6a 3f 00 09 6b 61 | ...#....].j?..ka[0m
+[33m[stage-5] [0m[36m0000 | 00 00 00 23 00 12 00 03 52 23 3e 07 00 09 6b 61 | ...#....R#>...ka[0m
 [33m[stage-5] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-5] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-5] [0m[36m[0m
 [33m[stage-5] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-5] [0m[36m0000 | 5d 04 6a 3f 00 00 3c 00 00 00 00 00 0b 00 00 01 | ].j?..<.........[0m
+[33m[stage-5] [0m[36m0000 | 52 23 3e 07 00 00 3c 00 00 00 00 00 0b 00 00 01 | R#>...<.........[0m
 [33m[stage-5] [0m[36m0010 | 00 00 00 10 00 00 02 00 00 00 08 00 00 03 00 00 | ................[0m
 [33m[stage-5] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
 [33m[stage-5] [0m[36m0030 | 00 00 0a 00 00 00 05 00 00 0b 00 00 00 09 00 00 | ................[0m
@@ -3046,12 +1911,12 @@ Debug = true
 [33m[stage-5] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
 [33m[stage-5] [0m[36m01a0 | 00 00 00 00 00 00 00 00 03 00 17 02 11 6d 65 74 | .............met[0m
 [33m[stage-5] [0m[36m01b0 | 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 01 00 | adata.version...[0m
-[33m[stage-5] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 85 02 17 02 11 | ................[0m
+[33m[stage-5] [0m[36m01c0 | 14 00 01 08 00 00 00 00 00 00 00 ea 02 17 02 11 | ................[0m
 [33m[stage-5] [0m[36m01d0 | 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e | metadata.version[0m
 [33m[stage-5] [0m[36m01e0 | 00 14 00 14 00                                  | .....[0m
 [33m[stage-5] [0m[36m[0m
 [33m[stage-5] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-5] [Decoder] [0m[36m  ✔️ .correlation_id (1560570431)[0m
+[33m[stage-5] [Decoder] [0m[36m  ✔️ .correlation_id (1378041351)[0m
 [33m[stage-5] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-5] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
 [33m[stage-5] [Decoder] [0m[36m  ✔️ .num_api_keys (59)[0m
@@ -3352,7 +2217,7 @@ Debug = true
 [33m[stage-5] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
 [33m[stage-5] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-5] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
-[33m[stage-5] [0m[92m✓ Correlation ID: 1560570431[0m
+[33m[stage-5] [0m[92m✓ Correlation ID: 1378041351[0m
 [33m[stage-5] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-5] [0m[92m✓ API keys array is non-empty[0m
 [33m[stage-5] [0m[92m✓ API version 3 is supported for API_VERSIONS[0m
@@ -3364,26 +2229,26 @@ Debug = true
 [33m[stage-4] [0m[94m$ ./your_program.sh[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-4] [0m[94mSending "ApiVersions" (version: -11863) request (Correlation id: 301069832)[0m
+[33m[stage-4] [0m[94mSending "ApiVersions" (version: -26997) request (Correlation id: 664174744)[0m
 [33m[stage-4] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 23 00 12 d1 a9 11 f1 f6 08 00 09 6b 61 | ...#..........ka[0m
+[33m[stage-4] [0m[36m0000 | 00 00 00 23 00 12 96 8b 27 96 80 98 00 09 6b 61 | ...#....'.....ka[0m
 [33m[stage-4] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-4] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-4] [0m[36m[0m
 [33m[stage-4] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 10 11 f1 f6 08 00 23 00 00 00 01 00 12 | .........#......[0m
+[33m[stage-4] [0m[36m0000 | 00 00 00 10 27 96 80 98 00 23 00 00 00 01 00 12 | ....'....#......[0m
 [33m[stage-4] [0m[36m0010 | 00 00 00 03                                     | ....[0m
 [33m[stage-4] [0m[36m[0m
 [33m[stage-4] [Decoder] [0m[36m- .Response[0m
 [33m[stage-4] [Decoder] [0m[36m  ✔️ .message_length (16)[0m
 [33m[stage-4] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-4] [Decoder] [0m[36m  ✔️ .correlation_id (301069832)[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .correlation_id (664174744)[0m
 [33m[stage-4] [Decoder] [0m[36m  ✔️ .error_code (35)[0m
-[33m[stage-4] [0m[92m✓ Correlation ID: 301069832[0m
+[33m[stage-4] [0m[92m✓ Correlation ID: 664174744[0m
 [33m[stage-4] [0m[92m✓ Error code: 35 (UNSUPPORTED_VERSION)[0m
 [33m[stage-4] [0m[92mTest passed.[0m
 [33m[stage-4] [0m[36mTerminating program[0m
@@ -3393,18 +2258,18 @@ Debug = true
 [33m[stage-3] [0m[94m$ ./your_program.sh[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-3] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: -551456126)[0m
+[33m[stage-3] [0m[94mSending "ApiVersions" (version: 3) request (Correlation id: 1952128842)[0m
 [33m[stage-3] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 12 00 03 df 21 72 82 00 09 6b 61 | ...#.....!r...ka[0m
+[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 12 00 03 74 5b 1f 4a 00 09 6b 61 | ...#....t[.J..ka[0m
 [33m[stage-3] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
 [33m[stage-3] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-3] [0m[36m[0m
 [33m[stage-3] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 01 e5 df 21 72 82 00 00 3c 00 00 00 00 00 | .....!r...<.....[0m
+[33m[stage-3] [0m[36m0000 | 00 00 01 e5 74 5b 1f 4a 00 00 3c 00 00 00 00 00 | ....t[.J..<.....[0m
 [33m[stage-3] [0m[36m0010 | 0b 00 00 01 00 00 00 10 00 00 02 00 00 00 08 00 | ................[0m
 [33m[stage-3] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
 [33m[stage-3] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 05 00 00 0b 00 00 | ................[0m
@@ -3432,15 +2297,15 @@ Debug = true
 [33m[stage-3] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
 [33m[stage-3] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 00 00 00 03 00 17 02 | ..K.............[0m
 [33m[stage-3] [0m[36m01b0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-3] [0m[36m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 8f | n...............[0m
+[33m[stage-3] [0m[36m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 f2 | n...............[0m
 [33m[stage-3] [0m[36m01d0 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-3] [0m[36m01e0 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-3] [0m[36m[0m
 [33m[stage-3] [Decoder] [0m[36m- .Response[0m
 [33m[stage-3] [Decoder] [0m[36m  ✔️ .message_length (485)[0m
 [33m[stage-3] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-3] [Decoder] [0m[36m  ✔️ .correlation_id (-551456126)[0m
-[33m[stage-3] [0m[92m✓ Correlation ID: -551456126[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .correlation_id (1952128842)[0m
+[33m[stage-3] [0m[92m✓ Correlation ID: 1952128842[0m
 [33m[stage-3] [0m[92mTest passed.[0m
 [33m[stage-3] [0m[36mTerminating program[0m
 [33m[stage-3] [0m[36mProgram terminated successfully[0m
@@ -3488,7 +2353,7 @@ Debug = true
 [33m[stage-2] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
 [33m[stage-2] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 00 00 00 03 00 17 02 | ..K.............[0m
 [33m[stage-2] [0m[36m01b0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-2] [0m[36m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 8f | n...............[0m
+[33m[stage-2] [0m[36m01c0 | 6e 00 01 00 14 00 01 08 00 00 00 00 00 00 00 f3 | n...............[0m
 [33m[stage-2] [0m[36m01d0 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-2] [0m[36m01e0 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-2] [0m[36m[0m

@@ -2,16 +2,14 @@ package internal
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -19,7 +17,8 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 
 	logger := stageHarness.Logger
 
-	correlationId := int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
+	correlationId := getRandomCorrelationId()
+	UUID := "00000000-0000-0000-0000-000000000001"
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
@@ -43,7 +42,7 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "00000000-0000-0000-0000-000000000001",
+					TopicUUID: UUID,
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -68,8 +67,8 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
@@ -94,6 +93,11 @@ func testFetchWithEmptyTopic(stageHarness *test_case_harness.TestCaseHarness) er
 	if len(topicResponse.PartitionResponses) != 1 {
 		return fmt.Errorf("Expected PartitionResponses to have length 1, got %v", len(topicResponse.PartitionResponses))
 	}
+
+	if topicResponse.Topic != UUID {
+		return fmt.Errorf("Expected Topic to be empty, got %v", topicResponse.Topic)
+	}
+	logger.Successf("✓ Topic UUID: %v", topicResponse.Topic)
 
 	partitionResponse := topicResponse.PartitionResponses[0]
 
