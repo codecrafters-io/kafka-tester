@@ -43,7 +43,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
-		logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+		logger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, requestCount, request.Header.ApiVersion, request.Header.CorrelationId)
 
 		response, err := broker.SendAndReceive(message)
 		if err != nil {
@@ -88,6 +88,8 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if !foundAPIKey {
 			return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
 		}
+
+		logger.Successf("✓ Test %v of %v: Passed", i+1, requestCount)
 	}
 
 	return nil

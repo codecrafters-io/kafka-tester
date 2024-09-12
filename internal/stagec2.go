@@ -46,7 +46,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
-		logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+		logger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
 
 		err := client.Send(message)
 		if err != nil {
@@ -55,7 +55,10 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		logger.Infof("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	}
 
-	for i, client := range clients {
+	for idx := range clients {
+		j := len(clients) - idx - 1
+		client := clients[j]
+
 		response, err := client.Receive()
 		if err != nil {
 			return err
@@ -67,8 +70,8 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			return err
 		}
 
-		if responseHeader.CorrelationId != correlationIds[i] {
-			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[i], responseHeader.CorrelationId)
+		if responseHeader.CorrelationId != correlationIds[j] {
+			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], responseHeader.CorrelationId)
 		}
 		logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
@@ -98,6 +101,8 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if !foundAPIKey {
 			return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
 		}
+
+		logger.Successf("✓ Test %v of %v: Passed", j+1, clientCount)
 	}
 
 	for _, client := range clients {
