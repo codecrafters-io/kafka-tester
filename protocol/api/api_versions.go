@@ -29,7 +29,7 @@ func GetAPIVersions(prettyPrint bool) {
 
 func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	encoder := encoder.RealEncoder{}
-	encoder.Init(make([]byte, 1024))
+	encoder.Init(make([]byte, 4096))
 
 	request.Header.EncodeV1(&encoder)
 	request.Body.Encode(&encoder)

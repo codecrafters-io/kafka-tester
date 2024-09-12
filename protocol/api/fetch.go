@@ -50,7 +50,7 @@ func Fetch() {
 func EncodeFetchRequest(request *FetchRequest) []byte {
 	encoder := encoder.RealEncoder{}
 	// bytes.Buffer{}
-	encoder.Init(make([]byte, 1024))
+	encoder.Init(make([]byte, 4096))
 
 	request.Header.EncodeV2(&encoder)
 	request.Body.Encode(&encoder)
