@@ -2,14 +2,12 @@ package internal
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
-	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -21,7 +19,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	logger := stageHarness.Logger
 
-	correlationId := int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
+	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
 
 	broker := protocol.NewBroker("localhost:9092")
@@ -51,13 +49,13 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
@@ -109,12 +107,4 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	logger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
 
 	return nil
-}
-
-func getInvalidAPIVersion() int {
-	apiVersion := 1
-	for apiVersion <= 3 && apiVersion >= 0 {
-		apiVersion = random.RandomInt(0, math.MaxInt16)
-	}
-	return random.RandomElementFromArray([]int{apiVersion, -apiVersion})
 }
