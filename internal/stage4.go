@@ -51,13 +51,13 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	if err != nil {
 		return err
 	}
-	logger.Infof("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
 	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
 	}
-	logger.Infof("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
 	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
