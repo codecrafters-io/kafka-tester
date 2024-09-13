@@ -17,7 +17,7 @@ func GetAPIVersions(prettyPrint bool) {
 	}
 	defer broker.Close()
 
-	response, err := ApiVersions(broker, &ApiVersionsRequestBody{Version: 3, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
+	response, err := ApiVersions(broker, &ApiVersionsRequestBody{Version: 4, ClientSoftwareName: "kafka-cli", ClientSoftwareVersion: "0.1"})
 	if err != nil {
 		panic(err)
 	}
@@ -46,6 +46,7 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
+	// APIVersions always uses Header v0
 	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
