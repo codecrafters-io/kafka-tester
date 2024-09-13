@@ -28,12 +28,12 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
-			ApiVersion:    3,
+			ApiVersion:    4,
 			CorrelationId: correlationId,
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               3,
+			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
 		},
@@ -70,7 +70,7 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 	logger.Successf("✓ API keys array is non-empty")
 
 	foundAPIKey := 0
-	MAX_VERSION_APIVERSION := int16(3)
+	MAX_VERSION_APIVERSION := int16(4)
 	MAX_VERSION_FETCH := int16(16)
 	for _, apiVersionKey := range responseBody.ApiKeys {
 		if apiVersionKey.ApiKey == 1 {

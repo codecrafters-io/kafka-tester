@@ -30,12 +30,12 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
-			ApiVersion:    3,
+			ApiVersion:    4,
 			CorrelationId: int32(correlationId),
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               3,
+			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
 		},

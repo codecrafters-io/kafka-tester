@@ -51,9 +51,12 @@ func (s InspectableHexDump) FormattedString() string {
 
 func (s InspectableHexDump) FormmattedStringWithHeading(byteRangeStart int, byteRangeEnd int) string {
 	heading := fmt.Sprintf("Hex (bytes %d-%d)", byteRangeStart, byteRangeEnd)
-	prefixLength := 50 - 2
+	prefixLength := 48
+	asciiLength := 16 + 2
 	heading += strings.Repeat(" ", prefixLength-len(heading)) + "| ASCII\n"
-	return heading + s.FormattedString()
+
+	separator := strings.Repeat("-", prefixLength) + "+" + strings.Repeat("-", asciiLength) + "\n"
+	return heading + separator + s.FormattedString()
 }
 
 func (s InspectableHexDump) TruncateAroundOffset(offset int) InspectableHexDump {
