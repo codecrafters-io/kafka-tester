@@ -58,6 +58,10 @@ func (r *FetchResponse) Decode(pd *decoder.RealDecoder, version int16, logger *l
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_responses (%d)", numResponses)
 
+	if numResponses < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of TopicResponses cannot be negative: %d", numResponses))
+	}
+
 	r.TopicResponses = make([]TopicResponse, numResponses)
 	for i := range r.TopicResponses {
 		topicResponse := TopicResponse{}
@@ -119,6 +123,10 @@ func (tr *TopicResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logger, 
 	}
 	tr.PartitionResponses = make([]PartitionResponse, numPartitions)
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_partitions (%d)", numPartitions)
+
+	if numPartitions < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of PartitionResponses cannot be negative: %d", numPartitions))
+	}
 
 	for j := range tr.PartitionResponses {
 		partition := PartitionResponse{}
@@ -204,6 +212,10 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logg
 		return err
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_aborted_transactions (%d)", numAbortedTransactions)
+
+	if numAbortedTransactions < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of AbortedTransactions cannot be negative: %d", numAbortedTransactions))
+	}
 
 	if numAbortedTransactions > 0 {
 		pr.AbortedTransactions = make([]AbortedTransaction, numAbortedTransactions)
@@ -426,6 +438,10 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, in
 		return err
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_records (%d)", numRecords)
+
+	if numRecords < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of Records cannot be negative: %d", numRecords))
+	}
 
 	for i := 0; i < int(numRecords); i++ {
 		record := Record{}

@@ -101,6 +101,10 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, log
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_api_keys (%d)", numApiKeys)
 
+	if numApiKeys < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
+	}
+
 	r.ApiKeys = make([]ApiVersionsResponseKey, numApiKeys)
 	for i := 0; i < numApiKeys; i++ {
 		var block ApiVersionsResponseKey
