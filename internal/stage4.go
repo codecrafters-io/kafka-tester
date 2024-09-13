@@ -36,7 +36,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               3,
+			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
 		},
