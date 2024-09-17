@@ -528,7 +528,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 	} else {
 		r.Key = nil
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .key")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .key (%q)", string(r.Key))
 
 	valueLength, err := pd.GetSignedVarint()
 	if err != nil {
@@ -547,7 +547,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 		return err
 	}
 	r.Value = value
-	protocol.LogWithIndentation(logger, indentation, "✔️ .value")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .value (%q)", string(r.Value))
 
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
