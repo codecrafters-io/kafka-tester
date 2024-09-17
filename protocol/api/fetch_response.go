@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"encoding/json"
 	"fmt"
 	"hash/crc32"
 
@@ -466,6 +467,7 @@ type Record struct {
 	OffsetDelta    int32
 	Key            []byte
 	Value          []byte
+	ProcessedValue payload
 	Headers        []RecordHeader
 }
 
@@ -548,6 +550,14 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 	}
 	r.Value = value
 	protocol.LogWithIndentation(logger, indentation, "✔️ .value (%q)", string(r.Value))
+
+	if pd.ShouldParseClusterMetadataValues() {
+		payload := payload{}
+		if err := payload.Decode(r.Value); err != nil {
+			return err
+		}
+		r.ProcessedValue = payload
+	}
 
 	numHeaders, err := pd.GetSignedVarint()
 	if err != nil {
