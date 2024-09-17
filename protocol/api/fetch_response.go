@@ -549,14 +549,27 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 	r.Value = value
 	protocol.LogWithIndentation(logger, indentation, "✔️ .value (%q)", string(r.Value))
 
-	_, err = pd.GetEmptyTaggedFieldArray()
+	numHeaders, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("num_headers")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .num_headers (%d)", numHeaders)
+
+	for i := 0; i < int(numHeaders); i++ {
+		header := RecordHeader{}
+		protocol.LogWithIndentation(logger, indentation, "- .RecordHeader[%d]", i)
+		err := header.Decode(pd, logger, indentation+1)
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return decodingErr.WithAddedContext(fmt.Sprintf("RecordHeader[%d]", i))
+			}
+			return err
+		}
+		r.Headers = append(r.Headers, header)
+	}
 
 	return nil
 }
