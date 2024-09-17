@@ -10,15 +10,25 @@ import (
 )
 
 type RealDecoder struct {
-	raw               []byte
-	initialBufferSize int
-	off               int
+	raw                          []byte
+	off                          int
+	parseValuesAsClusterMetadata bool
 }
 
 func (rd *RealDecoder) Init(raw []byte) {
 	rd.raw = raw
 	rd.off = 0
-	rd.initialBufferSize = len(raw)
+	rd.parseValuesAsClusterMetadata = false
+}
+
+func (rd *RealDecoder) InitClusterMetadataDecoder(raw []byte) {
+	rd.raw = raw
+	rd.off = 0
+	rd.parseValuesAsClusterMetadata = true
+}
+
+func (rd *RealDecoder) ShouldParseClusterMetadataValues() bool {
+	return rd.parseValuesAsClusterMetadata
 }
 
 func (rd *RealDecoder) GetInt8() (int8, error) {
