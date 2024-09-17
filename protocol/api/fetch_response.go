@@ -517,7 +517,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 
 	var key []byte
 	if keyLength > 0 {
-		key, err = pd.GetRawBytes(int(keyLength) - 1)
+		key, err = pd.GetRawBytes(int(keyLength))
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("key")
