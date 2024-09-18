@@ -9,6 +9,16 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
+// func (rd *RealDecoder) InitClusterMetadataDecoder(raw []byte) {
+// 	rd.raw = raw
+// 	rd.off = 0
+// 	rd.parseValuesAsClusterMetadata = true
+// }
+
+// func (rd *RealDecoder) ShouldParseClusterMetadataValues() bool {
+// 	return rd.parseValuesAsClusterMetadata
+// }
+
 type payload struct {
 	FrameVersion int8
 	Type         int8
