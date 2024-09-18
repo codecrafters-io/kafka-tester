@@ -1,3 +1,16 @@
 .history/
 .idea/
 dist/
+
+# misc files
+protocol/decoder/error-codes.md
+main.go
+internal/metadata.go
+internal/stage3_test.go
+internal/stage2_test.go
+protocol/decoder/todo
+**/__pycache__/**
+internal/test_helpers/ryan/**
+internal/assertion.go
+**log**
+**tmp**
