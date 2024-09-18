@@ -676,10 +676,11 @@ func (p *payload) Decode(data []byte) (err error) {
 		jsonObject["topicId"] = topicId
 
 		// skip 3 bytes (not sure why) ToDo
-		_, err = partialDecoder.GetRawBytes(3)
+		x, err := partialDecoder.GetRawBytes(3)
 		if err != nil {
 			return err
 		}
+		fmt.Printf("x: %d\n", x)
 
 		leader, err := partialDecoder.GetInt32()
 		if err != nil {
@@ -710,7 +711,7 @@ func (p *payload) Decode(data []byte) (err error) {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
 		}
 	case 17:
-		jsonObject["type"] = "NO_OP_RECORD"
+		jsonObject["type"] = "BROKER_REGISTRATION_CHANGE_RECORD"
 		jsonObject["version"] = p.Version
 
 		brokerId, err := partialDecoder.GetInt32()
@@ -740,13 +741,124 @@ func (p *payload) Decode(data []byte) (err error) {
 		// }
 
 		// ToDo: Not sure why we need this
-		_, err = partialDecoder.GetRawBytes(2)
+		x, err := partialDecoder.GetRawBytes(2)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x: %d\n", x)
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
+		}
+	case 23:
+		jsonObject["type"] = "BEGIN_TRANSACTION_RECORD"
+		jsonObject["version"] = p.Version
+
+		// ToDo: Not sure why we need this
+		x, err := partialDecoder.GetRawBytes(3)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x: %d\n", x)
+
+		stringLength, err := partialDecoder.GetInt8()
 		if err != nil {
 			return err
 		}
 
+		data, err := partialDecoder.GetRawBytes(int(stringLength) - 1)
+		if err != nil {
+			return err
+		}
+		jsonObject["name"] = string(data)
+		fmt.Printf("name: %q\n", jsonObject["name"])
+
 		if partialDecoder.Remaining() > 0 {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
+		}
+	case 21:
+		jsonObject["type"] = "ZK_MIGRATION_STATE_RECORD"
+		jsonObject["version"] = p.Version
+
+		// ToDo: Not sure why we need this (0) also dict
+		x, err := partialDecoder.GetRawBytes(1)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x: %d\n", x)
+
+		ZkMigrationState, err := partialDecoder.GetInt8()
+		if err != nil {
+			return err
+		}
+
+		jsonObject["zkMigrationState"] = ZkMigrationState
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "ZK_MIGRATION_STATE_RECORD")
+		}
+	case 15:
+		jsonObject["type"] = "PRODUCER_IDS_RECORD"
+		jsonObject["version"] = p.Version
+
+		brokerId, err := partialDecoder.GetInt32()
+		if err != nil {
+			return err
+		}
+		jsonObject["brokerId"] = brokerId
+
+		brokerEpoch, err := partialDecoder.GetInt64()
+		if err != nil {
+			return err
+		}
+		jsonObject["brokerEpoch"] = brokerEpoch
+
+		nextProducerId, err := partialDecoder.GetInt64()
+		if err != nil {
+			return err
+		}
+		jsonObject["nextProducerId"] = nextProducerId
+
+		// ToDo: Not sure why we need this: [0]
+		x, err := partialDecoder.GetRawBytes(1)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x: %d\n", x)
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
+		}
+	case 2:
+		jsonObject["type"] = "TOPIC_RECORD"
+		jsonObject["version"] = p.Version
+
+		stringLength, err := partialDecoder.GetInt8()
+		if err != nil {
+			return err
+		}
+
+		data, err := partialDecoder.GetRawBytes(int(stringLength) - 1)
+		if err != nil {
+			return err
+		}
+		jsonObject["name"] = string(data)
+
+		topicId, err := getUUID(&partialDecoder)
+		if err != nil {
+			return err
+		}
+		jsonObject["topicId"] = topicId
+
+		// ToDo: Not sure why we need this: [0]
+		x, err := partialDecoder.GetRawBytes(1)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("x: %d\n", x)
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
 		}
 	}
 	jsonData, err := json.Marshal(jsonObject)
