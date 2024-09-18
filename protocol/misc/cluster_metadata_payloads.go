@@ -19,6 +19,7 @@ import (
 // 	return rd.parseValuesAsClusterMetadata
 // }
 
+//lint:ignore U1000, these are not used in the codebase currently
 type payload struct {
 	FrameVersion int8
 	Type         int8
@@ -26,6 +27,7 @@ type payload struct {
 	Data         json.RawMessage
 }
 
+//lint:ignore U1000, these are not used in the codebase currently
 func (p *payload) Decode(data []byte) (err error) {
 	partialDecoder := decoder.RealDecoder{}
 	partialDecoder.Init(data)
@@ -258,6 +260,7 @@ func (p *payload) Decode(data []byte) (err error) {
 	return nil
 }
 
+//lint:ignore U1000, these are not used in the codebase currently
 func getUUID(pd *decoder.RealDecoder) (string, error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
