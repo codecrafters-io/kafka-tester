@@ -10,20 +10,9 @@ release:
 build:
 	go build -o dist/main.out ./cmd/tester
 
-test_base_with_ryan: build
-	cd /Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/ryan && \
-	CODECRAFTERS_REPOSITORY_DIR=/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/ryan \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"vi6\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Bind to a port\"}, {\"slug\":\"nv3\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Hardcoded Correlation ID\"}, {\"slug\":\"wa6\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Correlation ID\"}, {\"slug\":\"nc5\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: API Version Error Case\"}, {\"slug\":\"pv1\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: API Version\"}, {\"slug\":\"gs0\",\"tester_log_prefix\":\"stage-6\",\"title\":\"Stage #6: API Version with Fetch Key\"}, {\"slug\":\"dh6\",\"tester_log_prefix\":\"stage-7\",\"title\":\"Stage #7: Empty Fetch\"}, {\"slug\":\"cm4\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: Fetch Error Response\"}]" \
-	$(shell pwd)/dist/main.out
-
-test_dev: build
-	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"cm4\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: Fetch Error Response\"}]" \
-	dist/main.out
-
 test_base_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"vi6\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Bind to a port\"}, {\"slug\":\"nv3\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Hardcoded Correlation ID\"}, {\"slug\":\"wa6\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Correlation ID\"}, {\"slug\":\"nc5\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: API Version Error Case\"}, {\"slug\":\"pv1\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: API Version\"}, {\"slug\":\"gs0\",\"tester_log_prefix\":\"stage-6\",\"title\":\"Stage #6: API Version with Fetch Key\"}, {\"slug\":\"dh6\",\"tester_log_prefix\":\"stage-7\",\"title\":\"Stage #7: Empty Fetch\"}, {\"slug\":\"cm4\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: Fetch Error Response\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"vi6\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Bind to a port\"}, {\"slug\":\"nv3\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Hardcoded Correlation ID\"}, {\"slug\":\"wa6\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Correlation ID\"}, {\"slug\":\"nc5\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: API Version Error Case\"}, {\"slug\":\"pv1\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: API Version\"}, {\"slug\":\"nh4\",\"tester_log_prefix\":\"stage-C1\",\"title\":\"Stage #C1: Multiple sequential requests from client\"}, {\"slug\":\"sk0\",\"tester_log_prefix\":\"stage-C2\",\"title\":\"Stage #C7: Multiple concurrent requests from client\"}, {\"slug\":\"gs0\",\"tester_log_prefix\":\"stage-F1\",\"title\":\"Stage #F1: API Version with Fetch Key\"}, {\"slug\":\"dh6\",\"tester_log_prefix\":\"stage-F2\",\"title\":\"Stage #F2: Empty Fetch\"}, {\"slug\":\"hn6\",\"tester_log_prefix\":\"stage-F3\",\"title\":\"Stage #F3: Fetch with Empty Topic\"}, {\"slug\":\"cm4\",\"tester_log_prefix\":\"stage-F4\",\"title\":\"Stage #F4: Fetch Error Response\"}, {\"slug\":\"eg2\",\"tester_log_prefix\":\"stage-F5\",\"title\":\"Stage #F5: Single Fetch from Disk\"}, {\"slug\":\"fd8\",\"tester_log_prefix\":\"stage-F6\",\"title\":\"Stage #F6: Multi Fetch from Disk\"}]" \
 	dist/main.out
 
 test:
