@@ -1,63 +1,17 @@
 package kafkaapi
 
 import (
-	"fmt"
-
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
-
-type TopicName struct {
-	Name string
-}
-
-func (t *TopicName) Encode(pe *encoder.RealEncoder) {
-	pe.PutCompactString(t.Name)
-	pe.PutEmptyTaggedFieldArray()
-}
-
-func (t *TopicName) Decode(decoder *decoder.RealDecoder) error {
-	name, err := decoder.GetCompactString()
-	if err != nil {
-		return err
-	}
-	t.Name = name
-
-	return nil
-}
-
-type Cursor struct {
-	TopicName      string
-	PartitionIndex int32
-}
-
-func (c *Cursor) Decode(decoder *decoder.RealDecoder) error {
-	topicName, err := decoder.GetCompactString()
-	if err != nil {
-		return err
-	}
-	c.TopicName = topicName
-
-	partitionIndex, err := decoder.GetInt8()
-	if err != nil {
-		return err
-	}
-	c.PartitionIndex = int32(partitionIndex)
-
-	decoder.GetEmptyTaggedFieldArray()
-
-	return nil
-}
-
-func (c *Cursor) Encode(pe *encoder.RealEncoder) {
-	pe.PutCompactString(c.TopicName)
-	pe.PutInt32(c.PartitionIndex)
-	pe.PutEmptyTaggedFieldArray()
-}
 
 type DescribeTopicPartitionRequest struct {
 	Header RequestHeader
 	Body   DescribeTopicPartitionRequestBody
+}
+
+func (r *DescribeTopicPartitionRequest) Encode(pe *encoder.RealEncoder) {
+	r.Header.EncodeV2(pe)
+	r.Body.Encode(pe)
 }
 
 type DescribeTopicPartitionRequestBody struct {
@@ -88,39 +42,22 @@ func (r *DescribeTopicPartitionRequestBody) Encode(pe *encoder.RealEncoder) {
 	pe.PutEmptyTaggedFieldArray()
 }
 
-func (r *DescribeTopicPartitionRequestBody) Decode(decoder *decoder.RealDecoder) error {
-	// Decode topics array length
-	topicsLength, err := decoder.GetCompactArrayLength()
-	if err != nil {
-		return err
-	}
+type TopicName struct {
+	Name string
+}
 
-	fmt.Printf("topicsLength: %d\n", topicsLength)
+func (t *TopicName) Encode(pe *encoder.RealEncoder) {
+	pe.PutCompactString(t.Name)
+	pe.PutEmptyTaggedFieldArray()
+}
 
-	// Decode each topic
-	for i := 0; i < topicsLength; i++ {
-		topic := TopicName{}
-		err = topic.Decode(decoder)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("topic: %+v\n", topic)
-		r.Topics = append(r.Topics, topic)
-	}
+type Cursor struct {
+	TopicName      string
+	PartitionIndex int32
+}
 
-	r.ResponsePartitionLimit, err = decoder.GetInt32()
-	if err != nil {
-		return err
-	}
-
-	err = r.Cursor.Decode(decoder)
-	if err != nil {
-		return err
-	}
-
-	decoder.GetEmptyTaggedFieldArray()
-
-	fmt.Printf("Remaining: %d\n", decoder.Remaining())
-
-	return nil
+func (c *Cursor) Encode(pe *encoder.RealEncoder) {
+	pe.PutCompactString(c.TopicName)
+	pe.PutInt32(c.PartitionIndex)
+	pe.PutEmptyTaggedFieldArray()
 }
