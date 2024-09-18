@@ -517,7 +517,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 
 	var key []byte
 	if keyLength > 0 {
-		key, err = pd.GetRawBytes(int(keyLength) - 1)
+		key, err = pd.GetRawBytes(int(keyLength))
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("key")
@@ -528,7 +528,7 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 	} else {
 		r.Key = nil
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .key")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .key (%q)", string(r.Key))
 
 	valueLength, err := pd.GetSignedVarint()
 	if err != nil {
@@ -547,16 +547,29 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 		return err
 	}
 	r.Value = value
-	protocol.LogWithIndentation(logger, indentation, "✔️ .value")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .value (%q)", string(r.Value))
 
-	_, err = pd.GetEmptyTaggedFieldArray()
+	numHeaders, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("num_headers")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "✔️ .num_headers (%d)", numHeaders)
+
+	for i := 0; i < int(numHeaders); i++ {
+		header := RecordHeader{}
+		protocol.LogWithIndentation(logger, indentation, "- .RecordHeader[%d]", i)
+		err := header.Decode(pd, logger, indentation+1)
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return decodingErr.WithAddedContext(fmt.Sprintf("RecordHeader[%d]", i))
+			}
+			return err
+		}
+		r.Headers = append(r.Headers, header)
+	}
 
 	return nil
 }
@@ -564,4 +577,46 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 type RecordHeader struct {
 	Key   string
 	Value []byte
+}
+
+func (rh *RecordHeader) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+	keyLength, err := pd.GetSignedVarint()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("key_length")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "✔️ .key_length (%d)", keyLength)
+
+	key, err := pd.GetRawBytes(int(keyLength))
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("key")
+		}
+		return err
+	}
+	rh.Key = string(key)
+	protocol.LogWithIndentation(logger, indentation, "✔️ .key (%s)", rh.Key)
+
+	valueLength, err := pd.GetSignedVarint()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("value_length")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "✔️ .value_length (%d)", valueLength)
+
+	value, err := pd.GetRawBytes(int(valueLength))
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("value")
+		}
+		return err
+	}
+	rh.Value = value
+	protocol.LogWithIndentation(logger, indentation, "✔️ .value (%s)", rh.Value)
+
+	return nil
 }

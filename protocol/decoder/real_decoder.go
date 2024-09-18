@@ -10,15 +10,13 @@ import (
 )
 
 type RealDecoder struct {
-	raw               []byte
-	initialBufferSize int
-	off               int
+	raw []byte
+	off int
 }
 
 func (rd *RealDecoder) Init(raw []byte) {
 	rd.raw = raw
 	rd.off = 0
-	rd.initialBufferSize = len(raw)
 }
 
 func (rd *RealDecoder) GetInt8() (int8, error) {
