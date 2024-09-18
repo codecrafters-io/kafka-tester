@@ -13,7 +13,7 @@ type TopicName struct {
 
 func (t *TopicName) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(t.Name)
-	// pe.PutEmptyTaggedFieldArray()
+	pe.PutEmptyTaggedFieldArray()
 }
 
 func (t *TopicName) Decode(decoder *decoder.RealDecoder) error {
@@ -44,14 +44,15 @@ func (c *Cursor) Decode(decoder *decoder.RealDecoder) error {
 	}
 	c.PartitionIndex = int32(partitionIndex)
 
+	decoder.GetEmptyTaggedFieldArray()
+
 	return nil
 }
 
 func (c *Cursor) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(c.TopicName)
-	// pe.PutInt32(c.PartitionIndex)
-	pe.PutInt8(int8(c.PartitionIndex))
-	// pe.PutEmptyTaggedFieldArray()
+	pe.PutInt32(c.PartitionIndex)
+	pe.PutEmptyTaggedFieldArray()
 }
 
 type DescribeTopicPartitionRequest struct {
@@ -76,7 +77,13 @@ func (r *DescribeTopicPartitionRequestBody) Encode(pe *encoder.RealEncoder) {
 
 	pe.PutInt32(r.ResponsePartitionLimit)
 
-	r.Cursor.Encode(pe)
+	if r.Cursor.TopicName == "" && r.Cursor.PartitionIndex == 0 {
+		// Cursor is nullable, if we don't have anything in the request to encode
+		// just send -1
+		pe.PutInt8(-1) // null
+	} else {
+		r.Cursor.Encode(pe)
+	}
 
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -105,8 +112,6 @@ func (r *DescribeTopicPartitionRequestBody) Decode(decoder *decoder.RealDecoder)
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("Remaining: %d\n", decoder.Remaining())
 
 	err = r.Cursor.Decode(decoder)
 	if err != nil {
