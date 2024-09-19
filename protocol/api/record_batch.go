@@ -6,6 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -24,6 +25,25 @@ type RecordBatch struct {
 	ProducerEpoch        int16
 	BaseSequence         int32
 	Records              []Record
+}
+
+func (rb *RecordBatch) Encode(pe *encoder.RealEncoder) {
+	pe.PutInt64(rb.BaseOffset)
+	pe.PutInt32(rb.BatchLength)
+	pe.PutInt32(rb.PartitionLeaderEpoch)
+	pe.PutInt8(rb.Magic)
+	pe.PutInt32(rb.CRC)
+	pe.PutInt16(rb.Attributes)
+	pe.PutInt32(rb.LastOffsetDelta)
+	pe.PutInt64(rb.FirstTimestamp)
+	pe.PutInt64(rb.MaxTimestamp)
+	pe.PutInt64(rb.ProducerId)
+	pe.PutInt16(rb.ProducerEpoch)
+	pe.PutInt32(rb.BaseSequence)
+	pe.PutInt32(int32(len(rb.Records)))
+	for _, record := range rb.Records {
+		record.Encode(pe)
+	}
 }
 
 func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
@@ -176,6 +196,21 @@ type Record struct {
 	Headers        []RecordHeader
 }
 
+func (r *Record) Encode(pe *encoder.RealEncoder) {
+	pe.PutInt32(r.Length)
+	pe.PutInt8(r.Attributes)
+	pe.PutInt64(r.TimestampDelta)
+	pe.PutInt32(r.OffsetDelta)
+	pe.PutVarint(int64(len(r.Key)))
+	pe.PutBytes(r.Key)
+	pe.PutVarint(int64(len(r.Value)))
+	pe.PutBytes(r.Value)
+	pe.PutVarint(int64(len(r.Headers)))
+	for _, header := range r.Headers {
+		header.Encode(pe)
+	}
+}
+
 func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
 	length, err := pd.GetUnsignedVarint()
 	if err != nil {
@@ -284,6 +319,13 @@ func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentat
 type RecordHeader struct {
 	Key   string
 	Value []byte
+}
+
+func (rh *RecordHeader) Encode(pe *encoder.RealEncoder) {
+	pe.PutVarint(int64(len(rh.Key)))
+	pe.PutBytes([]byte(rh.Key))
+	pe.PutVarint(int64(len(rh.Value)))
+	pe.PutBytes(rh.Value)
 }
 
 func (rh *RecordHeader) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
