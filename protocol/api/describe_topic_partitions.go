@@ -21,7 +21,7 @@ func GetDescribeTopicPartition() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("\nTopic name: %s <-> Topic ID: %s", response.Topics[0].Name, response.Topics[0].TopicID)
+	fmt.Printf("\nTopic name: %s <-> Topic ID: %s\n", response.Topics[0].Name, response.Topics[0].TopicID)
 }
 
 func EncodeDescribeTopicPartitionRequest(request *DescribeTopicPartitionRequest) []byte {

@@ -125,6 +125,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .num_partitions (%d)", numPartitions)
 
+	a.Partitions = make([]DescribeTopicPartitionsResponsePartition, numPartitions)
 	for i := 0; i < numPartitions; i++ {
 		var partition DescribeTopicPartitionsResponsePartition
 		protocol.LogWithIndentation(logger, indentation, "- .Partitions[%d]", i)
@@ -134,6 +135,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 			}
 			return err
 		}
+		a.Partitions[i] = partition
 	}
 
 	topicAuthorizedOperations, err := pd.GetInt32()
