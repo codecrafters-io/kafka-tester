@@ -12,5 +12,5 @@ protocol/decoder/todo
 **/__pycache__/**
 internal/test_helpers/ryan/**
 internal/assertion.go
-**log**
+log
 **tmp**
