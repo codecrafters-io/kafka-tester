@@ -64,5 +64,9 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "fd8",
 			TestFunc: testMultiFetchFromDisk,
 		},
+		{
+			Slug:     "xy3",
+			TestFunc: testDTPartitionWithTopicAndSinglePartition,
+		},
 	},
 }
