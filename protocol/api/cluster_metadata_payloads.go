@@ -9,7 +9,7 @@ import (
 )
 
 //lint:ignore U1000, these are not used in the codebase currently
-type payload struct {
+type ClusterMetadataPayload struct {
 	FrameVersion int8
 	Type         int8
 	Version      int8
@@ -67,7 +67,7 @@ type PartitionRecord struct {
 func (p *PartitionRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
-func (p *payload) Decode(data []byte) (err error) {
+func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 	partialDecoder := decoder.RealDecoder{}
 	partialDecoder.Init(data)
 
@@ -258,7 +258,7 @@ func (p *payload) Decode(data []byte) (err error) {
 	return nil
 }
 
-func (p *payload) Encode(pe *encoder.RealEncoder) {
+func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt8(p.FrameVersion)
 	pe.PutInt8(p.Type)
 	pe.PutInt8(p.Version)
