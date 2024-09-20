@@ -66,8 +66,6 @@ func (p *payload) Decode(data []byte) (err error) {
 		return err
 	}
 
-	jsonObject := map[string]interface{}{}
-
 	switch p.Type {
 	case 23:
 		beginTransactionRecord := &BeginTransactionRecord{}
@@ -115,42 +113,28 @@ func (p *payload) Decode(data []byte) (err error) {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "ZK_MIGRATION_STATE_RECORD")
 		}
 	case 2:
-		jsonObject["type"] = "TOPIC_RECORD"
-		jsonObject["version"] = p.Version
+		topicRecord := &TopicRecord{}
+		p.Data = topicRecord
 
-		stringLength, err := partialDecoder.GetInt8()
+		topicRecord.TopicName, err = partialDecoder.GetString()
 		if err != nil {
 			return err
 		}
 
-		data, err := partialDecoder.GetRawBytes(int(stringLength) - 1)
+		topicRecord.TopicUUID, err = getUUID(&partialDecoder)
 		if err != nil {
 			return err
 		}
-		jsonObject["name"] = string(data)
 
-		topicId, err := getUUID(&partialDecoder)
+		_, err = partialDecoder.GetUnsignedVarint() // taggedFieldCount
 		if err != nil {
 			return err
 		}
-		jsonObject["topicId"] = topicId
-
-		// ToDo: Not sure why we need this: [0]
-		x, err := partialDecoder.GetRawBytes(1)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
 
 		if partialDecoder.Remaining() > 0 {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
 		}
 	}
-	// jsonData, err := json.Marshal(jsonObject)
-	// if err != nil {
-	// 	return err
-	// }
-	// p.Data = json.RawMessage(jsonData)
 
 	return nil
 }
