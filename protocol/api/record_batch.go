@@ -202,12 +202,11 @@ func (r *Record) Encode(pe *encoder.RealEncoder) {
 	pe.PutVarint(r.TimestampDelta)
 	pe.PutVarint(int64(r.OffsetDelta))
 	if string(r.Key) == "null" {
-		pe.PutCompactBytes(nil)
+		pe.PutCompactBytes([]byte{})
 	} else {
 		pe.PutCompactBytes(r.Key)
 	}
-	// pe.PutCompactBytes(r.Value)
-	pe.PutVarint(int64(len(r.Value) + 1))
+	pe.PutVarint(int64(len(r.Value)))
 	pe.PutRawBytes(r.Value)
 	pe.PutVarint(int64(len(r.Headers)))
 	for _, header := range r.Headers {
