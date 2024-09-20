@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/stretchr/testify/assert"
@@ -328,4 +329,127 @@ func getUUID(pd *decoder.RealDecoder) (string, error) {
 		return "", err
 	}
 	return topicUUID, nil
+}
+
+func TestEncodeBeginTransactionRecord(t *testing.T) {
+	beginTransactionRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         23,
+		Version:      0,
+		Data: &kafkaapi.BeginTransactionRecord{
+			Name: "Bootstrap records",
+		},
+	}
+
+	bytes := getEncodedBytes(beginTransactionRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "01170001001212426f6f747374726170207265636f726473", hex.EncodeToString(bytes))
+
+	// 01 17 00
+	// 01
+	// 00
+	// 12
+	// 12
+	// 426f6f747374726170207265636f726473
+}
+
+func TestEncodeFeatureLevelRecord(t *testing.T) {
+	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         12,
+		Version:      0,
+		Data: &kafkaapi.FeatureLevelRecord{
+			Name:         "metadata.version",
+			FeatureLevel: 20,
+		},
+	}
+
+	bytes := getEncodedBytes(featureLevelRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "010c00116d657461646174612e76657273696f6e001400", hex.EncodeToString(bytes))
+}
+
+func TestEncodeZKMigrationRecord(t *testing.T) {
+	zkMigrationRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         21,
+		Version:      0,
+		Data:         &kafkaapi.ZKMigrationStateRecord{MigrationState: 0},
+	}
+	bytes := getEncodedBytes(zkMigrationRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "0115000000", hex.EncodeToString(bytes))
+}
+
+func TestEncodeEndTransactionRecord(t *testing.T) {
+	endTransactionRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         24,
+		Version:      0,
+		Data:         &kafkaapi.EndTransactionRecord{},
+	}
+
+	bytes := getEncodedBytes(endTransactionRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "01180000", hex.EncodeToString(bytes))
+}
+
+func TestEncodeTopicRecord(t *testing.T) {
+	topicRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         2,
+		Version:      0,
+		Data: &kafkaapi.TopicRecord{
+			TopicName: "foo",
+			TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c"},
+	}
+	bytes := getEncodedBytes(topicRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "01020004666f6fbfd99e5e3235455281f8d4af1741970c00", hex.EncodeToString(bytes))
+}
+
+func TestEncodePartitionRecord(t *testing.T) {
+	partitionRecord := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         3,
+		Version:      1,
+		Data: &kafkaapi.PartitionRecord{
+			PartitionID:      0,
+			TopicUUID:        "bfd99e5e-3235-4552-81f8-d4af1741970c",
+			Replicas:         []int32{1},
+			ISReplicas:       []int32{1},
+			RemovingReplicas: []int32{},
+			AddingReplicas:   []int32{},
+			Leader:           1,
+			LeaderEpoch:      0,
+			PartitionEpoch:   0,
+			Directories:      []string{"0224973c-badd-44cf-8744-45a99619da34"},
+		},
+	}
+
+	bytes := getEncodedBytes(partitionRecord)
+	fmt.Printf("%s\n", hex.Dump(bytes))
+
+	assert.Equal(t, "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400", hex.EncodeToString(bytes))
+}
+
+func getEncodedBytes(encodableObject interface{}) []byte {
+	encoder := encoder.RealEncoder{}
+	encoder.Init(make([]byte, 1024))
+
+	switch obj := encodableObject.(type) {
+	case kafkaapi.ClusterMetadataPayload:
+		obj.Encode(&encoder)
+	}
+
+	encoded := encoder.Bytes()[:encoder.Offset()]
+
+	// out := internal.GetFormattedHexdump(encoded)
+	// fmt.Printf("%s\n\n", out)
+	return encoded
 }
