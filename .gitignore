@@ -13,4 +13,6 @@ protocol/decoder/todo
 internal/test_helpers/ryan/**
 internal/assertion.go
 log
+log2
 **tmp**
+file
