@@ -197,14 +197,18 @@ type Record struct {
 }
 
 func (r *Record) Encode(pe *encoder.RealEncoder) {
-	pe.PutInt32(r.Length)
+	pe.PutUVarint(uint64(r.Length))
 	pe.PutInt8(r.Attributes)
-	pe.PutInt64(r.TimestampDelta)
-	pe.PutInt32(r.OffsetDelta)
-	pe.PutVarint(int64(len(r.Key)))
-	pe.PutBytes(r.Key)
-	pe.PutVarint(int64(len(r.Value)))
-	pe.PutBytes(r.Value)
+	pe.PutVarint(r.TimestampDelta)
+	pe.PutVarint(int64(r.OffsetDelta))
+	if string(r.Key) == "null" {
+		pe.PutCompactBytes(nil)
+	} else {
+		pe.PutCompactBytes(r.Key)
+	}
+	// pe.PutCompactBytes(r.Value)
+	pe.PutVarint(int64(len(r.Value) + 1))
+	pe.PutRawBytes(r.Value)
 	pe.PutVarint(int64(len(r.Headers)))
 	for _, header := range r.Headers {
 		header.Encode(pe)
