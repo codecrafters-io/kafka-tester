@@ -26,9 +26,14 @@ type BeginTransactionRecord struct {
 
 func (b *BeginTransactionRecord) isPayloadRecord() {}
 
+type EndTransactionRecord struct {
+}
+
+func (b *EndTransactionRecord) isPayloadRecord() {}
+
 type FeatureLevelRecord struct {
 	Name         string
-	FeatureLevel int32
+	FeatureLevel int16
 }
 
 func (f *FeatureLevelRecord) isPayloadRecord() {}
@@ -45,6 +50,21 @@ type TopicRecord struct {
 }
 
 func (t *TopicRecord) isPayloadRecord() {}
+
+type PartitionRecord struct {
+	PartitionID      int32
+	TopicUUID        string
+	Replicas         []int32
+	ISReplicas       []int32
+	RemovingReplicas []int32
+	AddingReplicas   []int32
+	Leader           int32
+	LeaderEpoch      int32
+	PartitionEpoch   int32
+	Directories      []string
+}
+
+func (p *PartitionRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
 func (p *payload) Decode(data []byte) (err error) {
@@ -133,6 +153,105 @@ func (p *payload) Decode(data []byte) (err error) {
 
 		if partialDecoder.Remaining() > 0 {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
+		}
+	case 12:
+		featureLevelRecord := &FeatureLevelRecord{}
+		p.Data = featureLevelRecord
+
+		featureLevelRecord.Name, err = partialDecoder.GetString()
+		if err != nil {
+			return err
+		}
+
+		featureLevelRecord.FeatureLevel, err = partialDecoder.GetInt16()
+		if err != nil {
+			return err
+		}
+
+		_, err = partialDecoder.GetUnsignedVarint() // taggedFieldCount
+		if err != nil {
+			return err
+		}
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+		}
+	case 24:
+		endTransactionRecord := &EndTransactionRecord{}
+		p.Data = endTransactionRecord
+
+		_, err = partialDecoder.GetUnsignedVarint() // taggedFieldCount
+		if err != nil {
+			return err
+		}
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+		}
+
+	case 3:
+		partitionRecord := &PartitionRecord{}
+		p.Data = partitionRecord
+
+		partitionRecord.PartitionID, err = partialDecoder.GetInt32()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.TopicUUID, err = getUUID(&partialDecoder)
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.Replicas, err = partialDecoder.GetInt32Array()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.ISReplicas, err = partialDecoder.GetInt32Array()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.RemovingReplicas, err = partialDecoder.GetInt32Array()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.AddingReplicas, err = partialDecoder.GetInt32Array()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.Leader, err = partialDecoder.GetInt32()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.LeaderEpoch, err = partialDecoder.GetInt32()
+		if err != nil {
+			return err
+		}
+
+		partitionRecord.PartitionEpoch, err = partialDecoder.GetInt32()
+		if err != nil {
+			return err
+		}
+
+		if p.Version >= 1 {
+			partitionRecord.Directories, err = partialDecoder.GetStringArray()
+			if err != nil {
+				return err
+			}
+		}
+
+		_, err = partialDecoder.GetUnsignedVarint() // taggedFieldCount
+		if err != nil {
+			return err
+		}
+
+		if partialDecoder.Remaining() > 0 {
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
 		}
 	}
 
