@@ -1,7 +1,6 @@
-package misc
+package kafkaapi
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
@@ -9,23 +8,43 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
-// func (rd *RealDecoder) InitClusterMetadataDecoder(raw []byte) {
-// 	rd.raw = raw
-// 	rd.off = 0
-// 	rd.parseValuesAsClusterMetadata = true
-// }
-
-// func (rd *RealDecoder) ShouldParseClusterMetadataValues() bool {
-// 	return rd.parseValuesAsClusterMetadata
-// }
-
 //lint:ignore U1000, these are not used in the codebase currently
 type payload struct {
 	FrameVersion int8
 	Type         int8
 	Version      int8
-	Data         json.RawMessage
+	Data         ClusterMetadataPayloadDataRecord
 }
+
+type ClusterMetadataPayloadDataRecord interface {
+	isPayloadRecord()
+}
+
+type BeginTransactionRecord struct {
+	Name string
+}
+
+func (b *BeginTransactionRecord) isPayloadRecord() {}
+
+type FeatureLevelRecord struct {
+	Name         string
+	FeatureLevel int32
+}
+
+func (f *FeatureLevelRecord) isPayloadRecord() {}
+
+type ZKMigrationStateRecord struct {
+	MigrationState int8
+}
+
+func (f *ZKMigrationStateRecord) isPayloadRecord() {}
+
+type TopicRecord struct {
+	TopicName string
+	TopicUUID string
+}
+
+func (t *TopicRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
 func (p *payload) Decode(data []byte) (err error) {
@@ -50,174 +69,50 @@ func (p *payload) Decode(data []byte) (err error) {
 	jsonObject := map[string]interface{}{}
 
 	switch p.Type {
-	case 5:
-		jsonObject["type"] = "PARTITION_CHANGE_RECORD"
-		jsonObject["version"] = p.Version
-		partitionId, err := partialDecoder.GetInt32()
-		if err != nil {
-			return err
-		}
-		jsonObject["partitionId"] = partitionId
-
-		topicId, err := getUUID(&partialDecoder)
-		if err != nil {
-			return err
-		}
-		jsonObject["topicId"] = topicId
-
-		// skip 3 bytes (not sure why) ToDo
-		x, err := partialDecoder.GetRawBytes(3)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
-
-		leader, err := partialDecoder.GetInt32()
-		if err != nil {
-			return err
-		}
-		jsonObject["leader"] = leader
-
-		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
-		}
-	case 20:
-		jsonObject["type"] = "NO_OP_RECORD"
-		jsonObject["version"] = p.Version
-
-		// COMPACT_NULLABLE_BYTES
-		// 0x00 - NULL
-		dataLength, err := partialDecoder.GetUnsignedVarint()
-		if err != nil {
-			return err
-		}
-		if dataLength == 0 {
-			jsonObject["data"] = nil
-		} else {
-			jsonObject["data"] = make([]interface{}, dataLength)
-		}
-
-		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
-		}
-	case 17:
-		jsonObject["type"] = "BROKER_REGISTRATION_CHANGE_RECORD"
-		jsonObject["version"] = p.Version
-
-		brokerId, err := partialDecoder.GetInt32()
-		if err != nil {
-			return err
-		}
-		jsonObject["brokerId"] = brokerId
-
-		brokerEpoch, err := partialDecoder.GetInt64()
-		if err != nil {
-			return err
-		}
-		jsonObject["brokerEpoch"] = brokerEpoch
-
-		fenced, err := partialDecoder.GetInt8()
-		if err != nil {
-			return err
-		}
-		jsonObject["fenced"] = fenced
-
-		// if p.Version == 1 { // seems to be present always
-		inControlledShutdown, err := partialDecoder.GetInt8()
-		if err != nil {
-			return err
-		}
-		jsonObject["inControlledShutdown"] = inControlledShutdown
-		// }
-
-		// ToDo: Not sure why we need this
-		x, err := partialDecoder.GetRawBytes(2)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
-
-		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
-		}
 	case 23:
-		jsonObject["type"] = "BEGIN_TRANSACTION_RECORD"
-		jsonObject["version"] = p.Version
+		beginTransactionRecord := &BeginTransactionRecord{}
+		p.Data = beginTransactionRecord
 
-		// ToDo: Not sure why we need this
-		x, err := partialDecoder.GetRawBytes(3)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
-
-		stringLength, err := partialDecoder.GetInt8()
+		taggedFieldCount, err := partialDecoder.GetUnsignedVarint()
 		if err != nil {
 			return err
 		}
 
-		data, err := partialDecoder.GetRawBytes(int(stringLength) - 1)
-		if err != nil {
-			return err
+		for i := 0; i < int(taggedFieldCount); i++ {
+			_, err := partialDecoder.GetUnsignedVarint() // tagType
+			if err != nil {
+				return err
+			}
+			_, err = partialDecoder.GetUnsignedVarint() // tagLength
+			if err != nil {
+				return err
+			}
+
+			beginTransactionRecord.Name, err = partialDecoder.GetString()
+			if err != nil {
+				return err
+			}
 		}
-		jsonObject["name"] = string(data)
-		fmt.Printf("name: %q\n", jsonObject["name"])
 
 		if partialDecoder.Remaining() > 0 {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
 		}
 	case 21:
-		jsonObject["type"] = "ZK_MIGRATION_STATE_RECORD"
-		jsonObject["version"] = p.Version
+		zkMigrationStateRecord := &ZKMigrationStateRecord{}
+		p.Data = zkMigrationStateRecord
 
-		// ToDo: Not sure why we need this (0) also dict
-		x, err := partialDecoder.GetRawBytes(1)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
-
-		ZkMigrationState, err := partialDecoder.GetInt8()
+		zkMigrationStateRecord.MigrationState, err = partialDecoder.GetInt8()
 		if err != nil {
 			return err
 		}
 
-		jsonObject["zkMigrationState"] = ZkMigrationState
+		_, err = partialDecoder.GetUnsignedVarint() // taggedFieldCount
+		if err != nil {
+			return err
+		}
 
 		if partialDecoder.Remaining() > 0 {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "ZK_MIGRATION_STATE_RECORD")
-		}
-	case 15:
-		jsonObject["type"] = "PRODUCER_IDS_RECORD"
-		jsonObject["version"] = p.Version
-
-		brokerId, err := partialDecoder.GetInt32()
-		if err != nil {
-			return err
-		}
-		jsonObject["brokerId"] = brokerId
-
-		brokerEpoch, err := partialDecoder.GetInt64()
-		if err != nil {
-			return err
-		}
-		jsonObject["brokerEpoch"] = brokerEpoch
-
-		nextProducerId, err := partialDecoder.GetInt64()
-		if err != nil {
-			return err
-		}
-		jsonObject["nextProducerId"] = nextProducerId
-
-		// ToDo: Not sure why we need this: [0]
-		x, err := partialDecoder.GetRawBytes(1)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("x: %d\n", x)
-
-		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
 		}
 	case 2:
 		jsonObject["type"] = "TOPIC_RECORD"
@@ -251,11 +146,11 @@ func (p *payload) Decode(data []byte) (err error) {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
 		}
 	}
-	jsonData, err := json.Marshal(jsonObject)
-	if err != nil {
-		return err
-	}
-	p.Data = json.RawMessage(jsonData)
+	// jsonData, err := json.Marshal(jsonObject)
+	// if err != nil {
+	// 	return err
+	// }
+	// p.Data = json.RawMessage(jsonData)
 
 	return nil
 }
