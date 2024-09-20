@@ -258,6 +258,74 @@ func (p *payload) Decode(data []byte) (err error) {
 	return nil
 }
 
+func (p *payload) Encode(pe *encoder.RealEncoder) {
+	pe.PutInt8(p.FrameVersion)
+	pe.PutInt8(p.Type)
+	pe.PutInt8(p.Version)
+	switch p.Data.(type) {
+	case *BeginTransactionRecord:
+		// This record is a bit weird
+		// The name is a string, stored inside a tagged field
+		// We only expect the Name field and nothing else, so
+		// we can hardcode the other values inside the encoder
+		record := p.Data.(*BeginTransactionRecord)
+
+		pe.PutUVarint(1)                            // taggedFieldCount
+		pe.PutUVarint(0)                            // tagType
+		pe.PutUVarint(uint64(len(record.Name)) + 1) // tagLength
+		pe.PutString(record.Name)
+
+	case *EndTransactionRecord:
+		// This record is empty
+		pe.PutUVarint(0) // taggedFieldCount
+
+	case *FeatureLevelRecord:
+		record := p.Data.(*FeatureLevelRecord)
+
+		pe.PutString(record.Name)
+		pe.PutInt16(record.FeatureLevel)
+		pe.PutUVarint(0) // taggedFieldCount
+
+	case *ZKMigrationStateRecord:
+		record := p.Data.(*ZKMigrationStateRecord)
+
+		pe.PutInt8(record.MigrationState)
+		pe.PutUVarint(0) // taggedFieldCount
+
+	case *TopicRecord:
+		record := p.Data.(*TopicRecord)
+
+		pe.PutString(record.TopicName)
+		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
+		if err != nil {
+			panic(err)
+		}
+		pe.PutRawBytes(uuidBytes)
+		pe.PutUVarint(0) // taggedFieldCount
+
+	case *PartitionRecord:
+		record := p.Data.(*PartitionRecord)
+
+		pe.PutInt32(record.PartitionID)
+		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
+		if err != nil {
+			panic(err)
+		}
+		pe.PutRawBytes(uuidBytes)
+		pe.PutInt32Array(record.Replicas)
+		pe.PutInt32Array(record.ISReplicas)
+		pe.PutInt32Array(record.RemovingReplicas)
+		pe.PutInt32Array(record.AddingReplicas)
+		pe.PutInt32(record.Leader)
+		pe.PutInt32(record.LeaderEpoch)
+		pe.PutInt32(record.PartitionEpoch)
+		if p.Version >= 1 {
+			pe.PutStringArray(record.Directories)
+		}
+		pe.PutUVarint(0) // taggedFieldCount
+	}
+}
+
 //lint:ignore U1000, these are not used in the codebase currently
 func getUUID(pd *decoder.RealDecoder) (string, error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
