@@ -273,7 +273,7 @@ func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 		pe.PutUVarint(1)                            // taggedFieldCount
 		pe.PutUVarint(0)                            // tagType
 		pe.PutUVarint(uint64(len(record.Name)) + 1) // tagLength
-		pe.PutString(record.Name)
+		pe.PutCompactString(record.Name)
 
 	case *EndTransactionRecord:
 		// This record is empty
@@ -282,7 +282,7 @@ func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 	case *FeatureLevelRecord:
 		record := p.Data.(*FeatureLevelRecord)
 
-		pe.PutString(record.Name)
+		pe.PutCompactString(record.Name)
 		pe.PutInt16(record.FeatureLevel)
 		pe.PutUVarint(0) // taggedFieldCount
 
@@ -295,7 +295,7 @@ func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 	case *TopicRecord:
 		record := p.Data.(*TopicRecord)
 
-		pe.PutString(record.TopicName)
+		pe.PutCompactString(record.TopicName)
 		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
 		if err != nil {
 			panic(err)
