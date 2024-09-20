@@ -312,15 +312,22 @@ func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 			panic(err)
 		}
 		pe.PutRawBytes(uuidBytes)
-		pe.PutInt32Array(record.Replicas)
-		pe.PutInt32Array(record.ISReplicas)
-		pe.PutInt32Array(record.RemovingReplicas)
-		pe.PutInt32Array(record.AddingReplicas)
+		pe.PutCompactInt32Array(record.Replicas)
+		pe.PutCompactInt32Array(record.ISReplicas)
+		pe.PutCompactInt32Array(record.RemovingReplicas)
+		pe.PutCompactInt32Array(record.AddingReplicas)
 		pe.PutInt32(record.Leader)
 		pe.PutInt32(record.LeaderEpoch)
 		pe.PutInt32(record.PartitionEpoch)
 		if p.Version >= 1 {
-			pe.PutStringArray(record.Directories)
+			pe.PutUVarint(uint64(len(record.Directories) + 1))
+			for i := range record.Directories {
+				uuidBytes, err := encoder.EncodeUUID(record.Directories[i])
+				if err != nil {
+					panic(err)
+				}
+				pe.PutRawBytes(uuidBytes)
+			}
 		}
 		pe.PutUVarint(0) // taggedFieldCount
 	}
