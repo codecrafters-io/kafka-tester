@@ -28,11 +28,16 @@ type RecordBatch struct {
 }
 
 func (rb *RecordBatch) Encode(pe *encoder.RealEncoder) {
+	startOffset := pe.Offset()
+
 	pe.PutInt64(rb.BaseOffset)
-	pe.PutInt32(rb.BatchLength)
+	batchLengthStartOffset := pe.Offset()
+	pe.PutInt32(0) // BatchLength placeholder
 	pe.PutInt32(rb.PartitionLeaderEpoch)
-	pe.PutInt8(rb.Magic)
-	pe.PutInt32(rb.CRC)
+	pe.PutInt8(2) // Magic value is 2
+	crcStartOffset := pe.Offset()
+	pe.PutInt32(0) // CRC placeholder
+	crcEndOffset := pe.Offset()
 	pe.PutInt16(rb.Attributes)
 	pe.PutInt32(rb.LastOffsetDelta)
 	pe.PutInt64(rb.FirstTimestamp)
@@ -41,9 +46,18 @@ func (rb *RecordBatch) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt16(rb.ProducerEpoch)
 	pe.PutInt32(rb.BaseSequence)
 	pe.PutInt32(int32(len(rb.Records)))
-	for _, record := range rb.Records {
+	for i, record := range rb.Records {
+		record.OffsetDelta = int32(i) // Offset Deltas are consecutive numerals from 0 to N-1
+		// We can set them programmatically as we know the order of the records
 		record.Encode(pe)
 	}
+
+	batchLength := pe.Offset() - 12 - startOffset // 8 bytes for BaseOffset & 4 bytes for BatchLength
+	pe.PutInt32At(int32(batchLength), batchLengthStartOffset, 4)
+
+	crcData := pe.Bytes()[crcEndOffset:pe.Offset()]
+	computedChecksum := crc32.Checksum(crcData, crc32.MakeTable(crc32.Castagnoli))
+	pe.PutInt32At(int32(computedChecksum), crcStartOffset, 4)
 }
 
 func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
