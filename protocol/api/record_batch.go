@@ -211,10 +211,10 @@ type Record struct {
 }
 
 func (r *Record) Encode(pe *encoder.RealEncoder) {
-	lengthStartOffset := pe.Offset()
 	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
-	lengthEndOffset := pe.Offset()
-
+	// As this is variable length, we can't use placeholders and update later reliably.
+	// We need to have a value, close to the actual value, such that it takes the same space
+	// This is an approx value, the actual value will be computed at the end
 	pe.PutInt8(r.Attributes)
 	pe.PutVarint(r.TimestampDelta)
 	pe.PutVarint(int64(r.OffsetDelta))
@@ -229,6 +229,28 @@ func (r *Record) Encode(pe *encoder.RealEncoder) {
 	for _, header := range r.Headers {
 		header.Encode(pe)
 	}
+}
+
+func (r *Record) GetEncodedLength() int {
+	encoder := encoder.RealEncoder{}
+	encoder.Init(make([]byte, 1024))
+
+	encoder.PutInt8(r.Attributes)
+	encoder.PutVarint(r.TimestampDelta)
+	encoder.PutVarint(int64(r.OffsetDelta))
+	if string(r.Key) == "null" {
+		encoder.PutCompactBytes([]byte{})
+	} else {
+		encoder.PutCompactBytes(r.Key)
+	}
+	encoder.PutVarint(int64(len(r.Value)))
+	encoder.PutRawBytes(r.Value)
+	encoder.PutVarint(int64(len(r.Headers)))
+	for _, header := range r.Headers {
+		header.Encode(&encoder)
+	}
+
+	return encoder.Offset()
 }
 
 func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
