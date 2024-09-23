@@ -218,7 +218,7 @@ func (r *Record) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt8(r.Attributes)
 	pe.PutVarint(r.TimestampDelta)
 	pe.PutVarint(int64(r.OffsetDelta))
-	if string(r.Key) == "null" {
+	if r.Key == nil {
 		pe.PutCompactBytes([]byte{})
 	} else {
 		pe.PutCompactBytes(r.Key)
