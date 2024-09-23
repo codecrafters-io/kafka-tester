@@ -211,7 +211,10 @@ type Record struct {
 }
 
 func (r *Record) Encode(pe *encoder.RealEncoder) {
-	pe.PutUVarint(uint64(r.Length))
+	lengthStartOffset := pe.Offset()
+	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
+	lengthEndOffset := pe.Offset()
+
 	pe.PutInt8(r.Attributes)
 	pe.PutVarint(r.TimestampDelta)
 	pe.PutVarint(int64(r.OffsetDelta))
