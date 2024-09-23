@@ -232,7 +232,7 @@ func (r *Record) Encode(pe *encoder.RealEncoder) {
 }
 
 func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
-	length, err := pd.GetUnsignedVarint()
+	length, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("length")
