@@ -20,6 +20,22 @@ func (re *RealEncoder) Init(raw []byte) {
 	re.off = 0
 }
 
+func (re *RealEncoder) PutRawBytesAt(in []byte, offset int, length int) {
+	copy(re.raw[offset:offset+length], in)
+}
+
+func (re *RealEncoder) PutInt32At(in int32, offset int, length int) {
+	binary.BigEndian.PutUint32(re.raw[offset:offset+length], uint32(in))
+}
+
+func (re *RealEncoder) PutUVarintAt(in uint64, offset int) {
+	binary.PutUvarint(re.raw[offset:], in)
+}
+
+func (re *RealEncoder) PutVarintAt(in int64, offset int) {
+	binary.PutVarint(re.raw[offset:], in)
+}
+
 // primitives
 
 func (re *RealEncoder) PutInt8(in int8) {
