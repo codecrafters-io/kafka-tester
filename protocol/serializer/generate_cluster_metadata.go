@@ -1,138 +1,20 @@
 package serializer
 
 import (
-	"bytes"
 	"encoding/base64"
 	"fmt"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/codecrafters-io/kafka-tester/internal"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/google/uuid"
 )
 
-func generateClusterMetadata() {
-	encoder := encoder.RealEncoder{}
-	encoder.Init(make([]byte, 4096000))
-
-	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         12,
-		Version:      0,
-		Data: &kafkaapi.FeatureLevelRecord{
-			Name:         "metadata.version",
-			FeatureLevel: 20,
-		},
-	}
-
-	topicRecord := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         2,
-		Version:      0,
-		Data: &kafkaapi.TopicRecord{
-			TopicName: "foo",
-			TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c"},
-	}
-
-	partitionRecord := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
-			TopicUUID:        "bfd99e5e-3235-4552-81f8-d4af1741970c",
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{"0224973c-badd-44cf-8744-45a99619da34"},
-		},
-	}
-
-	recordBatch1 := kafkaapi.RecordBatch{
-		BaseOffset:           1,
-		PartitionLeaderEpoch: 1,
-		Attributes:           0,
-		LastOffsetDelta:      3,
-		FirstTimestamp:       1726045943832,
-		MaxTimestamp:         1726045943832,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          getEncodedBytes(featureLevelRecord),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
-	recordBatch2 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(len(recordBatch1.Records) + 1),
-		PartitionLeaderEpoch: 1,
-		Attributes:           0,
-		LastOffsetDelta:      1,
-		FirstTimestamp:       1726045957397,
-		MaxTimestamp:         1726045957397,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          getEncodedBytes(topicRecord),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          getEncodedBytes(partitionRecord),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
-
-	recordBatch1.Encode(&encoder)
-	recordBatch2.Encode(&encoder)
-	encodedBytes := encoder.Bytes()[:encoder.Offset()]
-
-	path := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-generated-logs/__cluster_metadata-0/00000000000000000000.log"
-
-	existingBytes, err := os.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		return
-	}
-	out := internal.GetFormattedHexdump(existingBytes)
-	fmt.Printf("OLD:\n%s\n\n", out)
-
-	err = os.WriteFile(path, encodedBytes, 0644)
-	if err != nil {
-		fmt.Printf("Error writing file: %v\n", err)
-	}
-
-	out = internal.GetFormattedHexdump(encodedBytes)
-	fmt.Printf("NEW:\n%s\n\n", out)
-
-	if !bytes.Equal(existingBytes, encodedBytes) {
-		fmt.Printf("Bytes are different\n")
-	}
-}
-
-func getEncodedBytes(encodableObject interface{}) []byte {
-	encoder := encoder.RealEncoder{}
+func GetEncodedBytes(encodableObject interface{}) []byte {
+	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
 	switch obj := encodableObject.(type) {
@@ -145,59 +27,8 @@ func getEncodedBytes(encodableObject interface{}) []byte {
 	return encoded
 }
 
-func generateTopicData() {
-	encoder := encoder.RealEncoder{}
-	encoder.Init(make([]byte, 4096))
-
-	recordBatch := kafkaapi.RecordBatch{
-		BaseOffset:           0,
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      0,
-		FirstTimestamp:       1726045973899,
-		MaxTimestamp:         1726045973899,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          []byte(common.TOPIC1_MESSAGE1),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
-
-	recordBatch.Encode(&encoder)
-	encodedBytes := encoder.Bytes()[:encoder.Offset()]
-
-	path := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-generated-logs/foo-0/00000000000000000000.log"
-
-	existingBytes, err := os.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		return
-	}
-	out := internal.GetFormattedHexdump(existingBytes)
-	fmt.Printf("OLD:\n%s\n\n", out)
-
-	err = os.WriteFile(path, encodedBytes, 0644)
-	if err != nil {
-		fmt.Printf("Error writing file: %v\n", err)
-	}
-
-	out = internal.GetFormattedHexdump(encodedBytes)
-	fmt.Printf("NEW:\n%s\n\n", out)
-
-	if !bytes.Equal(existingBytes, encodedBytes) {
-		fmt.Printf("Bytes are different\n")
-	}
-}
-
-func GenerateClusterMetadata(path string, topicName string, topicUUID string, directoryUUID string) {
-	encoder := encoder.RealEncoder{}
+func writeClusterMetadata(path string, topicName string, topicUUID string, directoryUUID string) {
+	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 40960))
 
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
@@ -253,7 +84,7 @@ func GenerateClusterMetadata(path string, topicName string, topicUUID string, di
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          getEncodedBytes(featureLevelRecord),
+				Value:          GetEncodedBytes(featureLevelRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -273,14 +104,14 @@ func GenerateClusterMetadata(path string, topicName string, topicUUID string, di
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          getEncodedBytes(topicRecord),
+				Value:          GetEncodedBytes(topicRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          getEncodedBytes(partitionRecord),
+				Value:          GetEncodedBytes(partitionRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -297,8 +128,8 @@ func GenerateClusterMetadata(path string, topicName string, topicUUID string, di
 	fmt.Printf("Successfully wrote cluster metadata file to: %s\n", path)
 }
 
-func GenerateTopicData(path string, topicName string, message string) {
-	encoder := encoder.RealEncoder{}
+func writeTopicData(path string, message string) {
+	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
 	recordBatch := kafkaapi.RecordBatch{
@@ -346,12 +177,6 @@ func generatePartitionMetadataFile(path string, versionID int, topicID string) e
 	return writePartitionMetadata(versionID, topicID, path)
 }
 
-func generatePartitionMetadataFiles() {
-	generatePartitionMetadataFile("/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-generated-logs/foo-0/partition.metadata", 0, "v9meXjI1RVKB-NSvF0GXDA")
-
-	generatePartitionMetadataFile("/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-generated-logs/__cluster_metadata-0/partition.metadata", 0, "AAAAAAAAAAAAAAAAAAAAAQ")
-}
-
 func writeMetaProperties(clusterID, directoryID string, nodeID, version int, path string) error {
 	content := fmt.Sprintf("#\n#%s\ncluster.id=%s\ndirectory.id=%s\nnode.id=%d\nversion=%d\n",
 		time.Now().Format("Mon Jan 02 15:04:05 MST 2006"), clusterID, directoryID, nodeID, version)
@@ -368,7 +193,7 @@ func generateMetaPropertiesFile(path, clusterID, directoryID string, nodeID, ver
 	return writeMetaProperties(clusterID, directoryID, nodeID, version, path)
 }
 
-func Generate_all_required_files() {
+func GenerateLogDirs() {
 	clusterID := common.CLUSTER_ID
 	directoryID, _ := uuidToBase64(common.DIRECTORY_UUID)
 	nodeID := common.NODE_ID
@@ -398,9 +223,8 @@ func Generate_all_required_files() {
 	generatePartitionMetadataFile(topicMetadataPath, 0, topicID)
 	generatePartitionMetadataFile(clusterMetadataPath, 0, clusterMetadataTopicID)
 
-	GenerateTopicData(topicDataPath, topicName, "Hello World!")
-
-	GenerateClusterMetadata(clusterMetadataFilePath, topicName, topicUUID, directoryUUID)
+	writeTopicData(topicDataPath, "Hello World!")
+	writeClusterMetadata(clusterMetadataFilePath, topicName, topicUUID, directoryUUID)
 }
 
 func generateDirectory(path string) {
