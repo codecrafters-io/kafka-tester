@@ -65,6 +65,14 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testMultiFetchFromDisk,
 		},
 		{
+			Slug:     "xy1",
+			TestFunc: testAPIVersionwDescribeTopicPartitions,
+		},
+		{
+			Slug:     "xy2",
+			TestFunc: testDTPartitionWithUnknownTopic,
+		},
+		{
 			Slug:     "xy3",
 			TestFunc: testDTPartitionWithTopicAndSinglePartition,
 		},
