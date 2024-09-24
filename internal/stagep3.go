@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -35,7 +36,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		Body: kafkaapi.DescribeTopicPartitionRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
-					Name: "foo",
+					Name: common.TOPIC_NAME,
 				},
 			},
 			ResponsePartitionLimit: 1,
@@ -78,8 +79,8 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 	logger.Successf("✓ Topic Name: %v", topicResponse.Name)
 
-	if topicResponse.TopicID != "bfd99e5e-3235-4552-81f8-d4af1741970c" {
-		return fmt.Errorf("Expected Topic ID to be bfd99e5e-3235-4552-81f8-d4af1741970c, got %v", topicResponse.TopicID)
+	if topicResponse.TopicID != common.TOPIC_UUID {
+		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC_UUID, topicResponse.TopicID)
 	}
 	logger.Successf("✓ Topic ID: %v", topicResponse.TopicID)
 
