@@ -206,7 +206,8 @@ func GenerateLogDirs() {
 	fmt.Printf("directoryUUID: %s\n", directoryUUID)
 	fmt.Printf("directoryID: %s\n", directoryID)
 
-	basePath := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-genx-logs/"
+	// basePath := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-genx-logs/"
+	basePath := "/tmp/kraft-combined-logs"
 	topicMetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topicName)
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
