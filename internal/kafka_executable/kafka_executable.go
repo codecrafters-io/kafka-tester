@@ -29,6 +29,7 @@ func NewKafkaExecutable(stageHarness *test_case_harness.TestCaseHarness) *KafkaE
 
 func (b *KafkaExecutable) Run(args ...string) error {
 	b.args = args
+	b.args = append(b.args, "/tmp/kraft-combined-logs/kraft.server.properties")
 	if len(b.args) == 0 {
 		b.logger.Infof("$ ./%s", path.Base(b.executable.Path))
 	} else {
