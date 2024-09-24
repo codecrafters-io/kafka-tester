@@ -1,8 +1,10 @@
 package serializer
 
 import (
+	_ "embed"
 	"encoding/base64"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -12,6 +14,21 @@ import (
 	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/google/uuid"
 )
+
+//go:embed kraft.server.properties
+var kraftServerProperties string
+
+// writeKraftServerProperties writes the embedded kraft.server.properties content to /tmp/kraft-combined-logs/kraft.server.properties
+func writeKraftServerProperties() {
+	destFile := "/tmp/kraft-combined-logs/kraft.server.properties"
+
+	err := os.WriteFile(destFile, []byte(kraftServerProperties), 0644)
+	if err != nil {
+		log.Fatalf("Failed to write to file %s: %v", destFile, err)
+	}
+
+	log.Printf("Successfully wrote embedded kraft.server.properties to %s", destFile)
+}
 
 func GetEncodedBytes(encodableObject interface{}) []byte {
 	encoder := kafkaencoder.RealEncoder{}
@@ -226,6 +243,7 @@ func GenerateLogDirs() {
 
 	writeTopicData(topicDataPath, "Hello World!")
 	writeClusterMetadata(clusterMetadataFilePath, topicName, topicUUID, directoryUUID)
+	writeKraftServerProperties()
 }
 
 func generateDirectory(path string) {
