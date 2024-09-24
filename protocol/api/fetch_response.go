@@ -241,14 +241,13 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logg
 	protocol.LogWithIndentation(logger, indentation, "✔️ .preferred_read_replica (%d)", pr.PreferedReadReplica)
 
 	// Record Batches are encoded as COMPACT_RECORDS
-	numBytes, err := pd.GetUnsignedVarint()
+	numBytes, err := pd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("compact_records_length")
 		}
 		return err
 	}
-	numBytes -= 1
 	protocol.LogWithIndentation(logger, indentation, "✔️ .compact_records_length (%d)", numBytes)
 
 	k := 0
