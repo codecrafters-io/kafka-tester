@@ -76,5 +76,13 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "xy3",
 			TestFunc: testDTPartitionWithTopicAndSinglePartition,
 		},
+		{
+			Slug:     "xy4",
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions1,
+		},
+		{
+			Slug:     "xy5",
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
+		},
 	},
 }

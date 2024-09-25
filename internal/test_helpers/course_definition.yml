@@ -598,3 +598,5 @@ stages:
       In this stage, you'll implement the Fetch response for a topic with multiple messages, reading them from disk.
 
   - slug: "xy3"
+  - slug: "xy4"
+  - slug: "xy5"
