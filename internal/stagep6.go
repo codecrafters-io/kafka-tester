@@ -97,7 +97,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	if topicResponse1.TopicID != common.TOPIC1_UUID {
 		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC1_UUID, topicResponse1.TopicID)
 	}
-	logger.Successf("✓ Topic ID: %v", topicResponse1.TopicID)
+	logger.Successf("✓ Topic UUID: %v", topicResponse1.TopicID)
 
 	if len(topicResponse1.Partitions) != 1 {
 		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse1.Partitions))
@@ -130,7 +130,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	if topicResponse2.TopicID != common.TOPIC2_UUID {
 		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC2_UUID, topicResponse2.TopicID)
 	}
-	logger.Successf("✓ Topic ID: %v", topicResponse2.TopicID)
+	logger.Successf("✓ Topic UUID: %v", topicResponse2.TopicID)
 
 	if len(topicResponse2.Partitions) != 1 {
 		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse2.Partitions))
@@ -163,7 +163,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	if topicResponse3.TopicID != common.TOPIC3_UUID {
 		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC3_UUID, topicResponse3.TopicID)
 	}
-	logger.Successf("✓ Topic ID: %v", topicResponse3.TopicID)
+	logger.Successf("✓ Topic UUID: %v", topicResponse3.TopicID)
 
 	if len(topicResponse3.Partitions) != 2 {
 		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse3.Partitions))

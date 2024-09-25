@@ -86,7 +86,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	if topicResponse.TopicID != "00000000-0000-0000-0000-000000000000" {
 		return fmt.Errorf("Expected Topic ID to be %v, got %v", "00000000-0000-0000-0000-000000000000", topicResponse.TopicID)
 	}
-	logger.Successf("✓ Topic ID: %v", topicResponse.TopicID)
+	logger.Successf("✓ Topic UUID: %v", topicResponse.TopicID)
 
 	if len(topicResponse.Partitions) != 0 {
 		return fmt.Errorf("Expected Partitions to have length 0, got %v", len(topicResponse.Partitions))
