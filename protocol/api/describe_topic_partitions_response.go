@@ -55,7 +55,12 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .next_cursor (%v)", a.NextCursor)
 
-	pd.GetEmptyTaggedFieldArray()
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
 
 	return nil
@@ -148,7 +153,12 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 	a.TopicAuthorizedOperations = topicAuthorizedOperations
 	protocol.LogWithIndentation(logger, indentation, "✔️ .topic_authorized_operations (%d)", a.TopicAuthorizedOperations)
 
-	pd.GetEmptyTaggedFieldArray()
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
 
 	return nil
@@ -243,7 +253,12 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .offline_replicas (%v)", d.OfflineReplicas)
 
-	pd.GetEmptyTaggedFieldArray()
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
 
 	return nil
@@ -286,8 +301,12 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .partition_index (%d)", c.PartitionIndex)
 
-	pd.GetEmptyTaggedFieldArray()
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
 	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
-
 	return nil
 }
