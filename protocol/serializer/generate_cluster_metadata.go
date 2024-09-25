@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 	"time"
@@ -361,39 +360,75 @@ func generateMetaPropertiesFile(path, clusterID, directoryID string, nodeID, ver
 }
 
 func GenerateLogDirs() {
-	clusterID := common.CLUSTER_ID
-	directoryID, _ := uuidToBase64(common.DIRECTORY_UUID)
+	// Topic1 -> Message1 (Partition=1)
+	// Topic2 -> None (Partition=1)
+	// Topic3 -> Message2, Message3 (Partition=2)
+
+	// meta
 	nodeID := common.NODE_ID
 	version := common.VERSION
-	topicName := common.TOPIC_NAME
-	topicID, _ := uuidToBase64(common.TOPIC_UUID)
-	topicUUID := common.TOPIC_UUID
-	clusterMetadataTopicID := common.CLUSTER_METADATA_TOPIC_ID
 	directoryUUID := common.DIRECTORY_UUID
-	fmt.Printf("directoryUUID: %s\n", directoryUUID)
-	fmt.Printf("directoryID: %s\n", directoryID)
+	directoryID, _ := uuidToBase64(common.DIRECTORY_UUID)
 
-	// basePath := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-genx-logs/"
-	basePath := "/tmp/kraft-combined-logs"
-	topicMetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topicName)
+	// cluster
+	clusterID := common.CLUSTER_ID
+	clusterMetadataTopicID := common.CLUSTER_METADATA_TOPIC_ID
+
+	// topics
+	topic1Name := common.TOPIC1_NAME
+	topic1ID, _ := uuidToBase64(common.TOPIC1_UUID)
+	topic1UUID := common.TOPIC1_UUID
+	topic2Name := common.TOPIC2_NAME
+	topic2ID, _ := uuidToBase64(common.TOPIC2_UUID)
+	topic2UUID := common.TOPIC2_UUID
+	topic3Name := common.TOPIC3_NAME
+	topic3ID, _ := uuidToBase64(common.TOPIC3_UUID)
+	topic3UUID := common.TOPIC3_UUID
+
+	// basePath := "/tmp/kraft-combined-logs"
+	basePath := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-gen-logs"
+
+	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
+	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)
+	topic3MetadataDirectory1 := fmt.Sprintf("%s/%s-0", basePath, topic3Name)
+	topic3MetadataDirectory2 := fmt.Sprintf("%s/%s-1", basePath, topic3Name)
+
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
+	kraftServerPropertiesPath := fmt.Sprintf("%s/kraft.server.properties", basePath)
 	metaPropertiesPath := fmt.Sprintf("%s/meta.properties", basePath)
-	topicMetadataPath := fmt.Sprintf("%s/partition.metadata", topicMetadataDirectory)
+	topic1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic1MetadataDirectory)
+	topic2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic2MetadataDirectory)
+	topic3Partition1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3MetadataDirectory1)
+	topic3Partition2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3MetadataDirectory2)
 	clusterMetadataPath := fmt.Sprintf("%s/partition.metadata", clusterMetadataDirectory)
-	topicDataPath := fmt.Sprintf("%s/00000000000000000000.log", topicMetadataDirectory)
+	topic1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic1MetadataDirectory)
+	topic2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic2MetadataDirectory)
+	topic3DataFilePath1 := fmt.Sprintf("%s/00000000000000000000.log", topic3MetadataDirectory1)
+	topic3DataFilePath2 := fmt.Sprintf("%s/00000000000000000000.log", topic3MetadataDirectory2)
 	clusterMetadataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
 
-	generateDirectory(topicMetadataDirectory)
+	generateDirectory(topic1MetadataDirectory)
+	generateDirectory(topic2MetadataDirectory)
+	generateDirectory(topic3MetadataDirectory1)
+	generateDirectory(topic3MetadataDirectory2)
 	generateDirectory(clusterMetadataDirectory)
 
 	generateMetaPropertiesFile(metaPropertiesPath, clusterID, directoryID, nodeID, version)
-	generatePartitionMetadataFile(topicMetadataPath, 0, topicID)
+	generatePartitionMetadataFile(topic1MetadataPath, 0, topic1ID)
+	generatePartitionMetadataFile(topic2MetadataPath, 0, topic2ID)
+	generatePartitionMetadataFile(topic3Partition1MetadataPath, 0, topic3ID)
+	generatePartitionMetadataFile(topic3Partition2MetadataPath, 0, topic3ID)
 	generatePartitionMetadataFile(clusterMetadataPath, 0, clusterMetadataTopicID)
 
-	writeTopicData(topicDataPath, "Hello World!")
-	writeClusterMetadata(clusterMetadataFilePath, topicName, topicUUID, directoryUUID)
-	writeKraftServerProperties()
+	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1})
+	writeTopicData(topic2DataFilePath, []string{})
+	writeTopicData(topic3DataFilePath1, []string{common.MESSAGE2, common.MESSAGE3})
+	writeTopicData(topic3DataFilePath2, []string{})
+
+	writeClusterMetadata(clusterMetadataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID)
+
+	writeKraftServerProperties(kraftServerPropertiesPath)
 }
 
 func generateDirectory(path string) {
