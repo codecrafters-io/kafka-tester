@@ -7,16 +7,17 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-// ToDo: Reset this file to the placeholder
-// Adding this to test how messing with the logs.dir messes with the FETCH request
 func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
 	}
+	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
 
@@ -44,7 +45,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c",
+					TopicUUID: common.TOPIC1_UUID,
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -88,7 +89,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 	msgValues := []string{}
-	expectedMsgValues := []string{"Hello World!"}
+	expectedMsgValues := []string{common.MESSAGE1}
 	for _, topicResponse := range responseBody.TopicResponses {
 		for _, partitionResponse := range topicResponse.PartitionResponses {
 			if len(partitionResponse.RecordBatches) == 0 {
