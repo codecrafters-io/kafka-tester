@@ -2,7 +2,18 @@ Debug = true
 
 [33m[stage-6] [0m[94mRunning tests for Stage #6: xy1[0m
 [33m[stage-6] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-6] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-6] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
@@ -46,7 +57,7 @@ Debug = true
 [33m[stage-6] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-6] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-6] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-6] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
+[33m[stage-6] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
 [33m[stage-6] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-6] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-6] [0m[36m[0m
@@ -374,7 +385,18 @@ Debug = true
 
 [33m[stage-5] [0m[94mRunning tests for Stage #5: xy2[0m
 [33m[stage-5] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-5] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1616512461)[0m
 [33m[stage-5] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -419,7 +441,18 @@ Debug = true
 
 [33m[stage-4] [0m[94mRunning tests for Stage #4: xy3[0m
 [33m[stage-4] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-4] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 96710698)[0m
 [33m[stage-4] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -477,7 +510,18 @@ Debug = true
 
 [33m[stage-3] [0m[94mRunning tests for Stage #3: xy4[0m
 [33m[stage-3] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-3] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 254678266)[0m
 [33m[stage-3] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -538,7 +582,18 @@ Debug = true
 
 [33m[stage-2] [0m[94mRunning tests for Stage #2: xy5[0m
 [33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-2] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1893237013)[0m
 [33m[stage-2] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -611,7 +666,18 @@ Debug = true
 
 [33m[stage-1] [0m[94mRunning tests for Stage #1: xy6[0m
 [33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-1] [0m[94mSending "DescribeTopicPartition" (version: 0) request (Correlation id: 1698452642)[0m
 [33m[stage-1] [0m[36mHexdump of sent "DescribeTopicPartition" request: [0m

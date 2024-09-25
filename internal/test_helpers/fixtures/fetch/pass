@@ -2,7 +2,18 @@ Debug = true
 
 [33m[stage-4] [0m[94mRunning tests for Stage #4: gs0[0m
 [33m[stage-4] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[stage-4] [0m[36mHexdump of sent "ApiVersions" request: [0m
@@ -46,7 +57,7 @@ Debug = true
 [33m[stage-4] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-4] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-4] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-4] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 62 | n..............b[0m
+[33m[stage-4] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
 [33m[stage-4] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-4] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-4] [0m[36m[0m
@@ -373,7 +384,18 @@ Debug = true
 
 [33m[stage-3] [0m[94mRunning tests for Stage #3: dh6[0m
 [33m[stage-3] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-3] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1616512461)[0m
 [33m[stage-3] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -387,7 +409,7 @@ Debug = true
 [33m[stage-3] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 00 00 04 0d 88 0d 01 | `Z..............[0m
+[33m[stage-3] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 00 00 02 bb 69 f2 01 | `Z...........i..[0m
 [33m[stage-3] [0m[36m0010 | 00                                              | .[0m
 [33m[stage-3] [0m[36m[0m
 [33m[stage-3] [Decoder] [0m[36m- .ResponseHeader[0m
@@ -396,7 +418,7 @@ Debug = true
 [33m[stage-3] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-3] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-3] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-3] [Decoder] [0m[36m  ✔️ .session_id (67995661)[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .session_id (45836786)[0m
 [33m[stage-3] [Decoder] [0m[36m  ✔️ .num_responses (0)[0m
 [33m[stage-3] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
 [33m[stage-3] [0m[92m✓ Correlation ID: 1616512461[0m
@@ -408,7 +430,18 @@ Debug = true
 
 [33m[stage-2] [0m[94mRunning tests for Stage #2: hn6[0m
 [33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-2] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 96710698)[0m
 [33m[stage-2] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -425,7 +458,7 @@ Debug = true
 [33m[stage-2] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 00 00 15 e9 d1 e8 02 | ...*............[0m
+[33m[stage-2] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 00 00 1c 37 28 7a 02 | ...*........7(z.[0m
 [33m[stage-2] [0m[36m0010 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 | ................[0m
 [33m[stage-2] [0m[36m0020 | 02 00 00 00 00 00 64 ff ff ff ff ff ff ff ff ff | ......d.........[0m
 [33m[stage-2] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 | ................[0m
@@ -437,7 +470,7 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-2] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-2] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-2] [Decoder] [0m[36m  ✔️ .session_id (367645160)[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .session_id (473376890)[0m
 [33m[stage-2] [Decoder] [0m[36m  ✔️ .num_responses (1)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .TopicResponse[0][0m
 [33m[stage-2] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-0000-0000-000000000001)[0m
@@ -465,7 +498,18 @@ Debug = true
 
 [33m[stage-1] [0m[94mRunning tests for Stage #1: cm4[0m
 [33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
+Successfully wrote meta.properties file to: /tmp/kraft-combined-logs/meta.properties
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/foo-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/bar-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-0/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/baz-1/partition.metadata
+Successfully wrote partition.metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log
+Successfully wrote topic data file to: /tmp/kraft-combined-logs/baz-1/00000000000000000000.log
+Successfully wrote cluster metadata file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log
+Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/kraft.server.properties[33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-1] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 254678266)[0m
 [33m[stage-1] [0m[36mHexdump of sent "Fetch" request: [0m
@@ -482,7 +526,7 @@ Debug = true
 [33m[stage-1] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-1] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 00 00 28 b2 cd 43 02 | ...........(..C.[0m
+[33m[stage-1] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 00 00 2e c3 b5 fb 02 | ................[0m
 [33m[stage-1] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 01 | ......@.........[0m
 [33m[stage-1] [0m[36m0020 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 | ................[0m
 [33m[stage-1] [0m[36m0030 | 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 | ................[0m
@@ -499,7 +543,7 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-1] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
 [33m[stage-1] [Decoder] [0m[36m  ✔️ .error_code (0)[0m
-[33m[stage-1] [Decoder] [0m[36m  ✔️ .session_id (682806595)[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .session_id (784578043)[0m
 [33m[stage-1] [Decoder] [0m[36m  ✔️ .num_responses (1)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .TopicResponse[0][0m
 [33m[stage-1] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-4000-8000-000000000001)[0m
