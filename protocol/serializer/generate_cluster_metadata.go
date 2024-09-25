@@ -150,33 +150,36 @@ func writeClusterMetadata(path string, topicName string, topicUUID string, direc
 	fmt.Printf("Successfully wrote cluster metadata file to: %s\n", path)
 }
 
-func writeTopicData(path string, message string) {
+func serializeTopicData(messages []string) []byte {
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	recordBatch := kafkaapi.RecordBatch{
-		BaseOffset:           0,
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      0,
-		FirstTimestamp:       1726045973899,
-		MaxTimestamp:         1726045973899,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          []byte(message),
-				Headers:        []kafkaapi.RecordHeader{},
+	for i, message := range messages {
+		recordBatch := kafkaapi.RecordBatch{
+			BaseOffset:           int64(i),
+			PartitionLeaderEpoch: 0,
+			Attributes:           0,
+			LastOffsetDelta:      0,
+			FirstTimestamp:       1726045973899,
+			MaxTimestamp:         1726045973899,
+			ProducerId:           0,
+			ProducerEpoch:        0,
+			BaseSequence:         0,
+			Records: []kafkaapi.Record{
+				{
+					Attributes:     0,
+					TimestampDelta: 0,
+					Key:            nil,
+					Value:          []byte(message),
+					Headers:        []kafkaapi.RecordHeader{},
+				},
 			},
-		},
+		}
+		recordBatch.Encode(&encoder)
 	}
 
-	recordBatch.Encode(&encoder)
-	encodedBytes := encoder.Bytes()[:encoder.Offset()]
+	return encoder.Bytes()[:encoder.Offset()]
+}
 
 	err := os.WriteFile(path, encodedBytes, 0644)
 	if err != nil {
