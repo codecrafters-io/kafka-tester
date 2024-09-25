@@ -243,7 +243,6 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 	recordBatch4.Encode(&encoder)
 	encodedBytes := encoder.Bytes()[:encoder.Offset()]
 
-	// ToDo: GoLand will show all unhandled errors, take a pass over the code and fix them
 	err := os.WriteFile(path, encodedBytes, 0644)
 	if err != nil {
 		return fmt.Errorf("error writing file to %s: %w", path, err)

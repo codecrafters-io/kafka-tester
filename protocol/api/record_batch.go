@@ -6,7 +6,6 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -28,7 +27,7 @@ type RecordBatch struct {
 	Records              []Record
 }
 
-func (rb *RecordBatch) Encode(pe *encoder.RealEncoder) {
+func (rb *RecordBatch) Encode(pe *realencoder.RealEncoder) {
 	startOffset := pe.Offset()
 
 	pe.PutInt64(rb.BaseOffset)
@@ -211,7 +210,7 @@ type Record struct {
 	Headers        []RecordHeader
 }
 
-func (r *Record) Encode(pe *encoder.RealEncoder) {
+func (r *Record) Encode(pe *realencoder.RealEncoder) {
 	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
 	// As this is variable length, we can't use placeholders and update later reliably.
 	// We need to have a value, close to the actual value, such that it takes the same space
@@ -364,7 +363,7 @@ type RecordHeader struct {
 	Value []byte
 }
 
-func (rh *RecordHeader) Encode(pe *encoder.RealEncoder) {
+func (rh *RecordHeader) Encode(pe *realencoder.RealEncoder) {
 	pe.PutVarint(int64(len(rh.Key)))
 	pe.PutBytes([]byte(rh.Key))
 	pe.PutVarint(int64(len(rh.Value)))
