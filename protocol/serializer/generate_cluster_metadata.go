@@ -385,8 +385,7 @@ func GenerateLogDirs() {
 	topic3ID, _ := uuidToBase64(common.TOPIC3_UUID)
 	topic3UUID := common.TOPIC3_UUID
 
-	// basePath := "/tmp/kraft-combined-logs"
-	basePath := "/Users/ryang/Developer/work/course-testers/kafka-tester/internal/test_helpers/pass_all/kraft-gen-logs"
+	basePath := common.LOG_DIR
 
 	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
 	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)

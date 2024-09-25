@@ -1,6 +1,8 @@
 package common
 
 const (
+	LOG_DIR = "/tmp/kraft-combined-logs"
+
 	CLUSTER_ID = "IAAAAAAAQACAAAAAAAAAAQ" // UUID: "20000000-0000-4000-8000-000000000001"
 	NODE_ID    = 1
 	VERSION    = 1
