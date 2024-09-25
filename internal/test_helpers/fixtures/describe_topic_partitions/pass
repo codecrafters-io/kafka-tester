@@ -467,7 +467,7 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[stage-4] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 02 00 00 04 66 6f 6f | ...*.........foo[0m
 [33m[stage-4] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 01 | ......@.........[0m
-[33m[stage-4] [0m[36m0020 | 00 02 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
+[33m[stage-4] [0m[36m0020 | 00 02 00 00 00 00 00 00 00 00 00 01 00 00 00 00 | ................[0m
 [33m[stage-4] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
 [33m[stage-4] [0m[36m0040 | 0d f8 00 ff 00                                  | .....[0m
 [33m[stage-4] [0m[36m[0m
@@ -486,8 +486,8 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-4] [Decoder] [0m[36m    - .Partitions[0][0m
 [33m[stage-4] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
 [33m[stage-4] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
-[33m[stage-4] [Decoder] [0m[36m      ✔️ .leader_id (-1)[0m
-[33m[stage-4] [Decoder] [0m[36m      ✔️ .leader_epoch (1)[0m
+[33m[stage-4] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-4] [Decoder] [0m[36m      ✔️ .leader_epoch (0)[0m
 [33m[stage-4] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
 [33m[stage-4] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
 [33m[stage-4] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
@@ -536,7 +536,7 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[stage-3] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 02 00 00 04 62 61 7a | .............baz[0m
 [33m[stage-3] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 03 | ......@.........[0m
-[33m[stage-3] [0m[36m0020 | 00 02 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
+[33m[stage-3] [0m[36m0020 | 00 02 00 00 00 00 00 00 00 00 00 01 00 00 00 00 | ................[0m
 [33m[stage-3] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
 [33m[stage-3] [0m[36m0040 | 0d f8 00 01 04 62 61 7a 00 00 00 01 00 00       | .....baz......[0m
 [33m[stage-3] [0m[36m[0m
@@ -555,8 +555,8 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-3] [Decoder] [0m[36m    - .Partitions[0][0m
 [33m[stage-3] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
 [33m[stage-3] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
-[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_id (-1)[0m
-[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_epoch (1)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_epoch (0)[0m
 [33m[stage-3] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
 [33m[stage-3] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
 [33m[stage-3] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
@@ -608,9 +608,9 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[stage-2] [0m[36m0000 | 70 d8 81 15 00 00 00 00 00 02 00 00 04 62 61 7a | p............baz[0m
 [33m[stage-2] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 03 | ......@.........[0m
-[33m[stage-2] [0m[36m0020 | 00 03 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
+[33m[stage-2] [0m[36m0020 | 00 03 00 00 00 00 00 00 00 00 00 01 00 00 00 00 | ................[0m
 [33m[stage-2] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
-[33m[stage-2] [0m[36m0040 | 00 00 00 01 ff ff ff ff 00 00 00 01 02 00 00 00 | ................[0m
+[33m[stage-2] [0m[36m0040 | 00 00 00 01 00 00 00 01 00 00 00 00 02 00 00 00 | ................[0m
 [33m[stage-2] [0m[36m0050 | 01 02 00 00 00 01 01 01 01 00 00 00 0d f8 00 ff | ................[0m
 [33m[stage-2] [0m[36m0060 | 00                                              | .[0m
 [33m[stage-2] [0m[36m[0m
@@ -629,8 +629,8 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-2] [Decoder] [0m[36m    - .Partitions[0][0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
-[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_id (-1)[0m
-[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_epoch (1)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_epoch (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
@@ -640,8 +640,8 @@ Successfully wrote embedded kraft.server.properties to /tmp/kraft-combined-logs/
 [33m[stage-2] [Decoder] [0m[36m    - .Partitions[1][0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .partition_index (1)[0m
-[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_id (-1)[0m
-[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_epoch (1)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_epoch (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
 [33m[stage-2] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m

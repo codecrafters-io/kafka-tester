@@ -48,8 +48,10 @@ func TestStages(t *testing.T) {
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"hexdump":    {regexp.MustCompile(`[0-9a-fA-F]{4} \| [0-9a-fA-F ]{47} \| .{0,16}`)},
-		"session_id": {regexp.MustCompile(`✔️ .session_id \([0-9]{0,16}\)`)},
+		"hexdump":      {regexp.MustCompile(`[0-9a-fA-F]{4} \| [0-9a-fA-F ]{47} \| .{0,16}`)},
+		"session_id":   {regexp.MustCompile(`✔️ .session_id \([0-9]{0,16}\)`)},
+		"leader_id":    {regexp.MustCompile(`✔️ .leader_id \([-0-9]{1,}\)`)},
+		"leader_epoch": {regexp.MustCompile(`✔️ .leader_epoch \([-0-9]{1,}\)`)},
 	}
 
 	for replacement, regexes := range replacements {
