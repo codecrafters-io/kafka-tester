@@ -16,7 +16,7 @@ import (
 )
 
 // writeKraftServerProperties writes the embedded kraft.server.properties content to /tmp/kraft-combined-logs/kraft.server.properties
-func writeKraftServerProperties() {
+func writeKraftServerProperties(path string) {
 	kraftServerProperties := `process.roles=broker,controller
 node.id=1
 controller.quorum.voters=1@localhost:9093
@@ -25,14 +25,14 @@ controller.listener.names=CONTROLLER
 listener.security.protocol.map=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
 log.dirs=/tmp/kraft-combined-logs`
 
-	destFile := "/tmp/kraft-combined-logs/kraft.server.properties"
-
-	err := os.WriteFile(destFile, []byte(kraftServerProperties), 0644)
+	err := os.WriteFile(path, []byte(kraftServerProperties), 0644)
 	if err != nil {
-		log.Fatalf("Failed to write to file %s: %v", destFile, err)
+		// ToDo error handling
+		// All generate file methods need to handle errors properly
+		fmt.Printf("Failed to write to file %s: %v", path, err)
 	}
 
-	log.Printf("Successfully wrote embedded kraft.server.properties to %s", destFile)
+	fmt.Printf("Successfully wrote embedded kraft.server.properties to %s", path)
 }
 
 func GetEncodedBytes(encodableObject interface{}) []byte {
