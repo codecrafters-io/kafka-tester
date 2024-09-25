@@ -329,7 +329,7 @@ func writeTopicData(path string, messages []string) {
 	fmt.Printf("Successfully wrote topic data file to: %s\n", path)
 }
 
-func writePartitionMetadata(version int, topicID string, path string) error {
+func writePartitionMetadata(path string, version int, topicID string) error {
 	content := fmt.Sprintf("version: %d\ntopic_id: %s", version, topicID)
 	err := os.WriteFile(path, []byte(content), 0644)
 	if err != nil {
@@ -339,11 +339,7 @@ func writePartitionMetadata(version int, topicID string, path string) error {
 	return nil
 }
 
-func generatePartitionMetadataFile(path string, versionID int, topicID string) error {
-	return writePartitionMetadata(versionID, topicID, path)
-}
-
-func writeMetaProperties(clusterID, directoryID string, nodeID, version int, path string) error {
+func writeMetaProperties(path, clusterID, directoryID string, nodeID, version int) error {
 	content := fmt.Sprintf("#\n#%s\ncluster.id=%s\ndirectory.id=%s\nnode.id=%d\nversion=%d\n",
 		time.Now().Format("Mon Jan 02 15:04:05 MST 2006"), clusterID, directoryID, nodeID, version)
 
@@ -353,10 +349,6 @@ func writeMetaProperties(clusterID, directoryID string, nodeID, version int, pat
 	}
 	fmt.Printf("Successfully wrote meta.properties file to: %s\n", path)
 	return nil
-}
-
-func generateMetaPropertiesFile(path, clusterID, directoryID string, nodeID, version int) error {
-	return writeMetaProperties(clusterID, directoryID, nodeID, version, path)
 }
 
 func GenerateLogDirs() {
@@ -408,12 +400,12 @@ func GenerateLogDirs() {
 
 	generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
 
-	generateMetaPropertiesFile(metaPropertiesPath, clusterID, directoryID, nodeID, version)
-	generatePartitionMetadataFile(topic1MetadataPath, 0, topic1ID)
-	generatePartitionMetadataFile(topic2MetadataPath, 0, topic2ID)
-	generatePartitionMetadataFile(topic3Partition1MetadataPath, 0, topic3ID)
-	generatePartitionMetadataFile(topic3Partition2MetadataPath, 0, topic3ID)
-	generatePartitionMetadataFile(clusterMetadataPath, 0, clusterMetadataTopicID)
+	writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version)
+	writePartitionMetadata(topic1MetadataPath, 0, topic1ID)
+	writePartitionMetadata(topic2MetadataPath, 0, topic2ID)
+	writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID)
+	writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID)
+	writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID)
 
 	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1})
 	writeTopicData(topic2DataFilePath, []string{})
