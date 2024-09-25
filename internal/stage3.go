@@ -36,7 +36,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    4,
-			CorrelationId: int32(correlationId),
+			CorrelationId: correlationId,
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
@@ -88,8 +88,8 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
 	logger.ResetSecondaryPrefix()
 
-	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
+	if responseCorrelationId != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
 	}
 
 	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)

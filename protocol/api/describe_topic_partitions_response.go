@@ -145,7 +145,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		}
 		return err
 	}
-	a.TopicAuthorizedOperations = int32(topicAuthorizedOperations)
+	a.TopicAuthorizedOperations = topicAuthorizedOperations
 	protocol.LogWithIndentation(logger, indentation, "✔️ .topic_authorized_operations (%d)", a.TopicAuthorizedOperations)
 
 	pd.GetEmptyTaggedFieldArray()

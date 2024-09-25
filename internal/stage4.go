@@ -98,8 +98,8 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	protocol.LogWithIndentation(logger, 1, "✔️ .error_code (%d)", errorCode)
 	logger.ResetSecondaryPrefix()
 
-	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
+	if responseCorrelationId != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
 	}
 
 	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
