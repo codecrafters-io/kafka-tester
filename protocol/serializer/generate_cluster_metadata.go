@@ -389,23 +389,22 @@ func GenerateLogDirs() {
 
 	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
 	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)
-	topic3MetadataDirectory1 := fmt.Sprintf("%s/%s-0", basePath, topic3Name)
-	topic3MetadataDirectory2 := fmt.Sprintf("%s/%s-1", basePath, topic3Name)
-
+	topic3Partition1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic3Name)
+	topic3Partition2MetadataDirectory := fmt.Sprintf("%s/%s-1", basePath, topic3Name)
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
 	kraftServerPropertiesPath := fmt.Sprintf("%s/kraft.server.properties", basePath)
 	metaPropertiesPath := fmt.Sprintf("%s/meta.properties", basePath)
 	topic1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic1MetadataDirectory)
 	topic2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic2MetadataDirectory)
-	topic3Partition1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3MetadataDirectory1)
-	topic3Partition2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3MetadataDirectory2)
-	clusterMetadataPath := fmt.Sprintf("%s/partition.metadata", clusterMetadataDirectory)
+	topic3Partition1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3Partition1MetadataDirectory)
+	topic3Partition2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3Partition2MetadataDirectory)
+	clusterMetadataMetadataPath := fmt.Sprintf("%s/partition.metadata", clusterMetadataDirectory)
 	topic1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic1MetadataDirectory)
 	topic2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic2MetadataDirectory)
-	topic3DataFilePath1 := fmt.Sprintf("%s/00000000000000000000.log", topic3MetadataDirectory1)
-	topic3DataFilePath2 := fmt.Sprintf("%s/00000000000000000000.log", topic3MetadataDirectory2)
-	clusterMetadataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
+	topic3Partition1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition1MetadataDirectory)
+	topic3Partition2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition2MetadataDirectory)
+	clusterMetadataDataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
 
 	generateDirectory(topic1MetadataDirectory)
 	generateDirectory(topic2MetadataDirectory)
@@ -422,10 +421,10 @@ func GenerateLogDirs() {
 
 	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1})
 	writeTopicData(topic2DataFilePath, []string{})
-	writeTopicData(topic3DataFilePath1, []string{common.MESSAGE2, common.MESSAGE3})
-	writeTopicData(topic3DataFilePath2, []string{})
+	writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3})
+	writeTopicData(topic3Partition2DataFilePath, []string{})
 
-	writeClusterMetadata(clusterMetadataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID)
+	writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID)
 
 	writeKraftServerProperties(kraftServerPropertiesPath)
 }
