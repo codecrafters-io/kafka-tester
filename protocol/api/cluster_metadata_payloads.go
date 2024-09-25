@@ -8,7 +8,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
-//lint:ignore U1000, these are not used in the codebase currently
 type ClusterMetadataPayload struct {
 	FrameVersion int8
 	Type         int8

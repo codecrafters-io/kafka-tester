@@ -40,6 +40,7 @@ func generateDirectory(path string) {
 	}
 }
 
+//lint:ignore U1000, this is not used in the codebase currently
 func base64ToUUID(base64Str string) (string, error) {
 	base64Str = strings.Replace(base64Str, "-", "+", 1)
 	base64Str += "=="
