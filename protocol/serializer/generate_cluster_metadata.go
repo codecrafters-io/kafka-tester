@@ -406,11 +406,7 @@ func GenerateLogDirs() {
 	topic3Partition2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition2MetadataDirectory)
 	clusterMetadataDataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
 
-	generateDirectory(topic1MetadataDirectory)
-	generateDirectory(topic2MetadataDirectory)
-	generateDirectory(topic3MetadataDirectory1)
-	generateDirectory(topic3MetadataDirectory2)
-	generateDirectory(clusterMetadataDirectory)
+	generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
 
 	generateMetaPropertiesFile(metaPropertiesPath, clusterID, directoryID, nodeID, version)
 	generatePartitionMetadataFile(topic1MetadataPath, 0, topic1ID)
@@ -429,7 +425,15 @@ func GenerateLogDirs() {
 	writeKraftServerProperties(kraftServerPropertiesPath)
 }
 
+func generateDirectories(paths []string) {
+	// ToDo: error handling
+	for _, path := range paths {
+		generateDirectory(path)
+	}
+}
+
 func generateDirectory(path string) {
+	// ToDo: error handling
 	err := os.MkdirAll(path, 0755)
 	if err != nil {
 		fmt.Printf("Error creating directory: %v\n", err)
