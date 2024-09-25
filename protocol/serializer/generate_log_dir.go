@@ -3,6 +3,7 @@ package serializer
 import (
 	_ "embed"
 	"fmt"
+	"os"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 )
@@ -34,6 +35,8 @@ func GenerateLogDirs() {
 	topic3UUID := common.TOPIC3_UUID
 
 	basePath := common.LOG_DIR
+
+	os.RemoveAll(basePath) // ToDo: error handling
 
 	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
 	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)
