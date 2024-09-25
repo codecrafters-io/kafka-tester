@@ -78,7 +78,11 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		return fmt.Errorf("Expected topicResponse to have length 3, got %v", len(responseBody.Topics))
 	}
 
-	topicResponse1 := responseBody.Topics[2]
+	// We expect the topics to be in the following order:
+	// TOPIC1, TOPIC2, TOPIC3 (in that order)
+	// If order is mismatched, the test will fail
+
+	topicResponse1 := responseBody.Topics[0]
 
 	if topicResponse1.ErrorCode != 0 {
 		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse1.ErrorCode)
@@ -111,7 +115,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
 
-	topicResponse2 := responseBody.Topics[0]
+	topicResponse2 := responseBody.Topics[1]
 
 	if topicResponse2.ErrorCode != 0 {
 		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse2.ErrorCode)
@@ -144,7 +148,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
 
-	topicResponse3 := responseBody.Topics[1]
+	topicResponse3 := responseBody.Topics[2]
 
 	if topicResponse3.ErrorCode != 0 {
 		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse3.ErrorCode)
