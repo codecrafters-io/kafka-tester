@@ -56,14 +56,14 @@ func base64ToUUID(base64Str string) (string, error) {
 		return "", fmt.Errorf("decoded byte array is not 16 bytes long")
 	}
 
-	uuid := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
+	uuidValue := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		decoded[0:4],
 		decoded[4:6],
 		decoded[6:8],
 		decoded[8:10],
 		decoded[10:16])
 
-	return uuid, nil
+	return uuidValue, nil
 }
 
 func uuidToBase64(uuidStr string) (string, error) {
