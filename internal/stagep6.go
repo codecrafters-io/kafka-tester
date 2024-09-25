@@ -50,6 +50,9 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 			ResponsePartitionLimit: 4,
 		},
 	}
+	// response for topicResponses will be sorted by topic name
+	// bar -> baz -> foo
+	// ToDo: Better framework for testing this
 
 	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
 	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
