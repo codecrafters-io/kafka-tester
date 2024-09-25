@@ -13,10 +13,31 @@ func TestStages(t *testing.T) {
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
 		"base_stages_pass": {
-			UntilStageSlug:      "hn6",
+			UntilStageSlug:      "pv1",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"concurrent_stages_pass": {
+			StageSlugs:          []string{"nh4", "sk0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"describe_topic_partitions_pass": {
+			StageSlugs:          []string{"xy1", "xy2", "xy3", "xy4", "xy5"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"fetch_pass": {
+			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}
