@@ -28,7 +28,7 @@ func TestStages(t *testing.T) {
 		},
 		"describe_topic_partitions_pass": {
 			// ToDo: Update slugs
-			StageSlugs:          []string{"xy1", "xy2", "xy3", "xy4", "xy5", "xy6"},
+			StageSlugs:          []string{"yk1", "vt6", "ea7", "lk1", "ku4", "wq2"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",

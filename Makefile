@@ -17,7 +17,7 @@ test_base_with_kafka: build
 
 test_describe_topic_partitions_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"xy1\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: API Version with Describe Topic Partitions\"}, {\"slug\":\"xy2\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Describe Topic Partitions for unknown topic\"}, {\"slug\":\"xy3\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Describe Topic Partitions\"}, {\"slug\":\"xy4\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Describe Topic Partitions w Multi partition\"}, {\"slug\":\"xy5\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Describe Topic Partitions w Multi partition\"}, {\"slug\":\"xy6\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Describe Topic Partitions 2\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"yk1\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: API Version with Describe Topic Partitions\"}, {\"slug\":\"vt6\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Describe Topic Partitions for unknown topic\"}, {\"slug\":\"ea7\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Describe Topic Partitions\"}, {\"slug\":\"lk1\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Describe Topic Partitions w Multi partition\"}, {\"slug\":\"ku4\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Describe Topic Partitions w Multi partition\"}, {\"slug\":\"wq2\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Describe Topic Partitions 2\"}]" \
 	dist/main.out
 
 test_concurrent_requests_with_kafka: build
