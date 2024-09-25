@@ -17,9 +17,12 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
@@ -47,7 +50,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
-	err := broker.Send(message)
+	err = broker.Send(message)
 	if err != nil {
 		return err
 	}

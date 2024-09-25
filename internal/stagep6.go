@@ -11,14 +11,18 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
+// ToDo: logs
+// INFO: Wrote log files to tmp/XYZ
+// -> DEBUG: wrote file to: PATH
+
 func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	serializer.GenerateLogDirs(logger)
 
 	correlationId := getRandomCorrelationId()
 

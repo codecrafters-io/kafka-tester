@@ -12,9 +12,12 @@ func testBindToPort(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	bindTestCase := test_cases.BindTestCase{
 		Port:    9092,
