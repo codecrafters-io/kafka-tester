@@ -27,7 +27,8 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"describe_topic_partitions_pass": {
-			StageSlugs:          []string{"xy1", "xy2", "xy3", "xy4", "xy5"},
+			// ToDo: Update slugs
+			StageSlugs:          []string{"xy1", "xy2", "xy3", "xy4", "xy5", "xy6"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
