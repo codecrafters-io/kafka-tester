@@ -1,6 +1,6 @@
 Debug = true
 
-[33m[stage-5] [0m[94mRunning tests for Stage #5: pv1[0m
+[33m[stage-5] [0m[94mRunning tests for Stage #5: xy1[0m
 [33m[stage-5] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -46,7 +46,7 @@ Debug = true
 [33m[stage-5] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-5] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-5] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-5] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 4c | n..............L[0m
+[33m[stage-5] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 2c | n..............,[0m
 [33m[stage-5] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-5] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-5] [0m[36m[0m
@@ -365,162 +365,246 @@ Debug = true
 [33m[stage-5] [0m[92m✓ Correlation ID: 177586623[0m
 [33m[stage-5] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
 [33m[stage-5] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-5] [0m[92m✓ API version 16 is supported for FETCH[0m
 [33m[stage-5] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-5] [0m[92m✓ API version 0 is supported for DESCRIBE_TOPIC_PARTITIONS[0m
 [33m[stage-5] [0m[92mTest passed.[0m
 [33m[stage-5] [0m[36mTerminating program[0m
 [33m[stage-5] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-4] [0m[94mRunning tests for Stage #4: nc5[0m
+[33m[stage-4] [0m[94mRunning tests for Stage #4: xy2[0m
 [33m[stage-4] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-4] [0m[94mSending "ApiVersions" (version: 15281) request (Correlation id: 1616512461)[0m
-[33m[stage-4] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[stage-4] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1616512461)[0m
+[33m[stage-4] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 23 00 12 3b b1 60 5a 05 cd 00 09 6b 61 | ...#..;.`Z....ka[0m
-[33m[stage-4] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-4] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
+[33m[stage-4] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 60 5a 05 cd 00 0c 6b 61 | ...-.K..`Z....ka[0m
+[33m[stage-4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 0e 75 6e 6b | fka-tester...unk[0m
+[33m[stage-4] [0m[36m0020 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 01 ff | nown-topic......[0m
+[33m[stage-4] [0m[36m0030 | 00                                              | .[0m
 [33m[stage-4] [0m[36m[0m
-[33m[stage-4] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[stage-4] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 10 60 5a 05 cd 00 23 00 00 00 01 00 12 | ....`Z...#......[0m
-[33m[stage-4] [0m[36m0010 | 00 00 00 04                                     | ....[0m
+[33m[stage-4] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 02 00 03 0e 75 6e 6b | `Z...........unk[0m
+[33m[stage-4] [0m[36m0010 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 00 00 | nown-topic......[0m
+[33m[stage-4] [0m[36m0020 | 00 00 00 00 00 00 00 00 00 00 00 01 00 00 0d f8 | ................[0m
+[33m[stage-4] [0m[36m0030 | 00 ff 00                                        | ...[0m
 [33m[stage-4] [0m[36m[0m
-[33m[stage-4] [Decoder] [0m[36m- .Response[0m
-[33m[stage-4] [Decoder] [0m[36m  ✔️ .message_length (16)[0m
 [33m[stage-4] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[stage-4] [Decoder] [0m[36m  ✔️ .correlation_id (1616512461)[0m
-[33m[stage-4] [Decoder] [0m[36m  ✔️ .error_code (35)[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-4] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .num_topics (1)[0m
+[33m[stage-4] [Decoder] [0m[36m  - .Topics[0][0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .error_code (3)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .name (unknown-topic)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-0000-0000-000000000000)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .is_internal (false)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .num_partitions (0)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .topic_authorized_operations (3576)[0m
+[33m[stage-4] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .next_cursor ({ 0})[0m
+[33m[stage-4] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
 [33m[stage-4] [0m[92m✓ Correlation ID: 1616512461[0m
-[33m[stage-4] [0m[92m✓ Error code: 35 (UNSUPPORTED_VERSION)[0m
+[33m[stage-4] [0m[92m✓ TopicResponse Error code: 3 (UNKNOWN_TOPIC_OR_PARTITION)[0m
+[33m[stage-4] [0m[92m✓ Topic Name: unknown-topic[0m
+[33m[stage-4] [0m[92m✓ Topic ID: 00000000-0000-0000-0000-000000000000[0m
 [33m[stage-4] [0m[92mTest passed.[0m
 [33m[stage-4] [0m[36mTerminating program[0m
 [33m[stage-4] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-3] [0m[94mRunning tests for Stage #3: wa6[0m
+[33m[stage-3] [0m[94mRunning tests for Stage #3: xy3[0m
 [33m[stage-3] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-3] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1698452642)[0m
-[33m[stage-3] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[stage-3] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 96710698)[0m
+[33m[stage-3] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 12 00 04 65 3c 54 a2 00 09 6b 61 | ...#....e<T...ka[0m
-[33m[stage-3] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-3] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
+[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 4b 00 00 05 c3 b0 2a 00 0c 6b 61 | ...#.K.....*..ka[0m
+[33m[stage-3] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 66 6f 6f | fka-tester...foo[0m
+[33m[stage-3] [0m[36m0020 | 00 00 00 00 01 ff 00                            | .......[0m
 [33m[stage-3] [0m[36m[0m
-[33m[stage-3] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[stage-3] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 02 19 65 3c 54 a2 00 00 3e 00 00 00 00 00 | ....e<T...>.....[0m
-[33m[stage-3] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[stage-3] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[stage-3] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
-[33m[stage-3] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[stage-3] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
-[33m[stage-3] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[stage-3] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
-[33m[stage-3] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[stage-3] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[stage-3] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[stage-3] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[stage-3] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[stage-3] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[stage-3] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[stage-3] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[stage-3] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[stage-3] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[stage-3] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
-[33m[stage-3] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
-[33m[stage-3] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
-[33m[stage-3] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[stage-3] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
-[33m[stage-3] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[stage-3] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[stage-3] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[stage-3] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[stage-3] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[stage-3] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[stage-3] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[stage-3] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[stage-3] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[stage-3] [0m[36m0200 | 00 00 00 51 02 17 02 11 6d 65 74 61 64 61 74 61 | ...Q....metadata[0m
-[33m[stage-3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[stage-3] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 02 00 00 04 66 6f 6f | ...*.........foo[0m
+[33m[stage-3] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 01 | ......@.........[0m
+[33m[stage-3] [0m[36m0020 | 00 02 00 00 00 00 00 00 00 00 00 01 00 00 00 04 | ................[0m
+[33m[stage-3] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
+[33m[stage-3] [0m[36m0040 | 0d f8 00 ff 00                                  | .....[0m
 [33m[stage-3] [0m[36m[0m
-[33m[stage-3] [Decoder] [0m[36m- .Response[0m
-[33m[stage-3] [Decoder] [0m[36m  ✔️ .message_length (537)[0m
 [33m[stage-3] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-3] [Decoder] [0m[36m  ✔️ .correlation_id (1698452642)[0m
-[33m[stage-3] [0m[92m✓ Correlation ID: 1698452642[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .correlation_id (96710698)[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-3] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .num_topics (1)[0m
+[33m[stage-3] [Decoder] [0m[36m  - .Topics[0][0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .error_code (0)[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .name (foo)[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-4000-8000-000000000001)[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .is_internal (false)[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .num_partitions (1)[0m
+[33m[stage-3] [Decoder] [0m[36m    - .Partitions[0][0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .leader_epoch (4)[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .last_known_elr ([])[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .offline_replicas ([])[0m
+[33m[stage-3] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .topic_authorized_operations (3576)[0m
+[33m[stage-3] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .next_cursor ({ 0})[0m
+[33m[stage-3] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-3] [0m[92m✓ Correlation ID: 96710698[0m
+[33m[stage-3] [0m[92m✓ TopicResponse Error code: 0[0m
+[33m[stage-3] [0m[92m✓ Topic Name: foo[0m
+[33m[stage-3] [0m[92m✓ Topic ID: 00000000-0000-4000-8000-000000000001[0m
+[33m[stage-3] [0m[92m✓ PartitionResponse Error code: 0[0m
+[33m[stage-3] [0m[92m✓ PartitionResponse Partition Index: 0[0m
 [33m[stage-3] [0m[92mTest passed.[0m
 [33m[stage-3] [0m[36mTerminating program[0m
 [33m[stage-3] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-2] [0m[94mRunning tests for Stage #2: nv3[0m
+[33m[stage-2] [0m[94mRunning tests for Stage #2: xy4[0m
 [33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-2] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 7)[0m
-[33m[stage-2] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[stage-2] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 254678266)[0m
+[33m[stage-2] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 00 00 00 23 00 12 00 04 00 00 00 07 00 09 6b 61 | ...#..........ka[0m
-[33m[stage-2] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-2] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
+[33m[stage-2] [0m[36m0000 | 00 00 00 23 00 4b 00 00 0f 2e 14 fa 00 0c 6b 61 | ...#.K........ka[0m
+[33m[stage-2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 62 61 7a | fka-tester...baz[0m
+[33m[stage-2] [0m[36m0020 | 00 00 00 00 01 ff 00                            | .......[0m
 [33m[stage-2] [0m[36m[0m
-[33m[stage-2] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[stage-2] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 00 00 02 19 00 00 00 07 00 00 3e 00 00 00 00 00 | ..........>.....[0m
-[33m[stage-2] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[stage-2] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[stage-2] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
-[33m[stage-2] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[stage-2] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
-[33m[stage-2] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[stage-2] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
-[33m[stage-2] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[stage-2] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[stage-2] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[stage-2] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[stage-2] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[stage-2] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[stage-2] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[stage-2] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[stage-2] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[stage-2] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[stage-2] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
-[33m[stage-2] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
-[33m[stage-2] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
-[33m[stage-2] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[stage-2] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
-[33m[stage-2] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[stage-2] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[stage-2] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[stage-2] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[stage-2] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[stage-2] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[stage-2] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[stage-2] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[stage-2] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[stage-2] [0m[36m0200 | 00 00 00 5c 02 17 02 11 6d 65 74 61 64 61 74 61 | ...\....metadata[0m
-[33m[stage-2] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[stage-2] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 02 00 00 04 62 61 7a | .............baz[0m
+[33m[stage-2] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 03 | ......@.........[0m
+[33m[stage-2] [0m[36m0020 | 00 02 00 00 00 00 00 00 00 00 00 01 00 00 00 04 | ................[0m
+[33m[stage-2] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
+[33m[stage-2] [0m[36m0040 | 0d f8 00 01 04 62 61 7a 00 00 00 01 00 00       | .....baz......[0m
 [33m[stage-2] [0m[36m[0m
-[33m[stage-2] [Decoder] [0m[36m- .Response[0m
-[33m[stage-2] [Decoder] [0m[36m  ✔️ .message_length (537)[0m
 [33m[stage-2] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-2] [Decoder] [0m[36m  ✔️ .correlation_id (7)[0m
-[33m[stage-2] [0m[92m✓ Correlation ID: 7[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .correlation_id (254678266)[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-2] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .num_topics (1)[0m
+[33m[stage-2] [Decoder] [0m[36m  - .Topics[0][0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .error_code (0)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .name (baz)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-4000-8000-000000000003)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .is_internal (false)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .num_partitions (1)[0m
+[33m[stage-2] [Decoder] [0m[36m    - .Partitions[0][0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .leader_epoch (4)[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .last_known_elr ([])[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .offline_replicas ([])[0m
+[33m[stage-2] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .topic_authorized_operations (3576)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .topic_name (baz)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .partition_index (1)[0m
+[33m[stage-2] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .next_cursor ({baz 1})[0m
+[33m[stage-2] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-2] [0m[92m✓ Correlation ID: 254678266[0m
+[33m[stage-2] [0m[92m✓ TopicResponse Error code: 0[0m
+[33m[stage-2] [0m[92m✓ Topic Name: baz[0m
+[33m[stage-2] [0m[92m✓ Topic ID: 00000000-0000-4000-8000-000000000003[0m
+[33m[stage-2] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
+[33m[stage-2] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-2] [0m[92mTest passed.[0m
 [33m[stage-2] [0m[36mTerminating program[0m
 [33m[stage-2] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-1] [0m[94mRunning tests for Stage #1: vi6[0m
+[33m[stage-1] [0m[94mRunning tests for Stage #1: xy5[0m
 [33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-1] [0m[94mConnecting to port 9092...[0m
-[33m[stage-1] [0m[36mConnection successful[0m
+[33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[stage-1] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1893237013)[0m
+[33m[stage-1] [0m[36mHexdump of sent "Fetch" request: [0m
+[33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[stage-1] [0m[36m0000 | 00 00 00 23 00 4b 00 00 70 d8 81 15 00 0c 6b 61 | ...#.K..p.....ka[0m
+[33m[stage-1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 62 61 7a | fka-tester...baz[0m
+[33m[stage-1] [0m[36m0020 | 00 00 00 00 02 ff 00                            | .......[0m
+[33m[stage-1] [0m[36m[0m
+[33m[stage-1] [0m[36mHexdump of received "Fetch" response: [0m
+[33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[stage-1] [0m[36m0000 | 70 d8 81 15 00 00 00 00 00 02 00 00 04 62 61 7a | p............baz[0m
+[33m[stage-1] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 03 | ......@.........[0m
+[33m[stage-1] [0m[36m0020 | 00 03 00 00 00 00 00 00 00 00 00 01 00 00 00 04 | ................[0m
+[33m[stage-1] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
+[33m[stage-1] [0m[36m0040 | 00 00 00 01 00 00 00 01 00 00 00 04 02 00 00 00 | ................[0m
+[33m[stage-1] [0m[36m0050 | 01 02 00 00 00 01 01 01 01 00 00 00 0d f8 00 ff | ................[0m
+[33m[stage-1] [0m[36m0060 | 00                                              | .[0m
+[33m[stage-1] [0m[36m[0m
+[33m[stage-1] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .correlation_id (1893237013)[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-1] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .throttle_time_ms (0)[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .num_topics (1)[0m
+[33m[stage-1] [Decoder] [0m[36m  - .Topics[0][0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .error_code (0)[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .name (baz)[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .topic_id (00000000-0000-4000-8000-000000000003)[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .is_internal (false)[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .num_partitions (2)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .Partitions[0][0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .partition_index (0)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .leader_epoch (4)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .last_known_elr ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .offline_replicas ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
+[33m[stage-1] [Decoder] [0m[36m    - .Partitions[1][0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .error_code (0)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .partition_index (1)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .leader_id (1)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .leader_epoch (4)[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .replica_nodes ([1])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .isr_nodes ([1])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .eligible_leader_replicas ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .last_known_elr ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .offline_replicas ([])[0m
+[33m[stage-1] [Decoder] [0m[36m      ✔️ .TAG_BUFFER[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .topic_authorized_operations (3576)[0m
+[33m[stage-1] [Decoder] [0m[36m    ✔️ .TAG_BUFFER[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .next_cursor ({ 0})[0m
+[33m[stage-1] [Decoder] [0m[36m  ✔️ .TAG_BUFFER[0m
+[33m[stage-1] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[stage-1] [0m[92m✓ TopicResponse Error code: 0[0m
+[33m[stage-1] [0m[92m✓ Topic Name: baz[0m
+[33m[stage-1] [0m[92m✓ Topic ID: 00000000-0000-4000-8000-000000000003[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[1] Error code: 0[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[1] Partition Index: 1[0m
 [33m[stage-1] [0m[92mTest passed.[0m
 [33m[stage-1] [0m[36mTerminating program[0m
 [33m[stage-1] [0m[36mProgram terminated successfully[0m
