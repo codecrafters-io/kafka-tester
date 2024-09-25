@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -74,7 +75,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .message_length (%d)", messageLength)
+	protocol.LogWithIndentation(logger, 1, "- .message_length (%d)", messageLength)
 
 	logger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
@@ -85,7 +86,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
+	protocol.LogWithIndentation(logger, 1, "- .correlation_id (%d)", responseCorrelationId)
 
 	errorCode, err := decoder.GetInt16()
 	if err != nil {
@@ -95,7 +96,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .error_code (%d)", errorCode)
+	protocol.LogWithIndentation(logger, 1, "- .error_code (%d)", errorCode)
 	logger.ResetSecondaryPrefix()
 
 	if responseCorrelationId != correlationId {

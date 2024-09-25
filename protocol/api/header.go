@@ -49,7 +49,7 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder, logger *logger.L
 		return err
 	}
 	h.CorrelationId = correlation_id
-	protocol.LogWithIndentation(logger, indentation, "✔️ .correlation_id (%d)", correlation_id)
+	protocol.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
 
 	return nil
 }
@@ -63,7 +63,7 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder, logger *logger.L
 		return err
 	}
 	h.CorrelationId = correlation_id
-	protocol.LogWithIndentation(logger, indentation, "✔️ .correlation_id (%d)", correlation_id)
+	protocol.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
 
 	_, err = decoder.GetEmptyTaggedFieldArray()
 	if err != nil {
@@ -72,7 +72,7 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder, logger *logger.L
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }

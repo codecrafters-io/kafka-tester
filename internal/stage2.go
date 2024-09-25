@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
@@ -74,7 +75,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .message_length (%d)", messageLength)
+	protocol.LogWithIndentation(logger, 1, "- .message_length (%d)", messageLength)
 
 	logger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
@@ -85,7 +86,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
+	protocol.LogWithIndentation(logger, 1, "- .correlation_id (%d)", responseCorrelationId)
 	logger.ResetSecondaryPrefix()
 
 	if responseCorrelationId != int32(correlationId) {
