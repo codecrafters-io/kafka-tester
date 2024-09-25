@@ -2,10 +2,10 @@ package kafkaapi
 
 import (
 	"fmt"
+	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -28,7 +28,7 @@ func GetAPIVersions(prettyPrint bool) {
 }
 
 func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
 	request.Header.EncodeV1(&encoder)
@@ -39,7 +39,7 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 }
 
 func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -60,7 +60,7 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()

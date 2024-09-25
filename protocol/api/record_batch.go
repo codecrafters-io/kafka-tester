@@ -232,7 +232,7 @@ func (r *Record) Encode(pe *encoder.RealEncoder) {
 }
 
 func (r *Record) GetEncodedLength() int {
-	encoder := encoder.RealEncoder{}
+	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
 	encoder.PutInt8(r.Attributes)
