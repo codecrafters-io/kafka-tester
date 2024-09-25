@@ -9,7 +9,7 @@ import (
 )
 
 // writeKraftServerProperties writes the hard-coded kraft.server.properties content to path
-// path should be /tmp/kraft-combined-logs/kraft.server.properties
+// which should be /tmp/kraft-combined-logs/kraft.server.properties
 func writeKraftServerProperties(path string, logger *logger.Logger) error {
 	kraftServerProperties := `process.roles=broker,controller
 node.id=1
