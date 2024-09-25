@@ -9,7 +9,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, directoryUUID string, logger *logger.Logger) {
+func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, directoryUUID string, logger *logger.Logger) error {
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 40960))
 
@@ -145,6 +145,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 			},
 		},
 	}
+
 	recordBatch2 := kafkaapi.RecordBatch{
 		BaseOffset:           int64(len(recordBatch1.Records) + int(recordBatch1.BaseOffset)),
 		PartitionLeaderEpoch: 1,
@@ -242,12 +243,12 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 	recordBatch4.Encode(&encoder)
 	encodedBytes := encoder.Bytes()[:encoder.Offset()]
 
-	// ToDo: Remove all print statements ? (Take in prefixed logger from stage)
-	// ToDo: Error handling
 	// ToDo: GoLand will show all unhandled errors, take a pass over the code and fix them
 	err := os.WriteFile(path, encodedBytes, 0644)
 	if err != nil {
-		fmt.Printf("Error writing file: %v\n", err)
+		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
+
 	logger.Debugf("Wrote file to: %s\n", path)
+	return nil
 }

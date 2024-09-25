@@ -9,7 +9,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func GenerateLogDirs(logger *logger.Logger) {
+func GenerateLogDirs(logger *logger.Logger) error {
 	// Topic1 -> Message1 (Partition=1)
 	// Topic2 -> None (Partition=1)
 	// Topic3 -> Message2, Message3 (Partition=2)
@@ -37,7 +37,10 @@ func GenerateLogDirs(logger *logger.Logger) {
 
 	basePath := common.LOG_DIR
 
-	os.RemoveAll(basePath) // ToDo: error handling
+	err := os.RemoveAll(basePath)
+	if err != nil {
+		return fmt.Errorf("could not remove log directory at %s: %w", basePath, err)
+	}
 
 	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
 	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)
@@ -58,26 +61,76 @@ func GenerateLogDirs(logger *logger.Logger) {
 	topic3Partition2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition2MetadataDirectory)
 	clusterMetadataDataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
 
-	generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
+	err = generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
+	if err != nil {
+		return fmt.Errorf("could not generate directories: %w", err)
+	}
 
 	logger.UpdateSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
-	writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version, logger)
-	writePartitionMetadata(topic1MetadataPath, 0, topic1ID, logger)
-	writePartitionMetadata(topic2MetadataPath, 0, topic2ID, logger)
-	writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID, logger)
-	writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID, logger)
-	writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID, logger)
+	err = writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version, logger)
+	if err != nil {
+		return err
+	}
 
-	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1}, logger)
-	writeTopicData(topic2DataFilePath, []string{}, logger)
-	writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3}, logger)
-	writeTopicData(topic3Partition2DataFilePath, []string{}, logger)
+	err = writePartitionMetadata(topic1MetadataPath, 0, topic1ID, logger)
+	if err != nil {
+		return err
+	}
 
-	writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
+	err = writePartitionMetadata(topic2MetadataPath, 0, topic2ID, logger)
+	if err != nil {
+		return err
+	}
 
-	writeKraftServerProperties(kraftServerPropertiesPath, logger)
+	err = writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeTopicData(topic1DataFilePath, []string{common.MESSAGE1}, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeTopicData(topic2DataFilePath, []string{}, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3}, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeTopicData(topic3Partition2DataFilePath, []string{}, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
+	if err != nil {
+		return err
+	}
+
 	logger.Infof("Finished writing log files to: %s", basePath)
 	logger.ResetSecondaryPrefix()
+
+	return nil
 }

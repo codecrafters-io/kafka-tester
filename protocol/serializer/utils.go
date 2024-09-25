@@ -25,19 +25,22 @@ func GetEncodedBytes(encodableObject interface{}) []byte {
 	return encoded
 }
 
-func generateDirectories(paths []string) {
-	// ToDo: error handling
+func generateDirectories(paths []string) error {
 	for _, path := range paths {
-		generateDirectory(path)
+		err := generateDirectory(path)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
-func generateDirectory(path string) {
-	// ToDo: error handling
+func generateDirectory(path string) error {
 	err := os.MkdirAll(path, 0755)
 	if err != nil {
-		fmt.Printf("Error creating directory: %v\n", err)
+		return fmt.Errorf("could not create directory at %s: %w", path, err)
 	}
+	return nil
 }
 
 //lint:ignore U1000, this is not used in the codebase currently

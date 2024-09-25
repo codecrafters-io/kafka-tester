@@ -40,19 +40,21 @@ func serializeTopicData(messages []string) []byte {
 	return encoder.Bytes()[:encoder.Offset()]
 }
 
-func writeTopicData(path string, messages []string, logger *logger.Logger) {
+func writeTopicData(path string, messages []string, logger *logger.Logger) error {
 	encodedBytes := serializeTopicData(messages)
 
 	err := os.WriteFile(path, encodedBytes, 0644)
 	if err != nil {
-		fmt.Printf("Error writing file: %v\n", err)
+		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
 
 	logger.Debugf("Wrote file to: %s\n", path)
+	return nil
 }
 
 func writePartitionMetadata(path string, version int, topicID string, logger *logger.Logger) error {
 	content := fmt.Sprintf("version: %d\ntopic_id: %s", version, topicID)
+
 	err := os.WriteFile(path, []byte(content), 0644)
 	if err != nil {
 		return fmt.Errorf("error writing partition metadata file: %w", err)
