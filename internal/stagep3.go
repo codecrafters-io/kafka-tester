@@ -36,7 +36,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		Body: kafkaapi.DescribeTopicPartitionRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
-					Name: common.TOPIC_NAME,
+					Name: common.TOPIC1_NAME,
 				},
 			},
 			ResponsePartitionLimit: 1,
@@ -74,13 +74,13 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 	logger.Successf("✓ TopicResponse Error code: 0")
 
-	if topicResponse.Name != "foo" {
-		return fmt.Errorf("Expected Topic to be foo, got %v", topicResponse.Name)
+	if topicResponse.Name != common.TOPIC1_NAME {
+		return fmt.Errorf("Expected Topic to be %v, got %v", common.TOPIC1_NAME, topicResponse.Name)
 	}
 	logger.Successf("✓ Topic Name: %v", topicResponse.Name)
 
-	if topicResponse.TopicID != common.TOPIC_UUID {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC_UUID, topicResponse.TopicID)
+	if topicResponse.TopicID != common.TOPIC1_UUID {
+		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC1_UUID, topicResponse.TopicID)
 	}
 	logger.Successf("✓ Topic ID: %v", topicResponse.TopicID)
 
