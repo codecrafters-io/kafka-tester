@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 // writeKraftServerProperties writes the embedded kraft.server.properties content to /tmp/kraft-combined-logs/kraft.server.properties
-func writeKraftServerProperties(path string) {
+func writeKraftServerProperties(path string, logger *logger.Logger) {
 	kraftServerProperties := `process.roles=broker,controller
 node.id=1
 controller.quorum.voters=1@localhost:9093
@@ -23,10 +25,10 @@ log.dirs=/tmp/kraft-combined-logs`
 		fmt.Printf("Failed to write to file %s: %v", path, err)
 	}
 
-	fmt.Printf("Successfully wrote embedded kraft.server.properties to %s", path)
+	logger.Debugf("Wrote file to: %s\n", path)
 }
 
-func writeMetaProperties(path, clusterID, directoryID string, nodeID, version int) error {
+func writeMetaProperties(path, clusterID, directoryID string, nodeID, version int, logger *logger.Logger) error {
 	content := fmt.Sprintf("#\n#%s\ncluster.id=%s\ndirectory.id=%s\nnode.id=%d\nversion=%d\n",
 		time.Now().Format("Mon Jan 02 15:04:05 MST 2006"), clusterID, directoryID, nodeID, version)
 
@@ -34,6 +36,6 @@ func writeMetaProperties(path, clusterID, directoryID string, nodeID, version in
 	if err != nil {
 		return fmt.Errorf("error writing meta properties file: %w", err)
 	}
-	fmt.Printf("Successfully wrote meta.properties file to: %s\n", path)
+	logger.Debugf("Wrote file to: %s\n", path)
 	return nil
 }

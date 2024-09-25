@@ -6,9 +6,10 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, directoryUUID string) {
+func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, directoryUUID string, logger *logger.Logger) {
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 40960))
 
@@ -248,5 +249,5 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 	if err != nil {
 		fmt.Printf("Error writing file: %v\n", err)
 	}
-	fmt.Printf("Successfully wrote cluster metadata file to: %s\n", path)
+	logger.Debugf("Wrote file to: %s\n", path)
 }

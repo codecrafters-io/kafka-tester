@@ -6,6 +6,7 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func serializeTopicData(messages []string) []byte {
@@ -39,22 +40,24 @@ func serializeTopicData(messages []string) []byte {
 	return encoder.Bytes()[:encoder.Offset()]
 }
 
-func writeTopicData(path string, messages []string) {
+func writeTopicData(path string, messages []string, logger *logger.Logger) {
 	encodedBytes := serializeTopicData(messages)
 
 	err := os.WriteFile(path, encodedBytes, 0644)
 	if err != nil {
 		fmt.Printf("Error writing file: %v\n", err)
 	}
-	fmt.Printf("Successfully wrote topic data file to: %s\n", path)
+
+	logger.Debugf("Wrote file to: %s\n", path)
 }
 
-func writePartitionMetadata(path string, version int, topicID string) error {
+func writePartitionMetadata(path string, version int, topicID string, logger *logger.Logger) error {
 	content := fmt.Sprintf("version: %d\ntopic_id: %s", version, topicID)
 	err := os.WriteFile(path, []byte(content), 0644)
 	if err != nil {
 		return fmt.Errorf("error writing partition metadata file: %w", err)
 	}
-	fmt.Printf("Successfully wrote partition.metadata file to: %s\n", path)
+
+	logger.Debugf("Wrote file to: %s\n", path)
 	return nil
 }

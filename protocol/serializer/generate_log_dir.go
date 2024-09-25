@@ -6,9 +6,10 @@ import (
 	"os"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func GenerateLogDirs() {
+func GenerateLogDirs(logger *logger.Logger) {
 	// Topic1 -> Message1 (Partition=1)
 	// Topic2 -> None (Partition=1)
 	// Topic3 -> Message2, Message3 (Partition=2)
@@ -59,19 +60,24 @@ func GenerateLogDirs() {
 
 	generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
 
-	writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version)
-	writePartitionMetadata(topic1MetadataPath, 0, topic1ID)
-	writePartitionMetadata(topic2MetadataPath, 0, topic2ID)
-	writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID)
-	writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID)
-	writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID)
+	logger.UpdateSecondaryPrefix("Serializer")
+	logger.Debugf("Writing log files to: %s", basePath)
 
-	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1})
-	writeTopicData(topic2DataFilePath, []string{})
-	writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3})
-	writeTopicData(topic3Partition2DataFilePath, []string{})
+	writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version, logger)
+	writePartitionMetadata(topic1MetadataPath, 0, topic1ID, logger)
+	writePartitionMetadata(topic2MetadataPath, 0, topic2ID, logger)
+	writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID, logger)
+	writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID, logger)
+	writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID, logger)
 
-	writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID)
+	writeTopicData(topic1DataFilePath, []string{common.MESSAGE1}, logger)
+	writeTopicData(topic2DataFilePath, []string{}, logger)
+	writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3}, logger)
+	writeTopicData(topic3Partition2DataFilePath, []string{}, logger)
 
-	writeKraftServerProperties(kraftServerPropertiesPath)
+	writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
+
+	writeKraftServerProperties(kraftServerPropertiesPath, logger)
+	logger.Infof("Finished writing log files to: %s", basePath)
+	logger.ResetSecondaryPrefix()
 }
