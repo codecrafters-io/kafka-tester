@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -15,6 +16,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	if err := b.Run(); err != nil {
 		return err
 	}
+	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
 

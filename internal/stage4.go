@@ -8,6 +8,7 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,6 +17,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	if err := b.Run(); err != nil {
 		return err
 	}
+	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
 
