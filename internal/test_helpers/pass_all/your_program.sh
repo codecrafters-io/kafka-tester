@@ -6,4 +6,4 @@
 # sudo chown -R user:group ./kafka-latest
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
-/usr/local/kafka-latest/bin/kafka-server-start.sh $@
+/usr/local/kafka-latest/bin/kafka-server-start.sh $@ > /dev/null 2>&1
