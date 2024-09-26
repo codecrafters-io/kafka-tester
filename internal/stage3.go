@@ -3,10 +3,11 @@ package internal
 import (
 	"fmt"
 
+	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -17,9 +18,12 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
@@ -33,7 +37,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    4,
-			CorrelationId: int32(correlationId),
+			CorrelationId: correlationId,
 			ClientId:      "kafka-cli",
 		},
 		Body: kafkaapi.ApiVersionsRequestBody{
@@ -46,7 +50,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
-	err := broker.Send(message)
+	err = broker.Send(message)
 	if err != nil {
 		return err
 	}
@@ -58,7 +62,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
 
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 
@@ -71,7 +75,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .message_length (%d)", messageLength)
+	protocol.LogWithIndentation(logger, 1, "- .message_length (%d)", messageLength)
 
 	logger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
@@ -82,11 +86,11 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "✔️ .correlation_id (%d)", responseCorrelationId)
+	protocol.LogWithIndentation(logger, 1, "- .correlation_id (%d)", responseCorrelationId)
 	logger.ResetSecondaryPrefix()
 
-	if responseCorrelationId != int32(correlationId) {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
+	if responseCorrelationId != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
 	}
 
 	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)

@@ -16,9 +16,12 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {

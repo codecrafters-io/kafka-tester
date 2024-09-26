@@ -5,6 +5,7 @@ package decoder
 // not about how a string is represented in Kafka.
 type PacketDecoder interface {
 	// Primitives
+
 	GetInt8() (int8, error)
 	GetInt16() (int16, error)
 	GetInt32() (int32, error)
@@ -18,6 +19,7 @@ type PacketDecoder interface {
 	GetEmptyTaggedFieldArray() (int, error)
 
 	// Collections
+
 	GetBytes() ([]byte, error)
 	GetVarintBytes() ([]byte, error)
 	GetCompactBytes() ([]byte, error)
@@ -32,6 +34,7 @@ type PacketDecoder interface {
 	GetStringArray() ([]string, error)
 
 	// Subsets
+
 	Remaining() int
 	GetSubset(length int) (PacketDecoder, error)
 	Peek(offset, length int) (PacketDecoder, error) // similar to GetSubset, but it doesn't advance the offset

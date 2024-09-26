@@ -25,19 +25,22 @@ func GetEncodedBytes(encodableObject interface{}) []byte {
 	return encoded
 }
 
-func generateDirectories(paths []string) {
-	// ToDo: error handling
+func generateDirectories(paths []string) error {
 	for _, path := range paths {
-		generateDirectory(path)
+		err := generateDirectory(path)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
-func generateDirectory(path string) {
-	// ToDo: error handling
+func generateDirectory(path string) error {
 	err := os.MkdirAll(path, 0755)
 	if err != nil {
-		fmt.Printf("Error creating directory: %v\n", err)
+		return fmt.Errorf("could not create directory at %s: %w", path, err)
 	}
+	return nil
 }
 
 //lint:ignore U1000, this is not used in the codebase currently
@@ -53,14 +56,14 @@ func base64ToUUID(base64Str string) (string, error) {
 		return "", fmt.Errorf("decoded byte array is not 16 bytes long")
 	}
 
-	uuid := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
+	uuidValue := fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
 		decoded[0:4],
 		decoded[4:6],
 		decoded[6:8],
 		decoded[8:10],
 		decoded[10:16])
 
-	return uuid, nil
+	return uuidValue, nil
 }
 
 func uuidToBase64(uuidStr string) (string, error) {

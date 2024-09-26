@@ -16,9 +16,12 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
 
@@ -84,7 +87,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	if topicResponse.TopicID != common.TOPIC1_UUID {
 		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC1_UUID, topicResponse.TopicID)
 	}
-	logger.Successf("✓ Topic ID: %v", topicResponse.TopicID)
+	logger.Successf("✓ Topic UUID: %v", topicResponse.TopicID)
 
 	if len(topicResponse.Partitions) != 1 {
 		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse.Partitions))

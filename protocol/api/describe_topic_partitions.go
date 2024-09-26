@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -25,7 +25,7 @@ func GetDescribeTopicPartition() {
 }
 
 func EncodeDescribeTopicPartitionRequest(request *DescribeTopicPartitionRequest) []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
 	request.Encode(&encoder)
@@ -35,7 +35,7 @@ func EncodeDescribeTopicPartitionRequest(request *DescribeTopicPartitionRequest)
 }
 
 func DecodeDescribeTopicPartitionHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -56,7 +56,7 @@ func DecodeDescribeTopicPartitionHeader(response []byte, version int16, logger *
 // DecodeDescribeTopicPartitionHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeDescribeTopicPartitionHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()

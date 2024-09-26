@@ -431,3 +431,6 @@ func TestEncodePartitionRecord(t *testing.T) {
 
 	assert.Equal(t, "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400", hex.EncodeToString(bytes))
 }
+
+// ToDo: Add test for record
+// ToDo: Add test for recordBatch

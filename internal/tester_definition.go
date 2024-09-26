@@ -65,27 +65,23 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testMultiFetchFromDisk,
 		},
 		{
-			Slug:     "xy1",
+			Slug:     "yk1",
 			TestFunc: testAPIVersionwDescribeTopicPartitions,
 		},
 		{
-			Slug:     "xy2",
+			Slug:     "vt6",
 			TestFunc: testDTPartitionWithUnknownTopic,
 		},
 		{
-			Slug:     "xy3",
+			Slug:     "ea7",
 			TestFunc: testDTPartitionWithTopicAndSinglePartition,
 		},
 		{
-			Slug:     "xy4",
-			TestFunc: testDTPartitionWithTopicAndMultiplePartitions1,
-		},
-		{
-			Slug:     "xy5",
+			Slug:     "ku4",
 			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
 		},
 		{
-			Slug:     "xy6",
+			Slug:     "wq2",
 			TestFunc: testDTPartitionWithTopics,
 		},
 	},

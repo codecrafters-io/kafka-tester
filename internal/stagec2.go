@@ -17,9 +17,13 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	if err := b.Run(); err != nil {
 		return err
 	}
-	serializer.GenerateLogDirs()
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
+
 	clientCount := random.RandomInt(2, 4)
 	clients := make([]*protocol.Broker, clientCount)
 	correlationIds := make([]int32, clientCount)
