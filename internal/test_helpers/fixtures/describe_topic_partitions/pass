@@ -1,567 +1,498 @@
 Debug = true
 
-[33m[stage-6] [0m[94mRunning tests for Stage #6: yk1[0m
-[33m[stage-6] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-6] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[stage-6] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
-[33m[stage-6] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
-[33m[stage-6] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[stage-6] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-6] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
-[33m[stage-6] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 00 00 00 23 00 12 00 04 0a 95 c1 bf 00 09 6b 61 | ...#..........ka[0m
-[33m[stage-6] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
-[33m[stage-6] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-6] [0m[36m0000 | 0a 95 c1 bf 00 00 3e 00 00 00 00 00 0b 00 00 01 | ......>.........[0m
-[33m[stage-6] [0m[36m0010 | 00 00 00 11 00 00 02 00 00 00 09 00 00 03 00 00 | ................[0m
-[33m[stage-6] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
-[33m[stage-6] [0m[36m0030 | 00 00 0a 00 00 00 06 00 00 0b 00 00 00 09 00 00 | ................[0m
-[33m[stage-6] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
-[33m[stage-6] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
-[33m[stage-6] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 04 00 | ................[0m
-[33m[stage-6] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
-[33m[stage-6] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
-[33m[stage-6] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
-[33m[stage-6] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
-[33m[stage-6] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
-[33m[stage-6] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
-[33m[stage-6] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
-[33m[stage-6] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
-[33m[stage-6] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
-[33m[stage-6] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
-[33m[stage-6] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
-[33m[stage-6] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
-[33m[stage-6] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
-[33m[stage-6] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
-[33m[stage-6] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 02 00 00 39 | .3......7......9[0m
-[33m[stage-6] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
-[33m[stage-6] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
-[33m[stage-6] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
-[33m[stage-6] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
-[33m[stage-6] [0m[36m01a0 | 00 00 00 00 00 50 00 00 00 00 00 00 51 00 00 00 | .....P......Q...[0m
-[33m[stage-6] [0m[36m01b0 | 00 00 00 00 00 00 03 00 3d 04 0e 67 72 6f 75 70 | ........=..group[0m
-[33m[stage-6] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
-[33m[stage-6] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
-[33m[stage-6] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-6] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
-[33m[stage-6] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
-[33m[stage-6] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
-[33m[stage-6] [0m[36m[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-6] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
-[33m[stage-6] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-6] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  - .num_api_keys (61)[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[1][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (17)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[2][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[3][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[4][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (8)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[5][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[6][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (10)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (6)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[7][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (11)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (9)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[8][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (12)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[9][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (13)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[10][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (14)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[11][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (15)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[12][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (16)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[13][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (17)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[14][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (18)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[15][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (19)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (7)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[16][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (20)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (6)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[17][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (21)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[18][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (22)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[19][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (23)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[20][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (24)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (5)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[21][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (25)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[22][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (26)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[23][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (27)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[24][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (28)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[25][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (29)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[26][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (30)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[27][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (31)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[28][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (32)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[29][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (33)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[30][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (34)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[31][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (35)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[32][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (36)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[33][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (37)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[34][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (38)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[35][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (39)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[36][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (40)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[37][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (41)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (3)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[38][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (42)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[39][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (43)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[40][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (44)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[41][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (45)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[42][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (46)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[43][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (47)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[44][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (48)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[45][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (49)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[46][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (50)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[47][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (51)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[48][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (55)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (2)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[49][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (57)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[50][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (60)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[51][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (61)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[52][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (64)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[53][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (65)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[54][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (66)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (1)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[55][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (68)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[56][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (69)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[57][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (74)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[58][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (75)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[59][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (80)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .ApiKeys[60][0m
-[33m[stage-6] [Decoder] [0m[36m    - .api_key (81)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .max_version (0)[0m
-[33m[stage-6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-6] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
-[33m[stage-6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-6] [0m[92m✓ Correlation ID: 177586623[0m
-[33m[stage-6] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-6] [0m[92m✓ API keys array is non-empty[0m
-[33m[stage-6] [0m[92m✓ API version 16 is supported for FETCH[0m
-[33m[stage-6] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
-[33m[stage-6] [0m[92m✓ API version 0 is supported for DESCRIBE_TOPIC_PARTITIONS[0m
-[33m[stage-6] [0m[92mTest passed.[0m
-[33m[stage-6] [0m[36mTerminating program[0m
-[33m[stage-6] [0m[36mProgram terminated successfully[0m
-
-[33m[stage-5] [0m[94mRunning tests for Stage #5: vt6[0m
+[33m[stage-5] [0m[94mRunning tests for Stage #5: yk1[0m
 [33m[stage-5] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-5] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-5] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-5] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1616512461)[0m
-[33m[stage-5] [0m[36mHexdump of sent "Fetch" request: [0m
+[33m[stage-5] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[stage-5] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[stage-5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-5] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 60 5a 05 cd 00 0c 6b 61 | ...-.K..`Z....ka[0m
-[33m[stage-5] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 0e 75 6e 6b | fka-tester...unk[0m
-[33m[stage-5] [0m[36m0020 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 01 ff | nown-topic......[0m
-[33m[stage-5] [0m[36m0030 | 00                                              | .[0m
+[33m[stage-5] [0m[36m0000 | 00 00 00 23 00 12 00 04 0a 95 c1 bf 00 09 6b 61 | ...#..........ka[0m
+[33m[stage-5] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 0a 6b 61 66 6b 61 2d 63 | fka-cli..kafka-c[0m
+[33m[stage-5] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[stage-5] [0m[36m[0m
-[33m[stage-5] [0m[36mHexdump of received "Fetch" response: [0m
+[33m[stage-5] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-5] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 02 00 03 0e 75 6e 6b | `Z...........unk[0m
-[33m[stage-5] [0m[36m0010 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 00 00 | nown-topic......[0m
-[33m[stage-5] [0m[36m0020 | 00 00 00 00 00 00 00 00 00 00 00 01 00 00 0d f8 | ................[0m
-[33m[stage-5] [0m[36m0030 | 00 ff 00                                        | ...[0m
+[33m[stage-5] [0m[36m0000 | 0a 95 c1 bf 00 00 3e 00 00 00 00 00 0b 00 00 01 | ......>.........[0m
+[33m[stage-5] [0m[36m0010 | 00 00 00 11 00 00 02 00 00 00 09 00 00 03 00 00 | ................[0m
+[33m[stage-5] [0m[36m0020 | 00 0c 00 00 08 00 00 00 09 00 00 09 00 00 00 09 | ................[0m
+[33m[stage-5] [0m[36m0030 | 00 00 0a 00 00 00 06 00 00 0b 00 00 00 09 00 00 | ................[0m
+[33m[stage-5] [0m[36m0040 | 0c 00 00 00 04 00 00 0d 00 00 00 05 00 00 0e 00 | ................[0m
+[33m[stage-5] [0m[36m0050 | 00 00 05 00 00 0f 00 00 00 05 00 00 10 00 00 00 | ................[0m
+[33m[stage-5] [0m[36m0060 | 05 00 00 11 00 00 00 01 00 00 12 00 00 00 04 00 | ................[0m
+[33m[stage-5] [0m[36m0070 | 00 13 00 00 00 07 00 00 14 00 00 00 06 00 00 15 | ................[0m
+[33m[stage-5] [0m[36m0080 | 00 00 00 02 00 00 16 00 00 00 05 00 00 17 00 00 | ................[0m
+[33m[stage-5] [0m[36m0090 | 00 04 00 00 18 00 00 00 05 00 00 19 00 00 00 04 | ................[0m
+[33m[stage-5] [0m[36m00a0 | 00 00 1a 00 00 00 04 00 00 1b 00 00 00 01 00 00 | ................[0m
+[33m[stage-5] [0m[36m00b0 | 1c 00 00 00 04 00 00 1d 00 00 00 03 00 00 1e 00 | ................[0m
+[33m[stage-5] [0m[36m00c0 | 00 00 03 00 00 1f 00 00 00 03 00 00 20 00 00 00 | ............ ...[0m
+[33m[stage-5] [0m[36m00d0 | 04 00 00 21 00 00 00 02 00 00 22 00 00 00 02 00 | ...!......".....[0m
+[33m[stage-5] [0m[36m00e0 | 00 23 00 00 00 04 00 00 24 00 00 00 02 00 00 25 | .#......$......%[0m
+[33m[stage-5] [0m[36m00f0 | 00 00 00 03 00 00 26 00 00 00 03 00 00 27 00 00 | ......&......'..[0m
+[33m[stage-5] [0m[36m0100 | 00 02 00 00 28 00 00 00 02 00 00 29 00 00 00 03 | ....(......)....[0m
+[33m[stage-5] [0m[36m0110 | 00 00 2a 00 00 00 02 00 00 2b 00 00 00 02 00 00 | ..*......+......[0m
+[33m[stage-5] [0m[36m0120 | 2c 00 00 00 01 00 00 2d 00 00 00 00 00 00 2e 00 | ,......-........[0m
+[33m[stage-5] [0m[36m0130 | 00 00 00 00 00 2f 00 00 00 00 00 00 30 00 00 00 | ...../......0...[0m
+[33m[stage-5] [0m[36m0140 | 01 00 00 31 00 00 00 01 00 00 32 00 00 00 00 00 | ...1......2.....[0m
+[33m[stage-5] [0m[36m0150 | 00 33 00 00 00 00 00 00 37 00 00 00 02 00 00 39 | .3......7......9[0m
+[33m[stage-5] [0m[36m0160 | 00 00 00 01 00 00 3c 00 00 00 01 00 00 3d 00 00 | ......<......=..[0m
+[33m[stage-5] [0m[36m0170 | 00 00 00 00 40 00 00 00 00 00 00 41 00 00 00 00 | ....@......A....[0m
+[33m[stage-5] [0m[36m0180 | 00 00 42 00 00 00 01 00 00 44 00 00 00 00 00 00 | ..B......D......[0m
+[33m[stage-5] [0m[36m0190 | 45 00 00 00 00 00 00 4a 00 00 00 00 00 00 4b 00 | E......J......K.[0m
+[33m[stage-5] [0m[36m01a0 | 00 00 00 00 00 50 00 00 00 00 00 00 51 00 00 00 | .....P......Q...[0m
+[33m[stage-5] [0m[36m01b0 | 00 00 00 00 00 00 03 00 3d 04 0e 67 72 6f 75 70 | ........=..group[0m
+[33m[stage-5] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
+[33m[stage-5] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
+[33m[stage-5] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
+[33m[stage-5] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 11 | n...............[0m
+[33m[stage-5] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
+[33m[stage-5] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-5] [0m[36m[0m
 [33m[stage-5] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-5] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
-[33m[stage-5] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
 [33m[stage-5] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[stage-5] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
-[33m[stage-5] [Decoder] [0m[36m  - .num_topics (1)[0m
-[33m[stage-5] [Decoder] [0m[36m  - .Topics[0][0m
-[33m[stage-5] [Decoder] [0m[36m    - .error_code (3)[0m
-[33m[stage-5] [Decoder] [0m[36m    - .name (unknown-topic)[0m
-[33m[stage-5] [Decoder] [0m[36m    - .topic_id (00000000-0000-0000-0000-000000000000)[0m
-[33m[stage-5] [Decoder] [0m[36m    - .is_internal (false)[0m
-[33m[stage-5] [Decoder] [0m[36m    - .num_partitions (0)[0m
-[33m[stage-5] [Decoder] [0m[36m    - .topic_authorized_operations (3576)[0m
+[33m[stage-5] [Decoder] [0m[36m  - .error_code (0)[0m
+[33m[stage-5] [Decoder] [0m[36m  - .num_api_keys (61)[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[0][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (11)[0m
 [33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-5] [Decoder] [0m[36m  - .next_cursor ({ 0})[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[1][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (17)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[2][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[3][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (12)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[4][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (8)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[5][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (9)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[6][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (10)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (6)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[7][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (11)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[8][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (12)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[9][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (13)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[10][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (14)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[11][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (15)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[12][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (16)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[13][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (17)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[14][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (18)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[15][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (19)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (7)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[16][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (20)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (6)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[17][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (21)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[18][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (22)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[19][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (23)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[20][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (24)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[21][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (25)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[22][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (26)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[23][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (27)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[24][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (28)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[25][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (29)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[26][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (30)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[27][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (31)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[28][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (32)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[29][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (33)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[30][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (34)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[31][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (35)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[32][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (36)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[33][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (37)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[34][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (38)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[35][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (39)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[36][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (40)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[37][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (41)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[38][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (42)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[39][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (43)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[40][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (44)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[41][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (45)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[42][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (46)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[43][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (47)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[44][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (48)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[45][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (49)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[46][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (50)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[47][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (51)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[48][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (55)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[49][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (57)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[50][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (60)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[51][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (61)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[52][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (64)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[53][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (65)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[54][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (66)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[55][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (68)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[56][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (69)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[57][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (74)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[58][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (75)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[59][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (80)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .ApiKeys[60][0m
+[33m[stage-5] [Decoder] [0m[36m    - .api_key (81)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[stage-5] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[stage-5] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-5] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-5] [0m[92m✓ Correlation ID: 1616512461[0m
-[33m[stage-5] [0m[92m✓ TopicResponse Error code: 3 (UNKNOWN_TOPIC_OR_PARTITION)[0m
-[33m[stage-5] [0m[92m✓ Topic Name: unknown-topic[0m
-[33m[stage-5] [0m[92m✓ Topic UUID: 00000000-0000-0000-0000-000000000000[0m
+[33m[stage-5] [0m[92m✓ Correlation ID: 177586623[0m
+[33m[stage-5] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
+[33m[stage-5] [0m[92m✓ API keys array length: 61[0m
+[33m[stage-5] [0m[92m✓ API version 17 is supported for FETCH[0m
+[33m[stage-5] [0m[92m✓ API version 0 is supported for FETCH[0m
+[33m[stage-5] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-5] [0m[92m✓ API version 0 is supported for API_VERSIONS[0m
+[33m[stage-5] [0m[92m✓ API version 0 is supported for DESCRIBE_TOPIC_PARTITIONS[0m
+[33m[stage-5] [0m[92m✓ API version 0 is supported for DESCRIBE_TOPIC_PARTITIONS[0m
 [33m[stage-5] [0m[92mTest passed.[0m
 [33m[stage-5] [0m[36mTerminating program[0m
 [33m[stage-5] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-4] [0m[94mRunning tests for Stage #4: ea7[0m
+[33m[stage-4] [0m[94mRunning tests for Stage #4: vt6[0m
 [33m[stage-4] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-4] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-4] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-4] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 96710698)[0m
+[33m[stage-4] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1616512461)[0m
 [33m[stage-4] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 23 00 4b 00 00 05 c3 b0 2a 00 0c 6b 61 | ...#.K.....*..ka[0m
-[33m[stage-4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 70 61 7a | fka-tester...paz[0m
-[33m[stage-4] [0m[36m0020 | 00 00 00 00 01 ff 00                            | .......[0m
+[33m[stage-4] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 60 5a 05 cd 00 0c 6b 61 | ...-.K..`Z....ka[0m
+[33m[stage-4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 0e 75 6e 6b | fka-tester...unk[0m
+[33m[stage-4] [0m[36m0020 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 01 ff | nown-topic......[0m
+[33m[stage-4] [0m[36m0030 | 00                                              | .[0m
 [33m[stage-4] [0m[36m[0m
 [33m[stage-4] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 02 00 00 04 70 61 7a | ...*.........paz[0m
-[33m[stage-4] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 12 | ......@.........[0m
-[33m[stage-4] [0m[36m0020 | 00 02 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
-[33m[stage-4] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
-[33m[stage-4] [0m[36m0040 | 0d f8 00 ff 00                                  | .....[0m
+[33m[stage-4] [0m[36m0000 | 60 5a 05 cd 00 00 00 00 00 02 00 03 0e 75 6e 6b | `Z...........unk[0m
+[33m[stage-4] [0m[36m0010 | 6e 6f 77 6e 2d 74 6f 70 69 63 00 00 00 00 00 00 | nown-topic......[0m
+[33m[stage-4] [0m[36m0020 | 00 00 00 00 00 00 00 00 00 00 00 01 00 00 0d f8 | ................[0m
+[33m[stage-4] [0m[36m0030 | 00 ff 00                                        | ...[0m
 [33m[stage-4] [0m[36m[0m
 [33m[stage-4] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-4] [Decoder] [0m[36m  - .correlation_id (96710698)[0m
+[33m[stage-4] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-4] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .num_topics (1)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .Topics[0][0m
-[33m[stage-4] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-4] [Decoder] [0m[36m    - .name (paz)[0m
-[33m[stage-4] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000012)[0m
+[33m[stage-4] [Decoder] [0m[36m    - .error_code (3)[0m
+[33m[stage-4] [Decoder] [0m[36m    - .name (unknown-topic)[0m
+[33m[stage-4] [Decoder] [0m[36m    - .topic_id (00000000-0000-0000-0000-000000000000)[0m
 [33m[stage-4] [Decoder] [0m[36m    - .is_internal (false)[0m
-[33m[stage-4] [Decoder] [0m[36m    - .num_partitions (1)[0m
-[33m[stage-4] [Decoder] [0m[36m    - .Partitions[0][0m
-[33m[stage-4] [Decoder] [0m[36m      - .error_code (0)[0m
-[33m[stage-4] [Decoder] [0m[36m      - .partition_index (0)[0m
-[33m[stage-4] [Decoder] [0m[36m      - .leader_id (-1)[0m
-[33m[stage-4] [Decoder] [0m[36m      - .leader_epoch (1)[0m
-[33m[stage-4] [Decoder] [0m[36m      - .replica_nodes ([1])[0m
-[33m[stage-4] [Decoder] [0m[36m      - .isr_nodes ([1])[0m
-[33m[stage-4] [Decoder] [0m[36m      - .eligible_leader_replicas ([])[0m
-[33m[stage-4] [Decoder] [0m[36m      - .last_known_elr ([])[0m
-[33m[stage-4] [Decoder] [0m[36m      - .offline_replicas ([])[0m
-[33m[stage-4] [Decoder] [0m[36m      - .TAG_BUFFER[0m
+[33m[stage-4] [Decoder] [0m[36m    - .num_partitions (0)[0m
 [33m[stage-4] [Decoder] [0m[36m    - .topic_authorized_operations (3576)[0m
 [33m[stage-4] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-4] [Decoder] [0m[36m  - .next_cursor ({ 0})[0m
 [33m[stage-4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-4] [0m[92m✓ Correlation ID: 96710698[0m
-[33m[stage-4] [0m[92m✓ TopicResponse Error code: 0[0m
-[33m[stage-4] [0m[92m✓ Topic Name: paz[0m
-[33m[stage-4] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000012[0m
-[33m[stage-4] [0m[92m✓ PartitionResponse Error code: 0[0m
-[33m[stage-4] [0m[92m✓ PartitionResponse Partition Index: 0[0m
+[33m[stage-4] [0m[92m✓ Correlation ID: 1616512461[0m
+[33m[stage-4] [0m[92m✓ TopicResponse Error code: 3 (UNKNOWN_TOPIC_OR_PARTITION)[0m
+[33m[stage-4] [0m[92m✓ Topic Name: unknown-topic[0m
+[33m[stage-4] [0m[92m✓ Topic UUID: 00000000-0000-0000-0000-000000000000[0m
 [33m[stage-4] [0m[92mTest passed.[0m
 [33m[stage-4] [0m[36mTerminating program[0m
 [33m[stage-4] [0m[36mProgram terminated successfully[0m
 
-[33m[stage-3] [0m[94mRunning tests for Stage #3: lk1[0m
+[33m[stage-3] [0m[94mRunning tests for Stage #3: ea7[0m
 [33m[stage-3] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-3] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-3] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-3] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 254678266)[0m
+[33m[stage-3] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 96710698)[0m
 [33m[stage-3] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 4b 00 00 0f 2e 14 fa 00 0c 6b 61 | ...#.K........ka[0m
-[33m[stage-3] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 73 61 7a | fka-tester...saz[0m
+[33m[stage-3] [0m[36m0000 | 00 00 00 23 00 4b 00 00 05 c3 b0 2a 00 0c 6b 61 | ...#.K.....*..ka[0m
+[33m[stage-3] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 70 61 78 | fka-tester...pax[0m
 [33m[stage-3] [0m[36m0020 | 00 00 00 00 01 ff 00                            | .......[0m
 [33m[stage-3] [0m[36m[0m
 [33m[stage-3] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 02 00 00 04 73 61 7a | .............saz[0m
-[33m[stage-3] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 11 | ......@.........[0m
+[33m[stage-3] [0m[36m0000 | 05 c3 b0 2a 00 00 00 00 00 02 00 00 04 70 61 78 | ...*.........pax[0m
+[33m[stage-3] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 87 | ......@.........[0m
 [33m[stage-3] [0m[36m0020 | 00 02 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
 [33m[stage-3] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
-[33m[stage-3] [0m[36m0040 | 0d f8 00 01 04 73 61 7a 00 00 00 01 00 00       | .....saz......[0m
+[33m[stage-3] [0m[36m0040 | 0d f8 00 ff 00                                  | .....[0m
 [33m[stage-3] [0m[36m[0m
 [33m[stage-3] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-3] [Decoder] [0m[36m  - .correlation_id (254678266)[0m
+[33m[stage-3] [Decoder] [0m[36m  - .correlation_id (96710698)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-3] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-3] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .num_topics (1)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[stage-3] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-3] [Decoder] [0m[36m    - .name (saz)[0m
-[33m[stage-3] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000011)[0m
+[33m[stage-3] [Decoder] [0m[36m    - .name (pax)[0m
+[33m[stage-3] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000087)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -577,17 +508,14 @@ Debug = true
 [33m[stage-3] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[stage-3] [Decoder] [0m[36m    - .topic_authorized_operations (3576)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-3] [Decoder] [0m[36m    - .topic_name (saz)[0m
-[33m[stage-3] [Decoder] [0m[36m    - .partition_index (1)[0m
-[33m[stage-3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[stage-3] [Decoder] [0m[36m  - .next_cursor ({saz 1})[0m
+[33m[stage-3] [Decoder] [0m[36m  - .next_cursor ({ 0})[0m
 [33m[stage-3] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-3] [0m[92m✓ Correlation ID: 254678266[0m
+[33m[stage-3] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[stage-3] [0m[92m✓ TopicResponse Error code: 0[0m
-[33m[stage-3] [0m[92m✓ Topic Name: saz[0m
-[33m[stage-3] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000011[0m
-[33m[stage-3] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
-[33m[stage-3] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
+[33m[stage-3] [0m[92m✓ Topic Name: pax[0m
+[33m[stage-3] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000087[0m
+[33m[stage-3] [0m[92m✓ PartitionResponse Error code: 0[0m
+[33m[stage-3] [0m[92m✓ PartitionResponse Partition Index: 0[0m
 [33m[stage-3] [0m[92mTest passed.[0m
 [33m[stage-3] [0m[36mTerminating program[0m
 [33m[stage-3] [0m[36mProgram terminated successfully[0m
@@ -596,33 +524,33 @@ Debug = true
 [33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-2] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 1893237013)[0m
+[33m[stage-2] [0m[94mSending "Fetch" (version: 0) request (Correlation id: 254678266)[0m
 [33m[stage-2] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 00 00 00 23 00 4b 00 00 70 d8 81 15 00 0c 6b 61 | ...#.K..p.....ka[0m
-[33m[stage-2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 73 61 7a | fka-tester...saz[0m
+[33m[stage-2] [0m[36m0000 | 00 00 00 23 00 4b 00 00 0f 2e 14 fa 00 0c 6b 61 | ...#.K........ka[0m
+[33m[stage-2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 04 71 75 7a | fka-tester...quz[0m
 [33m[stage-2] [0m[36m0020 | 00 00 00 00 02 ff 00                            | .......[0m
 [33m[stage-2] [0m[36m[0m
 [33m[stage-2] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 70 d8 81 15 00 00 00 00 00 02 00 00 04 73 61 7a | p............saz[0m
-[33m[stage-2] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 11 | ......@.........[0m
+[33m[stage-2] [0m[36m0000 | 0f 2e 14 fa 00 00 00 00 00 02 00 00 04 71 75 7a | .............quz[0m
+[33m[stage-2] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 85 | ......@.........[0m
 [33m[stage-2] [0m[36m0020 | 00 03 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
 [33m[stage-2] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
 [33m[stage-2] [0m[36m0040 | 00 00 00 01 ff ff ff ff 00 00 00 01 02 00 00 00 | ................[0m
@@ -630,15 +558,15 @@ Debug = true
 [33m[stage-2] [0m[36m0060 | 00                                              | .[0m
 [33m[stage-2] [0m[36m[0m
 [33m[stage-2] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-2] [Decoder] [0m[36m  - .correlation_id (1893237013)[0m
+[33m[stage-2] [Decoder] [0m[36m  - .correlation_id (254678266)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-2] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-2] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .num_topics (1)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[stage-2] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-2] [Decoder] [0m[36m    - .name (saz)[0m
-[33m[stage-2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000011)[0m
+[33m[stage-2] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[stage-2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000085)[0m
 [33m[stage-2] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[stage-2] [Decoder] [0m[36m    - .num_partitions (2)[0m
 [33m[stage-2] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -667,10 +595,10 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-2] [Decoder] [0m[36m  - .next_cursor ({ 0})[0m
 [33m[stage-2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-2] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[stage-2] [0m[92m✓ Correlation ID: 254678266[0m
 [33m[stage-2] [0m[92m✓ TopicResponse Error code: 0[0m
-[33m[stage-2] [0m[92m✓ Topic Name: saz[0m
-[33m[stage-2] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000011[0m
+[33m[stage-2] [0m[92m✓ Topic Name: quz[0m
+[33m[stage-2] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000085[0m
 [33m[stage-2] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
 [33m[stage-2] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-2] [0m[92m✓ PartitionResponse[1] Error code: 0[0m
@@ -683,57 +611,57 @@ Debug = true
 [33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-1] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[stage-1] [0m[94mSending "DescribeTopicPartition" (version: 0) request (Correlation id: 1698452642)[0m
+[33m[stage-1] [0m[94mSending "DescribeTopicPartition" (version: 0) request (Correlation id: 1893237013)[0m
 [33m[stage-1] [0m[36mHexdump of sent "DescribeTopicPartition" request: [0m
 [33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-1] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 65 3c 54 a2 00 0c 6b 61 | ...-.K..e<T...ka[0m
-[33m[stage-1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 04 04 70 61 7a | fka-tester...paz[0m
-[33m[stage-1] [0m[36m0020 | 00 04 71 75 7a 00 04 73 61 7a 00 00 00 00 04 ff | ..quz..saz......[0m
+[33m[stage-1] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 70 d8 81 15 00 0c 6b 61 | ...-.K..p.....ka[0m
+[33m[stage-1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 04 04 70 61 78 | fka-tester...pax[0m
+[33m[stage-1] [0m[36m0020 | 00 04 70 61 7a 00 04 71 75 7a 00 00 00 00 04 ff | ..paz..quz......[0m
 [33m[stage-1] [0m[36m0030 | 00                                              | .[0m
 [33m[stage-1] [0m[36m[0m
 [33m[stage-1] [0m[36mHexdump of received "DescribeTopicPartition" response: [0m
 [33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-1] [0m[36m0000 | 65 3c 54 a2 00 00 00 00 00 04 00 00 04 70 61 7a | e<T..........paz[0m
-[33m[stage-1] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 12 | ......@.........[0m
+[33m[stage-1] [0m[36m0000 | 70 d8 81 15 00 00 00 00 00 04 00 00 04 70 61 78 | p............pax[0m
+[33m[stage-1] [0m[36m0010 | 00 00 00 00 00 00 40 00 80 00 00 00 00 00 00 87 | ......@.........[0m
 [33m[stage-1] [0m[36m0020 | 00 02 00 00 00 00 00 00 ff ff ff ff 00 00 00 01 | ................[0m
 [33m[stage-1] [0m[36m0030 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
-[33m[stage-1] [0m[36m0040 | 0d f8 00 00 00 04 71 75 7a 00 00 00 00 00 00 40 | ......quz......@[0m
-[33m[stage-1] [0m[36m0050 | 00 80 00 00 00 00 00 00 98 00 02 00 00 00 00 00 | ................[0m
+[33m[stage-1] [0m[36m0040 | 0d f8 00 00 00 04 70 61 7a 00 00 00 00 00 00 40 | ......paz......@[0m
+[33m[stage-1] [0m[36m0050 | 00 80 00 00 00 00 00 00 82 00 02 00 00 00 00 00 | ................[0m
 [33m[stage-1] [0m[36m0060 | 00 ff ff ff ff 00 00 00 01 02 00 00 00 01 02 00 | ................[0m
-[33m[stage-1] [0m[36m0070 | 00 00 01 01 01 01 00 00 00 0d f8 00 00 00 04 73 | ...............s[0m
-[33m[stage-1] [0m[36m0080 | 61 7a 00 00 00 00 00 00 40 00 80 00 00 00 00 00 | az......@.......[0m
-[33m[stage-1] [0m[36m0090 | 00 11 00 03 00 00 00 00 00 00 ff ff ff ff 00 00 | ................[0m
+[33m[stage-1] [0m[36m0070 | 00 00 01 01 01 01 00 00 00 0d f8 00 00 00 04 71 | ...............q[0m
+[33m[stage-1] [0m[36m0080 | 75 7a 00 00 00 00 00 00 40 00 80 00 00 00 00 00 | uz......@.......[0m
+[33m[stage-1] [0m[36m0090 | 00 85 00 03 00 00 00 00 00 00 ff ff ff ff 00 00 | ................[0m
 [33m[stage-1] [0m[36m00a0 | 00 01 02 00 00 00 01 02 00 00 00 01 01 01 01 00 | ................[0m
 [33m[stage-1] [0m[36m00b0 | 00 00 00 00 00 01 ff ff ff ff 00 00 00 01 02 00 | ................[0m
 [33m[stage-1] [0m[36m00c0 | 00 00 01 02 00 00 00 01 01 01 01 00 00 00 0d f8 | ................[0m
 [33m[stage-1] [0m[36m00d0 | 00 ff 00                                        | ...[0m
 [33m[stage-1] [0m[36m[0m
 [33m[stage-1] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[stage-1] [Decoder] [0m[36m  - .correlation_id (1698452642)[0m
+[33m[stage-1] [Decoder] [0m[36m  - .correlation_id (1893237013)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .num_topics (3)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[stage-1] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .name (paz)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000012)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .name (pax)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000087)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -751,8 +679,8 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m  - .Topics[1][0m
 [33m[stage-1] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .name (quz)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000098)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .name (paz)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000082)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -770,8 +698,8 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m  - .Topics[2][0m
 [33m[stage-1] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .name (saz)[0m
-[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000011)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000085)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .num_partitions (2)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -800,20 +728,20 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m  - .next_cursor ({ 0})[0m
 [33m[stage-1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[stage-1] [0m[92m✓ Correlation ID: 1698452642[0m
+[33m[stage-1] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[stage-1] [0m[92m✓ TopicResponse Error code: 0[0m
+[33m[stage-1] [0m[92m✓ Topic Name: pax[0m
+[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000087[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
+[33m[stage-1] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-1] [0m[92m✓ TopicResponse Error code: 0[0m
 [33m[stage-1] [0m[92m✓ Topic Name: paz[0m
-[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000012[0m
+[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000082[0m
 [33m[stage-1] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
 [33m[stage-1] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-1] [0m[92m✓ TopicResponse Error code: 0[0m
 [33m[stage-1] [0m[92m✓ Topic Name: quz[0m
-[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000098[0m
-[33m[stage-1] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
-[33m[stage-1] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
-[33m[stage-1] [0m[92m✓ TopicResponse Error code: 0[0m
-[33m[stage-1] [0m[92m✓ Topic Name: saz[0m
-[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000011[0m
+[33m[stage-1] [0m[92m✓ Topic UUID: 00000000-0000-4000-8000-000000000085[0m
 [33m[stage-1] [0m[92m✓ PartitionResponse[0] Error code: 0[0m
 [33m[stage-1] [0m[92m✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-1] [0m[92m✓ PartitionResponse[1] Error code: 0[0m
