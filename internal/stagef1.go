@@ -58,15 +58,14 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
-	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	}).Evaluate([]string{"CorrelationId"}, logger); err != nil {
 		return err
 	}
 
 	expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
-		Version:   3,
+		Version:   4,
 		ErrorCode: 0,
 		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
 			{
@@ -81,7 +80,6 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 			},
 		},
 	}
-
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, logger); err != nil {
 		return err
 	}
