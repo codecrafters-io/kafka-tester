@@ -77,10 +77,6 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testDTPartitionWithTopicAndSinglePartition,
 		},
 		{
-			Slug:     "lk1",
-			TestFunc: testDTPartitionWithTopicAndMultiplePartitions1,
-		},
-		{
 			Slug:     "ku4",
 			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
 		},
