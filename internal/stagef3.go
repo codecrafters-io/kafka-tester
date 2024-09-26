@@ -102,7 +102,7 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	if topicResponse.Topic != UUID {
-		return fmt.Errorf("Expected Topic to be empty, got %v", topicResponse.Topic)
+		return fmt.Errorf("Expected Topic UUID to match UUID from request, got %v", topicResponse.Topic)
 	}
 	logger.Successf("✓ Topic UUID: %v", topicResponse.Topic)
 
