@@ -4,12 +4,12 @@ Debug = true
 [33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
@@ -378,8 +378,9 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-2] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[stage-2] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-2] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-2] [0m[92m✓ API keys array length: 61[0m
 [33m[stage-2] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-2] [0m[92m✓ API version 0 is supported for API_VERSIONS[0m
 [33m[stage-2] [0m[92m✓ Test 1 of 2: Passed[0m
 [33m[stage-2] [0m[94mSending request 2 of 2: "ApiVersions" (version: 4) request (Correlation id: 96710698)[0m
 [33m[stage-2] [0m[36mHexdump of sent "ApiVersions" request: [0m
@@ -741,8 +742,9 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-2] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[stage-2] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-2] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-2] [0m[92m✓ API keys array length: 61[0m
 [33m[stage-2] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-2] [0m[92m✓ API version 0 is supported for API_VERSIONS[0m
 [33m[stage-2] [0m[92m✓ Test 2 of 2: Passed[0m
 [33m[stage-2] [0m[92mTest passed.[0m
 [33m[stage-2] [0m[36mTerminating program[0m
@@ -752,12 +754,12 @@ Debug = true
 [33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
 [33m[stage-1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
@@ -818,7 +820,7 @@ Debug = true
 [33m[stage-1] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-1] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-1] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-1] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
+[33m[stage-1] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
 [33m[stage-1] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-1] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-1] [0m[36m[0m
@@ -1136,8 +1138,9 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-1] [0m[92m✓ Correlation ID: 1743371062[0m
 [33m[stage-1] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-1] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-1] [0m[92m✓ API keys array length: 61[0m
 [33m[stage-1] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-1] [0m[92m✓ API version 0 is supported for API_VERSIONS[0m
 [33m[stage-1] [0m[92m✓ Test 2 of 2: Passed[0m
 [33m[stage-1] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -1173,7 +1176,7 @@ Debug = true
 [33m[stage-1] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-1] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-1] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-1] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
+[33m[stage-1] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
 [33m[stage-1] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-1] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-1] [0m[36m[0m
@@ -1491,8 +1494,9 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-1] [0m[92m✓ Correlation ID: -488288628[0m
 [33m[stage-1] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[stage-1] [0m[92m✓ API keys array is non-empty[0m
+[33m[stage-1] [0m[92m✓ API keys array length: 61[0m
 [33m[stage-1] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[stage-1] [0m[92m✓ API version 0 is supported for API_VERSIONS[0m
 [33m[stage-1] [0m[92m✓ Test 1 of 2: Passed[0m
 [33m[stage-1] [0m[92mTest passed.[0m
 [33m[stage-1] [0m[36mTerminating program[0m
