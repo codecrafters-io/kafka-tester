@@ -1,9 +1,9 @@
 package internal
 
 import (
-	"fmt"
 	"math"
 
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -76,36 +76,25 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			return err
 		}
 
-		if responseHeader.CorrelationId != correlationIds[j] {
-			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], responseHeader.CorrelationId)
-		}
-		logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-		if responseBody.ErrorCode != 0 {
-			return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
-		}
-		logger.Successf("✓ Error code: 0 (NO_ERROR)")
-
-		if len(responseBody.ApiKeys) < 1 {
-			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(responseBody.ApiKeys))
-		}
-		logger.Successf("✓ API keys array is non-empty")
-
-		foundAPIKey := false
-		MAX_VERSION_APIVERSION := int16(4)
-		for _, apiVersionKey := range responseBody.ApiKeys {
-			if apiVersionKey.ApiKey == 18 {
-				foundAPIKey = true
-				if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
-					logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
-				} else {
-					return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION_APIVERSION, apiVersionKey.MaxVersion)
-				}
-			}
+		if err = assertions.NewResponseHeaderAssertion(*responseHeader, kafkaapi.ResponseHeader{
+			CorrelationId: correlationIds[j],
+		}).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+			return err
 		}
 
-		if !foundAPIKey {
-			return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
+		expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
+			Version:   4,
+			ErrorCode: 0,
+			ApiKeys: []kafkaapi.ApiVersionsResponseKey{
+				{
+					ApiKey:     18,
+					MaxVersion: 4,
+					MinVersion: 0,
+				},
+			},
+		}
+		if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, logger); err != nil {
+			return err
 		}
 
 		logger.Successf("✓ Test %v of %v: Passed", j+1, clientCount)
