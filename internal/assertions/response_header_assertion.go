@@ -19,7 +19,7 @@ func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedVal
 func (a ResponseHeaderAssertion) Evaluate(fields []string, logger *logger.Logger) error {
 	if Contains(fields, "CorrelationId") {
 		if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
-			return fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
+			return fmt.Errorf("Expected %s to be %d, got %d", "Correlation ID", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
 		}
 		logger.Successf("✓ Correlation ID: %v", a.ActualValue.CorrelationId)
 	}
