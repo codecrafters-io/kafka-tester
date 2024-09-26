@@ -2,6 +2,7 @@ package kafkaapi
 
 import (
 	"fmt"
+
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
@@ -31,7 +32,7 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	request.Header.EncodeV1(&encoder)
+	request.Header.EncodeV2(&encoder)
 	request.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 
