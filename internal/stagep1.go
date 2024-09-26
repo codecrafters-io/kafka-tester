@@ -1,8 +1,7 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -59,55 +58,37 @@ func testAPIVersionwDescribeTopicPartitions(stageHarness *test_case_harness.Test
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
-	}
-	logger.Successf("✓ Error code: 0 (NO_ERROR)")
-
-	if len(responseBody.ApiKeys) < 3 {
-		return fmt.Errorf("Expected API keys array to include atleast 2 keys (API_VERSIONS and FETCH), got %v", len(responseBody.ApiKeys))
-	}
-	logger.Successf("✓ API keys array is non-empty")
-
-	foundAPIKey := 0
-	MAX_VERSION_APIVERSION := int16(4)
-	MAX_VERSION_FETCH := int16(16)
-	MAX_VERSION_DESCRIBE_TOPIC_PARTITIONS := int16(0)
-
-	for _, apiVersionKey := range responseBody.ApiKeys {
-		if apiVersionKey.ApiKey == 1 {
-			foundAPIKey += 1
-			if apiVersionKey.MaxVersion >= MAX_VERSION_FETCH {
-				logger.Successf("✓ API version %v is supported for FETCH", MAX_VERSION_FETCH)
-			} else {
-				return fmt.Errorf("Expected API version %v to be supported for FETCH, got %v", MAX_VERSION_FETCH, apiVersionKey.MaxVersion)
-			}
-		}
-		if apiVersionKey.ApiKey == 18 {
-			foundAPIKey += 1
-			if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
-				logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
-			} else {
-				return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION_APIVERSION, apiVersionKey.MaxVersion)
-			}
-		}
-		if apiVersionKey.ApiKey == 75 {
-			foundAPIKey += 1
-			if apiVersionKey.MaxVersion >= MAX_VERSION_DESCRIBE_TOPIC_PARTITIONS {
-				logger.Successf("✓ API version %v is supported for DESCRIBE_TOPIC_PARTITIONS", MAX_VERSION_DESCRIBE_TOPIC_PARTITIONS)
-			} else {
-				return fmt.Errorf("Expected API version %v to be supported for DESCRIBE_TOPIC_PARTITIONS, got %v", MAX_VERSION_DESCRIBE_TOPIC_PARTITIONS, apiVersionKey.MaxVersion)
-			}
-		}
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
 
-	if foundAPIKey != 3 {
-		return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS) & 1 (FETCH) & 75 (DESCRIBE_TOPIC_PARTITIONS)")
+	expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
+		Version:   3,
+		ErrorCode: 0,
+		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
+			{
+				ApiKey:     1,
+				MaxVersion: 16,
+				MinVersion: 0,
+			},
+			{
+				ApiKey:     18,
+				MaxVersion: 4,
+				MinVersion: 0,
+			},
+			{
+				ApiKey:     75,
+				MaxVersion: 0,
+				MinVersion: 0,
+			},
+		},
+	}
+
+	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, logger); err != nil {
+		return err
 	}
 
 	return nil
