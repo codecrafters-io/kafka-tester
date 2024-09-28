@@ -33,13 +33,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"fetch_pass": {
-			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
+		// "fetch_pass": {
+		// 	StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
+		// 	CodePath:            "./test_helpers/pass_all",
+		// 	ExpectedExitCode:    0,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)

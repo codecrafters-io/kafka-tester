@@ -47,7 +47,7 @@ test_75_with_kafka: build
 	dist/main.out
 
 test:
-	TESTER_DIR=$(shell pwd) go test -v ./internal/
+	TESTER_DIR=$(shell pwd) go test -v ./internal/ --count=1
 
 test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
