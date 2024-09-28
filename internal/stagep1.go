@@ -70,11 +70,6 @@ func testAPIVersionwDescribeTopicPartitions(stageHarness *test_case_harness.Test
 		ErrorCode: 0,
 		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
 			{
-				ApiKey:     1,
-				MaxVersion: 16,
-				MinVersion: 0,
-			},
-			{
 				ApiKey:     18,
 				MaxVersion: 4,
 				MinVersion: 0,
