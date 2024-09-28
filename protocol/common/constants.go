@@ -2,13 +2,14 @@ package common
 
 import (
 	"fmt"
+	"sort"
 
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/tester-utils/random"
 )
 
 const (
-	LOG_DIR = "/tmp/kraft-combined-logs"
+	LOG_DIR                     = "/tmp/kraft-combined-logs"
+	SERVER_PROPERTIES_FILE_PATH = "/tmp/server.properties"
 
 	CLUSTER_ID = "IAAAAAAAQACAAAAAAAAAAQ" // UUID: "20000000-0000-4000-8000-000000000001"
 	NODE_ID    = 1
@@ -20,7 +21,7 @@ const (
 
 var (
 	all_topic_names = []string{"foo", "bar", "baz", "qux", "quz", "pax", "paz", "saz"}
-	topic_names     = protocol.GetSortedValues(random.RandomElementsFromArray(all_topic_names, 3))
+	topic_names     = GetSortedValues(random.RandomElementsFromArray(all_topic_names, 3))
 	TOPIC1_NAME     = topic_names[0]
 	TOPIC2_NAME     = topic_names[1]
 	TOPIC3_NAME     = topic_names[2]
@@ -35,3 +36,10 @@ var (
 	MESSAGE2     = messages[1]
 	MESSAGE3     = messages[2]
 )
+
+func GetSortedValues[T string](values []T) []T {
+	sort.Slice(values, func(i, j int) bool {
+		return values[i] < values[j]
+	})
+	return values
+}
