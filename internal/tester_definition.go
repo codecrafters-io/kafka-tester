@@ -64,5 +64,25 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "fd8",
 			TestFunc: testMultiFetchFromDisk,
 		},
+		{
+			Slug:     "yk1",
+			TestFunc: testAPIVersionwDescribeTopicPartitions,
+		},
+		{
+			Slug:     "vt6",
+			TestFunc: testDTPartitionWithUnknownTopic,
+		},
+		{
+			Slug:     "ea7",
+			TestFunc: testDTPartitionWithTopicAndSinglePartition,
+		},
+		{
+			Slug:     "ku4",
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
+		},
+		{
+			Slug:     "wq2",
+			TestFunc: testDTPartitionWithTopics,
+		},
 	},
 }

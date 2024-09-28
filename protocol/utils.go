@@ -2,6 +2,7 @@ package protocol
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -53,4 +54,11 @@ func GetFormattedHexdumpForErrors(data []byte) string {
 
 func LogWithIndentation(logger *logger.Logger, indentation int, message string, args ...interface{}) {
 	logger.Debugf(fmt.Sprintf("%s%s", strings.Repeat(" ", indentation*2), message), args...)
+}
+
+func GetSortedValues[T string](values []T) []T {
+	sort.Slice(values, func(i, j int) bool {
+		return values[i] < values[j]
+	})
+	return values
 }

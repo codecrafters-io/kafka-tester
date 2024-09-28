@@ -119,3 +119,14 @@ KAFKA_CLUSTER_ID="$(bin/kafka-storage.sh random-uuid)"
 bin/kafka-storage.sh format -t $KAFKA_CLUSTER_ID -c config/kraft/server.properties
 bin/kafka-server-start.sh config/kraft/server.properties
 ```
+
+DescribeTopicPartitions Request (Version: 0) => [topics] response_partition_limit cursor TAG_BUFFER 
+  topics => name TAG_BUFFER 
+    name => COMPACT_STRING
+  response_partition_limit => INT32
+  cursor => topic_name partition_index TAG_BUFFER 
+    topic_name => COMPACT_STRING
+    partition_index => INT32
+  
+cursor field is nullable.
+if it is null, it will be replaced with a `ff`

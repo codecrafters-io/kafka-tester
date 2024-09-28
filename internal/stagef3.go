@@ -6,6 +6,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,9 +18,14 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
-	UUID := "00000000-0000-0000-0000-000000000001"
+	UUID := common.TOPICX_UUID
+	// ToDo: Research on what is NULL v Empty arrays
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {

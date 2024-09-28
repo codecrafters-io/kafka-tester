@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,6 +17,10 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
 

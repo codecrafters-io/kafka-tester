@@ -15,7 +15,6 @@ type ApiVersionsRequestBody struct {
 
 func (r *ApiVersionsRequestBody) Encode(enc *encoder.RealEncoder) {
 	if r.Version >= 3 {
-		enc.PutEmptyTaggedFieldArray()
 		enc.PutCompactString(r.ClientSoftwareName)
 		enc.PutCompactString(r.ClientSoftwareVersion)
 		enc.PutEmptyTaggedFieldArray()

@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -18,6 +19,11 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	}
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger)
+	if err != nil {
+		return err
+	}
+
 	clientCount := random.RandomInt(2, 4)
 	clients := make([]*protocol.Broker, clientCount)
 	correlationIds := make([]int32, clientCount)

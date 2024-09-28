@@ -64,6 +64,7 @@ func TestFormatWithHighlightedOffset(t *testing.T) {
 
 	expected := strings.TrimSpace(`
 Hex (bytes 0-11)                                | ASCII
+------------------------------------------------+------------------
 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
                 ^                                      ^
 	`)
@@ -79,6 +80,7 @@ func TestFormatWithHighlightedOffset2(t *testing.T) {
 
 	expected := strings.TrimSpace(`
 Hex (bytes 5-20)                                | ASCII
+------------------------------------------------+------------------
 6f 20 45 61 72 74 68 20 26 20 4d 6f 6f 6f 6f 6e | o Earth & Moooon
                 ^                                      ^
 	`)
