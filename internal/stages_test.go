@@ -64,7 +64,7 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"name":                   {regexp.MustCompile(`- .name \([A-Za-z]{1,}\)`)},
 		"topic_name":             {regexp.MustCompile(`- .topic_name \([A-Za-z0-9 ]{1,}\)`)},
 		"next_cursor":            {regexp.MustCompile(`- .next_cursor \(\{[A-Za-z0-9 ]{1,}\}\)`)},
-		"MESSAGES":               {regexp.MustCompile(`✓ MESSAGES: \["[A-Za-z !]{1,}"\]`)},
+		"MESSAGES":               {regexp.MustCompile(`✓ Messages: \["[A-Za-z !]{1,}"\]`)},
 	}
 
 	for replacement, regexes := range replacements {
