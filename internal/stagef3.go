@@ -14,13 +14,13 @@ import (
 func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
-		return err
+		return wrapErrorAndDebug(err)
 	}
 
 	logger := stageHarness.Logger
 	err := serializer.GenerateLogDirs(logger)
 	if err != nil {
-		return err
+		return wrapErrorAndDebug(err)
 	}
 
 	correlationId := getRandomCorrelationId()
@@ -29,7 +29,7 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
-		return err
+		return wrapErrorAndDebug(err)
 	}
 	defer broker.Close()
 
@@ -72,14 +72,14 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
-		return err
+		return wrapErrorAndDebug(err)
 	}
 	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
 	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
 	if err != nil {
-		return err
+		return wrapErrorAndDebug(err)
 	}
 
 	if responseHeader.CorrelationId != correlationId {
