@@ -49,6 +49,10 @@ jobs:
 
           # Check if a file was found
           if [ -n "$latest_file" ]; then
+              # Print the size of the file
+              echo "File size: $(du -h "$latest_file" | cut -f1)"
+              echo ""
+
               # Print the contents of the file
               cat "$latest_file"
           else
