@@ -4,4 +4,4 @@
 # Get it from here: https://github.com/codecrafters-io/build-your-own-kafka/blob/main/kafka_2.13-4.0.0-SNAPSHOT.tgz
 # Extract it and make sure you update the permissions
 # sudo chown -R user:group ./kafka-latest
-/usr/local/kafka-latest/bin/kafka-server-start.sh "$@"
+/usr/local/kafka-latest/bin/kafka-server-start.sh "$@" >/dev/null 2>&1
