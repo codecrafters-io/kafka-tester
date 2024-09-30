@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -127,6 +128,11 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
 	if err != nil {
 		return err
+	}
+
+	cleanShutdownPath := filepath.Join(basePath, "clean_shutdown")
+	if err := os.WriteFile(cleanShutdownPath, []byte("{\"version\":0,\"brokerEpoch\":10}"), 0644); err != nil {
+		return fmt.Errorf("could not write clean shutdown file: %w", err)
 	}
 
 	logger.Infof("Finished writing log files to: %s", basePath)
