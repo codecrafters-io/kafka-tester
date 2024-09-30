@@ -31,18 +31,15 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Run tests 10 times and log failures
+      - name: Run tests up to 10 times and exit on first failure
         run: |
-          failures=0
           for i in {1..10}; do
             if ! make test; then
-              ((failures++))
+              echo "Test failed on attempt $i"
+              exit 1
             fi
           done
-          echo "Number of test failures: $failures"
-          if [ $failures -gt 0 ]; then
-            exit 1
-          fi
+          echo "All tests passed successfully"
 
   lint:
     runs-on: ubuntu-latest
