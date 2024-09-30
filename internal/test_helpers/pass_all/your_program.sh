@@ -8,6 +8,14 @@ shmPath="/dev/shm/test-$(date +%s%3N)"
 echo "ShmPath: $shmPath"
 echo "Started: $(date)" >"$shmPath"
 
+if lsof -i :9092 >/dev/null 2>&1; then
+    echo "bound"
+    echo "bound" >>"$shmPath"
+else
+    echo "not bound"
+    echo "not bound" >>"$shmPath"
+fi
+
 # Trap EXIT signal to ensure cleanup
 trap 'cleanup' EXIT
 
