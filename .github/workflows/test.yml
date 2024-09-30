@@ -54,6 +54,13 @@ jobs:
               echo ""
 
               # Print the contents of the file
+              echo ""
+              echo "--- BASE64 ---"
+              echo ""
+              cat "$latest_file" | base64
+              echo ""
+              echo "--- RAW ---"
+              echo ""
               cat "$latest_file"
           else
               echo "No test file found in /tmp/ directory"
