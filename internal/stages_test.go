@@ -26,15 +26,15 @@ func TestStages(t *testing.T) {
 		// 	StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
 		// 	NormalizeOutputFunc: normalizeTesterOutput,
 		// },
-		// "describe_topic_partitions_pass": {
-		// 	StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
-		// 	CodePath:            "./test_helpers/pass_all",
-		// 	ExpectedExitCode:    0,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
+		"describe_topic_partitions_pass": {
+			StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"fetch_pass": {
-			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
+			StageSlugs: []string{"gs0", "dh6", "hn6", "cm4"},
 			// StageSlugs:          []string{"dh6"}, // TODO: Does single trigger?
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
