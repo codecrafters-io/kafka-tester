@@ -6,5 +6,5 @@
 # sudo chown -R user:group ./kafka-latest
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
-filePath="/tmp/test/$(date +%s%3N)"
+filePath="/tmp/test-$(date +%s%3N)"
 /usr/local/kafka-latest/bin/kafka-server-start.sh "$@" >"$filePath" 2>&1
