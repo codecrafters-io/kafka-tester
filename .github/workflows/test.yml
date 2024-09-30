@@ -1,16 +1,25 @@
 name: Test
 
-on: push
+on: [push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      fail-fast: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v5
         with:
           go-version: 1.22.x
 
@@ -24,12 +33,42 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
-      - run: make test
-  
+      - name: Run tests
+        run: make test
+
+      - if: always()
+        run: |
+          # Find the latest file in /tmp/ directory that starts with "test-"
+          echo "Files in /tmp:"
+          ls -la /tmp | grep "test-"
+          echo ""
+          latest_file=$(ls /tmp/test-* | sort | tail -n1)
+          echo "Latest file: $latest_file"
+
+          # Check if a file was found
+          if [ -n "$latest_file" ]; then
+              # Print the size of the file
+              echo "File size: $(du -h "$latest_file" | cut -f1)"
+              echo ""
+
+              # Print the contents of the file
+              echo ""
+              echo "--- BASE64 ---"
+              echo ""
+              cat "$latest_file" | base64
+              echo ""
+              echo "--- RAW ---"
+              echo ""
+              cat "$latest_file"
+          else
+              echo "No test file found in /tmp/ directory"
+          fi
+
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v2
