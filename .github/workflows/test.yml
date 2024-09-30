@@ -41,7 +41,10 @@ jobs:
       - if: always()
         run: |
           # Find the latest file in /tmp/ directory that starts with "test-"
-          latest_file=$(ls -t /tmp/test-* | head -n1)
+          echo "Files in /tmp:"
+          ls -la /tmp | grep "test-"
+          echo ""
+          latest_file=$(ls /tmp/test-* | sort | tail -n1)
           echo "Latest file: $latest_file"
 
           # Check if a file was found
