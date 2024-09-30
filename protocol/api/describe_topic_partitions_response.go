@@ -29,11 +29,11 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	var numTopics int
 	if numTopics, err = pd.GetCompactArrayLength(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("num_topics")
+			return decodingErr.WithAddedContext("topic.length")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .num_topics (%d)", numTopics)
+	protocol.LogWithIndentation(logger, indentation, "- .topic.length (%d)", numTopics)
 
 	a.Topics = make([]DescribeTopicPartitionsResponseTopic, numTopics)
 
