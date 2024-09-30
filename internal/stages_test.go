@@ -34,8 +34,8 @@ func TestStages(t *testing.T) {
 		// 	NormalizeOutputFunc: normalizeTesterOutput,
 		// },
 		"fetch_pass": {
-			// StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
-			StageSlugs:          []string{"dh6"}, // TODO: Does single trigger?
+			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
+			// StageSlugs:          []string{"dh6"}, // TODO: Does single trigger?
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
