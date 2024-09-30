@@ -273,9 +273,18 @@ type DescribeTopicPartitionsResponseCursor struct {
 	PartitionIndex int32
 }
 
+// String implements the Stringer interface for the Cursor type
+func (c DescribeTopicPartitionsResponseCursor) String() string {
+	if c.TopicName == "" && c.PartitionIndex == 0 {
+		return "null"
+	}
+	return fmt.Sprintf("{TopicName: %s, PartitionIndex: %d}", c.TopicName, c.PartitionIndex)
+}
+
 func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	var err error
 
+	// This field is nullable, the first byte indicates whether it's null or not
 	checkPresence, err := pd.GetInt8()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
