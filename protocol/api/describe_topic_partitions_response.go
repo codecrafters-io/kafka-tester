@@ -29,11 +29,11 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	var numTopics int
 	if numTopics, err = pd.GetCompactArrayLength(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("num_topics")
+			return decodingErr.WithAddedContext("topic.length")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .num_topics (%d)", numTopics)
+	protocol.LogWithIndentation(logger, indentation, "- .topic.length (%d)", numTopics)
 
 	a.Topics = make([]DescribeTopicPartitionsResponseTopic, numTopics)
 
@@ -50,7 +50,11 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	}
 
 	a.NextCursor = DescribeTopicPartitionsResponseCursor{}
-	if err = a.NextCursor.Decode(pd, logger, indentation+1); err != nil {
+	err = a.NextCursor.Decode(pd, logger, indentation+1)
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("next_cursor")
+		}
 		return err
 	}
 	protocol.LogWithIndentation(logger, indentation, "- .next_cursor (%v)", a.NextCursor)
@@ -269,9 +273,18 @@ type DescribeTopicPartitionsResponseCursor struct {
 	PartitionIndex int32
 }
 
+// String implements the Stringer interface for the Cursor type
+func (c DescribeTopicPartitionsResponseCursor) String() string {
+	if c.TopicName == "" && c.PartitionIndex == 0 {
+		return "null"
+	}
+	return fmt.Sprintf("{TopicName: %s, PartitionIndex: %d}", c.TopicName, c.PartitionIndex)
+}
+
 func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	var err error
 
+	// This field is nullable, the first byte indicates whether it's null or not
 	checkPresence, err := pd.GetInt8()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

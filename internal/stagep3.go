@@ -49,14 +49,14 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 
 	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartition\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartition\" response: \n%v\n", GetFormattedHexdump(response))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionHeaderAndResponse(response, logger)
 	if err != nil {
@@ -69,7 +69,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	if len(responseBody.Topics) != 1 {
-		return fmt.Errorf("Expected topicResponse to have length 1, got %v", len(responseBody.Topics))
+		return fmt.Errorf("Expected topics.length to be 1, got %v", len(responseBody.Topics))
 	}
 
 	topicResponse := responseBody.Topics[0]

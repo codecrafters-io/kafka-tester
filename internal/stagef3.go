@@ -93,7 +93,7 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 	if len(responseBody.TopicResponses) != 1 {
-		return fmt.Errorf("Expected TopicResponses to have length 1, got %v", len(responseBody.TopicResponses))
+		return fmt.Errorf("Expected topics.length to be 1, got %v", len(responseBody.TopicResponses))
 	}
 
 	topicResponse := responseBody.TopicResponses[0]

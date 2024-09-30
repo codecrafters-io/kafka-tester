@@ -1,20 +1,20 @@
 Debug = true
 
 [33m[stage-2] [0m[94mRunning tests for Stage #2: nh4[0m
-[33m[stage-2] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
+[33m[stage-2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
+[33m[stage-2] [Serializer] [0m[36m    - Wrote file to: /tmp/server.properties[0m
 [33m[stage-2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -60,7 +60,7 @@ Debug = true
 [33m[stage-2] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-2] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-2] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-2] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
+[33m[stage-2] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
 [33m[stage-2] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-2] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-2] [0m[36m[0m
@@ -423,7 +423,7 @@ Debug = true
 [33m[stage-2] [0m[36m01c0 | 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 0e 6b 72 | .version......kr[0m
 [33m[stage-2] [0m[36m01d0 | 61 66 74 2e 76 65 72 73 69 6f 6e 00 00 00 01 00 | aft.version.....[0m
 [33m[stage-2] [0m[36m01e0 | 11 6d 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f | .metadata.versio[0m
-[33m[stage-2] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 0c | n...............[0m
+[33m[stage-2] [0m[36m01f0 | 6e 00 01 00 16 00 01 08 00 00 00 00 00 00 00 12 | n...............[0m
 [33m[stage-2] [0m[36m0200 | 02 17 02 11 6d 65 74 61 64 61 74 61 2e 76 65 72 | ....metadata.ver[0m
 [33m[stage-2] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
 [33m[stage-2] [0m[36m[0m
@@ -749,20 +749,20 @@ Debug = true
 [33m[stage-2] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-1] [0m[94mRunning tests for Stage #1: sk0[0m
-[33m[stage-1] [0m[94m$ ./your_program.sh /tmp/kraft-combined-logs/kraft.server.properties[0m
+[33m[stage-1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/kraft-combined-logs/kraft.server.properties[0m
+[33m[stage-1] [Serializer] [0m[36m    - Wrote file to: /tmp/server.properties[0m
 [33m[stage-1] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m

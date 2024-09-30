@@ -48,7 +48,7 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	topic3Partition2MetadataDirectory := fmt.Sprintf("%s/%s-1", basePath, topic3Name)
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
-	kraftServerPropertiesPath := fmt.Sprintf("%s/kraft.server.properties", basePath)
+	kraftServerPropertiesPath := fmt.Sprintf(common.SERVER_PROPERTIES_FILE_PATH)
 	metaPropertiesPath := fmt.Sprintf("%s/meta.properties", basePath)
 	topic1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic1MetadataDirectory)
 	topic2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic2MetadataDirectory)
