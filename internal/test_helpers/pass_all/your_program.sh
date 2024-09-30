@@ -7,5 +7,14 @@
 filePath="/tmp/test-$(date +%s%3N)"
 echo "FilePath: $filePath"
 echo "Started: $(date)" >"$filePath"
+
+# Trap EXIT signal to ensure cleanup
+trap 'cleanup' EXIT
+
+cleanup() {
+    echo "Exit trapped"
+    echo "Cleanup finished: $(date)" >>"$filePath"
+}
+
 /usr/local/kafka-latest/bin/kafka-server-start.sh "$@" >>"$filePath" 2>&1
 echo "Finished: $(date)" >>"$filePath"
