@@ -40,11 +40,11 @@ jobs:
 
       - if: always()
         run: |
-          # Find the latest file in /tmp/ directory that starts with "test-"
-          echo "Files in /tmp:"
-          ls -la /tmp | grep "test-"
+          # List files in /dev/shm directory that start with "test-"
+          echo "Files in /dev/shm:"
+          ls -la /dev/shm | grep "test-"
           echo ""
-          latest_file=$(ls /tmp/test-* | sort | tail -n1)
+          latest_file=$(ls /dev/shm/test-* | sort | tail -n1)
           echo "Latest file: $latest_file"
 
           # Check if a file was found
@@ -63,7 +63,7 @@ jobs:
               echo ""
               cat "$latest_file"
           else
-              echo "No test file found in /tmp/ directory"
+              echo "No test file found in /dev/shm directory"
           fi
 
   lint:
