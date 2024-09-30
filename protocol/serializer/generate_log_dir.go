@@ -130,7 +130,7 @@ func GenerateLogDirs(logger *logger.Logger) error {
 		return err
 	}
 
-	cleanShutdownPath := filepath.Join(basePath, "clean_shutdown")
+	cleanShutdownPath := filepath.Join(basePath, ".kafka_cleanshutdown")
 	if err := os.WriteFile(cleanShutdownPath, []byte("{\"version\":0,\"brokerEpoch\":10}"), 0644); err != nil {
 		return fmt.Errorf("could not write clean shutdown file: %w", err)
 	}
