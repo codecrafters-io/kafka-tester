@@ -4,4 +4,6 @@
 # Get it from here: https://github.com/codecrafters-io/build-your-own-kafka/blob/main/kafka_2.13-4.0.0-SNAPSHOT.tgz
 # Extract it and make sure you update the permissions
 # sudo chown -R user:group ./kafka-latest
-/usr/local/kafka-latest/bin/kafka-server-start.sh "$@" >/dev/null 2>&1
+filePath="/tmp/test-$(date +%s%3N)"
+echo "FilePath: $filePath"
+/usr/local/kafka-latest/bin/kafka-server-start.sh "$@" >"$filePath" 2>&1

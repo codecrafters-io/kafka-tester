@@ -38,6 +38,18 @@ jobs:
       - name: Run tests
         run: make test
 
+      - if: always()
+        run: |
+          # Find the latest file in /tmp/ directory that starts with "test-"
+          latest_file=$(ls -t /tmp/test-* | head -n1)
+          # Check if a file was found
+          if [ -n "$latest_file" ]; then
+              # Print the contents of the file
+              cat "$latest_file"
+          else
+              echo "No test file found in /tmp/ directory"
+          fi
+
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 10
