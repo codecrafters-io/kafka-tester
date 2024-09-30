@@ -70,7 +70,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	if len(responseBody.Topics) != 1 {
-		return fmt.Errorf("Expected topicResponse to have length 1, got %v", len(responseBody.Topics))
+		return fmt.Errorf("Expected topics.length to be 1, got %v", len(responseBody.Topics))
 	}
 
 	topicResponse := responseBody.Topics[0]

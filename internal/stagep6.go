@@ -75,7 +75,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 	if len(responseBody.Topics) != 3 {
-		return fmt.Errorf("Expected topicResponse to have length 3, got %v", len(responseBody.Topics))
+		return fmt.Errorf("Expected topics.length to be 3, got %v", len(responseBody.Topics))
 	}
 
 	// We expect the topics to be in the following order:
