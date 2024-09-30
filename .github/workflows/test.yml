@@ -26,8 +26,19 @@ jobs:
         with:
           python-version: '3.9'
 
-      - run: make test
-  
+      - name: Run tests 10 times and log failures
+        run: |
+          failures=0
+          for i in {1..10}; do
+            if ! make test; then
+              ((failures++))
+            fi
+          done
+          echo "Number of test failures: $failures"
+          if [ $failures -gt 0 ]; then
+            exit 1
+          fi
+
   lint:
     runs-on: ubuntu-latest
     steps:
