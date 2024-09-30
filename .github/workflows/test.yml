@@ -10,6 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      matrix:
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      fail-fast: true
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,15 +35,8 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Run tests up to 10 times and exit on first failure
-        run: |
-          for i in {1..10}; do
-            if ! make test; then
-              echo "Test failed on attempt $i"
-              exit 1
-            fi
-          done
-          echo "All tests passed successfully"
+      - name: Run tests
+        run: make test
 
   lint:
     runs-on: ubuntu-latest
