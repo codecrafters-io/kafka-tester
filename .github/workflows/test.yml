@@ -42,6 +42,8 @@ jobs:
         run: |
           # Find the latest file in /tmp/ directory that starts with "test-"
           latest_file=$(ls -t /tmp/test-* | head -n1)
+          echo "Latest file: $latest_file"
+
           # Check if a file was found
           if [ -n "$latest_file" ]; then
               # Print the contents of the file
