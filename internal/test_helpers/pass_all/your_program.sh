@@ -5,8 +5,6 @@
 # Extract it and make sure you update the permissions
 # sudo chown -R user:group ./kafka-latest
 shmPath="/dev/shm/test-$(date +%s%3N)"
-echo "ShmPath: $shmPath"
-echo "Started: $(date)" >"$shmPath"
 
 if lsof -i :9092 >/dev/null 2>&1; then
     echo "bound"
@@ -15,6 +13,9 @@ else
     echo "not bound"
     echo "not bound" >>"$shmPath"
 fi
+
+echo "ShmPath: $shmPath"
+echo "Started: $(date)" >"$shmPath"
 
 # Trap EXIT signal to ensure cleanup
 trap 'cleanup' EXIT
