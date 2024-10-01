@@ -87,6 +87,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(topicFields []st
 
 		if (partitionFields) != nil {
 			a.assertPartitions(expectedPartitions, actualPartitions, partitionFields)
+		} else {
+			if len(actualPartitions) != 0 {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
+				return a
+			}
 		}
 	}
 
