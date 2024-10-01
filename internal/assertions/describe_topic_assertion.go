@@ -38,9 +38,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody(fields []string) *
 	return a
 }
 
-// func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(topicFields []string, partitionFields []string) *DescribeTopicPartitionsResponseAssertion {
-
-func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string) *DescribeTopicPartitionsResponseAssertion {
+func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(topicFields []string, partitionFields []string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -52,7 +50,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 
 	for i, actualTopic := range a.ActualValue.Topics {
 		expectedTopic := a.ExpectedValue.Topics[i]
-		if Contains(fields, "ErrorCode") {
+		if Contains(topicFields, "ErrorCode") {
 			if actualTopic.ErrorCode != expectedTopic.ErrorCode {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Error Code", i), expectedTopic.ErrorCode, actualTopic.ErrorCode)
 				return a
@@ -60,7 +58,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
 		}
 
-		if Contains(fields, "Name") {
+		if Contains(topicFields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic Name", i), expectedTopic.Name, actualTopic.Name)
 				return a
@@ -68,7 +66,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
 		}
 
-		if Contains(fields, "TopicID") {
+		if Contains(topicFields, "TopicID") {
 			if actualTopic.TopicID != expectedTopic.TopicID {
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.TopicID, actualTopic.TopicID)
 				return a
@@ -76,12 +74,19 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
-		if Contains(fields, "TopicAuthorizedOperations") {
+		if Contains(topicFields, "TopicAuthorizedOperations") {
 			if actualTopic.TopicAuthorizedOperations != expectedTopic.TopicAuthorizedOperations {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Topic Authorized Operations", i), expectedTopic.TopicAuthorizedOperations, actualTopic.TopicAuthorizedOperations)
 				return a
 			}
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
+		}
+
+		expectedPartitions := expectedTopic.Partitions
+		actualPartitions := actualTopic.Partitions
+
+		if (partitionFields) != nil {
+			a.assertPartitions(expectedPartitions, actualPartitions, partitionFields)
 		}
 	}
 
