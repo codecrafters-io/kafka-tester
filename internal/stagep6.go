@@ -27,14 +27,14 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 	defer broker.Close()
 
-	request := kafkaapi.DescribeTopicPartitionRequest{
+	request := kafkaapi.DescribeTopicPartitionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        75,
 			ApiVersion:    0,
 			CorrelationId: correlationId,
 			ClientId:      "kafka-tester",
 		},
-		Body: kafkaapi.DescribeTopicPartitionRequestBody{
+		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
 					Name: common.TOPIC1_NAME,
@@ -52,18 +52,17 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	// response for topicResponses will be sorted by topic name
 	// bar -> baz -> foo
 
-	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
-	// ToDo: DescribeTopicPartitions
-	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"DescribeTopicPartition\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"DescribeTopicPartition\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionHeaderAndResponse(response, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger)
 	if err != nil {
 		return err
 	}

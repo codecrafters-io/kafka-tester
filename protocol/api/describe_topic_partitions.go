@@ -17,14 +17,14 @@ func GetDescribeTopicPartition() {
 	}
 	defer broker.Close()
 
-	response, err := DescribeTopicPartition(broker)
+	response, err := DescribeTopicPartitions(broker)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("\nTopic name: %s <-> Topic ID: %s\n", response.Topics[0].Name, response.Topics[0].TopicID)
 }
 
-func EncodeDescribeTopicPartitionRequest(request *DescribeTopicPartitionRequest) []byte {
+func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsRequest) []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
@@ -42,10 +42,10 @@ func DecodeDescribeTopicPartitionHeader(response []byte, version int16, logger *
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
-	// DescribeTopicPartition always uses Header v0
+	// DescribeTopicPartitions always uses Header v0
 	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartition v3")
+			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartitions v0")
 		}
 		return nil, err
 	}
@@ -53,9 +53,9 @@ func DecodeDescribeTopicPartitionHeader(response []byte, version int16, logger *
 	return &responseHeader, nil
 }
 
-// DecodeDescribeTopicPartitionHeaderAndResponse decodes the header and response
+// DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeDescribeTopicPartitionHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
+func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
@@ -65,7 +65,7 @@ func DecodeDescribeTopicPartitionHeaderAndResponse(response []byte, logger *logg
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartition v3")
+			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartitions v0")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
 		}
 		return nil, nil, err
@@ -75,7 +75,7 @@ func DecodeDescribeTopicPartitionHeaderAndResponse(response []byte, logger *logg
 	logger.Debugf("- .ResponseBody")
 	if err := DescribeTopicPartitionsResponse.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("DescribeTopicPartition v3")
+			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("DescribeTopicPartitions v0")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
 		}
 		return nil, nil, err
@@ -84,16 +84,16 @@ func DecodeDescribeTopicPartitionHeaderAndResponse(response []byte, logger *logg
 	return &responseHeader, &DescribeTopicPartitionsResponse, nil
 }
 
-// DescribeTopicPartition returns api version response or error
-func DescribeTopicPartition(b *protocol.Broker) (*DescribeTopicPartitionsResponse, error) {
-	request := DescribeTopicPartitionRequest{
+// DescribeTopicPartitions returns api version response or error
+func DescribeTopicPartitions(b *protocol.Broker) (*DescribeTopicPartitionsResponse, error) {
+	request := DescribeTopicPartitionsRequest{
 		Header: RequestHeader{
 			ApiKey:        75,
 			ApiVersion:    0,
 			CorrelationId: 5,
 			ClientId:      "adminclient-1",
 		},
-		Body: DescribeTopicPartitionRequestBody{
+		Body: DescribeTopicPartitionsRequestBody{
 			Topics: []TopicName{
 				{
 					Name: "foo",
@@ -102,14 +102,14 @@ func DescribeTopicPartition(b *protocol.Broker) (*DescribeTopicPartitionsRespons
 			ResponsePartitionLimit: 1,
 		},
 	}
-	message := EncodeDescribeTopicPartitionRequest(&request)
+	message := EncodeDescribeTopicPartitionsRequest(&request)
 
 	response, err := b.SendAndReceive(message)
 	if err != nil {
 		return nil, err
 	}
 
-	_, DescribeTopicPartitionsResponse, err := DecodeDescribeTopicPartitionHeaderAndResponse(response, logger.GetLogger(true, ""))
+	_, DescribeTopicPartitionsResponse, err := DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger.GetLogger(true, ""))
 	if err != nil {
 		return nil, err
 	}
