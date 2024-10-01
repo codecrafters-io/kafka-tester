@@ -202,22 +202,22 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 			return err
 		}
 
-		partitionRecord.Replicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.Replicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.ISReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.ISReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.RemovingReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.RemovingReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.AddingReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.AddingReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
@@ -238,9 +238,17 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if p.Version >= 1 {
-			partitionRecord.Directories, err = partialDecoder.GetStringArray()
+			arrayLength, err := partialDecoder.GetCompactArrayLength()
 			if err != nil {
 				return err
+			}
+
+			partitionRecord.Directories = make([]string, arrayLength)
+			for i := range partitionRecord.Directories {
+				partitionRecord.Directories[i], err = getUUID(&partialDecoder)
+				if err != nil {
+					return err
+				}
 			}
 		}
 

@@ -125,108 +125,26 @@ func TestPartitionRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	partitionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = partitionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, partitionRecord.FrameVersion)
+	assert.EqualValues(t, 3, partitionRecord.Type)
+	assert.EqualValues(t, 1, partitionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	partitionID, err := decoder.GetInt32()
-	fmt.Printf("partitionID: %d\n", partitionID)
-	assert.NoError(t, err)
-
-	topicID, err := getUUID(&decoder)
-	fmt.Printf("topicID: %s\n", topicID)
-	assert.NoError(t, err)
-
-	arrayLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var replicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		replicas = append(replicas, replica)
-	}
-	fmt.Printf("replicas: %v\n", replicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var inSyncReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		inSyncReplicas = append(inSyncReplicas, replica)
-	}
-	fmt.Printf("inSyncReplicas: %v\n", inSyncReplicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var removingReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		removingReplicas = append(removingReplicas, replica)
-	}
-	fmt.Printf("removingReplicas: %v\n", removingReplicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var addingReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		addingReplicas = append(addingReplicas, replica)
-	}
-	fmt.Printf("addingReplicas: %v\n", addingReplicas)
-
-	leader, err := decoder.GetInt32()
-	fmt.Printf("leader: %d\n", leader)
-	assert.NoError(t, err)
-
-	leaderEpoch, err := decoder.GetInt32()
-	fmt.Printf("leaderEpoch: %d\n", leaderEpoch)
-	assert.NoError(t, err)
-
-	partitionEpoch, err := decoder.GetInt32()
-	fmt.Printf("partitionEpoch: %d\n", partitionEpoch)
-	assert.NoError(t, err)
-
-	if version >= 1 {
-		arrayLength, err = decoder.GetUnsignedVarint()
-		fmt.Printf("arrayLength: %d\n", arrayLength)
-		assert.NoError(t, err)
-
-		var directories []string
-		for i := 0; i < int(arrayLength-1); i++ {
-			replica, err := getUUID(&decoder)
-			assert.NoError(t, err)
-			directories = append(directories, replica)
-		}
-		fmt.Printf("directories: %v\n", directories)
-	}
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := partitionRecord.Data.(*kafkaapi.PartitionRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, 0, payload.PartitionID)
+	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
+	assert.EqualValues(t, []int32{1}, payload.Replicas)
+	assert.EqualValues(t, []int32{1}, payload.ISReplicas)
+	assert.EqualValues(t, []int32{}, payload.RemovingReplicas)
+	assert.EqualValues(t, []int32{}, payload.AddingReplicas)
+	assert.EqualValues(t, 1, payload.Leader)
+	assert.EqualValues(t, 0, payload.LeaderEpoch)
+	assert.EqualValues(t, 0, payload.PartitionEpoch)
+	assert.EqualValues(t, []string{"0224973c-badd-44cf-8744-45a99619da34"}, payload.Directories)
 }
 
 func getUUID(pd *decoder.RealDecoder) (string, error) {
