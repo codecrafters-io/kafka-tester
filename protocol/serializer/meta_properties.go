@@ -24,7 +24,7 @@ log.dirs=/tmp/kraft-combined-logs`
 		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }
 
@@ -37,7 +37,7 @@ func writeMetaProperties(path, clusterID, directoryID string, nodeID, version in
 		return fmt.Errorf("error writing meta properties file: %w", err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }
 
@@ -50,6 +50,6 @@ func writeKafkaCleanShutdown(path string, logger *logger.Logger) error {
 		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }

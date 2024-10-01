@@ -248,6 +248,6 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }
