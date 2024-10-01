@@ -288,12 +288,12 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 	checkPresence, err := pd.GetInt8()
 	if err != nil {
 		if _, ok := err.(*errors.PacketDecodingError); ok {
-			customError := errors.NewPacketDecodingError(fmt.Sprintf("Expected either 0xFF (cursor is null) or 0x01 (cursor is not null), got 0x%02x", checkPresence), "RAW_BYTES")
+			customError := errors.NewPacketDecodingError(fmt.Sprintf("Expected either 0xFF (cursor is null) or 0x01 (cursor is not null), got 0x%02X", uint8(checkPresence)), "RAW_BYTES")
 			return customError.WithAddedContext("cursor_is_null")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .cursor_is_null (0x%02x)", checkPresence)
+	protocol.LogWithIndentation(logger, indentation, "- .cursor_is_null (0x%02X)", uint8(checkPresence))
 
 	if checkPresence == -1 {
 		c = nil
