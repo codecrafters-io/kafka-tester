@@ -50,8 +50,7 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	}
 
 	a.NextCursor = DescribeTopicPartitionsResponseCursor{}
-	protocol.LogWithIndentation(logger, indentation, "- .next_cursor")
-	err = a.NextCursor.Decode(pd, logger, indentation+1)
+	err = a.NextCursor.Decode(pd, logger, indentation)
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("next_cursor")
@@ -293,11 +292,13 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .cursor_is_null (0x%02X)", uint8(checkPresence))
 
 	if checkPresence == -1 {
+		protocol.LogWithIndentation(logger, indentation, "- .next_cursor (null)")
 		c = nil
 		return nil
+	} else {
+		protocol.LogWithIndentation(logger, indentation, "- .next_cursor")
 	}
 
 	if c.TopicName, err = pd.GetCompactString(); err != nil {
@@ -306,7 +307,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .topic_name (%s)", c.TopicName)
+	protocol.LogWithIndentation(logger, indentation+1, "- .topic_name (%s)", c.TopicName)
 
 	if c.PartitionIndex, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -314,7 +315,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .partition_index (%d)", c.PartitionIndex)
+	protocol.LogWithIndentation(logger, indentation+1, "- .partition_index (%d)", c.PartitionIndex)
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -322,6 +323,6 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation+1, "- .TAG_BUFFER")
 	return nil
 }
