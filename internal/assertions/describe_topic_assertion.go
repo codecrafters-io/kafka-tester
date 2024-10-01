@@ -3,6 +3,7 @@ package assertions
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -37,6 +38,8 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody(fields []string) *
 	return a
 }
 
+// func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(topicFields []string, partitionFields []string) *DescribeTopicPartitionsResponseAssertion {
+
 func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
@@ -54,7 +57,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Error Code", i), expectedTopic.ErrorCode, actualTopic.ErrorCode)
 				return a
 			}
-			a.logger.Successf("✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
 		}
 
 		if Contains(fields, "Name") {
@@ -62,7 +65,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic Name", i), expectedTopic.Name, actualTopic.Name)
 				return a
 			}
-			a.logger.Successf("✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
 		}
 
 		if Contains(fields, "TopicID") {
@@ -70,7 +73,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.TopicID, actualTopic.TopicID)
 				return a
 			}
-			a.logger.Successf("✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
 		if Contains(fields, "TopicAuthorizedOperations") {
@@ -78,13 +81,14 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Topic Authorized Operations", i), expectedTopic.TopicAuthorizedOperations, actualTopic.TopicAuthorizedOperations)
 				return a
 			}
-			a.logger.Successf("✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
 		}
 	}
 
 	return a
 }
 
+// func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(fields []string) *DescribeTopicPartitionsResponseAssertion {
 func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
@@ -107,7 +111,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []str
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 					return a
 				}
-				a.logger.Successf("✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+				protocol.SuccessLogWithIndentation(a.logger, 1, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 			}
 
 			if Contains(fields, "PartitionIndex") {
@@ -115,7 +119,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []str
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 					return a
 				}
-				a.logger.Successf("✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+				protocol.SuccessLogWithIndentation(a.logger, 1, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 			}
 
 		}
