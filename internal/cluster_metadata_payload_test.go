@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBeginTxnRecord(t *testing.T) {
+func TestDecodeBeginTransactionRecordPayload(t *testing.T) {
 	hexdump := "01170001001212426f6f747374726170207265636f726473"
 
 	b, err := hex.DecodeString(hexdump)
@@ -33,7 +33,7 @@ func TestBeginTxnRecord(t *testing.T) {
 	assert.EqualValues(t, "Bootstrap records", payload.Name)
 }
 
-func TestFeatureLevelRecord(t *testing.T) {
+func TestDecodeFeatureLevelRecordPayload(t *testing.T) {
 	hexdump := "010c00116d657461646174612e76657273696f6e001400"
 
 	b, err := hex.DecodeString(hexdump)
@@ -54,7 +54,7 @@ func TestFeatureLevelRecord(t *testing.T) {
 	assert.EqualValues(t, "metadata.version", payload.Name)
 }
 
-func TestZKMigrationRecord(t *testing.T) {
+func TestDecodeZKMigrationRecordPayload(t *testing.T) {
 	hexdump := "0115000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -75,7 +75,7 @@ func TestZKMigrationRecord(t *testing.T) {
 	assert.EqualValues(t, 0, payload.MigrationState)
 }
 
-func TestEndTxnRecord(t *testing.T) {
+func TestDecodeEndTransactionRecordPayload(t *testing.T) {
 	hexdump := "01180000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -95,7 +95,7 @@ func TestEndTxnRecord(t *testing.T) {
 	assert.True(t, ok)
 }
 
-func TestTopicRecord(t *testing.T) {
+func TestDecodeTopicRecordPayload(t *testing.T) {
 	hexdump := "01020004666f6fbfd99e5e3235455281f8d4af1741970c00"
 
 	b, err := hex.DecodeString(hexdump)
@@ -117,7 +117,7 @@ func TestTopicRecord(t *testing.T) {
 	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
 }
 
-func TestPartitionRecord(t *testing.T) {
+func TestDecodePartitionRecordPayload(t *testing.T) {
 	hexdump := "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400"
 
 	b, err := hex.DecodeString(hexdump)
@@ -147,6 +147,7 @@ func TestPartitionRecord(t *testing.T) {
 	assert.EqualValues(t, []string{"0224973c-badd-44cf-8744-45a99619da34"}, payload.Directories)
 }
 
+// ToDo: global utils
 func getUUID(pd *decoder.RealDecoder) (string, error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
@@ -159,7 +160,7 @@ func getUUID(pd *decoder.RealDecoder) (string, error) {
 	return topicUUID, nil
 }
 
-func TestEncodeBeginTransactionRecord(t *testing.T) {
+func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
 	beginTransactionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         23,
@@ -175,7 +176,7 @@ func TestEncodeBeginTransactionRecord(t *testing.T) {
 	assert.Equal(t, "01170001001212426f6f747374726170207265636f726473", hex.EncodeToString(bytes))
 }
 
-func TestEncodeFeatureLevelRecord(t *testing.T) {
+func TestEncodeFeatureLevelRecordPayload(t *testing.T) {
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         12,
@@ -192,7 +193,7 @@ func TestEncodeFeatureLevelRecord(t *testing.T) {
 	assert.Equal(t, "010c00116d657461646174612e76657273696f6e001400", hex.EncodeToString(bytes))
 }
 
-func TestEncodeZKMigrationRecord(t *testing.T) {
+func TestEncodeZKMigrationRecordPayload(t *testing.T) {
 	zkMigrationRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         21,
@@ -205,7 +206,7 @@ func TestEncodeZKMigrationRecord(t *testing.T) {
 	assert.Equal(t, "0115000000", hex.EncodeToString(bytes))
 }
 
-func TestEncodeEndTransactionRecord(t *testing.T) {
+func TestEncodeEndTransactionRecordPayload(t *testing.T) {
 	endTransactionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         24,
@@ -219,7 +220,7 @@ func TestEncodeEndTransactionRecord(t *testing.T) {
 	assert.Equal(t, "01180000", hex.EncodeToString(bytes))
 }
 
-func TestEncodeTopicRecord(t *testing.T) {
+func TestEncodeTopicRecordPayload(t *testing.T) {
 	topicRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         2,
@@ -234,7 +235,7 @@ func TestEncodeTopicRecord(t *testing.T) {
 	assert.Equal(t, "01020004666f6fbfd99e5e3235455281f8d4af1741970c00", hex.EncodeToString(bytes))
 }
 
-func TestEncodePartitionRecord(t *testing.T) {
+func TestEncodePartitionRecordPayload(t *testing.T) {
 	partitionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
