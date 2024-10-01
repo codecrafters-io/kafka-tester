@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -64,6 +62,13 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		return err
 	}
 
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
+	}
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
+	}
+
 	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
 		ThrottleTimeMs: 0,
 		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
@@ -105,14 +110,5 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		AssertPartitions([]string{"ErrorCode", "PartitionIndex"}).
 		Run()
 
-	if err != nil {
-		return err
-	}
-
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
-	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	return nil
+	return err
 }
