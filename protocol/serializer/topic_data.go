@@ -48,7 +48,7 @@ func writeTopicData(path string, messages []string, logger *logger.Logger) error
 		return fmt.Errorf("error writing file to %s: %w", path, err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }
 
@@ -60,6 +60,6 @@ func writePartitionMetadata(path string, version int, topicID string, logger *lo
 		return fmt.Errorf("error writing partition metadata file: %w", err)
 	}
 
-	logger.Debugf("    - Wrote file to: %s", path)
+	logger.Debugf("  - Wrote file to: %s", path)
 	return nil
 }

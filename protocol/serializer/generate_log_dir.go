@@ -49,6 +49,7 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
 	kraftServerPropertiesPath := fmt.Sprintf(common.SERVER_PROPERTIES_FILE_PATH)
+	kafkaCleanShutdownPath := fmt.Sprintf("%s/.kafka_cleanshutdown", basePath)
 	metaPropertiesPath := fmt.Sprintf("%s/meta.properties", basePath)
 	topic1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic1MetadataDirectory)
 	topic2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic2MetadataDirectory)
@@ -69,7 +70,17 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	logger.UpdateSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
+	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
+	if err != nil {
+		return err
+	}
+
 	err = writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeKafkaCleanShutdown(kafkaCleanShutdownPath, logger)
 	if err != nil {
 		return err
 	}
@@ -120,11 +131,6 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	}
 
 	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
-	if err != nil {
-		return err
-	}
-
-	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
 	if err != nil {
 		return err
 	}

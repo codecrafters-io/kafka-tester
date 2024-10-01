@@ -6,13 +6,11 @@ import (
 	"testing"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBeginTxnRecord(t *testing.T) {
+func TestDecodeBeginTransactionRecordPayload(t *testing.T) {
 	hexdump := "01170001001212426f6f747374726170207265636f726473"
 
 	b, err := hex.DecodeString(hexdump)
@@ -20,47 +18,20 @@ func TestBeginTxnRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	beginTransactionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = beginTransactionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, beginTransactionRecord.FrameVersion)
+	assert.EqualValues(t, 23, beginTransactionRecord.Type)
+	assert.EqualValues(t, 0, beginTransactionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	for i := 0; i < int(tagFieldCount); i++ {
-		tagType, err := decoder.GetUnsignedVarint()
-		fmt.Printf("tagType: %d\n", tagType)
-		assert.NoError(t, err)
-
-		tagLength, err := decoder.GetUnsignedVarint()
-		fmt.Printf("tagLength: %d\n", tagLength)
-		assert.NoError(t, err)
-
-		stringLength, err := decoder.GetUnsignedVarint()
-		fmt.Printf("stringLength: %d\n", stringLength)
-		assert.NoError(t, err)
-
-		stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-		fmt.Printf("stringValue: %s\n", stringValue)
-		assert.NoError(t, err)
-	}
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := beginTransactionRecord.Data.(*kafkaapi.BeginTransactionRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "Bootstrap records", payload.Name)
 }
 
-func TestFeatureLevelRecord(t *testing.T) {
+func TestDecodeFeatureLevelRecordPayload(t *testing.T) {
 	hexdump := "010c00116d657461646174612e76657273696f6e001400"
 
 	b, err := hex.DecodeString(hexdump)
@@ -68,41 +39,20 @@ func TestFeatureLevelRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	featureLevelRecord := kafkaapi.ClusterMetadataPayload{}
+	err = featureLevelRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, featureLevelRecord.FrameVersion)
+	assert.EqualValues(t, 12, featureLevelRecord.Type)
+	assert.EqualValues(t, 0, featureLevelRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	stringLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("stringLength: %d\n", stringLength)
-	assert.NoError(t, err)
-
-	stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-	fmt.Printf("stringValue: %s\n", stringValue)
-	assert.NoError(t, err)
-
-	featureLevel, err := decoder.GetInt16()
-	fmt.Printf("featureLevel: %d\n", featureLevel)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := featureLevelRecord.Data.(*kafkaapi.FeatureLevelRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "metadata.version", payload.Name)
 }
 
-func TestZKMigrationRecord(t *testing.T) {
+func TestDecodeZKMigrationRecordPayload(t *testing.T) {
 	hexdump := "0115000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -110,33 +60,20 @@ func TestZKMigrationRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	zkMigrationRecord := kafkaapi.ClusterMetadataPayload{}
+	err = zkMigrationRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, zkMigrationRecord.FrameVersion)
+	assert.EqualValues(t, 21, zkMigrationRecord.Type)
+	assert.EqualValues(t, 0, zkMigrationRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	migrationState, err := decoder.GetInt8()
-	fmt.Printf("migrationState: %d\n", migrationState)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := zkMigrationRecord.Data.(*kafkaapi.ZKMigrationStateRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, 0, payload.MigrationState)
 }
 
-func TestEndTxnRecord(t *testing.T) {
+func TestDecodeEndTransactionRecordPayload(t *testing.T) {
 	hexdump := "01180000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -144,29 +81,19 @@ func TestEndTxnRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	endTransactionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = endTransactionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, endTransactionRecord.FrameVersion)
+	assert.EqualValues(t, 24, endTransactionRecord.Type)
+	assert.EqualValues(t, 0, endTransactionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	_, ok := endTransactionRecord.Data.(*kafkaapi.EndTransactionRecord)
+	assert.True(t, ok)
 }
 
-func TestTopicRecord(t *testing.T) {
+func TestDecodeTopicRecordPayload(t *testing.T) {
 	hexdump := "01020004666f6fbfd99e5e3235455281f8d4af1741970c00"
 
 	b, err := hex.DecodeString(hexdump)
@@ -174,41 +101,21 @@ func TestTopicRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	topicRecord := kafkaapi.ClusterMetadataPayload{}
+	err = topicRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, topicRecord.FrameVersion)
+	assert.EqualValues(t, 2, topicRecord.Type)
+	assert.EqualValues(t, 0, topicRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	stringLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("stringLength: %d\n", stringLength)
-	assert.NoError(t, err)
-
-	stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-	fmt.Printf("stringValue: %s\n", stringValue)
-	assert.NoError(t, err)
-
-	topicID, err := getUUID(&decoder)
-	fmt.Printf("topicID: %s\n", topicID)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := topicRecord.Data.(*kafkaapi.TopicRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "foo", payload.TopicName)
+	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
 }
 
-func TestPartitionRecord(t *testing.T) {
+func TestDecodePartitionRecordPayload(t *testing.T) {
 	hexdump := "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400"
 
 	b, err := hex.DecodeString(hexdump)
@@ -216,123 +123,29 @@ func TestPartitionRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	partitionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = partitionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, partitionRecord.FrameVersion)
+	assert.EqualValues(t, 3, partitionRecord.Type)
+	assert.EqualValues(t, 1, partitionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	partitionID, err := decoder.GetInt32()
-	fmt.Printf("partitionID: %d\n", partitionID)
-	assert.NoError(t, err)
-
-	topicID, err := getUUID(&decoder)
-	fmt.Printf("topicID: %s\n", topicID)
-	assert.NoError(t, err)
-
-	arrayLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var replicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		replicas = append(replicas, replica)
-	}
-	fmt.Printf("replicas: %v\n", replicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var inSyncReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		inSyncReplicas = append(inSyncReplicas, replica)
-	}
-	fmt.Printf("inSyncReplicas: %v\n", inSyncReplicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var removingReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		removingReplicas = append(removingReplicas, replica)
-	}
-	fmt.Printf("removingReplicas: %v\n", removingReplicas)
-
-	arrayLength, err = decoder.GetUnsignedVarint()
-	fmt.Printf("arrayLength: %d\n", arrayLength)
-	assert.NoError(t, err)
-
-	var addingReplicas []int32
-	for i := 0; i < int(arrayLength-1); i++ {
-		replica, err := decoder.GetInt32()
-		assert.NoError(t, err)
-		addingReplicas = append(addingReplicas, replica)
-	}
-	fmt.Printf("addingReplicas: %v\n", addingReplicas)
-
-	leader, err := decoder.GetInt32()
-	fmt.Printf("leader: %d\n", leader)
-	assert.NoError(t, err)
-
-	leaderEpoch, err := decoder.GetInt32()
-	fmt.Printf("leaderEpoch: %d\n", leaderEpoch)
-	assert.NoError(t, err)
-
-	partitionEpoch, err := decoder.GetInt32()
-	fmt.Printf("partitionEpoch: %d\n", partitionEpoch)
-	assert.NoError(t, err)
-
-	if version >= 1 {
-		arrayLength, err = decoder.GetUnsignedVarint()
-		fmt.Printf("arrayLength: %d\n", arrayLength)
-		assert.NoError(t, err)
-
-		var directories []string
-		for i := 0; i < int(arrayLength-1); i++ {
-			replica, err := getUUID(&decoder)
-			assert.NoError(t, err)
-			directories = append(directories, replica)
-		}
-		fmt.Printf("directories: %v\n", directories)
-	}
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := partitionRecord.Data.(*kafkaapi.PartitionRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, 0, payload.PartitionID)
+	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
+	assert.EqualValues(t, []int32{1}, payload.Replicas)
+	assert.EqualValues(t, []int32{1}, payload.ISReplicas)
+	assert.EqualValues(t, []int32{}, payload.RemovingReplicas)
+	assert.EqualValues(t, []int32{}, payload.AddingReplicas)
+	assert.EqualValues(t, 1, payload.Leader)
+	assert.EqualValues(t, 0, payload.LeaderEpoch)
+	assert.EqualValues(t, 0, payload.PartitionEpoch)
+	assert.EqualValues(t, []string{"0224973c-badd-44cf-8744-45a99619da34"}, payload.Directories)
 }
 
-func getUUID(pd *decoder.RealDecoder) (string, error) {
-	topicUUIDBytes, err := pd.GetRawBytes(16)
-	if err != nil {
-		return "", err
-	}
-	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
-	if err != nil {
-		return "", err
-	}
-	return topicUUID, nil
-}
-
-func TestEncodeBeginTransactionRecord(t *testing.T) {
+func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
 	beginTransactionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         23,
@@ -348,7 +161,7 @@ func TestEncodeBeginTransactionRecord(t *testing.T) {
 	assert.Equal(t, "01170001001212426f6f747374726170207265636f726473", hex.EncodeToString(bytes))
 }
 
-func TestEncodeFeatureLevelRecord(t *testing.T) {
+func TestEncodeFeatureLevelRecordPayload(t *testing.T) {
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         12,
@@ -365,7 +178,7 @@ func TestEncodeFeatureLevelRecord(t *testing.T) {
 	assert.Equal(t, "010c00116d657461646174612e76657273696f6e001400", hex.EncodeToString(bytes))
 }
 
-func TestEncodeZKMigrationRecord(t *testing.T) {
+func TestEncodeZKMigrationRecordPayload(t *testing.T) {
 	zkMigrationRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         21,
@@ -378,7 +191,7 @@ func TestEncodeZKMigrationRecord(t *testing.T) {
 	assert.Equal(t, "0115000000", hex.EncodeToString(bytes))
 }
 
-func TestEncodeEndTransactionRecord(t *testing.T) {
+func TestEncodeEndTransactionRecordPayload(t *testing.T) {
 	endTransactionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         24,
@@ -392,7 +205,7 @@ func TestEncodeEndTransactionRecord(t *testing.T) {
 	assert.Equal(t, "01180000", hex.EncodeToString(bytes))
 }
 
-func TestEncodeTopicRecord(t *testing.T) {
+func TestEncodeTopicRecordPayload(t *testing.T) {
 	topicRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         2,
@@ -407,7 +220,7 @@ func TestEncodeTopicRecord(t *testing.T) {
 	assert.Equal(t, "01020004666f6fbfd99e5e3235455281f8d4af1741970c00", hex.EncodeToString(bytes))
 }
 
-func TestEncodePartitionRecord(t *testing.T) {
+func TestEncodePartitionRecordPayload(t *testing.T) {
 	partitionRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,

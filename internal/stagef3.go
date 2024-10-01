@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -82,10 +83,12 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
+	}
 
 	if responseBody.ErrorCode != 0 {
 		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)

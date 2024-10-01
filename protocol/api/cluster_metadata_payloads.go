@@ -105,14 +105,14 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 				return err
 			}
 
-			beginTransactionRecord.Name, err = partialDecoder.GetString()
+			beginTransactionRecord.Name, err = partialDecoder.GetCompactString()
 			if err != nil {
 				return err
 			}
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "BEGIN_TRANSACTION_RECORD")
 		}
 	case 21:
 		zkMigrationStateRecord := &ZKMigrationStateRecord{}
@@ -135,7 +135,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		topicRecord := &TopicRecord{}
 		p.Data = topicRecord
 
-		topicRecord.TopicName, err = partialDecoder.GetString()
+		topicRecord.TopicName, err = partialDecoder.GetCompactString()
 		if err != nil {
 			return err
 		}
@@ -151,13 +151,13 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "TOPIC_RECORD")
 		}
 	case 12:
 		featureLevelRecord := &FeatureLevelRecord{}
 		p.Data = featureLevelRecord
 
-		featureLevelRecord.Name, err = partialDecoder.GetString()
+		featureLevelRecord.Name, err = partialDecoder.GetCompactString()
 		if err != nil {
 			return err
 		}
@@ -185,7 +185,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "END_TRANSACTION_RECORD")
 		}
 
 	case 3:
@@ -202,22 +202,22 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 			return err
 		}
 
-		partitionRecord.Replicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.Replicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.ISReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.ISReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.RemovingReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.RemovingReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
 
-		partitionRecord.AddingReplicas, err = partialDecoder.GetInt32Array()
+		partitionRecord.AddingReplicas, err = partialDecoder.GetCompactInt32Array()
 		if err != nil {
 			return err
 		}
@@ -238,9 +238,17 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if p.Version >= 1 {
-			partitionRecord.Directories, err = partialDecoder.GetStringArray()
+			arrayLength, err := partialDecoder.GetCompactArrayLength()
 			if err != nil {
 				return err
+			}
+
+			partitionRecord.Directories = make([]string, arrayLength)
+			for i := range partitionRecord.Directories {
+				partitionRecord.Directories[i], err = getUUID(&partialDecoder)
+				if err != nil {
+					return err
+				}
 			}
 		}
 
@@ -250,7 +258,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_RECORD")
 		}
 	}
 
