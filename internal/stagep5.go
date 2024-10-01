@@ -10,17 +10,14 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harness.TestCaseHarness) error {
+func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
-	if err != nil {
-		return err
-	}
+	serializer.GenerateLogDirs(logger)
 
 	correlationId := getRandomCorrelationId()
 
@@ -40,12 +37,20 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
+					Name: common.TOPIC1_NAME,
+				},
+				{
+					Name: common.TOPIC2_NAME,
+				},
+				{
 					Name: common.TOPIC3_NAME,
 				},
 			},
-			ResponsePartitionLimit: 2,
+			ResponsePartitionLimit: 4,
 		},
 	}
+	// response for topicResponses will be sorted by topic name
+	// bar -> baz -> foo
 
 	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
 	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
@@ -72,6 +77,42 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
 		ThrottleTimeMs: 0,
 		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC1_NAME,
+				TopicID:   common.TOPIC1_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC2_NAME,
+				TopicID:   common.TOPIC2_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
 			{
 				ErrorCode: 0,
 				Name:      common.TOPIC3_NAME,
