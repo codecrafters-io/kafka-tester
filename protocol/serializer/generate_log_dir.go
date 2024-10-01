@@ -70,7 +70,17 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	logger.UpdateSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
+	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
+	if err != nil {
+		return err
+	}
+
 	err = writeMetaProperties(metaPropertiesPath, clusterID, directoryID, nodeID, version, logger)
+	if err != nil {
+		return err
+	}
+
+	err = writeKafkaCleanShutdown(kafkaCleanShutdownPath, logger)
 	if err != nil {
 		return err
 	}
@@ -121,16 +131,6 @@ func GenerateLogDirs(logger *logger.Logger) error {
 	}
 
 	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
-	if err != nil {
-		return err
-	}
-
-	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
-	if err != nil {
-		return err
-	}
-
-	err = writeKafkaCleanShutdown(kafkaCleanShutdownPath, logger)
 	if err != nil {
 		return err
 	}
