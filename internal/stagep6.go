@@ -1,8 +1,7 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -52,9 +51,9 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 	// response for topicResponses will be sorted by topic name
 	// bar -> baz -> foo
-	// ToDo: Better framework for testing this
 
 	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
+	// ToDo: DescribeTopicPartitions
 	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
@@ -69,129 +68,89 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if len(responseBody.Topics) != 3 {
-		return fmt.Errorf("Expected topics.length to be 3, got %v", len(responseBody.Topics))
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
 
-	// We expect the topics to be in the following order:
-	// TOPIC1, TOPIC2, TOPIC3 (in that order)
-	// If order is mismatched, the test will fail
-
-	topicResponse1 := responseBody.Topics[0]
-
-	if topicResponse1.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse1.ErrorCode)
-	}
-	logger.Successf("✓ TopicResponse Error code: 0")
-
-	if topicResponse1.Name != common.TOPIC1_NAME {
-		return fmt.Errorf("Expected Topic to be %v, got %v", common.TOPIC1_NAME, topicResponse1.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse1.Name)
-
-	if topicResponse1.TopicID != common.TOPIC1_UUID {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC1_UUID, topicResponse1.TopicID)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse1.TopicID)
-
-	if len(topicResponse1.Partitions) != 1 {
-		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse1.Partitions))
-	}
-
-	partitionResponse1 := topicResponse1.Partitions[0]
-
-	if partitionResponse1.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse1.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[0] Error code: 0")
-
-	if partitionResponse1.PartitionIndex != 0 {
-		return fmt.Errorf("Expected Partition Index to be 0, got %v", partitionResponse1.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
-
-	topicResponse2 := responseBody.Topics[1]
-
-	if topicResponse2.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse2.ErrorCode)
-	}
-	logger.Successf("✓ TopicResponse Error code: 0")
-
-	if topicResponse2.Name != common.TOPIC2_NAME {
-		return fmt.Errorf("Expected Topic to be %v, got %v", common.TOPIC2_NAME, topicResponse2.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse2.Name)
-
-	if topicResponse2.TopicID != common.TOPIC2_UUID {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC2_UUID, topicResponse2.TopicID)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse2.TopicID)
-
-	if len(topicResponse2.Partitions) != 1 {
-		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse2.Partitions))
-	}
-
-	partitionResponse2 := topicResponse2.Partitions[0]
-
-	if partitionResponse2.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse2.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[0] Error code: 0")
-
-	if partitionResponse2.PartitionIndex != 0 {
-		return fmt.Errorf("Expected Partition Index to be 0, got %v", partitionResponse2.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
-
-	topicResponse3 := responseBody.Topics[2]
-
-	if topicResponse3.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse3.ErrorCode)
-	}
-	logger.Successf("✓ TopicResponse Error code: 0")
-
-	if topicResponse3.Name != common.TOPIC3_NAME {
-		return fmt.Errorf("Expected Topic to be %v, got %v", common.TOPIC3_NAME, topicResponse3.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse3.Name)
-
-	if topicResponse3.TopicID != common.TOPIC3_UUID {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC3_UUID, topicResponse3.TopicID)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse3.TopicID)
-
-	if len(topicResponse3.Partitions) != 2 {
-		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse3.Partitions))
+	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+		ThrottleTimeMs: 0,
+		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC1_NAME,
+				TopicID:   common.TOPIC1_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC2_NAME,
+				TopicID:   common.TOPIC2_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC3_NAME,
+				TopicID:   common.TOPIC3_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+					{
+						ErrorCode:              0,
+						PartitionIndex:         1,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+		},
 	}
 
-	partitionResponse3 := topicResponse3.Partitions[0]
+	err = assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs"}).
+		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}).
+		AssertPartitions([]string{"ErrorCode", "PartitionIndex"}).
+		Run()
 
-	if partitionResponse3.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse3.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[0] Error code: 0")
-
-	if partitionResponse3.PartitionIndex != 0 {
-		return fmt.Errorf("Expected Partition Index to be 0, got %v", partitionResponse3.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
-
-	partitionResponse4 := topicResponse3.Partitions[1]
-
-	if partitionResponse4.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse4.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[1] Error code: 0")
-
-	if partitionResponse4.PartitionIndex != 1 {
-		return fmt.Errorf("Expected Partition Index to be 1, got %v", partitionResponse4.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[1] Partition Index: 1")
-
-	return nil
+	return err
 }
