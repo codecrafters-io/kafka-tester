@@ -112,7 +112,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_CHANGE_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "BEGIN_TRANSACTION_RECORD")
 		}
 	case 21:
 		zkMigrationStateRecord := &ZKMigrationStateRecord{}
@@ -151,7 +151,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PRODUCER_IDS_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "TOPIC_RECORD")
 		}
 	case 12:
 		featureLevelRecord := &FeatureLevelRecord{}
@@ -185,7 +185,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "END_TRANSACTION_RECORD")
 		}
 
 	case 3:
@@ -250,7 +250,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 		if partialDecoder.Remaining() > 0 {
-			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "FEATURE_LEVEL_RECORD")
+			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "PARTITION_RECORD")
 		}
 	}
 
