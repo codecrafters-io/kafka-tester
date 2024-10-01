@@ -50,6 +50,7 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	}
 
 	a.NextCursor = DescribeTopicPartitionsResponseCursor{}
+	protocol.LogWithIndentation(logger, indentation, "- .next_cursor")
 	err = a.NextCursor.Decode(pd, logger, indentation+1)
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -57,7 +58,6 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .next_cursor (%v)", a.NextCursor)
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
