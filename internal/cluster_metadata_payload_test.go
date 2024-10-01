@@ -62,30 +62,17 @@ func TestZKMigrationRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	zkMigrationRecord := kafkaapi.ClusterMetadataPayload{}
+	err = zkMigrationRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, zkMigrationRecord.FrameVersion)
+	assert.EqualValues(t, 21, zkMigrationRecord.Type)
+	assert.EqualValues(t, 0, zkMigrationRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	migrationState, err := decoder.GetInt8()
-	fmt.Printf("migrationState: %d\n", migrationState)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := zkMigrationRecord.Data.(*kafkaapi.ZKMigrationStateRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, 0, payload.MigrationState)
 }
 
 func TestEndTxnRecord(t *testing.T) {
@@ -96,26 +83,16 @@ func TestEndTxnRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	endTransactionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = endTransactionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, endTransactionRecord.FrameVersion)
+	assert.EqualValues(t, 24, endTransactionRecord.Type)
+	assert.EqualValues(t, 0, endTransactionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	_, ok := endTransactionRecord.Data.(*kafkaapi.EndTransactionRecord)
+	assert.True(t, ok)
 }
 
 func TestTopicRecord(t *testing.T) {
