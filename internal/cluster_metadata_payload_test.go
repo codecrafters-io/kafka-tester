@@ -103,38 +103,18 @@ func TestTopicRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	topicRecord := kafkaapi.ClusterMetadataPayload{}
+	err = topicRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, topicRecord.FrameVersion)
+	assert.EqualValues(t, 2, topicRecord.Type)
+	assert.EqualValues(t, 0, topicRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	stringLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("stringLength: %d\n", stringLength)
-	assert.NoError(t, err)
-
-	stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-	fmt.Printf("stringValue: %s\n", stringValue)
-	assert.NoError(t, err)
-
-	topicID, err := getUUID(&decoder)
-	fmt.Printf("topicID: %s\n", topicID)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := topicRecord.Data.(*kafkaapi.TopicRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "foo", payload.TopicName)
+	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
 }
 
 func TestPartitionRecord(t *testing.T) {

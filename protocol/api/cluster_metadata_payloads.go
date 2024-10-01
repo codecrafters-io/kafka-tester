@@ -135,7 +135,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		topicRecord := &TopicRecord{}
 		p.Data = topicRecord
 
-		topicRecord.TopicName, err = partialDecoder.GetString()
+		topicRecord.TopicName, err = partialDecoder.GetCompactString()
 		if err != nil {
 			return err
 		}
