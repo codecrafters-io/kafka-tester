@@ -6,8 +6,6 @@ import (
 	"testing"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/stretchr/testify/assert"
 )
@@ -145,19 +143,6 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 0, payload.LeaderEpoch)
 	assert.EqualValues(t, 0, payload.PartitionEpoch)
 	assert.EqualValues(t, []string{"0224973c-badd-44cf-8744-45a99619da34"}, payload.Directories)
-}
-
-// ToDo: global utils
-func getUUID(pd *decoder.RealDecoder) (string, error) {
-	topicUUIDBytes, err := pd.GetRawBytes(16)
-	if err != nil {
-		return "", err
-	}
-	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
-	if err != nil {
-		return "", err
-	}
-	return topicUUID, nil
 }
 
 func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
