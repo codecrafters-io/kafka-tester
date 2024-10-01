@@ -20,44 +20,17 @@ func TestBeginTxnRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	beginTransactionRecord := kafkaapi.ClusterMetadataPayload{}
+	err = beginTransactionRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, beginTransactionRecord.FrameVersion)
+	assert.EqualValues(t, 23, beginTransactionRecord.Type)
+	assert.EqualValues(t, 0, beginTransactionRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	for i := 0; i < int(tagFieldCount); i++ {
-		tagType, err := decoder.GetUnsignedVarint()
-		fmt.Printf("tagType: %d\n", tagType)
-		assert.NoError(t, err)
-
-		tagLength, err := decoder.GetUnsignedVarint()
-		fmt.Printf("tagLength: %d\n", tagLength)
-		assert.NoError(t, err)
-
-		stringLength, err := decoder.GetUnsignedVarint()
-		fmt.Printf("stringLength: %d\n", stringLength)
-		assert.NoError(t, err)
-
-		stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-		fmt.Printf("stringValue: %s\n", stringValue)
-		assert.NoError(t, err)
-	}
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := beginTransactionRecord.Data.(*kafkaapi.BeginTransactionRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "Bootstrap records", payload.Name)
 }
 
 func TestFeatureLevelRecord(t *testing.T) {

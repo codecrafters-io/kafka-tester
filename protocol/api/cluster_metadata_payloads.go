@@ -105,7 +105,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 				return err
 			}
 
-			beginTransactionRecord.Name, err = partialDecoder.GetString()
+			beginTransactionRecord.Name, err = partialDecoder.GetCompactString()
 			if err != nil {
 				return err
 			}
