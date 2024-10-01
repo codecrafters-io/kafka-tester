@@ -51,7 +51,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 		expectedTopic := a.ExpectedValue.Topics[i]
 		if Contains(fields, "ErrorCode") {
 			if actualTopic.ErrorCode != expectedTopic.ErrorCode {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", "Error Code", expectedTopic.ErrorCode, actualTopic.ErrorCode)
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Error Code", i), expectedTopic.ErrorCode, actualTopic.ErrorCode)
 				return a
 			}
 			a.logger.Successf("✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
@@ -59,7 +59,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 
 		if Contains(fields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
-				a.err = fmt.Errorf("Expected %s to be %s, got %s", "Topic Name", expectedTopic.Name, actualTopic.Name)
+				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic Name", i), expectedTopic.Name, actualTopic.Name)
 				return a
 			}
 			a.logger.Successf("✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
@@ -67,7 +67,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 
 		if Contains(fields, "TopicID") {
 			if actualTopic.TopicID != expectedTopic.TopicID {
-				a.err = fmt.Errorf("Expected %s to be %s, got %s", "Topic UUID", expectedTopic.TopicID, actualTopic.TopicID)
+				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.TopicID, actualTopic.TopicID)
 				return a
 			}
 			a.logger.Successf("✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
@@ -75,7 +75,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(fields []string)
 
 		if Contains(fields, "TopicAuthorizedOperations") {
 			if actualTopic.TopicAuthorizedOperations != expectedTopic.TopicAuthorizedOperations {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", "Topic Authorized Operations", expectedTopic.TopicAuthorizedOperations, actualTopic.TopicAuthorizedOperations)
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Topic Authorized Operations", i), expectedTopic.TopicAuthorizedOperations, actualTopic.TopicAuthorizedOperations)
 				return a
 			}
 			a.logger.Successf("✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
@@ -104,8 +104,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []str
 
 			if Contains(fields, "ErrorCode") {
 				if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-					// ToDo: Improve error message
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", "Error Code", expectedPartition.ErrorCode, actualPartition.ErrorCode)
+					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 					return a
 				}
 				a.logger.Successf("✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
@@ -113,7 +112,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []str
 
 			if Contains(fields, "PartitionIndex") {
 				if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", "Partition Index", expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 					return a
 				}
 				a.logger.Successf("✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
