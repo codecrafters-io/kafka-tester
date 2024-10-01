@@ -93,44 +93,34 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(topicFields []st
 	return a
 }
 
-// func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(fields []string) *DescribeTopicPartitionsResponseAssertion {
-func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(fields []string) *DescribeTopicPartitionsResponseAssertion {
-	if a.err != nil {
+func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, fields []string) *DescribeTopicPartitionsResponseAssertion {
+	if len(actualPartitions) != len(expectedPartitions) {
+		a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 		return a
 	}
 
-	for i, actualTopic := range a.ActualValue.Topics {
-		expectedTopic := a.ExpectedValue.Topics[i]
-		actualPartitions, expectedPartitions := actualTopic.Partitions, expectedTopic.Partitions
+	for j, actualPartition := range actualPartitions {
+		expectedPartition := expectedPartitions[j]
 
-		if len(actualPartitions) != len(expectedPartitions) {
-			a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
-			return a
+		if Contains(fields, "ErrorCode") {
+			if actualPartition.ErrorCode != expectedPartition.ErrorCode {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
+				return a
+			}
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 		}
 
-		for j, actualPartition := range actualPartitions {
-			expectedPartition := expectedPartitions[j]
-
-			if Contains(fields, "ErrorCode") {
-				if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
-					return a
-				}
-				protocol.SuccessLogWithIndentation(a.logger, 1, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+		if Contains(fields, "PartitionIndex") {
+			if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+				return a
 			}
-
-			if Contains(fields, "PartitionIndex") {
-				if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
-					return a
-				}
-				protocol.SuccessLogWithIndentation(a.logger, 1, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
-			}
-
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 		}
+
 	}
 
-	return a
+	return nil
 }
 
 func (a DescribeTopicPartitionsResponseAssertion) Run() error {
