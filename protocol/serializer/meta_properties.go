@@ -40,3 +40,16 @@ func writeMetaProperties(path, clusterID, directoryID string, nodeID, version in
 	logger.Debugf("    - Wrote file to: %s", path)
 	return nil
 }
+
+// writeKafkaCleanShutdown writes the hard-coded .kafka_cleanshutdown content to path
+func writeKafkaCleanShutdown(path string, logger *logger.Logger) error {
+	kafkaCleanShutdown := `{"version":0,"brokerEpoch":10}`
+
+	err := os.WriteFile(path, []byte(kafkaCleanShutdown), 0644)
+	if err != nil {
+		return fmt.Errorf("error writing file to %s: %w", path, err)
+	}
+
+	logger.Debugf("    - Wrote file to: %s", path)
+	return nil
+}
