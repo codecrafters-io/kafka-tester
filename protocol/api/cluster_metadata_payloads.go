@@ -157,7 +157,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		featureLevelRecord := &FeatureLevelRecord{}
 		p.Data = featureLevelRecord
 
-		featureLevelRecord.Name, err = partialDecoder.GetString()
+		featureLevelRecord.Name, err = partialDecoder.GetCompactString()
 		if err != nil {
 			return err
 		}

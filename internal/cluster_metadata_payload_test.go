@@ -41,38 +41,17 @@ func TestFeatureLevelRecord(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
-	decoder.Init(b)
+	featureLevelRecord := kafkaapi.ClusterMetadataPayload{}
+	err = featureLevelRecord.Decode(b)
 
-	frame, err := decoder.GetInt8()
-	fmt.Printf("frame: %d\n", frame)
 	assert.NoError(t, err)
+	assert.EqualValues(t, 1, featureLevelRecord.FrameVersion)
+	assert.EqualValues(t, 12, featureLevelRecord.Type)
+	assert.EqualValues(t, 0, featureLevelRecord.Version)
 
-	typ, err := decoder.GetInt8()
-	fmt.Printf("typ: %d\n", typ)
-	assert.NoError(t, err)
-
-	version, err := decoder.GetInt8()
-	fmt.Printf("version: %d\n", version)
-	assert.NoError(t, err)
-
-	stringLength, err := decoder.GetUnsignedVarint()
-	fmt.Printf("stringLength: %d\n", stringLength)
-	assert.NoError(t, err)
-
-	stringValue, err := decoder.GetRawBytes(int(stringLength) - 1)
-	fmt.Printf("stringValue: %s\n", stringValue)
-	assert.NoError(t, err)
-
-	featureLevel, err := decoder.GetInt16()
-	fmt.Printf("featureLevel: %d\n", featureLevel)
-	assert.NoError(t, err)
-
-	tagFieldCount, err := decoder.GetUnsignedVarint()
-	fmt.Printf("tagFieldCount: %d\n", tagFieldCount)
-	assert.NoError(t, err)
-
-	assert.Equal(t, 0, int(decoder.Remaining()))
+	payload, ok := featureLevelRecord.Data.(*kafkaapi.FeatureLevelRecord)
+	assert.True(t, ok)
+	assert.EqualValues(t, "metadata.version", payload.Name)
 }
 
 func TestZKMigrationRecord(t *testing.T) {
