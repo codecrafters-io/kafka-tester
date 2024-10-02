@@ -60,6 +60,20 @@ func (a *FetchResponseAssertion) AssertBody(fields []string) *FetchResponseAsser
 	return a
 }
 
+func (a *FetchResponseAssertion) AssertNoTopics() *FetchResponseAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	if len(a.ActualValue.TopicResponses) != 0 {
+		a.err = fmt.Errorf("Expected %s to be %d, got %d", "topics.length", 0, len(a.ActualValue.TopicResponses))
+		return a
+	}
+	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses: %v", a.ActualValue.TopicResponses)
+
+	return a
+}
+
 func (a *FetchResponseAssertion) AssertTopics(topicFields []string, partitionFields []string, recordBatchFields []string, recordFields []string) *FetchResponseAssertion {
 	if a.err != nil {
 		return a
@@ -137,6 +151,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "recordBatches.length", 0, len(actualRecordBatches))
 				return a
 			}
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ RecordBatches: %v", actualPartition.RecordBatches)
 		}
 	}
 
