@@ -1,9 +1,6 @@
 package internal
 
 import (
-	"fmt"
-	"reflect"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -137,46 +134,8 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	err = assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
 		Run()
-
-	if err != nil {
-		return err
-	}
-
-	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
-	}
-	logger.Successf("✓ Error code: 0 (NO_ERROR)")
-
-	msgValues := []string{}
-	expectedMsgValues := []string{common.MESSAGE1}
-	for _, topicResponse := range responseBody.TopicResponses {
-		for _, partitionResponse := range topicResponse.PartitionResponses {
-			if len(partitionResponse.RecordBatches) == 0 {
-				return fmt.Errorf("Expected partition.RecordBatches to have length greater than 0, got %v", len(partitionResponse.RecordBatches))
-			}
-			for _, recordBatch := range partitionResponse.RecordBatches {
-				if len(recordBatch.Records) == 0 {
-					return fmt.Errorf("Expected recordBatch.Records to have length greater than 0, got %v", len(recordBatch.Records))
-				}
-				for _, r := range recordBatch.Records {
-					if r.Value == nil {
-						return fmt.Errorf("Expected record.Value to not be nil")
-					}
-					msgValues = append(msgValues, string(r.Value))
-				}
-			}
-		}
-	}
-
-	if !reflect.DeepEqual(msgValues, expectedMsgValues) {
-		return fmt.Errorf("Expected message values to be %v, got %v", expectedMsgValues, msgValues)
-	}
-
-	logger.Successf("✓ Messages: %q", msgValues)
-
-	return nil
 }
