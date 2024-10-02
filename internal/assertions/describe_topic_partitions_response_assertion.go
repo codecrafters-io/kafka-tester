@@ -130,7 +130,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 
 func (a DescribeTopicPartitionsResponseAssertion) Run() error {
 	// firstLevelFields: ["ThrottleTimeMs"]
-	// secondLevelFields (Topics): ["Name", "TopicID", "Partitions"]
-	// thirdLevelFields (Partitions): ["ID", "Leader", "Replicas", "Isr"]
+	// secondLevelFields (Topics): ["ErrorCode", "Name", "TopicID", "TopicAuthorizedOperations"]
+	// thirdLevelFields (Partitions): ["ErrorCode, "PartitionIndex"]
 	return a.err
 }
