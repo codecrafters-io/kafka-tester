@@ -83,10 +83,8 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		},
 	}
 
-	err = assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
+	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs"}).
 		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{}).
 		Run()
-
-	return err
 }
