@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -81,10 +82,69 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
+	}
+
+	expectedFetchResponse := kafkaapi.FetchResponse{
+		ThrottleTimeMs: 0,
+		ErrorCode:      0,
+		SessionID:      0,
+		TopicResponses: []kafkaapi.TopicResponse{
+			{
+				Topic: common.TOPIC1_UUID,
+				PartitionResponses: []kafkaapi.PartitionResponse{
+					{
+						PartitionIndex:      0,
+						ErrorCode:           0,
+						HighWatermark:       0,
+						LastStableOffset:    0,
+						LogStartOffset:      0,
+						AbortedTransactions: []kafkaapi.AbortedTransaction{},
+						RecordBatches: []kafkaapi.RecordBatch{
+							{
+								BaseOffset:           0,
+								BatchLength:          0,
+								PartitionLeaderEpoch: 0,
+								Magic:                0,
+								Attributes:           0,
+								LastOffsetDelta:      0,
+								FirstTimestamp:       0,
+								MaxTimestamp:         0,
+								ProducerId:           0,
+								ProducerEpoch:        0,
+								BaseSequence:         0,
+								Records: []kafkaapi.Record{
+									{
+										Length:         0,
+										Attributes:     0,
+										TimestampDelta: 0,
+										OffsetDelta:    0,
+										Key:            []byte{},
+										Value:          []byte(common.MESSAGE1),
+										Headers:        []kafkaapi.RecordHeader{},
+									},
+								},
+							},
+						},
+						PreferedReadReplica: 0,
+					},
+				},
+			},
+		},
+	}
+
+	err = assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
+		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
+		Run()
+
+	if err != nil {
+		return err
+	}
 
 	if responseBody.ErrorCode != 0 {
 		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
