@@ -41,7 +41,12 @@ func (a *FetchResponseAssertion) AssertBody(fields []string) *FetchResponseAsser
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ErrorCode", a.ExpectedValue.ErrorCode, a.ActualValue.ErrorCode)
 			return a
 		}
-		a.logger.Successf("✓ Error Code: %d", a.ActualValue.ErrorCode)
+
+		errorCodeName, ok := errorCodes[int(a.ActualValue.ErrorCode)]
+		if !ok {
+			errorCodeName = "UNKNOWN"
+		}
+		a.logger.Successf("✓ Error Code: %d (%s)", a.ActualValue.ErrorCode, errorCodeName)
 	}
 
 	if Contains(fields, "SessionID") {
@@ -105,7 +110,13 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+
+			errorCodeName, ok := errorCodes[int(a.ActualValue.ErrorCode)]
+			if !ok {
+				errorCodeName = "UNKNOWN"
+			}
+
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
 		}
 
 		if Contains(fields, "PartitionIndex") {
