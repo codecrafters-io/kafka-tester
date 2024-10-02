@@ -1,11 +1,11 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -32,14 +32,14 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	}
 	defer broker.Close()
 
-	request := kafkaapi.DescribeTopicPartitionRequest{
+	request := kafkaapi.DescribeTopicPartitionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        75,
 			ApiVersion:    0,
 			CorrelationId: correlationId,
 			ClientId:      "kafka-tester",
 		},
-		Body: kafkaapi.DescribeTopicPartitionRequestBody{
+		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
 					Name: "unknown-topic",
@@ -49,50 +49,44 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		},
 	}
 
-	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
-	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"DescribeTopicPartition\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"DescribeTopicPartition\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionHeaderAndResponse(response, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger)
 	if err != nil {
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if len(responseBody.Topics) != 1 {
-		return fmt.Errorf("Expected topics.length to be 1, got %v", len(responseBody.Topics))
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
 
-	topicResponse := responseBody.Topics[0]
-
-	if topicResponse.ErrorCode != 3 {
-		return fmt.Errorf("Expected Error code to be 3, got %v", topicResponse.ErrorCode)
-	}
-	logger.Successf("✓ TopicResponse Error code: 3 (UNKNOWN_TOPIC_OR_PARTITION)")
-
-	if topicResponse.Name != "unknown-topic" {
-		return fmt.Errorf("Expected Topic to be unknown-topic, got %v", topicResponse.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse.Name)
-
-	if topicResponse.TopicID != "00000000-0000-0000-0000-000000000000" {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", "00000000-0000-0000-0000-000000000000", topicResponse.TopicID)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse.TopicID)
-
-	if len(topicResponse.Partitions) != 0 {
-		return fmt.Errorf("Expected Partitions to have length 0, got %v", len(topicResponse.Partitions))
+	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+		ThrottleTimeMs: 0,
+		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+			{
+				ErrorCode:  3,
+				Name:       common.TOPIC_UNKOWN_NAME,
+				TopicID:    common.TOPIC_UNKOWN_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{},
+			},
+		},
 	}
 
-	return nil
+	err = assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs"}).
+		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{}).
+		Run()
+
+	return err
 }

@@ -10,7 +10,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.TestCaseHarness) error {
+func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -40,10 +40,10 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
-					Name: common.TOPIC1_NAME,
+					Name: common.TOPIC3_NAME,
 				},
 			},
-			ResponsePartitionLimit: 1,
+			ResponsePartitionLimit: 2,
 		},
 	}
 
@@ -74,8 +74,8 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
 			{
 				ErrorCode: 0,
-				Name:      common.TOPIC1_NAME,
-				TopicID:   common.TOPIC1_UUID,
+				Name:      common.TOPIC3_NAME,
+				TopicID:   common.TOPIC3_UUID,
 				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
 					{
 						ErrorCode:              0,
@@ -86,6 +86,18 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 						IsrNodes:               []int32{1},
 						EligibleLeaderReplicas: []int32{1},
 						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+					{
+						ErrorCode:              0,
+						PartitionIndex:         1,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
 					},
 				},
 			},
@@ -94,7 +106,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 
 	err = assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs"}).
-		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{}).
+		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{"ErrorCode", "PartitionIndex"}).
 		Run()
 
 	return err

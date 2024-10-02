@@ -28,7 +28,10 @@ var (
 	TOPIC1_UUID     = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(10, 99))
 	TOPIC2_UUID     = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(10, 99))
 	TOPIC3_UUID     = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(10, 99))
-	TOPICX_UUID     = fmt.Sprintf("00000000-0000-0000-0000-00000000%04d", random.RandomInt(1000, 9999)) // Unknown topic
+	TOPICX_UUID     = fmt.Sprintf("00000000-0000-0000-0000-00000000%04d", random.RandomInt(1000, 9999)) // Unknown topic used in requests
+
+	TOPIC_UNKOWN_NAME = "unknown-topic"
+	TOPIC_UNKOWN_UUID = "00000000-0000-0000-0000-000000000000"
 
 	all_messages = []string{"Hello World!", "Hello Earth!", "Hello Reverse Engineering!", "Hello Universe!", "Hello Kafka!", "Hello CodeCrafters!"}
 	messages     = random.RandomElementsFromArray(all_messages, 3)

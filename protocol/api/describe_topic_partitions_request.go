@@ -4,23 +4,23 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-type DescribeTopicPartitionRequest struct {
+type DescribeTopicPartitionsRequest struct {
 	Header RequestHeader
-	Body   DescribeTopicPartitionRequestBody
+	Body   DescribeTopicPartitionsRequestBody
 }
 
-func (r *DescribeTopicPartitionRequest) Encode(pe *encoder.RealEncoder) {
+func (r *DescribeTopicPartitionsRequest) Encode(pe *encoder.RealEncoder) {
 	r.Header.EncodeV2(pe)
 	r.Body.Encode(pe)
 }
 
-type DescribeTopicPartitionRequestBody struct {
+type DescribeTopicPartitionsRequestBody struct {
 	Topics                 []TopicName
 	ResponsePartitionLimit int32
 	Cursor                 Cursor
 }
 
-func (r *DescribeTopicPartitionRequestBody) Encode(pe *encoder.RealEncoder) {
+func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.RealEncoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 

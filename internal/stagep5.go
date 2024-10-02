@@ -1,8 +1,7 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -11,17 +10,14 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harness.TestCaseHarness) error {
+func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
-	if err != nil {
-		return err
-	}
+	serializer.GenerateLogDirs(logger)
 
 	correlationId := getRandomCorrelationId()
 
@@ -31,91 +27,128 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 	}
 	defer broker.Close()
 
-	request := kafkaapi.DescribeTopicPartitionRequest{
+	request := kafkaapi.DescribeTopicPartitionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        75,
 			ApiVersion:    0,
 			CorrelationId: correlationId,
 			ClientId:      "kafka-tester",
 		},
-		Body: kafkaapi.DescribeTopicPartitionRequestBody{
+		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
+				{
+					Name: common.TOPIC1_NAME,
+				},
+				{
+					Name: common.TOPIC2_NAME,
+				},
 				{
 					Name: common.TOPIC3_NAME,
 				},
 			},
-			ResponsePartitionLimit: 2,
+			ResponsePartitionLimit: 4,
 		},
 	}
+	// response for topicResponses will be sorted by topic name
+	// bar -> baz -> foo
 
-	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
-	logger.Infof("Sending \"DescribeTopicPartition\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"DescribeTopicPartition\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"DescribeTopicPartition\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionHeaderAndResponse(response, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger)
 	if err != nil {
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if len(responseBody.Topics) != 1 {
-		return fmt.Errorf("Expected topics.length to be 2, got %v", len(responseBody.Topics))
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
 
-	topicResponse := responseBody.Topics[0]
-
-	if topicResponse.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse.ErrorCode)
+	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+		ThrottleTimeMs: 0,
+		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC1_NAME,
+				TopicID:   common.TOPIC1_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC2_NAME,
+				TopicID:   common.TOPIC2_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC3_NAME,
+				TopicID:   common.TOPIC3_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+					{
+						ErrorCode:              0,
+						PartitionIndex:         1,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+						OfflineReplicas:        []int32{1},
+					},
+				},
+			},
+		},
 	}
-	logger.Successf("✓ TopicResponse Error code: 0")
 
-	if topicResponse.Name != common.TOPIC3_NAME {
-		return fmt.Errorf("Expected Topic to be %v, got %v", common.TOPIC3_NAME, topicResponse.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse.Name)
+	err = assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs"}).
+		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{"ErrorCode", "PartitionIndex"}).
+		Run()
 
-	if topicResponse.TopicID != common.TOPIC3_UUID {
-		return fmt.Errorf("Expected Topic ID to be %v, got %v", common.TOPIC3_UUID, topicResponse.TopicID)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse.TopicID)
-
-	if len(topicResponse.Partitions) != 2 {
-		return fmt.Errorf("Expected Partitions to have length 2, got %v", len(topicResponse.Partitions))
-	}
-
-	partitionResponse1 := topicResponse.Partitions[0]
-
-	if partitionResponse1.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse1.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[0] Error code: 0")
-
-	if partitionResponse1.PartitionIndex != 0 {
-		return fmt.Errorf("Expected Partition Index to be 0, got %v", partitionResponse1.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[0] Partition Index: 0")
-
-	partitionResponse2 := topicResponse.Partitions[1]
-
-	if partitionResponse2.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse2.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse[1] Error code: 0")
-
-	if partitionResponse2.PartitionIndex != 1 {
-		return fmt.Errorf("Expected Partition Index to be 1, got %v", partitionResponse2.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse[1] Partition Index: 1")
-
-	return nil
+	return err
 }
