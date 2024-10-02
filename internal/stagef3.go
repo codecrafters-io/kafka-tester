@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -90,36 +88,25 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
+	expectedFetchResponse := kafkaapi.FetchResponse{
+		ThrottleTimeMs: 0,
+		ErrorCode:      0,
+		SessionID:      0,
+		TopicResponses: []kafkaapi.TopicResponse{
+			{
+				Topic: UUID,
+				PartitionResponses: []kafkaapi.PartitionResponse{
+					{
+						PartitionIndex: 0,
+						ErrorCode:      100,
+					},
+				},
+			},
+		},
 	}
-	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	if len(responseBody.TopicResponses) != 1 {
-		return fmt.Errorf("Expected topics.length to be 1, got %v", len(responseBody.TopicResponses))
-	}
-
-	topicResponse := responseBody.TopicResponses[0]
-	if len(topicResponse.PartitionResponses) != 1 {
-		return fmt.Errorf("Expected PartitionResponses to have length 1, got %v", len(topicResponse.PartitionResponses))
-	}
-
-	if topicResponse.Topic != UUID {
-		return fmt.Errorf("Expected Topic UUID to match UUID from request, got %v", topicResponse.Topic)
-	}
-	logger.Successf("✓ Topic UUID: %v", topicResponse.Topic)
-
-	partitionResponse := topicResponse.PartitionResponses[0]
-
-	if partitionResponse.ErrorCode != 100 {
-		return fmt.Errorf("Expected Error code to be 100, got %v", partitionResponse.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse Error code: 100 (UNKNOWN_TOPIC_ID)")
-
-	if len(partitionResponse.RecordBatches) != 0 {
-		return fmt.Errorf("Expected RecordBatches to have length 0, got %v", len(partitionResponse.RecordBatches))
-	}
-	logger.Successf("✓ RecordBatches: %v", partitionResponse.RecordBatches)
-
-	return nil
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
+		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, nil, nil).
+		Run()
 }
