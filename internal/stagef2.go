@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -73,15 +71,13 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		return err
 	}
 
-	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
+	expectedFetchResponse := kafkaapi.FetchResponse{
+		ThrottleTimeMs: 0,
+		ErrorCode:      0,
+		SessionID:      0,
+		TopicResponses: []kafkaapi.TopicResponse{},
 	}
-	logger.Successf("✓ Error code: 0 (NO_ERROR)")
-
-	if len(responseBody.TopicResponses) != 0 {
-		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.TopicResponses)
-	}
-	logger.Successf("✓ Topic responses: %v", responseBody.TopicResponses)
-
-	return nil
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
+		Run()
 }
