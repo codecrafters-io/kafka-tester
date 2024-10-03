@@ -23,7 +23,10 @@ var apiKeyNames = map[int16]string{
 }
 
 var errorCodes = map[int]string{
-	0: "NO_ERROR",
+	0:   "NO_ERROR",
+	3:   "UNKNOWN_TOPIC_OR_PARTITION",
+	35:  "UNSUPPORTED_VERSION",
+	100: "UNKNOWN_TOPIC_ID",
 }
 
 func (a ApiVersionsResponseAssertion) Evaluate(fields []string, AssertApiVersionsResponseKey bool, logger *logger.Logger) error {

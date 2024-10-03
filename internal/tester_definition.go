@@ -54,15 +54,15 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "cm4",
-			TestFunc: testFetch,
+			TestFunc: testFetchNoMessages,
 		},
 		{
 			Slug:     "eg2",
-			TestFunc: testSingleFetchFromDisk,
+			TestFunc: testFetchWithSingleMessage,
 		},
 		{
 			Slug:     "fd8",
-			TestFunc: testMultiFetchFromDisk,
+			TestFunc: testFetchMultipleMessages,
 		},
 		{
 			Slug:     "yk1",
