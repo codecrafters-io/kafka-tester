@@ -125,7 +125,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				return a
 			}
 
-			errorCodeName, ok := errorCodes[int(a.ActualValue.ErrorCode)]
+			errorCodeName, ok := errorCodes[int(actualPartition.ErrorCode)]
 			if !ok {
 				errorCodeName = "UNKNOWN"
 			}
