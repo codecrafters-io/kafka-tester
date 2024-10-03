@@ -30,7 +30,7 @@ test_current:
 	make test_base_with_kafka
 	make test_concurrent_requests_with_kafka
 	make test_describe_topic_partitions_with_kafka
-	make test_fetch_partial_with_kafka
+	make test_fetch_with_kafka
 
 test_fetch_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
