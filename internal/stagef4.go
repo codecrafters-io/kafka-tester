@@ -10,7 +10,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	if err := b.Run(); err != nil {
 		return err
@@ -46,7 +46,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 			FetchSessionEpoch: 0,
 			Topics: []kafkaapi.Topic{
 				{
-					TopicUUID: common.TOPIC1_UUID,
+					TopicUUID: common.TOPIC2_UUID,
 					Partitions: []kafkaapi.Partition{
 						{
 							ID:                 0,
@@ -92,7 +92,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 		SessionID:      0,
 		TopicResponses: []kafkaapi.TopicResponse{
 			{
-				Topic: common.TOPIC1_UUID,
+				Topic: common.TOPIC2_UUID,
 				PartitionResponses: []kafkaapi.PartitionResponse{
 					{
 						PartitionIndex:      0,
@@ -101,32 +101,7 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 						LastStableOffset:    0,
 						LogStartOffset:      0,
 						AbortedTransactions: []kafkaapi.AbortedTransaction{},
-						RecordBatches: []kafkaapi.RecordBatch{
-							{
-								BaseOffset:           0,
-								BatchLength:          0,
-								PartitionLeaderEpoch: 0,
-								Magic:                0,
-								Attributes:           0,
-								LastOffsetDelta:      0,
-								FirstTimestamp:       0,
-								MaxTimestamp:         0,
-								ProducerId:           0,
-								ProducerEpoch:        0,
-								BaseSequence:         0,
-								Records: []kafkaapi.Record{
-									{
-										Length:         0,
-										Attributes:     0,
-										TimestampDelta: 0,
-										OffsetDelta:    0,
-										Key:            []byte{},
-										Value:          []byte(common.MESSAGE1),
-										Headers:        []kafkaapi.RecordHeader{},
-									},
-								},
-							},
-						},
+						RecordBatches:       []kafkaapi.RecordBatch{},
 						PreferedReadReplica: 0,
 					},
 				},
@@ -136,6 +111,6 @@ func testFetch(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
+		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, nil, nil).
 		Run()
 }
