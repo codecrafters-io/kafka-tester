@@ -53,20 +53,20 @@ func (a ApiVersionsResponseAssertion) Evaluate(fields []string, AssertApiVersion
 			for _, actualApiVersionKey := range a.ActualValue.ApiKeys {
 				if actualApiVersionKey.ApiKey == expectedApiVersionKey.ApiKey {
 					found = true
-					if actualApiVersionKey.MaxVersion < expectedApiVersionKey.MinVersion {
-						return fmt.Errorf("Expected max version %v to be >= min version %v for %s", actualApiVersionKey.MaxVersion, actualApiVersionKey.MinVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
+					if actualApiVersionKey.MinVersion > expectedApiVersionKey.MaxVersion {
+						return fmt.Errorf("Expected min version %v to be < max version %v for %s", actualApiVersionKey.MinVersion, expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
 					}
 
 					// anything above or equal to expected minVersion is fine
 					if actualApiVersionKey.MinVersion < expectedApiVersionKey.MinVersion {
 						return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
 					}
-					logger.Successf("✓ API version %v is supported for %s", actualApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
+					logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
 
 					if actualApiVersionKey.MaxVersion < expectedApiVersionKey.MaxVersion {
 						return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
 					}
-					logger.Successf("✓ API version %v is supported for %s", actualApiVersionKey.MinVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
+					logger.Successf("✓ MaxVersion for %s is >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion)
 				}
 			}
 			if !found {
