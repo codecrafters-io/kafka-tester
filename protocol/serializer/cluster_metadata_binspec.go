@@ -5,6 +5,7 @@ import (
 	"os"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -41,7 +42,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		Type:         3,
 		Version:      1,
 		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      1,
+			PartitionID:      0,
 			TopicUUID:        topic3UUID,
 			Replicas:         []int32{1},
 			ISReplicas:       []int32{1},
@@ -59,7 +60,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		Type:         3,
 		Version:      1,
 		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
+			PartitionID:      1,
 			TopicUUID:        topic3UUID,
 			Replicas:         []int32{1},
 			ISReplicas:       []int32{1},
@@ -76,7 +77,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		BaseOffset:           1,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      3,
+		LastOffsetDelta:      0, // len(records) - 1
 		FirstTimestamp:       1726045943832,
 		MaxTimestamp:         1726045943832,
 		ProducerId:           -1,
@@ -97,7 +98,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		BaseOffset:           int64(0 + 0),
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      1,
+		LastOffsetDelta:      2, // ToDo len(records) - 1
 		FirstTimestamp:       1726045957397,
 		MaxTimestamp:         1726045957397,
 		ProducerId:           -1,
@@ -138,5 +139,37 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 	}
 
 	logger.Debugf("  - Wrote file to: %s", path)
+	return nil
+}
+
+func GenerateClusterMetadataBinSpec(logger *logger.Logger) error {
+	directoryUUID := common.DIRECTORY_UUID
+
+	basePath := common.LOG_DIR
+
+	err := os.RemoveAll(basePath)
+	if err != nil {
+		return fmt.Errorf("could not remove log directory at %s: %w", basePath, err)
+	}
+
+	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
+	clusterMetadataDataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
+
+	err = generateDirectories([]string{clusterMetadataDirectory})
+	if err != nil {
+		return fmt.Errorf("could not generate directories: %w", err)
+	}
+
+	logger.UpdateSecondaryPrefix("Serializer")
+	logger.Debugf("Writing log files to: %s", basePath)
+
+	err = writeClusterMetadataBinSpec(clusterMetadataDataFilePath, directoryUUID, logger)
+	if err != nil {
+		return err
+	}
+
+	logger.Infof("Finished writing log files to: %s", basePath)
+	logger.ResetSecondaryPrefix()
+
 	return nil
 }
