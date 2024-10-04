@@ -129,7 +129,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		BaseOffset:           1,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      0,
+		LastOffsetDelta:      0, // len(records) - 1
 		FirstTimestamp:       1726045943832,
 		MaxTimestamp:         1726045943832,
 		ProducerId:           -1,
@@ -150,7 +150,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		BaseOffset:           int64(len(recordBatch1.Records) + int(recordBatch1.BaseOffset)),
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      1,
+		LastOffsetDelta:      1, // len(records) - 1
 		FirstTimestamp:       1726045957397,
 		MaxTimestamp:         1726045957397,
 		ProducerId:           -1,
@@ -178,7 +178,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		BaseOffset:           int64(len(recordBatch2.Records) + int(recordBatch2.BaseOffset)),
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      1,
+		LastOffsetDelta:      1, // len(records) - 1
 		FirstTimestamp:       1726045957397,
 		MaxTimestamp:         1726045957397,
 		ProducerId:           -1,
@@ -206,7 +206,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		BaseOffset:           int64(len(recordBatch3.Records) + int(recordBatch3.BaseOffset)),
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      2,
+		LastOffsetDelta:      2, // len(records) - 1
 		FirstTimestamp:       1726045957397,
 		MaxTimestamp:         1726045957397,
 		ProducerId:           -1,

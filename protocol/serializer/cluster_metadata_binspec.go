@@ -98,7 +98,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		BaseOffset:           int64(0 + 0),
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
-		LastOffsetDelta:      2, // ToDo len(records) - 1
+		LastOffsetDelta:      2, // len(records) - 1
 		FirstTimestamp:       1726045957397,
 		MaxTimestamp:         1726045957397,
 		ProducerId:           -1,
