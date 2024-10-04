@@ -49,12 +49,12 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 
 	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
 	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
 	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger)

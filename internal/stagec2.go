@@ -55,12 +55,12 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
 		logger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
+		logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 		err := client.Send(message)
 		if err != nil {
 			return err
 		}
-		logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 	}
 
 	for idx := range clients {

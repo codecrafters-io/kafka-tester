@@ -51,13 +51,12 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 	err = broker.Send(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
-
 	response, err := broker.ReceiveRaw()
 	if err != nil {
 		return err
