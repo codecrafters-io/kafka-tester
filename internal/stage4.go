@@ -19,7 +19,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
+	err := serializer.GenerateLogDirs(logger, true)
 	if err != nil {
 		return err
 	}

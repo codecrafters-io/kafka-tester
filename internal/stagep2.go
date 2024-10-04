@@ -19,7 +19,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 
 	quietLogger := logger.GetQuietLogger("")
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(quietLogger)
+	err := serializer.GenerateLogDirs(quietLogger, true)
 	if err != nil {
 		return err
 	}

@@ -18,7 +18,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
+	err := serializer.GenerateLogDirs(logger, true)
 	if err != nil {
 		return err
 	}
