@@ -17,7 +17,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
+	err := serializer.GenerateLogDirs(logger, false)
 	if err != nil {
 		return err
 	}
@@ -133,6 +133,9 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 			},
 		},
 	}
+
+	// Byte to Byte comparison for RecordBatches
+	// Wire up ByteDiffVisualizer
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).

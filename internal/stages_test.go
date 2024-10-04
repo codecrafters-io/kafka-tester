@@ -61,11 +61,11 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"UUID":                   {regexp.MustCompile(`✓ Topic UUID: [0-9]{8}-[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{12}`)},
 		"value_length":           {regexp.MustCompile(`- .value_length \([0-9]{1,}\)`)},
 		"value":                  {regexp.MustCompile(`- .value \("[A-Za-z0-9 !]{1,}"\)`)},
-		"name":                   {regexp.MustCompile(`- .name \([A-Za-z]{1,}\)`)},
+		"name":                   {regexp.MustCompile(`- .name \([A-Za-z -]{1,}\)`)},
 		"topic_name":             {regexp.MustCompile(`- .topic_name \([A-Za-z0-9 ]{1,}\)`)},
 		"next_cursor":            {regexp.MustCompile(`- .next_cursor \(\{[A-Za-z0-9 ]{1,}\}\)`)},
 		"Messages":               {regexp.MustCompile(`✓ Messages: \["[A-Za-z !]{1,}"\]`)},
-		"Topic Name":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic Name: [A-Za-z]{3,}`)},
+		"Topic Name":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic Name: [A-Za-z -]{3,}`)},
 		"Topic UUID":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic UUID: [0-9 -]{1,}`)},
 	}
 

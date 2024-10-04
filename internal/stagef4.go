@@ -17,7 +17,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
+	err := serializer.GenerateLogDirs(logger, false)
 	if err != nil {
 		return err
 	}

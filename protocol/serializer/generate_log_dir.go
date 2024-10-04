@@ -9,7 +9,10 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func GenerateLogDirs(logger *logger.Logger) error {
+// GenerateLogDirs generates the log directories and files for the test cases.
+// If onlyClusterMetadata is true, only the cluster metadata will be generated.
+// .log files & partition metadata files inside the topic directories will not be created.
+func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	// Topic1 -> Message1 (Partition=1)
 	// Topic2 -> None (Partition=1)
 	// Topic3 -> Message2, Message3 (Partition=2)
@@ -85,24 +88,26 @@ func GenerateLogDirs(logger *logger.Logger) error {
 		return err
 	}
 
-	err = writePartitionMetadata(topic1MetadataPath, 0, topic1ID, logger)
-	if err != nil {
-		return err
-	}
+	if !onlyClusterMetadata {
+		err = writePartitionMetadata(topic1MetadataPath, 0, topic1ID, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writePartitionMetadata(topic2MetadataPath, 0, topic2ID, logger)
-	if err != nil {
-		return err
-	}
+		err = writePartitionMetadata(topic2MetadataPath, 0, topic2ID, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID, logger)
-	if err != nil {
-		return err
-	}
+		err = writePartitionMetadata(topic3Partition1MetadataPath, 0, topic3ID, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID, logger)
-	if err != nil {
-		return err
+		err = writePartitionMetadata(topic3Partition2MetadataPath, 0, topic3ID, logger)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID, logger)
@@ -110,24 +115,26 @@ func GenerateLogDirs(logger *logger.Logger) error {
 		return err
 	}
 
-	err = writeTopicData(topic1DataFilePath, []string{common.MESSAGE1}, logger)
-	if err != nil {
-		return err
-	}
+	if !onlyClusterMetadata {
+		err = writeTopicData(topic1DataFilePath, []string{common.MESSAGE1}, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writeTopicData(topic2DataFilePath, []string{}, logger)
-	if err != nil {
-		return err
-	}
+		err = writeTopicData(topic2DataFilePath, []string{}, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3}, logger)
-	if err != nil {
-		return err
-	}
+		err = writeTopicData(topic3Partition1DataFilePath, []string{common.MESSAGE2, common.MESSAGE3}, logger)
+		if err != nil {
+			return err
+		}
 
-	err = writeTopicData(topic3Partition2DataFilePath, []string{}, logger)
-	if err != nil {
-		return err
+		err = writeTopicData(topic3Partition2DataFilePath, []string{}, logger)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)

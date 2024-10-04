@@ -17,7 +17,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	logger := stageHarness.Logger
-	serializer.GenerateLogDirs(logger)
+	serializer.GenerateLogDirs(logger, true)
 
 	correlationId := getRandomCorrelationId()
 

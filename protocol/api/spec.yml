@@ -347,3 +347,5 @@ data:
   - 0x01 
   - 0x00 # Number of Headers (1 byte, 0x00 in hex, 0 in decimal) 
   // ToDo Do paylaods have headers or tagged fields ?
+  // ToDo: versions of payloads ?
+  // ToDo: indented values for data structures, like compact arrays

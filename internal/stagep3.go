@@ -17,7 +17,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger)
+	err := serializer.GenerateLogDirs(logger, true)
 	if err != nil {
 		return err
 	}
