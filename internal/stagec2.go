@@ -8,6 +8,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -18,8 +19,9 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		return err
 	}
 
+	quietLogger := logger.GetQuietLogger("")
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, true)
+	err := serializer.GenerateLogDirs(quietLogger, true)
 	if err != nil {
 		return err
 	}

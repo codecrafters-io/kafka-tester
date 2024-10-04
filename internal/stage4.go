@@ -9,6 +9,7 @@ import (
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -18,8 +19,9 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
+	quietLogger := logger.GetQuietLogger("")
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, true)
+	err := serializer.GenerateLogDirs(quietLogger, true)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -15,8 +16,9 @@ func testAPIVersionwFetchKey(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
+	quietLogger := logger.GetQuietLogger("")
 	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, false)
+	err := serializer.GenerateLogDirs(quietLogger, false)
 	if err != nil {
 		return err
 	}
