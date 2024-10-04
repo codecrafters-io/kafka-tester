@@ -6,6 +6,8 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -220,6 +222,41 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 	return a
 }
 
+func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	actualRecordBatches := []kafkaapi.RecordBatch{}
+	for _, topic := range a.ActualValue.TopicResponses {
+		for _, partition := range topic.PartitionResponses {
+			actualRecordBatches = append(actualRecordBatches, partition.RecordBatches...)
+		}
+	}
+
+	expectedRecordBatches := []kafkaapi.RecordBatch{}
+	for _, topic := range a.ExpectedValue.TopicResponses {
+		for _, partition := range topic.PartitionResponses {
+			expectedRecordBatches = append(expectedRecordBatches, partition.RecordBatches...)
+		}
+	}
+
+	expectedRecordBatchBytes := encodeRecordBatch(expectedRecordBatches)
+	actualRecordBatchBytes := encodeRecordBatch(actualRecordBatches)
+	if !bytes.Equal(expectedRecordBatchBytes, actualRecordBatchBytes) {
+		result := bytes_diff_visualizer.VisualizeByteDiff(expectedRecordBatchBytes, actualRecordBatchBytes)
+		for _, line := range result {
+			a.logger.Errorf(line)
+		}
+		a.err = fmt.Errorf("RecordBatch bytes do not match with the contents on disk")
+		return a
+	}
+
+	a.logger.Successf("✓ RecordBatch bytes match with the contents on disk")
+	return a
+
+}
+
 func (a FetchResponseAssertion) Run() error {
 	// firstLevelFields: ["ThrottleTimeMs", "ErrorCode", "SessionID"]
 	// secondLevelFields (Topics): ["Topic"]
@@ -227,4 +264,15 @@ func (a FetchResponseAssertion) Run() error {
 	// fourthLevelFields (RecordBatches): ["BaseOffset", "BatchLength"]
 	// fifthLevelFields (Records): ["Value"]
 	return a.err
+}
+
+func encodeRecordBatch(recordBatches []kafkaapi.RecordBatch) []byte {
+	// Could also use: serializer.SerializeTopicData([]string{common.MESSAGE1})
+
+	encoder := realencoder.RealEncoder{}
+	encoder.Init(make([]byte, 4096))
+	for _, recordBatch := range recordBatches {
+		recordBatch.Encode(&encoder)
+	}
+	return encoder.Bytes()[:encoder.Offset()]
 }

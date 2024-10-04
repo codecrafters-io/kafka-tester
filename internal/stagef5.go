@@ -109,8 +109,8 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 								Magic:                0,
 								Attributes:           0,
 								LastOffsetDelta:      0,
-								FirstTimestamp:       0,
-								MaxTimestamp:         0,
+								FirstTimestamp:       1726045973899,
+								MaxTimestamp:         1726045973899,
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
@@ -120,7 +120,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 										Attributes:     0,
 										TimestampDelta: 0,
 										OffsetDelta:    0,
-										Key:            []byte{},
+										Key:            nil,
 										Value:          []byte(common.MESSAGE1),
 										Headers:        []kafkaapi.RecordHeader{},
 									},
@@ -134,11 +134,9 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	// Byte to Byte comparison for RecordBatches
-	// Wire up ByteDiffVisualizer
-
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
+		AssertRecordBatchBytes().
 		Run()
 }
