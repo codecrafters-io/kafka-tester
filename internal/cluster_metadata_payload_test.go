@@ -48,6 +48,8 @@ func TestDecodeFeatureLevelRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 0, featureLevelRecord.Version)
 
 	payload, ok := featureLevelRecord.Data.(*kafkaapi.FeatureLevelRecord)
+	assert.EqualValues(t, "metadata.version", payload.Name)
+	assert.EqualValues(t, 20, payload.FeatureLevel)
 	assert.True(t, ok)
 	assert.EqualValues(t, "metadata.version", payload.Name)
 }
@@ -94,7 +96,7 @@ func TestDecodeEndTransactionRecordPayload(t *testing.T) {
 }
 
 func TestDecodeTopicRecordPayload(t *testing.T) {
-	hexdump := "01020004666f6fbfd99e5e3235455281f8d4af1741970c00"
+	hexdump := "0102000473617a0000000000004000800000000000009100"
 
 	b, err := hex.DecodeString(hexdump)
 	if err != nil {
@@ -111,12 +113,12 @@ func TestDecodeTopicRecordPayload(t *testing.T) {
 
 	payload, ok := topicRecord.Data.(*kafkaapi.TopicRecord)
 	assert.True(t, ok)
-	assert.EqualValues(t, "foo", payload.TopicName)
-	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
+	assert.EqualValues(t, "saz", payload.TopicName)
+	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
 }
 
 func TestDecodePartitionRecordPayload(t *testing.T) {
-	hexdump := "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400"
+	hexdump := "0103010000000000000000000040008000000000000091020000000102000000010101000000010000000000000000021000000000004000800000000000000100"
 
 	b, err := hex.DecodeString(hexdump)
 	if err != nil {
@@ -134,7 +136,7 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 	payload, ok := partitionRecord.Data.(*kafkaapi.PartitionRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, 0, payload.PartitionID)
-	assert.EqualValues(t, "bfd99e5e-3235-4552-81f8-d4af1741970c", payload.TopicUUID)
+	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
 	assert.EqualValues(t, []int32{1}, payload.Replicas)
 	assert.EqualValues(t, []int32{1}, payload.ISReplicas)
 	assert.EqualValues(t, []int32{}, payload.RemovingReplicas)
@@ -142,7 +144,7 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 1, payload.Leader)
 	assert.EqualValues(t, 0, payload.LeaderEpoch)
 	assert.EqualValues(t, 0, payload.PartitionEpoch)
-	assert.EqualValues(t, []string{"0224973c-badd-44cf-8744-45a99619da34"}, payload.Directories)
+	assert.EqualValues(t, []string{"10000000-0000-4000-8000-000000000001"}, payload.Directories)
 }
 
 func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
