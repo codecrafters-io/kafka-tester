@@ -42,7 +42,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
-					Name: "unknown-topic",
+					Name: common.TOPIC_UNKOWN_NAME,
 				},
 			},
 			ResponsePartitionLimit: 1,
@@ -56,6 +56,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	if err != nil {
 		return err
 	}
+	// ToDo: log inside sendAndReceive, else in failure cases, we won't log any
 	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
 	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
 
