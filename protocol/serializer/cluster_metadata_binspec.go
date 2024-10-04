@@ -74,7 +74,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 	}
 
 	recordBatch1 := kafkaapi.RecordBatch{
-		BaseOffset:           1,
+		BaseOffset:           0,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
 		LastOffsetDelta:      0, // len(records) - 1
@@ -95,7 +95,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 	}
 
 	recordBatch4 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(0 + 0),
+		BaseOffset:           1,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
 		LastOffsetDelta:      2, // len(records) - 1
