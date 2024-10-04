@@ -21,7 +21,7 @@ const (
 
 var (
 	all_topic_names = []string{"foo", "bar", "baz", "qux", "quz", "pax", "paz", "saz"}
-	topic_names     = GetSortedValues(random.RandomElementsFromArray(all_topic_names, 3))
+	topic_names     = GetSortedValues(random.RandomElementsFromArray(all_topic_names, 4))
 	TOPIC1_NAME     = topic_names[0]
 	TOPIC2_NAME     = topic_names[1]
 	TOPIC3_NAME     = topic_names[2]
@@ -30,7 +30,7 @@ var (
 	TOPIC3_UUID     = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(10, 99))
 	TOPICX_UUID     = fmt.Sprintf("00000000-0000-0000-0000-00000000%04d", random.RandomInt(1000, 9999)) // Unknown topic used in requests
 
-	TOPIC_UNKOWN_NAME = "unknown-topic"
+	TOPIC_UNKOWN_NAME = fmt.Sprintf("unknown-topic-%s", topic_names[3])
 	TOPIC_UNKOWN_UUID = "00000000-0000-0000-0000-000000000000"
 
 	all_messages = []string{"Hello World!", "Hello Earth!", "Hello Reverse Engineering!", "Hello Universe!", "Hello Kafka!", "Hello CodeCrafters!"}
