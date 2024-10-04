@@ -9,3 +9,5 @@ main.go
 internal/test_helpers/ryan/**
 internal/assertion.go
 internal/assertions/topic_assertion.go
+protocol/api/spec.yml
+protocol/api/backupHex.sh
