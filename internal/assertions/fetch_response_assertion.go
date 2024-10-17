@@ -241,13 +241,18 @@ func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertio
 		}
 	}
 
-	expectedRecordBatchBytes := encodeRecordBatch(expectedRecordBatches)
-	actualRecordBatchBytes := encodeRecordBatch(actualRecordBatches)
+	expectedRecordBatchBytes := encodeRecordBatches(expectedRecordBatches)
+	actualRecordBatchBytes := encodeRecordBatches(actualRecordBatches)
+	// Byte Comparison for expected v actual RecordBatch bytes
+	// As we write them to disk, and expect users to not change the values
+	// we can use a simple byte comparison here.
 	if !bytes.Equal(expectedRecordBatchBytes, actualRecordBatchBytes) {
 		result := bytes_diff_visualizer.VisualizeByteDiff(expectedRecordBatchBytes, actualRecordBatchBytes)
+		a.logger.Errorf("")
 		for _, line := range result {
 			a.logger.Errorf(line)
 		}
+		a.logger.Errorf("")
 		a.err = fmt.Errorf("RecordBatch bytes do not match with the contents on disk")
 		return a
 	}
@@ -266,8 +271,9 @@ func (a FetchResponseAssertion) Run() error {
 	return a.err
 }
 
-func encodeRecordBatch(recordBatches []kafkaapi.RecordBatch) []byte {
-	// Could also use: serializer.SerializeTopicData([]string{common.MESSAGE1})
+func encodeRecordBatches(recordBatches []kafkaapi.RecordBatch) []byte {
+	// Given an array of RecordBatch, encodes them using the encoder.RealEncoder
+	// and returns the resulting bytes.
 
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
