@@ -1,16 +1,12 @@
 package internal
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
-	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -113,8 +109,8 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								Magic:                0,
 								Attributes:           0,
 								LastOffsetDelta:      0,
-								FirstTimestamp:       0,
-								MaxTimestamp:         0,
+								FirstTimestamp:       1726045973899,
+								MaxTimestamp:         1726045973899,
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
@@ -162,56 +158,9 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	expectedRecordBatchBytes := serializeTopicData([]string{common.MESSAGE2, common.MESSAGE3})
-
-	encoder := realencoder.RealEncoder{}
-	encoder.Init(make([]byte, 4096))
-	responseBody.TopicResponses[0].PartitionResponses[0].RecordBatches[0].Encode(&encoder)
-	responseBody.TopicResponses[0].PartitionResponses[0].RecordBatches[1].Encode(&encoder)
-	actualRecordBatchBytes := encoder.Bytes()[:encoder.Offset()]
-
-	// fmt.Println(expectedRecordBatchBytes)
-	// fmt.Println(actualRecordBatchBytes)
-	// fmt.Println(bytes.Equal(expectedRecordBatchBytes, actualRecordBatchBytes))
-
-	result := bytes_diff_visualizer.VisualizeByteDiff(expectedRecordBatchBytes, actualRecordBatchBytes)
-	for i := range len(result) {
-		fmt.Println(result[i])
-	}
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
-		// AssertRecordBatchBytes(). // TODO: why this not working ?
+		AssertRecordBatchBytes().
 		Run()
-}
-
-func serializeTopicData(messages []string) []byte {
-	encoder := realencoder.RealEncoder{}
-	encoder.Init(make([]byte, 4096))
-
-	for i, message := range messages {
-		recordBatch := kafkaapi.RecordBatch{
-			BaseOffset:           int64(i),
-			PartitionLeaderEpoch: 0,
-			Attributes:           0,
-			LastOffsetDelta:      0,
-			FirstTimestamp:       1726045973899,
-			MaxTimestamp:         1726045973899,
-			ProducerId:           0,
-			ProducerEpoch:        0,
-			BaseSequence:         0,
-			Records: []kafkaapi.Record{
-				{
-					Attributes:     0,
-					TimestampDelta: 0,
-					Key:            nil,
-					Value:          []byte(message),
-					Headers:        []kafkaapi.RecordHeader{},
-				},
-			},
-		}
-		recordBatch.Encode(&encoder)
-	}
-
-	return encoder.Bytes()[:encoder.Offset()]
 }
