@@ -10,6 +10,8 @@ import (
 )
 
 func serializeTopicData(messages []string) []byte {
+	// Given an array of messages, generates the RecordBatch struct first,
+	// then uses the encoder.RealEncoder to encode them into bytes.
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 

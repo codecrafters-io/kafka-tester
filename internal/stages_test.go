@@ -34,7 +34,7 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"fetch_pass": {
-			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4"},
+			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4", "eg2", "fd8"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
@@ -60,13 +60,15 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"Name":                   {regexp.MustCompile(`✓ Topic Name: [0-9A-Za-z]{3}`)},
 		"UUID":                   {regexp.MustCompile(`✓ Topic UUID: [0-9]{8}-[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{12}`)},
 		"value_length":           {regexp.MustCompile(`- .value_length \([0-9]{1,}\)`)},
-		"value":                  {regexp.MustCompile(`- .value \("[A-Za-z0-9 !]{1,}"\)`)},
+		"value":                  {regexp.MustCompile(`- .[vV]alue \("[A-Za-z0-9 !]{1,}"\)`)},
 		"name":                   {regexp.MustCompile(`- .name \([A-Za-z -]{1,}\)`)},
 		"topic_name":             {regexp.MustCompile(`- .topic_name \([A-Za-z0-9 ]{1,}\)`)},
 		"next_cursor":            {regexp.MustCompile(`- .next_cursor \(\{[A-Za-z0-9 ]{1,}\}\)`)},
 		"Messages":               {regexp.MustCompile(`✓ Messages: \["[A-Za-z !]{1,}"\]`)},
 		"Topic Name":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic Name: [A-Za-z -]{3,}`)},
 		"Topic UUID":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic UUID: [0-9 -]{1,}`)},
+		"Record Value":           {regexp.MustCompile(`✓ Record\[[0-9]{1,}\] Value: [A-Za-z0-9 !]{1,}`)},
+		"RecordBatch BaseOffset": {regexp.MustCompile(`✓ RecordBatch\[[0-9]{1,}\] BaseOffset: [0-9]{1,}`)},
 	}
 
 	for replacement, regexes := range replacements {

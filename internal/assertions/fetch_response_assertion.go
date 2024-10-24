@@ -6,6 +6,8 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -220,6 +222,46 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 	return a
 }
 
+func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	actualRecordBatches := []kafkaapi.RecordBatch{}
+	for _, topic := range a.ActualValue.TopicResponses {
+		for _, partition := range topic.PartitionResponses {
+			actualRecordBatches = append(actualRecordBatches, partition.RecordBatches...)
+		}
+	}
+
+	expectedRecordBatches := []kafkaapi.RecordBatch{}
+	for _, topic := range a.ExpectedValue.TopicResponses {
+		for _, partition := range topic.PartitionResponses {
+			expectedRecordBatches = append(expectedRecordBatches, partition.RecordBatches...)
+		}
+	}
+
+	expectedRecordBatchBytes := encodeRecordBatches(expectedRecordBatches)
+	actualRecordBatchBytes := encodeRecordBatches(actualRecordBatches)
+	// Byte Comparison for expected v actual RecordBatch bytes
+	// As we write them to disk, and expect users to not change the values
+	// we can use a simple byte comparison here.
+	if !bytes.Equal(expectedRecordBatchBytes, actualRecordBatchBytes) {
+		result := bytes_diff_visualizer.VisualizeByteDiff(expectedRecordBatchBytes, actualRecordBatchBytes)
+		a.logger.Errorf("")
+		for _, line := range result {
+			a.logger.Errorf(line)
+		}
+		a.logger.Errorf("")
+		a.err = fmt.Errorf("RecordBatch bytes do not match with the contents on disk")
+		return a
+	}
+
+	a.logger.Successf("✓ RecordBatch bytes match with the contents on disk")
+	return a
+
+}
+
 func (a FetchResponseAssertion) Run() error {
 	// firstLevelFields: ["ThrottleTimeMs", "ErrorCode", "SessionID"]
 	// secondLevelFields (Topics): ["Topic"]
@@ -227,4 +269,16 @@ func (a FetchResponseAssertion) Run() error {
 	// fourthLevelFields (RecordBatches): ["BaseOffset", "BatchLength"]
 	// fifthLevelFields (Records): ["Value"]
 	return a.err
+}
+
+func encodeRecordBatches(recordBatches []kafkaapi.RecordBatch) []byte {
+	// Given an array of RecordBatch, encodes them using the encoder.RealEncoder
+	// and returns the resulting bytes.
+
+	encoder := realencoder.RealEncoder{}
+	encoder.Init(make([]byte, 4096))
+	for _, recordBatch := range recordBatches {
+		recordBatch.Encode(&encoder)
+	}
+	return encoder.Bytes()[:encoder.Offset()]
 }

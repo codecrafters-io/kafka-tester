@@ -109,8 +109,8 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								Magic:                0,
 								Attributes:           0,
 								LastOffsetDelta:      0,
-								FirstTimestamp:       0,
-								MaxTimestamp:         0,
+								FirstTimestamp:       1726045973899,
+								MaxTimestamp:         1726045973899,
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
@@ -133,8 +133,8 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								Magic:                0,
 								Attributes:           0,
 								LastOffsetDelta:      0,
-								FirstTimestamp:       0,
-								MaxTimestamp:         0,
+								FirstTimestamp:       1726045973899,
+								MaxTimestamp:         1726045973899,
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
@@ -161,5 +161,6 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
+		AssertRecordBatchBytes().
 		Run()
 }
