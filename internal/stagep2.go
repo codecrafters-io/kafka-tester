@@ -57,9 +57,9 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, logger)
 	if err != nil {
 		return err
 	}

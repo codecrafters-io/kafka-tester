@@ -71,9 +71,9 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if err != nil {
 			return err
 		}
-		logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
+		logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response, 3, logger)
+		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, logger)
 		if err != nil {
 			return err
 		}
