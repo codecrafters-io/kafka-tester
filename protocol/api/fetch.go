@@ -2,6 +2,7 @@ package kafkaapi
 
 import (
 	"fmt"
+
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
@@ -125,9 +126,9 @@ func fetch(b *protocol.Broker, requestBody *FetchRequestBody, logger *logger.Log
 		return nil, err
 	}
 
-	protocol.PrintHexdump(response)
+	protocol.PrintHexdump(response.RawBytes)
 
-	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16, logger)
+	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
 	if err != nil {
 		return nil, err
 	}

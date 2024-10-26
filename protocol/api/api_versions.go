@@ -108,7 +108,7 @@ func ApiVersions(b *protocol.Broker, requestBody *ApiVersionsRequestBody) (*ApiV
 		return nil, err
 	}
 
-	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response, requestBody.Version, logger.GetLogger(true, ""))
+	_, apiVersionsResponse, err := DecodeApiVersionsHeaderAndResponse(response.Payload, requestBody.Version, logger.GetLogger(true, ""))
 	if err != nil {
 		return nil, err
 	}
