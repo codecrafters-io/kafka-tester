@@ -3,9 +3,10 @@ package kafkaapi
 import (
 	"fmt"
 
+	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -48,7 +49,7 @@ func Fetch() {
 }
 
 func EncodeFetchRequest(request *FetchRequest) []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := realencoder.RealEncoder{}
 	// bytes.Buffer{}
 	encoder.Init(make([]byte, 4096))
 
@@ -60,7 +61,7 @@ func EncodeFetchRequest(request *FetchRequest) []byte {
 }
 
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -78,7 +79,7 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 }
 
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -125,9 +126,9 @@ func fetch(b *protocol.Broker, requestBody *FetchRequestBody, logger *logger.Log
 		return nil, err
 	}
 
-	protocol.PrintHexdump(response)
+	protocol.PrintHexdump(response.RawBytes)
 
-	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response, 16, logger)
+	_, fetchResponse, err := DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
 	if err != nil {
 		return nil, err
 	}

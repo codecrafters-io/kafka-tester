@@ -5,8 +5,9 @@ import (
 	"path"
 	"strings"
 
-	executable "github.com/codecrafters-io/tester-utils/executable"
-	logger "github.com/codecrafters-io/tester-utils/logger"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/tester-utils/executable"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -29,6 +30,7 @@ func NewKafkaExecutable(stageHarness *test_case_harness.TestCaseHarness) *KafkaE
 
 func (b *KafkaExecutable) Run(args ...string) error {
 	b.args = args
+	b.args = append(b.args, common.SERVER_PROPERTIES_FILE_PATH)
 	if len(b.args) == 0 {
 		b.logger.Infof("$ ./%s", path.Base(b.executable.Path))
 	} else {

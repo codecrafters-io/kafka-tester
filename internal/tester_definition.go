@@ -54,19 +54,35 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "cm4",
-			TestFunc: testFetch,
+			TestFunc: testFetchNoMessages,
 		},
 		{
 			Slug:     "eg2",
-			TestFunc: testSingleFetchFromDisk,
+			TestFunc: testFetchWithSingleMessage,
 		},
 		{
 			Slug:     "fd8",
-			TestFunc: testMultiFetchFromDisk,
+			TestFunc: testFetchMultipleMessages,
 		},
 		{
-			Slug:     "xy3",
+			Slug:     "yk1",
+			TestFunc: testAPIVersionwDescribeTopicPartitions,
+		},
+		{
+			Slug:     "vt6",
+			TestFunc: testDTPartitionWithUnknownTopic,
+		},
+		{
+			Slug:     "ea7",
 			TestFunc: testDTPartitionWithTopicAndSinglePartition,
+		},
+		{
+			Slug:     "ku4",
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
+		},
+		{
+			Slug:     "wq2",
+			TestFunc: testDTPartitionWithTopics,
 		},
 	},
 }

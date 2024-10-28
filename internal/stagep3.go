@@ -1,11 +1,12 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,6 +17,10 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger, true)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
 
@@ -25,79 +30,70 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 	defer broker.Close()
 
-	request := kafkaapi.DescribeTopicPartitionRequest{
+	request := kafkaapi.DescribeTopicPartitionsRequest{
 		Header: kafkaapi.RequestHeader{
 			ApiKey:        75,
 			ApiVersion:    0,
 			CorrelationId: correlationId,
 			ClientId:      "kafka-tester",
 		},
-		Body: kafkaapi.DescribeTopicPartitionRequestBody{
+		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{
-					Name: "foo",
+					Name: common.TOPIC1_NAME,
 				},
 			},
 			ResponsePartitionLimit: 1,
 		},
 	}
 
-	message := kafkaapi.EncodeDescribeTopicPartitionRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	logger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	logger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionHeaderAndResponse(response, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, logger)
 	if err != nil {
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if len(responseBody.Topics) != 1 {
-		return fmt.Errorf("Expected topicResponse to have length 1, got %v", len(responseBody.Topics))
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
 
-	topicResponse := responseBody.Topics[0]
-
-	if topicResponse.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", topicResponse.ErrorCode)
+	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+		ThrottleTimeMs: 0,
+		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+			{
+				ErrorCode: 0,
+				Name:      common.TOPIC1_NAME,
+				TopicID:   common.TOPIC1_UUID,
+				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+					{
+						ErrorCode:              0,
+						PartitionIndex:         0,
+						LeaderID:               1,
+						LeaderEpoch:            1,
+						ReplicaNodes:           []int32{1},
+						IsrNodes:               []int32{1},
+						EligibleLeaderReplicas: []int32{1},
+						LastKnownELR:           []int32{1},
+					},
+				},
+			},
+		},
 	}
-	logger.Successf("✓ TopicResponse Error code: 0")
 
-	if topicResponse.Name != "foo" {
-		return fmt.Errorf("Expected Topic to be foo, got %v", topicResponse.Name)
-	}
-	logger.Successf("✓ Topic Name: %v", topicResponse.Name)
-
-	if topicResponse.TopicID != "bfd99e5e-3235-4552-81f8-d4af1741970c" {
-		return fmt.Errorf("Expected Topic ID to be bfd99e5e-3235-4552-81f8-d4af1741970c, got %v", topicResponse.TopicID)
-	}
-	logger.Successf("✓ Topic ID: %v", topicResponse.TopicID)
-
-	if len(topicResponse.Partitions) != 1 {
-		return fmt.Errorf("Expected Partitions to have length 1, got %v", len(topicResponse.Partitions))
-	}
-
-	partitionResponse := topicResponse.Partitions[0]
-
-	if partitionResponse.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", partitionResponse.ErrorCode)
-	}
-	logger.Successf("✓ PartitionResponse Error code: 0")
-
-	if partitionResponse.PartitionIndex != 0 {
-		return fmt.Errorf("Expected Partition Index to be 0, got %v", partitionResponse.PartitionIndex)
-	}
-	logger.Successf("✓ PartitionResponse Partition Index: 0")
-
-	return nil
+	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs"}).
+		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{}).
+		Run()
 }

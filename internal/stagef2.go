@@ -1,11 +1,11 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,6 +16,10 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}
 
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger, false)
+	if err != nil {
+		return err
+	}
 
 	correlationId := getRandomCorrelationId()
 
@@ -47,33 +51,34 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 
 	message := kafkaapi.EncodeFetchRequest(&request)
 	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response))
+	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response, 16, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
 	if err != nil {
 		return err
 	}
 
-	if responseHeader.CorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := kafkaapi.ResponseHeader{
+		CorrelationId: correlationId,
 	}
-	logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-
-	if responseBody.ErrorCode != 0 {
-		return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+		return err
 	}
-	logger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-	if len(responseBody.TopicResponses) != 0 {
-		return fmt.Errorf("Expected responses to be empty, got %v", responseBody.TopicResponses)
+	expectedFetchResponse := kafkaapi.FetchResponse{
+		ThrottleTimeMs: 0,
+		ErrorCode:      0,
+		SessionID:      0,
+		TopicResponses: []kafkaapi.TopicResponse{},
 	}
-	logger.Successf("✓ Topic responses: %v", responseBody.TopicResponses)
-
-	return nil
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
+		AssertNoTopics().
+		Run()
 }

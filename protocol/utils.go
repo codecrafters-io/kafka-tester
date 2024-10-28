@@ -54,3 +54,7 @@ func GetFormattedHexdumpForErrors(data []byte) string {
 func LogWithIndentation(logger *logger.Logger, indentation int, message string, args ...interface{}) {
 	logger.Debugf(fmt.Sprintf("%s%s", strings.Repeat(" ", indentation*2), message), args...)
 }
+
+func SuccessLogWithIndentation(logger *logger.Logger, indentation int, message string, args ...interface{}) {
+	logger.Successf(fmt.Sprintf("%s%s", strings.Repeat(" ", indentation*2), message), args...)
+}

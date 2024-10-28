@@ -24,16 +24,16 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .throttle_time_ms (%d)", a.ThrottleTimeMs)
+	protocol.LogWithIndentation(logger, indentation, "- .throttle_time_ms (%d)", a.ThrottleTimeMs)
 
 	var numTopics int
 	if numTopics, err = pd.GetCompactArrayLength(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("num_topics")
+			return decodingErr.WithAddedContext("topic.length")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .num_topics (%d)", numTopics)
+	protocol.LogWithIndentation(logger, indentation, "- .topic.length (%d)", numTopics)
 
 	a.Topics = make([]DescribeTopicPartitionsResponseTopic, numTopics)
 
@@ -50,13 +50,21 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger
 	}
 
 	a.NextCursor = DescribeTopicPartitionsResponseCursor{}
-	if err = a.NextCursor.Decode(pd, logger, indentation+1); err != nil {
+	err = a.NextCursor.Decode(pd, logger, indentation)
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("next_cursor")
+		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .next_cursor (%v)", a.NextCursor)
 
-	pd.GetEmptyTaggedFieldArray()
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
@@ -78,7 +86,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .error_code (%d)", a.ErrorCode)
+	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", a.ErrorCode)
 
 	name, err := pd.GetCompactNullableString()
 	if err != nil {
@@ -88,7 +96,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		return err
 	}
 	a.Name = *name
-	protocol.LogWithIndentation(logger, indentation, "✔️ .name (%s)", a.Name)
+	protocol.LogWithIndentation(logger, indentation, "- .name (%s)", a.Name)
 
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
@@ -105,7 +113,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		return err
 	}
 	a.TopicID = topicUUID
-	protocol.LogWithIndentation(logger, indentation, "✔️ .topic_id (%s)", a.TopicID)
+	protocol.LogWithIndentation(logger, indentation, "- .topic_id (%s)", a.TopicID)
 
 	a.IsInternal, err = pd.GetBool()
 	if err != nil {
@@ -114,7 +122,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .is_internal (%t)", a.IsInternal)
+	protocol.LogWithIndentation(logger, indentation, "- .is_internal (%t)", a.IsInternal)
 
 	var numPartitions int
 	if numPartitions, err = pd.GetCompactArrayLength(); err != nil {
@@ -123,7 +131,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .num_partitions (%d)", numPartitions)
+	protocol.LogWithIndentation(logger, indentation, "- .num_partitions (%d)", numPartitions)
 
 	a.Partitions = make([]DescribeTopicPartitionsResponsePartition, numPartitions)
 	for i := 0; i < numPartitions; i++ {
@@ -145,11 +153,16 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, l
 		}
 		return err
 	}
-	a.TopicAuthorizedOperations = int32(topicAuthorizedOperations)
-	protocol.LogWithIndentation(logger, indentation, "✔️ .topic_authorized_operations (%d)", a.TopicAuthorizedOperations)
+	a.TopicAuthorizedOperations = topicAuthorizedOperations
+	protocol.LogWithIndentation(logger, indentation, "- .topic_authorized_operations (%d)", a.TopicAuthorizedOperations)
 
-	pd.GetEmptyTaggedFieldArray()
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
@@ -174,7 +187,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .error_code (%d)", d.ErrorCode)
+	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", d.ErrorCode)
 
 	d.PartitionIndex, err = pd.GetInt32()
 	if err != nil {
@@ -183,7 +196,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .partition_index (%d)", d.PartitionIndex)
+	protocol.LogWithIndentation(logger, indentation, "- .partition_index (%d)", d.PartitionIndex)
 
 	d.LeaderID, err = pd.GetInt32()
 	if err != nil {
@@ -192,7 +205,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .leader_id (%d)", d.LeaderID)
+	protocol.LogWithIndentation(logger, indentation, "- .leader_id (%d)", d.LeaderID)
 
 	d.LeaderEpoch, err = pd.GetInt32()
 	if err != nil {
@@ -201,7 +214,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .leader_epoch (%d)", d.LeaderEpoch)
+	protocol.LogWithIndentation(logger, indentation, "- .leader_epoch (%d)", d.LeaderEpoch)
 
 	if d.ReplicaNodes, err = pd.GetCompactInt32Array(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -209,7 +222,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .replica_nodes (%v)", d.ReplicaNodes)
+	protocol.LogWithIndentation(logger, indentation, "- .replica_nodes (%v)", d.ReplicaNodes)
 
 	if d.IsrNodes, err = pd.GetCompactInt32Array(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -217,7 +230,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .isr_nodes (%v)", d.IsrNodes)
+	protocol.LogWithIndentation(logger, indentation, "- .isr_nodes (%v)", d.IsrNodes)
 
 	if d.EligibleLeaderReplicas, err = pd.GetCompactInt32Array(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -225,7 +238,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .eligible_leader_replicas (%v)", d.EligibleLeaderReplicas)
+	protocol.LogWithIndentation(logger, indentation, "- .eligible_leader_replicas (%v)", d.EligibleLeaderReplicas)
 
 	if d.LastKnownELR, err = pd.GetCompactInt32Array(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -233,7 +246,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .last_known_elr (%v)", d.LastKnownELR)
+	protocol.LogWithIndentation(logger, indentation, "- .last_known_elr (%v)", d.LastKnownELR)
 
 	if d.OfflineReplicas, err = pd.GetCompactInt32Array(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -241,10 +254,15 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecode
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .offline_replicas (%v)", d.OfflineReplicas)
+	protocol.LogWithIndentation(logger, indentation, "- .offline_replicas (%v)", d.OfflineReplicas)
 
-	pd.GetEmptyTaggedFieldArray()
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
@@ -254,20 +272,33 @@ type DescribeTopicPartitionsResponseCursor struct {
 	PartitionIndex int32
 }
 
+// String implements the Stringer interface for the Cursor type
+func (c DescribeTopicPartitionsResponseCursor) String() string {
+	if c.TopicName == "" && c.PartitionIndex == 0 {
+		return "null"
+	}
+	return fmt.Sprintf("{TopicName: %s, PartitionIndex: %d}", c.TopicName, c.PartitionIndex)
+}
+
 func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	var err error
 
+	// This field is nullable, the first byte indicates whether it's null or not
 	checkPresence, err := pd.GetInt8()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("cursor_type")
+		if _, ok := err.(*errors.PacketDecodingError); ok {
+			customError := errors.NewPacketDecodingError(fmt.Sprintf("Expected either 0xFF (cursor is null) or 0x01 (cursor is not null), got 0x%02X", uint8(checkPresence)), "RAW_BYTES")
+			return customError.WithAddedContext("cursor_is_null")
 		}
 		return err
 	}
 
 	if checkPresence == -1 {
+		protocol.LogWithIndentation(logger, indentation, "- .next_cursor (null)")
 		c = nil
 		return nil
+	} else {
+		protocol.LogWithIndentation(logger, indentation, "- .next_cursor")
 	}
 
 	if c.TopicName, err = pd.GetCompactString(); err != nil {
@@ -276,7 +307,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .topic_name (%s)", c.TopicName)
+	protocol.LogWithIndentation(logger, indentation+1, "- .topic_name (%s)", c.TopicName)
 
 	if c.PartitionIndex, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -284,10 +315,14 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .partition_index (%d)", c.PartitionIndex)
+	protocol.LogWithIndentation(logger, indentation+1, "- .partition_index (%d)", c.PartitionIndex)
 
-	pd.GetEmptyTaggedFieldArray()
-	protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
-
+	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("TAG_BUFFER")
+		}
+		return err
+	}
+	protocol.LogWithIndentation(logger, indentation+1, "- .TAG_BUFFER")
 	return nil
 }

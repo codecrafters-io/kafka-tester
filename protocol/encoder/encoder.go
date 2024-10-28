@@ -5,6 +5,7 @@ package encoder
 // not about how a string is represented in Kafka.
 type PacketEncoder interface {
 	// Primitives
+
 	PutInt8(in int8)
 	PutInt16(in int16)
 	PutInt32(in int32)
@@ -17,6 +18,7 @@ type PacketEncoder interface {
 	PutBool(in bool)
 
 	// Collections
+
 	PutBytes(in []byte) error
 	PutVarintBytes(in []byte) error
 	PutCompactBytes(in []byte) error
@@ -32,6 +34,6 @@ type PacketEncoder interface {
 	PutInt64Array(in []int64) error
 	PutEmptyTaggedFieldArray()
 
-	// Provide the current offset to record the batch size metric
+	// Offset provides the current offset to record the batch size metric
 	Offset() int
 }

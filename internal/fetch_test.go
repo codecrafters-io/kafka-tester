@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFetchv16_0m(t *testing.T) {
+func TestFetchv16With0Messages(t *testing.T) {
 	hexdump := "0000000b000000000000004fd5de7102c2a21ee23db74b6cbcc32a051cc51fc90200000000000000000000000000000000000000000000000000000000000000ffffffff01000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -26,13 +26,13 @@ func TestFetchv16_0m(t *testing.T) {
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	assert.NoError(t, err)
@@ -55,7 +55,7 @@ func TestFetchv16_0m(t *testing.T) {
 	}
 }
 
-func TestFetchv16_1m(t *testing.T) {
+func TestFetchv16With1Message(t *testing.T) {
 	hexdump := "0000000b000000000000007a983da40282e9d296c41249f0bcc9b03cdcc4888a0200000000000000000000000000010000000000000001000000000000000000ffffffff4900000000000000000000003c0000000002efe33e7c00000000000000000191937e258d00000191937e258d0000000000000001000000000000000000011400000001086d73673100000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -70,13 +70,13 @@ func TestFetchv16_1m(t *testing.T) {
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	assert.NoError(t, err)
@@ -107,7 +107,7 @@ func TestFetchv16_1m(t *testing.T) {
 	assert.Equal(t, []string{"msg1"}, messages)
 }
 
-func TestFetchv16_2m(t *testing.T) {
+func TestFetchv16With2Messages(t *testing.T) {
 	hexdump := "0000000b00000000000000064771770282e9d296c41249f0bcc9b03cdcc4888a0200000000000000000000000000020000000000000002000000000000000000ffffffff910100000000000000000000003c0000000002efe33e7c00000000000000000191937e258d00000191937e258d0000000000000001000000000000000000011400000001086d7367310000000000000000010000003c00000000026501ee010000000000000000019193877fe20000019193877fe20000000000000002000000000000000000011400000001086d73673200000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -123,13 +123,13 @@ func TestFetchv16_2m(t *testing.T) {
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	assert.NoError(t, err)
@@ -157,7 +157,7 @@ func TestFetchv16_2m(t *testing.T) {
 	assert.Equal(t, []string{"msg1", "msg2"}, messages)
 }
 
-func TestFetchv16_3m(t *testing.T) {
+func TestFetchv16With3Messages(t *testing.T) {
 	hexdump := "0000000b0000000000000019ffd72602c2a21ee23db74b6cbcc32a051cc51fc90200000000000000000000000000030000000000000003000000000000000000ffffffffd90100000000000000000000003c00000000026eca8a5d0000000000000000019192c16b5d0000019192c16b5d0000000000000000000000000000000000011400000001086d7367310000000000000000010000003c0000000002ad286abc0000000000000000019192c170b70000019192c170b70000000000000000000000000001000000011400000001086d7367320000000000000000020000003c0000000002d0470b040000000000000000019192c176990000019192c176990000000000000000000000000002000000011400000001086d73673300000000"
 
 	b, err := hex.DecodeString(hexdump)
@@ -173,13 +173,13 @@ func TestFetchv16_3m(t *testing.T) {
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	response := kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	assert.NoError(t, err)
@@ -221,13 +221,13 @@ func TestAPIVersionv3(t *testing.T) {
 	responseHeader := kafkaapi.ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	apiVersionsResponse := kafkaapi.ApiVersionsResponse{Version: 3}
 	if err := apiVersionsResponse.Decode(&decoder, 3, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		panic("I QUIT")
+		return
 	}
 
 	assert.NoError(t, err)

@@ -5,14 +5,9 @@ dist/
 # misc files
 protocol/decoder/error-codes.md
 main.go
-internal/metadata.go
-internal/stage3_test.go
-internal/stage2_test.go
-protocol/decoder/todo
 **/__pycache__/**
 internal/test_helpers/ryan/**
 internal/assertion.go
-log
-log2
-**tmp**
-file
+internal/assertions/topic_assertion.go
+protocol/api/spec.yml
+protocol/api/backupHex.sh

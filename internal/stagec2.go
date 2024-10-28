@@ -7,6 +7,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -17,7 +19,13 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		return err
 	}
 
+	quietLogger := logger.GetQuietLogger("")
 	logger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(quietLogger, true)
+	if err != nil {
+		return err
+	}
+
 	clientCount := random.RandomInt(2, 4)
 	clients := make([]*protocol.Broker, clientCount)
 	correlationIds := make([]int32, clientCount)
@@ -47,12 +55,12 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
 		logger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
+		logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 		err := client.Send(message)
 		if err != nil {
 			return err
 		}
-		logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 	}
 
 	for idx := range clients {
@@ -63,9 +71,9 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if err != nil {
 			return err
 		}
-		logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
+		logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response, 3, logger)
+		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, logger)
 		if err != nil {
 			return err
 		}

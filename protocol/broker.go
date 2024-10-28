@@ -12,6 +12,18 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+type Response struct {
+	RawBytes []byte
+	Payload  []byte
+}
+
+func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
+	return Response{
+		RawBytes: append(lengthResponse, bodyResponse...),
+		Payload:  bodyResponse,
+	}
+}
+
 // Broker represents a single Kafka broker connection. All operations on this object are entirely concurrency-safe.
 type Broker struct {
 	id   int32
@@ -93,15 +105,17 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) ([]byte, error) {
+func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+	response := Response{}
+
 	err := b.Send(request)
 	if err != nil {
-		return nil, err
+		return response, err
 	}
 
-	response, err := b.Receive()
+	response, err = b.Receive()
 	if err != nil {
-		return nil, err
+		return response, err
 	}
 
 	return response, nil
@@ -129,23 +143,25 @@ func (b *Broker) Send(message []byte) error {
 	return nil
 }
 
-func (b *Broker) Receive() ([]byte, error) {
-	response := make([]byte, 4) // length
-	_, err := b.conn.Read(response)
-	if err != nil {
-		return nil, err
-	}
-	length := int32(binary.BigEndian.Uint32(response))
+func (b *Broker) Receive() (Response, error) {
+	response := Response{}
 
-	response = make([]byte, length)
+	lengthResponse := make([]byte, 4) // length
+	_, err := b.conn.Read(lengthResponse)
+	if err != nil {
+		return response, err
+	}
+	length := int32(binary.BigEndian.Uint32(lengthResponse))
+
+	bodyResponse := make([]byte, length)
 
 	// Set a deadline for the read operation
 	err = b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
-		return nil, fmt.Errorf("failed to set read deadline: %v", err)
+		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(b.conn, response)
+	_, err = io.ReadFull(b.conn, bodyResponse)
 
 	// Reset the read deadline
 	b.conn.SetReadDeadline(time.Time{})
@@ -154,12 +170,12 @@ func (b *Broker) Receive() ([]byte, error) {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
 			// This way we can surface a better error message to help w debugging
-			return response, nil
+			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
-		return nil, fmt.Errorf("error reading from connection: %v", err)
+		return response, fmt.Errorf("error reading from connection: %v", err)
 	}
 
-	return response, nil
+	return response.createFrom(lengthResponse, bodyResponse), nil
 }
 
 func (b *Broker) ReceiveRaw() ([]byte, error) {

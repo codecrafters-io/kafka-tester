@@ -29,7 +29,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .api_key (%d)", a.ApiKey)
+	protocol.LogWithIndentation(logger, indentation, "- .api_key (%d)", a.ApiKey)
 
 	if a.MinVersion, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -37,7 +37,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .min_version (%d)", a.MinVersion)
+	protocol.LogWithIndentation(logger, indentation, "- .min_version (%d)", a.MinVersion)
 
 	if a.MaxVersion, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -45,7 +45,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .max_version (%d)", a.MaxVersion)
+	protocol.LogWithIndentation(logger, indentation, "- .max_version (%d)", a.MaxVersion)
 
 	if version >= 3 {
 		if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
@@ -54,7 +54,7 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16, 
 			}
 			return err
 		}
-		protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+		protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 	}
 
 	return nil
@@ -79,7 +79,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, log
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .error_code (%d)", r.ErrorCode)
+	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", r.ErrorCode)
 
 	var numApiKeys int
 	if r.Version >= 3 {
@@ -99,7 +99,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, log
 			return err
 		}
 	}
-	protocol.LogWithIndentation(logger, indentation, "✔️ .num_api_keys (%d)", numApiKeys)
+	protocol.LogWithIndentation(logger, indentation, "- .num_api_keys (%d)", numApiKeys)
 
 	if numApiKeys < 0 {
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
@@ -125,7 +125,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, log
 			}
 			return err
 		}
-		protocol.LogWithIndentation(logger, indentation, "✔️ .throttle_time_ms (%d)", r.ThrottleTimeMs)
+		protocol.LogWithIndentation(logger, indentation, "- .throttle_time_ms (%d)", r.ThrottleTimeMs)
 	}
 
 	if r.Version >= 3 {
@@ -135,7 +135,7 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, log
 			}
 			return err
 		}
-		protocol.LogWithIndentation(logger, indentation, "✔️ .TAG_BUFFER")
+		protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 	}
 
 	// Check if there are any remaining bytes in the decoder
