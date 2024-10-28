@@ -3,7 +3,10 @@ package internal
 import (
 	"os"
 	"regexp"
+	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	tester_utils_testing "github.com/codecrafters-io/tester-utils/testing"
 )
@@ -45,9 +48,26 @@ func TestStages(t *testing.T) {
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
 }
 
+func TestOutputNormalization(t *testing.T) {
+	lines := strings.Trim(`
+[33m[stage-6] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[stage-6] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[stage-6] [0m[36m0000 | 0a 95 c1 bf 00 00 3e 00 00 00 00 00 0b 00 00 01 | ......>.........[0m
+[33m[stage-6] [0m[36m0210 | 73 69 6f 6e 00 14 00 14 00                      | sion.....[0m
+`, "\n")
+
+	expectedOutput := strings.Trim(`
+	Idx  | Hex                                             | ASCII
+	-----+-------------------------------------------------+-----------------
+	hexdump
+`, "\n")
+
+	assert.Equal(t, normalizeTesterOutput([]byte(lines)), []byte(expectedOutput))
+}
+
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"hexdump":                {regexp.MustCompile(`[0-9a-fA-F]{4} \| [0-9a-fA-F ]{47} \| .{0,16}`)},
+		"hexdump":                {regexp.MustCompile(`^\[33m\[stage-\d+\] \[0m\[36m\d{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\[0m`)},
 		"session_id":             {regexp.MustCompile(`- .session_id \([0-9]{0,16}\)`)},
 		"leader_id":              {regexp.MustCompile(`- .leader_id \([-0-9]{1,}\)`)},
 		"leader_epoch":           {regexp.MustCompile(`- .leader_epoch \([-0-9]{1,}\)`)},
