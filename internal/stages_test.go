@@ -47,7 +47,7 @@ func TestStages(t *testing.T) {
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"hexdump":                {regexp.MustCompile(`(?m)(^\x1b\[33m\[stage-\d+\] \x1b\[0m\x1b\[36m\d{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
+		"hexdump":                {regexp.MustCompile(`(?m)(^\x1b\[33m\[stage-\d+\] \x1b\[0m\x1b\[36m[0-9a-f]{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
 		"session_id":             {regexp.MustCompile(`- .session_id \([0-9]{0,16}\)`)},
 		"leader_id":              {regexp.MustCompile(`- .leader_id \([-0-9]{1,}\)`)},
 		"leader_epoch":           {regexp.MustCompile(`- .leader_epoch \([-0-9]{1,}\)`)},
