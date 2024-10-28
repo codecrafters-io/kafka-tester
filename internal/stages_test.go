@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"fmt"
 	"os"
 	"regexp"
 	"strings"
@@ -63,19 +62,12 @@ func TestOutputNormalization(t *testing.T) {
 hexdump
 `, "\n")
 
-	fmt.Println("---")
-	fmt.Println(string(normalizeTesterOutput([]byte(lines))))
-	fmt.Println("---")
-	fmt.Println("---")
-	fmt.Println(expectedOutput)
-	fmt.Println("---")
-
 	assert.Equal(t, normalizeTesterOutput([]byte(lines)), []byte(expectedOutput))
 }
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"hexdump":                {regexp.MustCompile(`(^\x1b\[33m\[stage-\d+\] \x1b\[0m\x1b\[36m\d{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
+		"hexdump":                {regexp.MustCompile(`(?m)(^\x1b\[33m\[stage-\d+\] \x1b\[0m\x1b\[36m\d{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
 		"session_id":             {regexp.MustCompile(`- .session_id \([0-9]{0,16}\)`)},
 		"leader_id":              {regexp.MustCompile(`- .leader_id \([-0-9]{1,}\)`)},
 		"leader_epoch":           {regexp.MustCompile(`- .leader_epoch \([-0-9]{1,}\)`)},
