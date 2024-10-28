@@ -109,7 +109,7 @@ func DescribeTopicPartitions(b *protocol.Broker) (*DescribeTopicPartitionsRespon
 		return nil, err
 	}
 
-	_, DescribeTopicPartitionsResponse, err := DecodeDescribeTopicPartitionsHeaderAndResponse(response, logger.GetLogger(true, ""))
+	_, DescribeTopicPartitionsResponse, err := DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, logger.GetLogger(true, ""))
 	if err != nil {
 		return nil, err
 	}
