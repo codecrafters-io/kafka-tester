@@ -34,25 +34,6 @@ func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsReques
 	return messageBytes
 }
 
-func DecodeDescribeTopicPartitionHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := realdecoder.RealDecoder{}
-	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
-
-	responseHeader := ResponseHeader{}
-	logger.Debugf("- .ResponseHeader")
-	// DescribeTopicPartitions always uses Header v0
-	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartitions v0")
-		}
-		return nil, err
-	}
-
-	return &responseHeader, nil
-}
-
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
