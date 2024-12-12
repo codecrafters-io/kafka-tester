@@ -2,7 +2,6 @@ package common
 
 import (
 	"fmt"
-	"slices"
 	"sort"
 
 	"github.com/codecrafters-io/tester-utils/random"
@@ -26,7 +25,7 @@ var (
 	TOPIC1_NAME        = topic_names[0]
 	TOPIC2_NAME        = topic_names[1]
 	TOPIC3_NAME        = topic_names[2]
-	random_topic_uuids = getUniqueRandomIntegers(10, 99, 3)
+	random_topic_uuids = random.RandomUniqueInts(10, 100, 3)
 	TOPIC1_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[0])
 	TOPIC2_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[1])
 	TOPIC3_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[2])
@@ -47,16 +46,4 @@ func GetSortedValues[T string](values []T) []T {
 		return values[i] < values[j]
 	})
 	return values
-}
-
-func getUniqueRandomIntegers(min, max, count int) []int {
-	randomInts := []int{}
-	for i := 0; i < count; i++ {
-		randomInt := random.RandomInt(min, max)
-		for slices.Contains(randomInts, randomInt) {
-			randomInt = random.RandomInt(min, max)
-		}
-		randomInts = append(randomInts, randomInt)
-	}
-	return randomInts
 }
