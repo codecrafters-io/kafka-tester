@@ -25,7 +25,7 @@ var (
 	TOPIC1_NAME        = topic_names[0]
 	TOPIC2_NAME        = topic_names[1]
 	TOPIC3_NAME        = topic_names[2]
-	random_topic_uuids = random.RandomUniqueInts(10, 100, 3)
+	random_topic_uuids = random.RandomInts(10, 100, 3)
 	TOPIC1_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[0])
 	TOPIC2_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[1])
 	TOPIC3_UUID        = fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random_topic_uuids[2])
