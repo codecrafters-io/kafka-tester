@@ -3,7 +3,7 @@ module github.com/codecrafters-io/kafka-tester
 go 1.22.1
 
 require (
-	github.com/codecrafters-io/tester-utils v0.2.39
+	github.com/codecrafters-io/tester-utils v0.2.40
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 )
