@@ -10,14 +10,13 @@ import (
 
 func testBindToPort(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	if err != nil {
 		return err
 	}
 
-	quietLogger := logger.GetQuietLogger("")
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(quietLogger, true)
-	if err != nil {
+	stageLogger := stageHarness.Logger
+	if err := b.Run(); err != nil {
 		return err
 	}
 
@@ -26,5 +25,5 @@ func testBindToPort(stageHarness *test_case_harness.TestCaseHarness) error {
 		Retries: 15,
 	}
 
-	return bindTestCase.Run(b, logger)
+	return bindTestCase.Run(b, stageLogger)
 }
