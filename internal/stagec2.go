@@ -15,14 +15,13 @@ import (
 
 func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	if err != nil {
 		return err
 	}
 
-	quietLogger := logger.GetQuietLogger("")
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(quietLogger, true)
-	if err != nil {
+	stageLogger := stageHarness.Logger
+	if err := b.Run(); err != nil {
 		return err
 	}
 
@@ -32,10 +31,18 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 	for i := 0; i < clientCount; i++ {
 		clients[i] = protocol.NewBroker("localhost:9092")
-		if err := clients[i].ConnectWithRetries(b, logger); err != nil {
+		if err := clients[i].ConnectWithRetries(b, stageLogger); err != nil {
 			return err
 		}
 	}
+
+	defer func() {
+		for _, client := range clients {
+			if client != nil {
+				_ = client.Close()
+			}
+		}
+	}()
 
 	for i, client := range clients {
 		correlationIds[i] = int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
@@ -54,8 +61,8 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
-		logger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
-		logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+		stageLogger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
+		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 		err := client.Send(message)
 		if err != nil {
@@ -71,9 +78,9 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if err != nil {
 			return err
 		}
-		logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, logger)
+		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
 		if err != nil {
 			return err
 		}
@@ -81,17 +88,17 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if responseHeader.CorrelationId != correlationIds[j] {
 			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], responseHeader.CorrelationId)
 		}
-		logger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+		stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 
 		if responseBody.ErrorCode != 0 {
 			return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
 		}
-		logger.Successf("✓ Error code: 0 (NO_ERROR)")
+		stageLogger.Successf("✓ Error code: 0 (NO_ERROR)")
 
 		if len(responseBody.ApiKeys) < 1 {
 			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(responseBody.ApiKeys))
 		}
-		logger.Successf("✓ API keys array is non-empty")
+		stageLogger.Successf("✓ API keys array is non-empty")
 
 		foundAPIKey := false
 		MAX_VERSION_APIVERSION := int16(4)
@@ -99,7 +106,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			if apiVersionKey.ApiKey == 18 {
 				foundAPIKey = true
 				if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
-					logger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
+					stageLogger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
 				} else {
 					return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION_APIVERSION, apiVersionKey.MaxVersion)
 				}
@@ -110,11 +117,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
 		}
 
-		logger.Successf("✓ Test %v of %v: Passed", j+1, clientCount)
-	}
-
-	for _, client := range clients {
-		client.Close()
+		stageLogger.Successf("✓ Test %v of %v: Passed", j+1, clientCount)
 	}
 
 	return nil
