@@ -2,6 +2,7 @@ package internal
 
 import (
 	"fmt"
+	"github.com/codecrafters-io/tester-utils/logger"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -9,20 +10,18 @@ import (
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	if err != nil {
 		return err
 	}
 
-	quietLogger := logger.GetQuietLogger("")
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(quietLogger, true)
-	if err != nil {
+	stageLogger := stageHarness.Logger
+	if err := b.Run(); err != nil {
 		return err
 	}
 
@@ -30,10 +29,12 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	apiVersion := getInvalidAPIVersion()
 
 	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, logger); err != nil {
+	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer broker.Close()
+	defer func(broker *protocol.Broker) {
+		_ = broker.Close()
+	}(broker)
 
 	request := kafkaapi.ApiVersionsRequest{
 		Header: kafkaapi.RequestHeader{
@@ -50,8 +51,8 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
-	logger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
 	err = broker.Send(message)
 	if err != nil {
@@ -61,13 +62,13 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
+	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
 
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
+	stageLogger.UpdateSecondaryPrefix("Decoder")
 
-	logger.Debugf("- .Response")
+	stageLogger.Debugf("- .Response")
 	messageLength, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -76,9 +77,9 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "- .message_length (%d)", messageLength)
+	protocol.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
 
-	logger.Debugf("- .ResponseHeader")
+	stageLogger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -87,7 +88,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "- .correlation_id (%d)", responseCorrelationId)
+	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
 
 	errorCode, err := decoder.GetInt16()
 	if err != nil {
@@ -97,20 +98,20 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, 1, "- .error_code (%d)", errorCode)
-	logger.ResetSecondaryPrefix()
+	protocol.LogWithIndentation(stageLogger, 1, "- .error_code (%d)", errorCode)
+	stageLogger.ResetSecondaryPrefix()
 
 	if responseCorrelationId != correlationId {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
 	}
 
-	logger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+	stageLogger.Successf("✓ Correlation ID: %v", responseCorrelationId)
 
 	if errorCode != 35 {
 		return fmt.Errorf("Expected Error code to be 35, got %v", errorCode)
 	}
 
-	logger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
+	stageLogger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
 
 	return nil
 }
