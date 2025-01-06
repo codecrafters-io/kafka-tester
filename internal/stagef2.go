@@ -11,23 +11,24 @@ import (
 
 func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
-		return err
-	}
-
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, false)
+	stageLogger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
 
-	correlationId := getRandomCorrelationId()
-
-	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, logger); err != nil {
+	if err := b.Run(); err != nil {
 		return err
 	}
-	defer broker.Close()
+
+	correlationId := getRandomCorrelationId()
+	broker := protocol.NewBroker("localhost:9092")
+	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
+		return err
+	}
+	defer func(broker *protocol.Broker) {
+		_ = broker.Close()
+	}(broker)
 
 	request := kafkaapi.FetchRequest{
 		Header: kafkaapi.RequestHeader{
@@ -50,16 +51,16 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -67,7 +68,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
 		return err
 	}
 
@@ -77,7 +78,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		SessionID:      0,
 		TopicResponses: []kafkaapi.TopicResponse{},
 	}
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertNoTopics().
 		Run()
