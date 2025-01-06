@@ -30,7 +30,8 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
+			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
+			return nil, decoder.FormatDetailedError(detailedError.Error())
 		}
 		return nil, err
 	}
