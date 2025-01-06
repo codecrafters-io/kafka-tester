@@ -374,22 +374,22 @@ Debug = true
 [33m[stage-6] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-5] [0m[94mRunning tests for Stage #5: dh6[0m
-[33m[stage-5] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-5] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
-[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/partition.metadata[0m
+[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
-[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/00000000000000000000.log[0m
+[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-5] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[stage-5] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-5] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-5] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1616512461)[0m
@@ -404,8 +404,8 @@ Debug = true
 [33m[stage-5] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-5] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 04 | ....`Z..........[0m
-[33m[stage-5] [0m[36m0010 | 0f a9 38 01 00                                  | ..8..[0m
+[33m[stage-5] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 03 | ....`Z..........[0m
+[33m[stage-5] [0m[36m0010 | 30 d0 a4 01 00                                  | 0....[0m
 [33m[stage-5] [0m[36m[0m
 [33m[stage-5] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[stage-5] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
@@ -413,7 +413,7 @@ Debug = true
 [33m[stage-5] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-5] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-5] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-5] [Decoder] [0m[36m  - .session_id (68135224)[0m
+[33m[stage-5] [Decoder] [0m[36m  - .session_id (53530788)[0m
 [33m[stage-5] [Decoder] [0m[36m  - .num_responses (0)[0m
 [33m[stage-5] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-5] [0m[92m✓ Correlation ID: 1616512461[0m
@@ -425,22 +425,22 @@ Debug = true
 [33m[stage-5] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-4] [0m[94mRunning tests for Stage #4: hn6[0m
-[33m[stage-4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-4] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
-[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/partition.metadata[0m
+[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
-[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/00000000000000000000.log[0m
+[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-4] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[stage-4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-4] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-4] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 96710698)[0m
@@ -450,7 +450,7 @@ Debug = true
 [33m[stage-4] [0m[36m0000 | 00 00 00 60 00 01 00 10 05 c3 b0 2a 00 09 6b 61 | ...`.......*..ka[0m
 [33m[stage-4] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
 [33m[stage-4] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 00 00 | . ..............[0m
-[33m[stage-4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 44 86 02 00 | ............D...[0m
+[33m[stage-4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 43 83 02 00 | ............C...[0m
 [33m[stage-4] [0m[36m0040 | 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 ff | ................[0m
 [33m[stage-4] [0m[36m0050 | ff ff ff ff ff ff ff ff ff ff ff 00 10 00 00 00 | ................[0m
 [33m[stage-4] [0m[36m0060 | 00 01 01 00                                     | ....[0m
@@ -458,9 +458,9 @@ Debug = true
 [33m[stage-4] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-4] [0m[36m0000 | 00 00 00 48 05 c3 b0 2a 00 00 00 00 00 00 00 01 | ...H...*........[0m
-[33m[stage-4] [0m[36m0010 | 9e d3 25 02 00 00 00 00 00 00 00 00 00 00 00 00 | ..%.............[0m
-[33m[stage-4] [0m[36m0020 | 00 00 44 86 02 00 00 00 00 00 64 ff ff ff ff ff | ..D.......d.....[0m
+[33m[stage-4] [0m[36m0000 | 00 00 00 48 05 c3 b0 2a 00 00 00 00 00 00 00 03 | ...H...*........[0m
+[33m[stage-4] [0m[36m0010 | 7e 75 e1 02 00 00 00 00 00 00 00 00 00 00 00 00 | ~u..............[0m
+[33m[stage-4] [0m[36m0020 | 00 00 43 83 02 00 00 00 00 00 64 ff ff ff ff ff | ..C.......d.....[0m
 [33m[stage-4] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
 [33m[stage-4] [0m[36m0040 | ff ff ff 01 ff ff ff ff 01 00 00 00             | ............[0m
 [33m[stage-4] [0m[36m[0m
@@ -470,10 +470,10 @@ Debug = true
 [33m[stage-4] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-4] [Decoder] [0m[36m  - .session_id (27185957)[0m
+[33m[stage-4] [Decoder] [0m[36m  - .session_id (58619361)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .num_responses (1)[0m
 [33m[stage-4] [Decoder] [0m[36m  - .TopicResponse[0][0m
-[33m[stage-4] [Decoder] [0m[36m    - .topic_id (00000000-0000-0000-0000-000000004486)[0m
+[33m[stage-4] [Decoder] [0m[36m    - .topic_id (00000000-0000-0000-0000-000000004383)[0m
 [33m[stage-4] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-4] [Decoder] [0m[36m    - .PartitionResponse[0][0m
 [33m[stage-4] [Decoder] [0m[36m      - .partition_index (0)[0m
@@ -490,7 +490,7 @@ Debug = true
 [33m[stage-4] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[stage-4] [0m[92m✓ Throttle Time: 0[0m
 [33m[stage-4] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[stage-4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000004486[0m
+[33m[stage-4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000004383[0m
 [33m[stage-4] [0m[92m    ✓ PartitionResponse[0] Error code: 100 (UNKNOWN_TOPIC_ID)[0m
 [33m[stage-4] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-4] [0m[92m    ✓ RecordBatches: [][0m
@@ -499,22 +499,22 @@ Debug = true
 [33m[stage-4] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-3] [0m[94mRunning tests for Stage #3: cm4[0m
-[33m[stage-3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-3] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
-[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/partition.metadata[0m
+[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
-[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/00000000000000000000.log[0m
+[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-3] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[stage-3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-3] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-3] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 254678266)[0m
@@ -524,7 +524,7 @@ Debug = true
 [33m[stage-3] [0m[36m0000 | 00 00 00 60 00 01 00 10 0f 2e 14 fa 00 09 6b 61 | ...`..........ka[0m
 [33m[stage-3] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
 [33m[stage-3] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 00 00 | . ..............[0m
-[33m[stage-3] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 14 02 00 | ....@...........[0m
+[33m[stage-3] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 96 02 00 | ....@...........[0m
 [33m[stage-3] [0m[36m0040 | 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 ff | ................[0m
 [33m[stage-3] [0m[36m0050 | ff ff ff ff ff ff ff ff ff ff ff 00 10 00 00 00 | ................[0m
 [33m[stage-3] [0m[36m0060 | 00 01 01 00                                     | ....[0m
@@ -532,9 +532,9 @@ Debug = true
 [33m[stage-3] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-3] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-3] [0m[36m0000 | 00 00 00 48 0f 2e 14 fa 00 00 00 00 00 00 00 03 | ...H............[0m
-[33m[stage-3] [0m[36m0010 | 9d 37 90 02 00 00 00 00 00 00 40 00 80 00 00 00 | .7........@.....[0m
-[33m[stage-3] [0m[36m0020 | 00 00 00 14 02 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
+[33m[stage-3] [0m[36m0000 | 00 00 00 48 0f 2e 14 fa 00 00 00 00 00 00 00 0f | ...H............[0m
+[33m[stage-3] [0m[36m0010 | 33 98 ca 02 00 00 00 00 00 00 40 00 80 00 00 00 | 3.........@.....[0m
+[33m[stage-3] [0m[36m0020 | 00 00 00 96 02 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[stage-3] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[stage-3] [0m[36m0040 | 00 00 00 00 ff ff ff ff 01 00 00 00             | ............[0m
 [33m[stage-3] [0m[36m[0m
@@ -544,10 +544,10 @@ Debug = true
 [33m[stage-3] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-3] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-3] [Decoder] [0m[36m  - .session_id (60635024)[0m
+[33m[stage-3] [Decoder] [0m[36m  - .session_id (255039690)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .num_responses (1)[0m
 [33m[stage-3] [Decoder] [0m[36m  - .TopicResponse[0][0m
-[33m[stage-3] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000014)[0m
+[33m[stage-3] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000096)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-3] [Decoder] [0m[36m    - .PartitionResponse[0][0m
 [33m[stage-3] [Decoder] [0m[36m      - .partition_index (0)[0m
@@ -564,7 +564,7 @@ Debug = true
 [33m[stage-3] [0m[92m✓ Correlation ID: 254678266[0m
 [33m[stage-3] [0m[92m✓ Throttle Time: 0[0m
 [33m[stage-3] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[stage-3] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
+[33m[stage-3] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000096[0m
 [33m[stage-3] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[stage-3] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-3] [0m[92m    ✓ RecordBatches: [][0m
@@ -573,22 +573,22 @@ Debug = true
 [33m[stage-3] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-2] [0m[94mRunning tests for Stage #2: eg2[0m
-[33m[stage-2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/00000000000000000000.log[0m
+[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[stage-2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-2] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-2] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1893237013)[0m
@@ -598,7 +598,7 @@ Debug = true
 [33m[stage-2] [0m[36m0000 | 00 00 00 60 00 01 00 10 70 d8 81 15 00 09 6b 61 | ...`....p.....ka[0m
 [33m[stage-2] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
 [33m[stage-2] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 00 00 | . ..............[0m
-[33m[stage-2] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 26 02 00 | ....@........&..[0m
+[33m[stage-2] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 20 02 00 | ....@........ ..[0m
 [33m[stage-2] [0m[36m0040 | 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 ff | ................[0m
 [33m[stage-2] [0m[36m0050 | ff ff ff ff ff ff ff ff ff ff ff 00 10 00 00 00 | ................[0m
 [33m[stage-2] [0m[36m0060 | 00 01 01 00                                     | ....[0m
@@ -606,16 +606,17 @@ Debug = true
 [33m[stage-2] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-2] [0m[36m0000 | 00 00 00 98 70 d8 81 15 00 00 00 00 00 00 00 00 | ....p...........[0m
-[33m[stage-2] [0m[36m0010 | 92 cc 59 02 00 00 00 00 00 00 40 00 80 00 00 00 | ..Y.......@.....[0m
-[33m[stage-2] [0m[36m0020 | 00 00 00 26 02 00 00 00 00 00 00 00 00 00 00 00 | ...&............[0m
+[33m[stage-2] [0m[36m0000 | 00 00 00 a6 70 d8 81 15 00 00 00 00 00 00 00 09 | ....p...........[0m
+[33m[stage-2] [0m[36m0010 | 93 62 0b 02 00 00 00 00 00 00 40 00 80 00 00 00 | .b........@.....[0m
+[33m[stage-2] [0m[36m0020 | 00 00 00 20 02 00 00 00 00 00 00 00 00 00 00 00 | ... ............[0m
 [33m[stage-2] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
-[33m[stage-2] [0m[36m0040 | 00 00 00 00 ff ff ff ff 51 00 00 00 00 00 00 00 | ........Q.......[0m
-[33m[stage-2] [0m[36m0050 | 00 00 00 00 44 00 00 00 00 02 64 61 7c 4a 00 00 | ....D.....da|J..[0m
+[33m[stage-2] [0m[36m0040 | 00 00 00 00 ff ff ff ff 5f 00 00 00 00 00 00 00 | ........_.......[0m
+[33m[stage-2] [0m[36m0050 | 00 00 00 00 52 00 00 00 00 02 8b aa 87 2a 00 00 | ....R........*..[0m
 [33m[stage-2] [0m[36m0060 | 00 00 00 00 00 00 01 91 e0 5b 6d 8b 00 00 01 91 | .........[m.....[0m
 [33m[stage-2] [0m[36m0070 | e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 00 | .[m.............[0m
-[33m[stage-2] [0m[36m0080 | 00 00 00 00 00 01 24 00 00 00 01 18 48 65 6c 6c | ......$.....Hell[0m
-[33m[stage-2] [0m[36m0090 | 6f 20 45 61 72 74 68 21 00 00 00 00             | o Earth!....[0m
+[33m[stage-2] [0m[36m0080 | 00 00 00 00 00 01 40 00 00 00 01 34 48 65 6c 6c | ......@....4Hell[0m
+[33m[stage-2] [0m[36m0090 | 6f 20 52 65 76 65 72 73 65 20 45 6e 67 69 6e 65 | o Reverse Engine[0m
+[33m[stage-2] [0m[36m00a0 | 65 72 69 6e 67 21 00 00 00 00                   | ering!....[0m
 [33m[stage-2] [0m[36m[0m
 [33m[stage-2] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[stage-2] [Decoder] [0m[36m  - .correlation_id (1893237013)[0m
@@ -623,10 +624,10 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-2] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-2] [Decoder] [0m[36m  - .session_id (9620569)[0m
+[33m[stage-2] [Decoder] [0m[36m  - .session_id (160653835)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .num_responses (1)[0m
 [33m[stage-2] [Decoder] [0m[36m  - .TopicResponse[0][0m
-[33m[stage-2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000026)[0m
+[33m[stage-2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000020)[0m
 [33m[stage-2] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-2] [Decoder] [0m[36m    - .PartitionResponse[0][0m
 [33m[stage-2] [Decoder] [0m[36m      - .partition_index (0)[0m
@@ -636,13 +637,13 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m      - .log_start_offset (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      - .num_aborted_transactions (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      - .preferred_read_replica (-1)[0m
-[33m[stage-2] [Decoder] [0m[36m      - .compact_records_length (80)[0m
+[33m[stage-2] [Decoder] [0m[36m      - .compact_records_length (94)[0m
 [33m[stage-2] [Decoder] [0m[36m      - .RecordBatch[0][0m
 [33m[stage-2] [Decoder] [0m[36m        - .base_offset (0)[0m
-[33m[stage-2] [Decoder] [0m[36m        - .batch_length (68)[0m
+[33m[stage-2] [Decoder] [0m[36m        - .batch_length (82)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .partition_leader_epoch (0)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .magic_byte (2)[0m
-[33m[stage-2] [Decoder] [0m[36m        - .crc (1684110410)[0m
+[33m[stage-2] [Decoder] [0m[36m        - .crc (-1951758550)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .record_attributes (0)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .last_offset_delta (0)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .base_timestamp (1726045973899)[0m
@@ -652,14 +653,14 @@ Debug = true
 [33m[stage-2] [Decoder] [0m[36m        - .base_sequence (0)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .num_records (1)[0m
 [33m[stage-2] [Decoder] [0m[36m        - .Record[0][0m
-[33m[stage-2] [Decoder] [0m[36m          - .length (18)[0m
+[33m[stage-2] [Decoder] [0m[36m          - .length (32)[0m
 [33m[stage-2] [Decoder] [0m[36m          - .attributes (0)[0m
 [33m[stage-2] [Decoder] [0m[36m          - .timestamp_delta (0)[0m
 [33m[stage-2] [Decoder] [0m[36m          - .offset_delta (0)[0m
 [33m[stage-2] [Decoder] [0m[36m          - .key_length (-1)[0m
 [33m[stage-2] [Decoder] [0m[36m          - .key ("")[0m
-[33m[stage-2] [Decoder] [0m[36m          - .value_length (12)[0m
-[33m[stage-2] [Decoder] [0m[36m          - .value ("Hello Earth!")[0m
+[33m[stage-2] [Decoder] [0m[36m          - .value_length (26)[0m
+[33m[stage-2] [Decoder] [0m[36m          - .value ("Hello Reverse Engineering!")[0m
 [33m[stage-2] [Decoder] [0m[36m          - .num_headers (0)[0m
 [33m[stage-2] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[stage-2] [Decoder] [0m[36m    - .TAG_BUFFER[0m
@@ -667,33 +668,33 @@ Debug = true
 [33m[stage-2] [0m[92m✓ Correlation ID: 1893237013[0m
 [33m[stage-2] [0m[92m✓ Throttle Time: 0[0m
 [33m[stage-2] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[stage-2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000026[0m
+[33m[stage-2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000020[0m
 [33m[stage-2] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[stage-2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-2] [0m[92m      ✓ RecordBatch[0] BaseOffset: 0[0m
-[33m[stage-2] [0m[92m        ✓ Record[0] Value: Hello Earth![0m
+[33m[stage-2] [0m[92m        ✓ Record[0] Value: Hello Reverse Engineering![0m
 [33m[stage-2] [0m[92m✓ RecordBatch bytes match with the contents on disk[0m
 [33m[stage-2] [0m[92mTest passed.[0m
 [33m[stage-2] [0m[36mTerminating program[0m
 [33m[stage-2] [0m[36mProgram terminated successfully[0m
 
 [33m[stage-1] [0m[94mRunning tests for Stage #1: fd8[0m
-[33m[stage-1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
+[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-1/00000000000000000000.log[0m
+[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
+[33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[stage-1] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[stage-1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[stage-1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[stage-1] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[stage-1] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1698452642)[0m
@@ -703,7 +704,7 @@ Debug = true
 [33m[stage-1] [0m[36m0000 | 00 00 00 60 00 01 00 10 65 3c 54 a2 00 09 6b 61 | ...`....e<T...ka[0m
 [33m[stage-1] [0m[36m0010 | 66 6b 61 2d 63 6c 69 00 00 00 01 f4 00 00 00 01 | fka-cli.........[0m
 [33m[stage-1] [0m[36m0020 | 03 20 00 00 00 00 00 00 00 00 00 00 00 02 00 00 | . ..............[0m
-[33m[stage-1] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 45 02 00 | ....@........E..[0m
+[33m[stage-1] [0m[36m0030 | 00 00 00 00 40 00 80 00 00 00 00 00 00 15 02 00 | ....@...........[0m
 [33m[stage-1] [0m[36m0040 | 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00 ff | ................[0m
 [33m[stage-1] [0m[36m0050 | ff ff ff ff ff ff ff ff ff ff ff 00 10 00 00 00 | ................[0m
 [33m[stage-1] [0m[36m0060 | 00 01 01 00                                     | ....[0m
@@ -711,22 +712,21 @@ Debug = true
 [33m[stage-1] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[stage-1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[stage-1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[stage-1] [0m[36m0000 | 00 00 00 f0 65 3c 54 a2 00 00 00 00 00 00 00 0d | ....e<T.........[0m
-[33m[stage-1] [0m[36m0010 | dd 50 5c 02 00 00 00 00 00 00 40 00 80 00 00 00 | .P\.......@.....[0m
-[33m[stage-1] [0m[36m0020 | 00 00 00 45 02 00 00 00 00 00 00 00 00 00 00 00 | ...E............[0m
+[33m[stage-1] [0m[36m0000 | 00 00 00 ec 65 3c 54 a2 00 00 00 00 00 00 00 0e | ....e<T.........[0m
+[33m[stage-1] [0m[36m0010 | c6 b6 57 02 00 00 00 00 00 00 40 00 80 00 00 00 | ..W.......@.....[0m
+[33m[stage-1] [0m[36m0020 | 00 00 00 15 02 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[stage-1] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
-[33m[stage-1] [0m[36m0040 | 00 00 00 00 ff ff ff ff a8 01 00 00 00 00 00 00 | ................[0m
-[33m[stage-1] [0m[36m0050 | 00 00 00 00 00 4b 00 00 00 00 02 55 60 53 93 00 | .....K.....U`S..[0m
+[33m[stage-1] [0m[36m0040 | 00 00 00 00 ff ff ff ff a4 01 00 00 00 00 00 00 | ................[0m
+[33m[stage-1] [0m[36m0050 | 00 00 00 00 00 44 00 00 00 00 02 98 ec 18 d3 00 | .....D..........[0m
 [33m[stage-1] [0m[36m0060 | 00 00 00 00 00 00 00 01 91 e0 5b 6d 8b 00 00 01 | ..........[m....[0m
 [33m[stage-1] [0m[36m0070 | 91 e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 | ..[m............[0m
-[33m[stage-1] [0m[36m0080 | 00 00 00 00 00 00 01 32 00 00 00 01 26 48 65 6c | .......2....&Hel[0m
-[33m[stage-1] [0m[36m0090 | 6c 6f 20 43 6f 64 65 43 72 61 66 74 65 72 73 21 | lo CodeCrafters![0m
-[33m[stage-1] [0m[36m00a0 | 00 00 00 00 00 00 00 00 01 00 00 00 44 00 00 00 | ............D...[0m
-[33m[stage-1] [0m[36m00b0 | 00 02 98 ec 18 d3 00 00 00 00 00 00 00 00 01 91 | ................[0m
-[33m[stage-1] [0m[36m00c0 | e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 | .[m......[m.....[0m
-[33m[stage-1] [0m[36m00d0 | 00 00 00 00 00 00 00 00 00 00 00 00 00 01 24 00 | ..............$.[0m
-[33m[stage-1] [0m[36m00e0 | 00 00 01 18 48 65 6c 6c 6f 20 57 6f 72 6c 64 21 | ....Hello World![0m
-[33m[stage-1] [0m[36m00f0 | 00 00 00 00                                     | ....[0m
+[33m[stage-1] [0m[36m0080 | 00 00 00 00 00 00 01 24 00 00 00 01 18 48 65 6c | .......$.....Hel[0m
+[33m[stage-1] [0m[36m0090 | 6c 6f 20 57 6f 72 6c 64 21 00 00 00 00 00 00 00 | lo World!.......[0m
+[33m[stage-1] [0m[36m00a0 | 00 01 00 00 00 47 00 00 00 00 02 b8 7c 9c ff 00 | .....G......|...[0m
+[33m[stage-1] [0m[36m00b0 | 00 00 00 00 00 00 00 01 91 e0 5b 6d 8b 00 00 01 | ..........[m....[0m
+[33m[stage-1] [0m[36m00c0 | 91 e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 | ..[m............[0m
+[33m[stage-1] [0m[36m00d0 | 00 00 00 00 00 00 01 2a 00 00 00 01 1e 48 65 6c | .......*.....Hel[0m
+[33m[stage-1] [0m[36m00e0 | 6c 6f 20 55 6e 69 76 65 72 73 65 21 00 00 00 00 | lo Universe!....[0m
 [33m[stage-1] [0m[36m[0m
 [33m[stage-1] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[stage-1] [Decoder] [0m[36m  - .correlation_id (1698452642)[0m
@@ -734,10 +734,10 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[stage-1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[stage-1] [Decoder] [0m[36m  - .session_id (232607836)[0m
+[33m[stage-1] [Decoder] [0m[36m  - .session_id (247903831)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .num_responses (1)[0m
 [33m[stage-1] [Decoder] [0m[36m  - .TopicResponse[0][0m
-[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000045)[0m
+[33m[stage-1] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000015)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[stage-1] [Decoder] [0m[36m    - .PartitionResponse[0][0m
 [33m[stage-1] [Decoder] [0m[36m      - .partition_index (0)[0m
@@ -747,33 +747,9 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m      - .log_start_offset (0)[0m
 [33m[stage-1] [Decoder] [0m[36m      - .num_aborted_transactions (0)[0m
 [33m[stage-1] [Decoder] [0m[36m      - .preferred_read_replica (-1)[0m
-[33m[stage-1] [Decoder] [0m[36m      - .compact_records_length (167)[0m
+[33m[stage-1] [Decoder] [0m[36m      - .compact_records_length (163)[0m
 [33m[stage-1] [Decoder] [0m[36m      - .RecordBatch[0][0m
 [33m[stage-1] [Decoder] [0m[36m        - .base_offset (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .batch_length (75)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .partition_leader_epoch (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .magic_byte (2)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .crc (1432376211)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .record_attributes (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .last_offset_delta (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .base_timestamp (1726045973899)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .max_timestamp (1726045973899)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .producer_id (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .producer_epoch (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .base_sequence (0)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .num_records (1)[0m
-[33m[stage-1] [Decoder] [0m[36m        - .Record[0][0m
-[33m[stage-1] [Decoder] [0m[36m          - .length (25)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .attributes (0)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .timestamp_delta (0)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .offset_delta (0)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .key_length (-1)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .key ("")[0m
-[33m[stage-1] [Decoder] [0m[36m          - .value_length (19)[0m
-[33m[stage-1] [Decoder] [0m[36m          - .value ("Hello CodeCrafters!")[0m
-[33m[stage-1] [Decoder] [0m[36m          - .num_headers (0)[0m
-[33m[stage-1] [Decoder] [0m[36m      - .RecordBatch[1][0m
-[33m[stage-1] [Decoder] [0m[36m        - .base_offset (1)[0m
 [33m[stage-1] [Decoder] [0m[36m        - .batch_length (68)[0m
 [33m[stage-1] [Decoder] [0m[36m        - .partition_leader_epoch (0)[0m
 [33m[stage-1] [Decoder] [0m[36m        - .magic_byte (2)[0m
@@ -796,19 +772,43 @@ Debug = true
 [33m[stage-1] [Decoder] [0m[36m          - .value_length (12)[0m
 [33m[stage-1] [Decoder] [0m[36m          - .value ("Hello World!")[0m
 [33m[stage-1] [Decoder] [0m[36m          - .num_headers (0)[0m
+[33m[stage-1] [Decoder] [0m[36m      - .RecordBatch[1][0m
+[33m[stage-1] [Decoder] [0m[36m        - .base_offset (1)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .batch_length (71)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .partition_leader_epoch (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .magic_byte (2)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .crc (-1199792897)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .record_attributes (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .last_offset_delta (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .base_timestamp (1726045973899)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .max_timestamp (1726045973899)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .producer_id (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .producer_epoch (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .base_sequence (0)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .num_records (1)[0m
+[33m[stage-1] [Decoder] [0m[36m        - .Record[0][0m
+[33m[stage-1] [Decoder] [0m[36m          - .length (21)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .attributes (0)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .timestamp_delta (0)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .offset_delta (0)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .key_length (-1)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .key ("")[0m
+[33m[stage-1] [Decoder] [0m[36m          - .value_length (15)[0m
+[33m[stage-1] [Decoder] [0m[36m          - .value ("Hello Universe!")[0m
+[33m[stage-1] [Decoder] [0m[36m          - .num_headers (0)[0m
 [33m[stage-1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[stage-1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[stage-1] [0m[92m✓ Correlation ID: 1698452642[0m
 [33m[stage-1] [0m[92m✓ Throttle Time: 0[0m
 [33m[stage-1] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[stage-1] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000045[0m
+[33m[stage-1] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000015[0m
 [33m[stage-1] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[stage-1] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[stage-1] [0m[92m      ✓ RecordBatch[0] BaseOffset: 0[0m
-[33m[stage-1] [0m[92m        ✓ Record[0] Value: Hello CodeCrafters![0m
-[33m[stage-1] [0m[92m      ✓ RecordBatch[1] BaseOffset: 1[0m
 [33m[stage-1] [0m[92m        ✓ Record[0] Value: Hello World![0m
+[33m[stage-1] [0m[92m      ✓ RecordBatch[1] BaseOffset: 1[0m
+[33m[stage-1] [0m[92m        ✓ Record[0] Value: Hello Universe![0m
 [33m[stage-1] [0m[92m✓ RecordBatch bytes match with the contents on disk[0m
 [33m[stage-1] [0m[92mTest passed.[0m
 [33m[stage-1] [0m[36mTerminating program[0m
