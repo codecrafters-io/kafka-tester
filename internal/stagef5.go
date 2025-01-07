@@ -12,23 +12,24 @@ import (
 
 func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
-		return err
-	}
-
 	logger := stageHarness.Logger
 	err := serializer.GenerateLogDirs(logger, false)
 	if err != nil {
 		return err
 	}
 
-	correlationId := getRandomCorrelationId()
+	if err := b.Run(); err != nil {
+		return err
+	}
 
+	correlationId := getRandomCorrelationId()
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
 		return err
 	}
-	defer broker.Close()
+	defer func(broker *protocol.Broker) {
+		_ = broker.Close()
+	}(broker)
 
 	request := kafkaapi.FetchRequest{
 		Header: kafkaapi.RequestHeader{

@@ -42,7 +42,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "gs0",
-			TestFunc: testAPIVersionwFetchKey,
+			TestFunc: testAPIVersionWithFetchKey,
 		},
 		{
 			Slug:     "dh6",
@@ -50,7 +50,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "hn6",
-			TestFunc: testFetchWithUnkownTopicID,
+			TestFunc: testFetchWithUnknownTopicID,
 		},
 		{
 			Slug:     "cm4",
@@ -66,7 +66,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "yk1",
-			TestFunc: testAPIVersionwDescribeTopicPartitions,
+			TestFunc: testAPIVersionWithDescribeTopicPartitions,
 		},
 		{
 			Slug:     "vt6",

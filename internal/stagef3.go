@@ -10,15 +10,15 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	if err := b.Run(); err != nil {
+	stageLogger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(stageLogger, false)
+	if err != nil {
 		return err
 	}
 
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, false)
-	if err != nil {
+	if err := b.Run(); err != nil {
 		return err
 	}
 
@@ -27,10 +27,12 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	// ToDo: Research on what is NULL v Empty arrays
 
 	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, logger); err != nil {
+	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer broker.Close()
+	defer func(broker *protocol.Broker) {
+		_ = broker.Close()
+	}(broker)
 
 	request := kafkaapi.FetchRequest{
 		Header: kafkaapi.RequestHeader{
@@ -67,16 +69,16 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -84,7 +86,7 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
 		return err
 	}
 
@@ -105,7 +107,7 @@ func testFetchWithUnkownTopicID(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, nil, nil).
 		Run()

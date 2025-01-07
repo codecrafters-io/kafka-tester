@@ -1,28 +1,12 @@
 package kafkaapi
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
-
-func GetDescribeTopicPartition() {
-	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.Connect(); err != nil {
-		panic(err)
-	}
-	defer broker.Close()
-
-	response, err := DescribeTopicPartitions(broker)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("\nTopic name: %s <-> Topic ID: %s\n", response.Topics[0].Name, response.Topics[0].TopicID)
-}
 
 func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsRequest) []byte {
 	encoder := realencoder.RealEncoder{}
