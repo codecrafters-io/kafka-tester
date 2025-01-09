@@ -100,15 +100,21 @@ func (rd *RealDecoder) GetArrayLength() (int, error) {
 		rem := rd.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rem), "ARRAY_LENGTH")
 	}
-	tmp := int(int32(binary.BigEndian.Uint32(rd.raw[rd.off:])))
-	rd.off += 4
-	if tmp > rd.Remaining() {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", tmp, rd.off), "array length")
-	} else if tmp > 2*math.MaxUint16 {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", tmp), "ARRAY_LENGTH")
+	tmp, err := rd.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return -1, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+		}
+		return -1, err
+	}
+	arrayLength := int(tmp)
+	if arrayLength > rd.Remaining() {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, rd.off), "array length")
+	} else if arrayLength > 2*math.MaxUint16 {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength), "ARRAY_LENGTH")
 	}
 
-	return tmp, nil
+	return arrayLength, nil
 }
 
 func (rd *RealDecoder) GetCompactArrayLength() (int, error) {
@@ -352,8 +358,14 @@ func (rd *RealDecoder) GetCompactInt32Array() ([]int32, error) {
 	ret := make([]int32, arrayLength)
 
 	for i := range ret {
-		ret[i] = int32(binary.BigEndian.Uint32(rd.raw[rd.off:]))
-		rd.off += 4
+		entry, err := rd.GetInt32()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
@@ -382,8 +394,14 @@ func (rd *RealDecoder) GetInt32Array() ([]int32, error) {
 
 	ret := make([]int32, n)
 	for i := range ret {
-		ret[i] = int32(binary.BigEndian.Uint32(rd.raw[rd.off:]))
-		rd.off += 4
+		entry, err := rd.GetInt32()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
@@ -412,8 +430,14 @@ func (rd *RealDecoder) GetInt64Array() ([]int64, error) {
 
 	ret := make([]int64, n)
 	for i := range ret {
-		ret[i] = int64(binary.BigEndian.Uint64(rd.raw[rd.off:]))
-		rd.off += 8
+		entry, err := rd.GetInt64()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
