@@ -100,15 +100,21 @@ func (rd *RealDecoder) GetArrayLength() (int, error) {
 		rem := rd.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rem), "ARRAY_LENGTH")
 	}
-	tmp := int(int32(binary.BigEndian.Uint32(rd.raw[rd.off:])))
-	rd.off += 4
-	if tmp > rd.Remaining() {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", tmp, rd.off), "array length")
-	} else if tmp > 2*math.MaxUint16 {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", tmp), "ARRAY_LENGTH")
+	tmp, err := rd.GetInt32()
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return -1, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+		}
+		return -1, err
+	}
+	arrayLength := int(tmp)
+	if arrayLength > rd.Remaining() {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, rd.off), "array length")
+	} else if arrayLength > 2*math.MaxUint16 {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength), "ARRAY_LENGTH")
 	}
 
-	return tmp, nil
+	return arrayLength, nil
 }
 
 func (rd *RealDecoder) GetCompactArrayLength() (int, error) {
