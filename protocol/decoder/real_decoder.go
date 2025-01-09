@@ -430,8 +430,14 @@ func (rd *RealDecoder) GetInt64Array() ([]int64, error) {
 
 	ret := make([]int64, n)
 	for i := range ret {
-		ret[i] = int64(binary.BigEndian.Uint64(rd.raw[rd.off:]))
-		rd.off += 8
+		entry, err := rd.GetInt64()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
