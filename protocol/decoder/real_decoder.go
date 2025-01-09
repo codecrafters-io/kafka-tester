@@ -352,8 +352,14 @@ func (rd *RealDecoder) GetCompactInt32Array() ([]int32, error) {
 	ret := make([]int32, arrayLength)
 
 	for i := range ret {
-		ret[i] = int32(binary.BigEndian.Uint32(rd.raw[rd.off:]))
-		rd.off += 4
+		entry, err := rd.GetInt32()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
@@ -382,8 +388,14 @@ func (rd *RealDecoder) GetInt32Array() ([]int32, error) {
 
 	ret := make([]int32, n)
 	for i := range ret {
-		ret[i] = int32(binary.BigEndian.Uint32(rd.raw[rd.off:]))
-		rd.off += 4
+		entry, err := rd.GetInt32()
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+			}
+			return nil, err
+		}
+		ret[i] = entry
 	}
 	return ret, nil
 }
