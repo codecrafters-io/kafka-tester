@@ -262,6 +262,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logg
 			return err
 		}
 		pr.RecordBatches = append(pr.RecordBatches, recordBatch)
+		numBytes -= int(recordBatch.BatchLength + 12)
 		k++
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
