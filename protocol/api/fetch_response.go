@@ -262,6 +262,9 @@ func (pr *PartitionResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logg
 			return err
 		}
 		pr.RecordBatches = append(pr.RecordBatches, recordBatch)
+
+		// Adding back 12 bytes before subtracting from numBytes
+		// because BatchLength excludes BaseOffset (8 bytes) and itself (4 bytes)
 		numBytes -= int(recordBatch.BatchLength + 12)
 		k++
 	}
