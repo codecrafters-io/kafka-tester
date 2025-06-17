@@ -25,7 +25,6 @@ test_concurrent_requests_with_kafka: build
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"nh4\",\"tester_log_prefix\":\"stage-C1\",\"title\":\"Stage #C1: Multiple sequential requests from client\"}, {\"slug\":\"sk0\",\"tester_log_prefix\":\"stage-C2\",\"title\":\"Stage #C2: Multiple concurrent requests from client\"}]" \
 	dist/main.out
 
-
 test_all:
 	make test_base_with_kafka
 	make test_concurrent_requests_with_kafka
@@ -52,3 +51,13 @@ copy_course_file:
 
 update_tester_utils:
 	go get -u github.com/codecrafters-io/tester-utils
+
+setup:
+	echo "Setting up kafka-tester prerequisites"
+
+	wget --progress=dot:giga https://media.githubusercontent.com/media/codecrafters-io/build-your-own-kafka/main/kafka_2.13-4.0.0-SNAPSHOT.tgz
+	tar -xzf kafka_2.13-4.0.0-SNAPSHOT.tgz
+	sudo mv kafka_2.13-4.0.0-SNAPSHOT/ /usr/local/kafka-latest
+	export PATH=$PATH:/usr/local/kafka-latest/bin
+
+	echo "Setup complete"
