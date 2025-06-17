@@ -59,5 +59,6 @@ setup:
 	tar -xzf kafka_2.13-4.0.0-SNAPSHOT.tgz
 	sudo mv kafka_2.13-4.0.0-SNAPSHOT/ /usr/local/kafka-latest
 	export PATH=$PATH:/usr/local/kafka-latest/bin
+	rm kafka_2.13-4.0.0-SNAPSHOT.tgz
 
 	echo "Setup complete"
