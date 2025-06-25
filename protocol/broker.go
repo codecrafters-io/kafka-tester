@@ -161,7 +161,7 @@ func (b *Broker) Receive() (Response, error) {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(b.conn, bodyResponse)
+	numBytesRead, err := io.ReadFull(b.conn, bodyResponse)
 
 	// Reset the read deadline
 	b.conn.SetReadDeadline(time.Time{})
@@ -174,6 +174,8 @@ func (b *Broker) Receive() (Response, error) {
 		}
 		return response, fmt.Errorf("error reading from connection: %v", err)
 	}
+
+	bodyResponse = bodyResponse[:numBytesRead]
 
 	return response.createFrom(lengthResponse, bodyResponse), nil
 }
