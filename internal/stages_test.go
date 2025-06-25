@@ -43,7 +43,7 @@ func TestStages(t *testing.T) {
 		"apiversions_length_field_too_large": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/apiversions_length_field_too_large",
-			ExpectedExitCode:    0,
+			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/scenarios/apiversions_length_field_too_large",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},

@@ -18,22 +18,11 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0000 | 00 00 00 17 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
 [33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [Decoder] [0m[36m- .ResponseHeader[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m- .ResponseBody[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .num_api_keys (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .ApiKeys[0][0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .api_key (18)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .min_version (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .max_version (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#PV1] [0m[92m✓ Correlation ID: 177586623[0m
-[33m[tester::#PV1] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[tester::#PV1] [0m[92m✓ API keys array is non-empty[0m
-[33m[tester::#PV1] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
-[33m[tester::#PV1] [0m[92mTest passed.[0m
+[33m[tester::#PV1] [0m[91mExpected the Message Size field to match the length of the received payload.[0m
+[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91mMessage Size field:	 23 (Bytes: 00 00 00 17)[0m
+[33m[tester::#PV1] [0m[91mReceived payload length:	 19[0m
+[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
