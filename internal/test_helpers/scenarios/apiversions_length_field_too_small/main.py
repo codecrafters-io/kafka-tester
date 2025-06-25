@@ -37,7 +37,7 @@ def handle_connection(connection) -> None:
 
         hardcoded_apiversions_response = pack(
             "!iihbhhhbib",
-            19 + 4,  # msg len
+            19 - 4,  # msg len
             request.correlation_id,  # 4 bytes
             0,  # error code,          2 bytes
             2,  # varint,              1 byte

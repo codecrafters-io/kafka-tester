@@ -166,16 +166,21 @@ func (b *Broker) Receive() (Response, error) {
 	// Reset the read deadline
 	b.conn.SetReadDeadline(time.Time{})
 
+	// Truncate the bodyResponse to the actual number of bytes read
+	bodyResponse = bodyResponse[:numBytesRead]
+
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
 			// This way we can surface a better error message to help w debugging
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
+		if err == io.ErrUnexpectedEOF {
+			// Return the partial response when trying to read too much so EOF is reached
+			return response.createFrom(lengthResponse, bodyResponse), nil
+		}
 		return response, fmt.Errorf("error reading from connection: %v", err)
 	}
-
-	bodyResponse = bodyResponse[:numBytesRead]
 
 	return response.createFrom(lengthResponse, bodyResponse), nil
 }
