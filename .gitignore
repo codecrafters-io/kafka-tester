@@ -3,11 +3,6 @@
 dist/
 
 # misc files
-protocol/decoder/error-codes.md
-main.go
 **/__pycache__/**
 internal/test_helpers/ryan/**
-internal/assertion.go
-internal/assertions/topic_assertion.go
-protocol/api/spec.yml
-protocol/api/backupHex.sh
+docs/**
