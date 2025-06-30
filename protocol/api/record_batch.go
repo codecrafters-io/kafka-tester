@@ -27,6 +27,8 @@ type RecordBatch struct {
 	Records              []Record
 }
 
+type RecordBatches []RecordBatch
+
 func (rb *RecordBatch) Encode(pe *realencoder.RealEncoder) {
 	startOffset := pe.Offset()
 
@@ -58,6 +60,39 @@ func (rb *RecordBatch) Encode(pe *realencoder.RealEncoder) {
 	crcData := pe.Bytes()[crcEndOffset:pe.Offset()]
 	computedChecksum := crc32.Checksum(crcData, crc32.MakeTable(crc32.Castagnoli))
 	pe.PutInt32At(int32(computedChecksum), crcStartOffset, 4)
+}
+
+func (rbs RecordBatches) GetEncodedLength() int {
+	encodedLength := 0
+	for _, rb := range rbs {
+		encodedLength += rb.GetEncodedLength()
+	}
+	return encodedLength
+}
+
+func (rb *RecordBatch) GetEncodedLength() int {
+	encoder := realencoder.RealEncoder{}
+	encoder.Init(make([]byte, 1024))
+
+	encoder.PutInt64(rb.BaseOffset)
+	encoder.PutInt32(0) // BatchLength placeholder
+	encoder.PutInt32(rb.PartitionLeaderEpoch)
+	encoder.PutInt8(2)  // Magic value is 2
+	encoder.PutInt32(0) // CRC placeholder
+	encoder.PutInt16(rb.Attributes)
+	encoder.PutInt32(rb.LastOffsetDelta)
+	encoder.PutInt64(rb.FirstTimestamp)
+	encoder.PutInt64(rb.MaxTimestamp)
+	encoder.PutInt64(rb.ProducerId)
+	encoder.PutInt16(rb.ProducerEpoch)
+	encoder.PutInt32(rb.BaseSequence)
+	encoder.PutInt32(int32(len(rb.Records)))
+	for i, record := range rb.Records {
+		record.OffsetDelta = int32(i)
+		record.Encode(&encoder)
+	}
+
+	return encoder.Offset()
 }
 
 func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
