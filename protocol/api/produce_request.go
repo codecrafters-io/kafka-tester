@@ -13,7 +13,12 @@ type PartitionData struct {
 
 func (p *PartitionData) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt32(p.Index)
-	pe.PutCompactArrayLength(len(p.Records))
+	if len(p.Records) > 1 {
+		panic("PartitionData.Encode: Records array length must be 1")
+	}
+	encodedBytesLength := p.Records[0].GetEncodedLength()
+	pe.PutCompactArrayLength(encodedBytesLength)
+	// TODO: This is wrong: Need to encode the number of bytes in the encoded recorded batches
 	for _, recordBatch := range p.Records {
 		recordBatch.Encode(pe)
 	}
