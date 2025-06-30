@@ -26,7 +26,7 @@ type TopicData struct {
 }
 
 func (t *TopicData) Encode(pe *encoder.RealEncoder) {
-	pe.PutString(t.Name)
+	pe.PutCompactString(t.Name)
 	pe.PutCompactArrayLength(len(t.Partitions))
 	for _, partition := range t.Partitions {
 		partition.Encode(pe)
@@ -48,7 +48,7 @@ func (pr *ProduceRequestBody) Encode(pe *encoder.RealEncoder) {
 	pe.PutNullableCompactString(&pr.TransactionalID)
 	pe.PutInt16(int16(pr.Acks))
 	pe.PutInt32(pr.TimeoutMs)
-	pe.PutArrayLength(len(pr.Topics))
+	pe.PutCompactArrayLength(len(pr.Topics))
 	for _, topic := range pr.Topics {
 		topic.Encode(pe)
 	}
