@@ -70,6 +70,9 @@ func (rbs RecordBatches) GetEncodedLength() int {
 	return encodedLength
 }
 
+// GetEncodedLength returns the encoded length of the underlying RecordBatch
+// TODO: Refactor Encode to return the encoded bytes length
+// It might be worth it to break the interface and return the length
 func (rb *RecordBatch) GetEncodedLength() int {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
