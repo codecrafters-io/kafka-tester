@@ -3,6 +3,7 @@ package protocol
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -15,6 +16,31 @@ import (
 type Response struct {
 	RawBytes []byte
 	Payload  []byte
+}
+
+func (r *Response) CheckLength() error {
+	messageSizeField := int(binary.BigEndian.Uint32(r.RawBytes[:4]))
+	receivedPayloadLength := len(r.Payload)
+
+	if messageSizeField != receivedPayloadLength {
+		errorMessage := fmt.Sprintf(`❌ Invalid response:
+The Message Size field does not match the length of the received payload.
+
+🔍 Mismatch:
+Message Size field:      %d (Bytes: %02x %02x %02x %02x)
+Received payload length: %d
+`, messageSizeField, r.RawBytes[0], r.RawBytes[1], r.RawBytes[2], r.RawBytes[3], receivedPayloadLength)
+
+		if messageSizeField == 4+receivedPayloadLength {
+			errorMessage += `
+💡 Hint:
+The Message Size field should not count itself.
+`
+		}
+
+		return errors.New(errorMessage)
+	}
+	return nil
 }
 
 func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
@@ -105,7 +131,7 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (b *Broker) SendAndReceive(request []byte, APIName string, logger *logger.Logger) (Response, error) {
 	response := Response{}
 
 	err := b.Send(request)
@@ -115,6 +141,12 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 
 	response, err = b.Receive()
 	if err != nil {
+		return response, err
+	}
+
+	logger.Debugf("Hexdump of received \"%s\" response: \n%v\n", APIName, GetFormattedHexdump(response.RawBytes))
+
+	if err := response.CheckLength(); err != nil {
 		return response, err
 	}
 
@@ -161,10 +193,12 @@ func (b *Broker) Receive() (Response, error) {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(b.conn, bodyResponse)
+	numBytesRead, err := io.ReadFull(b.conn, bodyResponse)
 
 	// Reset the read deadline
 	b.conn.SetReadDeadline(time.Time{})
+
+	bodyResponse = bodyResponse[:numBytesRead]
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
@@ -172,7 +206,11 @@ func (b *Broker) Receive() (Response, error) {
 			// This way we can surface a better error message to help w debugging
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
-		return response, fmt.Errorf("error reading from connection: %v", err)
+		if err == io.ErrUnexpectedEOF {
+			// Return the partial response when trying to read too much so EOF is reached
+			return response.createFrom(lengthResponse, bodyResponse), nil
+		}
+		return response, fmt.Errorf("Error: The tester cannot read the response from the broker. %v", err)
 	}
 
 	return response.createFrom(lengthResponse, bodyResponse), nil

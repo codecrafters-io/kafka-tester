@@ -69,7 +69,7 @@ func DescribeTopicPartitions(b *protocol.Broker) (*DescribeTopicPartitionsRespon
 	}
 	message := EncodeDescribeTopicPartitionsRequest(&request)
 
-	response, err := b.SendAndReceive(message)
+	response, err := b.SendAndReceive(message, "DescribeTopicPartitions", logger.GetLogger(true, ""))
 	if err != nil {
 		return nil, err
 	}
