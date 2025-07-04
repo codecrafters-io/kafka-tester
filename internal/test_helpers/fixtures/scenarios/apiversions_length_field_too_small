@@ -13,10 +13,8 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [0m[36m0000 | 00 00 00 0f 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
-[33m[tester::#PV1] [0m[36m0010 | 04 00 00                                        | ...[0m
+[33m[tester::#PV1] [0m[36m00 00 00 0f 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
+[33m[tester::#PV1] [0m[36m04 00 00                                        | ...[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .correlation_id (177586623)[0m

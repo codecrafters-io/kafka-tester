@@ -13,15 +13,14 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0020 | 6c 69 04 30 2e 31 00                            | li.0.1.[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [0m[36m0000 | 00 00 00 17 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
-[33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
+[33m[tester::#PV1] [0m[36m00 00 00 17 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
+[33m[tester::#PV1] [0m[36m04 00 00 00 00 00 00                            | .......[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [0m[91mExpected the Message Size field to match the length of the received payload.[0m
+[33m[tester::#PV1] [0m[91mInvalid response:[0m
+[33m[tester::#PV1] [0m[91mThe Message Size field does not match the length of the received payload.[0m
 [33m[tester::#PV1] [0m[91m[0m
-[33m[tester::#PV1] [0m[91mMessage Size field:	 23 (Bytes: 00 00 00 17)[0m
-[33m[tester::#PV1] [0m[91mReceived payload length:	 19[0m
+[33m[tester::#PV1] [0m[91mMessage Size field:      23 (Bytes: 00 00 00 17)[0m
+[33m[tester::#PV1] [0m[91mReceived payload length: 19[0m
 [33m[tester::#PV1] [0m[91m[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"encoding/binary"
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
@@ -52,19 +51,9 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceive(message, "ApiVersions", stageLogger)
 	if err != nil {
 		return err
-	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
-
-	messageSizeField := int(binary.BigEndian.Uint32(response.RawBytes[:4]))
-	receivedPayloadLength := len(response.Payload)
-
-	if messageSizeField != receivedPayloadLength {
-		return fmt.Errorf("Expected the Message Size field to match the length of the received payload.\n\n"+
-			"Message Size field:\t %d (Bytes: %02x %02x %02x %02x)\n"+
-			"Received payload length:\t %d\n", messageSizeField, response.RawBytes[0], response.RawBytes[1], response.RawBytes[2], response.RawBytes[3], receivedPayloadLength)
 	}
 
 	responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)

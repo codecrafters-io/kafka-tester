@@ -17,6 +17,21 @@ type Response struct {
 	Payload  []byte
 }
 
+func (r *Response) CheckLength() error {
+	messageSizeField := int(binary.BigEndian.Uint32(r.RawBytes[:4]))
+	receivedPayloadLength := len(r.Payload)
+
+	if messageSizeField != receivedPayloadLength {
+		return fmt.Errorf(`Invalid response:
+The Message Size field does not match the length of the received payload.
+
+Message Size field:      %d (Bytes: %02x %02x %02x %02x)
+Received payload length: %d
+`, messageSizeField, r.RawBytes[0], r.RawBytes[1], r.RawBytes[2], r.RawBytes[3], receivedPayloadLength)
+	}
+	return nil
+}
+
 func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
 	return Response{
 		RawBytes: append(lengthResponse, bodyResponse...),
@@ -105,7 +120,7 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (b *Broker) SendAndReceive(request []byte, APIName string, logger *logger.Logger) (Response, error) {
 	response := Response{}
 
 	err := b.Send(request)
@@ -114,6 +129,12 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 	}
 
 	response, err = b.Receive()
+	logger.Debugf("Hexdump of received \"%s\" response: \n%v\n", APIName, GetFormattedHexdumpForErrors(response.RawBytes))
+
+	if err := response.CheckLength(); err != nil {
+		return response, err
+	}
+
 	if err != nil {
 		return response, err
 	}
@@ -169,6 +190,10 @@ func (b *Broker) Receive() (Response, error) {
 	// Truncate the bodyResponse to the actual number of bytes read
 	bodyResponse = bodyResponse[:numBytesRead]
 
+	if numBytesRead < int(length) {
+		return response.createFrom(lengthResponse, bodyResponse), nil
+	}
+
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
@@ -179,7 +204,7 @@ func (b *Broker) Receive() (Response, error) {
 			// Return the partial response when trying to read too much so EOF is reached
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
-		return response, fmt.Errorf("error reading from connection: %v", err)
+		return response, fmt.Errorf("Error: The tester cannot read the response from the broker. %v", err)
 	}
 
 	return response.createFrom(lengthResponse, bodyResponse), nil
