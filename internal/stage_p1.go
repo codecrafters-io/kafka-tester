@@ -53,7 +53,7 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	stageLogger.Debugf("Hexdump of received \"Produce\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, err := kafkaapi.DecodeProduceHeader(response.Payload, 11, stageLogger)
+	responseHeader, responseBody, err := kafkaapi.DecodeProduceHeaderAndResponse(response.Payload, 11, stageLogger)
 	if err != nil {
 		stageLogger.Errorf("Failed to decode \"Produce\" response header: %v", err)
 		return err
@@ -66,5 +66,6 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
+	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
 	return nil
 }
