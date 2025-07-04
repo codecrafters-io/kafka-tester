@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"time"
-
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -45,8 +43,6 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 			BuildProduceRequest(),
 	}
 
-	// request := getSuccessRequest(correlationId)
-
 	message := kafkaapi.EncodeProduceRequest(&request)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"Produce\" request: \n%v\n", GetFormattedHexdump(message))
@@ -71,59 +67,6 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
-	// TODO: Add response body assertions
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
 	return nil
-}
-
-func getSuccessRequest(correlationId int32) kafkaapi.ProduceRequest {
-	// Create a simple record to produce
-	record := kafkaapi.Record{
-		Attributes:     0,
-		TimestampDelta: 0,
-		Key:            nil,
-		Value:          []byte("Hello Ryan"),
-		Headers:        []kafkaapi.RecordHeader{},
-	}
-
-	// Create a record batch containing our record
-	recordBatch := kafkaapi.RecordBatch{
-		BaseOffset:           0,
-		PartitionLeaderEpoch: -1,
-		Attributes:           0,
-		LastOffsetDelta:      0,
-		FirstTimestamp:       time.Now().UnixMilli(), // Time stamps need to be different else data gets overwritten
-		MaxTimestamp:         time.Now().UnixMilli(), // Time stamps need to be different else data gets overwritten
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0, // Just need to update the base sequence for successive requests
-		Records:              []kafkaapi.Record{record},
-	}
-
-	request := kafkaapi.ProduceRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        0,  // Produce API
-			ApiVersion:    11, // Use version 11
-			CorrelationId: correlationId,
-			ClientId:      "kafka-tester",
-		},
-		Body: kafkaapi.ProduceRequestBody{
-			TransactionalID: "", // Empty string for non-transactional
-			Acks:            1,  // Wait for leader acknowledgment
-			TimeoutMs:       5000,
-			Topics: []kafkaapi.TopicData{
-				{
-					Name: common.TOPIC3_NAME, // Existing topic with 3 partitions (0, 1, 2)
-					Partitions: []kafkaapi.PartitionData{
-						{
-							Index:   0, // Valid partition
-							Records: []kafkaapi.RecordBatch{recordBatch},
-						},
-					},
-				},
-			},
-		},
-	}
-
-	return request
 }

@@ -69,7 +69,6 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
-	// TODO: Add response body assertions
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
 	return nil
 }
