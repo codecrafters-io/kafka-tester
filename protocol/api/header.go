@@ -20,6 +20,10 @@ type RequestHeader struct {
 	ClientId string
 }
 
+func (h *RequestHeader) Encode(enc *encoder.RealEncoder) {
+	h.EncodeV2(enc)
+}
+
 func (h *RequestHeader) EncodeV2(enc *encoder.RealEncoder) {
 	enc.PutInt16(h.ApiKey)
 	enc.PutInt16(h.ApiVersion)
