@@ -129,7 +129,7 @@ func (b *Broker) SendAndReceive(request []byte, APIName string, logger *logger.L
 	}
 
 	response, err = b.Receive()
-	logger.Debugf("Hexdump of received \"%s\" response: \n%v\n", APIName, GetFormattedHexdumpForErrors(response.RawBytes))
+	logger.Debugf("Hexdump of received \"%s\" response: \n%v\n", APIName, GetFormattedHexdump(response.RawBytes))
 
 	if err := response.CheckLength(); err != nil {
 		return response, err

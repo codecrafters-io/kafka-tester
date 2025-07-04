@@ -67,7 +67,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	message := kafkaapi.EncodeFetchRequest(&request)
 	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message, "Fetch", logger)
 	if err != nil {

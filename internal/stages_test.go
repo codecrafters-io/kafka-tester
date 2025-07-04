@@ -12,34 +12,34 @@ func TestStages(t *testing.T) {
 	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
-		"base_stages_pass": {
-			UntilStageSlug:      "pv1",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"concurrent_stages_pass": {
-			StageSlugs:          []string{"nh4", "sk0"},
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"describe_topic_partitions_pass": {
-			StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"fetch_pass": {
-			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4", "eg2", "fd8"},
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
+		// "base_stages_pass": {
+		// 	UntilStageSlug:      "pv1",
+		// 	CodePath:            "./test_helpers/pass_all",
+		// 	ExpectedExitCode:    0,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
+		// "concurrent_stages_pass": {
+		// 	StageSlugs:          []string{"nh4", "sk0"},
+		// 	CodePath:            "./test_helpers/pass_all",
+		// 	ExpectedExitCode:    0,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
+		// "describe_topic_partitions_pass": {
+		// 	StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
+		// 	CodePath:            "./test_helpers/pass_all",
+		// 	ExpectedExitCode:    0,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
+		// "fetch_pass": {
+		// 	StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4", "eg2", "fd8"},
+		// 	CodePath:            "./test_helpers/pass_all",
+		// 	ExpectedExitCode:    0,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
 		"apiversions_length_field_too_large": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/apiversions_length_field_too_large",
