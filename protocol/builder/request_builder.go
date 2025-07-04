@@ -4,12 +4,18 @@ import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 
 type RequestBuilder struct {
 	requestType string
+	topicName   string
 }
 
 func NewRequestBuilder(requestType string) *RequestBuilder {
 	return &RequestBuilder{
 		requestType: requestType,
 	}
+}
+
+func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
+	b.topicName = topicName
+	return b
 }
 
 func (b *RequestBuilder) Build() {
@@ -23,14 +29,18 @@ func (b *RequestBuilder) Build() {
 	}
 }
 
-func (b *RequestBuilder) buildProduceRequest(topic_name string) RequestBodyI {
+func (b *RequestBuilder) buildProduceRequest() RequestBodyI {
+	if b.topicName == "" {
+		panic("CodeCrafters Internal Error: Topic name is required to build a produce request")
+	}
+
 	requestBody := &kafkaapi.ProduceRequestBody{
 		TransactionalID: "", // Empty string for non-transactional
 		Acks:            1,  // Wait for leader acknowledgment
-		TimeoutMs:       5000,
+		TimeoutMs:       0,
 		Topics: []kafkaapi.TopicData{
 			{
-				Name: topic_name, // Try to produce to a test topic
+				Name: b.topicName, // Try to produce to a test topic
 				Partitions: []kafkaapi.PartitionData{
 					{
 						Index:   0,
