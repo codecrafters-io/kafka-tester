@@ -7,9 +7,10 @@ import (
 )
 
 type RequestBuilder struct {
-	requestType string
-	topicName   string
-	recordBatch kafkaapi.RecordBatch
+	requestType    string
+	topicName      string
+	partitionIndex int32
+	recordBatch    kafkaapi.RecordBatch
 }
 
 func NewRequestBuilder(requestType string) *RequestBuilder {
@@ -20,6 +21,11 @@ func NewRequestBuilder(requestType string) *RequestBuilder {
 
 func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
 	b.topicName = topicName
+	return b
+}
+
+func (b *RequestBuilder) WithPartition(partitionIndex int32) *RequestBuilder {
+	b.partitionIndex = partitionIndex
 	return b
 }
 
@@ -79,8 +85,8 @@ func (b *RequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
 				Name: b.topicName, // Try to produce to a test topic
 				Partitions: []kafkaapi.PartitionData{
 					{
-						Index:   0,
-						Records: []kafkaapi.RecordBatch{},
+						Index:   b.partitionIndex,
+						Records: []kafkaapi.RecordBatch{b.recordBatch},
 					},
 				},
 			},
