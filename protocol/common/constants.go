@@ -2,7 +2,7 @@ package common
 
 import (
 	"fmt"
-	"sort"
+	"slices"
 
 	"github.com/codecrafters-io/tester-utils/random"
 )
@@ -40,7 +40,7 @@ func init() {
 	random.Init()
 
 	all_topic_names := []string{"foo", "bar", "baz", "qux", "quz", "pax", "paz", "saz"}
-	topic_names := GetSortedValues(random.RandomElementsFromArray(all_topic_names, 4))
+	topic_names := getSortedValues(random.RandomElementsFromArray(all_topic_names, 4))
 	TOPIC1_NAME = topic_names[0]
 	TOPIC2_NAME = topic_names[1]
 	TOPIC3_NAME = topic_names[2]
@@ -60,9 +60,7 @@ func init() {
 	MESSAGE3 = messages[2]
 }
 
-func GetSortedValues[T string](values []T) []T {
-	sort.Slice(values, func(i, j int) bool {
-		return values[i] < values[j]
-	})
+func getSortedValues[T string](values []T) []T {
+	slices.Sort(values)
 	return values
 }
