@@ -39,31 +39,31 @@ func DecodeProduceHeader(response []byte, version int16, logger *logger.Logger) 
 	return &responseHeader, nil
 }
 
-// func DecodeProduceHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ProduceResponse, error) {
-// 	decoder := realdecoder.RealDecoder{}
-// 	decoder.Init(response)
-// 	logger.UpdateSecondaryPrefix("Decoder")
-// 	defer logger.ResetSecondaryPrefix()
+func DecodeProduceHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ProduceResponseBody, error) {
+	decoder := realdecoder.RealDecoder{}
+	decoder.Init(response)
+	logger.UpdateSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefix()
 
-// 	responseHeader := ResponseHeader{}
-// 	logger.Debugf("- .ResponseHeader")
-// 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
-// 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-// 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
-// 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
-// 		}
-// 		return nil, nil, err
-// 	}
+	responseHeader := ResponseHeader{}
+	logger.Debugf("- .ResponseHeader")
+	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Produce Response v11")
+			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
+		}
+		return nil, nil, err
+	}
 
-// 	fetchResponse := FetchResponse{Version: version}
-// 	logger.Debugf("- .ResponseBody")
-// 	if err := fetchResponse.Decode(&decoder, version, logger, 1); err != nil {
-// 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-// 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("Fetch Response v16")
-// 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
-// 		}
-// 		return nil, nil, err
-// 	}
+	produceResponse := ProduceResponseBody{Version: version}
+	logger.Debugf("- .ResponseBody")
+	if err := produceResponse.Decode(&decoder, version, logger, 1); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("Produce Response v11")
+			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
+		}
+		return nil, nil, err
+	}
 
-// 	return &responseHeader, &produceResponse, nil
-// }
+	return &responseHeader, &produceResponse, nil
+}
