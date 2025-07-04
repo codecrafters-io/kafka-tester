@@ -36,8 +36,7 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewRequestBuilder("produce").
-			WithTopic(unknownTopic).
-			AddRecordBatchToPartition(0, []string{"Hello from Ryan!"}).
+			AddRecordBatchToTopicPartition(unknownTopic, 0, []string{"Hello from Ryan!"}).
 			BuildProduceRequest(),
 	}
 
