@@ -24,6 +24,7 @@ func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
 }
 
 func (b *RequestBuilder) WithRecordBatch(message string) *RequestBuilder {
+	// Use a RecordBatchBuilder maybe ?
 	if b.requestType != "produce" {
 		panic("CodeCrafters Internal Error: Record batch can only be added to a produce request")
 	}
@@ -53,23 +54,23 @@ func (b *RequestBuilder) WithRecordBatch(message string) *RequestBuilder {
 	return b
 }
 
-func (b *RequestBuilder) Build() {
+func (b *RequestBuilder) Build() RequestBodyI {
 	switch b.requestType {
-	case "produce":
-		b.buildProduceRequest()
+	// case "produce":
+	// 	return b.BuildProduceRequest()
 	case "fetch":
-		b.buildFetchRequest()
+		return b.buildFetchRequest()
 	default:
 		panic("Invalid request type")
 	}
 }
 
-func (b *RequestBuilder) buildProduceRequest() RequestBodyI {
+func (b *RequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
 	if b.topicName == "" {
 		panic("CodeCrafters Internal Error: Topic name is required to build a produce request")
 	}
 
-	requestBody := &kafkaapi.ProduceRequestBody{
+	requestBody := kafkaapi.ProduceRequestBody{
 		TransactionalID: "", // Empty string for non-transactional
 		Acks:            1,  // Wait for leader acknowledgment
 		TimeoutMs:       0,
