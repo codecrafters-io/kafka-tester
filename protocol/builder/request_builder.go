@@ -7,15 +7,15 @@ import (
 )
 
 type RequestBuilder struct {
-	requestType    string
-	topicName      string
-	partitionIndex int32
-	recordBatch    kafkaapi.RecordBatch
+	requestType string
+	topicName   string
+	partitions  map[int32][]kafkaapi.RecordBatch
 }
 
 func NewRequestBuilder(requestType string) *RequestBuilder {
 	return &RequestBuilder{
 		requestType: requestType,
+		partitions:  make(map[int32][]kafkaapi.RecordBatch),
 	}
 }
 
@@ -24,13 +24,8 @@ func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
 	return b
 }
 
-func (b *RequestBuilder) WithPartition(partitionIndex int32) *RequestBuilder {
-	b.partitionIndex = partitionIndex
-	return b
-}
-
-func (b *RequestBuilder) WithRecordBatch(messages []string) *RequestBuilder {
-	// Use a RecordBatchBuilder maybe ?
+// Use a RecordBatchBuilder maybe ?
+func (b *RequestBuilder) AddRecordBatchToPartition(partitionIndex int32, messages []string) *RequestBuilder {
 	if b.requestType != "produce" {
 		panic("CodeCrafters Internal Error: Record batch can only be added to a produce request")
 	}
@@ -60,7 +55,7 @@ func (b *RequestBuilder) WithRecordBatch(messages []string) *RequestBuilder {
 		Records:         records,
 	}
 
-	b.recordBatch = recordBatch
+	b.partitions[partitionIndex] = append(b.partitions[partitionIndex], recordBatch)
 	return b
 }
 
@@ -80,19 +75,27 @@ func (b *RequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
 		panic("CodeCrafters Internal Error: Topic name is required to build a produce request")
 	}
 
+	if len(b.partitions) == 0 {
+		panic("CodeCrafters Internal Error: At least one partition with record batches is required")
+	}
+
+	// Convert partitions map to slice
+	partitionData := make([]kafkaapi.PartitionData, 0, len(b.partitions))
+	for partitionIndex, recordBatches := range b.partitions {
+		partitionData = append(partitionData, kafkaapi.PartitionData{
+			Index:   partitionIndex,
+			Records: recordBatches,
+		})
+	}
+
 	requestBody := kafkaapi.ProduceRequestBody{
 		TransactionalID: "", // Empty string for non-transactional
 		Acks:            1,  // Wait for leader acknowledgment
 		TimeoutMs:       0,
 		Topics: []kafkaapi.TopicData{
 			{
-				Name: b.topicName, // Try to produce to a test topic
-				Partitions: []kafkaapi.PartitionData{
-					{
-						Index:   b.partitionIndex,
-						Records: []kafkaapi.RecordBatch{b.recordBatch},
-					},
-				},
+				Name:       b.topicName,
+				Partitions: partitionData,
 			},
 		},
 	}
