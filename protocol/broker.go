@@ -190,10 +190,6 @@ func (b *Broker) Receive() (Response, error) {
 	// Truncate the bodyResponse to the actual number of bytes read
 	bodyResponse = bodyResponse[:numBytesRead]
 
-	if numBytesRead < int(length) {
-		return response.createFrom(lengthResponse, bodyResponse), nil
-	}
-
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
@@ -205,6 +201,10 @@ func (b *Broker) Receive() (Response, error) {
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
 		return response, fmt.Errorf("Error: The tester cannot read the response from the broker. %v", err)
+	}
+
+	if numBytesRead < int(length) {
+		return response.createFrom(lengthResponse, bodyResponse), nil
 	}
 
 	return response.createFrom(lengthResponse, bodyResponse), nil
