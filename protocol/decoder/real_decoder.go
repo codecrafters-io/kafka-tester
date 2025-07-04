@@ -326,8 +326,9 @@ func (rd *RealDecoder) GetCompactNullableString() (*string, error) {
 
 	length := int(n - 1)
 
+	// TODO: Null case amirite ?
 	if length < 0 {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected compact nullable string length to be > 0, got %d", length), "COMPACT_NULLABLE_STRING")
+		return nil, nil
 	}
 
 	if rd.Remaining() < length {
@@ -521,5 +522,5 @@ func (rd *RealDecoder) FormatDetailedError(message string) error {
 	lines = append(lines, message)
 
 	//lint:ignore SA1006 we are okay with this
-	return fmt.Errorf(strings.Join(lines, "\n"))
+	return fmt.Errorf("%s", strings.Join(lines, "\n"))
 }

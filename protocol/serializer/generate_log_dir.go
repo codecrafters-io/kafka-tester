@@ -13,9 +13,9 @@ import (
 // If onlyClusterMetadata is true, only the cluster metadata will be generated.
 // .log files & partition metadata files inside the topic directories will not be created.
 func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
-	// Topic1 -> Message1 (Partition=1)
-	// Topic2 -> None (Partition=1)
-	// Topic3 -> Message2, Message3 (Partition=2)
+	// Topic1 -> Message1 (Partitions=[0])
+	// Topic2 -> None (Partitions=[0])
+	// Topic3 -> Message2, Message3 (Partitions=[0, 1])
 
 	// meta
 	nodeID := common.NODE_ID
@@ -29,12 +29,16 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 
 	// topics
 	topic1Name := common.TOPIC1_NAME
+	topic1Partition := 0
 	topic1ID, _ := uuidToBase64(common.TOPIC1_UUID)
 	topic1UUID := common.TOPIC1_UUID
 	topic2Name := common.TOPIC2_NAME
+	topic2Partition := 0
 	topic2ID, _ := uuidToBase64(common.TOPIC2_UUID)
 	topic2UUID := common.TOPIC2_UUID
 	topic3Name := common.TOPIC3_NAME
+	topic3Partition1 := 0
+	topic3Partition2 := 1
 	topic3ID, _ := uuidToBase64(common.TOPIC3_UUID)
 	topic3UUID := common.TOPIC3_UUID
 
@@ -45,10 +49,10 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 		return fmt.Errorf("could not remove log directory at %s: %w", basePath, err)
 	}
 
-	topic1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic1Name)
-	topic2MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic2Name)
-	topic3Partition1MetadataDirectory := fmt.Sprintf("%s/%s-0", basePath, topic3Name)
-	topic3Partition2MetadataDirectory := fmt.Sprintf("%s/%s-1", basePath, topic3Name)
+	topic1MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic1Name, topic1Partition)
+	topic2MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic2Name, topic2Partition)
+	topic3Partition1MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic3Name, topic3Partition1)
+	topic3Partition2MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic3Name, topic3Partition2)
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
 	kraftServerPropertiesPath := fmt.Sprintf(common.SERVER_PROPERTIES_FILE_PATH)

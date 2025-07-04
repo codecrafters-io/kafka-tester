@@ -5,6 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -31,12 +32,11 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}(broker)
 
 	request := kafkaapi.FetchRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        1,
-			ApiVersion:    16,
-			CorrelationId: correlationId,
-			ClientId:      "kafka-tester",
-		},
+		Header: builder.NewHeaderBuilder().
+			WithApiKey(1).
+			WithApiVersion(16).
+			WithCorrelationId(correlationId).
+			Build(),
 		Body: kafkaapi.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
