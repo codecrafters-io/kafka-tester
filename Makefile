@@ -30,7 +30,7 @@ test_fetch_with_kafka: build
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"gs0\",\"tester_log_prefix\":\"stage-F1\",\"title\":\"Stage #F1: API Version with Fetch Key\"}, {\"slug\":\"dh6\",\"tester_log_prefix\":\"stage-F2\",\"title\":\"Stage #F2: Fetch with no topics\"}, {\"slug\":\"hn6\",\"tester_log_prefix\":\"stage-F3\",\"title\":\"Stage #F3: Fetch with unknown topic\"}, {\"slug\":\"cm4\",\"tester_log_prefix\":\"stage-F4\",\"title\":\"Stage #F4: Fetch with empty topic\"}, {\"slug\":\"eg2\",\"tester_log_prefix\":\"stage-F5\",\"title\":\"Stage #F5: Single Fetch from Disk\"}, {\"slug\":\"fd8\",\"tester_log_prefix\":\"stage-F6\",\"title\":\"Stage #F6: Multi Fetch from Disk\"}]" \
 	dist/main.out
 
-test_pro
+test_produce_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"kt7\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: Produce with no topic\"}, {\"slug\":\"ot5\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with no topic\"}, {\"slug\":\"zm5\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce with no topic\"}, {\"slug\":\"am7\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce with no topic\"}, {\"slug\":\"wh8\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce with no topic\"}, {\"slug\":\"ej4\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce with no topic\"}, {\"slug\":\"xs0\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce with no topic\"}]" \
 	dist/main.out
