@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -24,9 +25,9 @@ func main() {
 	// request := getUnknownTopicRequest(correlationId)
 	// request := getWrongPartitionRequest(correlationId)
 	// request := getSuccessRequest(correlationId)
-	// request := getPR5Request(correlationId)
+	request := getPR5Request(correlationId)
 	// request := getPR6MultiPartitionRequest(correlationId)
-	request := getPR7Request(correlationId)
+	// request := getPR7Request(correlationId)
 
 	message := kafkaapi.EncodeProduceRequest(&request)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
@@ -227,11 +228,11 @@ func getSuccessRequest(correlationId int32) kafkaapi.ProduceRequest {
 		PartitionLeaderEpoch: -1,
 		Attributes:           0,
 		LastOffsetDelta:      0,
-		FirstTimestamp:       1718878078402,
-		MaxTimestamp:         1718878078402,
+		FirstTimestamp:       time.Now().UnixMilli(), // Time stamps need to be different else data gets overwritten
+		MaxTimestamp:         time.Now().UnixMilli(), // Time stamps need to be different else data gets overwritten
 		ProducerId:           0,
 		ProducerEpoch:        0,
-		BaseSequence:         0,
+		BaseSequence:         0, // Just need to update the base sequence for successive requests
 		Records:              []kafkaapi.Record{record},
 	}
 
@@ -296,11 +297,11 @@ func getPR5Request(correlationId int32) kafkaapi.ProduceRequest {
 		PartitionLeaderEpoch: -1,
 		Attributes:           0,
 		LastOffsetDelta:      2, // Number of records - 1 (3 records: 0, 1, 2)
-		FirstTimestamp:       1718878078402,
-		MaxTimestamp:         1718878078402,
+		FirstTimestamp:       time.Now().UnixMilli(),
+		MaxTimestamp:         time.Now().UnixMilli(),
 		ProducerId:           0,
 		ProducerEpoch:        0,
-		BaseSequence:         0,
+		BaseSequence:         3, // Count of records sent in previous requests
 		Records:              []kafkaapi.Record{record1, record2, record3},
 	}
 
