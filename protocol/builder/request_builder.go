@@ -8,26 +8,25 @@ import (
 
 type RequestBuilder struct {
 	requestType string
-	topicName   string
-	partitions  map[int32][]kafkaapi.RecordBatch
+	topics      map[string]map[int32][]kafkaapi.RecordBatch // topicName -> partitionIndex -> recordBatches
 }
 
 func NewRequestBuilder(requestType string) *RequestBuilder {
 	return &RequestBuilder{
 		requestType: requestType,
-		partitions:  make(map[int32][]kafkaapi.RecordBatch),
+		topics:      make(map[string]map[int32][]kafkaapi.RecordBatch),
 	}
 }
 
-func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
-	b.topicName = topicName
-	return b
-}
-
 // Use a RecordBatchBuilder maybe ?
-func (b *RequestBuilder) AddRecordBatchToPartition(partitionIndex int32, messages []string) *RequestBuilder {
+func (b *RequestBuilder) AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) *RequestBuilder {
 	if b.requestType != "produce" {
 		panic("CodeCrafters Internal Error: Record batch can only be added to a produce request")
+	}
+
+	// Initialize topic if it doesn't exist
+	if b.topics[topicName] == nil {
+		b.topics[topicName] = make(map[int32][]kafkaapi.RecordBatch)
 	}
 
 	records := make([]kafkaapi.Record, len(messages))
@@ -55,7 +54,7 @@ func (b *RequestBuilder) AddRecordBatchToPartition(partitionIndex int32, message
 		Records:         records,
 	}
 
-	b.partitions[partitionIndex] = append(b.partitions[partitionIndex], recordBatch)
+	b.topics[topicName][partitionIndex] = append(b.topics[topicName][partitionIndex], recordBatch)
 	return b
 }
 
@@ -71,20 +70,25 @@ func (b *RequestBuilder) Build() RequestBodyI {
 }
 
 func (b *RequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
-	if b.topicName == "" {
-		panic("CodeCrafters Internal Error: Topic name is required to build a produce request")
+	if len(b.topics) == 0 {
+		panic("CodeCrafters Internal Error: At least one topic with partitions and record batches is required")
 	}
 
-	if len(b.partitions) == 0 {
-		panic("CodeCrafters Internal Error: At least one partition with record batches is required")
-	}
+	// Convert topics map to slice
+	topicData := make([]kafkaapi.TopicData, 0, len(b.topics))
+	for topicName, partitions := range b.topics {
+		// Convert partitions map to slice for this topic
+		partitionData := make([]kafkaapi.PartitionData, 0, len(partitions))
+		for partitionIndex, recordBatches := range partitions {
+			partitionData = append(partitionData, kafkaapi.PartitionData{
+				Index:   partitionIndex,
+				Records: recordBatches,
+			})
+		}
 
-	// Convert partitions map to slice
-	partitionData := make([]kafkaapi.PartitionData, 0, len(b.partitions))
-	for partitionIndex, recordBatches := range b.partitions {
-		partitionData = append(partitionData, kafkaapi.PartitionData{
-			Index:   partitionIndex,
-			Records: recordBatches,
+		topicData = append(topicData, kafkaapi.TopicData{
+			Name:       topicName,
+			Partitions: partitionData,
 		})
 	}
 
@@ -92,12 +96,7 @@ func (b *RequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
 		TransactionalID: "", // Empty string for non-transactional
 		Acks:            1,  // Wait for leader acknowledgment
 		TimeoutMs:       0,
-		Topics: []kafkaapi.TopicData{
-			{
-				Name:       b.topicName,
-				Partitions: partitionData,
-			},
-		},
+		Topics:          topicData,
 	}
 
 	return requestBody
