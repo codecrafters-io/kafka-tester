@@ -50,13 +50,14 @@ func (b *RequestBuilder) WithRecordBatch(messages []string) *RequestBuilder {
 		BaseOffset:           0,
 		PartitionLeaderEpoch: -1,
 		Attributes:           0,
-		LastOffsetDelta:      0,
-		FirstTimestamp:       time.Now().UnixMilli(),
-		MaxTimestamp:         time.Now().UnixMilli(),
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records:              records,
+		// Number of records - 1
+		LastOffsetDelta: int32(len(messages) - 1),
+		FirstTimestamp:  time.Now().UnixMilli(),
+		MaxTimestamp:    time.Now().UnixMilli(),
+		ProducerId:      0,
+		ProducerEpoch:   0,
+		BaseSequence:    0,
+		Records:         records,
 	}
 
 	b.recordBatch = recordBatch
