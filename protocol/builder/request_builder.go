@@ -1,10 +1,15 @@
 package builder
 
-import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+import (
+	"time"
+
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+)
 
 type RequestBuilder struct {
 	requestType string
 	topicName   string
+	recordBatch kafkaapi.RecordBatch
 }
 
 func NewRequestBuilder(requestType string) *RequestBuilder {
@@ -15,6 +20,36 @@ func NewRequestBuilder(requestType string) *RequestBuilder {
 
 func (b *RequestBuilder) WithTopic(topicName string) *RequestBuilder {
 	b.topicName = topicName
+	return b
+}
+
+func (b *RequestBuilder) WithRecordBatch(message string) *RequestBuilder {
+	if b.requestType != "produce" {
+		panic("CodeCrafters Internal Error: Record batch can only be added to a produce request")
+	}
+
+	recordBatch := kafkaapi.RecordBatch{
+		BaseOffset:           0,
+		PartitionLeaderEpoch: -1,
+		Attributes:           0,
+		LastOffsetDelta:      0,
+		FirstTimestamp:       time.Now().UnixMilli(),
+		MaxTimestamp:         time.Now().UnixMilli(),
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
+		Records: []kafkaapi.Record{
+			{
+				Attributes:     0,
+				TimestampDelta: 0,
+				Key:            nil, // No key
+				Value:          []byte(message),
+				Headers:        []kafkaapi.RecordHeader{},
+			},
+		},
+	}
+
+	b.recordBatch = recordBatch
 	return b
 }
 
