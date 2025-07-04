@@ -1,14 +1,8 @@
 .history/
 .idea/
 dist/
-
-# misc files
-protocol/decoder/error-codes.md
-main.go
+docs/
 **/__pycache__/**
+
+# ryan's kafka implementation
 internal/test_helpers/ryan/**
-internal/assertion.go
-internal/assertions/topic_assertion.go
-protocol/api/spec.yml
-protocol/api/backupHex.sh
-docs/**
