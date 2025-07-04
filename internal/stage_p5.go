@@ -31,15 +31,16 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
-	existingTopic := common.TOPIC2_NAME
-	existingPartition := int32(0)
+	existingTopic := common.TOPIC3_NAME
+	partition1 := int32(0)
+	partition2 := int32(1)
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewRequestBuilder("produce").
 			WithTopic(existingTopic).
-			WithPartition(existingPartition).
-			WithRecordBatch([]string{"Hello from Ryan!", "Hello from Andy!", "Hello from Eddie!", "Hello from Paul!"}).
+			AddRecordBatchToPartition(partition1, []string{"Hello from Ryan!"}).
+			AddRecordBatchToPartition(partition2, []string{"Hello from Paul!"}).
 			BuildProduceRequest(),
 	}
 
