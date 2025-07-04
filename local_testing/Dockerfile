@@ -25,10 +25,10 @@ WORKDIR /app
 RUN wget --progress=dot:giga https://media.githubusercontent.com/media/codecrafters-io/build-your-own-kafka/main/kafka_2.13-4.0.0-SNAPSHOT.tgz
 RUN tar -xzf kafka_2.13-4.0.0-SNAPSHOT.tgz
 RUN sudo mv kafka_2.13-4.0.0-SNAPSHOT/ /usr/local/kafka-latest
-RUN export PATH=$PATH:/usr/local/kafka-latest/bin
+ENV PATH=$PATH:/usr/local/kafka-latest/bin
 RUN rm kafka_2.13-4.0.0-SNAPSHOT.tgz
 
-# Starting from Go 1.20, the go standard library is no loger compiled.
+# Starting from Go 1.20, the go standard library is no longer compiled.
 # Setting GODEBUG to "installgoroot=all" restores the old behavior
 RUN GODEBUG="installgoroot=all" go install std
 
