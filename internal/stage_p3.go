@@ -41,7 +41,7 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 		Body: builder.NewRequestBuilder("produce").
 			WithTopic(existingTopic).
 			WithPartition(unknownPartition).
-			WithRecordBatch("Hello from Ryan!").
+			WithRecordBatch([]string{"Hello from Ryan!"}).
 			BuildProduceRequest(),
 	}
 

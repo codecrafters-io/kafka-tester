@@ -29,10 +29,21 @@ func (b *RequestBuilder) WithPartition(partitionIndex int32) *RequestBuilder {
 	return b
 }
 
-func (b *RequestBuilder) WithRecordBatch(message string) *RequestBuilder {
+func (b *RequestBuilder) WithRecordBatch(messages []string) *RequestBuilder {
 	// Use a RecordBatchBuilder maybe ?
 	if b.requestType != "produce" {
 		panic("CodeCrafters Internal Error: Record batch can only be added to a produce request")
+	}
+
+	records := make([]kafkaapi.Record, len(messages))
+	for i, message := range messages {
+		records[i] = kafkaapi.Record{
+			Attributes:     0,
+			TimestampDelta: 0,
+			Key:            nil, // No key
+			Value:          []byte(message),
+			Headers:        []kafkaapi.RecordHeader{},
+		}
 	}
 
 	recordBatch := kafkaapi.RecordBatch{
@@ -45,15 +56,7 @@ func (b *RequestBuilder) WithRecordBatch(message string) *RequestBuilder {
 		ProducerId:           0,
 		ProducerEpoch:        0,
 		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil, // No key
-				Value:          []byte(message),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
+		Records:              records,
 	}
 
 	b.recordBatch = recordBatch
