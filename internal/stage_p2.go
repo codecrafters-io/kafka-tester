@@ -10,8 +10,6 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-const UNKNOWN_TOPIC = "test-topic"
-
 func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
@@ -33,11 +31,12 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
+	unknownTopic := "test-topic"
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewRequestBuilder("produce").
-			WithTopic(UNKNOWN_TOPIC).
+			WithTopic(unknownTopic).
 			WithRecordBatch("Hello from Ryan!").
 			BuildProduceRequest(),
 	}
@@ -66,6 +65,7 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
+	// TODO: Add response body assertions
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
 	return nil
 }
