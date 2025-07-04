@@ -41,6 +41,26 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testConcurrentRequests,
 		},
 		{
+			Slug:     "yk1",
+			TestFunc: testAPIVersionWithDescribeTopicPartitions,
+		},
+		{
+			Slug:     "vt6",
+			TestFunc: testDTPartitionWithUnknownTopic,
+		},
+		{
+			Slug:     "ea7",
+			TestFunc: testDTPartitionWithTopicAndSinglePartition,
+		},
+		{
+			Slug:     "ku4",
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
+		},
+		{
+			Slug:     "wq2",
+			TestFunc: testDTPartitionWithTopics,
+		},
+		{
 			Slug:     "gs0",
 			TestFunc: testAPIVersionWithFetchKey,
 		},
@@ -63,26 +83,6 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "fd8",
 			TestFunc: testFetchMultipleMessages,
-		},
-		{
-			Slug:     "yk1",
-			TestFunc: testAPIVersionWithDescribeTopicPartitions,
-		},
-		{
-			Slug:     "vt6",
-			TestFunc: testDTPartitionWithUnknownTopic,
-		},
-		{
-			Slug:     "ea7",
-			TestFunc: testDTPartitionWithTopicAndSinglePartition,
-		},
-		{
-			Slug:     "ku4",
-			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
-		},
-		{
-			Slug:     "wq2",
-			TestFunc: testDTPartitionWithTopics,
 		},
 	},
 }

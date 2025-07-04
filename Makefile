@@ -43,11 +43,7 @@ test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
 
 copy_course_file:
-	hub api \
-		repos/codecrafters-io/build-your-own-grep/contents/course-definition.yml \
-		| jq -r .content \
-		| base64 -d \
-		> internal/test_helpers/course_definition.yml
+	gh api repos/codecrafters-io/build-your-own-kafka/contents/course-definition.yml --jq '.content' | base64 -d > internal/test_helpers/course_definition.yml
 
 update_tester_utils:
 	go get -u github.com/codecrafters-io/tester-utils
