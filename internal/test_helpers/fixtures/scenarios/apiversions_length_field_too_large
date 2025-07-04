@@ -18,13 +18,15 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0000 | 00 00 00 17 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
 [33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [0m[91mInvalid response:[0m
+[33m[tester::#PV1] [0m[91m❌ Invalid response:[0m
 [33m[tester::#PV1] [0m[91mThe Message Size field does not match the length of the received payload.[0m
 [33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91m🔍 Mismatch:[0m
 [33m[tester::#PV1] [0m[91mMessage Size field:      23 (Bytes: 00 00 00 17)[0m
 [33m[tester::#PV1] [0m[91mReceived payload length: 19[0m
 [33m[tester::#PV1] [0m[91m[0m
-[33m[tester::#PV1] [0m[91m💡 Hint: The Message Size field should not count itself.[0m
+[33m[tester::#PV1] [0m[91m💡 Hint:[0m
+[33m[tester::#PV1] [0m[91mThe Message Size field should not count itself.[0m
 [33m[tester::#PV1] [0m[91m[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

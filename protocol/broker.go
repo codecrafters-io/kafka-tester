@@ -23,15 +23,19 @@ func (r *Response) CheckLength() error {
 	receivedPayloadLength := len(r.Payload)
 
 	if messageSizeField != receivedPayloadLength {
-		errorMessage := fmt.Sprintf(`Invalid response:
+		errorMessage := fmt.Sprintf(`❌ Invalid response:
 The Message Size field does not match the length of the received payload.
 
+🔍 Mismatch:
 Message Size field:      %d (Bytes: %02x %02x %02x %02x)
 Received payload length: %d
 `, messageSizeField, r.RawBytes[0], r.RawBytes[1], r.RawBytes[2], r.RawBytes[3], receivedPayloadLength)
 
 		if messageSizeField == 4+receivedPayloadLength {
-			errorMessage += "\n💡 Hint: The Message Size field should not count itself.\n"
+			errorMessage += `
+💡 Hint:
+The Message Size field should not count itself.
+`
 		}
 
 		return errors.New(errorMessage)
