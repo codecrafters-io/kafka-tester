@@ -51,13 +51,16 @@ func (r *RecordError) Decode(rd *decoder.RealDecoder, logger *logger.Logger, ind
 }
 
 type ProducePartitionResponse struct {
-	Index           int32
-	ErrorCode       int16
-	BaseOffset      int64
+	Index     int32
+	ErrorCode int16
+	// For invalid partitions, would be -1
+	BaseOffset      int64 // Number of existing logs in the partition's log file
 	LogAppendTimeMs int64
-	LogStartOffset  int64
-	RecordErrors    []RecordError
-	ErrorMessage    *string
+	// For fresh valid partitions (without compaction or truncation), would be 0
+	// For invalid partitions, would be -1
+	LogStartOffset int64 // Earliest available offset in the partition's log file
+	RecordErrors   []RecordError
+	ErrorMessage   *string
 }
 
 func (p *ProducePartitionResponse) Decode(rd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
