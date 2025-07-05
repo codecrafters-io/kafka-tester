@@ -35,6 +35,10 @@ type ApiVersionsRequestBuilderI interface {
 	Build() kafkaapi.ApiVersionsRequestBody
 }
 
+type ApiVersionsResponseBuilderI interface {
+	Build(correlationId int32) kafkaapi.ApiVersionsResponse
+}
+
 type ProduceRequestBuilderI interface {
 	AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) ProduceRequestBuilderI
 	Build() kafkaapi.ProduceRequestBody
