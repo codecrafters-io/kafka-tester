@@ -5,6 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -80,9 +81,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
-		CorrelationId: correlationId,
-	}
+	expectedResponseHeader := builder.NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
 		return err
 	}
