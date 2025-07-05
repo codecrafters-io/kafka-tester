@@ -1,6 +1,9 @@
 package internal
 
 import (
+	"fmt"
+	"reflect"
+
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -69,6 +72,20 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
 	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
+	expectedResponse := builder.NewProduceResponseBuilder().
+		AddTopicPartitionResponse(existingTopic, partition1, 0).
+		AddTopicPartitionResponse(existingTopic, partition2, 0).
+		BuildResponse(correlationId)
+
+	actualResponse := kafkaapi.ProduceResponse{
+		Header: *responseHeader,
+		Body:   *responseBody,
+	}
+
+	if !reflect.DeepEqual(actualResponse, expectedResponse) {
+		return fmt.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
+	}
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
+
 	return nil
 }
