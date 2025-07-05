@@ -50,8 +50,8 @@ func (rb *ProduceResponseBuilder) AddTopicPartitionResponse(
 	return rb
 }
 
-// BuildResponse builds the expected Produce response
-func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.ProduceResponse {
+// Build builds the expected Produce response
+func (rb *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResponse {
 	if len(rb.topics) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
@@ -79,9 +79,7 @@ func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.Pr
 	}
 
 	return kafkaapi.ProduceResponse{
-		Header: kafkaapi.ResponseHeader{
-			CorrelationId: correlationId,
-		},
+		Header: NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build(),
 		Body: kafkaapi.ProduceResponseBody{
 			Version:        11,
 			Responses:      topicResponses,
@@ -96,14 +94,14 @@ func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.Pr
 func BuildUnknownTopicResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, partitionIndex, 3).
-		BuildResponse(correlationId)
+		Build(correlationId)
 }
 
 // BuildSuccessfulResponse - Stage P4, P5: Error code 0 (success)
 func BuildSuccessfulResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, partitionIndex, 0).
-		BuildResponse(correlationId)
+		Build(correlationId)
 }
 
 // BuildMultiPartitionResponse - Stage P6: Multiple partitions for same topic
@@ -111,7 +109,7 @@ func BuildMultiPartitionResponse(topicName string, correlationId int32) kafkaapi
 	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, 0, 0).
 		AddTopicPartitionResponse(topicName, 1, 0).
-		BuildResponse(correlationId)
+		Build(correlationId)
 }
 
 // BuildMultiTopicResponse - Stage P7: Multiple topics
@@ -119,5 +117,5 @@ func BuildMultiTopicResponse(correlationId int32) kafkaapi.ProduceResponse {
 	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse("qux", 0, 0).
 		AddTopicPartitionResponse("quz", 1, 0).
-		BuildResponse(correlationId)
+		Build(correlationId)
 }
