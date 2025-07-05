@@ -5,8 +5,8 @@ import (
 )
 
 type ProduceResponseBuilder struct {
-	ResponseBuilder
-	topics map[string]map[int32]*PartitionResponseConfig
+	responseType string
+	topics       map[string]map[int32]*PartitionResponseConfig
 }
 
 type PartitionResponseConfig struct {
@@ -94,21 +94,21 @@ func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.Pr
 
 // BuildUnknownTopicResponse - Stage P1, P2, P3: Error code 3 (unknown topic)
 func BuildUnknownTopicResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
-	return NewResponseBuilder("produce").
+	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, partitionIndex, 3).
 		BuildResponse(correlationId)
 }
 
 // BuildSuccessfulResponse - Stage P4, P5: Error code 0 (success)
 func BuildSuccessfulResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
-	return NewResponseBuilder("produce").
+	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, partitionIndex, 0).
 		BuildResponse(correlationId)
 }
 
 // BuildMultiPartitionResponse - Stage P6: Multiple partitions for same topic
 func BuildMultiPartitionResponse(topicName string, correlationId int32) kafkaapi.ProduceResponse {
-	return NewResponseBuilder("produce").
+	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topicName, 0, 0).
 		AddTopicPartitionResponse(topicName, 1, 0).
 		BuildResponse(correlationId)
@@ -116,7 +116,7 @@ func BuildMultiPartitionResponse(topicName string, correlationId int32) kafkaapi
 
 // BuildMultiTopicResponse - Stage P7: Multiple topics
 func BuildMultiTopicResponse(correlationId int32) kafkaapi.ProduceResponse {
-	return NewResponseBuilder("produce").
+	return NewProduceResponseBuilder().
 		AddTopicPartitionResponse("qux", 0, 0).
 		AddTopicPartitionResponse("quz", 1, 0).
 		BuildResponse(correlationId)

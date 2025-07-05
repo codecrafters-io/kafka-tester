@@ -1,17 +1,20 @@
 package builder
 
-type ResponseBuilder struct {
-	responseType string
-}
-
-func NewResponseBuilder(responseType string) *ProduceResponseBuilder {
+func NewResponseBuilder(responseType string) ResponseBuilderI {
 	switch responseType {
 	case "produce":
 		return &ProduceResponseBuilder{
-			ResponseBuilder: ResponseBuilder{responseType: responseType},
-			topics:          make(map[string]map[int32]*PartitionResponseConfig),
+			responseType: responseType,
+			topics:       make(map[string]map[int32]*PartitionResponseConfig),
 		}
 	default:
 		panic("Unknown response type: " + responseType)
+	}
+}
+
+func NewProduceResponseBuilder() *ProduceResponseBuilder {
+	return &ProduceResponseBuilder{
+		responseType: "produce",
+		topics:       make(map[string]map[int32]*PartitionResponseConfig),
 	}
 }
