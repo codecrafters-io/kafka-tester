@@ -24,9 +24,11 @@ var (
 	TOPIC1_NAME       string
 	TOPIC2_NAME       string
 	TOPIC3_NAME       string
+	TOPIC4_NAME       string
 	TOPIC1_UUID       string
 	TOPIC2_UUID       string
 	TOPIC3_UUID       string
+	TOPIC4_UUID       string
 	TOPICX_UUID       string
 	TOPIC_UNKOWN_NAME string
 	TOPIC_UNKOWN_UUID string
@@ -34,6 +36,10 @@ var (
 	MESSAGE1 string
 	MESSAGE2 string
 	MESSAGE3 string
+
+	HELLO_MSG1 string
+	HELLO_MSG2 string
+	HELLO_MSG3 string
 )
 
 func init() {
@@ -54,10 +60,16 @@ func init() {
 	TOPIC_UNKOWN_UUID = "00000000-0000-0000-0000-000000000000"
 
 	all_messages := []string{"Hello World!", "Hello Earth!", "Hello Reverse Engineering!", "Hello Universe!", "Hello Kafka!", "Hello CodeCrafters!"}
+	all_hello_messages := []string{"Hello from Ryan!", "Hello from Paul!", "Hello from Eddie!", "Hello from Andy!", "Hello from Arpan!"}
 	messages := random.RandomElementsFromArray(all_messages, 3)
+	hello_messages := random.RandomElementsFromArray(all_hello_messages, 3)
 	MESSAGE1 = messages[0]
 	MESSAGE2 = messages[1]
 	MESSAGE3 = messages[2]
+
+	HELLO_MSG1 = hello_messages[0]
+	HELLO_MSG2 = hello_messages[1]
+	HELLO_MSG3 = hello_messages[2]
 }
 
 func getSortedValues[T string](values []T) []T {
