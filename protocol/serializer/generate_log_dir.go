@@ -16,6 +16,7 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	// Topic1 -> Message1 (Partitions=[0])
 	// Topic2 -> None (Partitions=[0])
 	// Topic3 -> Message2, Message3 (Partitions=[0, 1])
+	// Topic4 -> None (Partitions=[0, 1, 2])
 
 	// meta
 	nodeID := common.NODE_ID
@@ -41,6 +42,12 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	topic3Partition2 := 1
 	topic3ID, _ := uuidToBase64(common.TOPIC3_UUID)
 	topic3UUID := common.TOPIC3_UUID
+	topic4Name := common.TOPIC4_NAME
+	topic4Partition1 := 0
+	topic4Partition2 := 1
+	topic4Partition3 := 2
+	topic4ID, _ := uuidToBase64(common.TOPIC4_UUID)
+	topic4UUID := common.TOPIC4_UUID
 
 	basePath := common.LOG_DIR
 
@@ -53,6 +60,9 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	topic2MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic2Name, topic2Partition)
 	topic3Partition1MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic3Name, topic3Partition1)
 	topic3Partition2MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic3Name, topic3Partition2)
+	topic4Partition1MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic4Name, topic4Partition1)
+	topic4Partition2MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic4Name, topic4Partition2)
+	topic4Partition3MetadataDirectory := fmt.Sprintf("%s/%s-%d", basePath, topic4Name, topic4Partition3)
 	clusterMetadataDirectory := fmt.Sprintf("%s/__cluster_metadata-0", basePath)
 
 	kraftServerPropertiesPath := fmt.Sprintf(common.SERVER_PROPERTIES_FILE_PATH)
@@ -62,14 +72,20 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	topic2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic2MetadataDirectory)
 	topic3Partition1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3Partition1MetadataDirectory)
 	topic3Partition2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic3Partition2MetadataDirectory)
+	topic4Partition1MetadataPath := fmt.Sprintf("%s/partition.metadata", topic4Partition1MetadataDirectory)
+	topic4Partition2MetadataPath := fmt.Sprintf("%s/partition.metadata", topic4Partition2MetadataDirectory)
+	topic4Partition3MetadataPath := fmt.Sprintf("%s/partition.metadata", topic4Partition3MetadataDirectory)
 	clusterMetadataMetadataPath := fmt.Sprintf("%s/partition.metadata", clusterMetadataDirectory)
 	topic1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic1MetadataDirectory)
 	topic2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic2MetadataDirectory)
 	topic3Partition1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition1MetadataDirectory)
 	topic3Partition2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic3Partition2MetadataDirectory)
+	topic4Partition1DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic4Partition1MetadataDirectory)
+	topic4Partition2DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic4Partition2MetadataDirectory)
+	topic4Partition3DataFilePath := fmt.Sprintf("%s/00000000000000000000.log", topic4Partition3MetadataDirectory)
 	clusterMetadataDataFilePath := fmt.Sprintf("%s/00000000000000000000.log", clusterMetadataDirectory)
 
-	err = generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, clusterMetadataDirectory})
+	err = generateDirectories([]string{topic1MetadataDirectory, topic2MetadataDirectory, topic3Partition1MetadataDirectory, topic3Partition2MetadataDirectory, topic4Partition1MetadataDirectory, topic4Partition2MetadataDirectory, topic4Partition3MetadataDirectory, clusterMetadataDirectory})
 	if err != nil {
 		return fmt.Errorf("could not generate directories: %w", err)
 	}
@@ -112,6 +128,21 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 		if err != nil {
 			return err
 		}
+
+		err = writePartitionMetadata(topic4Partition1MetadataPath, 0, topic4ID, logger)
+		if err != nil {
+			return err
+		}
+
+		err = writePartitionMetadata(topic4Partition2MetadataPath, 0, topic4ID, logger)
+		if err != nil {
+			return err
+		}
+
+		err = writePartitionMetadata(topic4Partition3MetadataPath, 0, topic4ID, logger)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = writePartitionMetadata(clusterMetadataMetadataPath, 0, clusterMetadataTopicID, logger)
@@ -139,9 +170,24 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 		if err != nil {
 			return err
 		}
+
+		err = writeTopicData(topic4Partition1DataFilePath, []string{}, logger)
+		if err != nil {
+			return err
+		}
+
+		err = writeTopicData(topic4Partition2DataFilePath, []string{}, logger)
+		if err != nil {
+			return err
+		}
+
+		err = writeTopicData(topic4Partition3DataFilePath, []string{}, logger)
+		if err != nil {
+			return err
+		}
 	}
 
-	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, directoryUUID, logger)
+	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, topic4Name, topic4UUID, directoryUUID, logger)
 	if err != nil {
 		return err
 	}
