@@ -22,3 +22,7 @@ type ResponseBuilderI interface {
 	// TODO: ResponseI
 	BuildResponse(correlationId int32) kafkaapi.ProduceResponse
 }
+
+type ResponseHeaderBuilderI interface {
+	Build() kafkaapi.ResponseHeader
+}
