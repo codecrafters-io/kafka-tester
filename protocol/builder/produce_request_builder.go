@@ -13,7 +13,7 @@ type ProduceRequestBuilder struct {
 
 // TODO: Use a RecordBatchBuilder maybe ?
 
-func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) *ProduceRequestBuilder {
+func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) ProduceRequestBuilderI {
 	// Initialize topic if it doesn't exist
 	if b.topics[topicName] == nil {
 		b.topics[topicName] = make(map[int32][]kafkaapi.RecordBatch)

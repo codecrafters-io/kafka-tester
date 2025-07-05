@@ -18,6 +18,10 @@ func NewRequestBuilder(requestType string) RequestBuilderI {
 	}
 }
 
+func NewProduceRequestBuilder() ProduceRequestBuilderI {
+	return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}
+}
+
 func (b *RequestBuilder) Build() RequestBodyI {
 	switch b.requestType {
 	// case "produce":
