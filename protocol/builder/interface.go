@@ -28,5 +28,7 @@ type ResponseHeaderBuilderI interface {
 }
 
 type RequestBuilderI interface {
+	AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) *ProduceRequestBuilder
 	Build() RequestBodyI
+	BuildProduceRequest() kafkaapi.ProduceRequestBody
 }

@@ -80,3 +80,7 @@ func (b *ProduceRequestBuilder) Build() RequestBodyI {
 
 	return &requestBody
 }
+
+func (b *ProduceRequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
+	return *b.Build().(*kafkaapi.ProduceRequestBody)
+}

@@ -13,8 +13,6 @@ func NewRequestBuilder(requestType string) RequestBuilderI {
 	switch requestType {
 	case "produce":
 		return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}
-	// case "fetch":
-	// 	return NewFetchRequestBuilder()
 	default:
 		panic("Invalid request type")
 	}
