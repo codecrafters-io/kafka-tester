@@ -38,7 +38,7 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
-		Body: builder.NewRequestBuilder("produce").
+		Body: builder.NewProduceRequestBuilder().
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1, common.HELLO_MSG2, common.HELLO_MSG3}).
 			BuildProduceRequest(),
 	}
