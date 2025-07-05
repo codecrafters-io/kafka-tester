@@ -18,9 +18,13 @@ type KafkaRequestI interface {
 	GetBody() RequestBodyI
 }
 
-type ResponseBuilderI interface {
-	// TODO: ResponseI
-	Build(correlationId int32) kafkaapi.ProduceResponse
+// type ResponseBuilderI interface {
+// 	// TODO: ResponseI
+// 	Build(correlationId int32) kafkaapi.ProduceResponse
+// }
+
+type ApiVersionsResponseBuilderI interface {
+	Build(correlationId int32) kafkaapi.ApiVersionsResponse
 }
 
 type ResponseHeaderBuilderI interface {
@@ -33,10 +37,6 @@ type ResponseHeaderBuilderI interface {
 
 type ApiVersionsRequestBuilderI interface {
 	Build() kafkaapi.ApiVersionsRequestBody
-}
-
-type ApiVersionsResponseBuilderI interface {
-	Build(correlationId int32) kafkaapi.ApiVersionsResponse
 }
 
 type ProduceRequestBuilderI interface {

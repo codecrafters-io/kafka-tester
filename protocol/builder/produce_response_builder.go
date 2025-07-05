@@ -9,6 +9,13 @@ type ProduceResponseBuilder struct {
 	topics       map[string]map[int32]*PartitionResponseConfig
 }
 
+func NewProduceResponseBuilder() *ProduceResponseBuilder {
+	return &ProduceResponseBuilder{
+		responseType: "produce",
+		topics:       make(map[string]map[int32]*PartitionResponseConfig),
+	}
+}
+
 type PartitionResponseConfig struct {
 	ErrorCode       int16
 	BaseOffset      int64
