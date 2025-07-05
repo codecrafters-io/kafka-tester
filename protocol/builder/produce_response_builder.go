@@ -5,8 +5,8 @@ import (
 )
 
 type ProduceResponseBuilder struct {
-	responseType string
-	topics       map[string]map[int32]*PartitionResponseConfig
+	ResponseBuilder
+	topics map[string]map[int32]*PartitionResponseConfig
 }
 
 type PartitionResponseConfig struct {
@@ -50,7 +50,7 @@ func (rb *ProduceResponseBuilder) AddTopicPartitionResponse(
 	return rb
 }
 
-// BuildProduceResponse builds the expected Produce response
+// BuildResponse builds the expected Produce response
 func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.ProduceResponse {
 	if len(rb.topics) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
@@ -96,14 +96,14 @@ func (rb *ProduceResponseBuilder) BuildResponse(correlationId int32) kafkaapi.Pr
 func BuildUnknownTopicResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
 		AddTopicPartitionResponse(topicName, partitionIndex, 3).
-		BuildProduceResponse(correlationId)
+		BuildResponse(correlationId)
 }
 
 // BuildSuccessfulResponse - Stage P4, P5: Error code 0 (success)
 func BuildSuccessfulResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
 		AddTopicPartitionResponse(topicName, partitionIndex, 0).
-		BuildProduceResponse(correlationId)
+		BuildResponse(correlationId)
 }
 
 // BuildMultiPartitionResponse - Stage P6: Multiple partitions for same topic
@@ -111,7 +111,7 @@ func BuildMultiPartitionResponse(topicName string, correlationId int32) kafkaapi
 	return NewResponseBuilder("produce").
 		AddTopicPartitionResponse(topicName, 0, 0).
 		AddTopicPartitionResponse(topicName, 1, 0).
-		BuildProduceResponse(correlationId)
+		BuildResponse(correlationId)
 }
 
 // BuildMultiTopicResponse - Stage P7: Multiple topics
@@ -119,5 +119,5 @@ func BuildMultiTopicResponse(correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
 		AddTopicPartitionResponse("qux", 0, 0).
 		AddTopicPartitionResponse("quz", 1, 0).
-		BuildProduceResponse(correlationId)
+		BuildResponse(correlationId)
 }
