@@ -60,22 +60,10 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
-		Version:   3,
-		ErrorCode: 0,
-		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
-			{
-				ApiKey:     0,
-				MaxVersion: 11,
-				MinVersion: 0,
-			},
-			{
-				ApiKey:     18,
-				MaxVersion: 4,
-				MinVersion: 0,
-			},
-		},
-	}
+	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+		AddApiKey(0, 0, 11).
+		AddApiKey(18, 0, 4).
+		Build(correlationId)
 
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
 		return err
