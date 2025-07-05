@@ -32,11 +32,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}(broker)
 
 	request := kafkaapi.FetchRequest{
-		Header: builder.NewHeaderBuilder().
-			WithApiKey(1).
-			WithApiVersion(16).
-			WithCorrelationId(correlationId).
-			Build(),
+		Header: builder.NewHeaderBuilder().BuildFetchRequestHeader(correlationId),
 		Body: kafkaapi.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
