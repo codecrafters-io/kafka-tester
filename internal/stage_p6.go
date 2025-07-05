@@ -1,9 +1,9 @@
 package internal
 
 import (
-	"fmt"
 	"reflect"
 
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -65,12 +65,10 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	if responseHeader.CorrelationId != int32(correlationId) {
-		stageLogger.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+	expectedResponseHeader := builder.NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
 		return err
 	}
-	stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
-	stageLogger.Successf("✓ Produce request/response cycle completed!")
 
 	expectedResponse := builder.NewProduceResponseBuilder().
 		AddTopicPartitionResponse(existingTopic, partition1, 0).
@@ -83,9 +81,17 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	if !reflect.DeepEqual(actualResponse, expectedResponse) {
-		return fmt.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
+		stageLogger.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
 	}
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
+
+	assertion := assertions.NewProduceResponseAssertion(*responseBody, expectedResponse.Body, stageLogger)
+	err = assertion.AssertBody([]string{"ThrottleTimeMs"}).
+		AssertTopics([]string{"Name"}, []string{"ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"}).
+		Run()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
