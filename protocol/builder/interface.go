@@ -1,6 +1,9 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+import (
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+)
 
 type RequestHeaderI interface {
 	Encode(*encoder.RealEncoder)
@@ -13,4 +16,9 @@ type RequestBodyI interface {
 type KafkaRequestI interface {
 	GetHeader() RequestHeaderI
 	GetBody() RequestBodyI
+}
+
+type ResponseBuilderI interface {
+	// TODO: ResponseI
+	BuildResponse(correlationId int32) kafkaapi.ProduceResponse
 }
