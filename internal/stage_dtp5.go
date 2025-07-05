@@ -74,7 +74,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
 		return err
 	}
 

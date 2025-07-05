@@ -66,7 +66,7 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponseHeader := builder.NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
 		return err
 	}
 

@@ -82,7 +82,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	expectedResponseHeader := builder.NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, logger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
 		return err
 	}
 

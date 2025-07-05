@@ -70,7 +70,7 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		AddTopicPartitionResponse(existingTopic, partition2, 0).
 		Build(correlationId)
 
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header, stageLogger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
 		return err
 	}
 
