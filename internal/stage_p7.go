@@ -65,16 +65,16 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	expectedResponseHeader := builder.NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
-		return err
-	}
-
 	expectedResponse := builder.NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topic1, topic1Partition1, 0).
 		AddTopicPartitionResponse(topic2, topic2Partition1, 0).
 		Build(correlationId)
 
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header, stageLogger).AssertHeader([]string{"CorrelationId"}).Run(); err != nil {
+		return err
+	}
+
+	///////////////////////////////////////////////////////////////
 	actualResponse := kafkaapi.ProduceResponse{
 		Header: *responseHeader,
 		Body:   *responseBody,
@@ -84,6 +84,7 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		stageLogger.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
 	}
 	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
+	///////////////////////////////////////////////////////////////
 
 	assertion := assertions.NewProduceResponseAssertion(*responseBody, expectedResponse.Body, stageLogger)
 	err = assertion.AssertBody([]string{"ThrottleTimeMs"}).
