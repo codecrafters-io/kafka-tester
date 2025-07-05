@@ -11,6 +11,10 @@ type ProduceRequestBuilder struct {
 	topics map[string]map[int32][]kafkaapi.RecordBatch
 }
 
+func NewProduceRequestBuilder() ProduceRequestBuilderI {
+	return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}
+}
+
 // TODO: Use a RecordBatchBuilder maybe ?
 
 func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) ProduceRequestBuilderI {
@@ -80,4 +84,3 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequestBody {
 
 	return requestBody
 }
-
