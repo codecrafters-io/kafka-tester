@@ -26,3 +26,7 @@ type ResponseBuilderI interface {
 type ResponseHeaderBuilderI interface {
 	Build() kafkaapi.ResponseHeader
 }
+
+type RequestBuilderI interface {
+	Build() RequestBodyI
+}
