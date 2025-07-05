@@ -30,12 +30,19 @@ func (rb *ResponseBuilder) AddTopicPartitionResponse(
 	topicName string,
 	partitionIndex int32,
 	errorCode int16,
-	baseOffset int64,
-	logAppendTimeMs int64,
-	logStartOffset int64,
 ) *ResponseBuilder {
 	if rb.topics[topicName] == nil {
 		rb.topics[topicName] = make(map[int32]*PartitionResponseConfig)
+	}
+
+	logAppendTimeMs := int64(-1)
+	var baseOffset, logStartOffset int64
+	if errorCode == 0 {
+		baseOffset = int64(0)
+		logStartOffset = int64(0)
+	} else {
+		baseOffset = int64(-1)
+		logStartOffset = int64(-1)
 	}
 
 	rb.topics[topicName][partitionIndex] = &PartitionResponseConfig{
@@ -51,15 +58,14 @@ func (rb *ResponseBuilder) AddTopicPartitionResponse(
 }
 
 // BuildProduceResponse builds the expected Produce response
-func (rb *ResponseBuilder) BuildProduceResponse(correlationId int32, throttleTimeMs int32) kafkaapi.ProduceResponse {
+func (rb *ResponseBuilder) BuildProduceResponse(correlationId int32) kafkaapi.ProduceResponse {
 	if len(rb.topics) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
 
-	// Convert topics map to slice
 	topicResponses := make([]kafkaapi.ProduceTopicResponse, 0, len(rb.topics))
+
 	for topicName, partitions := range rb.topics {
-		// Convert partitions map to slice for this topic
 		partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitions))
 		for partitionIndex, config := range partitions {
 			partitionResponses = append(partitionResponses, kafkaapi.ProducePartitionResponse{
@@ -86,7 +92,7 @@ func (rb *ResponseBuilder) BuildProduceResponse(correlationId int32, throttleTim
 		Body: kafkaapi.ProduceResponseBody{
 			Version:        11,
 			Responses:      topicResponses,
-			ThrottleTimeMs: throttleTimeMs,
+			ThrottleTimeMs: 0,
 		},
 	}
 }
@@ -96,49 +102,29 @@ func (rb *ResponseBuilder) BuildProduceResponse(correlationId int32, throttleTim
 // BuildUnknownTopicResponse - Stage P1, P2, P3: Error code 3 (unknown topic)
 func BuildUnknownTopicResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
-		AddTopicPartitionResponse(topicName, partitionIndex, 3, -1, -1, -1).
-		BuildProduceResponse(correlationId, 0)
+		AddTopicPartitionResponse(topicName, partitionIndex, 3).
+		BuildProduceResponse(correlationId)
 }
 
 // BuildSuccessfulResponse - Stage P4, P5: Error code 0 (success)
-func BuildSuccessfulResponse(topicName string, partitionIndex int32, baseOffset int64, correlationId int32) kafkaapi.ProduceResponse {
+func BuildSuccessfulResponse(topicName string, partitionIndex int32, correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
-		AddTopicPartitionResponse(topicName, partitionIndex, 0, baseOffset, -1, 0).
-		BuildProduceResponse(correlationId, 0)
+		AddTopicPartitionResponse(topicName, partitionIndex, 0).
+		BuildProduceResponse(correlationId)
 }
 
 // BuildMultiPartitionResponse - Stage P6: Multiple partitions for same topic
-func BuildMultiPartitionResponse(topicName string, partition0BaseOffset int64, partition1BaseOffset int64, correlationId int32) kafkaapi.ProduceResponse {
+func BuildMultiPartitionResponse(topicName string, correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
-		AddTopicPartitionResponse(topicName, 0, 0, partition0BaseOffset, -1, 0).
-		AddTopicPartitionResponse(topicName, 1, 0, partition1BaseOffset, -1, 0).
-		BuildProduceResponse(correlationId, 0)
+		AddTopicPartitionResponse(topicName, 0, 0).
+		AddTopicPartitionResponse(topicName, 1, 0).
+		BuildProduceResponse(correlationId)
 }
 
 // BuildMultiTopicResponse - Stage P7: Multiple topics
 func BuildMultiTopicResponse(correlationId int32) kafkaapi.ProduceResponse {
 	return NewResponseBuilder("produce").
-		AddTopicPartitionResponse("qux", 0, 0, 0, -1, 0).
-		AddTopicPartitionResponse("quz", 1, 0, 0, -1, 0).
-		BuildProduceResponse(correlationId, 0)
-}
-
-// GetExpectedResponseForStage returns the expected response pattern for each test stage
-func GetExpectedResponseForStage(stage string, correlationId int32) kafkaapi.ProduceResponse {
-	switch stage {
-	case "P1", "P2":
-		return BuildUnknownTopicResponse("test-topic", 0, correlationId)
-	case "P3":
-		return BuildUnknownTopicResponse("quz", 4, correlationId)
-	case "P4":
-		return BuildSuccessfulResponse("quz", 1, 0, correlationId)
-	case "P5":
-		return BuildSuccessfulResponse("quz", 0, 2, correlationId)
-	case "P6":
-		return BuildMultiPartitionResponse("quz", 2, 0, correlationId)
-	case "P7":
-		return BuildMultiTopicResponse(correlationId)
-	default:
-		panic("Unknown stage: " + stage)
-	}
+		AddTopicPartitionResponse("qux", 0, 0).
+		AddTopicPartitionResponse("quz", 1, 0).
+		BuildProduceResponse(correlationId)
 }
