@@ -9,7 +9,7 @@ type ApiVersionsResponseBuilder struct {
 	throttleTimeMs int32
 }
 
-func NewApiVersionsResponseBuilder() ApiVersionsResponseBuilderI {
+func NewApiVersionsResponseBuilder() *ApiVersionsResponseBuilder {
 	return &ApiVersionsResponseBuilder{
 		version:        3,
 		errorCode:      0,
@@ -18,17 +18,17 @@ func NewApiVersionsResponseBuilder() ApiVersionsResponseBuilderI {
 	}
 }
 
-func (b *ApiVersionsResponseBuilder) WithVersion(version int16) ApiVersionsResponseBuilderI {
+func (b *ApiVersionsResponseBuilder) WithVersion(version int16) *ApiVersionsResponseBuilder {
 	b.version = version
 	return b
 }
 
-func (b *ApiVersionsResponseBuilder) WithErrorCode(errorCode int16) ApiVersionsResponseBuilderI {
+func (b *ApiVersionsResponseBuilder) WithErrorCode(errorCode int16) *ApiVersionsResponseBuilder {
 	b.errorCode = errorCode
 	return b
 }
 
-func (b *ApiVersionsResponseBuilder) AddApiKey(apiKey int16, minVersion int16, maxVersion int16) ApiVersionsResponseBuilderI {
+func (b *ApiVersionsResponseBuilder) AddApiKey(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
 	b.apiKeys = append(b.apiKeys, kafkaapi.ApiVersionsResponseKey{
 		Version:    b.version,
 		ApiKey:     apiKey,
@@ -38,7 +38,7 @@ func (b *ApiVersionsResponseBuilder) AddApiKey(apiKey int16, minVersion int16, m
 	return b
 }
 
-func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) ApiVersionsResponseBuilderI {
+func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *ApiVersionsResponseBuilder {
 	b.throttleTimeMs = throttleTimeMs
 	return b
 }
