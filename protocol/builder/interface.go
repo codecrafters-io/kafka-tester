@@ -20,7 +20,7 @@ type KafkaRequestI interface {
 
 type ResponseBuilderI interface {
 	// TODO: ResponseI
-	BuildResponse(correlationId int32) kafkaapi.ProduceResponse
+	Build(correlationId int32) kafkaapi.ProduceResponse
 }
 
 type ResponseHeaderBuilderI interface {

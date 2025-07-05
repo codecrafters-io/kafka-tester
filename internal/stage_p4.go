@@ -71,7 +71,7 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	expectedResponse := builder.NewProduceResponseBuilder().
 		AddTopicPartitionResponse(existingTopic, existingPartition, 0).
-		BuildResponse(correlationId)
+		Build(correlationId)
 
 	actualResponse := kafkaapi.ProduceResponse{
 		Header: *responseHeader,
