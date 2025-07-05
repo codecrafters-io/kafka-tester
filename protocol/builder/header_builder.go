@@ -47,3 +47,7 @@ func (b *HeaderBuilder) BuildProduceRequestHeader(correlationId int32) kafkaapi.
 func (b *HeaderBuilder) BuildFetchRequestHeader(correlationId int32) kafkaapi.RequestHeader {
 	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationId).Build()
 }
+
+func (b *HeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
+}
