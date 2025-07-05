@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -31,15 +32,16 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
-	existingTopic := common.TOPIC3_NAME
-	partition1 := int32(0)
-	partition2 := int32(1)
+	existingTopic := common.TOPIC4_NAME
+	partitions := random.RandomInts(0, 3, 2)
+	partition1 := int32(partitions[0])
+	partition2 := int32(partitions[1])
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewRequestBuilder("produce").
-			AddRecordBatchToTopicPartition(existingTopic, partition1, []string{"Hello from Ryan!"}).
-			AddRecordBatchToTopicPartition(existingTopic, partition2, []string{"Hello from Paul!"}).
+			AddRecordBatchToTopicPartition(existingTopic, partition1, []string{common.HELLO_MSG1}).
+			AddRecordBatchToTopicPartition(existingTopic, partition2, []string{common.HELLO_MSG2}).
 			BuildProduceRequest(),
 	}
 

@@ -33,13 +33,13 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
-	existingTopic := common.TOPIC3_NAME
-	unknownPartition := int32(random.RandomInt(3, 10))
+	existingTopic := common.TOPIC4_NAME
+	unknownPartition := int32(random.RandomInt(4, 10))
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewRequestBuilder("produce").
-			AddRecordBatchToTopicPartition(existingTopic, unknownPartition, []string{"Hello from Ryan!"}).
+			AddRecordBatchToTopicPartition(existingTopic, unknownPartition, []string{common.HELLO_MSG1}).
 			BuildProduceRequest(),
 	}
 
