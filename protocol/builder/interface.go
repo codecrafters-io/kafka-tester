@@ -23,6 +23,10 @@ type KafkaRequestI interface {
 // 	Build(correlationId int32) kafkaapi.ProduceResponse
 // }
 
+type ProduceResponseBuilderI interface {
+	Build(correlationId int32) kafkaapi.ProduceResponse
+}
+
 type ApiVersionsResponseBuilderI interface {
 	Build(correlationId int32) kafkaapi.ApiVersionsResponse
 }
