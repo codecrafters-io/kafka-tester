@@ -10,12 +10,12 @@ type ResponseBuilder struct {
 }
 
 type PartitionResponseConfig struct {
-	ErrorCode         int16
-	BaseOffset        int64
-	LogAppendTimeMs   int64
-	LogStartOffset    int64
-	RecordErrors      []kafkaapi.RecordError
-	ErrorMessage      *string
+	ErrorCode       int16
+	BaseOffset      int64
+	LogAppendTimeMs int64
+	LogStartOffset  int64
+	RecordErrors    []kafkaapi.RecordError
+	ErrorMessage    *string
 }
 
 func NewResponseBuilder(responseType string) *ResponseBuilder {
@@ -47,14 +47,6 @@ func (rb *ResponseBuilder) AddTopicPartitionResponse(
 		ErrorMessage:    nil,
 	}
 
-	return rb
-}
-
-// WithErrorMessage sets an error message for the last added partition
-func (rb *ResponseBuilder) WithErrorMessage(topicName string, partitionIndex int32, errorMessage string) *ResponseBuilder {
-	if rb.topics[topicName] != nil && rb.topics[topicName][partitionIndex] != nil {
-		rb.topics[topicName][partitionIndex].ErrorMessage = &errorMessage
-	}
 	return rb
 }
 
