@@ -34,12 +34,8 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	}(broker)
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: builder.NewHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
-		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               4,
-			ClientSoftwareName:    "kafka-cli",
-			ClientSoftwareVersion: "0.1",
-		},
+		Header: builder.NewRequestHeaderBuilder().NewApiVersionsRequestHeader(correlationId).Build(),
+		Body:   builder.NewApiVersionsRequestBuilder().Build(),
 	}
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)

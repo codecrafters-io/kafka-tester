@@ -36,7 +36,7 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 	existingTopic := common.TOPIC4_NAME
 	existingPartition := int32(random.RandomInt(0, 3))
 	request := kafkaapi.ProduceRequest{
-		Header: builder.NewHeaderBuilder().
+		Header: builder.NewRequestHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewProduceRequestBuilder().
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1, common.HELLO_MSG2, common.HELLO_MSG3}).
