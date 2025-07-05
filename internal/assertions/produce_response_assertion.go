@@ -2,6 +2,7 @@ package assertions
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
@@ -16,9 +17,13 @@ type ProduceResponseAssertion struct {
 }
 
 func NewProduceResponseAssertion(actualValue kafkaapi.ProduceResponseBody, expectedValue kafkaapi.ProduceResponseBody, logger *logger.Logger) *ProduceResponseAssertion {
+	// Sort both responses for consistent comparison
+	sortedActual := sortResponses(actualValue)
+	sortedExpected := sortResponses(expectedValue)
+
 	return &ProduceResponseAssertion{
-		ActualValue:   actualValue,
-		ExpectedValue: expectedValue,
+		ActualValue:   sortedActual,
+		ExpectedValue: sortedExpected,
 		logger:        logger,
 	}
 }
@@ -140,4 +145,30 @@ func (a ProduceResponseAssertion) Run() error {
 	// secondLevelFields (Topics): ["Name"]
 	// thirdLevelFields (Partitions): ["ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"]
 	return a.err
+}
+
+// sortResponses sorts topics by name and partitions within each topic by index
+func sortResponses(response kafkaapi.ProduceResponseBody) kafkaapi.ProduceResponseBody {
+	sortedResponse := response
+	sortedResponse.Responses = make([]kafkaapi.ProduceTopicResponse, len(response.Responses))
+	copy(sortedResponse.Responses, response.Responses)
+
+	// Sort topics by name
+	sort.Slice(sortedResponse.Responses, func(i, j int) bool {
+		return sortedResponse.Responses[i].Name < sortedResponse.Responses[j].Name
+	})
+
+	// Sort partitions within each topic by index
+	for i := range sortedResponse.Responses {
+		partitions := make([]kafkaapi.ProducePartitionResponse, len(sortedResponse.Responses[i].PartitionResponses))
+		copy(partitions, sortedResponse.Responses[i].PartitionResponses)
+
+		sort.Slice(partitions, func(x, y int) bool {
+			return partitions[x].Index < partitions[y].Index
+		})
+
+		sortedResponse.Responses[i].PartitionResponses = partitions
+	}
+
+	return sortedResponse
 }
