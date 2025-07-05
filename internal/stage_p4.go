@@ -40,7 +40,7 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewProduceRequestBuilder().
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1}).
-			BuildProduceRequest(),
+			Build(),
 	}
 
 	message := kafkaapi.EncodeProduceRequest(&request)
