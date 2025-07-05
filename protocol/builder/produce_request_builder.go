@@ -48,7 +48,7 @@ func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string,
 	return b
 }
 
-func (b *ProduceRequestBuilder) Build() RequestBodyI {
+func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequestBody {
 	if len(b.topics) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic with partitions and record batches is required")
 	}
@@ -78,9 +78,6 @@ func (b *ProduceRequestBuilder) Build() RequestBodyI {
 		Topics:          topicData,
 	}
 
-	return &requestBody
+	return requestBody
 }
 
-func (b *ProduceRequestBuilder) BuildProduceRequest() kafkaapi.ProduceRequestBody {
-	return *b.Build().(*kafkaapi.ProduceRequestBody)
-}

@@ -9,14 +9,13 @@ type RequestBuilder struct {
 	topics      map[string]map[int32][]kafkaapi.RecordBatch // topicName -> partitionIndex -> recordBatches
 }
 
-func NewRequestBuilder(requestType string) RequestBuilderI {
-	switch requestType {
-	case "produce":
-		return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}
-	default:
-		panic("Invalid request type")
-	}
-}
+// func NewRequestBuilder(requestType string) RequestBuilderI {
+// 	switch requestType {
+// 	// Remove produce from here since it has a different interface
+// 	default:
+// 		panic("Invalid request type")
+// 	}
+// }
 
 func NewProduceRequestBuilder() ProduceRequestBuilderI {
 	return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}

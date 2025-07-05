@@ -27,13 +27,11 @@ type ResponseHeaderBuilderI interface {
 	Build() kafkaapi.ResponseHeader
 }
 
-type RequestBuilderI interface {
-	Build() RequestBodyI
-}
+// type RequestBuilderI interface {
+// 	Build() RequestBodyI
+// }
 
-// Specific builder interfaces for different request types
 type ProduceRequestBuilderI interface {
-	RequestBuilderI
 	AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) ProduceRequestBuilderI
-	BuildProduceRequest() kafkaapi.ProduceRequestBody
+	Build() kafkaapi.ProduceRequestBody
 }
