@@ -3,9 +3,9 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -23,11 +23,11 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	correlationId := getRandomCorrelationId()
-	broker := protocol.NewBroker("localhost:9092")
+	broker := kafka_broker.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, logger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
+	defer func(broker *kafka_broker.Broker) {
 		_ = broker.Close()
 	}(broker)
 
@@ -65,15 +65,10 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	message := kafkaapi.EncodeFetchRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceive(&request, logger)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
 	if err != nil {

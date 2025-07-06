@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -25,11 +25,11 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 
-	broker := protocol.NewBroker("localhost:9092")
+	broker := kafka_broker.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
+	defer func(broker *kafka_broker.Broker) {
 		_ = broker.Close()
 	}(broker)
 
@@ -47,15 +47,10 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	message := kafkaapi.EncodeApiVersionsRequest(&request)
-	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceive(&request, stageLogger)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
 	if err != nil {

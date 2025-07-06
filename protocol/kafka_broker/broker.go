@@ -1,4 +1,4 @@
-package protocol
+package kafka_broker
 
 import (
 	"bytes"
@@ -9,6 +9,9 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/protocol"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -105,10 +108,38 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+	var apiType string
+	var apiVersion int16
+	var correlationId int32
+	var message []byte
+
+	switch req := request.(type) {
+	case *kafkaapi.ApiVersionsRequest:
+		apiType = "ApiVersions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	case *kafkaapi.DescribeTopicPartitionsRequest:
+		apiType = "DescribeTopicPartitions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	case *kafkaapi.FetchRequest:
+		apiType = "Fetch"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
+	}
+
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, protocol.GetFormattedHexdump(message))
+
 	response := Response{}
 
-	err := b.Send(request)
+	err := b.Send(message)
 	if err != nil {
 		return response, err
 	}
@@ -117,6 +148,8 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 	if err != nil {
 		return response, err
 	}
+
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, protocol.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }

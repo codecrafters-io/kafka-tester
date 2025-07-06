@@ -3,9 +3,9 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -23,11 +23,11 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	}
 
 	correlationId := getRandomCorrelationId()
-	broker := protocol.NewBroker("localhost:9092")
+	broker := kafka_broker.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
+	defer func(broker *kafka_broker.Broker) {
 		_ = broker.Close()
 	}(broker)
 
@@ -48,15 +48,10 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		},
 	}
 
-	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
-	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceive(&request, stageLogger)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
