@@ -116,6 +116,10 @@ func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Lo
 		message = req.Encode()
 		stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
 		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	case *kafkaapi.DescribeTopicPartitionsRequest:
+		message = req.Encode()
+		stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
+		stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	case *kafkaapi.FetchRequest:
 		message = req.Encode()
 		stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
@@ -143,6 +147,8 @@ func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Lo
 	switch request.(type) {
 	case *kafkaapi.ApiVersionsRequest:
 		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
+	case *kafkaapi.DescribeTopicPartitionsRequest:
+		stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 	case *kafkaapi.FetchRequest:
 		stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 	default:
