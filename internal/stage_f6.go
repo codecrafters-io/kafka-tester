@@ -3,7 +3,6 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
@@ -66,15 +65,10 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	message := kafkaapi.EncodeFetchRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceiveNew(&request, logger)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
 	if err != nil {
