@@ -61,11 +61,6 @@ func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactInt32Array(f.Partitions)
 }
 
-type FetchRequest struct {
-	Header RequestHeader
-	Body   FetchRequestBody
-}
-
 type FetchRequestBody struct {
 	MaxWaitMS         int32
 	MinBytes          int32
@@ -105,4 +100,20 @@ func (r *FetchRequestBody) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(r.RackID)
 
 	pe.PutEmptyTaggedFieldArray()
+}
+
+type FetchRequest struct {
+	Header RequestHeader
+	Body   FetchRequestBody
+}
+
+func (r *FetchRequest) Encode() []byte {
+	encoder := realencoder.RealEncoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.Header.EncodeV2(&encoder)
+	r.Body.Encode(&encoder)
+	message := encoder.PackMessage()
+
+	return message
 }
