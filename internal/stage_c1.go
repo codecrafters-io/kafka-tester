@@ -34,7 +34,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	}(broker)
 
 	requestCount := random.RandomInt(2, 5)
-	for i := 0; i < requestCount; i++ {
+	for i := range requestCount {
 		correlationId := getRandomCorrelationId()
 		request := kafkaapi.ApiVersionsRequest{
 			Header: kafkaapi.RequestHeader{
@@ -50,6 +50,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			},
 		}
 
+		stageLogger.Infof("Sending request %d of %d:", i+1, requestCount)
 		response, err := broker.SendAndReceiveNew(&request, stageLogger)
 		if err != nil {
 			return err
