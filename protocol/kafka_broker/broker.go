@@ -1,4 +1,4 @@
-package protocol
+package kafka_broker
 
 import (
 	"bytes"
@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -126,14 +125,14 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
 	var message []byte
 
-	switch req := request.(type) {
-	case *kafkaapi.ApiVersionsRequest:
-		message := kafkaapi.EncodeApiVersionsRequest(req)
-		stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
-	default:
-		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
-	}
+	// switch req := request.(type) {
+	// case *kafkaapi.ApiVersionsRequest:
+	// 	message := kafkaapi.EncodeApiVersionsRequest(req)
+	// 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
+	// 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+	// default:
+	// 	panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
+	// }
 
 	response := Response{}
 
