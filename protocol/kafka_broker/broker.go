@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/protocol"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -125,14 +127,18 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
 	var message []byte
 
-	// switch req := request.(type) {
-	// case *kafkaapi.ApiVersionsRequest:
-	// 	message := kafkaapi.EncodeApiVersionsRequest(req)
-	// 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
-	// 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
-	// default:
-	// 	panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
-	// }
+	switch req := request.(type) {
+	case *kafkaapi.ApiVersionsRequest:
+		message = req.Encode()
+		stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
+		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	case *kafkaapi.FetchRequest:
+		message = req.Encode()
+		stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
+		stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
+	}
 
 	response := Response{}
 
@@ -148,6 +154,15 @@ func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger
 	response, err = b.Receive()
 	if err != nil {
 		return response, err
+	}
+
+	switch request.(type) {
+	case *kafkaapi.ApiVersionsRequest:
+		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
+	case *kafkaapi.FetchRequest:
+		stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
 	}
 
 	return response, nil
