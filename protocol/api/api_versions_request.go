@@ -1,7 +1,6 @@
 package kafkaapi
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
@@ -14,7 +13,7 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r *ApiVersionsRequestBody) Encode(enc *encoder.RealEncoder) {
+func (r *ApiVersionsRequestBody) Encode(enc *realencoder.RealEncoder) {
 	if r.Version >= 3 {
 		enc.PutCompactString(r.ClientSoftwareName)
 		enc.PutCompactString(r.ClientSoftwareVersion)
