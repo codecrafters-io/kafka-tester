@@ -3,7 +3,6 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
@@ -57,15 +56,10 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	// response for topicResponses will be sorted by topic name
 	// bar -> baz -> foo
 
-	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
-	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceiveNew(&request, stageLogger)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
