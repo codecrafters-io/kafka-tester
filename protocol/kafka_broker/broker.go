@@ -108,22 +108,6 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
-	response := Response{}
-
-	err := b.Send(request)
-	if err != nil {
-		return response, err
-	}
-
-	response, err = b.Receive()
-	if err != nil {
-		return response, err
-	}
-
-	return response, nil
-}
-
 func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
 	var message []byte
 
