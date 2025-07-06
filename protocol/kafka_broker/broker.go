@@ -108,7 +108,7 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
 	var message []byte
 
 	switch req := request.(type) {

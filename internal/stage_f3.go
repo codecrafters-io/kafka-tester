@@ -68,7 +68,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	response, err := broker.SendAndReceiveNew(&request, stageLogger)
+	response, err := broker.SendAndReceive(&request, stageLogger)
 	if err != nil {
 		return err
 	}

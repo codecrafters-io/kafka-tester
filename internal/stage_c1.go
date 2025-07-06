@@ -51,7 +51,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 
 		stageLogger.Infof("Sending request %d of %d:", i+1, requestCount)
-		response, err := broker.SendAndReceiveNew(&request, stageLogger)
+		response, err := broker.SendAndReceive(&request, stageLogger)
 		if err != nil {
 			return err
 		}

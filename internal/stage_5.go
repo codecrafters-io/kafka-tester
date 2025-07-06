@@ -47,7 +47,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	response, err := broker.SendAndReceiveNew(&request, stageLogger)
+	response, err := broker.SendAndReceive(&request, stageLogger)
 	if err != nil {
 		return err
 	}

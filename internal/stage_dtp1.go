@@ -45,7 +45,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		},
 	}
 
-	response, err := broker.SendAndReceiveNew(&request, stageLogger)
+	response, err := broker.SendAndReceive(&request, stageLogger)
 	if err != nil {
 		return err
 	}

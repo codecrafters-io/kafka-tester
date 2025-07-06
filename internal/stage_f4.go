@@ -65,7 +65,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 		},
 	}
 
-	response, err := broker.SendAndReceiveNew(&request, logger)
+	response, err := broker.SendAndReceive(&request, logger)
 	if err != nil {
 		return err
 	}
