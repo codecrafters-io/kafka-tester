@@ -2,6 +2,7 @@ package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 type ApiVersionsRequestBody struct {
@@ -24,4 +25,15 @@ func (r *ApiVersionsRequestBody) Encode(enc *encoder.RealEncoder) {
 type ApiVersionsRequest struct {
 	Header RequestHeader
 	Body   ApiVersionsRequestBody
+}
+
+func (r *ApiVersionsRequest) Encode() []byte {
+	encoder := realencoder.RealEncoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.Header.EncodeV2(&encoder)
+	r.Body.Encode(&encoder)
+	messageBytes := encoder.PackMessage()
+
+	return messageBytes
 }
