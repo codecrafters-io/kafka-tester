@@ -3,7 +3,6 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -47,15 +46,10 @@ func testAPIVersionWithFetchKey(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	message := kafkaapi.EncodeApiVersionsRequest(&request)
-	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := broker.SendAndReceiveNew(&request, stageLogger)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
 	if err != nil {
