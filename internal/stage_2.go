@@ -52,7 +52,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
 	err = broker.Send(message)
 	if err != nil {
@@ -62,7 +62,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
+	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)

@@ -50,13 +50,13 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 
 	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
 	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
 	response, err := broker.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
