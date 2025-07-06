@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -109,6 +111,37 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 	response := Response{}
 
 	err := b.Send(request)
+	if err != nil {
+		return response, err
+	}
+
+	response, err = b.Receive()
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+func (b *Broker) SendAndReceiveNew(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+	var message []byte
+
+	switch req := request.(type) {
+	case *kafkaapi.ApiVersionsRequest:
+		message := kafkaapi.EncodeApiVersionsRequest(req)
+		stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
+		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
+	}
+
+	response := Response{}
+
+	if message == nil {
+		panic(fmt.Sprintf("CodeCrafters Internal Error: No message generated for request type: %T", request))
+	}
+
+	err := b.Send(message)
 	if err != nil {
 		return response, err
 	}
