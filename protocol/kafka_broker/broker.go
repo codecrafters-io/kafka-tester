@@ -109,30 +109,35 @@ func (b *Broker) Close() error {
 }
 
 func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+	var apiType string
+	var apiVersion int16
+	var correlationId int32
 	var message []byte
 
 	switch req := request.(type) {
 	case *kafkaapi.ApiVersionsRequest:
+		apiType = "ApiVersions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
 		message = req.Encode()
-		stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	case *kafkaapi.DescribeTopicPartitionsRequest:
+		apiType = "DescribeTopicPartitions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
 		message = req.Encode()
-		stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	case *kafkaapi.FetchRequest:
+		apiType = "Fetch"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
 		message = req.Encode()
-		stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", req.Header.ApiVersion, req.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 	default:
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
 	}
 
-	response := Response{}
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, protocol.GetFormattedHexdump(message))
 
-	if message == nil {
-		panic(fmt.Sprintf("CodeCrafters Internal Error: No message generated for request type: %T", request))
-	}
+	response := Response{}
 
 	err := b.Send(message)
 	if err != nil {
@@ -144,16 +149,7 @@ func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Lo
 		return response, err
 	}
 
-	switch request.(type) {
-	case *kafkaapi.ApiVersionsRequest:
-		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
-	case *kafkaapi.DescribeTopicPartitionsRequest:
-		stageLogger.Debugf("Hexdump of received \"DescribeTopicPartitions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
-	case *kafkaapi.FetchRequest:
-		stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
-	default:
-		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
-	}
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, protocol.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }
