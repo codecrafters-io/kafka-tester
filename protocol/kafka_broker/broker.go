@@ -210,7 +210,7 @@ func (b *Broker) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := b.conn.Read(lengthResponse)
+	_, err := io.ReadFull(b.conn, lengthResponse)
 	if err != nil {
 		return response, err
 	}
