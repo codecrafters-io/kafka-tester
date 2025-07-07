@@ -191,7 +191,7 @@ func (c *Client) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := c.conn.Read(lengthResponse)
+	_, err := io.ReadFull(c.conn, lengthResponse)
 	if err != nil {
 		return response, err
 	}
