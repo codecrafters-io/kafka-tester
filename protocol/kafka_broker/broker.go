@@ -1,20 +1,49 @@
-package protocol
+package kafka_broker
 
 import (
 	"bytes"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"io"
 	"net"
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/protocol"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type Response struct {
 	RawBytes []byte
 	Payload  []byte
+}
+
+func (r *Response) checkLength() error {
+	messageSizeField := int(binary.BigEndian.Uint32(r.RawBytes[:4]))
+	receivedPayloadLength := len(r.Payload)
+
+	if messageSizeField != receivedPayloadLength {
+		errorMessage := fmt.Sprintf(`❌ Invalid response:
+The Message Size field does not match the length of the received payload.
+
+🔍 Mismatch:
+Message Size field:      %d (Bytes: %02x %02x %02x %02x)
+Received payload length: %d
+`, messageSizeField, r.RawBytes[0], r.RawBytes[1], r.RawBytes[2], r.RawBytes[3], receivedPayloadLength)
+
+		if messageSizeField == 4+receivedPayloadLength {
+			errorMessage += `
+💡 Hint:
+The Message Size field should not count itself.
+`
+		}
+
+		return errors.New(errorMessage)
+	}
+	return nil
 }
 
 func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
@@ -105,16 +134,50 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (b *Broker) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+	var apiType string
+	var apiVersion int16
+	var correlationId int32
+	var message []byte
+
+	switch req := request.(type) {
+	case *kafkaapi.ApiVersionsRequest:
+		apiType = "ApiVersions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	case *kafkaapi.DescribeTopicPartitionsRequest:
+		apiType = "DescribeTopicPartitions"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	case *kafkaapi.FetchRequest:
+		apiType = "Fetch"
+		apiVersion = req.Header.ApiVersion
+		correlationId = req.Header.CorrelationId
+		message = req.Encode()
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown request type: %T", request))
+	}
+
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, protocol.GetFormattedHexdump(message))
+
 	response := Response{}
 
-	err := b.Send(request)
+	err := b.Send(message)
 	if err != nil {
 		return response, err
 	}
 
 	response, err = b.Receive()
 	if err != nil {
+		return response, err
+	}
+
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, protocol.GetFormattedHexdump(response.RawBytes))
+
+	if err := response.checkLength(); err != nil {
 		return response, err
 	}
 
@@ -147,7 +210,7 @@ func (b *Broker) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := b.conn.Read(lengthResponse)
+	_, err := io.ReadFull(b.conn, lengthResponse)
 	if err != nil {
 		return response, err
 	}
@@ -161,15 +224,21 @@ func (b *Broker) Receive() (Response, error) {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(b.conn, bodyResponse)
+	numBytesRead, err := io.ReadFull(b.conn, bodyResponse)
 
 	// Reset the read deadline
 	b.conn.SetReadDeadline(time.Time{})
+
+	bodyResponse = bodyResponse[:numBytesRead]
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
 			// This way we can surface a better error message to help w debugging
+			return response.createFrom(lengthResponse, bodyResponse), nil
+		}
+		if err == io.ErrUnexpectedEOF {
+			// Return the partial response when trying to read too much so EOF is reached
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
 		return response, fmt.Errorf("error reading from connection: %v", err)

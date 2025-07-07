@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
@@ -26,11 +27,11 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	}
 
 	clientCount := random.RandomInt(2, 4)
-	clients := make([]*protocol.Broker, clientCount)
+	clients := make([]*kafka_broker.Broker, clientCount)
 	correlationIds := make([]int32, clientCount)
 
 	for i := 0; i < clientCount; i++ {
-		clients[i] = protocol.NewBroker("localhost:9092")
+		clients[i] = kafka_broker.NewBroker("localhost:9092")
 		if err := clients[i].ConnectWithRetries(b, stageLogger); err != nil {
 			return err
 		}
@@ -62,7 +63,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 		message := kafkaapi.EncodeApiVersionsRequest(&request)
 		stageLogger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
 		err := client.Send(message)
 		if err != nil {
@@ -78,7 +79,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		if err != nil {
 			return err
 		}
-		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response.RawBytes))
 
 		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
 		if err != nil {

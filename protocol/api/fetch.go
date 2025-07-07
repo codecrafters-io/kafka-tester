@@ -2,23 +2,10 @@ package kafkaapi
 
 import (
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
-
-func EncodeFetchRequest(request *FetchRequest) []byte {
-	encoder := realencoder.RealEncoder{}
-	// bytes.Buffer{}
-	encoder.Init(make([]byte, 4096))
-
-	request.Header.EncodeV2(&encoder)
-	request.Body.Encode(&encoder)
-	message := encoder.PackMessage()
-
-	return message
-}
 
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := realdecoder.RealDecoder{}
