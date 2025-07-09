@@ -107,8 +107,8 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody().
-		ExcludeRecordBatchFields("BaseOffset", "BatchLength").
-		ExcludeRecordFields("Value").
+		SkipRecordBatchFields().
+		SkipRecordFields().
 		AssertTopics().
 		Run()
 }
