@@ -104,8 +104,8 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		AssertBody().
-		ExcludeRecordBatchFields("BaseOffset", "BatchLength").
-		ExcludeRecordFields("Value").
+		SkipRecordBatchFields().
+		SkipRecordFields().
 		AssertTopics().
 		Run()
 }
