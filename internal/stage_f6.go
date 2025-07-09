@@ -155,8 +155,9 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
+		AssertBody().
+		ExcludeRecordBatchFields("BatchLength").
+		AssertTopics().
 		AssertRecordBatchBytes().
 		Run()
 }
