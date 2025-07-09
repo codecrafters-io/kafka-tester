@@ -41,7 +41,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody(excludedFields ...
 }
 
 // AssertTopics asserts the contents of the topics array in the response body
-// Fields asserted by default: ErrorCode, Name, TopicID, TopicAuthorizedOperations
+// Fields asserted by default: ErrorCode, Name, TopicID
 func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
@@ -131,7 +131,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(excludedFiel
 		}
 	}
 
-	return nil
+	return a
 }
 
 // AssertNoPartitions asserts that for each topicResponse in the response body,
@@ -150,7 +150,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertNoPartitions() *Describ
 		}
 	}
 
-	return nil
+	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) Run() error {
