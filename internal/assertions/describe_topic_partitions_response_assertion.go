@@ -81,15 +81,6 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(exc
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
-		// We are not asserting this field for now, instead of excluding it, we have commented it out
-		// if !Contains(excludedFields, "TopicAuthorizedOperations") {
-		// 	if actualTopic.TopicAuthorizedOperations != expectedTopic.TopicAuthorizedOperations {
-		// 		a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Topic Authorized Operations", i), expectedTopic.TopicAuthorizedOperations, actualTopic.TopicAuthorizedOperations)
-		// 		return a
-		// 	}
-		// 	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
-		// }
-
 		expectedPartitions := expectedTopic.Partitions
 		actualPartitions := actualTopic.Partitions
 		if !Contains(excludedFields, "Partitions.Length") {
