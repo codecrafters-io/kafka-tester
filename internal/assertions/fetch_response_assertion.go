@@ -26,6 +26,9 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 	}
 }
 
+// TODO: Plan for how to handle 4 levels of nested excluded fields
+// DescribeTopicPartitionsAssertion had only 2 levels, so we could use
+// elements like: Partitions.ErrorCode, here it won't be feasible.
 func (a *FetchResponseAssertion) AssertBody(fields []string) *FetchResponseAssertion {
 	if a.err != nil {
 		return a
