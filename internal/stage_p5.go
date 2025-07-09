@@ -70,6 +70,7 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
+	// TODO: Assert entire struct by default
 	bodyAssertion := assertions.NewProduceResponseAssertion(*responseBody, expectedResponse.Body, stageLogger)
 	err = bodyAssertion.AssertBody([]string{"ThrottleTimeMs"}).
 		AssertTopics([]string{"Name"}, []string{"ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"}).
