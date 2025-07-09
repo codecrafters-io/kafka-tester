@@ -59,6 +59,7 @@ func (a *ApiVersionsResponseAssertion) AssertBody(excludedFields ...string) *Api
 }
 
 // AssertAPIKeyArray asserts the API keys array in the response
+// Fields asserted by default: ApiKeysArray.length, ApiKeyArrayElement.MinVersion, ApiKeyArrayElement.MaxVersion
 func (a *ApiVersionsResponseAssertion) AssertAPIKeyArray() *ApiVersionsResponseAssertion {
 	if a.err != nil {
 		return a
