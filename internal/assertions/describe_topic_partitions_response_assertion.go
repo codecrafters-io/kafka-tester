@@ -97,13 +97,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(exc
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Partitions Length: %d", i, len(actualPartitions))
 		}
 
 		for j, actualPartition := range actualPartitions {
 			expectedPartition := expectedPartitions[j]
 
-			if !Contains(excludedFields, "Partition.ErrorCode") {
+			if !Contains(excludedFields, "Partitions.ErrorCode") {
 				if actualPartition.ErrorCode != expectedPartition.ErrorCode {
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 					return a
@@ -111,7 +110,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(exc
 				protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 			}
 
-			if !Contains(excludedFields, "Partition.PartitionIndex") {
+			if !Contains(excludedFields, "Partitions.PartitionIndex") {
 				if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 					return a
@@ -122,6 +121,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(exc
 	}
 
 	return a
+}
+
+func (a *DescribeTopicPartitionsResponseAssertion) AssertOnlyTopics(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
+	excludedFieldsAndPartitions := append(excludedFields, "Partitions.Length", "Partitions.ErrorCode", "Partitions.PartitionIndex")
+	return a.AssertTopicsAndPartitions(excludedFieldsAndPartitions...)
 }
 
 // AssertNoPartitions asserts that for each topicResponse in the response body,
