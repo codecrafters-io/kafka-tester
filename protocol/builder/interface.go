@@ -6,3 +6,7 @@ type RequestI interface {
 	Encode() []byte
 	GetHeader() kafkaapi.RequestHeader
 }
+
+type Assertion interface {
+	Run() error
+}
