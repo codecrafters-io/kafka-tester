@@ -22,12 +22,14 @@ func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedVal
 	}
 }
 
-func (a *ResponseHeaderAssertion) AssertHeader(fields []string) *ResponseHeaderAssertion {
+// AssertHeader asserts the contents of the response header
+// Fields asserted by default: CorrelationId
+func (a *ResponseHeaderAssertion) AssertHeader(excludedFields []string) *ResponseHeaderAssertion {
 	if a.err != nil {
 		return a
 	}
 
-	if Contains(fields, "CorrelationId") {
+	if !Contains(excludedFields, "CorrelationId") {
 		if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
 			return a
