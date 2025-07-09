@@ -24,7 +24,7 @@ func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedVal
 
 // AssertHeader asserts the contents of the response header
 // Fields asserted by default: CorrelationId
-func (a *ResponseHeaderAssertion) AssertHeader(excludedFields []string) *ResponseHeaderAssertion {
+func (a *ResponseHeaderAssertion) AssertHeader(excludedFields ...string) *ResponseHeaderAssertion {
 	if a.err != nil {
 		return a
 	}
