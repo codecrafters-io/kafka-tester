@@ -145,7 +145,8 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, stageLogger).
-		AssertBody([]string{"ThrottleTimeMs"}).
-		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{"ErrorCode", "PartitionIndex"}).
+		AssertBody().
+		AssertTopics().
+		AssertPartitions().
 		Run()
 }
