@@ -133,7 +133,7 @@ func (a *FetchResponseAssertion) AssertTopics() *FetchResponseAssertion {
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
 		return a
 	}
-	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses Length: %v", len(a.ActualValue.TopicResponses))
+	// protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses Length: %v", len(a.ActualValue.TopicResponses))
 
 	for i, actualTopic := range a.ActualValue.TopicResponses {
 		expectedTopic := a.ExpectedValue.TopicResponses[i]
@@ -167,7 +167,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 		return a
 	}
-	protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponses Length: %v", len(actualPartitions))
+	// protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponses Length: %v", len(actualPartitions))
 
 	for j, actualPartition := range actualPartitions {
 		expectedPartition := expectedPartitions[j]
@@ -214,7 +214,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "recordBatches.length", len(expectedRecordBatches), len(actualRecordBatches))
 		return a
 	}
-	protocol.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatches Length: %v", len(actualRecordBatches))
+	// protocol.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatches Length: %v", len(actualRecordBatches))
 
 	for k, actualRecordBatch := range actualRecordBatches {
 		expectedRecordBatch := expectedRecordBatches[k]
@@ -257,7 +257,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "records.length", len(expectedRecords), len(actualRecords))
 		return a
 	}
-	protocol.SuccessLogWithIndentation(a.logger, 4, "✓ Records Length: %v", len(actualRecords))
+	// protocol.SuccessLogWithIndentation(a.logger, 4, "✓ Records Length: %v", len(actualRecords))
 
 	for l, actualRecord := range actualRecords {
 		expectedRecord := expectedRecords[l]
