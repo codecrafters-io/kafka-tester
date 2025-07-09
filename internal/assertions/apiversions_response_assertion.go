@@ -36,9 +36,8 @@ func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, e
 }
 
 // AssertBody asserts the contents of the response body
-// Fields asserted by default: ErrorCode, ApiKeysArray
-// If skipApiVersionsResponseKeyArray is true, ApiKeysArray will not be asserted
-func (a *ApiVersionsResponseAssertion) AssertBody(excludedFields []string, skipApiVersionsResponseKeyArray bool) *ApiVersionsResponseAssertion {
+// Fields asserted by default: ErrorCode
+func (a *ApiVersionsResponseAssertion) AssertBody(excludedFields ...string) *ApiVersionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -56,45 +55,52 @@ func (a *ApiVersionsResponseAssertion) AssertBody(excludedFields []string, skipA
 		a.logger.Successf("✓ Error code: %d (%s)", a.ActualValue.ErrorCode, errorCodeName)
 	}
 
-	if !skipApiVersionsResponseKeyArray {
-		if len(a.ActualValue.ApiKeys) < len(a.ExpectedValue.ApiKeys) {
-			a.err = fmt.Errorf("Expected API keys array to include atleast %d keys, got %d", len(a.ExpectedValue.ApiKeys), len(a.ActualValue.ApiKeys))
-			return a
-		}
-		a.logger.Successf("✓ API keys array length: %d", len(a.ActualValue.ApiKeys))
+	return a
+}
 
-		for _, expectedApiVersionKey := range a.ExpectedValue.ApiKeys {
-			found := false
-			for _, actualApiVersionKey := range a.ActualValue.ApiKeys {
-				if actualApiVersionKey.ApiKey == expectedApiVersionKey.ApiKey {
-					found = true
-					if actualApiVersionKey.MinVersion > expectedApiVersionKey.MaxVersion {
-						a.err = fmt.Errorf("Expected min version %v to be < max version %v for %s", actualApiVersionKey.MinVersion, expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
-						return a
-					}
+// AssertAPIKeyArray asserts the API keys array in the response
+func (a *ApiVersionsResponseAssertion) AssertAPIKeyArray() *ApiVersionsResponseAssertion {
+	if a.err != nil {
+		return a
+	}
 
-					// anything above or equal to expected minVersion is fine
-					if actualApiVersionKey.MinVersion < expectedApiVersionKey.MinVersion {
-						a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
-						return a
-					}
-					a.logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
+	if len(a.ActualValue.ApiKeys) < len(a.ExpectedValue.ApiKeys) {
+		a.err = fmt.Errorf("Expected API keys array to include atleast %d keys, got %d", len(a.ExpectedValue.ApiKeys), len(a.ActualValue.ApiKeys))
+		return a
+	}
+	a.logger.Successf("✓ API keys array length: %d", len(a.ActualValue.ApiKeys))
 
-					if actualApiVersionKey.MaxVersion < expectedApiVersionKey.MaxVersion {
-						a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
-						return a
-					}
-					a.logger.Successf("✓ MaxVersion for %s is >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion)
+	for _, expectedApiVersionKey := range a.ExpectedValue.ApiKeys {
+		found := false
+		for _, actualApiVersionKey := range a.ActualValue.ApiKeys {
+			if actualApiVersionKey.ApiKey == expectedApiVersionKey.ApiKey {
+				found = true
+				if actualApiVersionKey.MinVersion > expectedApiVersionKey.MaxVersion {
+					a.err = fmt.Errorf("Expected min version %v to be < max version %v for %s", actualApiVersionKey.MinVersion, expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
+					return a
 				}
+
+				// anything above or equal to expected minVersion is fine
+				if actualApiVersionKey.MinVersion < expectedApiVersionKey.MinVersion {
+					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
+					return a
+				}
+				a.logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
+
+				if actualApiVersionKey.MaxVersion < expectedApiVersionKey.MaxVersion {
+					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
+					return a
+				}
+				a.logger.Successf("✓ MaxVersion for %s is >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion)
 			}
-			if !found {
-				a.err = fmt.Errorf("Expected APIVersionsResponseKey array to include API key %d (%s)", expectedApiVersionKey.ApiKey, apiKeyNames[expectedApiVersionKey.ApiKey])
-				return a
-			}
+		}
+		if !found {
+			a.err = fmt.Errorf("Expected APIVersionsResponseKey array to include API key %d (%s)", expectedApiVersionKey.ApiKey, apiKeyNames[expectedApiVersionKey.ApiKey])
+			return a
 		}
 	}
 
-	return nil
+	return a
 }
 
 func (a *ApiVersionsResponseAssertion) Run() error {
