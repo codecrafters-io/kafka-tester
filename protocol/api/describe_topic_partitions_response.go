@@ -11,6 +11,7 @@ import (
 )
 
 // TODO: Type should be DescribeTopicPartitionsResponseBody
+
 type DescribeTopicPartitionsResponse struct {
 	ThrottleTimeMs int32
 	Topics         []DescribeTopicPartitionsResponseTopic // TODO: Private, requires builder interface
