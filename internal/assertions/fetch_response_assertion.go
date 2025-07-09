@@ -250,7 +250,7 @@ func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertio
 		result := bytes_diff_visualizer.VisualizeByteDiff(expectedRecordBatchBytes, actualRecordBatchBytes)
 		a.logger.Errorf("")
 		for _, line := range result {
-			a.logger.Errorf(line)
+			a.logger.Errorf("%s", line)
 		}
 		a.logger.Errorf("")
 		a.err = fmt.Errorf("RecordBatch bytes do not match with the contents on disk")

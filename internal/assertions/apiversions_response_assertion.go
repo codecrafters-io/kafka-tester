@@ -17,6 +17,7 @@ func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, e
 }
 
 var apiKeyNames = map[int16]string{
+	0:  "PRODUCE",
 	1:  "FETCH",
 	18: "API_VERSIONS",
 	75: "DESCRIBE_TOPIC_PARTITIONS",

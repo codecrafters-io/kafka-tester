@@ -5,14 +5,15 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.TestCaseHarness) error {
+func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), false)
 	if err != nil {
 		return err
 	}
@@ -23,6 +24,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}
 
 	correlationId := getRandomCorrelationId()
+
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
@@ -32,17 +34,8 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}(broker)
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        18,
-			ApiVersion:    4,
-			CorrelationId: correlationId,
-			ClientId:      "kafka-cli",
-		},
-		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               4,
-			ClientSoftwareName:    "kafka-cli",
-			ClientSoftwareVersion: "0.1",
-		},
+		Header: builder.NewRequestHeaderBuilder().NewApiVersionsRequestHeader(correlationId).Build(),
+		Body:   builder.NewApiVersionsRequestBuilder().Build(),
 	}
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
@@ -67,22 +60,10 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		return err
 	}
 
-	expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
-		Version:   3,
-		ErrorCode: 0,
-		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
-			{
-				ApiKey:     18,
-				MaxVersion: 4,
-				MinVersion: 0,
-			},
-			{
-				ApiKey:     75,
-				MaxVersion: 0,
-				MinVersion: 0,
-			},
-		},
-	}
+	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+		AddApiKey(0, 0, 11).
+		AddApiKey(18, 0, 4).
+		Build(correlationId)
 
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
 		return err
