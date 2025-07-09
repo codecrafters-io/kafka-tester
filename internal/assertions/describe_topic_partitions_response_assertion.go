@@ -40,12 +40,29 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody(excludedFields ...
 	return a
 }
 
+// AssertOnlyTopics asserts only the contents of the topics array in the response body
+// Fields asserted by default: ErrorCode, Name, TopicID,
+func (a *DescribeTopicPartitionsResponseAssertion) AssertOnlyTopics(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
+	return a.assertTopicsAndPartitions(true, excludedFields...)
+}
+
 // AssertTopicsAndPartitions asserts the contents of the topics array in the response body
+// and the partitions array in the topic response
+// Fields asserted by default: ErrorCode, Name, TopicID,
+// Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
+func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
+	return a.assertTopicsAndPartitions(false, excludedFields...)
+}
+
+// assertTopicsAndPartitions is the internal function that is called by
+// AssertOnlyTopics and AssertTopicsAndPartitions
+// It asserts the contents of the topics array in the response body
+// and the partitions array in the topic response (if skipPartitionsAssertion is false)
 // Fields asserted by default: ErrorCode, Name, TopicID,
 // Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
 // As we want partition assertions logs adjacent to the topics they are in,
 // we can't separate AssertPartitions out
-func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
+func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions(skipPartitionsAssertion bool, excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -81,57 +98,35 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions(exc
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
-		expectedPartitions := expectedTopic.Partitions
-		actualPartitions := actualTopic.Partitions
-		if !Contains(excludedFields, "Partitions.Length") {
-			if len(actualPartitions) != len(expectedPartitions) {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
-				return a
-			}
-		}
-
-		for j, actualPartition := range actualPartitions {
-			expectedPartition := expectedPartitions[j]
-
-			if !Contains(excludedFields, "Partitions.ErrorCode") {
-				if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
+		if !skipPartitionsAssertion {
+			expectedPartitions := expectedTopic.Partitions
+			actualPartitions := actualTopic.Partitions
+			if !Contains(excludedFields, "Partitions.Length") {
+				if len(actualPartitions) != len(expectedPartitions) {
+					a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 					return a
 				}
-				protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 			}
 
-			if !Contains(excludedFields, "Partitions.PartitionIndex") {
-				if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
-					return a
+			for j, actualPartition := range actualPartitions {
+				expectedPartition := expectedPartitions[j]
+
+				if !Contains(excludedFields, "Partitions.ErrorCode") {
+					if actualPartition.ErrorCode != expectedPartition.ErrorCode {
+						a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
+						return a
+					}
+					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 				}
-				protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+
+				if !Contains(excludedFields, "Partitions.PartitionIndex") {
+					if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
+						a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+						return a
+					}
+					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+				}
 			}
-		}
-	}
-
-	return a
-}
-
-func (a *DescribeTopicPartitionsResponseAssertion) AssertOnlyTopics(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
-	excludedFieldsAndPartitions := append(excludedFields, "Partitions.Length", "Partitions.ErrorCode", "Partitions.PartitionIndex")
-	return a.AssertTopicsAndPartitions(excludedFieldsAndPartitions...)
-}
-
-// AssertNoPartitions asserts that for each topicResponse in the response body,
-// The partitions array is empty
-func (a *DescribeTopicPartitionsResponseAssertion) AssertNoPartitions() *DescribeTopicPartitionsResponseAssertion {
-	if a.err != nil {
-		return a
-	}
-
-	for _, actualTopic := range a.ActualValue.Topics {
-		actualPartitions := actualTopic.Partitions
-
-		if len(actualPartitions) != 0 {
-			a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
-			return a
 		}
 	}
 
