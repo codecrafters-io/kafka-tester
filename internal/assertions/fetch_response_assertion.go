@@ -29,10 +29,9 @@ type FetchResponseAssertion struct {
 
 func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
-		ActualValue:   actualValue,
-		ExpectedValue: expectedValue,
-		logger:        logger,
-		// All fields start as empty slices (assert all fields by default)
+		ActualValue:               actualValue,
+		ExpectedValue:             expectedValue,
+		logger:                    logger,
 		excludedBodyFields:        []string{},
 		excludedTopicFields:       []string{},
 		excludedPartitionFields:   []string{},
@@ -66,8 +65,6 @@ func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchRes
 	return a
 }
 
-// Skip methods to disable assertion of entire levels
-
 func (a *FetchResponseAssertion) SkipPartitionFields() *FetchResponseAssertion {
 	a.excludedPartitionFields = nil
 	return a
@@ -83,6 +80,8 @@ func (a *FetchResponseAssertion) SkipRecordFields() *FetchResponseAssertion {
 	return a
 }
 
+// AssertBody asserts the contents of the FetchResponse body
+// Fields asserted by default: ThrottleTimeMs, ErrorCode
 func (a *FetchResponseAssertion) AssertBody() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
@@ -124,6 +123,15 @@ func (a *FetchResponseAssertion) AssertNoTopics() *FetchResponseAssertion {
 	return a
 }
 
+// AssertTopics asserts the contents of the TopicResponses array
+// By default, all nested responses are also asserted:
+// partitionResponse, recordBatches and records.
+// Fields asserted by default: Topic
+// Partitions: "ErrorCode", "PartitionIndex"
+// RecordBatches: "BaseOffset", "BatchLength"
+// Records: "Value"
+// Each level can be skipped by calling Skip<Level>Fields()
+// Or certain fields can be excluded by calling Exclude<Level>Fields()
 func (a *FetchResponseAssertion) AssertTopics() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
@@ -315,14 +323,11 @@ func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertio
 }
 
 func (a FetchResponseAssertion) Run() error {
-	// firstLevelFields: ["ThrottleTimeMs", "ErrorCode", "SessionID"]
-	// secondLevelFields (Topics): ["Topic"]
-	// thirdLevelFields (Partitions): ["ErrorCode, "PartitionIndex"]
-	// fourthLevelFields (RecordBatches): ["BaseOffset", "BatchLength"]
-	// fifthLevelFields (Records): ["Value"]
 	return a.err
 }
 
+// encodeRecordBatches encodes a given an array of RecordBatch using
+// encoder.RealEncoder and returns the resulting bytes.
 func encodeRecordBatches(recordBatches []kafkaapi.RecordBatch) []byte {
 	// Given an array of RecordBatch, encodes them using the encoder.Encoder
 	// and returns the resulting bytes.
