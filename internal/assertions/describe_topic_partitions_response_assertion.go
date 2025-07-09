@@ -41,7 +41,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody(excludedFields ...
 }
 
 // AssertTopics asserts the contents of the topics array in the response body
-// Fields asserted by default: ErrorCode, Name, TopicID
+// Fields asserted by default: ErrorCode, Name, TopicID,
+// Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
+// As we want partition assertions logs adjacent to the topics they are in,
+// we can't separate AssertPartitions out
 func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
@@ -86,18 +89,44 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertTopics(excludedFields .
 		// 	}
 		// 	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Authorized Operations: %d", i, actualTopic.TopicAuthorizedOperations)
 		// }
+
+		expectedPartitions := expectedTopic.Partitions
+		actualPartitions := actualTopic.Partitions
+		if !Contains(excludedFields, "Partitions.Length") {
+			if len(actualPartitions) != len(expectedPartitions) {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
+				return a
+			}
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Partitions Length: %d", i, len(actualPartitions))
+		}
+
+		for j, actualPartition := range actualPartitions {
+			expectedPartition := expectedPartitions[j]
+
+			if !Contains(excludedFields, "Partition.ErrorCode") {
+				if actualPartition.ErrorCode != expectedPartition.ErrorCode {
+					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
+					return a
+				}
+				protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+			}
+
+			if !Contains(excludedFields, "Partition.PartitionIndex") {
+				if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
+					a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+					return a
+				}
+				protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+			}
+		}
 	}
 
 	return a
 }
 
-// AssertPartitions asserts the contents of the partitions array in the topic response
+// assertPartitions asserts the contents of the partitions array in the topic response
 // Fields asserted by default: ErrorCode, PartitionIndex
-func (a *DescribeTopicPartitionsResponseAssertion) AssertPartitions(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
-	if a.err != nil {
-		return a
-	}
-
+func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(excludedFields ...string) *DescribeTopicPartitionsResponseAssertion {
 	for i, actualTopic := range a.ActualValue.Topics {
 		expectedTopic := a.ExpectedValue.Topics[i]
 
