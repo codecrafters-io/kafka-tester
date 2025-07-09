@@ -253,7 +253,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "records.length", 0, len(actualRecords))
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 3, "✓ Records: %v", actualRecordBatches)
+			protocol.SuccessLogWithIndentation(a.logger, 3, "✓ Records: %v", actualRecords)
 		}
 	}
 
