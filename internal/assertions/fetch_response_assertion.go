@@ -18,7 +18,7 @@ type FetchResponseAssertion struct {
 	err           error
 
 	// nil = don't assert this level
-	// empty slice = assert all fields
+	// empty slice = assert all fields (default)
 	// non-empty slice = assert with exclusions
 	excludedBodyFields        []string
 	excludedTopicFields       []string
@@ -32,37 +32,54 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 		ActualValue:   actualValue,
 		ExpectedValue: expectedValue,
 		logger:        logger,
-		// All fields start as nil (don't assert)
-		excludedBodyFields:        nil,
-		excludedTopicFields:       nil,
-		excludedPartitionFields:   nil,
-		excludedRecordBatchFields: nil,
-		excludedRecordFields:      nil,
+		// All fields start as empty slices (assert all fields by default)
+		excludedBodyFields:        []string{},
+		excludedTopicFields:       []string{},
+		excludedPartitionFields:   []string{},
+		excludedRecordBatchFields: []string{},
+		excludedRecordFields:      []string{},
 	}
 }
 
 func (a *FetchResponseAssertion) ExcludeBodyFields(fields ...string) *FetchResponseAssertion {
-	a.excludedBodyFields = fields // Even if empty, it's not nil
+	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeTopicFields(fields ...string) *FetchResponseAssertion {
-	a.excludedTopicFields = fields // Even if empty, it's not nil
+	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludePartitionFields(fields ...string) *FetchResponseAssertion {
-	a.excludedPartitionFields = fields // Even if empty, it's not nil
+	a.excludedPartitionFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordBatchFields(fields ...string) *FetchResponseAssertion {
-	a.excludedRecordBatchFields = fields // Even if empty, it's not nil
+	a.excludedRecordBatchFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchResponseAssertion {
-	a.excludedRecordFields = fields // Even if empty, it's not nil
+	a.excludedRecordFields = fields
+	return a
+}
+
+// Skip methods to disable assertion of entire levels
+
+func (a *FetchResponseAssertion) SkipPartitionFields() *FetchResponseAssertion {
+	a.excludedPartitionFields = nil
+	return a
+}
+
+func (a *FetchResponseAssertion) SkipRecordBatchFields() *FetchResponseAssertion {
+	a.excludedRecordBatchFields = nil
+	return a
+}
+
+func (a *FetchResponseAssertion) SkipRecordFields() *FetchResponseAssertion {
+	a.excludedRecordFields = nil
 	return a
 }
 
