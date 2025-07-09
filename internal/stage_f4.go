@@ -106,7 +106,9 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, nil, nil).
+		AssertBody().
+		ExcludeRecordBatchFields("BaseOffset", "BatchLength").
+		ExcludeRecordFields("Value").
+		AssertTopics().
 		Run()
 }
