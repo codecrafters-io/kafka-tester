@@ -48,6 +48,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields
 	return a
 }
 
+func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitionFields() *DescribeTopicPartitionsResponseAssertion {
+	a.excludedPartitionFields = nil
+	return a
+}
+
 // AssertBody asserts the contents of the response body
 // Fields asserted by default: ThrottleTimeMs
 func (a *DescribeTopicPartitionsResponseAssertion) AssertBody() *DescribeTopicPartitionsResponseAssertion {
@@ -68,26 +73,22 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody() *DescribeTopicPa
 // AssertOnlyTopics asserts only the contents of the topics array in the response body
 // Fields asserted by default: ErrorCode, Name, TopicID,
 func (a *DescribeTopicPartitionsResponseAssertion) AssertOnlyTopics() *DescribeTopicPartitionsResponseAssertion {
-	return a.assertTopicsAndPartitions(true)
+	return a.SkipPartitionFields().assertTopicsAndPartitions()
 }
 
 // AssertTopicsAndPartitions asserts the contents of the topics array in the response body
 // and the partitions array in the topic response
-// Fields asserted by default: ErrorCode, Name, TopicID,
-// Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
 func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions() *DescribeTopicPartitionsResponseAssertion {
-	return a.assertTopicsAndPartitions(false)
+	return a.assertTopicsAndPartitions()
 }
 
 // assertTopicsAndPartitions is the internal function that is called by
 // AssertOnlyTopics and AssertTopicsAndPartitions
 // It asserts the contents of the topics array in the response body
-// and the partitions array in the topic response (if skipPartitionsAssertion is false)
+// and the partitions array in the topic response (if skipPartitionFields is not called)
 // Fields asserted by default: ErrorCode, Name, TopicID,
 // Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
-// As we want partition assertions logs adjacent to the topics they are in,
-// we can't separate AssertPartitions out
-func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions(skipPartitionsAssertion bool) *DescribeTopicPartitionsResponseAssertion {
+func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -123,9 +124,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions(ski
 			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
-		if !skipPartitionsAssertion {
-			expectedPartitions := expectedTopic.Partitions
-			actualPartitions := actualTopic.Partitions
+		expectedPartitions := expectedTopic.Partitions
+		actualPartitions := actualTopic.Partitions
+
+		if len(a.excludedPartitionFields) > 0 {
 			if !Contains(a.excludedPartitionFields, "Length") {
 				if len(actualPartitions) != len(expectedPartitions) {
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
@@ -152,6 +154,14 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions(ski
 					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 				}
 			}
+		} else if a.excludedPartitionFields == nil {
+			return a
+		} else {
+			if len(actualPartitions) != 0 {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
+				return a
+			}
+			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Partitions: %v", actualPartitions)
 		}
 	}
 
