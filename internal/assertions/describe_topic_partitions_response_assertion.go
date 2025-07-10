@@ -127,7 +127,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *
 		expectedPartitions := expectedTopic.Partitions
 		actualPartitions := actualTopic.Partitions
 
-		if len(a.excludedPartitionFields) > 0 {
+		if len(a.excludedPartitionFields) == 0 {
 			if !Contains(a.excludedPartitionFields, "Length") {
 				if len(actualPartitions) != len(expectedPartitions) {
 					a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
