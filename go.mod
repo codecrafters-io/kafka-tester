@@ -5,7 +5,7 @@ go 1.24
 toolchain go1.24.2
 
 require (
-	github.com/codecrafters-io/tester-utils v0.2.38
+	github.com/codecrafters-io/tester-utils v0.4.5
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 )
