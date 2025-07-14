@@ -34,9 +34,10 @@ type ApiVersionsResponseAssertion struct {
 
 func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse, logger *logger.Logger) *ApiVersionsResponseAssertion {
 	return &ApiVersionsResponseAssertion{
-		ActualValue:   actualValue,
-		ExpectedValue: expectedValue,
-		logger:        logger,
+		ActualValue:        actualValue,
+		ExpectedValue:      expectedValue,
+		logger:             logger,
+		excludedBodyFields: []string{},
 	}
 }
 

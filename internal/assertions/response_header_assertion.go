@@ -21,9 +21,10 @@ type ResponseHeaderAssertion struct {
 
 func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedValue kafkaapi.ResponseHeader, logger *logger.Logger) *ResponseHeaderAssertion {
 	return &ResponseHeaderAssertion{
-		ActualValue:   actualValue,
-		ExpectedValue: expectedValue,
-		logger:        logger,
+		ActualValue:          actualValue,
+		ExpectedValue:        expectedValue,
+		logger:               logger,
+		excludedHeaderFields: []string{},
 	}
 }
 
