@@ -10,7 +10,7 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -30,11 +30,11 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
 
-	broker := kafka_broker.NewBroker("localhost:9092")
+	broker := kafka_client.NewClient("localhost:9092")
 	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *kafka_broker.Broker) {
+	defer func(broker *kafka_client.Client) {
 		_ = broker.Close()
 	}(broker)
 

@@ -5,7 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -23,13 +23,13 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 	}
 
 	correlationId := getRandomCorrelationId()
-	broker := kafka_broker.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, logger); err != nil {
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, logger); err != nil {
 		return err
 	}
-	defer func(broker *kafka_broker.Broker) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	request := kafkaapi.FetchRequest{
 		Header: kafkaapi.RequestHeader{
@@ -65,7 +65,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 		},
 	}
 
-	response, err := broker.SendAndReceive(&request, logger)
+	response, err := client.SendAndReceive(&request, logger)
 	if err != nil {
 		return err
 	}
