@@ -128,34 +128,38 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *
 		actualPartitions := actualTopic.Partitions
 
 		if a.excludedPartitionFields != nil {
-			if !Contains(a.excludedPartitionFields, "Length") {
-				if len(actualPartitions) != len(expectedPartitions) {
-					a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
-					return a
-				}
-			}
+			a.assertPartitions(expectedPartitions, actualPartitions)
+		}
+	}
 
-			for j, actualPartition := range actualPartitions {
-				expectedPartition := expectedPartitions[j]
+	return a
+}
 
-				if !Contains(a.excludedPartitionFields, "ErrorCode") {
-					if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-						a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
-						return a
-					}
-					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
-				}
-
-				if !Contains(a.excludedPartitionFields, "PartitionIndex") {
-					if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-						a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
-						return a
-					}
-					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
-				}
-			}
-		} else {
+func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition) *DescribeTopicPartitionsResponseAssertion {
+	if !Contains(a.excludedPartitionFields, "Length") {
+		if len(actualPartitions) != len(expectedPartitions) {
+			a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 			return a
+		}
+	}
+
+	for j, actualPartition := range actualPartitions {
+		expectedPartition := expectedPartitions[j]
+
+		if !Contains(a.excludedPartitionFields, "ErrorCode") {
+			if actualPartition.ErrorCode != expectedPartition.ErrorCode {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
+				return a
+			}
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+		}
+
+		if !Contains(a.excludedPartitionFields, "PartitionIndex") {
+			if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
+				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+				return a
+			}
+			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 		}
 	}
 
