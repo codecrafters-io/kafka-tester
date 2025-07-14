@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_broker"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -27,11 +27,11 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	broker := kafka_broker.NewBroker("localhost:9092")
+	broker := kafka_client.NewClient("localhost:9092")
 	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *kafka_broker.Broker) {
+	defer func(broker *kafka_client.Client) {
 		_ = broker.Close()
 	}(broker)
 
