@@ -32,7 +32,7 @@ test_fetch_with_kafka: build
 
 test_produce_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"kt7\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: Produce with no topic\"}, {\"slug\":\"ot5\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with no topic\"}, {\"slug\":\"zm5\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce with no topic\"}, {\"slug\":\"am7\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce with no topic\"}, {\"slug\":\"wh8\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce with no topic\"}, {\"slug\":\"ej4\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce with no topic\"}, {\"slug\":\"xs0\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce with no topic\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"kt7\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: Add produce to APIVersion\"}, {\"slug\":\"ot5\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with invalid topic\"}, {\"slug\":\"zm5\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce with invalid partition\"}, {\"slug\":\"am7\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce single message\"}, {\"slug\":\"wh8\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce multiple messages\"}, {\"slug\":\"ej4\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce to multiple partitions\"}, {\"slug\":\"xs0\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce to multiple topics\"}]" \
 	dist/main.out
 
 debug: build
