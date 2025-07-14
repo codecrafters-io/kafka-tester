@@ -47,7 +47,7 @@ Debug = true
 [33m[tester::#YK1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#YK1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#YK1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#YK1] [0m[36m0200 | 00 00 00 0d 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#YK1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#YK1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#YK1] [0m[36m[0m
 [33m[tester::#YK1] [Decoder] [0m[36m- .ResponseHeader[0m
@@ -383,14 +383,14 @@ Debug = true
 [33m[tester::#VT6] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#VT6] [0m[36m0000 | 00 00 00 31 00 4b 00 00 60 5a 05 cd 00 0c 6b 61 | ...1.K..`Z....ka[0m
 [33m[tester::#VT6] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 12 75 6e 6b | fka-tester...unk[0m
-[33m[tester::#VT6] [0m[36m0020 | 6e 6f 77 6e 2d 74 6f 70 69 63 2d 70 61 7a 00 00 | nown-topic-paz..[0m
+[33m[tester::#VT6] [0m[36m0020 | 6e 6f 77 6e 2d 74 6f 70 69 63 2d 73 61 7a 00 00 | nown-topic-saz..[0m
 [33m[tester::#VT6] [0m[36m0030 | 00 00 01 ff 00                                  | .....[0m
 [33m[tester::#VT6] [0m[36m[0m
 [33m[tester::#VT6] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
 [33m[tester::#VT6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#VT6] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#VT6] [0m[36m0000 | 00 00 00 37 60 5a 05 cd 00 00 00 00 00 02 00 03 | ...7`Z..........[0m
-[33m[tester::#VT6] [0m[36m0010 | 12 75 6e 6b 6e 6f 77 6e 2d 74 6f 70 69 63 2d 70 | .unknown-topic-p[0m
+[33m[tester::#VT6] [0m[36m0010 | 12 75 6e 6b 6e 6f 77 6e 2d 74 6f 70 69 63 2d 73 | .unknown-topic-s[0m
 [33m[tester::#VT6] [0m[36m0020 | 61 7a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | az..............[0m
 [33m[tester::#VT6] [0m[36m0030 | 00 00 00 01 00 00 0d f8 00 ff 00                | ...........[0m
 [33m[tester::#VT6] [0m[36m[0m
@@ -402,7 +402,7 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m  - .topic.length (1)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - .error_code (3)[0m
-[33m[tester::#VT6] [Decoder] [0m[36m    - .name (unknown-topic-paz)[0m
+[33m[tester::#VT6] [Decoder] [0m[36m    - .name (unknown-topic-saz)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - .topic_id (00000000-0000-0000-0000-000000000000)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - .num_partitions (0)[0m
@@ -413,7 +413,7 @@ Debug = true
 [33m[tester::#VT6] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[tester::#VT6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Error code: 3[0m
-[33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Topic Name: unknown-topic-paz[0m
+[33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Topic Name: unknown-topic-saz[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000000000[0m
 [33m[tester::#VT6] [0m[92mTest passed.[0m
 [33m[tester::#VT6] [0m[36mTerminating program[0m
@@ -443,7 +443,7 @@ Debug = true
 [33m[tester::#EA7] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#EA7] [0m[36m0000 | 00 00 00 45 05 c3 b0 2a 00 00 00 00 00 02 00 00 | ...E...*........[0m
 [33m[tester::#EA7] [0m[36m0010 | 04 62 61 72 00 00 00 00 00 00 40 00 80 00 00 00 | .bar......@.....[0m
-[33m[tester::#EA7] [0m[36m0020 | 00 00 00 10 00 02 00 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#EA7] [0m[36m0020 | 00 00 00 86 00 02 00 00 00 00 00 00 00 00 00 01 | ................[0m
 [33m[tester::#EA7] [0m[36m0030 | 00 00 00 00 02 00 00 00 01 02 00 00 00 01 01 01 | ................[0m
 [33m[tester::#EA7] [0m[36m0040 | 01 00 00 00 0d f8 00 ff 00                      | .........[0m
 [33m[tester::#EA7] [0m[36m[0m
@@ -456,7 +456,7 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - .error_code (0)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - .name (bar)[0m
-[33m[tester::#EA7] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000010)[0m
+[33m[tester::#EA7] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000086)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -478,9 +478,7 @@ Debug = true
 [33m[tester::#EA7] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Topic Name: bar[0m
-[33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000010[0m
-[33m[tester::#EA7] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
-[33m[tester::#EA7] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
+[33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
 [33m[tester::#EA7] [0m[92mTest passed.[0m
 [33m[tester::#EA7] [0m[36mTerminating program[0m
 [33m[tester::#EA7] [0m[36mProgram terminated successfully[0m
@@ -509,7 +507,7 @@ Debug = true
 [33m[tester::#KU4] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#KU4] [0m[36m0000 | 00 00 00 61 0f 2e 14 fa 00 00 00 00 00 02 00 00 | ...a............[0m
 [33m[tester::#KU4] [0m[36m0010 | 04 70 61 78 00 00 00 00 00 00 40 00 80 00 00 00 | .pax......@.....[0m
-[33m[tester::#KU4] [0m[36m0020 | 00 00 00 25 00 03 00 00 00 00 00 00 00 00 00 01 | ...%............[0m
+[33m[tester::#KU4] [0m[36m0020 | 00 00 00 14 00 03 00 00 00 00 00 00 00 00 00 01 | ................[0m
 [33m[tester::#KU4] [0m[36m0030 | 00 00 00 00 02 00 00 00 01 02 00 00 00 01 01 01 | ................[0m
 [33m[tester::#KU4] [0m[36m0040 | 01 00 00 00 00 00 00 01 00 00 00 01 00 00 00 00 | ................[0m
 [33m[tester::#KU4] [0m[36m0050 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
@@ -524,7 +522,7 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - .error_code (0)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - .name (pax)[0m
-[33m[tester::#KU4] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000025)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000014)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - .num_partitions (2)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -557,7 +555,7 @@ Debug = true
 [33m[tester::#KU4] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Topic Name: pax[0m
-[33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000025[0m
+[33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[1] Error code: 0[0m
@@ -583,7 +581,7 @@ Debug = true
 [33m[tester::#WQ2] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#WQ2] [0m[36m0000 | 00 00 00 2d 00 4b 00 00 70 d8 81 15 00 0c 6b 61 | ...-.K..p.....ka[0m
 [33m[tester::#WQ2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 04 04 62 61 72 | fka-tester...bar[0m
-[33m[tester::#WQ2] [0m[36m0020 | 00 04 62 61 7a 00 04 70 61 78 00 00 00 00 04 ff | ..baz..pax......[0m
+[33m[tester::#WQ2] [0m[36m0020 | 00 04 66 6f 6f 00 04 70 61 78 00 00 00 00 04 ff | ..foo..pax......[0m
 [33m[tester::#WQ2] [0m[36m0030 | 00                                              | .[0m
 [33m[tester::#WQ2] [0m[36m[0m
 [33m[tester::#WQ2] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
@@ -591,14 +589,14 @@ Debug = true
 [33m[tester::#WQ2] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#WQ2] [0m[36m0000 | 00 00 00 d3 70 d8 81 15 00 00 00 00 00 04 00 00 | ....p...........[0m
 [33m[tester::#WQ2] [0m[36m0010 | 04 62 61 72 00 00 00 00 00 00 40 00 80 00 00 00 | .bar......@.....[0m
-[33m[tester::#WQ2] [0m[36m0020 | 00 00 00 10 00 02 00 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#WQ2] [0m[36m0020 | 00 00 00 86 00 02 00 00 00 00 00 00 00 00 00 01 | ................[0m
 [33m[tester::#WQ2] [0m[36m0030 | 00 00 00 00 02 00 00 00 01 02 00 00 00 01 01 01 | ................[0m
-[33m[tester::#WQ2] [0m[36m0040 | 01 00 00 00 0d f8 00 00 00 04 62 61 7a 00 00 00 | ..........baz...[0m
-[33m[tester::#WQ2] [0m[36m0050 | 00 00 00 40 00 80 00 00 00 00 00 00 20 00 02 00 | ...@........ ...[0m
+[33m[tester::#WQ2] [0m[36m0040 | 01 00 00 00 0d f8 00 00 00 04 66 6f 6f 00 00 00 | ..........foo...[0m
+[33m[tester::#WQ2] [0m[36m0050 | 00 00 00 40 00 80 00 00 00 00 00 00 97 00 02 00 | ...@............[0m
 [33m[tester::#WQ2] [0m[36m0060 | 00 00 00 00 00 00 00 00 01 00 00 00 00 02 00 00 | ................[0m
 [33m[tester::#WQ2] [0m[36m0070 | 00 01 02 00 00 00 01 01 01 01 00 00 00 0d f8 00 | ................[0m
 [33m[tester::#WQ2] [0m[36m0080 | 00 00 04 70 61 78 00 00 00 00 00 00 40 00 80 00 | ...pax......@...[0m
-[33m[tester::#WQ2] [0m[36m0090 | 00 00 00 00 00 25 00 03 00 00 00 00 00 00 00 00 | .....%..........[0m
+[33m[tester::#WQ2] [0m[36m0090 | 00 00 00 00 00 14 00 03 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#WQ2] [0m[36m00a0 | 00 01 00 00 00 00 02 00 00 00 01 02 00 00 00 01 | ................[0m
 [33m[tester::#WQ2] [0m[36m00b0 | 01 01 01 00 00 00 00 00 00 01 00 00 00 01 00 00 | ................[0m
 [33m[tester::#WQ2] [0m[36m00c0 | 00 00 02 00 00 00 01 02 00 00 00 01 01 01 01 00 | ................[0m
@@ -613,7 +611,7 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .Topics[0][0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .error_code (0)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .name (bar)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000010)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000086)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -631,8 +629,8 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .Topics[1][0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m    - .name (baz)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000020)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m    - .name (foo)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000097)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .num_partitions (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -651,7 +649,7 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .Topics[2][0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .error_code (0)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .name (pax)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000025)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000014)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .is_internal (false)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .num_partitions (2)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .Partitions[0][0m
@@ -684,17 +682,17 @@ Debug = true
 [33m[tester::#WQ2] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Topic Name: bar[0m
-[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000010[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Error code: 0[0m
-[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic Name: baz[0m
-[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic UUID: 00000000-0000-4000-8000-000000000020[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic Name: foo[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic UUID: 00000000-0000-4000-8000-000000000097[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Topic Name: pax[0m
-[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Topic UUID: 00000000-0000-4000-8000-000000000025[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[1] Error code: 0[0m
