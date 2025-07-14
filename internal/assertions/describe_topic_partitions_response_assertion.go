@@ -155,12 +155,25 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *
 				}
 			}
 		} else {
-			if len(actualPartitions) != 0 {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
-				return a
-			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Partitions: %v", actualPartitions)
+			return a
 		}
+	}
+
+	return a
+}
+
+// AssertEmptyPartitions asserts that all topics have empty partitions arrays
+func (a *DescribeTopicPartitionsResponseAssertion) AssertEmptyPartitions() *DescribeTopicPartitionsResponseAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	for i, actualTopic := range a.ActualValue.Topics {
+		if len(actualTopic.Partitions) != 0 {
+			a.err = fmt.Errorf("Expected topic[%d] partitions to be empty, got %d partitions", i, len(actualTopic.Partitions))
+			return a
+		}
+		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Topic[%d] has empty partitions", i)
 	}
 
 	return a
