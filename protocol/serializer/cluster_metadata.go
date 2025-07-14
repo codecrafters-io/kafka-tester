@@ -9,7 +9,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, directoryUUID string, logger *logger.Logger) error {
+func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, topic4Name string, topic4UUID string, directoryUUID string, logger *logger.Logger) error {
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 40960))
 
@@ -89,7 +89,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		},
 	}
 
-	partitionRecord3 := kafkaapi.ClusterMetadataPayload{
+	partitionRecord3_0 := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
@@ -107,13 +107,77 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		},
 	}
 
-	partitionRecord4 := kafkaapi.ClusterMetadataPayload{
+	partitionRecord3_1 := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
 		Data: &kafkaapi.PartitionRecord{
 			PartitionID:      1,
 			TopicUUID:        topic3UUID,
+			Replicas:         []int32{1},
+			ISReplicas:       []int32{1},
+			RemovingReplicas: []int32{},
+			AddingReplicas:   []int32{},
+			Leader:           1,
+			LeaderEpoch:      0,
+			PartitionEpoch:   0,
+			Directories:      []string{directoryUUID},
+		},
+	}
+
+	topicRecord4 := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         2,
+		Version:      0,
+		Data: &kafkaapi.TopicRecord{
+			TopicName: topic4Name,
+			TopicUUID: topic4UUID,
+		},
+	}
+
+	partitionRecord4_0 := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         3,
+		Version:      1,
+		Data: &kafkaapi.PartitionRecord{
+			PartitionID:      0,
+			TopicUUID:        topic4UUID,
+			Replicas:         []int32{1},
+			ISReplicas:       []int32{1},
+			RemovingReplicas: []int32{},
+			AddingReplicas:   []int32{},
+			Leader:           1,
+			LeaderEpoch:      0,
+			PartitionEpoch:   0,
+			Directories:      []string{directoryUUID},
+		},
+	}
+
+	partitionRecord4_1 := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         3,
+		Version:      1,
+		Data: &kafkaapi.PartitionRecord{
+			PartitionID:      1,
+			TopicUUID:        topic4UUID,
+			Replicas:         []int32{1},
+			ISReplicas:       []int32{1},
+			RemovingReplicas: []int32{},
+			AddingReplicas:   []int32{},
+			Leader:           1,
+			LeaderEpoch:      0,
+			PartitionEpoch:   0,
+			Directories:      []string{directoryUUID},
+		},
+	}
+
+	partitionRecord4_2 := kafkaapi.ClusterMetadataPayload{
+		FrameVersion: 1,
+		Type:         3,
+		Version:      1,
+		Data: &kafkaapi.PartitionRecord{
+			PartitionID:      2,
+			TopicUUID:        topic4UUID,
 			Replicas:         []int32{1},
 			ISReplicas:       []int32{1},
 			RemovingReplicas: []int32{},
@@ -224,14 +288,56 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord3),
+				Value:          GetEncodedBytes(partitionRecord3_0),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4),
+				Value:          GetEncodedBytes(partitionRecord3_1),
+				Headers:        []kafkaapi.RecordHeader{},
+			},
+		},
+	}
+
+	recordBatch5 := kafkaapi.RecordBatch{
+		BaseOffset:           int64(len(recordBatch4.Records) + int(recordBatch4.BaseOffset)),
+		PartitionLeaderEpoch: 1,
+		Attributes:           0,
+		LastOffsetDelta:      3, // len(records) - 1
+		FirstTimestamp:       1726045957397,
+		MaxTimestamp:         1726045957397,
+		ProducerId:           -1,
+		ProducerEpoch:        -1,
+		BaseSequence:         -1,
+		Records: []kafkaapi.Record{
+			{
+				Attributes:     0,
+				TimestampDelta: 0,
+				Key:            nil,
+				Value:          GetEncodedBytes(topicRecord4),
+				Headers:        []kafkaapi.RecordHeader{},
+			},
+			{
+				Attributes:     0,
+				TimestampDelta: 0,
+				Key:            nil,
+				Value:          GetEncodedBytes(partitionRecord4_0),
+				Headers:        []kafkaapi.RecordHeader{},
+			},
+			{
+				Attributes:     0,
+				TimestampDelta: 0,
+				Key:            nil,
+				Value:          GetEncodedBytes(partitionRecord4_1),
+				Headers:        []kafkaapi.RecordHeader{},
+			},
+			{
+				Attributes:     0,
+				TimestampDelta: 0,
+				Key:            nil,
+				Value:          GetEncodedBytes(partitionRecord4_2),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -241,6 +347,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 	recordBatch2.Encode(&encoder)
 	recordBatch3.Encode(&encoder)
 	recordBatch4.Encode(&encoder)
+	recordBatch5.Encode(&encoder)
 	encodedBytes := encoder.Bytes()[:encoder.Offset()]
 
 	err := os.WriteFile(path, encodedBytes, 0644)
