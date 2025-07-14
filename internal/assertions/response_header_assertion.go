@@ -12,6 +12,11 @@ type ResponseHeaderAssertion struct {
 	ExpectedValue kafkaapi.ResponseHeader
 	logger        *logger.Logger
 	err           error
+
+	// nil = don't assert this level
+	// empty slice = assert all fields (default)
+	// non-empty slice = assert with exclusions
+	excludedHeaderFields []string
 }
 
 func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedValue kafkaapi.ResponseHeader, logger *logger.Logger) *ResponseHeaderAssertion {
@@ -24,12 +29,12 @@ func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedVal
 
 // AssertHeader asserts the contents of the response header
 // Fields asserted by default: CorrelationId
-func (a *ResponseHeaderAssertion) AssertHeader(excludedFields ...string) *ResponseHeaderAssertion {
+func (a *ResponseHeaderAssertion) AssertHeader() *ResponseHeaderAssertion {
 	if a.err != nil {
 		return a
 	}
 
-	if !Contains(excludedFields, "CorrelationId") {
+	if !Contains(a.excludedHeaderFields, "CorrelationId") {
 		if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
 			return a

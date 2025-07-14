@@ -25,6 +25,11 @@ type ApiVersionsResponseAssertion struct {
 	ExpectedValue kafkaapi.ApiVersionsResponse
 	logger        *logger.Logger
 	err           error
+
+	// nil = don't assert this level
+	// empty slice = assert all fields (default)
+	// non-empty slice = assert with exclusions
+	excludedBodyFields []string
 }
 
 func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse, logger *logger.Logger) *ApiVersionsResponseAssertion {
@@ -37,12 +42,12 @@ func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, e
 
 // AssertBody asserts the contents of the response body
 // Fields asserted by default: ErrorCode
-func (a *ApiVersionsResponseAssertion) AssertBody(excludedFields ...string) *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) AssertBody() *ApiVersionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
 
-	if !Contains(excludedFields, "ErrorCode") {
+	if !Contains(a.excludedBodyFields, "ErrorCode") {
 		if a.ActualValue.ErrorCode != a.ExpectedValue.ErrorCode {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ErrorCode", a.ExpectedValue.ErrorCode, a.ActualValue.ErrorCode)
 			return a
