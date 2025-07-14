@@ -177,7 +177,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertEmptyPartitions() *Desc
 			a.err = fmt.Errorf("Expected topic[%d] partitions to be empty, got %d partitions", i, len(actualTopic.Partitions))
 			return a
 		}
-		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Topic[%d] has empty partitions", i)
+		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] has empty partitions", i)
 	}
 
 	return a
