@@ -137,6 +137,7 @@ func (p *LogFileParser) PrintAllLogFiles(baseDir string) error {
 }
 
 // findLogFiles recursively finds all files named "00000000000000000000.log"
+// but excludes cluster metadata files
 func (p *LogFileParser) findLogFiles(baseDir string) ([]string, error) {
 	var logFiles []string
 
@@ -147,6 +148,11 @@ func (p *LogFileParser) findLogFiles(baseDir string) ([]string, error) {
 		}
 
 		if !info.IsDir() && info.Name() == "00000000000000000000.log" {
+			// Skip cluster metadata files
+			if strings.Contains(path, "__cluster_metadata-0") {
+				p.logger.Debugf("Skipping cluster metadata file: %s", path)
+				return nil
+			}
 			logFiles = append(logFiles, path)
 		}
 
@@ -195,6 +201,10 @@ func (p *LogFileParser) printLogFileResult(result *LogFileResult) {
 
 			if record.Value != nil {
 				p.logger.Infof("         - Value: %q", string(record.Value))
+				// Try to parse the payload if it looks like structured data
+				if len(record.Value) > 4 { // Minimum size for a structured payload
+					p.parseAndPrintPayload(record.Value)
+				}
 			} else {
 				p.logger.Infof("         - Value: null")
 			}
@@ -213,4 +223,105 @@ func (p *LogFileParser) printLogFileResult(result *LogFileResult) {
 			p.logger.Infof("     [%d]: %q", i, msg)
 		}
 	}
+}
+
+// parseAndPrintPayload attempts to parse the record value as a ClusterMetadataPayload
+func (p *LogFileParser) parseAndPrintPayload(data []byte) {
+	payload := kafkaapi.ClusterMetadataPayload{}
+	err := payload.Decode(data)
+	if err != nil {
+		p.logger.Debugf("         - Failed to decode payload: %v", err)
+		return
+	}
+
+	p.logger.Infof("         - Decoded Payload:")
+	p.logger.Infof("           - FrameVersion: %d", payload.FrameVersion)
+	p.logger.Infof("           - Type: %d", payload.Type)
+	p.logger.Infof("           - Version: %d", payload.Version)
+	
+	p.printPayloadData(payload.Data, int16(payload.Type))
+}
+
+// printPayloadData prints the specific payload data based on its type
+func (p *LogFileParser) printPayloadData(data interface{}, payloadType int16) {
+	switch payloadType {
+	case 2: // TopicRecord
+		if topicRecord, ok := data.(*kafkaapi.TopicRecord); ok {
+			p.logger.Infof("           - TopicRecord:")
+			p.logger.Infof("             - TopicName: %s", topicRecord.TopicName)
+			p.logger.Infof("             - TopicUUID: %s", topicRecord.TopicUUID)
+		}
+	case 3: // PartitionRecord
+		if partitionRecord, ok := data.(*kafkaapi.PartitionRecord); ok {
+			p.logger.Infof("           - PartitionRecord:")
+			p.logger.Infof("             - PartitionID: %d", partitionRecord.PartitionID)
+			p.logger.Infof("             - TopicUUID: %s", partitionRecord.TopicUUID)
+			p.logger.Infof("             - Replicas: %v", partitionRecord.Replicas)
+			p.logger.Infof("             - ISReplicas: %v", partitionRecord.ISReplicas)
+			p.logger.Infof("             - Leader: %d", partitionRecord.Leader)
+			p.logger.Infof("             - LeaderEpoch: %d", partitionRecord.LeaderEpoch)
+			p.logger.Infof("             - PartitionEpoch: %d", partitionRecord.PartitionEpoch)
+			if len(partitionRecord.Directories) > 0 {
+				p.logger.Infof("             - Directories: %v", partitionRecord.Directories)
+			}
+		}
+	case 12: // FeatureLevelRecord
+		if featureRecord, ok := data.(*kafkaapi.FeatureLevelRecord); ok {
+			p.logger.Infof("           - FeatureLevelRecord:")
+			p.logger.Infof("             - Name: %s", featureRecord.Name)
+			p.logger.Infof("             - FeatureLevel: %d", featureRecord.FeatureLevel)
+		}
+	case 21: // ZKMigrationStateRecord
+		if zkRecord, ok := data.(*kafkaapi.ZKMigrationStateRecord); ok {
+			p.logger.Infof("           - ZKMigrationStateRecord:")
+			p.logger.Infof("             - MigrationState: %d", zkRecord.MigrationState)
+		}
+	case 23: // BeginTransactionRecord
+		if beginRecord, ok := data.(*kafkaapi.BeginTransactionRecord); ok {
+			p.logger.Infof("           - BeginTransactionRecord:")
+			p.logger.Infof("             - Name: %s", beginRecord.Name)
+		}
+	case 24: // EndTransactionRecord
+		if _, ok := data.(*kafkaapi.EndTransactionRecord); ok {
+			p.logger.Infof("           - EndTransactionRecord: (no fields)")
+		}
+	default:
+		p.logger.Infof("           - Unknown payload type: %d", payloadType)
+	}
+}
+
+// PrintLogFilesInDirectory prints all 000.log files in the given directory with a prefix
+func (p *LogFileParser) PrintLogFilesInDirectory(baseDir string, prefix string) error {
+	p.logger.Infof("=== %s: Scanning for 000.log files in %s ===", prefix, baseDir)
+
+	logFiles, err := p.findLogFiles(baseDir)
+	if err != nil {
+		return err
+	}
+
+	if len(logFiles) == 0 {
+		p.logger.Infof("No 000.log files found in %s", baseDir)
+		return nil
+	}
+
+	p.logger.Infof("Found %d log files", len(logFiles))
+
+	// Parse and print each log file
+	for _, filePath := range logFiles {
+		relativePath := filePath
+		if rel, err := filepath.Rel(baseDir, filePath); err == nil {
+			relativePath = rel
+		}
+		p.logger.Infof("\n--- %s: %s ---", prefix, relativePath)
+		
+		result, err := p.ParseLogFile(filePath)
+		if err != nil {
+			p.logger.Errorf("Failed to parse %s: %v", filePath, err)
+			continue
+		}
+		
+		p.printLogFileResult(result)
+	}
+
+	return nil
 }
