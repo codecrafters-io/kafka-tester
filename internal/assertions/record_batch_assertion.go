@@ -14,23 +14,48 @@ type RecordBatchAssertion struct {
 	ExpectedValue kafkaapi.RecordBatch
 	logger        *logger.Logger
 	err           error
+
+	// nil = don't assert this level
+	// empty slice = assert all fields (default)
+	// non-empty slice = assert with exclusions
+	excludedBatchFields  []string
+	excludedRecordFields []string
 }
 
 func NewRecordBatchAssertion(actualValue kafkaapi.RecordBatch, expectedValue kafkaapi.RecordBatch, logger *logger.Logger) *RecordBatchAssertion {
 	return &RecordBatchAssertion{
-		ActualValue:   actualValue,
-		ExpectedValue: expectedValue,
-		logger:        logger,
+		ActualValue:          actualValue,
+		ExpectedValue:        expectedValue,
+		logger:               logger,
+		excludedBatchFields:  []string{},
+		excludedRecordFields: []string{},
 	}
 }
 
-// AssertBatch validates RecordBatch-level fields
-func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertion {
+func (a *RecordBatchAssertion) ExcludeBatchFields(fields ...string) *RecordBatchAssertion {
+	a.excludedBatchFields = fields
+	return a
+}
+
+func (a *RecordBatchAssertion) ExcludeRecordFields(fields ...string) *RecordBatchAssertion {
+	a.excludedRecordFields = fields
+	return a
+}
+
+func (a *RecordBatchAssertion) SkipRecordFields() *RecordBatchAssertion {
+	a.excludedRecordFields = nil
+	return a
+}
+
+// AssertBatch asserts the contents of the RecordBatch
+// Fields asserted by default: BaseOffset, BatchLength, PartitionLeaderEpoch, Magic, CRC, Attributes, 
+// LastOffsetDelta, FirstTimestamp, MaxTimestamp, ProducerId, ProducerEpoch, BaseSequence, RecordCount
+func (a *RecordBatchAssertion) AssertBatch() *RecordBatchAssertion {
 	if a.err != nil {
 		return a
 	}
 
-	if Contains(fields, "BaseOffset") {
+	if !Contains(a.excludedBatchFields, "BaseOffset") {
 		if a.ActualValue.BaseOffset != a.ExpectedValue.BaseOffset {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "BaseOffset", a.ExpectedValue.BaseOffset, a.ActualValue.BaseOffset)
 			return a
@@ -38,7 +63,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ BaseOffset: %d", a.ActualValue.BaseOffset)
 	}
 
-	if Contains(fields, "BatchLength") {
+	if !Contains(a.excludedBatchFields, "BatchLength") {
 		if a.ActualValue.BatchLength != a.ExpectedValue.BatchLength {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "BatchLength", a.ExpectedValue.BatchLength, a.ActualValue.BatchLength)
 			return a
@@ -46,7 +71,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ BatchLength: %d", a.ActualValue.BatchLength)
 	}
 
-	if Contains(fields, "PartitionLeaderEpoch") {
+	if !Contains(a.excludedBatchFields, "PartitionLeaderEpoch") {
 		if a.ActualValue.PartitionLeaderEpoch != a.ExpectedValue.PartitionLeaderEpoch {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "PartitionLeaderEpoch", a.ExpectedValue.PartitionLeaderEpoch, a.ActualValue.PartitionLeaderEpoch)
 			return a
@@ -54,7 +79,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ PartitionLeaderEpoch: %d", a.ActualValue.PartitionLeaderEpoch)
 	}
 
-	if Contains(fields, "Magic") {
+	if !Contains(a.excludedBatchFields, "Magic") {
 		if a.ActualValue.Magic != a.ExpectedValue.Magic {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "Magic", a.ExpectedValue.Magic, a.ActualValue.Magic)
 			return a
@@ -62,7 +87,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Magic: %d", a.ActualValue.Magic)
 	}
 
-	if Contains(fields, "CRC") {
+	if !Contains(a.excludedBatchFields, "CRC") {
 		if a.ActualValue.CRC != a.ExpectedValue.CRC {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "CRC", a.ExpectedValue.CRC, a.ActualValue.CRC)
 			return a
@@ -70,7 +95,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ CRC: %d", a.ActualValue.CRC)
 	}
 
-	if Contains(fields, "Attributes") {
+	if !Contains(a.excludedBatchFields, "Attributes") {
 		if a.ActualValue.Attributes != a.ExpectedValue.Attributes {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "Attributes", a.ExpectedValue.Attributes, a.ActualValue.Attributes)
 			return a
@@ -78,7 +103,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Attributes: %d", a.ActualValue.Attributes)
 	}
 
-	if Contains(fields, "LastOffsetDelta") {
+	if !Contains(a.excludedBatchFields, "LastOffsetDelta") {
 		if a.ActualValue.LastOffsetDelta != a.ExpectedValue.LastOffsetDelta {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "LastOffsetDelta", a.ExpectedValue.LastOffsetDelta, a.ActualValue.LastOffsetDelta)
 			return a
@@ -86,7 +111,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ LastOffsetDelta: %d", a.ActualValue.LastOffsetDelta)
 	}
 
-	if Contains(fields, "FirstTimestamp") {
+	if !Contains(a.excludedBatchFields, "FirstTimestamp") {
 		if a.ActualValue.FirstTimestamp != a.ExpectedValue.FirstTimestamp {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "FirstTimestamp", a.ExpectedValue.FirstTimestamp, a.ActualValue.FirstTimestamp)
 			return a
@@ -94,7 +119,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ FirstTimestamp: %d", a.ActualValue.FirstTimestamp)
 	}
 
-	if Contains(fields, "MaxTimestamp") {
+	if !Contains(a.excludedBatchFields, "MaxTimestamp") {
 		if a.ActualValue.MaxTimestamp != a.ExpectedValue.MaxTimestamp {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "MaxTimestamp", a.ExpectedValue.MaxTimestamp, a.ActualValue.MaxTimestamp)
 			return a
@@ -102,7 +127,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ MaxTimestamp: %d", a.ActualValue.MaxTimestamp)
 	}
 
-	if Contains(fields, "ProducerId") {
+	if !Contains(a.excludedBatchFields, "ProducerId") {
 		if a.ActualValue.ProducerId != a.ExpectedValue.ProducerId {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ProducerId", a.ExpectedValue.ProducerId, a.ActualValue.ProducerId)
 			return a
@@ -110,7 +135,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ ProducerId: %d", a.ActualValue.ProducerId)
 	}
 
-	if Contains(fields, "ProducerEpoch") {
+	if !Contains(a.excludedBatchFields, "ProducerEpoch") {
 		if a.ActualValue.ProducerEpoch != a.ExpectedValue.ProducerEpoch {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ProducerEpoch", a.ExpectedValue.ProducerEpoch, a.ActualValue.ProducerEpoch)
 			return a
@@ -118,7 +143,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ ProducerEpoch: %d", a.ActualValue.ProducerEpoch)
 	}
 
-	if Contains(fields, "BaseSequence") {
+	if !Contains(a.excludedBatchFields, "BaseSequence") {
 		if a.ActualValue.BaseSequence != a.ExpectedValue.BaseSequence {
 			a.err = fmt.Errorf("Expected %s to be %d, got %d", "BaseSequence", a.ExpectedValue.BaseSequence, a.ActualValue.BaseSequence)
 			return a
@@ -126,7 +151,7 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ BaseSequence: %d", a.ActualValue.BaseSequence)
 	}
 
-	if Contains(fields, "RecordCount") {
+	if !Contains(a.excludedBatchFields, "RecordCount") {
 		actualCount := len(a.ActualValue.Records)
 		expectedCount := len(a.ExpectedValue.Records)
 		if actualCount != expectedCount {
@@ -139,24 +164,41 @@ func (a *RecordBatchAssertion) AssertBatch(fields []string) *RecordBatchAssertio
 	return a
 }
 
-// AssertRecords validates individual records within the batch
-func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssertion {
+// AssertOnlyBatch asserts only the RecordBatch-level fields
+func (a *RecordBatchAssertion) AssertOnlyBatch() *RecordBatchAssertion {
+	return a.SkipRecordFields().AssertBatch()
+}
+
+// AssertBatchAndRecords asserts both batch and record fields
+func (a *RecordBatchAssertion) AssertBatchAndRecords() *RecordBatchAssertion {
+	return a.AssertBatch().assertRecords()
+}
+
+// assertRecords is the internal function to validate individual records within the batch
+// Fields asserted by default: Length, Attributes, TimestampDelta, OffsetDelta, Key, Value, Headers
+func (a *RecordBatchAssertion) assertRecords() *RecordBatchAssertion {
 	if a.err != nil {
+		return a
+	}
+
+	if a.excludedRecordFields == nil {
 		return a
 	}
 
 	actualRecords := a.ActualValue.Records
 	expectedRecords := a.ExpectedValue.Records
 
-	if len(actualRecords) != len(expectedRecords) {
-		a.err = fmt.Errorf("Expected %s to be %d, got %d", "Records.length", len(expectedRecords), len(actualRecords))
-		return a
+	if !Contains(a.excludedRecordFields, "Length") {
+		if len(actualRecords) != len(expectedRecords) {
+			a.err = fmt.Errorf("Expected %s to be %d, got %d", "Records.length", len(expectedRecords), len(actualRecords))
+			return a
+		}
 	}
 
 	for i, actualRecord := range actualRecords {
 		expectedRecord := expectedRecords[i]
 		
-		if Contains(fields, "Attributes") {
+		if !Contains(a.excludedRecordFields, "Attributes") {
 			if actualRecord.Attributes != expectedRecord.Attributes {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Record[%d] Attributes", i), expectedRecord.Attributes, actualRecord.Attributes)
 				return a
@@ -164,7 +206,7 @@ func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssert
 			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ Record[%d] Attributes: %d", i, actualRecord.Attributes)
 		}
 
-		if Contains(fields, "TimestampDelta") {
+		if !Contains(a.excludedRecordFields, "TimestampDelta") {
 			if actualRecord.TimestampDelta != expectedRecord.TimestampDelta {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Record[%d] TimestampDelta", i), expectedRecord.TimestampDelta, actualRecord.TimestampDelta)
 				return a
@@ -172,7 +214,7 @@ func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssert
 			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ Record[%d] TimestampDelta: %d", i, actualRecord.TimestampDelta)
 		}
 
-		if Contains(fields, "OffsetDelta") {
+		if !Contains(a.excludedRecordFields, "OffsetDelta") {
 			if actualRecord.OffsetDelta != expectedRecord.OffsetDelta {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Record[%d] OffsetDelta", i), expectedRecord.OffsetDelta, actualRecord.OffsetDelta)
 				return a
@@ -180,7 +222,7 @@ func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssert
 			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ Record[%d] OffsetDelta: %d", i, actualRecord.OffsetDelta)
 		}
 
-		if Contains(fields, "Key") {
+		if !Contains(a.excludedRecordFields, "Key") {
 			if !reflect.DeepEqual(actualRecord.Key, expectedRecord.Key) {
 				a.err = fmt.Errorf("Expected %s to be %q, got %q", fmt.Sprintf("Record[%d] Key", i), string(expectedRecord.Key), string(actualRecord.Key))
 				return a
@@ -188,7 +230,7 @@ func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssert
 			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ Record[%d] Key: %q", i, string(actualRecord.Key))
 		}
 
-		if Contains(fields, "Value") {
+		if !Contains(a.excludedRecordFields, "Value") {
 			if !reflect.DeepEqual(actualRecord.Value, expectedRecord.Value) {
 				a.err = fmt.Errorf("Expected %s to be %q, got %q", fmt.Sprintf("Record[%d] Value", i), string(expectedRecord.Value), string(actualRecord.Value))
 				return a
@@ -196,7 +238,7 @@ func (a *RecordBatchAssertion) AssertRecords(fields []string) *RecordBatchAssert
 			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ Record[%d] Value: %q", i, string(actualRecord.Value))
 		}
 
-		if Contains(fields, "Headers") {
+		if !Contains(a.excludedRecordFields, "Headers") {
 			if !a.assertHeaders(actualRecord.Headers, expectedRecord.Headers, i) {
 				return a
 			}
@@ -270,6 +312,21 @@ func (a *RecordBatchAssertion) AssertRecordCount(expectedCount int) *RecordBatch
 		return a
 	}
 	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ RecordCount: %d", actualCount)
+	return a
+}
+
+// AssertEmptyRecords asserts that the batch has no records
+func (a *RecordBatchAssertion) AssertEmptyRecords() *RecordBatchAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	actualCount := len(a.ActualValue.Records)
+	if actualCount != 0 {
+		a.err = fmt.Errorf("Expected batch to have empty records, got %d records", actualCount)
+		return a
+	}
+	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Batch has empty records")
 	return a
 }
 
