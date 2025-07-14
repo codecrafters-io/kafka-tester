@@ -68,3 +68,15 @@ func (r *DescribeTopicPartitionsRequest) Encode() []byte {
 	return messageBytes
 
 }
+
+func (r *DescribeTopicPartitionsRequest) GetApiType() string {
+	return "DescribeTopicPartitions"
+}
+
+func (r *DescribeTopicPartitionsRequest) GetApiVersion() int16 {
+	return r.Header.ApiVersion
+}
+
+func (r *DescribeTopicPartitionsRequest) GetCorrelationId() int32 {
+	return r.Header.CorrelationId
+}
