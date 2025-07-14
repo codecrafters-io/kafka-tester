@@ -123,8 +123,10 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								},
 							},
 							{
-								BaseOffset:           1,
-								BatchLength:          0,
+								BaseOffset:  1,
+								BatchLength: 0, // TODO: This is wrong
+								// We can't hardcode batchLength like this
+								// This will be fixed once we move to the builder interface
 								PartitionLeaderEpoch: 0,
 								Magic:                0,
 								Attributes:           0,
@@ -156,7 +158,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		AssertBody().
-		ExcludeRecordBatchFields("BatchLength").
+		ExcludeRecordBatchFields("BatchLength"). // TODO: remove this
 		AssertTopics().
 		AssertRecordBatchBytes().
 		Run()
