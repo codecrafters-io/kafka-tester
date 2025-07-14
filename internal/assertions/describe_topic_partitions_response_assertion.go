@@ -154,8 +154,6 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *
 					protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 				}
 			}
-		} else if a.excludedPartitionFields == nil {
-			return a
 		} else {
 			if len(actualPartitions) != 0 {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
