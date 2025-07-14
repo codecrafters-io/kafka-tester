@@ -15,7 +15,7 @@ type RecordBatch struct {
 	BaseOffset           int64
 	BatchLength          int32
 	PartitionLeaderEpoch int32
-	Magic                int8
+	Magic                int8 // TODO: Clean up elements that are computed
 	CRC                  int32
 	Attributes           int16
 	LastOffsetDelta      int32
@@ -239,6 +239,7 @@ func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, in
 }
 
 type Record struct {
+	// TODO: Remove this from here, needs to be computed
 	Length         int32
 	Attributes     int8
 	TimestampDelta int64
