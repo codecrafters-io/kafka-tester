@@ -16,7 +16,7 @@ type DescribeTopicPartitionsResponse struct {
 	NextCursor     DescribeTopicPartitionsResponseCursor
 }
 
-func (a DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
 	a.ThrottleTimeMs, err = pd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -78,7 +78,7 @@ type DescribeTopicPartitionsResponseTopic struct {
 	TopicAuthorizedOperations int32
 }
 
-func (a DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
 	a.ErrorCode, err = pd.GetInt16()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -179,7 +179,7 @@ type DescribeTopicPartitionsResponsePartition struct {
 	OfflineReplicas        []int32
 }
 
-func (d DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
 	d.ErrorCode, err = pd.GetInt16()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -280,7 +280,7 @@ func (c DescribeTopicPartitionsResponseCursor) String() string {
 	return fmt.Sprintf("{TopicName: %s, PartitionIndex: %d}", c.TopicName, c.PartitionIndex)
 }
 
-func (c DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
+func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
 	var err error
 
 	// This field is nullable, the first byte indicates whether it's null or not
@@ -295,7 +295,7 @@ func (c DescribeTopicPartitionsResponseCursor) Decode(pd *decoder.RealDecoder, l
 
 	if checkPresence == -1 {
 		protocol.LogWithIndentation(logger, indentation, "- .next_cursor (null)")
-		c = DescribeTopicPartitionsResponseCursor{}
+		c = nil
 		return nil
 	} else {
 		protocol.LogWithIndentation(logger, indentation, "- .next_cursor")
