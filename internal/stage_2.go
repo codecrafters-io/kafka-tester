@@ -66,7 +66,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	stageLogger.UpdateSecondaryPrefix("Decoder")
+	stageLogger.UpdateLastSecondaryPrefix("Decoder")
 
 	stageLogger.Debugf("- .Response")
 	messageLength, err := decoder.GetInt32()
@@ -89,7 +89,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
-	stageLogger.ResetSecondaryPrefix()
+	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != int32(correlationId) {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)

@@ -23,8 +23,8 @@ func EncodeFetchRequest(request *FetchRequest) []byte {
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
@@ -42,8 +42,8 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
