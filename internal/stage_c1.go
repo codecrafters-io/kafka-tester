@@ -25,13 +25,13 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		return err
 	}
 
-	broker := kafka_client.NewClient("localhost:9092")
-	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *kafka_client.Client) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	requestCount := random.RandomInt(2, 5)
 	for i := range requestCount {
@@ -51,7 +51,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 
 		stageLogger.Infof("Sending request %d of %d:", i+1, requestCount)
-		response, err := broker.SendAndReceive(&request, stageLogger)
+		response, err := client.SendAndReceive(&request, stageLogger)
 		if err != nil {
 			return err
 		}

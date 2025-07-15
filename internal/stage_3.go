@@ -28,13 +28,13 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	broker := kafka_client.NewClient("localhost:9092")
-	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *kafka_client.Client) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	correlationId := getRandomCorrelationId()
 
@@ -56,11 +56,11 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
 
-	err = broker.Send(message)
+	err = client.Send(message)
 	if err != nil {
 		return err
 	}
-	response, err := broker.ReceiveRaw()
+	response, err := client.ReceiveRaw()
 	if err != nil {
 		return err
 	}
