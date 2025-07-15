@@ -109,15 +109,10 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
-	var apiType string
-	var apiVersion int16
-	var correlationId int32
-	var message []byte
-
-	apiType = request.GetApiType()
-	apiVersion = request.GetApiVersion()
-	correlationId = request.GetCorrelationId()
-	message = request.Encode()
+	apiType := request.GetApiType()
+	apiVersion := request.GetApiVersion()
+	correlationId := request.GetCorrelationId()
+	message := request.Encode()
 
 	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
 	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, protocol.GetFormattedHexdump(message))
