@@ -57,11 +57,11 @@ type DescribeTopicPartitionsRequest struct {
 	Body   DescribeTopicPartitionsRequestBody
 }
 
-func (r *DescribeTopicPartitionsRequest) Encode() []byte {
+func (r DescribeTopicPartitionsRequest) Encode() []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	r.Header.EncodeV2(&encoder)
+	r.Header.Encode(&encoder)
 	r.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 
@@ -69,14 +69,14 @@ func (r *DescribeTopicPartitionsRequest) Encode() []byte {
 
 }
 
-func (r *DescribeTopicPartitionsRequest) GetApiType() string {
+func (r DescribeTopicPartitionsRequest) GetApiType() string {
 	return "DescribeTopicPartitions"
 }
 
-func (r *DescribeTopicPartitionsRequest) GetApiVersion() int16 {
+func (r DescribeTopicPartitionsRequest) GetApiVersion() int16 {
 	return r.Header.ApiVersion
 }
 
-func (r *DescribeTopicPartitionsRequest) GetCorrelationId() int32 {
+func (r DescribeTopicPartitionsRequest) GetCorrelationId() int32 {
 	return r.Header.CorrelationId
 }

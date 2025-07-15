@@ -107,25 +107,25 @@ type FetchRequest struct {
 	Body   FetchRequestBody
 }
 
-func (r *FetchRequest) Encode() []byte {
+func (r FetchRequest) Encode() []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	r.Header.EncodeV2(&encoder)
+	r.Header.Encode(&encoder)
 	r.Body.Encode(&encoder)
 	message := encoder.PackMessage()
 
 	return message
 }
 
-func (r *FetchRequest) GetApiType() string {
+func (r FetchRequest) GetApiType() string {
 	return "Fetch"
 }
 
-func (r *FetchRequest) GetApiVersion() int16 {
+func (r FetchRequest) GetApiVersion() int16 {
 	return r.Header.ApiVersion
 }
 
-func (r *FetchRequest) GetCorrelationId() int32 {
+func (r FetchRequest) GetCorrelationId() int32 {
 	return r.Header.CorrelationId
 }

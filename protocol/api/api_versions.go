@@ -8,11 +8,13 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+// EncodeApiVersionsRequest are going to be removed
+// TODO: Use Request.Encode instead much cleaner.
 func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	request.Header.EncodeV2(&encoder)
+	request.Header.Encode(&encoder)
 	request.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 

@@ -13,7 +13,7 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r *ApiVersionsRequestBody) Encode(enc *realencoder.RealEncoder) {
+func (r ApiVersionsRequestBody) Encode(enc *realencoder.RealEncoder) {
 	if r.Version >= 3 {
 		enc.PutCompactString(r.ClientSoftwareName)
 		enc.PutCompactString(r.ClientSoftwareVersion)
@@ -26,27 +26,25 @@ type ApiVersionsRequest struct {
 	Body   ApiVersionsRequestBody
 }
 
-// Encode doesn't need to accept a pointer to the request
-// TODO: We are not modifying the request, internally, so we can remove the pointer
-func (r *ApiVersionsRequest) Encode() []byte {
+func (r ApiVersionsRequest) Encode() []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	r.Header.EncodeV2(&encoder)
+	r.Header.Encode(&encoder)
 	r.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 
 	return messageBytes
 }
 
-func (r *ApiVersionsRequest) GetApiType() string {
+func (r ApiVersionsRequest) GetApiType() string {
 	return "ApiVersions"
 }
 
-func (r *ApiVersionsRequest) GetApiVersion() int16 {
+func (r ApiVersionsRequest) GetApiVersion() int16 {
 	return r.Header.ApiVersion
 }
 
-func (r *ApiVersionsRequest) GetCorrelationId() int32 {
+func (r ApiVersionsRequest) GetCorrelationId() int32 {
 	return r.Header.CorrelationId
 }
