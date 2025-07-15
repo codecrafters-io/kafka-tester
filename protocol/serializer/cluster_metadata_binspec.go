@@ -160,7 +160,7 @@ func GenerateClusterMetadataBinSpec(logger *logger.Logger) error {
 		return fmt.Errorf("could not generate directories: %w", err)
 	}
 
-	logger.UpdateSecondaryPrefix("Serializer")
+	logger.UpdateLastSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
 	err = writeClusterMetadataBinSpec(clusterMetadataDataFilePath, directoryUUID, logger)
@@ -169,7 +169,7 @@ func GenerateClusterMetadataBinSpec(logger *logger.Logger) error {
 	}
 
 	logger.Infof("Finished writing log files to: %s", basePath)
-	logger.ResetSecondaryPrefix()
+	logger.ResetSecondaryPrefixes()
 
 	return nil
 }

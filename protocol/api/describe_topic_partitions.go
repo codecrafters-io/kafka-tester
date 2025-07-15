@@ -23,8 +23,8 @@ func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsReques
 func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
