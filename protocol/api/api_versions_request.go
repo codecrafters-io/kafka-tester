@@ -26,6 +26,8 @@ type ApiVersionsRequest struct {
 	Body   ApiVersionsRequestBody
 }
 
+// Encode doesn't need to accept a pointer to the request
+// TODO: We are not modifying the request, internally, so we can remove the pointer
 func (r *ApiVersionsRequest) Encode() []byte {
 	encoder := realencoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
