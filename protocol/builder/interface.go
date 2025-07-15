@@ -1,8 +1,8 @@
 package builder
 
+import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+
 type RequestI interface {
 	Encode() []byte
-	GetApiType() string
-	GetApiVersion() int16
-	GetCorrelationId() int32
+	GetHeader() kafkaapi.RequestHeader
 }
