@@ -108,7 +108,7 @@ func APIKeyToName(apiKey int16) string {
 	case 1:
 		return "Fetch"
 	case 18:
-		return "APIVersions"
+		return "ApiVersions"
 	case 19:
 		return "CreateTopics"
 	case 75:
