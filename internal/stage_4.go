@@ -8,7 +8,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -66,7 +66,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 	stageLogger.UpdateSecondaryPrefix("Decoder")
 
