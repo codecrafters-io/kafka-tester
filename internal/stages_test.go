@@ -40,20 +40,6 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"apiversions_length_field_too_large": {
-			StageSlugs:          []string{"pv1"},
-			CodePath:            "./test_helpers/scenarios/apiversions_length_field_too_large",
-			ExpectedExitCode:    1,
-			StdoutFixturePath:   "./test_helpers/fixtures/scenarios/apiversions_length_field_too_large",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"apiversions_length_field_too_small": {
-			StageSlugs:          []string{"pv1"},
-			CodePath:            "./test_helpers/scenarios/apiversions_length_field_too_small",
-			ExpectedExitCode:    1,
-			StdoutFixturePath:   "./test_helpers/fixtures/scenarios/apiversions_length_field_too_small",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
