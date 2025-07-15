@@ -49,7 +49,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		},
 	}
 
-	response, err := client.SendAndReceive(&request, stageLogger)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}

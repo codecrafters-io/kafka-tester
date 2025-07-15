@@ -68,7 +68,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	response, err := client.SendAndReceive(&request, stageLogger)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}

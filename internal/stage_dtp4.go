@@ -48,7 +48,7 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		},
 	}
 
-	response, err := client.SendAndReceive(&request, stageLogger)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
