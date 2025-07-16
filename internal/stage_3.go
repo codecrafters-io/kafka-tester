@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/tester-utils/logger"
 
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
@@ -66,7 +66,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 	stageLogger.UpdateSecondaryPrefix("Decoder")
 

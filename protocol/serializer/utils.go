@@ -7,12 +7,12 @@ import (
 	"strings"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/google/uuid"
 )
 
-func GetEncodedBytes(encodableObject interface{}) []byte {
-	encoder := kafkaencoder.RealEncoder{}
+func GetEncodedBytes(encodableObject any) []byte {
+	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
 
 	switch obj := encodableObject.(type) {

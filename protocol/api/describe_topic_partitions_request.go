@@ -1,7 +1,7 @@
 package kafkaapi
 
 import (
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -10,7 +10,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r *DescribeTopicPartitionsRequestBody) Encode(pe *realencoder.RealEncoder) {
+func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.RealEncoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -36,7 +36,7 @@ type TopicName struct {
 	Name string
 }
 
-func (t *TopicName) Encode(pe *realencoder.RealEncoder) {
+func (t *TopicName) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -46,7 +46,7 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c *Cursor) Encode(pe *realencoder.RealEncoder) {
+func (c *Cursor) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
@@ -58,7 +58,7 @@ type DescribeTopicPartitionsRequest struct {
 }
 
 func (r DescribeTopicPartitionsRequest) Encode() []byte {
-	encoder := realencoder.RealEncoder{}
+	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.Header.Encode(&encoder)
