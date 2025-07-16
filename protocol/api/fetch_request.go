@@ -118,14 +118,6 @@ func (r FetchRequest) Encode() []byte {
 	return message
 }
 
-func (r FetchRequest) GetApiType() string {
-	return "Fetch"
-}
-
-func (r FetchRequest) GetApiVersion() int16 {
-	return r.Header.ApiVersion
-}
-
-func (r FetchRequest) GetCorrelationId() int32 {
-	return r.Header.CorrelationId
+func (r FetchRequest) GetHeader() RequestHeader {
+	return r.Header
 }

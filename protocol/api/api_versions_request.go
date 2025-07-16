@@ -37,14 +37,6 @@ func (r ApiVersionsRequest) Encode() []byte {
 	return messageBytes
 }
 
-func (r ApiVersionsRequest) GetApiType() string {
-	return "ApiVersions"
-}
-
-func (r ApiVersionsRequest) GetApiVersion() int16 {
-	return r.Header.ApiVersion
-}
-
-func (r ApiVersionsRequest) GetCorrelationId() int32 {
-	return r.Header.CorrelationId
+func (r ApiVersionsRequest) GetHeader() RequestHeader {
+	return r.Header
 }
