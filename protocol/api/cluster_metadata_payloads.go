@@ -67,7 +67,7 @@ func (p *PartitionRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
 func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
-	partialDecoder := decoder.RealDecoder{}
+	partialDecoder := decoder.Decoder{}
 	partialDecoder.Init(data)
 
 	p.FrameVersion, err = partialDecoder.GetInt8() // Frame Version: 0
@@ -265,7 +265,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 	return nil
 }
 
-func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
+func (p *ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 	pe.PutInt8(p.FrameVersion)
 	pe.PutInt8(p.Type)
 	pe.PutInt8(p.Version)
@@ -341,7 +341,7 @@ func (p *ClusterMetadataPayload) Encode(pe *encoder.RealEncoder) {
 }
 
 //lint:ignore U1000, these are not used in the codebase currently
-func getUUID(pd *decoder.RealDecoder) (string, error) {
+func getUUID(pd *decoder.Decoder) (string, error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
 		return "", err

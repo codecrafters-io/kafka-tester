@@ -5,11 +5,10 @@ import (
 
 	"github.com/codecrafters-io/tester-utils/logger"
 
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -65,7 +64,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
 
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	stageLogger.UpdateLastSecondaryPrefix("Decoder")
 
