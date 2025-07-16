@@ -1,15 +1,15 @@
 package kafkaapi
 
 import (
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func EncodeCreateTopicRequest(request *CreateTopicRequest) []byte {
-	encoder := realencoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	// bytes.Buffer{}
 	encoder.Init(make([]byte, 4096))
 
@@ -21,7 +21,7 @@ func EncodeCreateTopicRequest(request *CreateTopicRequest) []byte {
 }
 
 func DecodeCreateTopicHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *CreateTopicResponseBody, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefixes([]string{"Decoder"})
 	defer logger.ResetSecondaryPrefixes()

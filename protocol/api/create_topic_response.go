@@ -30,7 +30,7 @@ type CreateTopicResponseBody struct {
 	CreateTopicTopicResponses []CreateTopicTopicResponse
 }
 
-func (ct *CreateTopicResponseBody) Decode(rd *decoder.RealDecoder, version int16, logger *logger.Logger, indentation int) error {
+func (ct *CreateTopicResponseBody) Decode(rd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) error {
 	throttleTimeMs, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -91,7 +91,7 @@ type TopicConfig struct {
 	IsSensitive  bool
 }
 
-func (tc *TopicConfig) Decode(rd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
+func (tc *TopicConfig) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	name, err := rd.GetCompactString()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -157,7 +157,7 @@ func (tc *TopicConfig) Decode(rd *decoder.RealDecoder, logger *logger.Logger, in
 	return nil
 }
 
-func (t *CreateTopicTopicResponse) Decode(rd *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
+func (t *CreateTopicTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	name, err := rd.GetCompactString()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -250,7 +250,7 @@ type CreateTopicResponse struct {
 }
 
 func DecodeCreateTopicResponse(payload []byte, version int16, logger *logger.Logger) (*CreateTopicResponse, error) {
-	rd := decoder.RealDecoder{}
+	rd := decoder.Decoder{}
 	rd.Init(payload)
 
 	response := &CreateTopicResponse{}

@@ -9,7 +9,7 @@ type ConfigData struct {
 	Value string
 }
 
-func (c *ConfigData) Encode(pe *encoder.RealEncoder) {
+func (c *ConfigData) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(c.Name)
 	pe.PutNullableCompactString(&c.Value)
 	pe.PutEmptyTaggedFieldArray()
@@ -20,7 +20,7 @@ type AssignmentData struct {
 	BrokerIds      []int32
 }
 
-func (a *AssignmentData) Encode(pe *encoder.RealEncoder) {
+func (a *AssignmentData) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(a.PartitionIndex)
 	pe.PutCompactArrayLength(len(a.BrokerIds))
 	pe.PutNullableCompactInt32Array(a.BrokerIds)
@@ -35,7 +35,7 @@ type TopicData struct {
 	Configs           []ConfigData
 }
 
-func (t *TopicData) Encode(pe *encoder.RealEncoder) {
+func (t *TopicData) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutInt32(t.NumPartitions)
 	pe.PutInt16(t.ReplicationFactor)
@@ -56,7 +56,7 @@ type CreateTopicRequestBody struct {
 	ValidateOnly bool        // validate only
 }
 
-func (pr *CreateTopicRequestBody) Encode(pe *encoder.RealEncoder) {
+func (pr *CreateTopicRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutCompactArrayLength(len(pr.Topics))
 	for _, topic := range pr.Topics {
 		topic.Encode(pe)
@@ -71,7 +71,7 @@ type CreateTopicRequest struct {
 	Body   CreateTopicRequestBody
 }
 
-func (r *CreateTopicRequest) Encode(pe *encoder.RealEncoder) {
+func (r *CreateTopicRequest) Encode(pe *encoder.Encoder) {
 	r.Header.EncodeV2(pe)
 	r.Body.Encode(pe)
 }
