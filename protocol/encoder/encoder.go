@@ -10,77 +10,77 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
-type RealEncoder struct {
+type Encoder struct {
 	raw []byte
 	off int
 }
 
-func (re *RealEncoder) Init(raw []byte) {
+func (re *Encoder) Init(raw []byte) {
 	re.raw = raw
 	re.off = 0
 }
 
-func (re *RealEncoder) PutRawBytesAt(in []byte, offset int, length int) {
+func (re *Encoder) PutRawBytesAt(in []byte, offset int, length int) {
 	copy(re.raw[offset:offset+length], in)
 }
 
-func (re *RealEncoder) PutInt32At(in int32, offset int, length int) {
+func (re *Encoder) PutInt32At(in int32, offset int, length int) {
 	binary.BigEndian.PutUint32(re.raw[offset:offset+length], uint32(in))
 }
 
-func (re *RealEncoder) PutUVarintAt(in uint64, offset int) {
+func (re *Encoder) PutUVarintAt(in uint64, offset int) {
 	binary.PutUvarint(re.raw[offset:], in)
 }
 
-func (re *RealEncoder) PutVarintAt(in int64, offset int) {
+func (re *Encoder) PutVarintAt(in int64, offset int) {
 	binary.PutVarint(re.raw[offset:], in)
 }
 
 // primitives
 
-func (re *RealEncoder) PutInt8(in int8) {
+func (re *Encoder) PutInt8(in int8) {
 	re.raw[re.off] = byte(in)
 	re.off++
 }
 
-func (re *RealEncoder) PutInt16(in int16) {
+func (re *Encoder) PutInt16(in int16) {
 	binary.BigEndian.PutUint16(re.raw[re.off:], uint16(in))
 	re.off += 2
 }
 
-func (re *RealEncoder) PutInt32(in int32) {
+func (re *Encoder) PutInt32(in int32) {
 	binary.BigEndian.PutUint32(re.raw[re.off:], uint32(in))
 	re.off += 4
 }
 
-func (re *RealEncoder) PutInt64(in int64) {
+func (re *Encoder) PutInt64(in int64) {
 	binary.BigEndian.PutUint64(re.raw[re.off:], uint64(in))
 	re.off += 8
 }
 
-func (re *RealEncoder) PutVarint(in int64) {
+func (re *Encoder) PutVarint(in int64) {
 	re.off += binary.PutVarint(re.raw[re.off:], in)
 }
 
-func (re *RealEncoder) PutUVarint(in uint64) {
+func (re *Encoder) PutUVarint(in uint64) {
 	re.off += binary.PutUvarint(re.raw[re.off:], in)
 }
 
-func (re *RealEncoder) PutFloat64(in float64) {
+func (re *Encoder) PutFloat64(in float64) {
 	binary.BigEndian.PutUint64(re.raw[re.off:], math.Float64bits(in))
 	re.off += 8
 }
 
-func (re *RealEncoder) PutArrayLength(in int) {
+func (re *Encoder) PutArrayLength(in int) {
 	re.PutInt32(int32(in))
 }
 
-func (re *RealEncoder) PutCompactArrayLength(in int) {
+func (re *Encoder) PutCompactArrayLength(in int) {
 	// 0 represents a null array, so +1 has to be added
 	re.PutUVarint(uint64(in + 1))
 }
 
-func (re *RealEncoder) PutBool(in bool) {
+func (re *Encoder) PutBool(in bool) {
 	if in {
 		re.PutInt8(1)
 		return
@@ -90,12 +90,12 @@ func (re *RealEncoder) PutBool(in bool) {
 
 // collection
 
-func (re *RealEncoder) PutRawBytes(in []byte) {
+func (re *Encoder) PutRawBytes(in []byte) {
 	copy(re.raw[re.off:], in)
 	re.off += len(in)
 }
 
-func (re *RealEncoder) PutBytes(in []byte) {
+func (re *Encoder) PutBytes(in []byte) {
 	if in == nil {
 		re.PutInt32(-1)
 		return
@@ -104,7 +104,7 @@ func (re *RealEncoder) PutBytes(in []byte) {
 	re.PutRawBytes(in)
 }
 
-func (re *RealEncoder) PutVarintBytes(in []byte) {
+func (re *Encoder) PutVarintBytes(in []byte) {
 	if in == nil {
 		re.PutVarint(-1)
 		return
@@ -113,17 +113,17 @@ func (re *RealEncoder) PutVarintBytes(in []byte) {
 	re.PutRawBytes(in)
 }
 
-func (re *RealEncoder) PutCompactBytes(in []byte) {
+func (re *Encoder) PutCompactBytes(in []byte) {
 	re.PutUVarint(uint64(len(in) + 1))
 	re.PutRawBytes(in)
 }
 
-func (re *RealEncoder) PutCompactString(in string) {
+func (re *Encoder) PutCompactString(in string) {
 	re.PutCompactArrayLength(len(in))
 	re.PutRawBytes([]byte(in))
 }
 
-func (re *RealEncoder) PutNullableCompactString(in *string) {
+func (re *Encoder) PutNullableCompactString(in *string) {
 	if in == nil {
 		re.PutInt8(0)
 		return
@@ -131,13 +131,13 @@ func (re *RealEncoder) PutNullableCompactString(in *string) {
 	re.PutCompactString(*in)
 }
 
-func (re *RealEncoder) PutString(in string) {
+func (re *Encoder) PutString(in string) {
 	re.PutInt16(int16(len(in)))
 	copy(re.raw[re.off:], in)
 	re.off += len(in)
 }
 
-func (re *RealEncoder) PutNullableString(in *string) {
+func (re *Encoder) PutNullableString(in *string) {
 	if in == nil {
 		re.PutInt16(-1)
 		return
@@ -145,7 +145,7 @@ func (re *RealEncoder) PutNullableString(in *string) {
 	re.PutString(*in)
 }
 
-func (re *RealEncoder) PutStringArray(in []string) {
+func (re *Encoder) PutStringArray(in []string) {
 	re.PutArrayLength(len(in))
 
 	for _, val := range in {
@@ -153,7 +153,7 @@ func (re *RealEncoder) PutStringArray(in []string) {
 	}
 }
 
-func (re *RealEncoder) PutCompactInt32Array(in []int32) error {
+func (re *Encoder) PutCompactInt32Array(in []int32) error {
 	if in == nil {
 		return errors.NewPacketDecodingError("expected int32 array to be non null", "PutCompactInt32Array")
 	}
@@ -165,7 +165,7 @@ func (re *RealEncoder) PutCompactInt32Array(in []int32) error {
 	return nil
 }
 
-func (re *RealEncoder) PutNullableCompactInt32Array(in []int32) {
+func (re *Encoder) PutNullableCompactInt32Array(in []int32) {
 	if in == nil {
 		re.PutUVarint(0)
 	}
@@ -176,35 +176,35 @@ func (re *RealEncoder) PutNullableCompactInt32Array(in []int32) {
 	}
 }
 
-func (re *RealEncoder) PutInt32Array(in []int32) {
+func (re *Encoder) PutInt32Array(in []int32) {
 	re.PutArrayLength(len(in))
 	for _, val := range in {
 		re.PutInt32(val)
 	}
 }
 
-func (re *RealEncoder) PutInt64Array(in []int64) {
+func (re *Encoder) PutInt64Array(in []int64) {
 	re.PutArrayLength(len(in))
 	for _, val := range in {
 		re.PutInt64(val)
 	}
 }
 
-func (re *RealEncoder) PutEmptyTaggedFieldArray() {
+func (re *Encoder) PutEmptyTaggedFieldArray() {
 	re.PutUVarint(0)
 }
 
-func (re *RealEncoder) Offset() int {
+func (re *Encoder) Offset() int {
 	return re.off
 }
 
-func (re *RealEncoder) Bytes() []byte {
+func (re *Encoder) Bytes() []byte {
 	return re.raw
 }
 
 // Helpers
 
-func (re *RealEncoder) PackMessage() []byte {
+func (re *Encoder) PackMessage() []byte {
 	encoded := re.Bytes()[:re.Offset()]
 	length := int32(len(encoded))
 
