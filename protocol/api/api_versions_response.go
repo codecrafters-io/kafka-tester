@@ -21,7 +21,7 @@ type ApiVersionsResponseKey struct {
 	MaxVersion int16
 }
 
-func (a *ApiVersionsResponseKey) Decode(pd *decoder.RealDecoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (a *ApiVersionsResponseKey) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -71,7 +71,7 @@ type ApiVersionsResponse struct {
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponse) Decode(pd *decoder.RealDecoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

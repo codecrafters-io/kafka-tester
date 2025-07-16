@@ -6,12 +6,12 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logger.Logger) error {
-	encoder := kafkaencoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 40960))
 
 	topic3Name := "saz"

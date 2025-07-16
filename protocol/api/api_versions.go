@@ -1,15 +1,15 @@
 package kafkaapi
 
 import (
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
-	encoder := realencoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	request.Header.EncodeV2(&encoder)
@@ -20,7 +20,7 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 }
 
 func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
@@ -41,7 +41,7 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()

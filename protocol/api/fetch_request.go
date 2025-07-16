@@ -13,7 +13,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(pe *encoder.RealEncoder) {
+func (p *Partition) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -28,7 +28,7 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(pe *encoder.RealEncoder) {
+func (t *Topic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
@@ -51,7 +51,7 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
+func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
@@ -78,7 +78,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r *FetchRequestBody) Encode(pe *encoder.RealEncoder) {
+func (r *FetchRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)

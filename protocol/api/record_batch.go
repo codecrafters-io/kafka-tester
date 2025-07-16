@@ -6,7 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -27,7 +27,7 @@ type RecordBatch struct {
 	Records              []Record
 }
 
-func (rb *RecordBatch) Encode(pe *realencoder.RealEncoder) {
+func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	startOffset := pe.Offset()
 
 	pe.PutInt64(rb.BaseOffset)
@@ -60,7 +60,7 @@ func (rb *RecordBatch) Encode(pe *realencoder.RealEncoder) {
 	pe.PutInt32At(int32(computedChecksum), crcStartOffset, 4)
 }
 
-func (rb *RecordBatch) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (rb *RecordBatch) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if rb.BaseOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("base_offset")
@@ -210,7 +210,7 @@ type Record struct {
 	Headers        []RecordHeader
 }
 
-func (r *Record) Encode(pe *realencoder.RealEncoder) {
+func (r *Record) Encode(pe *encoder.Encoder) {
 	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
 	// As this is variable length, we can't use placeholders and update later reliably.
 	// We need to have a value, close to the actual value, such that it takes the same space
@@ -232,7 +232,7 @@ func (r *Record) Encode(pe *realencoder.RealEncoder) {
 }
 
 func (r *Record) GetEncodedLength() int {
-	encoder := realencoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
 
 	encoder.PutInt8(r.Attributes)
@@ -253,7 +253,7 @@ func (r *Record) GetEncodedLength() int {
 	return encoder.Offset()
 }
 
-func (r *Record) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (r *Record) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
 	length, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -363,14 +363,14 @@ type RecordHeader struct {
 	Value []byte
 }
 
-func (rh *RecordHeader) Encode(pe *realencoder.RealEncoder) {
+func (rh *RecordHeader) Encode(pe *encoder.Encoder) {
 	pe.PutVarint(int64(len(rh.Key)))
 	pe.PutBytes([]byte(rh.Key))
 	pe.PutVarint(int64(len(rh.Value)))
 	pe.PutBytes(rh.Value)
 }
 
-func (rh *RecordHeader) Decode(pd *decoder.RealDecoder, logger *logger.Logger, indentation int) (err error) {
+func (rh *RecordHeader) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
 	keyLength, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

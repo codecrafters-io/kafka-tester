@@ -20,7 +20,7 @@ type RequestHeader struct {
 	ClientId string
 }
 
-func (h *RequestHeader) EncodeV2(enc *encoder.RealEncoder) {
+func (h *RequestHeader) EncodeV2(enc *encoder.Encoder) {
 	enc.PutInt16(h.ApiKey)
 	enc.PutInt16(h.ApiVersion)
 	enc.PutInt32(h.CorrelationId)
@@ -33,7 +33,7 @@ type ResponseHeader struct {
 	CorrelationId int32
 }
 
-func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) DecodeV0(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -47,7 +47,7 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.RealDecoder, logger *logger.L
 	return nil
 }
 
-func (h *ResponseHeader) DecodeV1(decoder *decoder.RealDecoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) DecodeV1(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
