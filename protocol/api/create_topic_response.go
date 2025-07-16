@@ -255,7 +255,7 @@ func DecodeCreateTopicResponse(payload []byte, version int16, logger *logger.Log
 
 	response := &CreateTopicResponse{}
 
-	logger.UpdateSecondaryPrefix("Decoder")
+	logger.UpdateSecondaryPrefixes([]string{"Decoder"})
 	logger.Debugf("- .ResponseHeader")
 	err := response.Header.DecodeV1(&rd, logger, 1)
 	if err != nil {
@@ -268,6 +268,6 @@ func DecodeCreateTopicResponse(payload []byte, version int16, logger *logger.Log
 		return nil, err
 	}
 
-	logger.ResetSecondaryPrefix()
+	logger.ResetSecondaryPrefixes()
 	return response, nil
 }
