@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
@@ -13,7 +14,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(pe *encoder.Encoder) {
+func (p Partition) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -28,7 +29,7 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(pe *encoder.Encoder) {
+func (t Topic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
@@ -51,7 +52,7 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
+func (f ForgottenTopic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
@@ -73,7 +74,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r *FetchRequestBody) Encode(pe *encoder.Encoder) {
+func (r FetchRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -108,16 +109,13 @@ type FetchRequest struct {
 }
 
 func (r FetchRequest) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	r.Header.Encode(&encoder)
-	r.Body.Encode(&encoder)
-	message := encoder.PackMessage()
-
-	return message
+	return encodeRequest(r)
 }
 
-func (r FetchRequest) GetHeader() RequestHeader {
+func (r FetchRequest) GetHeader() builder.RequestHeaderI {
 	return r.Header
+}
+
+func (r FetchRequest) GetBody() builder.RequestBodyI {
+	return r.Body
 }
