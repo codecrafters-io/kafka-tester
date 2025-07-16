@@ -23,8 +23,8 @@ func EncodeCreateTopicRequest(request *CreateTopicRequest) []byte {
 func DecodeProduceHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateSecondaryPrefixes([]string{"Decoder"})
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
@@ -42,8 +42,8 @@ func DecodeProduceHeader(response []byte, version int16, logger *logger.Logger) 
 func DecodeCreateTopicHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *CreateTopicResponseBody, error) {
 	decoder := realdecoder.RealDecoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateSecondaryPrefixes([]string{"Decoder"})
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
