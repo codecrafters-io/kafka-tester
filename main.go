@@ -10,6 +10,13 @@ import (
 func main() {
 	correlationId := int32(7)
 
+	// basePath := common.LOG_DIR
+
+	// err := os.RemoveAll(basePath)
+	// if err != nil {
+	// 	panic(fmt.Errorf("could not remove log directory at %s: %w", basePath, err))
+	// }
+
 	stageLogger := logger.GetLogger(true, "[test] ")
 	broker := protocol.NewBroker("localhost:9092")
 	if err := broker.Connect(); err != nil {
@@ -57,8 +64,8 @@ func getCT1(correlationId int32) kafkaapi.CreateTopicRequest {
 		Body: kafkaapi.CreateTopicRequestBody{
 			Topics: []kafkaapi.TopicData{
 				{
-					Name:              "test-topic",
-					NumPartitions:     1,
+					Name:              "topic-1",
+					NumPartitions:     3,
 					ReplicationFactor: 1,
 					Assignments:       []kafkaapi.AssignmentData{},
 					Configs:           []kafkaapi.ConfigData{},
