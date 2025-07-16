@@ -6,7 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -272,10 +272,10 @@ func (a FetchResponseAssertion) Run() error {
 }
 
 func encodeRecordBatches(recordBatches []kafkaapi.RecordBatch) []byte {
-	// Given an array of RecordBatch, encodes them using the encoder.RealEncoder
+	// Given an array of RecordBatch, encodes them using the encoder.Encoder
 	// and returns the resulting bytes.
 
-	encoder := realencoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 	for _, recordBatch := range recordBatches {
 		recordBatch.Encode(&encoder)
