@@ -10,10 +10,12 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+// TODO: Type should be DescribeTopicPartitionsResponseBody
+
 type DescribeTopicPartitionsResponse struct {
 	ThrottleTimeMs int32
-	Topics         []DescribeTopicPartitionsResponseTopic
-	NextCursor     DescribeTopicPartitionsResponseCursor
+	Topics         []DescribeTopicPartitionsResponseTopic // TODO: Private, requires builder interface
+	NextCursor     DescribeTopicPartitionsResponseCursor  // TODO: Private, requires builder interface
 }
 
 func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {

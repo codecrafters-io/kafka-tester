@@ -161,7 +161,7 @@ func (c *Client) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := c.conn.Read(lengthResponse)
+	_, err := io.ReadFull(c.conn, lengthResponse)
 	if err != nil {
 		return response, err
 	}
@@ -175,10 +175,12 @@ func (c *Client) Receive() (Response, error) {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(c.conn, bodyResponse)
+	numBytesRead, err := io.ReadFull(c.conn, bodyResponse)
 
 	// Reset the read deadline
 	c.conn.SetReadDeadline(time.Time{})
+
+	bodyResponse = bodyResponse[:numBytesRead]
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {

@@ -62,7 +62,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).AssertHeader().Run(); err != nil {
 		return err
 	}
 
@@ -79,7 +79,8 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	}
 
 	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, stageLogger).
-		AssertBody([]string{"ThrottleTimeMs"}).
-		AssertTopics([]string{"ErrorCode", "Name", "TopicID"}, []string{}).
+		AssertBody().
+		AssertOnlyTopics().
+		AssertEmptyPartitions().
 		Run()
 }

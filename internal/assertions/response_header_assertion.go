@@ -10,18 +10,42 @@ import (
 type ResponseHeaderAssertion struct {
 	ActualValue   kafkaapi.ResponseHeader
 	ExpectedValue kafkaapi.ResponseHeader
+	logger        *logger.Logger
+	err           error
+
+	// nil = don't assert this level
+	// empty slice = assert all fields (default)
+	// non-empty slice = assert with exclusions
+	excludedHeaderFields []string
 }
 
-func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedValue kafkaapi.ResponseHeader) ResponseHeaderAssertion {
-	return ResponseHeaderAssertion{ActualValue: actualValue, ExpectedValue: expectedValue}
-}
-
-func (a ResponseHeaderAssertion) Evaluate(fields []string, logger *logger.Logger) error {
-	if Contains(fields, "CorrelationId") {
-		if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
-			return fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
-		}
-		logger.Successf("✓ Correlation ID: %v", a.ActualValue.CorrelationId)
+func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedValue kafkaapi.ResponseHeader, logger *logger.Logger) *ResponseHeaderAssertion {
+	return &ResponseHeaderAssertion{
+		ActualValue:          actualValue,
+		ExpectedValue:        expectedValue,
+		logger:               logger,
+		excludedHeaderFields: []string{},
 	}
-	return nil
+}
+
+// AssertHeader asserts the contents of the response header
+// Fields asserted by default: CorrelationId
+func (a *ResponseHeaderAssertion) AssertHeader() *ResponseHeaderAssertion {
+	if a.err != nil {
+		return a
+	}
+
+	if !Contains(a.excludedHeaderFields, "CorrelationId") {
+		if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
+			a.err = fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
+			return a
+		}
+		a.logger.Successf("✓ Correlation ID: %v", a.ActualValue.CorrelationId)
+	}
+
+	return a
+}
+
+func (a *ResponseHeaderAssertion) Run() error {
+	return a.err
 }
