@@ -114,6 +114,6 @@ func APIKeyToName(apiKey int16) string {
 	case 75:
 		return "DescribeTopicPartitions"
 	default:
-		return "Unknown"
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown API key: %v", apiKey))
 	}
 }
