@@ -15,11 +15,13 @@ type ApiVersionsRequestBody struct {
 }
 
 func (r ApiVersionsRequestBody) Encode(enc *encoder.Encoder) {
-	if r.Version >= 3 {
-		enc.PutCompactString(r.ClientSoftwareName)
-		enc.PutCompactString(r.ClientSoftwareVersion)
-		enc.PutEmptyTaggedFieldArray()
+	if r.Version < 3 {
+		panic("CodeCrafers Internal Error: ApiVersionsRequestBody.Version must be >= 3")
 	}
+
+	enc.PutCompactString(r.ClientSoftwareName)
+	enc.PutCompactString(r.ClientSoftwareVersion)
+	enc.PutEmptyTaggedFieldArray()
 }
 
 type ApiVersionsRequest struct {
