@@ -19,7 +19,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
 	header := kafkaapi.ResponseHeader{}
@@ -63,7 +63,7 @@ func TestFetchv16With1Message(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
 	header := kafkaapi.ResponseHeader{}
@@ -116,7 +116,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
 	header := kafkaapi.ResponseHeader{}
@@ -166,7 +166,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
 	header := kafkaapi.ResponseHeader{}
@@ -215,7 +215,7 @@ func TestAPIVersionv3(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
 	responseHeader := kafkaapi.ResponseHeader{}

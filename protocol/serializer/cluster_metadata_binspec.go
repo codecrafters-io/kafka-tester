@@ -11,7 +11,7 @@ import (
 )
 
 func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logger.Logger) error {
-	encoder := kafkaencoder.RealEncoder{}
+	encoder := kafkaencoder.Encoder{}
 	encoder.Init(make([]byte, 40960))
 
 	topic3Name := "saz"

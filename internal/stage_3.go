@@ -66,7 +66,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	stageLogger.UpdateSecondaryPrefix("Decoder")
 

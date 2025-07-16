@@ -12,7 +12,7 @@ import (
 )
 
 func GetEncodedBytes(encodableObject any) []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
 
 	switch obj := encodableObject.(type) {

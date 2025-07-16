@@ -13,7 +13,7 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r ApiVersionsRequestBody) Encode(enc *encoder.RealEncoder) {
+func (r ApiVersionsRequestBody) Encode(enc *encoder.Encoder) {
 	if r.Version >= 3 {
 		enc.PutCompactString(r.ClientSoftwareName)
 		enc.PutCompactString(r.ClientSoftwareVersion)
@@ -27,7 +27,7 @@ type ApiVersionsRequest struct {
 }
 
 func (r ApiVersionsRequest) Encode() []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.Header.Encode(&encoder)

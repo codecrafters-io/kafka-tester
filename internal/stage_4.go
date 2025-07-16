@@ -66,7 +66,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
 
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	stageLogger.UpdateSecondaryPrefix("Decoder")
 

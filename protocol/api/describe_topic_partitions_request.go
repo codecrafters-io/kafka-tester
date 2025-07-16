@@ -10,7 +10,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.RealEncoder) {
+func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.Encoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -36,7 +36,7 @@ type TopicName struct {
 	Name string
 }
 
-func (t *TopicName) Encode(pe *encoder.RealEncoder) {
+func (t *TopicName) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -46,7 +46,7 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c *Cursor) Encode(pe *encoder.RealEncoder) {
+func (c *Cursor) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
@@ -58,7 +58,7 @@ type DescribeTopicPartitionsRequest struct {
 }
 
 func (r DescribeTopicPartitionsRequest) Encode() []byte {
-	encoder := encoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.Header.Encode(&encoder)

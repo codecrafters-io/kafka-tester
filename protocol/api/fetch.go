@@ -8,7 +8,7 @@ import (
 )
 
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -27,7 +27,7 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 }
 
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
-	decoder := decoder.RealDecoder{}
+	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()

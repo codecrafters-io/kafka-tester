@@ -272,10 +272,10 @@ func (a FetchResponseAssertion) Run() error {
 }
 
 func encodeRecordBatches(recordBatches []kafkaapi.RecordBatch) []byte {
-	// Given an array of RecordBatch, encodes them using the encoder.RealEncoder
+	// Given an array of RecordBatch, encodes them using the encoder.Encoder
 	// and returns the resulting bytes.
 
-	encoder := encoder.RealEncoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 	for _, recordBatch := range recordBatches {
 		recordBatch.Encode(&encoder)
