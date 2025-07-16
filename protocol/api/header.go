@@ -20,6 +20,18 @@ type RequestHeader struct {
 	ClientId string
 }
 
+func (h RequestHeader) GetApiKey() int16 {
+	return h.ApiKey
+}
+
+func (h RequestHeader) GetApiVersion() int16 {
+	return h.ApiVersion
+}
+
+func (h RequestHeader) GetCorrelationId() int32 {
+	return h.CorrelationId
+}
+
 func (h RequestHeader) Encode(enc *encoder.Encoder) {
 	h.encodeV2(enc)
 }
