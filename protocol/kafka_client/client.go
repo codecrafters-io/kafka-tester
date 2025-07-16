@@ -1,4 +1,4 @@
-package protocol
+package kafka_client
 
 import (
 	"bytes"
@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/protocol"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -24,27 +26,28 @@ func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Respon
 	}
 }
 
-// Broker represents a single Kafka broker connection. All operations on this object are entirely concurrency-safe.
-type Broker struct {
+// Client represents a single connection to the Kafka broker.
+// All operations on this object are entirely concurrency-safe.
+type Client struct {
 	id   int32
 	addr string
 	conn net.Conn
 }
 
-// NewBroker creates and returns a Broker targeting the given host:port address.
+// NewClient creates and returns a Client targeting the given host:port address.
 // This does not attempt to actually connect, you have to call Open() for that.
-func NewBroker(addr string) *Broker {
-	return &Broker{id: -1, addr: addr}
+func NewClient(addr string) *Client {
+	return &Client{id: -1, addr: addr}
 }
 
-func (b *Broker) Connect() error {
+func (c *Client) Connect() error {
 	RETRIES := 10
 
 	retries := 0
 	var err error
 	var conn net.Conn
 	for {
-		conn, err = net.Dial("tcp", b.addr)
+		conn, err = net.Dial("tcp", c.addr)
 		if err != nil && retries > RETRIES {
 			return err
 		}
@@ -55,20 +58,20 @@ func (b *Broker) Connect() error {
 			break
 		}
 	}
-	b.conn = conn
+	c.conn = conn
 
 	return nil
 }
 
-func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
+func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
 	RETRIES := 10
-	logger.Debugf("Connecting to broker at: %s", b.addr)
+	logger.Debugf("Connecting to broker at: %s", c.addr)
 
 	retries := 0
 	var err error
 	var conn net.Conn
 	for {
-		conn, err = net.Dial("tcp", b.addr)
+		conn, err = net.Dial("tcp", c.addr)
 		if err != nil && retries > RETRIES {
 			logger.Infof("All retries failed. Exiting.")
 			return err
@@ -91,47 +94,58 @@ func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 			break
 		}
 	}
-	logger.Debugf("Connection to broker at %s successful", b.addr)
-	b.conn = conn
+	logger.Debugf("Connection to broker at %s successful", c.addr)
+	c.conn = conn
 
 	return nil
 }
 
-func (b *Broker) Close() error {
-	err := b.conn.Close()
+func (c *Client) Close() error {
+	err := c.conn.Close()
 	if err != nil {
-		return fmt.Errorf("Failed to close connection to broker at %s: %s", b.addr, err)
+		return fmt.Errorf("Failed to close connection to broker at %s: %s", c.addr, err)
 	}
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (c *Client) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
+	header := request.GetHeader()
+	apiType := protocol.APIKeyToName(header.ApiKey)
+	apiVersion := header.ApiVersion
+	correlationId := header.CorrelationId
+	message := request.Encode()
+
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, protocol.GetFormattedHexdump(message))
+
 	response := Response{}
 
-	err := b.Send(request)
+	err := c.Send(message)
 	if err != nil {
 		return response, err
 	}
 
-	response, err = b.Receive()
+	response, err = c.Receive()
 	if err != nil {
 		return response, err
 	}
+
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, protocol.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }
 
-func (b *Broker) Send(message []byte) error {
+func (c *Client) Send(message []byte) error {
 	// Set a deadline for the write operation
-	err := b.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
+	err := c.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
 		return fmt.Errorf("failed to set write deadline: %v", err)
 	}
 
-	_, err = b.conn.Write(message)
+	_, err = c.conn.Write(message)
 
 	// Reset the write deadline
-	b.conn.SetWriteDeadline(time.Time{})
+	c.conn.SetWriteDeadline(time.Time{})
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
@@ -143,11 +157,11 @@ func (b *Broker) Send(message []byte) error {
 	return nil
 }
 
-func (b *Broker) Receive() (Response, error) {
+func (c *Client) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := b.conn.Read(lengthResponse)
+	_, err := c.conn.Read(lengthResponse)
 	if err != nil {
 		return response, err
 	}
@@ -156,15 +170,15 @@ func (b *Broker) Receive() (Response, error) {
 	bodyResponse := make([]byte, length)
 
 	// Set a deadline for the read operation
-	err = b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
+	err = c.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(b.conn, bodyResponse)
+	_, err = io.ReadFull(c.conn, bodyResponse)
 
 	// Reset the read deadline
-	b.conn.SetReadDeadline(time.Time{})
+	c.conn.SetReadDeadline(time.Time{})
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
@@ -178,21 +192,21 @@ func (b *Broker) Receive() (Response, error) {
 	return response.createFrom(lengthResponse, bodyResponse), nil
 }
 
-func (b *Broker) ReceiveRaw() ([]byte, error) {
+func (c *Client) ReceiveRaw() ([]byte, error) {
 	var buf bytes.Buffer
 
 	// Set a deadline for the read operation
-	err := b.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
+	err := c.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
 		return nil, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
 	// Use a limited reader to prevent reading indefinitely
-	limitedReader := io.LimitReader(b.conn, 1024*1024) // Limit to 1MB, adjust as needed
+	limitedReader := io.LimitReader(c.conn, 1024*1024) // Limit to 1MB, adjust as needed
 	_, err = io.Copy(&buf, limitedReader)
 
 	// Reset the read deadline
-	b.conn.SetReadDeadline(time.Time{})
+	c.conn.SetReadDeadline(time.Time{})
 
 	if err != nil && err != io.EOF {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
