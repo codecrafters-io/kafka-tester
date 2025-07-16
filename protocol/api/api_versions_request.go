@@ -30,14 +30,7 @@ type ApiVersionsRequest struct {
 }
 
 func (r ApiVersionsRequest) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	r.Header.Encode(&encoder)
-	r.Body.Encode(&encoder)
-	messageBytes := encoder.PackMessage()
-
-	return messageBytes
+	return encodeRequest(r)
 }
 
 func (r ApiVersionsRequest) GetHeader() builder.RequestHeaderI {

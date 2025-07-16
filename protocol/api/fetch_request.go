@@ -109,14 +109,7 @@ type FetchRequest struct {
 }
 
 func (r FetchRequest) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	r.Header.Encode(&encoder)
-	r.Body.Encode(&encoder)
-	message := encoder.PackMessage()
-
-	return message
+	return encodeRequest(r)
 }
 
 func (r FetchRequest) GetHeader() builder.RequestHeaderI {
