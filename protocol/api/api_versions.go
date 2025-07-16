@@ -24,8 +24,8 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
@@ -45,8 +45,8 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")

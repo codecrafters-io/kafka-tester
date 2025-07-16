@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func GetEncodedBytes(encodableObject any) []byte {
+func GetEncodedBytes(encodableObject interface{}) []byte {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
 

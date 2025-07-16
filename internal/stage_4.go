@@ -68,7 +68,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	stageLogger.UpdateSecondaryPrefix("Decoder")
+	stageLogger.UpdateLastSecondaryPrefix("Decoder")
 
 	stageLogger.Debugf("- .Response")
 	messageLength, err := decoder.GetInt32()
@@ -101,7 +101,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 	protocol.LogWithIndentation(stageLogger, 1, "- .error_code (%d)", errorCode)
-	stageLogger.ResetSecondaryPrefix()
+	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != correlationId {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)

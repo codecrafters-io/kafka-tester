@@ -2,7 +2,6 @@ package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -10,8 +9,8 @@ import (
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
@@ -29,8 +28,8 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")

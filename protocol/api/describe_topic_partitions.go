@@ -11,8 +11,8 @@ import (
 func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	logger.UpdateSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefix()
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	defer logger.ResetSecondaryPrefixes()
 
 	responseHeader := ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")

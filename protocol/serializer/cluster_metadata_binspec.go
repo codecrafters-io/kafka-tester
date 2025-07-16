@@ -6,12 +6,12 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	kafkaencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logger.Logger) error {
-	encoder := kafkaencoder.Encoder{}
+	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 40960))
 
 	topic3Name := "saz"
@@ -160,7 +160,7 @@ func GenerateClusterMetadataBinSpec(logger *logger.Logger) error {
 		return fmt.Errorf("could not generate directories: %w", err)
 	}
 
-	logger.UpdateSecondaryPrefix("Serializer")
+	logger.UpdateLastSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
 	err = writeClusterMetadataBinSpec(clusterMetadataDataFilePath, directoryUUID, logger)
@@ -169,7 +169,7 @@ func GenerateClusterMetadataBinSpec(logger *logger.Logger) error {
 	}
 
 	logger.Infof("Finished writing log files to: %s", basePath)
-	logger.ResetSecondaryPrefix()
+	logger.ResetSecondaryPrefixes()
 
 	return nil
 }

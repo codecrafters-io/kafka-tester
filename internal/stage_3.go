@@ -2,15 +2,16 @@ package internal
 
 import (
 	"fmt"
-
 	"github.com/codecrafters-io/tester-utils/logger"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 
+
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -68,7 +69,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
-	stageLogger.UpdateSecondaryPrefix("Decoder")
+	stageLogger.UpdateLastSecondaryPrefix("Decoder")
 
 	stageLogger.Debugf("- .Response")
 	messageLength, err := decoder.GetInt32()
@@ -91,7 +92,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
-	stageLogger.ResetSecondaryPrefix()
+	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != correlationId {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)

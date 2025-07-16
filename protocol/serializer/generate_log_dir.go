@@ -70,7 +70,7 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 		return fmt.Errorf("could not generate directories: %w", err)
 	}
 
-	logger.UpdateSecondaryPrefix("Serializer")
+	logger.UpdateLastSecondaryPrefix("Serializer")
 	logger.Debugf("Writing log files to: %s", basePath)
 
 	err = writeKraftServerProperties(kraftServerPropertiesPath, logger)
@@ -143,7 +143,7 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 	}
 
 	logger.Infof("Finished writing log files to: %s", basePath)
-	logger.ResetSecondaryPrefix()
+	logger.ResetSecondaryPrefixes()
 
 	return nil
 }
