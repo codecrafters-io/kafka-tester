@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
@@ -118,6 +119,10 @@ func (r FetchRequest) Encode() []byte {
 	return message
 }
 
-func (r FetchRequest) GetHeader() RequestHeader {
+func (r FetchRequest) GetHeader() builder.RequestHeaderI {
 	return r.Header
+}
+
+func (r FetchRequest) GetBody() builder.RequestBodyI {
+	return r.Body
 }
