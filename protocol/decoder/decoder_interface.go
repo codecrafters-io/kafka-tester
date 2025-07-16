@@ -1,9 +1,9 @@
 package decoder
 
-// PacketDecoder is the interface providing helpers for reading with Kafka's encoding rules.
+// DecoderI is the interface providing helpers for reading with Kafka's encoding rules.
 // Types implementing Decoder only need to worry about calling methods like GetString,
 // not about how a string is represented in Kafka.
-type PacketDecoder interface {
+type DecoderI interface {
 	// Primitives
 
 	GetInt8() (int8, error)
@@ -36,7 +36,7 @@ type PacketDecoder interface {
 	// Subsets
 
 	Remaining() int
-	GetSubset(length int) (PacketDecoder, error)
-	Peek(offset, length int) (PacketDecoder, error) // similar to GetSubset, but it doesn't advance the offset
-	PeekInt8(offset int) (int8, error)              // similar to peek, but just one byte
+	GetSubset(length int) (DecoderI, error)
+	Peek(offset, length int) (DecoderI, error) // similar to GetSubset, but it doesn't advance the offset
+	PeekInt8(offset int) (int8, error)         // similar to peek, but just one byte
 }
