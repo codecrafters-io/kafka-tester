@@ -98,6 +98,7 @@ func (re *RealEncoder) PutRawBytes(in []byte) {
 func (re *RealEncoder) PutBytes(in []byte) {
 	if in == nil {
 		re.PutInt32(-1)
+		return
 	}
 	re.PutInt32(int32(len(in)))
 	re.PutRawBytes(in)
@@ -106,6 +107,7 @@ func (re *RealEncoder) PutBytes(in []byte) {
 func (re *RealEncoder) PutVarintBytes(in []byte) {
 	if in == nil {
 		re.PutVarint(-1)
+		return
 	}
 	re.PutVarint(int64(len(in)))
 	re.PutRawBytes(in)
