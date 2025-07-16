@@ -1,7 +1,7 @@
 package kafkaapi
 
 import (
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 type Partition struct {
@@ -13,7 +13,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(pe *realencoder.RealEncoder) {
+func (p *Partition) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -28,8 +28,8 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(pe *realencoder.RealEncoder) {
-	uuidBytes, err := realencoder.EncodeUUID(t.TopicUUID)
+func (t *Topic) Encode(pe *encoder.RealEncoder) {
+	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
 	}
@@ -51,8 +51,8 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(pe *realencoder.RealEncoder) {
-	uuidBytes, err := realencoder.EncodeUUID(f.TopicUUID)
+func (f *ForgottenTopic) Encode(pe *encoder.RealEncoder) {
+	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
 	}
@@ -73,7 +73,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r *FetchRequestBody) Encode(pe *realencoder.RealEncoder) {
+func (r *FetchRequestBody) Encode(pe *encoder.RealEncoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -107,25 +107,25 @@ type FetchRequest struct {
 	Body   FetchRequestBody
 }
 
-func (r *FetchRequest) Encode() []byte {
-	encoder := realencoder.RealEncoder{}
+func (r FetchRequest) Encode() []byte {
+	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	r.Header.EncodeV2(&encoder)
+	r.Header.Encode(&encoder)
 	r.Body.Encode(&encoder)
 	message := encoder.PackMessage()
 
 	return message
 }
 
-func (r *FetchRequest) GetApiType() string {
+func (r FetchRequest) GetApiType() string {
 	return "Fetch"
 }
 
-func (r *FetchRequest) GetApiVersion() int16 {
+func (r FetchRequest) GetApiVersion() int16 {
 	return r.Header.ApiVersion
 }
 
-func (r *FetchRequest) GetCorrelationId() int32 {
+func (r FetchRequest) GetCorrelationId() int32 {
 	return r.Header.CorrelationId
 }

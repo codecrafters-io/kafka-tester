@@ -47,7 +47,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	response, err := client.SendAndReceive(&request, stageLogger)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}

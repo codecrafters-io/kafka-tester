@@ -1,7 +1,7 @@
 package kafkaapi
 
 import (
-	realencoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -10,7 +10,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r *DescribeTopicPartitionsRequestBody) Encode(pe *realencoder.RealEncoder) {
+func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.RealEncoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -36,7 +36,7 @@ type TopicName struct {
 	Name string
 }
 
-func (t *TopicName) Encode(pe *realencoder.RealEncoder) {
+func (t *TopicName) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -46,7 +46,7 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c *Cursor) Encode(pe *realencoder.RealEncoder) {
+func (c *Cursor) Encode(pe *encoder.RealEncoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
@@ -57,11 +57,11 @@ type DescribeTopicPartitionsRequest struct {
 	Body   DescribeTopicPartitionsRequestBody
 }
 
-func (r *DescribeTopicPartitionsRequest) Encode() []byte {
-	encoder := realencoder.RealEncoder{}
+func (r DescribeTopicPartitionsRequest) Encode() []byte {
+	encoder := encoder.RealEncoder{}
 	encoder.Init(make([]byte, 4096))
 
-	r.Header.EncodeV2(&encoder)
+	r.Header.Encode(&encoder)
 	r.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 
@@ -69,14 +69,14 @@ func (r *DescribeTopicPartitionsRequest) Encode() []byte {
 
 }
 
-func (r *DescribeTopicPartitionsRequest) GetApiType() string {
+func (r DescribeTopicPartitionsRequest) GetApiType() string {
 	return "DescribeTopicPartitions"
 }
 
-func (r *DescribeTopicPartitionsRequest) GetApiVersion() int16 {
+func (r DescribeTopicPartitionsRequest) GetApiVersion() int16 {
 	return r.Header.ApiVersion
 }
 
-func (r *DescribeTopicPartitionsRequest) GetCorrelationId() int32 {
+func (r DescribeTopicPartitionsRequest) GetCorrelationId() int32 {
 	return r.Header.CorrelationId
 }

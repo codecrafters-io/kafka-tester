@@ -1,14 +1,14 @@
 package kafkaapi
 
 import (
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()
@@ -27,7 +27,7 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 }
 
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()

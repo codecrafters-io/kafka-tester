@@ -1,7 +1,7 @@
 package kafkaapi
 
 import (
-	realdecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -9,7 +9,7 @@ import (
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
 func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
-	decoder := realdecoder.RealDecoder{}
+	decoder := decoder.RealDecoder{}
 	decoder.Init(response)
 	logger.UpdateSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefix()

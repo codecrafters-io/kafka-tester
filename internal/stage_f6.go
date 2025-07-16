@@ -65,7 +65,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	response, err := client.SendAndReceive(&request, logger)
+	response, err := client.SendAndReceive(request, logger)
 	if err != nil {
 		return err
 	}
