@@ -1,8 +1,6 @@
 package internal
 
 import (
-	"reflect"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -78,15 +76,15 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	///////////////////////////////////////////////////////////////
-	actualResponse := kafkaapi.ProduceResponse{
-		Header: *responseHeader,
-		Body:   *responseBody,
-	}
+	// actualResponse := kafkaapi.ProduceResponse{
+	// 	Header: *responseHeader,
+	// 	Body:   *responseBody,
+	// }
 
-	if !reflect.DeepEqual(actualResponse, expectedResponse) {
-		stageLogger.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
-	}
-	stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
+	// if !reflect.DeepEqual(actualResponse, expectedResponse) {
+	// 	stageLogger.Errorf("Expected response body to be %v, got %v", expectedResponse, actualResponse)
+	// }
+	// stageLogger.Successf("✓ Produce response body: %v", responseBody.Responses)
 	///////////////////////////////////////////////////////////////
 
 	assertion := assertions.NewProduceResponseAssertion(*responseBody, expectedResponse.Body, stageLogger)
