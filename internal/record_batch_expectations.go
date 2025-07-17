@@ -92,12 +92,14 @@ func encodeRecordBatchesInLogFile(topicName string, partition int32, stageLogger
 	logFilePath := getLogFilePathForTopic(topicName, partition)
 
 	// Parse the log file to get actual RecordBatch data
-	quietLogger := logger.GetQuietLogger("logparser")
-	logParser := logparser.NewLogFileParser(quietLogger)
+	// quietLogger := logger.GetQuietLogger("logparser")
+	stageLogger.UpdateSecondaryPrefix("logparser")
+	logParser := logparser.NewLogFileParser(stageLogger)
 	result, err := logParser.ParseLogFile(logFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse log file %s: %w", logFilePath, err)
 	}
+	stageLogger.ResetSecondaryPrefix()
 
 	encodedBatches := make([][]byte, 0)
 
