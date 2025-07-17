@@ -33,6 +33,8 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
+	// 1
+
 	existingTopic := common.TOPIC4_NAME
 	existingPartition := int32(random.RandomInt(0, 3))
 	request := kafkaapi.ProduceRequest{
@@ -74,6 +76,13 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	err = bodyAssertion.AssertBody([]string{"ThrottleTimeMs"}).
 		AssertTopics([]string{"Name"}, []string{"ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"}).
 		Run()
+	if err != nil {
+		return err
+	}
+
+	// Validate RecordBatch in log file
+	expectedBatch := buildExpectedRecordBatchForStageP5()
+	err = validateRecordBatchInLogFile(existingTopic, existingPartition, expectedBatch, stageLogger)
 	if err != nil {
 		return err
 	}
