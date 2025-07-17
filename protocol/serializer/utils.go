@@ -11,6 +11,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// GetEncodedBytes encodes an object into a byte array
+// Works only for ClusterMetadataPayload types for now
 func GetEncodedBytes(encodableObject interface{}) []byte {
 	encoder := kafkaencoder.RealEncoder{}
 	encoder.Init(make([]byte, 1024))
@@ -18,6 +20,24 @@ func GetEncodedBytes(encodableObject interface{}) []byte {
 	switch obj := encodableObject.(type) {
 	case kafkaapi.ClusterMetadataPayload:
 		obj.Encode(&encoder)
+	}
+
+	encoded := encoder.Bytes()[:encoder.Offset()]
+
+	return encoded
+}
+
+func GetAnyEncodedBytes(encodableObject interface{}) []byte {
+	encoder := kafkaencoder.RealEncoder{}
+	encoder.Init(make([]byte, 1024))
+
+	switch obj := encodableObject.(type) {
+	case kafkaapi.RecordBatch:
+		obj.Encode(&encoder)
+	case kafkaapi.Record:
+		obj.Encode(&encoder)
+	default:
+		panic(fmt.Sprintf("GetAnyEncodedBytes: unsupported type: %T", obj))
 	}
 
 	encoded := encoder.Bytes()[:encoder.Offset()]
