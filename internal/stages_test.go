@@ -79,7 +79,6 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"max_timestamp":          {regexp.MustCompile(`- .max_timestamp \([0-9]{1,}\)`)},
 		"base_timestamp":         {regexp.MustCompile(`- .base_timestamp \([0-9]{1,}\)`)},
 		"Topic Name 1":           {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Name: [A-Za-z -]{3,}`)},
-		"topic_name_1":           {regexp.MustCompile(`- .topic_name \(.*\)`)},
 		"Found recordBatches":    {regexp.MustCompile(`.*\[tester::#[A-Z0-9]{3}\].*Found [0-9]{1,} RecordBatches in .*`)},
 	}
 
