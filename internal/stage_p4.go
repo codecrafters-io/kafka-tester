@@ -3,7 +3,6 @@ package internal
 import (
 	"bytes"
 	"fmt"
-	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
@@ -112,17 +111,6 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err != nil {
 		return err
 	}
-
-	// Validate RecordBatch in log file
-	// expectedBatch := buildExpectedRecordBatchForStageP4()
-	// err = validateRecordBatchInLogFile(existingTopic, existingPartition, expectedBatch, stageLogger)
-	// if err != nil {
-	// 	return err
-	// }
-
-	stageLogger.Infof("Validated RecordBatch in log file for topic %s, partition %d", existingTopic, existingPartition)
-	stageLogger.Infof("Sleeping for 1 second")
-	time.Sleep(1 * time.Second)
 
 	// 2
 
