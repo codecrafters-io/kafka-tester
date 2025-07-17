@@ -8,14 +8,20 @@ import (
 
 type ProduceRequestBuilder struct {
 	// topicName -> partitionIndex -> recordBatches
-	topics map[string]map[int32][]kafkaapi.RecordBatch
+	topics       map[string]map[int32][]kafkaapi.RecordBatch
+	baseSequence int32
 }
 
 func NewProduceRequestBuilder() ProduceRequestBuilderI {
-	return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch)}
+	return &ProduceRequestBuilder{topics: make(map[string]map[int32][]kafkaapi.RecordBatch), baseSequence: 0}
 }
 
 // TODO: Use a RecordBatchBuilder maybe ?
+
+func (b *ProduceRequestBuilder) WithBaseSequence(baseSequence int32) ProduceRequestBuilderI {
+	b.baseSequence = baseSequence
+	return b
+}
 
 func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string, partitionIndex int32, messages []string) ProduceRequestBuilderI {
 	// Initialize topic if it doesn't exist
@@ -44,7 +50,7 @@ func (b *ProduceRequestBuilder) AddRecordBatchToTopicPartition(topicName string,
 		MaxTimestamp:    time.Now().UnixMilli(),
 		ProducerId:      0,
 		ProducerEpoch:   0,
-		BaseSequence:    0,
+		BaseSequence:    b.baseSequence,
 		Records:         records,
 	}
 
