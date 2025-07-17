@@ -1,12 +1,8 @@
 package builder
 
-import (
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-)
-
 type RequestBuilder struct {
 	requestType string
-	topics      map[string]map[int32][]kafkaapi.RecordBatch // topicName -> partitionIndex -> recordBatches
+	// topics      map[string]map[int32][]kafkaapi.RecordBatch // topicName -> partitionIndex -> recordBatches
 }
 
 func (b *RequestBuilder) Build() RequestBodyI {

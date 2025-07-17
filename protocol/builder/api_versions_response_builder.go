@@ -43,8 +43,8 @@ func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *A
 	return b
 }
 
+// Build should return whole response, Ref: produce_response_builder.go
 // TODO: ApiVersionsResponse should contain both body and header
-// Build would return whole response, Ref: produce_response_builder.go
 func (b *ApiVersionsResponseBuilder) Build(correlationId int32) kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
 		Version:        b.version,
