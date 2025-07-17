@@ -81,7 +81,7 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"base_timestamp":         {regexp.MustCompile(`- .base_timestamp \([0-9]{1,}\)`)},
 		"Topic Name 1":           {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Name: [A-Za-z -]{3,}`)},
 		"Found recordBatches":    {regexp.MustCompile(`.*\[tester::#[A-Z0-9]{3}\].*Found [0-9]{1,} RecordBatches in .*`)},
-		"Decoding":               {regexp.MustCompile(`Decoding RecordBatch[\d] at offset [0-9]{1,}`)},
+		"Decoding":               {regexp.MustCompile(`Decoding RecordBatch\[[\d]\] at offset [0-9]{1,}`)},
 	}
 
 	for replacement, regexes := range replacements {
