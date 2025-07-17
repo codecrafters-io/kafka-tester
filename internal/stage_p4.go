@@ -119,22 +119,19 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	// Validate RecordBatch in log file
 	encodedBatches, err := encodeRecordBatchesInLogFile(existingTopic, existingPartition, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	request2.Body.Topics[0].Partitions[0].Records[0].BaseOffset = 1
-	as := serializer.GetAnyEncodedBytes(request1.Body.Topics[0].Partitions[0].Records[0])
-	as2 := serializer.GetAnyEncodedBytes(request2.Body.Topics[0].Partitions[0].Records[0])
+	encodedBatchesFromRequests := encodeRecordBatches([]kafkaapi.RecordBatch{request1.Body.Topics[0].Partitions[0].Records[0], request2.Body.Topics[0].Partitions[0].Records[0]})
 
-	if bytes.Equal(as, encodedBatches[0]) && bytes.Equal(as2, encodedBatches[1]) {
+	if bytes.Equal(encodedBatchesFromRequests[0], encodedBatches[0]) && bytes.Equal(encodedBatchesFromRequests[1], encodedBatches[1]) {
 		stageLogger.Infof("RecordBatches in log file match expected RecordBatches")
 	} else {
-		fmt.Println("as", as)
+		fmt.Println("encodedBatchesFromRequests[0]", encodedBatchesFromRequests[0])
 		fmt.Println("encodedBatches[0]", encodedBatches[0])
-		fmt.Println("as2", as2)
+		fmt.Println("encodedBatchesFromRequests[1]", encodedBatchesFromRequests[1])
 		fmt.Println("encodedBatches[1]", encodedBatches[1])
 		stageLogger.Errorf("RecordBatches in log file do not match expected RecordBatches")
 		return fmt.Errorf("RecordBatches in log file do not match expected RecordBatches")
