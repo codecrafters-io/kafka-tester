@@ -94,11 +94,13 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	// 2
 
+	correlationId2 := getRandomCorrelationId()
 	request2 := kafkaapi.ProduceRequest{
 		Header: builder.NewRequestHeaderBuilder().
-			BuildProduceRequestHeader(correlationId),
+			BuildProduceRequestHeader(correlationId2),
 		Body: builder.NewProduceRequestBuilder().
-			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1}).
+			WithBaseSequence(1).
+			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG2}).
 			Build(),
 	}
 
@@ -120,8 +122,8 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponse = builder.NewProduceResponseBuilder().
-		AddTopicPartitionResponse(existingTopic, existingPartition, 0).
-		Build(correlationId)
+		AddTopicPartitionResponseWithBaseOffset(existingTopic, existingPartition, 0, 1).
+		Build(correlationId2)
 
 	headerAssertion = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header, stageLogger)
 	err = headerAssertion.AssertHeader([]string{"CorrelationId"}).Run()
