@@ -238,7 +238,7 @@ func (p *LogFileParser) parseAndPrintPayload(data []byte) {
 	p.logger.Infof("           - FrameVersion: %d", payload.FrameVersion)
 	p.logger.Infof("           - Type: %d", payload.Type)
 	p.logger.Infof("           - Version: %d", payload.Version)
-	
+
 	p.printPayloadData(payload.Data, int16(payload.Type))
 }
 
@@ -294,6 +294,12 @@ func (p *LogFileParser) printPayloadData(data interface{}, payloadType int16) {
 func (p *LogFileParser) PrintLogFilesInDirectory(baseDir string, prefix string) error {
 	p.logger.Infof("=== %s: Scanning for 000.log files in %s ===", prefix, baseDir)
 
+	originalPrefix := p.logger.GetSecondaryPrefix()
+	p.logger.UpdateSecondaryPrefix(prefix)
+	defer func() {
+		p.logger.UpdateSecondaryPrefix(originalPrefix)
+	}()
+
 	logFiles, err := p.findLogFiles(baseDir)
 	if err != nil {
 		return err
@@ -313,13 +319,13 @@ func (p *LogFileParser) PrintLogFilesInDirectory(baseDir string, prefix string) 
 			relativePath = rel
 		}
 		p.logger.Infof("\n--- %s: %s ---", prefix, relativePath)
-		
+
 		result, err := p.ParseLogFile(filePath)
 		if err != nil {
 			p.logger.Errorf("Failed to parse %s: %v", filePath, err)
 			continue
 		}
-		
+
 		p.printLogFileResult(result)
 	}
 
