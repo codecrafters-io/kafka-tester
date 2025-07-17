@@ -31,14 +31,23 @@ func (rb *ProduceResponseBuilder) AddTopicPartitionResponse(
 	partitionIndex int32,
 	errorCode int16,
 ) *ProduceResponseBuilder {
+	return rb.AddTopicPartitionResponseWithBaseOffset(topicName, partitionIndex, errorCode, 0)
+}
+
+// AddTopicPartitionResponseWithBaseOffset adds a partition response with a specific base offset
+func (rb *ProduceResponseBuilder) AddTopicPartitionResponseWithBaseOffset(
+	topicName string,
+	partitionIndex int32,
+	errorCode int16,
+	baseOffset int64,
+) *ProduceResponseBuilder {
 	if rb.topics[topicName] == nil {
 		rb.topics[topicName] = make(map[int32]*PartitionResponseConfig)
 	}
 
 	logAppendTimeMs := int64(-1)
-	var baseOffset, logStartOffset int64
+	var logStartOffset int64
 	if errorCode == 0 {
-		baseOffset = int64(0)
 		logStartOffset = int64(0)
 	} else {
 		baseOffset = int64(-1)
