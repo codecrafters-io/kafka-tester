@@ -16,13 +16,13 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testProduce4Helper(existingTopic string, existingPartition int32, broker *protocol.Broker, stageLogger *logger.Logger) (kafkaapi.ProduceRequest, error) {
+func testProduce4Helper(topic string, partition int32, messages []string, baseOffset int64, broker *protocol.Broker, stageLogger *logger.Logger) (kafkaapi.ProduceRequest, error) {
 	correlationId := getRandomCorrelationId()
 	request := kafkaapi.ProduceRequest{
 		Header: builder.NewRequestHeaderBuilder().
 			BuildProduceRequestHeader(correlationId),
 		Body: builder.NewProduceRequestBuilder().
-			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1}).
+			AddRecordBatchToTopicPartition(topic, partition, messages).
 			Build(),
 	}
 	// TODO: Can this be changed in the builder?
@@ -46,7 +46,7 @@ func testProduce4Helper(existingTopic string, existingPartition int32, broker *p
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		AddTopicPartitionResponse(existingTopic, existingPartition, 0).
+		AddTopicPartitionResponse(topic, partition, 0).
 		Build(correlationId)
 
 	headerAssertion := assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header, stageLogger)
@@ -90,7 +90,7 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	existingTopic := common.TOPIC4_NAME
 	existingPartition := int32(1)
 
-	request1, err := testProduce4Helper(existingTopic, existingPartition, broker, stageLogger)
+	request1, err := testProduce4Helper(existingTopic, existingPartition, []string{common.HELLO_MSG1}, 0, broker, stageLogger)
 	if err != nil {
 		return err
 	}
