@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
@@ -141,11 +142,18 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	// Validate RecordBatch in log file
-	expectedBatch = buildExpectedRecordBatchForStageP4()
-	err = validateRecordBatchInLogFile(existingTopic, existingPartition, expectedBatch, stageLogger)
+	err = validateMultipleRecordBatchesInLogFile(existingTopic, existingPartition, []kafkaapi.RecordBatch{expectedBatch, expectedBatch}, stageLogger)
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(request1.Body.Topics[0].Partitions[0].Records)
+	fmt.Println(request2.Body.Topics[0].Partitions[0].Records)
+
+	as := serializer.GetEncodedBytes(request1.Body.Topics[0].Partitions[0].Records)
+	as2 := serializer.GetEncodedBytes(request2.Body.Topics[0].Partitions[0].Records)
+	fmt.Println(as)
+	fmt.Println(as2)
 
 	return nil
 }
