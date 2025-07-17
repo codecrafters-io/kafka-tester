@@ -37,16 +37,20 @@ func (a TopicPartitionLogAssertion) Run() error {
 
 	expectedEncodedBatches := encodeMultipleRecordBatches(a.RecordBatches)
 
-	if bytes.Equal(actualEncodedRecordBatches[0], expectedEncodedBatches[0]) && bytes.Equal(actualEncodedRecordBatches[1], expectedEncodedBatches[1]) {
-		a.logger.Infof("RecordBatches in log file match expected RecordBatches")
-	} else {
-		fmt.Println("encodedBatchesFromRequests[0]", expectedEncodedBatches[0])
-		fmt.Println("encodedBatches[0]", actualEncodedRecordBatches[0])
-		fmt.Println("encodedBatchesFromRequests[1]", expectedEncodedBatches[1])
-		fmt.Println("encodedBatches[1]", actualEncodedRecordBatches[1])
-		a.logger.Errorf("RecordBatches in log file do not match expected RecordBatches")
-		return fmt.Errorf("RecordBatches in log file do not match expected RecordBatches")
+	if len(actualEncodedRecordBatches) != len(expectedEncodedBatches) {
+		return fmt.Errorf("Expected %d RecordBatches in log file, got %d", len(expectedEncodedBatches), len(actualEncodedRecordBatches))
 	}
+
+	for i, actualEncodedRecordBatch := range actualEncodedRecordBatches {
+		expectedEncodedRecordBatch := expectedEncodedBatches[i]
+		if !bytes.Equal(actualEncodedRecordBatch, expectedEncodedRecordBatch) {
+			fmt.Println("actualEncodedRecordBatch", actualEncodedRecordBatch)
+			fmt.Println("expectedEncodedRecordBatch", expectedEncodedRecordBatch)
+			return fmt.Errorf("RecordBatches in log file do not match expected RecordBatches")
+		}
+	}
+
+	a.logger.Successf("✓ RecordBatches in log file match expected RecordBatches")
 
 	return nil
 }
