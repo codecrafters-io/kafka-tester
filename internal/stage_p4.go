@@ -1,9 +1,6 @@
 package internal
 
 import (
-	"bytes"
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
@@ -15,6 +12,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
+// TODO: Pass request to helper, it would be cleaner
 func testProduce4Helper(topic string, partition int32, messages []string, baseOffset int64, broker *protocol.Broker, stageLogger *logger.Logger) (kafkaapi.ProduceRequest, error) {
 	correlationId := getRandomCorrelationId()
 
@@ -103,7 +101,6 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = broker.Close()
 	}(broker)
 
-	// 1
 	existingTopic := common.TOPIC4_NAME
 	existingPartition := int32(1)
 
@@ -112,29 +109,15 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	// 2
-
 	request2, err := testProduce4Helper(existingTopic, existingPartition, []string{common.HELLO_MSG2}, 1, broker, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	encodedBatches, err := encodeRecordBatchesInLogFile(existingTopic, existingPartition, stageLogger)
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(existingTopic, existingPartition, []kafkaapi.RecordBatch{request1.Body.Topics[0].Partitions[0].Records[0], request2.Body.Topics[0].Partitions[0].Records[0]}, stageLogger)
+	err = topicPartitionLogAssertion.Run()
 	if err != nil {
 		return err
-	}
-
-	encodedBatchesFromRequests := encodeRecordBatches([]kafkaapi.RecordBatch{request1.Body.Topics[0].Partitions[0].Records[0], request2.Body.Topics[0].Partitions[0].Records[0]})
-
-	if bytes.Equal(encodedBatchesFromRequests[0], encodedBatches[0]) && bytes.Equal(encodedBatchesFromRequests[1], encodedBatches[1]) {
-		stageLogger.Infof("RecordBatches in log file match expected RecordBatches")
-	} else {
-		fmt.Println("encodedBatchesFromRequests[0]", encodedBatchesFromRequests[0])
-		fmt.Println("encodedBatches[0]", encodedBatches[0])
-		fmt.Println("encodedBatchesFromRequests[1]", encodedBatchesFromRequests[1])
-		fmt.Println("encodedBatches[1]", encodedBatches[1])
-		stageLogger.Errorf("RecordBatches in log file do not match expected RecordBatches")
-		return fmt.Errorf("RecordBatches in log file do not match expected RecordBatches")
 	}
 
 	return nil
