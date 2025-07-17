@@ -47,6 +47,9 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 			AddRecordBatchToTopicPartition(topic2, topic2Partition1, []string{common.HELLO_MSG2}).
 			Build(),
 	}
+	// TODO: Can this be changed in the builder?
+	request.Body.Topics[0].Partitions[0].Records[0].PartitionLeaderEpoch = 0
+	request.Body.Topics[1].Partitions[0].Records[0].PartitionLeaderEpoch = 0
 
 	message := kafkaapi.EncodeProduceRequest(&request)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
@@ -94,15 +97,14 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	// Validate RecordBatch in log files for both topics
-	expectedBatch1 := buildExpectedRecordBatchForStageP7(common.HELLO_MSG1)
-	err = validateRecordBatchInLogFile(topic1, topic1Partition1, expectedBatch1, stageLogger)
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, []kafkaapi.RecordBatch{request.Body.Topics[0].Partitions[0].Records[0]}, stageLogger)
+	err = topicPartitionLogAssertion.Run()
 	if err != nil {
 		return err
 	}
 
-	expectedBatch2 := buildExpectedRecordBatchForStageP7(common.HELLO_MSG2)
-	err = validateRecordBatchInLogFile(topic2, topic2Partition1, expectedBatch2, stageLogger)
+	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[0].Records[0]}, stageLogger)
+	err = topicPartitionLogAssertion.Run()
 	if err != nil {
 		return err
 	}
