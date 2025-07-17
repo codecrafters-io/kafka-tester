@@ -93,5 +93,18 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
+	// Validate RecordBatch in log files for both partitions
+	expectedBatch1 := buildExpectedRecordBatchForStageP6(common.HELLO_MSG1)
+	err = validateRecordBatchInLogFile(existingTopic, partition1, expectedBatch1, stageLogger)
+	if err != nil {
+		return err
+	}
+
+	expectedBatch2 := buildExpectedRecordBatchForStageP6(common.HELLO_MSG2)
+	err = validateRecordBatchInLogFile(existingTopic, partition2, expectedBatch2, stageLogger)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
