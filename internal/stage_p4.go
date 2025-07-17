@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"bytes"
 	"fmt"
 	"time"
 
@@ -46,6 +47,8 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1}).
 			Build(),
 	}
+	// TODO: Can this be changed in the builder?
+	request1.Body.Topics[0].Partitions[0].Records[0].PartitionLeaderEpoch = 0
 
 	message := kafkaapi.EncodeProduceRequest(&request1)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request1.Header.ApiVersion, request1.Header.CorrelationId)
@@ -104,6 +107,8 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG2}).
 			Build(),
 	}
+	// TODO: Can this be changed in the builder?
+	request2.Body.Topics[0].Partitions[0].Records[0].PartitionLeaderEpoch = 0
 
 	message = kafkaapi.EncodeProduceRequest(&request2)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request2.Header.ApiVersion, request2.Header.CorrelationId)
@@ -142,18 +147,25 @@ func testProduce4(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	// Validate RecordBatch in log file
-	err = validateMultipleRecordBatchesInLogFile(existingTopic, existingPartition, []kafkaapi.RecordBatch{expectedBatch, expectedBatch}, stageLogger)
+	encodedBatches, err := encodeRecordBatchesInLogFile(existingTopic, existingPartition, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(request1.Body.Topics[0].Partitions[0].Records)
-	fmt.Println(request2.Body.Topics[0].Partitions[0].Records)
+	request2.Body.Topics[0].Partitions[0].Records[0].BaseOffset = 1
+	as := serializer.GetAnyEncodedBytes(request1.Body.Topics[0].Partitions[0].Records[0])
+	as2 := serializer.GetAnyEncodedBytes(request2.Body.Topics[0].Partitions[0].Records[0])
 
-	as := serializer.GetEncodedBytes(request1.Body.Topics[0].Partitions[0].Records)
-	as2 := serializer.GetEncodedBytes(request2.Body.Topics[0].Partitions[0].Records)
-	fmt.Println(as)
-	fmt.Println(as2)
+	if bytes.Equal(as, encodedBatches[0]) && bytes.Equal(as2, encodedBatches[1]) {
+		stageLogger.Infof("RecordBatches in log file match expected RecordBatches")
+	} else {
+		fmt.Println("as", as)
+		fmt.Println("encodedBatches[0]", encodedBatches[0])
+		fmt.Println("as2", as2)
+		fmt.Println("encodedBatches[1]", encodedBatches[1])
+		stageLogger.Errorf("RecordBatches in log file do not match expected RecordBatches")
+		return fmt.Errorf("RecordBatches in log file do not match expected RecordBatches")
+	}
 
 	return nil
 }
