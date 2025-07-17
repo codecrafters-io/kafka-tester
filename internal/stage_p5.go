@@ -42,6 +42,8 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 			AddRecordBatchToTopicPartition(existingTopic, existingPartition, []string{common.HELLO_MSG1, common.HELLO_MSG2, common.HELLO_MSG3}).
 			Build(),
 	}
+	// TODO: Can this be changed in the builder?
+	request.Body.Topics[0].Partitions[0].Records[0].PartitionLeaderEpoch = 0
 
 	message := kafkaapi.EncodeProduceRequest(&request)
 	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
@@ -75,6 +77,12 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 	err = bodyAssertion.AssertBody([]string{"ThrottleTimeMs"}).
 		AssertTopics([]string{"Name"}, []string{"ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"}).
 		Run()
+	if err != nil {
+		return err
+	}
+
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(existingTopic, existingPartition, request.Body.Topics[0].Partitions[0].Records, stageLogger)
+	err = topicPartitionLogAssertion.Run()
 	if err != nil {
 		return err
 	}
