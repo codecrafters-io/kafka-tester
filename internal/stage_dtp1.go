@@ -63,23 +63,12 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		return err
 	}
 
-	expectedApiVersionResponse := kafkaapi.ApiVersionsResponse{
-		Version:   3,
-		ErrorCode: 0,
-		ApiKeys: []kafkaapi.ApiVersionsResponseKey{
-			{
-				ApiKey:     18,
-				MaxVersion: 4,
-				MinVersion: 0,
-			},
-			{
-				ApiKey:     75,
-				MaxVersion: 0,
-				MinVersion: 0,
-			},
-		},
-	}
+	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+		AddApiKeyVersionSupport(18, 4, 0).
+		AddApiKeyVersionSupport(75, 0, 0).
+		Build(correlationId)
 
+	// TODO: Add ApiVersionsResponseAssertion to all stages
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
 		return err
 	}
