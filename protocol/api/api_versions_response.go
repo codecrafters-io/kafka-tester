@@ -9,8 +9,8 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-// ApiVersionsResponseKey contains the APIs supported by the broker.
-type ApiVersionsResponseKey struct {
+// ApiKeyVersionSupport contains the APIs supported by the broker.
+type ApiKeyVersionSupport struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ApiKey contains the API index.
@@ -21,7 +21,7 @@ type ApiVersionsResponseKey struct {
 	MaxVersion int16
 }
 
-func (a *ApiVersionsResponseKey) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (a *ApiKeyVersionSupport) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -66,7 +66,7 @@ type ApiVersionsResponse struct {
 	// ErrorCode contains the top-level error code.
 	ErrorCode int16
 	// ApiKeys contains the APIs supported by the broker.
-	ApiKeys []ApiVersionsResponseKey
+	ApiKeys []ApiKeyVersionSupport
 	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
 	ThrottleTimeMs int32
 }
@@ -105,13 +105,13 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger 
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
 	}
 
-	r.ApiKeys = make([]ApiVersionsResponseKey, numApiKeys)
+	r.ApiKeys = make([]ApiKeyVersionSupport, numApiKeys)
 	for i := 0; i < numApiKeys; i++ {
-		var block ApiVersionsResponseKey
+		var block ApiKeyVersionSupport
 		protocol.LogWithIndentation(logger, indentation, "- .ApiKeys[%d]", i)
 		if err = block.Decode(pd, r.Version, logger, indentation+1); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("ApiVersionsResponseKey[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("ApiKeyVersionSupport[%d]", i))
 			}
 			return err
 		}
