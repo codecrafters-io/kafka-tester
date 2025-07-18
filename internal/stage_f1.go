@@ -34,7 +34,7 @@ func testAPIVersionWithFetchKey(stageHarness *test_case_harness.TestCaseHarness)
 	}(broker)
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
+		Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
 		Body: kafkaapi.ApiVersionsRequestBody{
 			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
