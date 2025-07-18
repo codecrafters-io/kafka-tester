@@ -43,6 +43,7 @@ func (b *ApiVersionsResponseBuilder) AddApiKeyVersionSupport(apiKey int16, minVe
 	return b
 }
 
+// Build should return whole response, create ApiVersionsResponse and ApiVersionsResponseBody
 func (b *ApiVersionsResponseBuilder) Build(correlationId int32) kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
 		Version:        b.version,
