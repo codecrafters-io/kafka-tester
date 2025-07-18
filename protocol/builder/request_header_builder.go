@@ -48,6 +48,6 @@ func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) kafk
 	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) NewApiVersionsRequestHeader(correlationId int32) *RequestHeaderBuilder {
-	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId)
+func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
 }
