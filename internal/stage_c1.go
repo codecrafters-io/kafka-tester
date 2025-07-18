@@ -2,11 +2,13 @@ package internal
 
 import (
 	"fmt"
+
 	"github.com/codecrafters-io/tester-utils/logger"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -36,12 +38,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	for i := 0; i < requestCount; i++ {
 		correlationId := getRandomCorrelationId()
 		request := kafkaapi.ApiVersionsRequest{
-			Header: kafkaapi.RequestHeader{
-				ApiKey:        18,
-				ApiVersion:    4,
-				CorrelationId: correlationId,
-				ClientId:      "kafka-cli",
-			},
+			Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
 			Body: kafkaapi.ApiVersionsRequestBody{
 				Version:               4,
 				ClientSoftwareName:    "kafka-cli",
