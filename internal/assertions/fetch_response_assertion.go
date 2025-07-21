@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -132,7 +132,7 @@ func (a *FetchResponseAssertion) assertNoTopics() *FetchResponseAssertion {
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "topics.length", 0, len(a.ActualValue.TopicResponses))
 		return a
 	}
-	protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses: %v", a.ActualValue.TopicResponses)
+	utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses: %v", a.ActualValue.TopicResponses)
 
 	return a
 }
@@ -155,7 +155,7 @@ func (a *FetchResponseAssertion) assertTopics() *FetchResponseAssertion {
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
 		return a
 	}
-	// protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses Length: %v", len(a.ActualValue.TopicResponses))
+	// utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponses Length: %v", len(a.ActualValue.TopicResponses))
 
 	for i, actualTopic := range a.ActualValue.TopicResponses {
 		expectedTopic := a.ExpectedValue.TopicResponses[i]
@@ -164,7 +164,7 @@ func (a *FetchResponseAssertion) assertTopics() *FetchResponseAssertion {
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.Topic, actualTopic.Topic)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.Topic)
+			utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.Topic)
 		}
 
 		expectedPartitions := expectedTopic.PartitionResponses
@@ -177,7 +177,7 @@ func (a *FetchResponseAssertion) assertTopics() *FetchResponseAssertion {
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ Partitions: %v", actualPartitions)
+			utils.SuccessLogWithIndentation(a.logger, 1, "✓ Partitions: %v", actualPartitions)
 		}
 	}
 
@@ -189,7 +189,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 		return a
 	}
-	// protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponses Length: %v", len(actualPartitions))
+	// utils.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponses Length: %v", len(actualPartitions))
 
 	for j, actualPartition := range actualPartitions {
 		expectedPartition := expectedPartitions[j]
@@ -203,7 +203,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 			if !ok {
 				errorCodeName = "UNKNOWN"
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
+			utils.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
 		}
 
 		if !Contains(a.excludedPartitionFields, "PartitionIndex") {
@@ -211,7 +211,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+			utils.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 		}
 
 		expectedRecordBatches := expectedPartition.RecordBatches
@@ -224,7 +224,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "recordBatches.length", 0, len(actualRecordBatches))
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ RecordBatches: %v", actualPartition.RecordBatches)
+			utils.SuccessLogWithIndentation(a.logger, 2, "✓ RecordBatches: %v", actualPartition.RecordBatches)
 		}
 	}
 
@@ -236,7 +236,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "recordBatches.length", len(expectedRecordBatches), len(actualRecordBatches))
 		return a
 	}
-	// protocol.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatches Length: %v", len(actualRecordBatches))
+	// utils.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatches Length: %v", len(actualRecordBatches))
 
 	for k, actualRecordBatch := range actualRecordBatches {
 		expectedRecordBatch := expectedRecordBatches[k]
@@ -246,7 +246,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("RecordBatch[%d] BaseOffset", k), expectedRecordBatch.BaseOffset, actualRecordBatch.BaseOffset)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
+			utils.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
 		}
 
 		if !Contains(a.excludedRecordBatchFields, "BatchLength") {
@@ -254,7 +254,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("RecordBatch[%d] BatchLength", k), expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
+			utils.SuccessLogWithIndentation(a.logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
 		}
 
 		expectedRecords := expectedRecordBatch.Records
@@ -267,7 +267,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", "records.length", 0, len(actualRecords))
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 3, "✓ Records: %v", actualRecords)
+			utils.SuccessLogWithIndentation(a.logger, 3, "✓ Records: %v", actualRecords)
 		}
 	}
 
@@ -279,7 +279,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 		a.err = fmt.Errorf("Expected %s to be %d, got %d", "records.length", len(expectedRecords), len(actualRecords))
 		return a
 	}
-	// protocol.SuccessLogWithIndentation(a.logger, 4, "✓ Records Length: %v", len(actualRecords))
+	// utils.SuccessLogWithIndentation(a.logger, 4, "✓ Records Length: %v", len(actualRecords))
 
 	for l, actualRecord := range actualRecords {
 		expectedRecord := expectedRecords[l]
@@ -289,7 +289,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Record[%d] Value", l), expectedRecord.Value, actualRecord.Value)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
+			utils.SuccessLogWithIndentation(a.logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
 		}
 	}
 

@@ -7,9 +7,9 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
@@ -50,7 +50,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", protocol.GetFormattedHexdump(message))
+	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
 	err = client.Send(message)
 	if err != nil {
@@ -60,7 +60,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", protocol.GetFormattedHexdump(response))
+	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
@@ -75,7 +75,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
+	utils.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
 
 	stageLogger.Debugf("- .ResponseHeader")
 	responseCorrelationId, err := decoder.GetInt32()
@@ -86,7 +86,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
+	utils.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
 	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != correlationId {

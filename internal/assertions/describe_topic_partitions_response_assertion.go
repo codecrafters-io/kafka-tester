@@ -3,8 +3,8 @@ package assertions
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -101,7 +101,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics() *DescribeTopic
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("TopicResponse[%d] Error Code", i), expectedTopic.ErrorCode, actualTopic.ErrorCode)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
+			utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Error code: %d", i, actualTopic.ErrorCode)
 		}
 
 		if !Contains(a.excludedTopicFields, "Name") {
@@ -109,7 +109,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics() *DescribeTopic
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic Name", i), expectedTopic.Name, actualTopic.Name)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
+			utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic Name: %s", i, actualTopic.Name)
 		}
 
 		if !Contains(a.excludedTopicFields, "TopicID") {
@@ -117,7 +117,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics() *DescribeTopic
 				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.TopicID, actualTopic.TopicID)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
+			utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.TopicID)
 		}
 
 		expectedPartitions := expectedTopic.Partitions
@@ -147,7 +147,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
+			utils.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d", j, actualPartition.ErrorCode)
 		}
 
 		if !Contains(a.excludedPartitionFields, "PartitionIndex") {
@@ -155,7 +155,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 				return a
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+			utils.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
 		}
 	}
 
@@ -173,7 +173,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertEmptyPartitions() *Desc
 			a.err = fmt.Errorf("Expected topic[%d] partitions to be empty, got %d partitions", i, len(actualTopic.Partitions))
 			return a
 		}
-		protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] has empty partitions", i)
+		utils.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] has empty partitions", i)
 	}
 
 	return a

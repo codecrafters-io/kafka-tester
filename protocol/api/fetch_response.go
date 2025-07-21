@@ -3,10 +3,10 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -30,7 +30,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .throttle_time_ms (%d)", r.ThrottleTimeMs)
+	utils.LogWithIndentation(logger, indentation, "- .throttle_time_ms (%d)", r.ThrottleTimeMs)
 
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -38,7 +38,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", r.ErrorCode)
+	utils.LogWithIndentation(logger, indentation, "- .error_code (%d)", r.ErrorCode)
 
 	if r.SessionID, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -46,7 +46,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .session_id (%d)", r.SessionID)
+	utils.LogWithIndentation(logger, indentation, "- .session_id (%d)", r.SessionID)
 
 	numResponses, err := pd.GetCompactArrayLength()
 	if err != nil {
@@ -55,7 +55,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .num_responses (%d)", numResponses)
+	utils.LogWithIndentation(logger, indentation, "- .num_responses (%d)", numResponses)
 
 	if numResponses < 0 {
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of TopicResponses cannot be negative: %d", numResponses))
@@ -64,7 +64,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 	r.TopicResponses = make([]TopicResponse, numResponses)
 	for i := range r.TopicResponses {
 		topicResponse := TopicResponse{}
-		protocol.LogWithIndentation(logger, indentation, "- .TopicResponse[%d]", i)
+		utils.LogWithIndentation(logger, indentation, "- .TopicResponse[%d]", i)
 		err := topicResponse.Decode(pd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -81,7 +81,7 @@ func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	utils.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	if pd.Remaining() != 0 {
 		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding FetchResponse", pd.Remaining()))
@@ -111,7 +111,7 @@ func (tr *TopicResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, inde
 		return err
 	}
 	tr.Topic = topicUUID
-	protocol.LogWithIndentation(logger, indentation, "- .topic_id (%s)", tr.Topic)
+	utils.LogWithIndentation(logger, indentation, "- .topic_id (%s)", tr.Topic)
 
 	numPartitions, err := pd.GetCompactArrayLength()
 	if err != nil {
@@ -121,7 +121,7 @@ func (tr *TopicResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, inde
 		return err
 	}
 	tr.PartitionResponses = make([]PartitionResponse, numPartitions)
-	protocol.LogWithIndentation(logger, indentation, "- .num_partitions (%d)", numPartitions)
+	utils.LogWithIndentation(logger, indentation, "- .num_partitions (%d)", numPartitions)
 
 	if numPartitions < 0 {
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of PartitionResponses cannot be negative: %d", numPartitions))
@@ -129,7 +129,7 @@ func (tr *TopicResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, inde
 
 	for j := range tr.PartitionResponses {
 		partition := PartitionResponse{}
-		protocol.LogWithIndentation(logger, indentation, "- .PartitionResponse[%d]", j)
+		utils.LogWithIndentation(logger, indentation, "- .PartitionResponse[%d]", j)
 		err := partition.Decode(pd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -146,7 +146,7 @@ func (tr *TopicResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, inde
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	utils.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
@@ -169,7 +169,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .partition_index (%d)", pr.PartitionIndex)
+	utils.LogWithIndentation(logger, indentation, "- .partition_index (%d)", pr.PartitionIndex)
 
 	if pr.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -177,7 +177,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", pr.ErrorCode)
+	utils.LogWithIndentation(logger, indentation, "- .error_code (%d)", pr.ErrorCode)
 
 	if pr.HighWatermark, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -185,7 +185,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .high_watermark (%d)", pr.HighWatermark)
+	utils.LogWithIndentation(logger, indentation, "- .high_watermark (%d)", pr.HighWatermark)
 
 	if pr.LastStableOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -193,7 +193,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .last_stable_offset (%d)", pr.LastStableOffset)
+	utils.LogWithIndentation(logger, indentation, "- .last_stable_offset (%d)", pr.LastStableOffset)
 
 	if pr.LogStartOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -201,7 +201,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .log_start_offset (%d)", pr.LogStartOffset)
+	utils.LogWithIndentation(logger, indentation, "- .log_start_offset (%d)", pr.LogStartOffset)
 
 	numAbortedTransactions, err := pd.GetCompactArrayLength()
 	if err != nil {
@@ -210,7 +210,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .num_aborted_transactions (%d)", numAbortedTransactions)
+	utils.LogWithIndentation(logger, indentation, "- .num_aborted_transactions (%d)", numAbortedTransactions)
 
 	if numAbortedTransactions < 0 {
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of AbortedTransactions cannot be negative: %d", numAbortedTransactions))
@@ -220,7 +220,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		pr.AbortedTransactions = make([]AbortedTransaction, numAbortedTransactions)
 		for k := range pr.AbortedTransactions {
 			abortedTransaction := AbortedTransaction{}
-			protocol.LogWithIndentation(logger, indentation, "- .AbortedTransaction[%d]", k)
+			utils.LogWithIndentation(logger, indentation, "- .AbortedTransaction[%d]", k)
 			err := abortedTransaction.Decode(pd, logger, indentation+1)
 			if err != nil {
 				if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -238,7 +238,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .preferred_read_replica (%d)", pr.PreferedReadReplica)
+	utils.LogWithIndentation(logger, indentation, "- .preferred_read_replica (%d)", pr.PreferedReadReplica)
 
 	// Record Batches are encoded as COMPACT_RECORDS
 	numBytes, err := pd.GetCompactArrayLength()
@@ -248,12 +248,12 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .compact_records_length (%d)", numBytes)
+	utils.LogWithIndentation(logger, indentation, "- .compact_records_length (%d)", numBytes)
 
 	k := 0
 	for numBytes > 0 && pd.Remaining() > 10 {
 		recordBatch := RecordBatch{}
-		protocol.LogWithIndentation(logger, indentation, "- .RecordBatch[%d]", k)
+		utils.LogWithIndentation(logger, indentation, "- .RecordBatch[%d]", k)
 		err := recordBatch.Decode(pd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -275,7 +275,7 @@ func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, 
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	utils.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
@@ -292,7 +292,7 @@ func (ab *AbortedTransaction) Decode(pd *decoder.Decoder, logger *logger.Logger,
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .producer_id (%d)", ab.ProducerID)
+	utils.LogWithIndentation(logger, indentation, "- .producer_id (%d)", ab.ProducerID)
 
 	if ab.FirstOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -300,7 +300,7 @@ func (ab *AbortedTransaction) Decode(pd *decoder.Decoder, logger *logger.Logger,
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .first_offset (%d)", ab.FirstOffset)
+	utils.LogWithIndentation(logger, indentation, "- .first_offset (%d)", ab.FirstOffset)
 
 	return nil
 }

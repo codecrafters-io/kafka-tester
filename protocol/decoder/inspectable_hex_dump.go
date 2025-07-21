@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/protocol"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 )
 
 type InspectableHexDump struct {
@@ -46,7 +46,7 @@ func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int) str
 }
 
 func (s InspectableHexDump) FormattedString() string {
-	return protocol.GetFormattedHexdumpForErrors(s.bytes)
+	return utils.GetFormattedHexdumpForErrors(s.bytes)
 }
 
 func (s InspectableHexDump) FormmattedStringWithHeading(byteRangeStart int, byteRangeEnd int) string {

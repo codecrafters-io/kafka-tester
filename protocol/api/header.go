@@ -1,10 +1,10 @@
 package kafkaapi
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -46,7 +46,7 @@ func (h *ResponseHeader) DecodeV0(decoder *decoder.Decoder, logger *logger.Logge
 		return err
 	}
 	h.CorrelationId = correlation_id
-	protocol.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
+	utils.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
 
 	return nil
 }
@@ -60,7 +60,7 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.Decoder, logger *logger.Logge
 		return err
 	}
 	h.CorrelationId = correlation_id
-	protocol.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
+	utils.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
 
 	_, err = decoder.GetEmptyTaggedFieldArray()
 	if err != nil {
@@ -69,7 +69,7 @@ func (h *ResponseHeader) DecodeV1(decoder *decoder.Decoder, logger *logger.Logge
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	utils.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	return nil
 }
