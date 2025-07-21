@@ -78,7 +78,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, logger).AssertHeader().Run(); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, logger).Run(); err != nil {
 		return err
 	}
 
