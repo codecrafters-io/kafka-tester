@@ -59,9 +59,9 @@ func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitionFields() *Descri
 	return a
 }
 
-// AssertBody asserts the contents of the response body
+// assertBody asserts the contents of the response body
 // Fields asserted by default: ThrottleTimeMs
-func (a *DescribeTopicPartitionsResponseAssertion) AssertBody() *DescribeTopicPartitionsResponseAssertion {
+func (a *DescribeTopicPartitionsResponseAssertion) assertBody() *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -162,8 +162,8 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 	return a
 }
 
-// AssertEmptyPartitions asserts that all topics have empty partitions arrays
-func (a *DescribeTopicPartitionsResponseAssertion) AssertEmptyPartitions() *DescribeTopicPartitionsResponseAssertion {
+// assertEmptyPartitions asserts that all topics have empty partitions arrays
+func (a *DescribeTopicPartitionsResponseAssertion) assertEmptyPartitions() *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -180,9 +180,9 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertEmptyPartitions() *Desc
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) Run() error {
-	a.AssertBody()
+	a.assertBody()
 	if Contains(a.excludedTopicFields, "partitions") {
-		a.AssertEmptyPartitions()
+		a.assertEmptyPartitions()
 	}
 
 	return a.err
