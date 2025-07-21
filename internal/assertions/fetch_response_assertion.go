@@ -88,9 +88,9 @@ func (a *FetchResponseAssertion) SkipRecordFields() *FetchResponseAssertion {
 	return a
 }
 
-// AssertBody asserts the contents of the FetchResponse body
+// assertBody asserts the contents of the FetchResponse body
 // Fields asserted by default: ThrottleTimeMs, ErrorCode
-func (a *FetchResponseAssertion) AssertBody() *FetchResponseAssertion {
+func (a *FetchResponseAssertion) assertBody() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -296,7 +296,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 	return a
 }
 
-func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertion {
+func (a *FetchResponseAssertion) assertRecordBatchBytes() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -337,6 +337,14 @@ func (a *FetchResponseAssertion) AssertRecordBatchBytes() *FetchResponseAssertio
 }
 
 func (a FetchResponseAssertion) Run() error {
+	a.assertBody()
+	topicAssertionNotSkipped := !Contains(a.excludedBodyFields, "topics")
+	partitionAssertionNotSkipped := !Contains(a.excludedTopicFields, "partitions")
+	recordBatchAssertionNotSkipped := !Contains(a.excludedPartitionFields, "recordBatches")
+	if topicAssertionNotSkipped && partitionAssertionNotSkipped && recordBatchAssertionNotSkipped {
+		a.assertRecordBatchBytes()
+	}
+
 	return a.err
 }
 

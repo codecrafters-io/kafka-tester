@@ -75,6 +75,5 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		SkipTopicFields().
-		AssertBody().
 		Run()
 }
