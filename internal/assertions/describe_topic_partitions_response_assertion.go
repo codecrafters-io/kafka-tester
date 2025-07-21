@@ -68,28 +68,18 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertBody() *DescribeTopicPa
 		a.logger.Successf("✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
 	}
 
+	if !Contains(a.excludedBodyFields, "topics") {
+		a.assertTopics()
+	}
+
 	return a
 }
 
-// AssertOnlyTopics asserts only the contents of the topics array in the response body
-// Fields asserted by default: ErrorCode, Name, TopicID,
-func (a *DescribeTopicPartitionsResponseAssertion) AssertOnlyTopics() *DescribeTopicPartitionsResponseAssertion {
-	return a.SkipPartitionFields().assertTopicsAndPartitions()
-}
-
-// AssertTopicsAndPartitions asserts the contents of the topics array in the response body
-// and the partitions array in the topic response
-func (a *DescribeTopicPartitionsResponseAssertion) AssertTopicsAndPartitions() *DescribeTopicPartitionsResponseAssertion {
-	return a.assertTopicsAndPartitions()
-}
-
-// assertTopicsAndPartitions is the internal function that is called by
-// AssertOnlyTopics and AssertTopicsAndPartitions
-// It asserts the contents of the topics array in the response body
+// assertTopics asserts the contents of the topics array in the response body
 // and the partitions array in the topic response (if skipPartitionFields is not called)
 // Fields asserted by default: ErrorCode, Name, TopicID,
 // Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
-func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *DescribeTopicPartitionsResponseAssertion {
+func (a *DescribeTopicPartitionsResponseAssertion) assertTopics() *DescribeTopicPartitionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
