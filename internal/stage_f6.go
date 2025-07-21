@@ -157,6 +157,6 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		ExcludeRecordBatchFields("BatchLength"). // TODO: remove this
+		ExcludeRecordBatchFields("BatchLength"). // TODO: remove this, requires builder for response
 		Run()
 }
