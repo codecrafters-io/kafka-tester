@@ -41,9 +41,9 @@ func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, e
 	}
 }
 
-// AssertBody asserts the contents of the response body
+// assertBody asserts the contents of the response body
 // Fields asserted by default: ErrorCode
-func (a *ApiVersionsResponseAssertion) AssertBody() *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) assertBody() *ApiVersionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -64,9 +64,9 @@ func (a *ApiVersionsResponseAssertion) AssertBody() *ApiVersionsResponseAssertio
 	return a
 }
 
-// AssertAPIKeysArray asserts the API keys array in the response
+// assertAPIKeysArray asserts the API keys array in the response
 // Fields asserted by default: ApiKeysArray.length, ApiKeyArrayElement.MinVersion, ApiKeyArrayElement.MaxVersion
-func (a *ApiVersionsResponseAssertion) AssertAPIKeysArray() *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) assertAPIKeysArray() *ApiVersionsResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -110,6 +110,9 @@ func (a *ApiVersionsResponseAssertion) AssertAPIKeysArray() *ApiVersionsResponse
 	return a
 }
 
+// Run runs assertBody and assertAPIKeysArray in sequence
 func (a *ApiVersionsResponseAssertion) Run() error {
+	a.assertBody().assertAPIKeysArray()
+
 	return a.err
 }

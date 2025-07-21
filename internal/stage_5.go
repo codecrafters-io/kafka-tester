@@ -75,7 +75,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse, stageLogger).AssertBody().AssertAPIKeysArray().Run(); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse, stageLogger).Run(); err != nil {
 		return err
 	}
 
