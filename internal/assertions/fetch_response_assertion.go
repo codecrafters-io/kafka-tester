@@ -70,17 +70,17 @@ func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchRes
 
 func (a *FetchResponseAssertion) SkipTopicFields() *FetchResponseAssertion {
 	a.excludedBodyFields = append(a.excludedBodyFields, "topics")
-	return a
+	return a.SkipPartitionFields()
 }
 
 func (a *FetchResponseAssertion) SkipPartitionFields() *FetchResponseAssertion {
 	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
-	return a
+	return a.SkipRecordBatchFields()
 }
 
 func (a *FetchResponseAssertion) SkipRecordBatchFields() *FetchResponseAssertion {
 	a.excludedPartitionFields = append(a.excludedPartitionFields, "recordBatches")
-	return a
+	return a.SkipRecordFields()
 }
 
 func (a *FetchResponseAssertion) SkipRecordFields() *FetchResponseAssertion {
@@ -338,10 +338,7 @@ func (a *FetchResponseAssertion) assertRecordBatchBytes() *FetchResponseAssertio
 
 func (a FetchResponseAssertion) Run() error {
 	a.assertBody()
-	topicAssertionNotSkipped := !Contains(a.excludedBodyFields, "topics")
-	partitionAssertionNotSkipped := !Contains(a.excludedTopicFields, "partitions")
-	recordBatchAssertionNotSkipped := !Contains(a.excludedPartitionFields, "recordBatches")
-	if topicAssertionNotSkipped && partitionAssertionNotSkipped && recordBatchAssertionNotSkipped {
+	if !Contains(a.excludedPartitionFields, "recordBatches") {
 		a.assertRecordBatchBytes()
 	}
 

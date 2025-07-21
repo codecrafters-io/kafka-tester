@@ -107,6 +107,5 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
 		SkipRecordBatchFields().
-		SkipRecordFields().
 		Run()
 }
