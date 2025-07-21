@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -32,12 +33,7 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 	}(client)
 
 	request := kafkaapi.DescribeTopicPartitionsRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        75,
-			ApiVersion:    0,
-			CorrelationId: correlationId,
-			ClientId:      "kafka-tester",
-		},
+		Header: builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
 		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi.TopicName{
 				{

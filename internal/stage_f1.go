@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -33,12 +34,7 @@ func testAPIVersionWithFetchKey(stageHarness *test_case_harness.TestCaseHarness)
 	}(client)
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        18,
-			ApiVersion:    4,
-			CorrelationId: correlationId,
-			ClientId:      "kafka-cli",
-		},
+		Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
 		Body: kafkaapi.ApiVersionsRequestBody{
 			Version:               4,
 			ClientSoftwareName:    "kafka-cli",

@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -35,12 +36,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 	}(client)
 
 	request := kafkaapi.FetchRequest{
-		Header: kafkaapi.RequestHeader{
-			ApiKey:        1,
-			ApiVersion:    16,
-			CorrelationId: correlationId,
-			ClientId:      "kafka-cli",
-		},
+		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
 		Body: kafkaapi.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
