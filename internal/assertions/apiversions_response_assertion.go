@@ -111,7 +111,8 @@ func (a *ApiVersionsResponseAssertion) assertAPIKeysArray() *ApiVersionsResponse
 
 // Run runs assertBody and assertAPIKeysArray in sequence
 func (a *ApiVersionsResponseAssertion) Run() error {
-	a.assertBody().assertAPIKeysArray()
+	a.assertBody()
+	a.assertAPIKeysArray()
 
 	return a.err
 }
