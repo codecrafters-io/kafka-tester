@@ -14,9 +14,10 @@ type DescribeTopicPartitionsResponseAssertion struct {
 	logger        *logger.Logger
 	err           error
 
-	// nil = don't assert this level
 	// empty slice = assert all fields (default)
 	// non-empty slice = assert with exclusions
+	// if excludedBodyFields contains "topics", then Topics are not asserted
+	// if excludedTopicFields contains "partitions", then Partitions are not asserted
 	excludedBodyFields      []string
 	excludedTopicFields     []string
 	excludedPartitionFields []string
@@ -49,7 +50,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitionFields() *DescribeTopicPartitionsResponseAssertion {
-	a.excludedPartitionFields = nil
+	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
 	return a
 }
 
@@ -127,7 +128,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopicsAndPartitions() *
 		expectedPartitions := expectedTopic.Partitions
 		actualPartitions := actualTopic.Partitions
 
-		if a.excludedPartitionFields != nil {
+		if !Contains(a.excludedTopicFields, "partitions") {
 			a.assertPartitions(expectedPartitions, actualPartitions)
 		}
 	}
