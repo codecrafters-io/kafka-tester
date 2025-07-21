@@ -49,6 +49,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields
 	return a
 }
 
+func (a *DescribeTopicPartitionsResponseAssertion) SkipTopicFields() *DescribeTopicPartitionsResponseAssertion {
+	a.excludedBodyFields = append(a.excludedBodyFields, "topics")
+	return a
+}
+
 func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitionFields() *DescribeTopicPartitionsResponseAssertion {
 	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
 	return a
