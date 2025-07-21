@@ -78,7 +78,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, logger).Run(); err != nil {
 		return err
 	}
 
@@ -123,8 +123,10 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								},
 							},
 							{
-								BaseOffset:           1,
-								BatchLength:          0,
+								BaseOffset:  1,
+								BatchLength: 0, // TODO: This is wrong
+								// We can't hardcode batchLength like this
+								// This will be fixed once we move to the builder interface
 								PartitionLeaderEpoch: 0,
 								Magic:                0,
 								Attributes:           0,
@@ -155,8 +157,6 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
-		AssertRecordBatchBytes().
+		ExcludeRecordBatchFields("BatchLength"). // TODO: remove this, requires builder for response
 		Run()
 }

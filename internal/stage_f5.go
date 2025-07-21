@@ -78,7 +78,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, logger).Run(); err != nil {
 		return err
 	}
 
@@ -131,8 +131,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
-		AssertRecordBatchBytes().
+		ExcludeRecordBatchFields("BatchLength"). // TODO: remove this, requires builder for response
 		Run()
 }
