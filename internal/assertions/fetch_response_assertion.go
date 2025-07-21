@@ -17,9 +17,12 @@ type FetchResponseAssertion struct {
 	logger        *logger.Logger
 	err           error
 
-	// nil = don't assert this level
 	// empty slice = assert all fields (default)
 	// non-empty slice = assert with exclusions
+	// if excludedBodyFields contains "topics", then Topics are not asserted
+	// if excludedTopicFields contains "partitions", then Partitions are not asserted
+	// if excludedPartitionFields contains "recordBatches", then RecordBatches are not asserted
+	// if excludedRecordBatchFields contains "records", then Records are not asserted
 	excludedBodyFields        []string
 	excludedTopicFields       []string
 	excludedPartitionFields   []string
@@ -65,18 +68,23 @@ func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchRes
 	return a
 }
 
+func (a *FetchResponseAssertion) SkipTopicFields() *FetchResponseAssertion {
+	a.excludedBodyFields = append(a.excludedBodyFields, "topics")
+	return a
+}
+
 func (a *FetchResponseAssertion) SkipPartitionFields() *FetchResponseAssertion {
-	a.excludedPartitionFields = nil
+	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
 	return a
 }
 
 func (a *FetchResponseAssertion) SkipRecordBatchFields() *FetchResponseAssertion {
-	a.excludedRecordBatchFields = nil
+	a.excludedPartitionFields = append(a.excludedPartitionFields, "recordBatches")
 	return a
 }
 
 func (a *FetchResponseAssertion) SkipRecordFields() *FetchResponseAssertion {
-	a.excludedRecordFields = nil
+	a.excludedRecordBatchFields = append(a.excludedRecordBatchFields, "records")
 	return a
 }
 
