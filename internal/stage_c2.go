@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
@@ -47,12 +48,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	for i, client := range clients {
 		correlationIds[i] = int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
 		request := kafkaapi.ApiVersionsRequest{
-			Header: kafkaapi.RequestHeader{
-				ApiKey:        18,
-				ApiVersion:    4,
-				CorrelationId: correlationIds[i],
-				ClientId:      "kafka-cli",
-			},
+			Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationIds[i]),
 			Body: kafkaapi.ApiVersionsRequestBody{
 				Version:               4,
 				ClientSoftwareName:    "kafka-cli",
