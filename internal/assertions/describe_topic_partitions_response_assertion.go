@@ -180,5 +180,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertEmptyPartitions() *Desc
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) Run() error {
+	a.AssertBody()
+	if Contains(a.excludedTopicFields, "partitions") {
+		a.AssertEmptyPartitions()
+	}
+
 	return a.err
 }
