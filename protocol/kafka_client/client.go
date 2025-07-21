@@ -110,9 +110,9 @@ func (c *Client) Close() error {
 
 func (c *Client) SendAndReceive(request builder.RequestI, stageLogger *logger.Logger) (Response, error) {
 	header := request.GetHeader()
-	apiType := protocol.APIKeyToName(header.GetApiKey())
-	apiVersion := header.GetApiVersion()
-	correlationId := header.GetCorrelationId()
+	apiType := protocol.APIKeyToName(header.ApiKey)
+	apiVersion := header.ApiVersion
+	correlationId := header.CorrelationId
 	message := request.Encode()
 
 	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
