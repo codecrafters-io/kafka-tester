@@ -131,9 +131,8 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
-		AssertBody().
 		ExcludeRecordBatchFields("BatchLength").
-		AssertTopics().
+		AssertBody().
 		AssertRecordBatchBytes().
 		Run()
 }

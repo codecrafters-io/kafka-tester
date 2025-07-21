@@ -114,10 +114,16 @@ func (a *FetchResponseAssertion) AssertBody() *FetchResponseAssertion {
 		a.logger.Successf("✓ Error Code: %d (%s)", a.ActualValue.ErrorCode, errorCodeName)
 	}
 
+	if !Contains(a.excludedBodyFields, "topics") {
+		a.assertTopics()
+	} else {
+		a.assertNoTopics()
+	}
+
 	return a
 }
 
-func (a *FetchResponseAssertion) AssertNoTopics() *FetchResponseAssertion {
+func (a *FetchResponseAssertion) assertNoTopics() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -131,7 +137,7 @@ func (a *FetchResponseAssertion) AssertNoTopics() *FetchResponseAssertion {
 	return a
 }
 
-// AssertTopics asserts the contents of the TopicResponses array
+// assertTopics asserts the contents of the TopicResponses array
 // By default, all nested responses are also asserted:
 // partitionResponse, recordBatches and records.
 // Fields asserted by default: Topic
@@ -140,7 +146,7 @@ func (a *FetchResponseAssertion) AssertNoTopics() *FetchResponseAssertion {
 // Records: "Value"
 // Each level can be skipped by calling Skip<Level>Fields()
 // Or certain fields can be excluded by calling Exclude<Level>Fields()
-func (a *FetchResponseAssertion) AssertTopics() *FetchResponseAssertion {
+func (a *FetchResponseAssertion) assertTopics() *FetchResponseAssertion {
 	if a.err != nil {
 		return a
 	}
@@ -164,7 +170,7 @@ func (a *FetchResponseAssertion) AssertTopics() *FetchResponseAssertion {
 		expectedPartitions := expectedTopic.PartitionResponses
 		actualPartitions := actualTopic.PartitionResponses
 
-		if a.excludedPartitionFields != nil {
+		if !Contains(a.excludedTopicFields, "partitions") {
 			a.assertPartitions(expectedPartitions, actualPartitions)
 		} else {
 			if len(actualPartitions) != 0 {
@@ -211,7 +217,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 		expectedRecordBatches := expectedPartition.RecordBatches
 		actualRecordBatches := actualPartition.RecordBatches
 
-		if a.excludedRecordBatchFields != nil {
+		if !Contains(a.excludedPartitionFields, "recordBatches") {
 			a.assertRecordBatches(expectedRecordBatches, actualRecordBatches)
 		} else {
 			if len(actualRecordBatches) != 0 {
@@ -254,7 +260,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 		expectedRecords := expectedRecordBatch.Records
 		actualRecords := actualRecordBatch.Records
 
-		if a.excludedRecordFields != nil {
+		if !Contains(a.excludedRecordBatchFields, "records") {
 			a.assertRecords(expectedRecords, actualRecords)
 		} else {
 			if len(actualRecords) != 0 {
