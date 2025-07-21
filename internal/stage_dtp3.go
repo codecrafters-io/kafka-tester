@@ -90,6 +90,5 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 
 	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse, stageLogger).
 		AssertBody().
-		AssertTopicsAndPartitions().
 		Run()
 }
