@@ -26,7 +26,6 @@ type ApiVersionsResponseAssertion struct {
 	logger        *logger.Logger
 	err           error
 
-	// nil = don't assert this level
 	// empty slice = assert all fields (default)
 	// non-empty slice = assert with exclusions
 	excludedBodyFields []string
