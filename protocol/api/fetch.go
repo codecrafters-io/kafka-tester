@@ -1,18 +1,19 @@
 package kafkaapi
 
 import (
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
+func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -25,13 +26,13 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 	return &responseHeader, nil
 }
 
-func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
+func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, *FetchResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

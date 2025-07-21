@@ -11,6 +11,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -39,7 +40,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	correlationId := getRandomCorrelationId()
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: kafkaapi.RequestHeader{
+		Header: headers.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    4,
 			CorrelationId: correlationId,

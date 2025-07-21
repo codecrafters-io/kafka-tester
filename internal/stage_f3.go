@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -35,7 +36,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 	}(client)
 
 	request := kafkaapi.FetchRequest{
-		Header: kafkaapi.RequestHeader{
+		Header: headers.RequestHeader{
 			ApiKey:        1,
 			ApiVersion:    16,
 			CorrelationId: correlationId,
@@ -78,7 +79,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
+	expectedResponseHeader := headers.ResponseHeader{
 		CorrelationId: correlationId,
 	}
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).Run(); err != nil {

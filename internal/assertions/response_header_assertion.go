@@ -3,13 +3,13 @@ package assertions
 import (
 	"fmt"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type ResponseHeaderAssertion struct {
-	ActualValue   kafkaapi.ResponseHeader
-	ExpectedValue kafkaapi.ResponseHeader
+	ActualValue   headers.ResponseHeader
+	ExpectedValue headers.ResponseHeader
 	logger        *logger.Logger
 	err           error
 
@@ -18,7 +18,7 @@ type ResponseHeaderAssertion struct {
 	excludedHeaderFields []string
 }
 
-func NewResponseHeaderAssertion(actualValue kafkaapi.ResponseHeader, expectedValue kafkaapi.ResponseHeader, logger *logger.Logger) *ResponseHeaderAssertion {
+func NewResponseHeaderAssertion(actualValue headers.ResponseHeader, expectedValue headers.ResponseHeader, logger *logger.Logger) *ResponseHeaderAssertion {
 	return &ResponseHeaderAssertion{
 		ActualValue:          actualValue,
 		ExpectedValue:        expectedValue,

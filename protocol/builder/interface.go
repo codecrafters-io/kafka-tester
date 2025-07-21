@@ -1,10 +1,22 @@
 package builder
 
-import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+import (
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+)
 
 type RequestI interface {
 	Encode() []byte
-	GetHeader() kafkaapi.RequestHeader
+	GetBody() RequestBodyI
+	GetHeader() headers.RequestHeader
+}
+
+type RequestHeaderI interface {
+	Encode(pe *encoder.Encoder)
+}
+
+type RequestBodyI interface {
+	Encode(pe *encoder.Encoder)
 }
 
 // TODO
