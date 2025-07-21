@@ -50,6 +50,9 @@ test_all:
 test:
 	TESTER_DIR=$(shell pwd) go test -v ./internal/ -failfast --count=1
 
+test_in_a_loop:
+	@for i in 1 2 3 4 5; do echo "Test run $$i"; make test || exit 1; done
+
 test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
 
