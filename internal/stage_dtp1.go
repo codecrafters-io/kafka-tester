@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -32,7 +33,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}(client)
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: kafkaapi.RequestHeader{
+		Header: headers.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    4,
 			CorrelationId: correlationId,
@@ -55,7 +56,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
+	expectedResponseHeader := headers.ResponseHeader{
 		CorrelationId: correlationId,
 	}
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader, stageLogger).Run(); err != nil {

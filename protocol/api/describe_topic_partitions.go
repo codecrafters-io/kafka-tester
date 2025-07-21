@@ -4,17 +4,18 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 )
 
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
+func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*headers.ResponseHeader, *DescribeTopicPartitionsResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

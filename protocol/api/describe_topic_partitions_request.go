@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
@@ -54,7 +55,7 @@ func (c Cursor) Encode(pe *encoder.Encoder) {
 }
 
 type DescribeTopicPartitionsRequest struct {
-	Header RequestHeader
+	Header headers.RequestHeader
 	Body   DescribeTopicPartitionsRequestBody
 }
 
@@ -62,7 +63,7 @@ func (r DescribeTopicPartitionsRequest) Encode() []byte {
 	return encodeRequest(r)
 }
 
-func (r DescribeTopicPartitionsRequest) GetHeader() builder.RequestHeaderI {
+func (r DescribeTopicPartitionsRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 

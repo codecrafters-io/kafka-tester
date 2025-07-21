@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -37,7 +38,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	correlationId := 7
 
 	request := kafkaapi.ApiVersionsRequest{
-		Header: kafkaapi.RequestHeader{
+		Header: headers.RequestHeader{
 			ApiKey:        18,
 			ApiVersion:    4,
 			CorrelationId: int32(correlationId),

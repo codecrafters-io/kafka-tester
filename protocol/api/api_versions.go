@@ -6,6 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 )
 
 // EncodeApiVersionsRequest are going to be removed
@@ -21,13 +22,13 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	return messageBytes
 }
 
-func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
+func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
 	// APIVersions always uses Header v0
 	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
@@ -42,13 +43,13 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
+func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, *ApiVersionsResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

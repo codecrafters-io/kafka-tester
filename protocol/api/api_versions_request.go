@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
@@ -25,7 +26,7 @@ func (r ApiVersionsRequestBody) Encode(enc *encoder.Encoder) {
 }
 
 type ApiVersionsRequest struct {
-	Header RequestHeader
+	Header headers.RequestHeader
 	Body   ApiVersionsRequestBody
 }
 
@@ -33,7 +34,7 @@ func (r ApiVersionsRequest) Encode() []byte {
 	return encodeRequest(r)
 }
 
-func (r ApiVersionsRequest) GetHeader() builder.RequestHeaderI {
+func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 

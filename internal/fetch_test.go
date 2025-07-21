@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
@@ -22,7 +24,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := kafkaapi.ResponseHeader{}
+	header := headers.ResponseHeader{}
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -66,7 +68,7 @@ func TestFetchv16With1Message(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := kafkaapi.ResponseHeader{}
+	header := headers.ResponseHeader{}
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -119,7 +121,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := kafkaapi.ResponseHeader{}
+	header := headers.ResponseHeader{}
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -169,7 +171,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := kafkaapi.ResponseHeader{}
+	header := headers.ResponseHeader{}
 
 	if err = header.DecodeV1(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -218,7 +220,7 @@ func TestAPIVersionv3(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	responseHeader := kafkaapi.ResponseHeader{}
+	responseHeader := headers.ResponseHeader{}
 	if err := responseHeader.DecodeV0(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
