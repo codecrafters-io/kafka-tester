@@ -41,18 +41,18 @@ func NewClient(addr string) *Client {
 }
 
 func (c *Client) Connect() error {
-	RETRIES := 10
+	const maxRetries = 10
 
 	retries := 0
 	var err error
 	var conn net.Conn
 	for {
 		conn, err = net.Dial("tcp", c.addr)
-		if err != nil && retries > RETRIES {
+		if err != nil && retries >= maxRetries {
 			return err
 		}
 		if err != nil {
-			retries += 1
+			retries++
 			time.Sleep(1000 * time.Millisecond)
 		} else {
 			break
@@ -72,7 +72,7 @@ func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 	var conn net.Conn
 	for {
 		conn, err = net.Dial("tcp", c.addr)
-		if err != nil && retries > maxRetries {
+		if err != nil && retries >= maxRetries {
 			logger.Infof("All retries failed. Exiting.")
 			return err
 		}
