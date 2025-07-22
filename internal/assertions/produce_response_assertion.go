@@ -61,123 +61,118 @@ func (a *ProduceResponseAssertion) SkipPartitionFields() *ProduceResponseAsserti
 	return a
 }
 
-func (a *ProduceResponseAssertion) AssertBody(fields []string) *ProduceResponseAssertion {
-	if a.err != nil {
-		return a
-	}
-
-	if Contains(fields, "ThrottleTimeMs") {
+func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
+	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
 		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
-			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
-			return a
+			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
 		}
-		a.logger.Successf("✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
 	}
 
-	return a
+	if !Contains(a.excludedBodyFields, "topics") {
+		if err := a.assertTopics(logger); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
-func (a *ProduceResponseAssertion) AssertTopics(topicFields []string, partitionFields []string) *ProduceResponseAssertion {
-	if a.err != nil {
-		return a
-	}
-
+func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
 	if len(a.ActualValue.Responses) != len(a.ExpectedValue.Responses) {
-		a.err = fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Responses), len(a.ActualValue.Responses))
-		return a
+		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Responses), len(a.ActualValue.Responses))
 	}
 
 	for i, actualTopic := range a.ActualValue.Responses {
 		expectedTopic := a.ExpectedValue.Responses[i]
 
-		if Contains(topicFields, "Name") {
+		if !Contains(a.excludedTopicFields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
-				a.err = fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Name", i), expectedTopic.Name, actualTopic.Name)
-				return a
+				return fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Name", i), expectedTopic.Name, actualTopic.Name)
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 1, "✓ TopicResponse[%d] Name: %s", i, actualTopic.Name)
+			protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] Name: %s", i, actualTopic.Name)
 		}
 
 		expectedPartitions := expectedTopic.PartitionResponses
 		actualPartitions := actualTopic.PartitionResponses
 
-		if (partitionFields) != nil {
-			a.assertPartitions(expectedPartitions, actualPartitions, partitionFields)
-		} else {
-			if len(actualPartitions) != 0 {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", 0, len(actualPartitions))
-				return a
+		if !Contains(a.excludedTopicFields, "partitions") {
+			if err := a.assertPartitions(expectedPartitions, actualPartitions, logger); err != nil {
+				return err
 			}
 		}
 	}
 
-	return a
+	return nil
 }
 
-func (a *ProduceResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.ProducePartitionResponse, actualPartitions []kafkaapi.ProducePartitionResponse, fields []string) *ProduceResponseAssertion {
+func (a *ProduceResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.ProducePartitionResponse, actualPartitions []kafkaapi.ProducePartitionResponse, logger *logger.Logger) error {
 	if len(actualPartitions) != len(expectedPartitions) {
-		a.err = fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
-		return a
+		return fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 	}
 
 	for j, actualPartition := range actualPartitions {
 		expectedPartition := expectedPartitions[j]
 
-		if Contains(fields, "ErrorCode") {
+		if !Contains(a.excludedPartitionFields, "ErrorCode") {
 			if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
-				return a
+				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("PartitionResponse[%d] Error Code", j), expectedPartition.ErrorCode, actualPartition.ErrorCode)
 			}
 
 			errorCodeName, ok := errorCodes[int(actualPartition.ErrorCode)]
 			if !ok {
-				errorCodeName = "UNKNOWN"
+				panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", actualPartition.ErrorCode))
 			}
 
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
 		}
 
-		if Contains(fields, "Index") {
+		if !Contains(a.excludedPartitionFields, "Index") {
 			if actualPartition.Index != expectedPartition.Index {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Index", j), expectedPartition.Index, actualPartition.Index)
-				return a
+				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Index", j), expectedPartition.Index, actualPartition.Index)
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] Index: %d", j, actualPartition.Index)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] Index: %d", j, actualPartition.Index)
 		}
 
-		if Contains(fields, "BaseOffset") {
+		if !Contains(a.excludedPartitionFields, "BaseOffset") {
 			if actualPartition.BaseOffset != expectedPartition.BaseOffset {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] BaseOffset", j), expectedPartition.BaseOffset, actualPartition.BaseOffset)
-				return a
+				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] BaseOffset", j), expectedPartition.BaseOffset, actualPartition.BaseOffset)
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] BaseOffset: %d", j, actualPartition.BaseOffset)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] BaseOffset: %d", j, actualPartition.BaseOffset)
 		}
 
-		if Contains(fields, "LogStartOffset") {
+		if !Contains(a.excludedPartitionFields, "LogStartOffset") {
 			if actualPartition.LogStartOffset != expectedPartition.LogStartOffset {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] LogStartOffset", j), expectedPartition.LogStartOffset, actualPartition.LogStartOffset)
-				return a
+				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] LogStartOffset", j), expectedPartition.LogStartOffset, actualPartition.LogStartOffset)
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] LogStartOffset: %d", j, actualPartition.LogStartOffset)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] LogStartOffset: %d", j, actualPartition.LogStartOffset)
 		}
 
-		if Contains(fields, "LogAppendTimeMs") {
+		if !Contains(a.excludedPartitionFields, "LogAppendTimeMs") {
 			if actualPartition.LogAppendTimeMs != expectedPartition.LogAppendTimeMs {
-				a.err = fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] LogAppendTimeMs", j), expectedPartition.LogAppendTimeMs, actualPartition.LogAppendTimeMs)
-				return a
+				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] LogAppendTimeMs", j), expectedPartition.LogAppendTimeMs, actualPartition.LogAppendTimeMs)
 			}
-			protocol.SuccessLogWithIndentation(a.logger, 2, "✓ PartitionResponse[%d] LogAppendTimeMs: %d", j, actualPartition.LogAppendTimeMs)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] LogAppendTimeMs: %d", j, actualPartition.LogAppendTimeMs)
 		}
 	}
 
-	return a
+	return nil
 }
 
-func (a ProduceResponseAssertion) Run() error {
+func (a *ProduceResponseAssertion) Run(logger *logger.Logger) error {
 	// firstLevelFields: ["ThrottleTimeMs"]
 	// secondLevelFields (Topics): ["Name"]
 	// thirdLevelFields (Partitions): ["ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"]
-	return a.err
+	if err := a.assertBody(logger); err != nil {
+		return err
+	}
+	if !Contains(a.excludedBodyFields, "topics") {
+		if err := a.assertTopics(logger); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // sortResponses sorts topics by name and partitions within each topic by index
