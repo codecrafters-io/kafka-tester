@@ -147,7 +147,16 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 }
 
 // assertEmptyPartitions asserts that all topics have empty partitions arrays
+// Before asserting Empty Partitions, we make sure that the expected response has no partitions
 func (a *DescribeTopicPartitionsResponseAssertion) assertEmptyPartitions(logger *logger.Logger) error {
+	if len(a.ExpectedValue.Topics) != 0 {
+		for _, expectedTopic := range a.ExpectedValue.Topics {
+			if len(expectedTopic.Partitions) != 0 {
+				panic(fmt.Sprintf("CodeCrafters Internal Error: Expected topic %s to have empty partitions, got %d partitions", expectedTopic.Name, len(expectedTopic.Partitions)))
+			}
+		}
+	}
+
 	for i, actualTopic := range a.ActualValue.Topics {
 		if len(actualTopic.Partitions) != 0 {
 			return fmt.Errorf("Expected topic[%d] partitions to be empty, got %d partitions", i, len(actualTopic.Partitions))
