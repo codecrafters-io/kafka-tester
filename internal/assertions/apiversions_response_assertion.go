@@ -7,15 +7,6 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type ApiVersionsResponseAssertion struct {
-	ActualValue   kafkaapi.ApiVersionsResponseBody
-	ExpectedValue kafkaapi.ApiVersionsResponseBody
-}
-
-func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponseBody, expectedValue kafkaapi.ApiVersionsResponseBody) ApiVersionsResponseAssertion {
-	return ApiVersionsResponseAssertion{ActualValue: actualValue, ExpectedValue: expectedValue}
-}
-
 var apiKeyNames = map[int16]string{
 	1:  "FETCH",
 	18: "API_VERSIONS",
