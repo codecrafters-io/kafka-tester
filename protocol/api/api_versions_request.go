@@ -46,3 +46,18 @@ func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 func (r ApiVersionsRequest) Encode() []byte {
 	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
+
+func (r ApiVersionsRequest) Encode() []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.Header.Encode(&encoder)
+	r.Body.Encode(&encoder)
+	messageBytes := encoder.PackMessage()
+
+	return messageBytes
+}
+
+func (r ApiVersionsRequest) GetHeader() RequestHeader {
+	return r.Header
+}
