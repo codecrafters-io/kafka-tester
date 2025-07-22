@@ -406,7 +406,7 @@ Debug = true
 [33m[tester::#OT5] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#OT5] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#OT5] [Decoder] [0m[36m  - .responses.length (1)[0m
-[33m[tester::#OT5] [Decoder] [0m[36m  - .Responses[0][0m
+[33m[tester::#OT5] [Decoder] [0m[36m  - .TopicResponses[0][0m
 [33m[tester::#OT5] [Decoder] [0m[36m    - .topic_name (unknown-topic-qux)[0m
 [33m[tester::#OT5] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
 [33m[tester::#OT5] [Decoder] [0m[36m    - .PartitionResponses[0][0m
@@ -493,7 +493,7 @@ Debug = true
 [33m[tester::#XS0] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#XS0] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#XS0] [Decoder] [0m[36m  - .responses.length (2)[0m
-[33m[tester::#XS0] [Decoder] [0m[36m  - .Responses[0][0m
+[33m[tester::#XS0] [Decoder] [0m[36m  - .TopicResponses[0][0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .topic_name (qux)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .PartitionResponses[0][0m
@@ -506,7 +506,7 @@ Debug = true
 [33m[tester::#XS0] [Decoder] [0m[36m      - .error_message (null)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[tester::#XS0] [Decoder] [0m[36m  - .Responses[1][0m
+[33m[tester::#XS0] [Decoder] [0m[36m  - .TopicResponses[1][0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .topic_name (foo)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .PartitionResponses[0][0m
