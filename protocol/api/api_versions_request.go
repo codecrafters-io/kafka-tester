@@ -25,3 +25,18 @@ type ApiVersionsRequest struct {
 	Header RequestHeader
 	Body   ApiVersionsRequestBody
 }
+
+func (r ApiVersionsRequest) Encode() []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.Header.Encode(&encoder)
+	r.Body.Encode(&encoder)
+	messageBytes := encoder.PackMessage()
+
+	return messageBytes
+}
+
+func (r ApiVersionsRequest) GetHeader() RequestHeader {
+	return r.Header
+}
