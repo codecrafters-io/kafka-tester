@@ -79,12 +79,12 @@ func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 }
 
 func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
-	if len(a.ActualValue.Responses) != len(a.ExpectedValue.Responses) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Responses), len(a.ActualValue.Responses))
+	if len(a.ActualValue.TopicResponses) != len(a.ExpectedValue.TopicResponses) {
+		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
 	}
 
-	for i, actualTopic := range a.ActualValue.Responses {
-		expectedTopic := a.ExpectedValue.Responses[i]
+	for i, actualTopic := range a.ActualValue.TopicResponses {
+		expectedTopic := a.ExpectedValue.TopicResponses[i]
 
 		if !Contains(a.excludedTopicFields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
@@ -173,24 +173,24 @@ func (a *ProduceResponseAssertion) Run(logger *logger.Logger) error {
 // sortResponses sorts topics by name and partitions within each topic by index
 func sortResponses(response kafkaapi.ProduceResponseBody) kafkaapi.ProduceResponseBody {
 	sortedResponse := response
-	sortedResponse.Responses = make([]kafkaapi.ProduceTopicResponse, len(response.Responses))
-	copy(sortedResponse.Responses, response.Responses)
+	sortedResponse.TopicResponses = make([]kafkaapi.ProduceTopicResponse, len(response.TopicResponses))
+	copy(sortedResponse.TopicResponses, response.TopicResponses)
 
 	// Sort topics by name
-	sort.Slice(sortedResponse.Responses, func(i, j int) bool {
-		return sortedResponse.Responses[i].Name < sortedResponse.Responses[j].Name
+	sort.Slice(sortedResponse.TopicResponses, func(i, j int) bool {
+		return sortedResponse.TopicResponses[i].Name < sortedResponse.TopicResponses[j].Name
 	})
 
 	// Sort partitions within each topic by index
-	for i := range sortedResponse.Responses {
-		partitions := make([]kafkaapi.ProducePartitionResponse, len(sortedResponse.Responses[i].PartitionResponses))
-		copy(partitions, sortedResponse.Responses[i].PartitionResponses)
+	for i := range sortedResponse.TopicResponses {
+		partitions := make([]kafkaapi.ProducePartitionResponse, len(sortedResponse.TopicResponses[i].PartitionResponses))
+		copy(partitions, sortedResponse.TopicResponses[i].PartitionResponses)
 
 		sort.Slice(partitions, func(x, y int) bool {
 			return partitions[x].Index < partitions[y].Index
 		})
 
-		sortedResponse.Responses[i].PartitionResponses = partitions
+		sortedResponse.TopicResponses[i].PartitionResponses = partitions
 	}
 
 	return sortedResponse
