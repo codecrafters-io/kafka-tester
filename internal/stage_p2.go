@@ -34,13 +34,13 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.ProduceRequest{
-		Header: builder.NewRequestHeaderBuilder().
-			BuildProduceRequestHeader(correlationId),
-		Body: builder.NewProduceRequestBuilder().
-			AddRecordBatchToTopicPartition(common.TOPIC_UNKOWN_NAME, 0, []string{common.HELLO_MSG1}).
-			Build(),
-	}
+	recordBatch := builder.NewRecordBatchBuilder().
+		AddStringRecord(common.HELLO_MSG1).
+		Build()
+
+	request := builder.NewProduceRequestBuilder().
+		AddRecordBatch(common.TOPIC_UNKOWN_NAME, 0, recordBatch).
+		Build(correlationId)
 
 	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {

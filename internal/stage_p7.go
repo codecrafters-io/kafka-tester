@@ -38,17 +38,21 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	topic2 := common.TOPIC4_NAME
 	topic1Partition1 := int32(0)
 	topic2Partition1 := int32(random.RandomInt(0, 3))
-	request := kafkaapi.ProduceRequest{
-		Header: builder.NewRequestHeaderBuilder().
-			BuildProduceRequestHeader(correlationId),
-		Body: builder.NewProduceRequestBuilder().
-			AddRecordBatchToTopicPartition(topic1, topic1Partition1, []string{common.HELLO_MSG1}).
-			AddRecordBatchToTopicPartition(topic2, topic2Partition1, []string{common.HELLO_MSG2}).
-			Build(),
-	}
-	// TODO: Can this be changed in the builder?
-	request.Body.Topics[0].Partitions[0].RecordBatches[0].PartitionLeaderEpoch = 0
-	request.Body.Topics[1].Partitions[0].RecordBatches[0].PartitionLeaderEpoch = 0
+
+	recordBatch1 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.HELLO_MSG1).
+		Build()
+
+	recordBatch2 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.HELLO_MSG2).
+		Build()
+
+	request := builder.NewProduceRequestBuilder().
+		AddRecordBatch(topic1, topic1Partition1, recordBatch1).
+		AddRecordBatch(topic2, topic2Partition1, recordBatch2).
+		Build(correlationId)
 
 	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
