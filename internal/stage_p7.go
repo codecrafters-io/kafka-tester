@@ -3,10 +3,10 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -25,13 +25,14 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	correlationId := getRandomCorrelationId()
-	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
+
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	topic1 := common.TOPIC2_NAME
 	topic2 := common.TOPIC4_NAME
@@ -49,16 +50,10 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	request.Body.Topics[0].Partitions[0].RecordBatches[0].PartitionLeaderEpoch = 0
 	request.Body.Topics[1].Partitions[0].RecordBatches[0].PartitionLeaderEpoch = 0
 
-	message := kafkaapi.EncodeProduceRequest(&request)
-	stageLogger.Infof("Sending \"Produce\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"Produce\" request: \n%v\n", GetFormattedHexdump(message))
-
-	response, err := broker.SendAndReceive(message)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
-		stageLogger.Errorf("Failed to send and receive \"Produce\" request: %v", err)
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"Produce\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeProduceHeaderAndResponse(response.Payload, 11, stageLogger)
 	if err != nil {
