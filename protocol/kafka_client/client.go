@@ -19,7 +19,7 @@ type Response struct {
 	Payload  []byte
 }
 
-func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
+func (r Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
 	return Response{
 		RawBytes: append(lengthResponse, bodyResponse...),
 		Payload:  bodyResponse,
