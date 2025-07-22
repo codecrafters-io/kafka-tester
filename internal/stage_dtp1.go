@@ -66,7 +66,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}
 
 	// TODO: Add ApiVersionsResponseAssertion to all stages
-	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Run(stageLogger); err != nil {
 		return err
 	}
 
