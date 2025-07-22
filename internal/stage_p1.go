@@ -48,17 +48,14 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
-		CorrelationId: correlationId,
-	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
-		return err
-	}
-
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
 		AddApiKeyEntry(0, 0, 11).
 		AddApiKeyEntry(18, 0, 4).
 		Build(correlationId)
+
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+		return err
+	}
 
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Run(stageLogger); err != nil {
 		return err
