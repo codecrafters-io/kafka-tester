@@ -20,11 +20,6 @@ func NewApiVersionsResponseBuilder() *ApiVersionsResponseBuilder {
 	}
 }
 
-func (b *ApiVersionsResponseBuilder) WithVersion(version int16) *ApiVersionsResponseBuilder {
-	b.version = version
-	return b
-}
-
 func (b *ApiVersionsResponseBuilder) WithErrorCode(errorCode int16) *ApiVersionsResponseBuilder {
 	b.errorCode = errorCode
 	return b
