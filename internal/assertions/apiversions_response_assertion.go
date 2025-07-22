@@ -88,7 +88,7 @@ func (a *ApiVersionsResponseAssertion) assertAPIKeysArray() *ApiVersionsResponse
 
 				// anything above or equal to expected minVersion is fine
 				if actualApiVersionKey.MinVersion < expectedApiVersionKey.MinVersion {
-					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
+					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MinVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MinVersion)
 					return a
 				}
 				a.logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
