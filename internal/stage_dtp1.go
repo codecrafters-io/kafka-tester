@@ -57,8 +57,8 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}
 
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
-		AddApiKeyVersionSupport(18, 0, 4).
-		AddApiKeyVersionSupport(75, 0, 0).
+		AddApiKeyEntry(18, 0, 4).
+		AddApiKeyEntry(75, 0, 0).
 		Build(correlationId)
 
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
