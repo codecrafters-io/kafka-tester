@@ -8,7 +8,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
-	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -37,7 +36,8 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	topic1 := common.TOPIC2_NAME
 	topic2 := common.TOPIC4_NAME
 	topic1Partition1 := int32(0)
-	topic2Partition1 := int32(random.RandomInt(0, 3))
+	topic2Partition1 := int32(0)
+	topic2Partition2 := int32(1)
 
 	recordBatch1 := builder.NewRecordBatchBuilder().
 		WithPartitionLeaderEpoch(0).
@@ -49,9 +49,15 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		AddStringRecord(common.HELLO_MSG2).
 		Build()
 
+	recordBatch3 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.HELLO_MSG3).
+		Build()
+
 	request := builder.NewProduceRequestBuilder().
 		AddRecordBatch(topic1, topic1Partition1, recordBatch1).
 		AddRecordBatch(topic2, topic2Partition1, recordBatch2).
+		AddRecordBatch(topic2, topic2Partition2, recordBatch3).
 		Build(correlationId)
 
 	response, err := client.SendAndReceive(request, stageLogger)
@@ -68,6 +74,7 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	expectedResponse := builder.NewProduceResponseBuilder().
 		AddTopicPartitionResponse(topic1, topic1Partition1, 0).
 		AddTopicPartitionResponse(topic2, topic2Partition1, 0).
+		AddTopicPartitionResponse(topic2, topic2Partition2, 0).
 		Build(correlationId)
 
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
@@ -85,6 +92,12 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[0].RecordBatches[0]}, stageLogger)
+	err = topicPartitionLogAssertion.Run()
+	if err != nil {
+		return err
+	}
+
+	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[1].RecordBatches[0]}, stageLogger)
 	err = topicPartitionLogAssertion.Run()
 	if err != nil {
 		return err

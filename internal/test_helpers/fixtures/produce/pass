@@ -497,7 +497,7 @@ Debug = true
 [33m[tester::#XS0] [Decoder] [0m[36m    - .topic_name (qux)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .PartitionResponses[0][0m
-[33m[tester::#XS0] [Decoder] [0m[36m      - .partition_index (1)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .partition_index (0)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .error_code (0)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .base_offset (0)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
@@ -508,9 +508,18 @@ Debug = true
 [33m[tester::#XS0] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#XS0] [Decoder] [0m[36m  - .TopicResponses[1][0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .topic_name (foo)[0m
-[33m[tester::#XS0] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m    - .partition_responses.length (2)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m    - .PartitionResponses[0][0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .partition_index (0)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .TAG_BUFFER[0m
+[33m[tester::#XS0] [Decoder] [0m[36m    - .PartitionResponses[1][0m
+[33m[tester::#XS0] [Decoder] [0m[36m      - .partition_index (1)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .error_code (0)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .base_offset (0)[0m
 [33m[tester::#XS0] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
@@ -531,10 +540,15 @@ Debug = true
 [33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
 [33m[tester::#XS0] [0m[92m  ✓ TopicResponse[1] Name: qux[0m
 [33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
-[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] Index: 1[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
 [33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
 [33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
 [33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[1] Error code: 0 (NO_ERROR)[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[1] Index: 1[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[1] BaseOffset: 0[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[1] LogStartOffset: 0[0m
+[33m[tester::#XS0] [0m[92m    ✓ PartitionResponse[1] LogAppendTimeMs: -1[0m
 [33m[tester::#XS0] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
 [33m[tester::#XS0] [logparser] [0m[36m  - .base_offset (0)[0m
 [33m[tester::#XS0] [logparser] [0m[36m  - .batch_length (72)[0m
@@ -588,6 +602,33 @@ Debug = true
 [33m[tester::#XS0] [logparser] [0m[36m    - .num_headers (0)[0m
 [33m[tester::#XS0] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
 [33m[tester::#XS0] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/qux-1/00000000000000000000.log[0m
+[33m[tester::#XS0] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#XS0] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .batch_length (73)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .crc (-1058952804)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .base_timestamp (1753207854552)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .max_timestamp (1753207854552)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#XS0] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .length (23)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .value_length (17)[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .value ("Hello from Eddie!")[0m
+[33m[tester::#XS0] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#XS0] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#XS0] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
 [33m[tester::#XS0] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
 [33m[tester::#XS0] [0m[92mTest passed.[0m
 [33m[tester::#XS0] [0m[36mTerminating program[0m
