@@ -4,16 +4,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-type DescribeTopicPartitionsRequest struct {
-	Header RequestHeader
-	Body   DescribeTopicPartitionsRequestBody
-}
-
-func (r *DescribeTopicPartitionsRequest) Encode(pe *encoder.Encoder) {
-	r.Header.EncodeV2(pe)
-	r.Body.Encode(pe)
-}
-
 type DescribeTopicPartitionsRequestBody struct {
 	Topics                 []TopicName
 	ResponsePartitionLimit int32
@@ -60,4 +50,25 @@ func (c *Cursor) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
+}
+
+type DescribeTopicPartitionsRequest struct {
+	Header RequestHeader
+	Body   DescribeTopicPartitionsRequestBody
+}
+
+func (r DescribeTopicPartitionsRequest) Encode() []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.Header.Encode(&encoder)
+	r.Body.Encode(&encoder)
+	messageBytes := encoder.PackMessage()
+
+	return messageBytes
+
+}
+
+func (r DescribeTopicPartitionsRequest) GetHeader() RequestHeader {
+	return r.Header
 }
