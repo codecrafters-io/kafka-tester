@@ -60,7 +60,7 @@ func (a *ApiKeyVersionSupport) Decode(pd *decoder.Decoder, version int16, logger
 	return nil
 }
 
-type ApiVersionsResponse struct {
+type ApiVersionsResponseBody struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ErrorCode contains the top-level error code.
@@ -71,7 +71,7 @@ type ApiVersionsResponse struct {
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *ApiVersionsResponseBody) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -140,8 +140,13 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger 
 
 	// Check if there are any remaining bytes in the decoder
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", pd.Remaining()))
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", pd.Remaining()))
 	}
 
 	return nil
+}
+
+type ApiVersionsResponse struct {
+	Header ResponseHeader
+	Body   ApiVersionsResponseBody
 }
