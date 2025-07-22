@@ -56,20 +56,17 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
-		CorrelationId: correlationId,
-	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
-		return err
-	}
-
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
 		AddApiKeyVersionSupport(18, 0, 4).
 		AddApiKeyVersionSupport(75, 0, 0).
 		Build(correlationId)
 
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+		return err
+	}
+
 	// TODO: Add ApiVersionsResponseAssertion to all stages
-	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Evaluate([]string{"ErrorCode"}, true, stageLogger); err != nil {
 		return err
 	}
 
