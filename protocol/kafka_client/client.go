@@ -64,7 +64,7 @@ func (c *Client) Connect() error {
 }
 
 func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
-	RETRIES := 10
+	const maxRetries = 10
 	logger.Debugf("Connecting to broker at: %s", c.addr)
 
 	retries := 0
@@ -72,7 +72,7 @@ func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 	var conn net.Conn
 	for {
 		conn, err = net.Dial("tcp", c.addr)
-		if err != nil && retries > RETRIES {
+		if err != nil && retries > maxRetries {
 			logger.Infof("All retries failed. Exiting.")
 			return err
 		}
@@ -88,7 +88,7 @@ func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 			// logger.Infof("Failed to connect to broker at %s, retrying in 1s", b.addr)
 			// }
 
-			retries += 1
+			retries++
 			time.Sleep(1000 * time.Millisecond)
 		} else {
 			break
