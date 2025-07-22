@@ -12,8 +12,14 @@ import (
 type ProduceResponseAssertion struct {
 	ActualValue   kafkaapi.ProduceResponseBody
 	ExpectedValue kafkaapi.ProduceResponseBody
-	logger        *logger.Logger
-	err           error
+
+	// empty slice = assert all fields (default)
+	// non-empty slice = assert with exclusions
+	// if excludedBodyFields contains "topics", then Topics are not asserted
+	// if excludedTopicFields contains "partitions", then Partitions are not asserted
+	excludedBodyFields      []string
+	excludedTopicFields     []string
+	excludedPartitionFields []string
 }
 
 func NewProduceResponseAssertion(actualValue kafkaapi.ProduceResponseBody, expectedValue kafkaapi.ProduceResponseBody, logger *logger.Logger) *ProduceResponseAssertion {
@@ -22,10 +28,37 @@ func NewProduceResponseAssertion(actualValue kafkaapi.ProduceResponseBody, expec
 	sortedExpected := sortResponses(expectedValue)
 
 	return &ProduceResponseAssertion{
-		ActualValue:   sortedActual,
-		ExpectedValue: sortedExpected,
-		logger:        logger,
+		ActualValue:             sortedActual,
+		ExpectedValue:           sortedExpected,
+		excludedBodyFields:      []string{},
+		excludedTopicFields:     []string{},
+		excludedPartitionFields: []string{},
 	}
+}
+
+func (a *ProduceResponseAssertion) ExcludeBodyFields(fields ...string) *ProduceResponseAssertion {
+	a.excludedBodyFields = fields
+	return a
+}
+
+func (a *ProduceResponseAssertion) ExcludeTopicFields(fields ...string) *ProduceResponseAssertion {
+	a.excludedTopicFields = fields
+	return a
+}
+
+func (a *ProduceResponseAssertion) ExcludePartitionFields(fields ...string) *ProduceResponseAssertion {
+	a.excludedPartitionFields = fields
+	return a
+}
+
+func (a *ProduceResponseAssertion) SkipTopicFields() *ProduceResponseAssertion {
+	a.excludedBodyFields = append(a.excludedBodyFields, "topics")
+	return a
+}
+
+func (a *ProduceResponseAssertion) SkipPartitionFields() *ProduceResponseAssertion {
+	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
+	return a
 }
 
 func (a *ProduceResponseAssertion) AssertBody(fields []string) *ProduceResponseAssertion {
