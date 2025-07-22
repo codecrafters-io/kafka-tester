@@ -55,7 +55,7 @@ func (b *ApiVersionsResponseBuilder) Build(correlationId int32) kafkaapi.ApiVers
 			Version:        b.version,
 			ErrorCode:      b.errorCode,
 			ApiKeys:        b.apiKeys,
-			ThrottleTimeMs: 0,
+			ThrottleTimeMs: b.throttleTimeMs,
 		},
 	}
 }
