@@ -121,10 +121,8 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.L
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, logger *logger.Logger) error {
-	if !Contains(a.excludedPartitionFields, "Length") {
-		if len(actualPartitions) != len(expectedPartitions) {
-			return fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
-		}
+	if len(actualPartitions) != len(expectedPartitions) {
+		return fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
 	}
 
 	for j, actualPartition := range actualPartitions {
