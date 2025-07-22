@@ -90,7 +90,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	errorCode, err := decoder.GetInt16()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("errorCode").WithAddedContext("ApiVersionsResponse")
+			err = decodingErr.WithAddedContext("errorCode").WithAddedContext("ApiVersionsResponseBody")
 			return decoder.FormatDetailedError(err.Error())
 		}
 		return err
