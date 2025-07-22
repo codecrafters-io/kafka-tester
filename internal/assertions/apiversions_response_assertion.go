@@ -8,11 +8,11 @@ import (
 )
 
 type ApiVersionsResponseAssertion struct {
-	ActualValue   kafkaapi.ApiVersionsResponse
-	ExpectedValue kafkaapi.ApiVersionsResponse
+	ActualValue   kafkaapi.ApiVersionsResponseBody
+	ExpectedValue kafkaapi.ApiVersionsResponseBody
 }
 
-func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse) ApiVersionsResponseAssertion {
+func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponseBody, expectedValue kafkaapi.ApiVersionsResponseBody) ApiVersionsResponseAssertion {
 	return ApiVersionsResponseAssertion{ActualValue: actualValue, ExpectedValue: expectedValue}
 }
 

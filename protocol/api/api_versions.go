@@ -40,7 +40,7 @@ func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logg
 
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponse, error) {
+func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponseBody, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
@@ -56,7 +56,7 @@ func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *
 		return nil, nil, err
 	}
 
-	apiVersionsResponse := ApiVersionsResponse{Version: version}
+	apiVersionsResponse := ApiVersionsResponseBody{Version: version}
 	logger.Debugf("- .ResponseBody")
 	if err := apiVersionsResponse.Decode(&decoder, version, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

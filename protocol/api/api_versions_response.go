@@ -9,8 +9,8 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-// ApiVersionsResponseKey contains the APIs supported by the broker.
-type ApiVersionsResponseKey struct {
+// ApiKeyEntry contains the APIs supported by the broker.
+type ApiKeyEntry struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ApiKey contains the API index.
@@ -21,7 +21,7 @@ type ApiVersionsResponseKey struct {
 	MaxVersion int16
 }
 
-func (a *ApiVersionsResponseKey) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (a *ApiKeyEntry) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -60,18 +60,18 @@ func (a *ApiVersionsResponseKey) Decode(pd *decoder.Decoder, version int16, logg
 	return nil
 }
 
-type ApiVersionsResponse struct {
+type ApiVersionsResponseBody struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ErrorCode contains the top-level error code.
 	ErrorCode int16
 	// ApiKeys contains the APIs supported by the broker.
-	ApiKeys []ApiVersionsResponseKey
+	ApiKeys []ApiKeyEntry
 	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *ApiVersionsResponseBody) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -105,17 +105,17 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger 
 		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
 	}
 
-	r.ApiKeys = make([]ApiVersionsResponseKey, numApiKeys)
+	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
 	for i := 0; i < numApiKeys; i++ {
-		var block ApiVersionsResponseKey
+		var apiKeyEntry ApiKeyEntry
 		protocol.LogWithIndentation(logger, indentation, "- .ApiKeys[%d]", i)
-		if err = block.Decode(pd, r.Version, logger, indentation+1); err != nil {
+		if err = apiKeyEntry.Decode(pd, r.Version, logger, indentation+1); err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("ApiVersionsResponseKey[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("ApiKeyEntry[%d]", i))
 			}
 			return err
 		}
-		r.ApiKeys[i] = block
+		r.ApiKeys[i] = apiKeyEntry
 	}
 
 	if r.Version >= 1 {
@@ -140,8 +140,13 @@ func (r *ApiVersionsResponse) Decode(pd *decoder.Decoder, version int16, logger 
 
 	// Check if there are any remaining bytes in the decoder
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponse", pd.Remaining()))
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", pd.Remaining()))
 	}
 
 	return nil
+}
+
+type ApiVersionsResponse struct {
+	Header ResponseHeader
+	Body   ApiVersionsResponseBody
 }
