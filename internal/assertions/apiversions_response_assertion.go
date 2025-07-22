@@ -23,96 +23,75 @@ var errorCodes = map[int]string{
 type ApiVersionsResponseAssertion struct {
 	ActualValue   kafkaapi.ApiVersionsResponse
 	ExpectedValue kafkaapi.ApiVersionsResponse
-	logger        *logger.Logger
-	err           error
-
-	// empty slice = assert all fields (default)
-	// non-empty slice = assert with exclusions
-	excludedBodyFields []string
 }
 
-func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse, logger *logger.Logger) *ApiVersionsResponseAssertion {
+func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse) *ApiVersionsResponseAssertion {
 	return &ApiVersionsResponseAssertion{
-		ActualValue:        actualValue,
-		ExpectedValue:      expectedValue,
-		logger:             logger,
-		excludedBodyFields: []string{},
+		ActualValue:   actualValue,
+		ExpectedValue: expectedValue,
 	}
 }
 
-// assertBody asserts the contents of the response body
-// Fields asserted by default: ErrorCode
-func (a *ApiVersionsResponseAssertion) assertBody() *ApiVersionsResponseAssertion {
-	if a.err != nil {
-		return a
+func (a *ApiVersionsResponseAssertion) assertErrorCode(logger *logger.Logger) error {
+	expectedErrorCodeName, ok := errorCodes[int(a.ExpectedValue.ErrorCode)]
+	if !ok {
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", a.ExpectedValue.ErrorCode))
 	}
 
-	if !Contains(a.excludedBodyFields, "ErrorCode") {
-		if a.ActualValue.ErrorCode != a.ExpectedValue.ErrorCode {
-			a.err = fmt.Errorf("Expected %s to be %d, got %d", "ErrorCode", a.ExpectedValue.ErrorCode, a.ActualValue.ErrorCode)
-			return a
-		}
-
-		errorCodeName, ok := errorCodes[int(a.ActualValue.ErrorCode)]
-		if !ok {
-			errorCodeName = "UNKNOWN"
-		}
-		a.logger.Successf("✓ Error code: %d (%s)", a.ActualValue.ErrorCode, errorCodeName)
+	if a.ActualValue.ErrorCode != a.ExpectedValue.ErrorCode {
+		return fmt.Errorf("Expected ErrorCode to be %d (%s), got %d", a.ExpectedValue.ErrorCode, expectedErrorCodeName, a.ActualValue.ErrorCode)
 	}
 
-	return a
+	logger.Successf("✓ Error code: %d (%s)", a.ActualValue.ErrorCode, expectedErrorCodeName)
+
+	return nil
 }
 
-// assertAPIKeysArray asserts the API keys array in the response
-// Fields asserted by default: ApiKeysArray.length, ApiKeyArrayElement.MinVersion, ApiKeyArrayElement.MaxVersion
-func (a *ApiVersionsResponseAssertion) assertAPIKeysArray() *ApiVersionsResponseAssertion {
-	if a.err != nil {
-		return a
-	}
-
+func (a *ApiVersionsResponseAssertion) assertAPIKeysArray(logger *logger.Logger) error {
 	if len(a.ActualValue.ApiKeys) < len(a.ExpectedValue.ApiKeys) {
-		a.err = fmt.Errorf("Expected API keys array to include atleast %d keys, got %d", len(a.ExpectedValue.ApiKeys), len(a.ActualValue.ApiKeys))
-		return a
+		return fmt.Errorf("Expected API keys array to include atleast %d keys, got %d", len(a.ExpectedValue.ApiKeys), len(a.ActualValue.ApiKeys))
 	}
-	a.logger.Successf("✓ API keys array length: %d", len(a.ActualValue.ApiKeys))
+	logger.Successf("✓ API keys array length: %d", len(a.ActualValue.ApiKeys))
 
 	for _, expectedApiVersionKey := range a.ExpectedValue.ApiKeys {
 		found := false
+
 		for _, actualApiVersionKey := range a.ActualValue.ApiKeys {
 			if actualApiVersionKey.ApiKey == expectedApiVersionKey.ApiKey {
 				found = true
 				if actualApiVersionKey.MinVersion > expectedApiVersionKey.MaxVersion {
-					a.err = fmt.Errorf("Expected min version %v to be < max version %v for %s", actualApiVersionKey.MinVersion, expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
-					return a
+					return fmt.Errorf("Expected min version %v to be < max version %v for %s", actualApiVersionKey.MinVersion, expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey])
 				}
 
 				// anything above or equal to expected minVersion is fine
 				if actualApiVersionKey.MinVersion < expectedApiVersionKey.MinVersion {
-					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MinVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MinVersion)
-					return a
+					return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MinVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MinVersion)
 				}
-				a.logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
+				logger.Successf("✓ MinVersion for %s is <= %v & >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion, expectedApiVersionKey.MinVersion)
 
 				if actualApiVersionKey.MaxVersion < expectedApiVersionKey.MaxVersion {
-					a.err = fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
-					return a
+					return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiVersionKey.MaxVersion, apiKeyNames[expectedApiVersionKey.ApiKey], actualApiVersionKey.MaxVersion)
 				}
-				a.logger.Successf("✓ MaxVersion for %s is >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion)
+				logger.Successf("✓ MaxVersion for %s is >= %v", apiKeyNames[expectedApiVersionKey.ApiKey], expectedApiVersionKey.MaxVersion)
 			}
 		}
+
 		if !found {
-			a.err = fmt.Errorf("Expected APIVersionsResponseKey array to include API key %d (%s)", expectedApiVersionKey.ApiKey, apiKeyNames[expectedApiVersionKey.ApiKey])
-			return a
+			return fmt.Errorf("Expected APIVersionsResponseKey array to include API key %d (%s)", expectedApiVersionKey.ApiKey, apiKeyNames[expectedApiVersionKey.ApiKey])
 		}
 	}
 
-	return a
+	return nil
 }
 
-// Run runs assertBody and assertAPIKeysArray in sequence
-func (a *ApiVersionsResponseAssertion) Run() error {
-	a.assertBody()
-	a.assertAPIKeysArray()
+func (a *ApiVersionsResponseAssertion) Run(logger *logger.Logger) error {
+	if err := a.assertErrorCode(logger); err != nil {
+		return err
+	}
 
-	return a.err
+	if err := a.assertAPIKeysArray(logger); err != nil {
+		return err
+	}
+
+	return nil
 }
