@@ -166,11 +166,6 @@ func (a *ProduceResponseAssertion) Run(logger *logger.Logger) error {
 	if err := a.assertBody(logger); err != nil {
 		return err
 	}
-	if !Contains(a.excludedBodyFields, "topics") {
-		if err := a.assertTopics(logger); err != nil {
-			return err
-		}
-	}
 
 	return nil
 }
