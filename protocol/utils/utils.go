@@ -1,26 +1,9 @@
-package internal
+package utils
 
 import (
 	"fmt"
-	"math"
 	"strings"
-
-	"github.com/codecrafters-io/tester-utils/random"
 )
-
-func getInvalidAPIVersion() int {
-	apiVersion := 1
-	for apiVersion <= 3 && apiVersion >= 0 {
-		apiVersion = random.RandomInt(0, math.MaxInt16)
-	}
-	return random.RandomElementFromArray([]int{apiVersion, -apiVersion})
-}
-
-func getRandomCorrelationId() int32 {
-	return int32(random.RandomInt(0, math.MaxInt32-1))
-}
-
-// TODO: Remove in lieu of protocol.utils.GetFormattedHexdump
 
 func GetFormattedHexdump(data []byte) string {
 	// This is used for logs
@@ -62,4 +45,21 @@ func GetFormattedHexdump(data []byte) string {
 	formattedHexdump.WriteString("| " + asciiChars.String())
 
 	return formattedHexdump.String()
+}
+
+func APIKeyToName(apiKey int16) string {
+	switch apiKey {
+	case 0:
+		return "Produce"
+	case 1:
+		return "Fetch"
+	case 18:
+		return "ApiVersions"
+	case 19:
+		return "CreateTopics"
+	case 75:
+		return "DescribeTopicPartitions"
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown API key: %v", apiKey))
+	}
 }
