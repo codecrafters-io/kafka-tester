@@ -7,7 +7,7 @@ import (
 type ApiVersionsResponseBuilder struct {
 	version        int16
 	errorCode      int16
-	apiKeys        []kafkaapi.ApiKeyVersionSupport
+	apiKeys        []kafkaapi.ApiKeyEntry
 	throttleTimeMs int32
 }
 
@@ -16,7 +16,7 @@ func NewApiVersionsResponseBuilder() *ApiVersionsResponseBuilder {
 		version:        3,
 		errorCode:      0,
 		throttleTimeMs: 0,
-		apiKeys:        []kafkaapi.ApiKeyVersionSupport{},
+		apiKeys:        []kafkaapi.ApiKeyEntry{},
 	}
 }
 
@@ -30,8 +30,8 @@ func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *A
 	return b
 }
 
-func (b *ApiVersionsResponseBuilder) AddApiKeyVersionSupport(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
-	b.apiKeys = append(b.apiKeys, kafkaapi.ApiKeyVersionSupport{
+func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
+	b.apiKeys = append(b.apiKeys, kafkaapi.ApiKeyEntry{
 		Version:    b.version,
 		ApiKey:     apiKey,
 		MinVersion: minVersion,
