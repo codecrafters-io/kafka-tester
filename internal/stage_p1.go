@@ -48,16 +48,16 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+	expectedResponse := builder.NewApiVersionsResponseBuilder().
 		AddApiKeyEntry(0, 0, 11).
 		AddApiKeyEntry(18, 0, 4).
 		Build(correlationId)
 
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
 		return err
 	}
 
-	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Run(stageLogger); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedResponse.Body).Run(stageLogger); err != nil {
 		return err
 	}
 
