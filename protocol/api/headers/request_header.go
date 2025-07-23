@@ -1,4 +1,4 @@
-package headers
+package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
@@ -16,20 +16,11 @@ type RequestHeader struct {
 	ClientId string
 }
 
-// encode v2
-func (h RequestHeader) encode(enc *encoder.Encoder) {
+// Encode v2
+func (h RequestHeader) Encode(enc *encoder.Encoder) {
 	enc.PutInt16(h.ApiKey)
 	enc.PutInt16(h.ApiVersion)
 	enc.PutInt32(h.CorrelationId)
 	enc.PutString(h.ClientId)
 	enc.PutEmptyTaggedFieldArray()
-}
-
-func (h RequestHeader) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	h.encode(&encoder)
-
-	return encoder.ToBytes()
 }
