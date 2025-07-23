@@ -3,15 +3,10 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
-
-func EncodeFetchRequest(request *FetchRequest) []byte {
-	return encoder.PackMessage(append(request.Header.Encode(), request.Body.Encode()...))
-}
 
 func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, error) {
 	decoder := decoder.Decoder{}

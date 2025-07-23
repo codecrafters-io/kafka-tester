@@ -67,6 +67,10 @@ type FetchRequest struct {
 	Body   FetchRequestBody
 }
 
+func (r FetchRequest) Encode() []byte {
+	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+}
+
 type FetchRequestBody struct {
 	MaxWaitMS         int32
 	MinBytes          int32
