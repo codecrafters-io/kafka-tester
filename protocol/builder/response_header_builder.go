@@ -20,7 +20,7 @@ func (rb *ResponseHeaderBuilder) WithCorrelationId(correlationId int32) *Respons
 }
 
 func (rb *ResponseHeaderBuilder) Build() headers.ResponseHeader {
-	if rb.correlationId == 0 {
+	if rb.correlationId == -1 {
 		panic("CodeCrafters Internal Error: correlationId can't be -1 for building a response header")
 	}
 
