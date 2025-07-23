@@ -3,6 +3,7 @@ package kafkaapi
 import (
 	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 )
 
 type ApiVersionsRequestBody struct {
@@ -40,5 +41,13 @@ type ApiVersionsRequest struct {
 }
 
 func (r ApiVersionsRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return encodeRequest(r)
+}
+
+func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
+	return r.Header
+}
+
+func (r ApiVersionsRequest) GetBody() kafka_interface.RequestBodyI {
+	return &r.Body
 }
