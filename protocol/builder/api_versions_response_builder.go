@@ -2,7 +2,6 @@ package builder
 
 import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 )
 
 type ApiVersionsResponseBuilder struct {
@@ -43,10 +42,7 @@ func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int
 
 func (b *ApiVersionsResponseBuilder) Build(correlationId int32) kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
-		// TODO: Add ResponseHeaderBuilder
-		Header: headers.ResponseHeader{
-			CorrelationId: correlationId,
-		},
+		Header: NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build(),
 		Body: kafkaapi.ApiVersionsResponseBody{
 			Version:        b.version,
 			ErrorCode:      b.errorCode,
