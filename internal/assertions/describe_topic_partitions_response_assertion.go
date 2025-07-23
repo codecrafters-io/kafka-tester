@@ -37,16 +37,58 @@ func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTo
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeBodyFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
+	exclusionMap := map[string]struct {
+		excludedFields   []string
+		excludableFields []string
+	}{
+		"response body": {
+			excludedFields:   a.excludedBodyFields,
+			excludableFields: EXCLUDABLE_BODY_FIELDS,
+		},
+	}
+
+	if err := validateExclusions(exclusionMap); err != nil {
+		panic(err)
+	}
+
 	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeTopicFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
+	exclusionMap := map[string]struct {
+		excludedFields   []string
+		excludableFields []string
+	}{
+		"topic response": {
+			excludedFields:   a.excludedTopicFields,
+			excludableFields: EXCLUDABLE_TOPIC_FIELDS,
+		},
+	}
+
+	if err := validateExclusions(exclusionMap); err != nil {
+		panic(err)
+	}
+
 	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
+	exclusionMap := map[string]struct {
+		excludedFields   []string
+		excludableFields []string
+	}{
+		"partition response": {
+			excludedFields:   a.excludedPartitionFields,
+			excludableFields: EXCLUDABLE_PARTITION_FIELDS,
+		},
+	}
+
+	if err := validateExclusions(exclusionMap); err != nil {
+		panic(err)
+	}
+
 	a.excludedPartitionFields = fields
 	return a
 }
@@ -61,19 +103,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitions() *DescribeTop
 	return a
 }
 
-// Fields asserted by default: ThrottleTimeMs
-func (a *DescribeTopicPartitionsResponseAssertion) assertBody(logger *logger.Logger) error {
+func (a *DescribeTopicPartitionsResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
 		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
 			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
 		}
 		logger.Successf("✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
-	}
-
-	if !Contains(a.excludedBodyFields, "Topics") {
-		if err := a.assertTopics(logger); err != nil {
-			return err
-		}
 	}
 
 	return nil
@@ -163,30 +198,14 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) Run(logger *logger.Logger) error {
-	exclusionMap := map[string]struct {
-		excludedFields   []string
-		excludableFields []string
-	}{
-		"response body": {
-			excludedFields:   a.excludedBodyFields,
-			excludableFields: EXCLUDABLE_BODY_FIELDS,
-		},
-		"topic response": {
-			excludedFields:   a.excludedTopicFields,
-			excludableFields: EXCLUDABLE_TOPIC_FIELDS,
-		},
-		"partition response": {
-			excludedFields:   a.excludedPartitionFields,
-			excludableFields: EXCLUDABLE_PARTITION_FIELDS,
-		},
-	}
-
-	if err := validateExclusions(exclusionMap); err != nil {
+	if err := a.assertThrottleTimeMs(logger); err != nil {
 		return err
 	}
 
-	if err := a.assertBody(logger); err != nil {
-		return err
+	if !Contains(a.excludedBodyFields, "Topics") {
+		if err := a.assertTopics(logger); err != nil {
+			return err
+		}
 	}
 
 	return nil
