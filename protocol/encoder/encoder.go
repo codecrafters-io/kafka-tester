@@ -215,6 +215,20 @@ func (re *Encoder) PackMessage() []byte {
 	return message
 }
 
+func (re *Encoder) ToBytes() []byte {
+	return re.Bytes()[:re.Offset()]
+}
+
+func PackMessage(encoded []byte) []byte {
+	length := int32(len(encoded))
+
+	message := make([]byte, 4+length)
+	binary.BigEndian.PutUint32(message[:4], uint32(length))
+	copy(message[4:], encoded)
+
+	return message
+}
+
 func EncodeUUID(uuidString string) ([]byte, error) {
 	// Remove any hyphens from the UUID string
 	uuidString = strings.ReplaceAll(uuidString, "-", "")
