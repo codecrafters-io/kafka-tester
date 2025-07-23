@@ -24,7 +24,7 @@ func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Respon
 	}
 }
 
-// Client represents a single Kafka client connection.
+// Client represents a single connection to the Kafka broker.
 type Client struct {
 	id   int32
 	addr string
@@ -59,7 +59,7 @@ func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 			// Don't print errors in the first second
 			// ToDo: fixtures fail
 			// if retries > 2 {
-			// logger.Infof("Failed to connect to broker at %s, retrying in 1s", c.addr)
+			// logger.Infof("Failed to connect to broker at %s, retrying in 1s", b.addr)
 			// }
 
 			retries += 1
