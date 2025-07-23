@@ -1,8 +1,9 @@
 package kafkaapi
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 )
 
 type Partition struct {
@@ -62,15 +63,6 @@ func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
 	pe.PutCompactInt32Array(f.Partitions)
 }
 
-type FetchRequest struct {
-	Header headers.RequestHeader
-	Body   FetchRequestBody
-}
-
-func (r FetchRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
-}
-
 type FetchRequestBody struct {
 	MaxWaitMS         int32
 	MinBytes          int32
@@ -112,11 +104,19 @@ func (r FetchRequestBody) encode(pe *encoder.Encoder) {
 	pe.PutEmptyTaggedFieldArray()
 }
 
-func (r FetchRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
+type FetchRequest struct {
+	Header headers.RequestHeader
+	Body   FetchRequestBody
+}
 
-	r.encode(&encoder)
+func (r *FetchRequest) Encode() []byte {
+	return encodeRequest(r)
+}
 
-	return encoder.ToBytes()
+func (r *FetchRequest) GetHeader() headers.RequestHeader {
+	return r.Header
+}
+
+func (r *FetchRequest) GetBody() kafka_interface.RequestBodyI {
+	return &r.Body
 }
