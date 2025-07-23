@@ -50,7 +50,7 @@ func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *log
 }
 
 // DescribeTopicPartitions returns api version response or error
-func DescribeTopicPartitions(b *kafka_client.Client) (*DescribeTopicPartitionsResponse, error) {
+func DescribeTopicPartitions(c *kafka_client.Client) (*DescribeTopicPartitionsResponse, error) {
 	request := DescribeTopicPartitionsRequest{
 		Header: RequestHeader{
 			ApiKey:        75,
@@ -69,7 +69,7 @@ func DescribeTopicPartitions(b *kafka_client.Client) (*DescribeTopicPartitionsRe
 	}
 	message := EncodeDescribeTopicPartitionsRequest(&request)
 
-	response, err := b.SendAndReceive(message)
+	response, err := c.SendAndReceive(message)
 	if err != nil {
 		return nil, err
 	}
