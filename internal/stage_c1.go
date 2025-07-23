@@ -10,7 +10,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
-	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -47,15 +46,11 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			},
 		}
 
-		message := request.Encode()
-		stageLogger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, requestCount, request.Header.ApiVersion, request.Header.CorrelationId)
-		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
-
-		response, err := client.SendAndReceive(message)
+		stageLogger.Infof("Sending request %d of %d:", i+1, requestCount)
+		response, err := client.SendAndReceive(&request, stageLogger)
 		if err != nil {
 			return err
 		}
-		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response.RawBytes))
 
 		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
 		if err != nil {
