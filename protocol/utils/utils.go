@@ -46,3 +46,20 @@ func GetFormattedHexdump(data []byte) string {
 
 	return formattedHexdump.String()
 }
+
+func APIKeyToName(apiKey int16) string {
+	switch apiKey {
+	case 0:
+		return "Produce"
+	case 1:
+		return "Fetch"
+	case 18:
+		return "ApiVersions"
+	case 19:
+		return "CreateTopics"
+	case 75:
+		return "DescribeTopicPartitions"
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unknown API key: %v", apiKey))
+	}
+}
