@@ -9,22 +9,16 @@ import (
 )
 
 type DescribeTopicPartitionsResponseAssertion struct {
-	ActualValue   kafkaapi.DescribeTopicPartitionsResponse
-	ExpectedValue kafkaapi.DescribeTopicPartitionsResponse
-
-	// empty slice = assert all fields (default)
-	// non-empty slice = assert with exclusions
-	// if excludedBodyFields contains "Topics", then Topics are not asserted
-	// if excludedTopicFields contains "Partitions", then Partitions are not asserted
-	// All field names should be in PascalCase
+	ActualValue             kafkaapi.DescribeTopicPartitionsResponse
+	ExpectedValue           kafkaapi.DescribeTopicPartitionsResponse
 	excludedBodyFields      []string
 	excludedTopicFields     []string
 	excludedPartitionFields []string
 }
 
-var EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "Topics"}
-var EXCLUDABLE_TOPIC_FIELDS = []string{"ErrorCode", "Name", "TopicID", "Partitions"}
-var EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex"}
+var DTP_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "Topics"}
+var DTP_EXCLUDABLE_TOPIC_FIELDS = []string{"ErrorCode", "Name", "TopicID", "Partitions"}
+var DTP_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex"}
 
 func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTopicPartitionsResponse, expectedValue kafkaapi.DescribeTopicPartitionsResponse) *DescribeTopicPartitionsResponseAssertion {
 	return &DescribeTopicPartitionsResponseAssertion{
@@ -37,21 +31,21 @@ func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTo
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeBodyFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	mustValidateExclusions(fields, EXCLUDABLE_BODY_FIELDS)
+	mustValidateExclusions(fields, DTP_EXCLUDABLE_BODY_FIELDS)
 
 	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeTopicFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	mustValidateExclusions(fields, EXCLUDABLE_TOPIC_FIELDS)
+	mustValidateExclusions(fields, DTP_EXCLUDABLE_TOPIC_FIELDS)
 
 	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	mustValidateExclusions(fields, EXCLUDABLE_PARTITION_FIELDS)
+	mustValidateExclusions(fields, DTP_EXCLUDABLE_PARTITION_FIELDS)
 
 	a.excludedPartitionFields = fields
 	return a
@@ -70,7 +64,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) SkipPartitions() *DescribeTop
 func (a *DescribeTopicPartitionsResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
 		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
-			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
+			return fmt.Errorf("Expected ThrottleTimeMs to be %d, got %d", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
 		}
 		logger.Successf("✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
 	}
@@ -84,7 +78,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertThrottleTimeMs(logger *
 // Partitions.Length, Partitions.ErrorCode, Partitions.PartitionIndex
 func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.Logger) error {
 	if len(a.ActualValue.Topics) != len(a.ExpectedValue.Topics) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Topics), len(a.ActualValue.Topics))
+		return fmt.Errorf("Expected topics.length to be %d, got %d", len(a.ExpectedValue.Topics), len(a.ActualValue.Topics))
 	}
 
 	if len(a.ActualValue.Topics) == 0 {
@@ -131,7 +125,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.L
 
 func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, topicPartitionIndex int, logger *logger.Logger) error {
 	if len(actualPartitions) != len(expectedPartitions) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
+		return fmt.Errorf("Expected partitions.length to be %d, got %d", len(expectedPartitions), len(actualPartitions))
 	}
 
 	if len(actualPartitions) == 0 {
