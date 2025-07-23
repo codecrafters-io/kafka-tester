@@ -495,7 +495,6 @@ Debug = true
 [33m[tester::#HN6] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#HN6] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 100 (UNKNOWN_TOPIC_ID)[0m
 [33m[tester::#HN6] [0m[92m    ✓ PartitionResponse[0] PartitionIndex: 0[0m
-[33m[tester::#HN6] [0m[92m    ✓ RecordBatches Length: 0[0m
 [33m[tester::#HN6] [0m[92mTest passed.[0m
 [33m[tester::#HN6] [0m[36mTerminating program[0m
 [33m[tester::#HN6] [0m[36mProgram terminated successfully[0m
@@ -571,7 +570,6 @@ Debug = true
 [33m[tester::#CM4] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#CM4] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#CM4] [0m[92m    ✓ PartitionResponse[0] PartitionIndex: 0[0m
-[33m[tester::#CM4] [0m[92m    ✓ RecordBatches Length: 0[0m
 [33m[tester::#CM4] [0m[92mTest passed.[0m
 [33m[tester::#CM4] [0m[36mTerminating program[0m
 [33m[tester::#CM4] [0m[36mProgram terminated successfully[0m
