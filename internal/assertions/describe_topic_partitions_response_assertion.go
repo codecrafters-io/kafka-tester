@@ -37,57 +37,21 @@ func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTo
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeBodyFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	exclusionMap := map[string]struct {
-		excludedFields   []string
-		excludableFields []string
-	}{
-		"response body": {
-			excludedFields:   a.excludedBodyFields,
-			excludableFields: EXCLUDABLE_BODY_FIELDS,
-		},
-	}
-
-	if err := validateExclusions(exclusionMap); err != nil {
-		panic(err)
-	}
+	mustValidateExclusions(fields, EXCLUDABLE_BODY_FIELDS)
 
 	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludeTopicFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	exclusionMap := map[string]struct {
-		excludedFields   []string
-		excludableFields []string
-	}{
-		"topic response": {
-			excludedFields:   a.excludedTopicFields,
-			excludableFields: EXCLUDABLE_TOPIC_FIELDS,
-		},
-	}
-
-	if err := validateExclusions(exclusionMap); err != nil {
-		panic(err)
-	}
+	mustValidateExclusions(fields, EXCLUDABLE_TOPIC_FIELDS)
 
 	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExcludePartitionFields(fields ...string) *DescribeTopicPartitionsResponseAssertion {
-	exclusionMap := map[string]struct {
-		excludedFields   []string
-		excludableFields []string
-	}{
-		"partition response": {
-			excludedFields:   a.excludedPartitionFields,
-			excludableFields: EXCLUDABLE_PARTITION_FIELDS,
-		},
-	}
-
-	if err := validateExclusions(exclusionMap); err != nil {
-		panic(err)
-	}
+	mustValidateExclusions(fields, EXCLUDABLE_PARTITION_FIELDS)
 
 	a.excludedPartitionFields = fields
 	return a

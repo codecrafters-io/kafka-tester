@@ -12,20 +12,12 @@ func Contains(slice []string, target string) bool {
 	return false
 }
 
-// validateExclusions validates that the excluded fields are valid for the excludable fields
+// mustValidateExclusions validates that the excluded fields are valid for the excludable fields
 // structure: response position (Body, TopicResponse, etc.) -> excludable fields, excluded fields
-func validateExclusions(exclusionMap map[string]struct {
-	excludedFields   []string
-	excludableFields []string
-}) error {
-
-	for name, data := range exclusionMap {
-		for _, field := range data.excludedFields {
-			if !Contains(data.excludableFields, field) {
-				return fmt.Errorf("CodeCrafters Internal Error: Invalid exclusion for %s: %s", name, field)
-			}
+func mustValidateExclusions(excludedFields []string, excludableFields []string) {
+	for _, field := range excludedFields {
+		if !Contains(excludableFields, field) {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: Exclusion %s is not supported", field))
 		}
 	}
-
-	return nil
 }
