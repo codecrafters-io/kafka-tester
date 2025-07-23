@@ -6,9 +6,9 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -26,13 +26,13 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		return err
 	}
 
-	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, stageLogger); err != nil {
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	requestCount := random.RandomInt(2, 5)
 	for i := 0; i < requestCount; i++ {
@@ -50,7 +50,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		stageLogger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, requestCount, request.Header.ApiVersion, request.Header.CorrelationId)
 		stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
 
-		response, err := broker.SendAndReceive(message)
+		response, err := client.SendAndReceive(message)
 		if err != nil {
 			return err
 		}
