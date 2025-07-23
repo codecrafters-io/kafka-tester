@@ -37,29 +37,6 @@ func NewClient(addr string) *Client {
 	return &Client{id: -1, addr: addr}
 }
 
-func (b *Client) Connect() error {
-	RETRIES := 10
-
-	retries := 0
-	var err error
-	var conn net.Conn
-	for {
-		conn, err = net.Dial("tcp", b.addr)
-		if err != nil && retries > RETRIES {
-			return err
-		}
-		if err != nil {
-			retries += 1
-			time.Sleep(1000 * time.Millisecond)
-		} else {
-			break
-		}
-	}
-	b.conn = conn
-
-	return nil
-}
-
 func (b *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
 	RETRIES := 10
 	logger.Debugf("Connecting to broker at: %s", b.addr)
