@@ -1,6 +1,6 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+import headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 
 type RequestHeaderBuilder struct {
 	apiKey        int16
