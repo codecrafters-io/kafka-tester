@@ -66,7 +66,8 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"next_cursor":            {regexp.MustCompile(`- .next_cursor \(\{[A-Za-z0-9 ]{1,}\}\)`)},
 		"Messages":               {regexp.MustCompile(`✓ Messages: \["[A-Za-z !]{1,}"\]`)},
 		"Topic Name":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic Name: [A-Za-z -]{3,}`)},
-		"Topic UUID":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] TopicID: [0-9 -]{1,}`)},
+		"Topic UUID":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic UUID: [0-9 -]{1,}`)},
+		"Topic ID":               {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] TopicID: [0-9 -]{1,}`)},
 		"Record Value":           {regexp.MustCompile(`✓ Record\[[0-9]{1,}\] Value: [A-Za-z0-9 !]{1,}`)},
 		"RecordBatch BaseOffset": {regexp.MustCompile(`✓ RecordBatch\[[0-9]{1,}\] BaseOffset: [0-9]{1,}`)},
 	}
