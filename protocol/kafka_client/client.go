@@ -1,4 +1,4 @@
-package protocol
+package kafka_client
 
 import (
 	"bytes"
