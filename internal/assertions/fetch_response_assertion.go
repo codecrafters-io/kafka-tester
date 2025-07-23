@@ -12,22 +12,20 @@ import (
 )
 
 type FetchResponseAssertion struct {
-	ActualValue   kafkaapi.FetchResponse
-	ExpectedValue kafkaapi.FetchResponse
-
-	// empty slice = assert all fields (default)
-	// non-empty slice = assert with exclusions
-	// if excludedBodyFields contains "Topics", then Topics are not asserted
-	// if excludedTopicFields contains "Partitions", then Partitions are not asserted
-	// if excludedPartitionFields contains "RecordBatches", then RecordBatches are not asserted
-	// if excludedRecordBatchFields contains "Records", then Records are not asserted
-	// All field names should be in PascalCase
+	ActualValue               kafkaapi.FetchResponse
+	ExpectedValue             kafkaapi.FetchResponse
 	excludedBodyFields        []string
 	excludedTopicFields       []string
 	excludedPartitionFields   []string
 	excludedRecordBatchFields []string
 	excludedRecordFields      []string
 }
+
+var FETCH_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "ErrorCode", "Topics"}
+var FETCH_EXCLUDABLE_TOPIC_FIELDS = []string{"TopicID", "Partitions"}
+var FETCH_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex", "RecordBatches"}
+var FETCH_EXCLUDABLE_RECORD_BATCH_FIELDS = []string{"BaseOffset", "BatchLength", "Records"}
+var FETCH_EXCLUDABLE_RECORD_FIELDS = []string{"Value"}
 
 func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
@@ -42,43 +40,53 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 }
 
 func (a *FetchResponseAssertion) ExcludeBodyFields(fields ...string) *FetchResponseAssertion {
+	mustValidateExclusions(fields, FETCH_EXCLUDABLE_BODY_FIELDS)
+
 	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeTopicFields(fields ...string) *FetchResponseAssertion {
+	mustValidateExclusions(fields, FETCH_EXCLUDABLE_TOPIC_FIELDS)
+
 	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludePartitionFields(fields ...string) *FetchResponseAssertion {
+	mustValidateExclusions(fields, FETCH_EXCLUDABLE_PARTITION_FIELDS)
+
 	a.excludedPartitionFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordBatchFields(fields ...string) *FetchResponseAssertion {
+	mustValidateExclusions(fields, FETCH_EXCLUDABLE_RECORD_BATCH_FIELDS)
+
 	a.excludedRecordBatchFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchResponseAssertion {
+	mustValidateExclusions(fields, FETCH_EXCLUDABLE_RECORD_FIELDS)
+
 	a.excludedRecordFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) SkipTopics() *FetchResponseAssertion {
 	a.excludedBodyFields = append(a.excludedBodyFields, "Topics")
-	return a.SkipPartitions()
+	return a
 }
 
 func (a *FetchResponseAssertion) SkipPartitions() *FetchResponseAssertion {
 	a.excludedTopicFields = append(a.excludedTopicFields, "Partitions")
-	return a.SkipRecordBatches()
+	return a
 }
 
 func (a *FetchResponseAssertion) SkipRecordBatches() *FetchResponseAssertion {
 	a.excludedPartitionFields = append(a.excludedPartitionFields, "RecordBatches")
-	return a.SkipRecords()
+	return a
 }
 
 func (a *FetchResponseAssertion) SkipRecords() *FetchResponseAssertion {
@@ -86,16 +94,18 @@ func (a *FetchResponseAssertion) SkipRecords() *FetchResponseAssertion {
 	return a
 }
 
-// assertBody asserts the contents of the FetchResponse body
-// Fields asserted by default: ThrottleTimeMs, ErrorCode
-func (a *FetchResponseAssertion) assertBody(logger *logger.Logger) error {
+func (a *FetchResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
 		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
-			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
+			return fmt.Errorf("Expected ThrottleTimeMs to be %d, got %d", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
 		}
-		logger.Successf("✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
+		logger.Successf("✓ ThrottleTimeMs: %d", a.ActualValue.ThrottleTimeMs)
 	}
 
+	return nil
+}
+
+func (a *FetchResponseAssertion) assertErrorCode(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ErrorCode") {
 		expectedErrorCodeName, ok := errorCodes[int(a.ExpectedValue.ErrorCode)]
 		if !ok {
@@ -106,40 +116,25 @@ func (a *FetchResponseAssertion) assertBody(logger *logger.Logger) error {
 			return fmt.Errorf("Expected ErrorCode to be %d (%s), got %d", a.ExpectedValue.ErrorCode, expectedErrorCodeName, a.ActualValue.ErrorCode)
 		}
 
-		logger.Successf("✓ Error Code: %d (%s)", a.ActualValue.ErrorCode, expectedErrorCodeName)
-	}
-
-	if !Contains(a.excludedBodyFields, "Topics") {
-		if err := a.assertTopics(logger); err != nil {
-			return err
-		}
+		logger.Successf("✓ ErrorCode: %d (%s)", a.ActualValue.ErrorCode, expectedErrorCodeName)
 	}
 
 	return nil
 }
 
-// assertTopics asserts the contents of the TopicResponses array
-// By default, all nested responses are also asserted:
-// partitionResponse, recordBatches and records.
-// Fields asserted by default: Topic
-// Partitions: "ErrorCode", "PartitionIndex"
-// RecordBatches: "BaseOffset", "BatchLength"
-// Records: "Value"
-// Each level can be skipped by calling Skip<Level>Fields()
-// Or certain fields can be excluded by calling Exclude<Level>Fields()
 func (a *FetchResponseAssertion) assertTopics(logger *logger.Logger) error {
 	if len(a.ActualValue.TopicResponses) != len(a.ExpectedValue.TopicResponses) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
+		return fmt.Errorf("Expected topics.length to be %d, got %d", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
 	}
 	protocol.SuccessLogWithIndentation(logger, 0, "✓ TopicResponses Length: %v", len(a.ActualValue.TopicResponses))
 
 	for i, actualTopic := range a.ActualValue.TopicResponses {
 		expectedTopic := a.ExpectedValue.TopicResponses[i]
-		if !Contains(a.excludedTopicFields, "Topic") {
+		if !Contains(a.excludedTopicFields, "TopicID") {
 			if actualTopic.Topic != expectedTopic.Topic {
-				return fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Topic UUID", i), expectedTopic.Topic, actualTopic.Topic)
+				return fmt.Errorf("Expected TopicResponse[%d] TopicID to be %s, got %s", i, expectedTopic.Topic, actualTopic.Topic)
 			}
-			protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] Topic UUID: %s", i, actualTopic.Topic)
+			protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] TopicID: %s", i, actualTopic.Topic)
 		}
 
 		expectedPartitions := expectedTopic.PartitionResponses
@@ -157,7 +152,7 @@ func (a *FetchResponseAssertion) assertTopics(logger *logger.Logger) error {
 
 func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.PartitionResponse, actualPartitions []kafkaapi.PartitionResponse, logger *logger.Logger) error {
 	if len(actualPartitions) != len(expectedPartitions) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "partitions.length", len(expectedPartitions), len(actualPartitions))
+		return fmt.Errorf("Expected partitions.length to be %d, got %d", len(expectedPartitions), len(actualPartitions))
 	}
 	protocol.SuccessLogWithIndentation(logger, 1, "✓ PartitionResponses Length: %v", len(actualPartitions))
 
@@ -173,14 +168,14 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 				return fmt.Errorf("Expected PartitionResponse[%d] Error Code to be %d (%s), got %d", j, expectedPartition.ErrorCode, expectedErrorCodeName, actualPartition.ErrorCode)
 			}
 
-			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, expectedErrorCodeName)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] ErrorCode: %d (%s)", j, actualPartition.ErrorCode, expectedErrorCodeName)
 		}
 
 		if !Contains(a.excludedPartitionFields, "PartitionIndex") {
 			if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Partition Response[%d] Partition Index", j), expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
+				return fmt.Errorf("Expected PartitionResponse[%d] PartitionIndex to be %d, got %d", j, expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 			}
-			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] Partition Index: %d", j, actualPartition.PartitionIndex)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] PartitionIndex: %d", j, actualPartition.PartitionIndex)
 		}
 
 		expectedRecordBatches := expectedPartition.RecordBatches
@@ -198,7 +193,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 
 func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kafkaapi.RecordBatch, actualRecordBatches []kafkaapi.RecordBatch, logger *logger.Logger) error {
 	if len(actualRecordBatches) != len(expectedRecordBatches) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "recordBatches.length", len(expectedRecordBatches), len(actualRecordBatches))
+		return fmt.Errorf("Expected recordBatches.length to be %d, got %d", len(expectedRecordBatches), len(actualRecordBatches))
 	}
 	protocol.SuccessLogWithIndentation(logger, 2, "✓ RecordBatches Length: %v", len(actualRecordBatches))
 
@@ -207,14 +202,14 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 
 		if !Contains(a.excludedRecordBatchFields, "BaseOffset") {
 			if actualRecordBatch.BaseOffset != expectedRecordBatch.BaseOffset {
-				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("RecordBatch[%d] BaseOffset", k), expectedRecordBatch.BaseOffset, actualRecordBatch.BaseOffset)
+				return fmt.Errorf("Expected RecordBatch[%d] BaseOffset to be %d, got %d", k, expectedRecordBatch.BaseOffset, actualRecordBatch.BaseOffset)
 			}
 			protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
 		}
 
 		if !Contains(a.excludedRecordBatchFields, "BatchLength") {
 			if actualRecordBatch.BatchLength != expectedRecordBatch.BatchLength {
-				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("RecordBatch[%d] BatchLength", k), expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
+				return fmt.Errorf("Expected RecordBatch[%d] BatchLength to be %d, got %d", k, expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
 			}
 			protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
 		}
@@ -234,7 +229,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 
 func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record, actualRecords []kafkaapi.Record, logger *logger.Logger) error {
 	if len(actualRecords) != len(expectedRecords) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "records.length", len(expectedRecords), len(actualRecords))
+		return fmt.Errorf("Expected records.length to be %d, got %d", len(expectedRecords), len(actualRecords))
 	}
 	protocol.SuccessLogWithIndentation(logger, 3, "✓ Records Length: %v", len(actualRecords))
 
@@ -243,7 +238,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 
 		if !Contains(a.excludedRecordFields, "Value") {
 			if !bytes.Equal(actualRecord.Value, expectedRecord.Value) {
-				return fmt.Errorf("Expected %s to be %d, got %d", fmt.Sprintf("Record[%d] Value", l), expectedRecord.Value, actualRecord.Value)
+				return fmt.Errorf("Expected Record[%d] Value to be %d, got %d", l, expectedRecord.Value, actualRecord.Value)
 			}
 			protocol.SuccessLogWithIndentation(logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
 		}
@@ -287,8 +282,18 @@ func (a *FetchResponseAssertion) AssertRecordBatchBytes(logger *logger.Logger) e
 }
 
 func (a *FetchResponseAssertion) Run(logger *logger.Logger) error {
-	if err := a.assertBody(logger); err != nil {
+	if err := a.assertThrottleTimeMs(logger); err != nil {
 		return err
+	}
+
+	if err := a.assertErrorCode(logger); err != nil {
+		return err
+	}
+
+	if !Contains(a.excludedBodyFields, "Topics") {
+		if err := a.assertTopics(logger); err != nil {
+			return err
+		}
 	}
 
 	return nil
