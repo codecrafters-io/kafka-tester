@@ -190,7 +190,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 	return nil
 }
 
-func (a *FetchResponseAssertion) AssertRecordBatchBytes(logger *logger.Logger) error {
+func (a *FetchResponseAssertion) assertRecordBatchBytes(logger *logger.Logger) error {
 	actualRecordBatches := kafkaapi.RecordBatches{}
 	for _, topic := range a.ActualValue.TopicResponses {
 		for _, partition := range topic.PartitionResponses {
@@ -242,7 +242,7 @@ func (a *FetchResponseAssertion) Run(logger *logger.Logger) error {
 	// If RecordBatches are not excluded from assertion,
 	// They will be compared with their on-disk counterparts by default
 	if !Contains(a.excludedPartitionFields, "RecordBatches") {
-		if err := a.AssertRecordBatchBytes(logger); err != nil {
+		if err := a.assertRecordBatchBytes(logger); err != nil {
 			return err
 		}
 	}
