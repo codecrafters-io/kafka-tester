@@ -21,12 +21,6 @@ type FetchResponseAssertion struct {
 	excludedRecordFields      []string
 }
 
-var FETCH_API_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "ErrorCode", "Topics"}
-var FETCH_API_EXCLUDABLE_TOPIC_FIELDS = []string{"TopicID", "Partitions"}
-var FETCH_API_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex", "RecordBatches"}
-var FETCH_API_EXCLUDABLE_RECORD_BATCH_FIELDS = []string{"BaseOffset", "BatchLength", "Records"}
-var FETCH_API_EXCLUDABLE_RECORD_FIELDS = []string{"Value"}
-
 func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
 		ActualValue:               actualValue,
@@ -37,61 +31,6 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 		excludedRecordBatchFields: []string{},
 		excludedRecordFields:      []string{},
 	}
-}
-
-func (a *FetchResponseAssertion) ExcludeBodyFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_BODY_FIELDS)
-
-	a.excludedBodyFields = fields
-	return a
-}
-
-func (a *FetchResponseAssertion) ExcludeTopicFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_TOPIC_FIELDS)
-
-	a.excludedTopicFields = fields
-	return a
-}
-
-func (a *FetchResponseAssertion) ExcludePartitionFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_PARTITION_FIELDS)
-
-	a.excludedPartitionFields = fields
-	return a
-}
-
-func (a *FetchResponseAssertion) ExcludeRecordBatchFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_RECORD_BATCH_FIELDS)
-
-	a.excludedRecordBatchFields = fields
-	return a
-}
-
-func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_RECORD_FIELDS)
-
-	a.excludedRecordFields = fields
-	return a
-}
-
-func (a *FetchResponseAssertion) SkipTopics() *FetchResponseAssertion {
-	a.excludedBodyFields = append(a.excludedBodyFields, "Topics")
-	return a
-}
-
-func (a *FetchResponseAssertion) SkipPartitions() *FetchResponseAssertion {
-	a.excludedTopicFields = append(a.excludedTopicFields, "Partitions")
-	return a
-}
-
-func (a *FetchResponseAssertion) SkipRecordBatches() *FetchResponseAssertion {
-	a.excludedPartitionFields = append(a.excludedPartitionFields, "RecordBatches")
-	return a
-}
-
-func (a *FetchResponseAssertion) SkipRecords() *FetchResponseAssertion {
-	a.excludedRecordBatchFields = append(a.excludedRecordBatchFields, "Records")
-	return a
 }
 
 func (a *FetchResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
