@@ -146,18 +146,17 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 			protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
 		}
 
-		if !Contains(a.excludedRecordBatchFields, "BatchLength") {
-			if actualRecordBatch.BatchLength != expectedRecordBatch.BatchLength {
-				return fmt.Errorf("Expected RecordBatch[%d] BatchLength to be %d, got %d", k, expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
-			}
-			protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
-		}
-
-		expectedRecords := expectedRecordBatch.Records
-		actualRecords := actualRecordBatch.Records
+		// TODO: BatchLength can't be hardcoded in the expected response,
+		// Once we have the FetchResponseBuilder, assert for BatchLength too
+		// if !Contains(a.excludedRecordBatchFields, "BatchLength") {
+		// 	if actualRecordBatch.BatchLength != expectedRecordBatch.BatchLength {
+		// 		return fmt.Errorf("Expected RecordBatch[%d] BatchLength to be %d, got %d", k, expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
+		// 	}
+		// 	protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
+		// }
 
 		if !Contains(a.excludedRecordBatchFields, "Records") {
-			if err := a.assertRecords(expectedRecords, actualRecords, logger); err != nil {
+			if err := a.assertRecords(expectedRecordBatch.Records, actualRecordBatch.Records, logger); err != nil {
 				return err
 			}
 		}
