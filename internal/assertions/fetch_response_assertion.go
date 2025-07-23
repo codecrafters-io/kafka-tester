@@ -21,11 +21,11 @@ type FetchResponseAssertion struct {
 	excludedRecordFields      []string
 }
 
-var FETCH_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "ErrorCode", "Topics"}
-var FETCH_EXCLUDABLE_TOPIC_FIELDS = []string{"TopicID", "Partitions"}
-var FETCH_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex", "RecordBatches"}
-var FETCH_EXCLUDABLE_RECORD_BATCH_FIELDS = []string{"BaseOffset", "BatchLength", "Records"}
-var FETCH_EXCLUDABLE_RECORD_FIELDS = []string{"Value"}
+var FETCH_API_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "ErrorCode", "Topics"}
+var FETCH_API_EXCLUDABLE_TOPIC_FIELDS = []string{"TopicID", "Partitions"}
+var FETCH_API_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex", "RecordBatches"}
+var FETCH_API_EXCLUDABLE_RECORD_BATCH_FIELDS = []string{"BaseOffset", "BatchLength", "Records"}
+var FETCH_API_EXCLUDABLE_RECORD_FIELDS = []string{"Value"}
 
 func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
@@ -40,35 +40,35 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 }
 
 func (a *FetchResponseAssertion) ExcludeBodyFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_EXCLUDABLE_BODY_FIELDS)
+	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_BODY_FIELDS)
 
 	a.excludedBodyFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeTopicFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_EXCLUDABLE_TOPIC_FIELDS)
+	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_TOPIC_FIELDS)
 
 	a.excludedTopicFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludePartitionFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_EXCLUDABLE_PARTITION_FIELDS)
+	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_PARTITION_FIELDS)
 
 	a.excludedPartitionFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordBatchFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_EXCLUDABLE_RECORD_BATCH_FIELDS)
+	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_RECORD_BATCH_FIELDS)
 
 	a.excludedRecordBatchFields = fields
 	return a
 }
 
 func (a *FetchResponseAssertion) ExcludeRecordFields(fields ...string) *FetchResponseAssertion {
-	mustValidateExclusions(fields, FETCH_EXCLUDABLE_RECORD_FIELDS)
+	mustValidateExclusions(fields, FETCH_API_EXCLUDABLE_RECORD_FIELDS)
 
 	a.excludedRecordFields = fields
 	return a
@@ -238,7 +238,7 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 
 		if !Contains(a.excludedRecordFields, "Value") {
 			if !bytes.Equal(actualRecord.Value, expectedRecord.Value) {
-				return fmt.Errorf("Expected Record[%d] Value to be %d, got %d", l, expectedRecord.Value, actualRecord.Value)
+				return fmt.Errorf("Expected Record[%d] Value to be %v, got %v", l, expectedRecord.Value, actualRecord.Value)
 			}
 			protocol.SuccessLogWithIndentation(logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
 		}
