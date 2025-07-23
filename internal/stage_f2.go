@@ -72,5 +72,6 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		TopicResponses: []kafkaapi.TopicResponse{},
 	}
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
+		SkipRecordBatches().
 		Run(stageLogger)
 }

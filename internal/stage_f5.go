@@ -128,13 +128,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	// TODO: BatchLength can't be hardcoded in the expected response,
-	// Once we have the FetchResponseBuilder, assert for BatchLength too
-	responseAssertion := assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger)
-
-	if err := responseAssertion.Run(stageLogger); err != nil {
-		return err
-	}
-
-	return responseAssertion.AssertRecordBatchBytes(stageLogger)
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
+		Run(stageLogger)
 }
