@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
