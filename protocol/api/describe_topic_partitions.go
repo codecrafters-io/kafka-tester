@@ -4,7 +4,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -47,37 +46,4 @@ func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *log
 	}
 
 	return &responseHeader, &DescribeTopicPartitionsResponse, nil
-}
-
-// DescribeTopicPartitions returns api version response or error
-func DescribeTopicPartitions(c *kafka_client.Client) (*DescribeTopicPartitionsResponse, error) {
-	request := DescribeTopicPartitionsRequest{
-		Header: RequestHeader{
-			ApiKey:        75,
-			ApiVersion:    0,
-			CorrelationId: 5,
-			ClientId:      "adminclient-1",
-		},
-		Body: DescribeTopicPartitionsRequestBody{
-			Topics: []TopicName{
-				{
-					Name: "foo",
-				},
-			},
-			ResponsePartitionLimit: 1,
-		},
-	}
-	message := EncodeDescribeTopicPartitionsRequest(&request)
-
-	response, err := c.SendAndReceive(message)
-	if err != nil {
-		return nil, err
-	}
-
-	_, DescribeTopicPartitionsResponse, err := DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, logger.GetLogger(true, ""))
-	if err != nil {
-		return nil, err
-	}
-
-	return DescribeTopicPartitionsResponse, nil
 }
