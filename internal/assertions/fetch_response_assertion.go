@@ -33,6 +33,11 @@ func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue
 	}
 }
 
+func (a *FetchResponseAssertion) SkipRecordBatches() *FetchResponseAssertion {
+	a.excludedPartitionFields = append(a.excludedPartitionFields, "RecordBatches")
+	return a
+}
+
 func (a *FetchResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
 		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
@@ -230,6 +235,14 @@ func (a *FetchResponseAssertion) Run(logger *logger.Logger) error {
 
 	if !Contains(a.excludedBodyFields, "Topics") {
 		if err := a.assertTopics(logger); err != nil {
+			return err
+		}
+	}
+
+	// If RecordBatches are not excluded from assertion,
+	// They will be compared with their on-disk counterparts by default
+	if !Contains(a.excludedPartitionFields, "RecordBatches") {
+		if err := a.AssertRecordBatchBytes(logger); err != nil {
 			return err
 		}
 	}
