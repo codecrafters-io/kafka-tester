@@ -15,7 +15,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(pe *encoder.Encoder) {
+func (p Partition) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -30,7 +30,7 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(pe *encoder.Encoder) {
+func (t Topic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
@@ -53,7 +53,7 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
+func (f ForgottenTopic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
@@ -75,7 +75,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r FetchRequestBody) encode(pe *encoder.Encoder) {
+func (r FetchRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -109,14 +109,14 @@ type FetchRequest struct {
 	Body   FetchRequestBody
 }
 
-func (r *FetchRequest) Encode() []byte {
+func (r FetchRequest) Encode() []byte {
 	return encodeRequest(r)
 }
 
-func (r *FetchRequest) GetHeader() headers.RequestHeader {
+func (r FetchRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 
-func (r *FetchRequest) GetBody() kafka_interface.RequestBodyI {
-	return &r.Body
+func (r FetchRequest) GetBody() kafka_interface.RequestBodyI {
+	return r.Body
 }

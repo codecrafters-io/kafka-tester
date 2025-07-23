@@ -49,5 +49,5 @@ func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 }
 
 func (r ApiVersionsRequest) GetBody() kafka_interface.RequestBodyI {
-	return &r.Body
+	return r.Body
 }

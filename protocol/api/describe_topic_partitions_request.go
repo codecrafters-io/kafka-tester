@@ -12,7 +12,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r DescribeTopicPartitionsRequestBody) encode(pe *encoder.Encoder) {
+func (r DescribeTopicPartitionsRequestBody) Encode(pe *encoder.Encoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -47,7 +47,7 @@ type TopicName struct {
 	Name string
 }
 
-func (t *TopicName) Encode(pe *encoder.Encoder) {
+func (t TopicName) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -57,7 +57,7 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c *Cursor) Encode(pe *encoder.Encoder) {
+func (c Cursor) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
@@ -77,5 +77,5 @@ func (r DescribeTopicPartitionsRequest) GetHeader() headers.RequestHeader {
 }
 
 func (r DescribeTopicPartitionsRequest) GetBody() kafka_interface.RequestBodyI {
-	return &r.Body
+	return r.Body
 }
