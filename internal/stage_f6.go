@@ -152,9 +152,11 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
-		AssertRecordBatchBytes().
-		Run()
+	responseAssertion := assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).ExcludeRecordBatchFields("BatchLength")
+
+	if err := responseAssertion.Run(stageLogger); err != nil {
+		return err
+	}
+
+	return responseAssertion.AssertRecordBatchBytes(stageLogger)
 }
