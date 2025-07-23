@@ -419,7 +419,7 @@ Debug = true
 [33m[tester::#DH6] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[tester::#DH6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#DH6] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[tester::#DH6] [0m[92m  ✓ TopicResponses: [][0m
+[33m[tester::#DH6] [0m[92m✓ TopicResponses Length: 0[0m
 [33m[tester::#DH6] [0m[92mTest passed.[0m
 [33m[tester::#DH6] [0m[36mTerminating program[0m
 [33m[tester::#DH6] [0m[36mProgram terminated successfully[0m
@@ -490,10 +490,12 @@ Debug = true
 [33m[tester::#HN6] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[tester::#HN6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#HN6] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[tester::#HN6] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000006065[0m
+[33m[tester::#HN6] [0m[92m✓ TopicResponses Length: 1[0m
+[33m[tester::#HN6] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000003223[0m
+[33m[tester::#HN6] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#HN6] [0m[92m    ✓ PartitionResponse[0] Error code: 100 (UNKNOWN_TOPIC_ID)[0m
 [33m[tester::#HN6] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
-[33m[tester::#HN6] [0m[92m    ✓ RecordBatches: [][0m
+[33m[tester::#HN6] [0m[92m    ✓ RecordBatches Length: 0[0m
 [33m[tester::#HN6] [0m[92mTest passed.[0m
 [33m[tester::#HN6] [0m[36mTerminating program[0m
 [33m[tester::#HN6] [0m[36mProgram terminated successfully[0m
@@ -564,10 +566,12 @@ Debug = true
 [33m[tester::#CM4] [0m[92m✓ Correlation ID: 254678266[0m
 [33m[tester::#CM4] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#CM4] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[tester::#CM4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000097[0m
+[33m[tester::#CM4] [0m[92m✓ TopicResponses Length: 1[0m
+[33m[tester::#CM4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000029[0m
+[33m[tester::#CM4] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#CM4] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[tester::#CM4] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
-[33m[tester::#CM4] [0m[92m    ✓ RecordBatches: [][0m
+[33m[tester::#CM4] [0m[92m    ✓ RecordBatches Length: 0[0m
 [33m[tester::#CM4] [0m[92mTest passed.[0m
 [33m[tester::#CM4] [0m[36mTerminating program[0m
 [33m[tester::#CM4] [0m[36mProgram terminated successfully[0m
@@ -668,11 +672,15 @@ Debug = true
 [33m[tester::#EG2] [0m[92m✓ Correlation ID: 1893237013[0m
 [33m[tester::#EG2] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#EG2] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[tester::#EG2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
+[33m[tester::#EG2] [0m[92m✓ TopicResponses Length: 1[0m
+[33m[tester::#EG2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000079[0m
+[33m[tester::#EG2] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#EG2] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[tester::#EG2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
+[33m[tester::#EG2] [0m[92m    ✓ RecordBatches Length: 1[0m
 [33m[tester::#EG2] [0m[92m      ✓ RecordBatch[0] BaseOffset: 0[0m
-[33m[tester::#EG2] [0m[92m        ✓ Record[0] Value: Hello Reverse Engineering![0m
+[33m[tester::#EG2] [0m[92m      ✓ Records Length: 1[0m
+[33m[tester::#EG2] [0m[92m        ✓ Record[0] Value: Hello Universe![0m
 [33m[tester::#EG2] [0m[92m✓ RecordBatch bytes match with the contents on disk[0m
 [33m[tester::#EG2] [0m[92mTest passed.[0m
 [33m[tester::#EG2] [0m[36mTerminating program[0m
@@ -802,13 +810,18 @@ Debug = true
 [33m[tester::#FD8] [0m[92m✓ Correlation ID: 1698452642[0m
 [33m[tester::#FD8] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#FD8] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
-[33m[tester::#FD8] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
+[33m[tester::#FD8] [0m[92m✓ TopicResponses Length: 1[0m
+[33m[tester::#FD8] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000067[0m
+[33m[tester::#FD8] [0m[92m  ✓ PartitionResponses Length: 1[0m
 [33m[tester::#FD8] [0m[92m    ✓ PartitionResponse[0] Error code: 0 (NO_ERROR)[0m
 [33m[tester::#FD8] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
+[33m[tester::#FD8] [0m[92m    ✓ RecordBatches Length: 2[0m
 [33m[tester::#FD8] [0m[92m      ✓ RecordBatch[0] BaseOffset: 0[0m
-[33m[tester::#FD8] [0m[92m        ✓ Record[0] Value: Hello World![0m
-[33m[tester::#FD8] [0m[92m      ✓ RecordBatch[1] BaseOffset: 1[0m
+[33m[tester::#FD8] [0m[92m      ✓ Records Length: 1[0m
 [33m[tester::#FD8] [0m[92m        ✓ Record[0] Value: Hello Kafka![0m
+[33m[tester::#FD8] [0m[92m      ✓ RecordBatch[1] BaseOffset: 1[0m
+[33m[tester::#FD8] [0m[92m      ✓ Records Length: 1[0m
+[33m[tester::#FD8] [0m[92m        ✓ Record[0] Value: Hello Earth![0m
 [33m[tester::#FD8] [0m[92m✓ RecordBatch bytes match with the contents on disk[0m
 [33m[tester::#FD8] [0m[92mTest passed.[0m
 [33m[tester::#FD8] [0m[36mTerminating program[0m
