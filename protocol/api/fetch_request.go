@@ -79,7 +79,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r *FetchRequestBody) Encode(pe *encoder.Encoder) {
+func (r FetchRequestBody) encode(pe *encoder.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -106,4 +106,13 @@ func (r *FetchRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutCompactString(r.RackID)
 
 	pe.PutEmptyTaggedFieldArray()
+}
+
+func (r FetchRequestBody) Encode() []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.encode(&encoder)
+
+	return encoder.PackMessage()
 }
