@@ -412,6 +412,7 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#VT6] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[tester::#VT6] [0m[92m✓ Throttle Time: 0[0m
+[33m[tester::#VT6] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Error code: 3[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Topic Name: unknown-topic-saz[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000000000[0m
@@ -477,9 +478,11 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#EA7] [0m[92m✓ Correlation ID: 96710698[0m
 [33m[tester::#EA7] [0m[92m✓ Throttle Time: 0[0m
+[33m[tester::#EA7] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Topic Name: bar[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
+[33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] has 1 partitions[0m
 [33m[tester::#EA7] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#EA7] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#EA7] [0m[92mTest passed.[0m
@@ -556,9 +559,11 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#KU4] [0m[92m✓ Correlation ID: 254678266[0m
 [33m[tester::#KU4] [0m[92m✓ Throttle Time: 0[0m
+[33m[tester::#KU4] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Topic Name: pax[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
+[33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] has 2 partitions[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#KU4] [0m[92m    ✓ PartitionResponse[1] Error code: 0[0m
@@ -683,19 +688,23 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#WQ2] [0m[92m✓ Correlation ID: 1893237013[0m
 [33m[tester::#WQ2] [0m[92m✓ Throttle Time: 0[0m
+[33m[tester::#WQ2] [0m[92m✓ Response body has 3 topic responses[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Topic Name: bar[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] has 1 partitions[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic Name: foo[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] Topic UUID: 00000000-0000-4000-8000-000000000097[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[1] has 1 partitions[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Topic Name: pax[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
+[33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[2] has 2 partitions[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Error code: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[0] Partition Index: 0[0m
 [33m[tester::#WQ2] [0m[92m    ✓ PartitionResponse[1] Error code: 0[0m
