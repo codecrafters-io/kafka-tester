@@ -8,6 +8,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -64,13 +65,13 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 
 	message := kafkaapi.EncodeFetchRequest(&request)
 	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
 	response, err := client.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", utils.GetFormattedHexdump(response.RawBytes))
 
 	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {

@@ -13,6 +13,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -49,7 +50,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	message := kafkaapi.EncodeApiVersionsRequest(&request)
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
 	err = client.Send(message)
 	if err != nil {
@@ -59,7 +60,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err != nil {
 		return err
 	}
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", GetFormattedHexdump(response))
+	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
