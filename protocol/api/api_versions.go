@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
@@ -12,43 +13,24 @@ func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
-	request.Header.EncodeV2(&encoder)
+	request.Header.Encode(&encoder)
 	request.Body.Encode(&encoder)
 	messageBytes := encoder.PackMessage()
 
 	return messageBytes
 }
 
-func DecodeApiVersionsHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
-	decoder := decoder.Decoder{}
-	decoder.Init(response)
-	logger.UpdateLastSecondaryPrefix("Decoder")
-	defer logger.ResetSecondaryPrefixes()
-
-	responseHeader := ResponseHeader{}
-	logger.Debugf("- .ResponseHeader")
-	// APIVersions always uses Header v0
-	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return nil, decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
-		}
-		return nil, err
-	}
-
-	return &responseHeader, nil
-}
-
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *ApiVersionsResponseBody, error) {
+func DecodeApiVersionsHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, *ApiVersionsResponseBody, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{Version: 0}
 	logger.Debugf("- .ResponseHeader")
-	if err := responseHeader.DecodeV0(&decoder, logger, 1); err != nil {
+	if err := responseHeader.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v3")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())

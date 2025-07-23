@@ -1,16 +1,17 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
 type DescribeTopicPartitionsRequest struct {
-	Header RequestHeader
+	Header headers.RequestHeader
 	Body   DescribeTopicPartitionsRequestBody
 }
 
 func (r *DescribeTopicPartitionsRequest) Encode(pe *encoder.Encoder) {
-	r.Header.EncodeV2(pe)
+	r.Header.Encode(pe)
 	r.Body.Encode(pe)
 }
 

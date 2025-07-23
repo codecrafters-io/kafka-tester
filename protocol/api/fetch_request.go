@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
@@ -62,7 +63,7 @@ func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
 }
 
 type FetchRequest struct {
-	Header RequestHeader
+	Header headers.RequestHeader
 	Body   FetchRequestBody
 }
 
