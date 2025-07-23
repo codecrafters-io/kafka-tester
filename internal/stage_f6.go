@@ -3,18 +3,18 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	logger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger, false)
+	stageLogger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
@@ -24,13 +24,14 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	correlationId := getRandomCorrelationId()
-	broker := protocol.NewBroker("localhost:9092")
-	if err := broker.ConnectWithRetries(b, logger); err != nil {
+
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(broker *protocol.Broker) {
-		_ = broker.Close()
-	}(broker)
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
 
 	request := kafkaapi.FetchRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
@@ -62,16 +63,16 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	}
 
 	message := kafkaapi.EncodeFetchRequest(&request)
-	logger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	logger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
+	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
+	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", GetFormattedHexdump(message))
 
-	response, err := broker.SendAndReceive(message)
+	response, err := client.SendAndReceive(message)
 	if err != nil {
 		return err
 	}
-	logger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"Fetch\" response: \n%v\n", GetFormattedHexdump(response.RawBytes))
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, logger)
+	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -79,7 +80,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	expectedResponseHeader := kafkaapi.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, logger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
 		return err
 	}
 
@@ -155,7 +156,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, logger).
+	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
 		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, []string{"BaseOffset"}, []string{"Value"}).
 		AssertRecordBatchBytes().
