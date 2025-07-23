@@ -31,7 +31,7 @@ func (r ApiVersionsRequestBody) Encode() []byte {
 
 	r.encode(&encoder)
 
-	return encoder.PackMessage()
+	return encoder.ToBytes()
 }
 
 type ApiVersionsRequest struct {

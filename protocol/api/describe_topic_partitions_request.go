@@ -11,7 +11,7 @@ type DescribeTopicPartitionsRequest struct {
 }
 
 func (r DescribeTopicPartitionsRequest) Encode() []byte {
-	return append(r.Header.Encode(), r.Body.Encode()...)
+	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -48,7 +48,7 @@ func (r DescribeTopicPartitionsRequestBody) Encode() []byte {
 
 	r.encode(&encoder)
 
-	return encoder.PackMessage()
+	return encoder.ToBytes()
 }
 
 type TopicName struct {

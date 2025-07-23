@@ -3,12 +3,13 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsRequest) []byte {
-	return append(request.Header.Encode(), request.Body.Encode()...)
+	return encoder.PackMessage(append(request.Header.Encode(), request.Body.Encode()...))
 }
 
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response

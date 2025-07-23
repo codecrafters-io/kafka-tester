@@ -31,5 +31,5 @@ func (h RequestHeader) Encode() []byte {
 
 	h.encode(&encoder)
 
-	return encoder.PackMessage()
+	return encoder.ToBytes()
 }

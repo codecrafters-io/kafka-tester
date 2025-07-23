@@ -114,5 +114,5 @@ func (r FetchRequestBody) Encode() []byte {
 
 	r.encode(&encoder)
 
-	return encoder.PackMessage()
+	return encoder.ToBytes()
 }

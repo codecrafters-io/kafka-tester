@@ -3,13 +3,14 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func EncodeApiVersionsRequest(request *ApiVersionsRequest) []byte {
-	return append(request.Header.Encode(), request.Body.Encode()...)
+func EncodeApiVersionsRequest(r *ApiVersionsRequest) []byte {
+	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
 
 // DecodeApiVersionsHeaderAndResponse decodes the header and response
