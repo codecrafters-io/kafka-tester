@@ -80,6 +80,5 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 	}
 
 	return assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse).
-		SkipPartitionFields().
 		Run(stageLogger)
 }
