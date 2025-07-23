@@ -1,6 +1,6 @@
 package builder
 
-import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+import "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 
 type RequestHeaderBuilder struct {
 	apiKey        int16
@@ -31,8 +31,8 @@ func (b *RequestHeaderBuilder) WithCorrelationId(correlationId int32) *RequestHe
 	return b
 }
 
-func (b *RequestHeaderBuilder) Build() kafkaapi.RequestHeader {
-	return kafkaapi.RequestHeader{
+func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
+	return headers.RequestHeader{
 		ApiKey:        b.apiKey,
 		ApiVersion:    b.apiVersion,
 		CorrelationId: b.correlationId,
@@ -40,18 +40,18 @@ func (b *RequestHeaderBuilder) Build() kafkaapi.RequestHeader {
 	}
 }
 
-func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) headers.RequestHeader {
 	return b.WithApiKey(0).WithApiVersion(11).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) headers.RequestHeader {
 	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) headers.RequestHeader {
 	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsRequestHeader(correlationId int32) kafkaapi.RequestHeader {
+func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsRequestHeader(correlationId int32) headers.RequestHeader {
 	return b.WithApiKey(75).WithApiVersion(0).WithCorrelationId(correlationId).Build()
 }
