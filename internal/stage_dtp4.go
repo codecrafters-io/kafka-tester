@@ -4,6 +4,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -61,7 +62,7 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		return err
 	}
 
-	expectedResponseHeader := kafkaapi.ResponseHeader{
+	expectedResponseHeader := headers.ResponseHeader{
 		CorrelationId: correlationId,
 	}
 	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -147,6 +148,6 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder.Decoder, version int16, log
 }
 
 type ApiVersionsResponse struct {
-	Header ResponseHeader
+	Header headers.ResponseHeader
 	Body   ApiVersionsResponseBody
 }

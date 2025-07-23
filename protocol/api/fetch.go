@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 
@@ -13,22 +14,22 @@ func EncodeFetchRequest(request *FetchRequest) []byte {
 	// bytes.Buffer{}
 	encoder.Init(make([]byte, 4096))
 
-	request.Header.EncodeV2(&encoder)
+	request.Header.Encode(&encoder)
 	request.Body.Encode(&encoder)
 	message := encoder.PackMessage()
 
 	return message
 }
 
-func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, error) {
+func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{Version: 1}
 	logger.Debugf("- .ResponseHeader")
-	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
+	if err := responseHeader.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 			return nil, decoder.FormatDetailedError(detailedError.Error())
@@ -39,15 +40,15 @@ func DecodeFetchHeader(response []byte, version int16, logger *logger.Logger) (*
 	return &responseHeader, nil
 }
 
-func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*ResponseHeader, *FetchResponse, error) {
+func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, *FetchResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{Version: 1}
 	logger.Debugf("- .ResponseHeader")
-	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
+	if err := responseHeader.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Fetch Response v16")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())

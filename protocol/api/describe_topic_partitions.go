@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
@@ -19,15 +20,15 @@ func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsReques
 
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil
-func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*ResponseHeader, *DescribeTopicPartitionsResponse, error) {
+func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *logger.Logger) (*headers.ResponseHeader, *DescribeTopicPartitionsResponse, error) {
 	decoder := decoder.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	responseHeader := ResponseHeader{}
+	responseHeader := headers.ResponseHeader{Version: 1}
 	logger.Debugf("- .ResponseHeader")
-	if err := responseHeader.DecodeV1(&decoder, logger, 1); err != nil {
+	if err := responseHeader.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartitions v0")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
