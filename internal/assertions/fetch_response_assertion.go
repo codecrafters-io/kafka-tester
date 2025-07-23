@@ -12,24 +12,16 @@ import (
 )
 
 type FetchResponseAssertion struct {
-	ActualValue               kafkaapi.FetchResponse
-	ExpectedValue             kafkaapi.FetchResponse
-	excludedBodyFields        []string
-	excludedTopicFields       []string
-	excludedPartitionFields   []string
-	excludedRecordBatchFields []string
-	excludedRecordFields      []string
+	ActualValue             kafkaapi.FetchResponse
+	ExpectedValue           kafkaapi.FetchResponse
+	excludedPartitionFields []string
 }
 
 func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
-		ActualValue:               actualValue,
-		ExpectedValue:             expectedValue,
-		excludedBodyFields:        []string{},
-		excludedTopicFields:       []string{},
-		excludedPartitionFields:   []string{},
-		excludedRecordBatchFields: []string{},
-		excludedRecordFields:      []string{},
+		ActualValue:             actualValue,
+		ExpectedValue:           expectedValue,
+		excludedPartitionFields: []string{},
 	}
 }
 
@@ -39,29 +31,25 @@ func (a *FetchResponseAssertion) SkipRecordBatches() *FetchResponseAssertion {
 }
 
 func (a *FetchResponseAssertion) assertThrottleTimeMs(logger *logger.Logger) error {
-	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
-		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
-			return fmt.Errorf("Expected ThrottleTimeMs to be %d, got %d", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
-		}
-		logger.Successf("✓ ThrottleTimeMs: %d", a.ActualValue.ThrottleTimeMs)
+	if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
+		return fmt.Errorf("Expected ThrottleTimeMs to be %d, got %d", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
 	}
+	logger.Successf("✓ ThrottleTimeMs: %d", a.ActualValue.ThrottleTimeMs)
 
 	return nil
 }
 
 func (a *FetchResponseAssertion) assertErrorCode(logger *logger.Logger) error {
-	if !Contains(a.excludedBodyFields, "ErrorCode") {
-		expectedErrorCodeName, ok := errorCodes[int(a.ExpectedValue.ErrorCode)]
-		if !ok {
-			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", a.ExpectedValue.ErrorCode))
-		}
-
-		if a.ActualValue.ErrorCode != a.ExpectedValue.ErrorCode {
-			return fmt.Errorf("Expected ErrorCode to be %d (%s), got %d", a.ExpectedValue.ErrorCode, expectedErrorCodeName, a.ActualValue.ErrorCode)
-		}
-
-		logger.Successf("✓ ErrorCode: %d (%s)", a.ActualValue.ErrorCode, expectedErrorCodeName)
+	expectedErrorCodeName, ok := errorCodes[int(a.ExpectedValue.ErrorCode)]
+	if !ok {
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", a.ExpectedValue.ErrorCode))
 	}
+
+	if a.ActualValue.ErrorCode != a.ExpectedValue.ErrorCode {
+		return fmt.Errorf("Expected ErrorCode to be %d (%s), got %d", a.ExpectedValue.ErrorCode, expectedErrorCodeName, a.ActualValue.ErrorCode)
+	}
+
+	logger.Successf("✓ ErrorCode: %d (%s)", a.ActualValue.ErrorCode, expectedErrorCodeName)
 
 	return nil
 }
@@ -74,20 +62,16 @@ func (a *FetchResponseAssertion) assertTopics(logger *logger.Logger) error {
 
 	for i, actualTopic := range a.ActualValue.TopicResponses {
 		expectedTopic := a.ExpectedValue.TopicResponses[i]
-		if !Contains(a.excludedTopicFields, "TopicID") {
-			if actualTopic.Topic != expectedTopic.Topic {
-				return fmt.Errorf("Expected TopicResponse[%d] TopicID to be %s, got %s", i, expectedTopic.Topic, actualTopic.Topic)
-			}
-			protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] TopicID: %s", i, actualTopic.Topic)
+		if actualTopic.Topic != expectedTopic.Topic {
+			return fmt.Errorf("Expected TopicResponse[%d] TopicID to be %s, got %s", i, expectedTopic.Topic, actualTopic.Topic)
 		}
+		protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] TopicID: %s", i, actualTopic.Topic)
 
 		expectedPartitions := expectedTopic.PartitionResponses
 		actualPartitions := actualTopic.PartitionResponses
 
-		if !Contains(a.excludedTopicFields, "Partitions") {
-			if err := a.assertPartitions(expectedPartitions, actualPartitions, logger); err != nil {
-				return err
-			}
+		if err := a.assertPartitions(expectedPartitions, actualPartitions, logger); err != nil {
+			return err
 		}
 	}
 
@@ -103,24 +87,20 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 	for j, actualPartition := range actualPartitions {
 		expectedPartition := expectedPartitions[j]
 
-		if !Contains(a.excludedPartitionFields, "ErrorCode") {
-			expectedErrorCodeName, ok := errorCodes[int(expectedPartition.ErrorCode)]
-			if !ok {
-				panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", expectedPartition.ErrorCode))
-			}
-			if actualPartition.ErrorCode != expectedPartition.ErrorCode {
-				return fmt.Errorf("Expected PartitionResponse[%d] Error Code to be %d (%s), got %d", j, expectedPartition.ErrorCode, expectedErrorCodeName, actualPartition.ErrorCode)
-			}
-
-			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] ErrorCode: %d (%s)", j, actualPartition.ErrorCode, expectedErrorCodeName)
+		expectedErrorCodeName, ok := errorCodes[int(expectedPartition.ErrorCode)]
+		if !ok {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", expectedPartition.ErrorCode))
+		}
+		if actualPartition.ErrorCode != expectedPartition.ErrorCode {
+			return fmt.Errorf("Expected PartitionResponse[%d] Error Code to be %d (%s), got %d", j, expectedPartition.ErrorCode, expectedErrorCodeName, actualPartition.ErrorCode)
 		}
 
-		if !Contains(a.excludedPartitionFields, "PartitionIndex") {
-			if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
-				return fmt.Errorf("Expected PartitionResponse[%d] PartitionIndex to be %d, got %d", j, expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
-			}
-			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] PartitionIndex: %d", j, actualPartition.PartitionIndex)
+		protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] ErrorCode: %d (%s)", j, actualPartition.ErrorCode, expectedErrorCodeName)
+
+		if actualPartition.PartitionIndex != expectedPartition.PartitionIndex {
+			return fmt.Errorf("Expected PartitionResponse[%d] PartitionIndex to be %d, got %d", j, expectedPartition.PartitionIndex, actualPartition.PartitionIndex)
 		}
+		protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] PartitionIndex: %d", j, actualPartition.PartitionIndex)
 
 		expectedRecordBatches := expectedPartition.RecordBatches
 		actualRecordBatches := actualPartition.RecordBatches
@@ -144,26 +124,20 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 	for k, actualRecordBatch := range actualRecordBatches {
 		expectedRecordBatch := expectedRecordBatches[k]
 
-		if !Contains(a.excludedRecordBatchFields, "BaseOffset") {
-			if actualRecordBatch.BaseOffset != expectedRecordBatch.BaseOffset {
-				return fmt.Errorf("Expected RecordBatch[%d] BaseOffset to be %d, got %d", k, expectedRecordBatch.BaseOffset, actualRecordBatch.BaseOffset)
-			}
-			protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
+		if actualRecordBatch.BaseOffset != expectedRecordBatch.BaseOffset {
+			return fmt.Errorf("Expected RecordBatch[%d] BaseOffset to be %d, got %d", k, expectedRecordBatch.BaseOffset, actualRecordBatch.BaseOffset)
 		}
+		protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BaseOffset: %d", k, actualRecordBatch.BaseOffset)
 
 		// TODO: BatchLength can't be hardcoded in the expected response,
 		// Once we have the FetchResponseBuilder, assert for BatchLength too
-		// if !Contains(a.excludedRecordBatchFields, "BatchLength") {
-		// 	if actualRecordBatch.BatchLength != expectedRecordBatch.BatchLength {
-		// 		return fmt.Errorf("Expected RecordBatch[%d] BatchLength to be %d, got %d", k, expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
-		// 	}
-		// 	protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
+		// if actualRecordBatch.BatchLength != expectedRecordBatch.BatchLength {
+		// 	return fmt.Errorf("Expected RecordBatch[%d] BatchLength to be %d, got %d", k, expectedRecordBatch.BatchLength, actualRecordBatch.BatchLength)
 		// }
+		// protocol.SuccessLogWithIndentation(logger, 3, "✓ RecordBatch[%d] BatchLength: %d", k, actualRecordBatch.BatchLength)
 
-		if !Contains(a.excludedRecordBatchFields, "Records") {
-			if err := a.assertRecords(expectedRecordBatch.Records, actualRecordBatch.Records, logger); err != nil {
-				return err
-			}
+		if err := a.assertRecords(expectedRecordBatch.Records, actualRecordBatch.Records, logger); err != nil {
+			return err
 		}
 	}
 
@@ -179,12 +153,10 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 	for l, actualRecord := range actualRecords {
 		expectedRecord := expectedRecords[l]
 
-		if !Contains(a.excludedRecordFields, "Value") {
-			if !bytes.Equal(actualRecord.Value, expectedRecord.Value) {
-				return fmt.Errorf("Expected Record[%d] Value to be %v, got %v", l, expectedRecord.Value, actualRecord.Value)
-			}
-			protocol.SuccessLogWithIndentation(logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
+		if !bytes.Equal(actualRecord.Value, expectedRecord.Value) {
+			return fmt.Errorf("Expected Record[%d] Value to be %v, got %v", l, expectedRecord.Value, actualRecord.Value)
 		}
+		protocol.SuccessLogWithIndentation(logger, 4, "✓ Record[%d] Value: %s", l, actualRecord.Value)
 	}
 
 	return nil
@@ -233,10 +205,8 @@ func (a *FetchResponseAssertion) Run(logger *logger.Logger) error {
 		return err
 	}
 
-	if !Contains(a.excludedBodyFields, "Topics") {
-		if err := a.assertTopics(logger); err != nil {
-			return err
-		}
+	if err := a.assertTopics(logger); err != nil {
+		return err
 	}
 
 	// If RecordBatches are not excluded from assertion,
