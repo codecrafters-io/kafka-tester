@@ -18,6 +18,14 @@ func GetEncodedBytes(encodableObject interface{}) []byte {
 	switch obj := encodableObject.(type) {
 	case kafkaapi.ClusterMetadataPayload:
 		obj.Encode(&encoder)
+	case kafkaapi.RecordBatches:
+		obj.Encode(&encoder)
+	case kafkaapi.RecordBatch:
+		obj.Encode(&encoder)
+	case kafkaapi.Record:
+		obj.Encode(&encoder)
+	default:
+		panic(fmt.Sprintf("GetEncodedBytes: unsupported type: %T", obj))
 	}
 
 	encoded := encoder.Bytes()[:encoder.Offset()]
