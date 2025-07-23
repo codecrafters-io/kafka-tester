@@ -24,20 +24,20 @@ func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Respon
 	}
 }
 
-// Broker represents a single Kafka broker connection. All operations on this object are entirely concurrency-safe.
-type Broker struct {
+// Client represents a single Kafka client connection.
+type Client struct {
 	id   int32
 	addr string
 	conn net.Conn
 }
 
-// NewBroker creates and returns a Broker targeting the given host:port address.
+// NewClient creates and returns a Client targeting the given host:port address.
 // This does not attempt to actually connect, you have to call Open() for that.
-func NewBroker(addr string) *Broker {
-	return &Broker{id: -1, addr: addr}
+func NewClient(addr string) *Client {
+	return &Client{id: -1, addr: addr}
 }
 
-func (b *Broker) Connect() error {
+func (b *Client) Connect() error {
 	RETRIES := 10
 
 	retries := 0
@@ -60,7 +60,7 @@ func (b *Broker) Connect() error {
 	return nil
 }
 
-func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
+func (b *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
 	RETRIES := 10
 	logger.Debugf("Connecting to broker at: %s", b.addr)
 
@@ -97,7 +97,7 @@ func (b *Broker) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 	return nil
 }
 
-func (b *Broker) Close() error {
+func (b *Client) Close() error {
 	err := b.conn.Close()
 	if err != nil {
 		return fmt.Errorf("Failed to close connection to broker at %s: %s", b.addr, err)
@@ -105,7 +105,7 @@ func (b *Broker) Close() error {
 	return nil
 }
 
-func (b *Broker) SendAndReceive(request []byte) (Response, error) {
+func (b *Client) SendAndReceive(request []byte) (Response, error) {
 	response := Response{}
 
 	err := b.Send(request)
@@ -121,7 +121,7 @@ func (b *Broker) SendAndReceive(request []byte) (Response, error) {
 	return response, nil
 }
 
-func (b *Broker) Send(message []byte) error {
+func (b *Client) Send(message []byte) error {
 	// Set a deadline for the write operation
 	err := b.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
@@ -143,7 +143,7 @@ func (b *Broker) Send(message []byte) error {
 	return nil
 }
 
-func (b *Broker) Receive() (Response, error) {
+func (b *Client) Receive() (Response, error) {
 	response := Response{}
 
 	lengthResponse := make([]byte, 4) // length
@@ -178,7 +178,7 @@ func (b *Broker) Receive() (Response, error) {
 	return response.createFrom(lengthResponse, bodyResponse), nil
 }
 
-func (b *Broker) ReceiveRaw() ([]byte, error) {
+func (b *Client) ReceiveRaw() ([]byte, error) {
 	var buf bytes.Buffer
 
 	// Set a deadline for the read operation
