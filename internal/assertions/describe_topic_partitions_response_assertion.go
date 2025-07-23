@@ -14,12 +14,17 @@ type DescribeTopicPartitionsResponseAssertion struct {
 
 	// empty slice = assert all fields (default)
 	// non-empty slice = assert with exclusions
-	// if excludedBodyFields contains "topics", then Topics are not asserted
-	// if excludedTopicFields contains "partitions", then Partitions are not asserted
+	// if excludedBodyFields contains "Topics", then Topics are not asserted
+	// if excludedTopicFields contains "Partitions", then Partitions are not asserted
+	// All field names should be in PascalCase
 	excludedBodyFields      []string
 	excludedTopicFields     []string
 	excludedPartitionFields []string
 }
+
+var EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "Topics"}
+var EXCLUDABLE_TOPIC_FIELDS = []string{"ErrorCode", "Name", "TopicID", "Partitions"}
+var EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex"}
 
 func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTopicPartitionsResponse, expectedValue kafkaapi.DescribeTopicPartitionsResponse) *DescribeTopicPartitionsResponseAssertion {
 	return &DescribeTopicPartitionsResponseAssertion{
@@ -81,6 +86,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertBody(logger *logger.Log
 func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.Logger) error {
 	if len(a.ActualValue.Topics) != len(a.ExpectedValue.Topics) {
 		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Topics), len(a.ActualValue.Topics))
+	}
+
+	if len(a.ActualValue.Topics) == 0 {
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ Response body has no topic responses")
+	} else {
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ Response body has %d topic responses", len(a.ActualValue.Topics))
 	}
 
 	for i, actualTopic := range a.ActualValue.Topics {
@@ -151,35 +162,31 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 	return nil
 }
 
-// assertEmptyPartitions asserts that all topics have empty partitions arrays
-// Before asserting Empty Partitions, we make sure that the expected response has no partitions
-func (a *DescribeTopicPartitionsResponseAssertion) assertEmptyPartitions(logger *logger.Logger) error {
-	if len(a.ExpectedValue.Topics) != 0 {
-		for _, expectedTopic := range a.ExpectedValue.Topics {
-			if len(expectedTopic.Partitions) != 0 {
-				panic(fmt.Sprintf("CodeCrafters Internal Error: Expected topic %s to have empty partitions, got %d partitions", expectedTopic.Name, len(expectedTopic.Partitions)))
-			}
-		}
-	}
-
-	for i, actualTopic := range a.ActualValue.Topics {
-		if len(actualTopic.Partitions) != 0 {
-			return fmt.Errorf("Expected topic[%d] partitions to be empty, got %d partitions", i, len(actualTopic.Partitions))
-		}
-		protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] has empty partitions", i)
-	}
-
-	return nil
-}
-
 func (a *DescribeTopicPartitionsResponseAssertion) Run(logger *logger.Logger) error {
-	if err := a.assertBody(logger); err != nil {
+	exclusionMap := map[string]struct {
+		excludedFields   []string
+		excludableFields []string
+	}{
+		"response body": {
+			excludedFields:   a.excludedBodyFields,
+			excludableFields: EXCLUDABLE_BODY_FIELDS,
+		},
+		"topic response": {
+			excludedFields:   a.excludedTopicFields,
+			excludableFields: EXCLUDABLE_TOPIC_FIELDS,
+		},
+		"partition response": {
+			excludedFields:   a.excludedPartitionFields,
+			excludableFields: EXCLUDABLE_PARTITION_FIELDS,
+		},
+	}
+
+	if err := validateExclusions(exclusionMap); err != nil {
 		return err
 	}
-	if Contains(a.excludedTopicFields, "partitions") {
-		if err := a.assertEmptyPartitions(logger); err != nil {
-			return err
-		}
+
+	if err := a.assertBody(logger); err != nil {
+		return err
 	}
 
 	return nil
