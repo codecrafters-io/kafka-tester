@@ -204,17 +204,6 @@ func (re *Encoder) Bytes() []byte {
 
 // Helpers
 
-func (re *Encoder) PackMessage() []byte {
-	encoded := re.Bytes()[:re.Offset()]
-	length := int32(len(encoded))
-
-	message := make([]byte, 4+length)
-	binary.BigEndian.PutUint32(message[:4], uint32(length))
-	copy(message[4:], encoded)
-
-	return message
-}
-
 func (re *Encoder) ToBytes() []byte {
 	return re.Bytes()[:re.Offset()]
 }
