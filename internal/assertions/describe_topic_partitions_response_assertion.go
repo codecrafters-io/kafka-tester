@@ -88,7 +88,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.L
 	}
 
 	if len(a.ActualValue.Topics) == 0 {
-		protocol.SuccessLogWithIndentation(logger, 0, "✓ Response body has no topic responses")
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ Response body has no topic response")
 	} else {
 		protocol.SuccessLogWithIndentation(logger, 0, "✓ Response body has %d topic responses", len(a.ActualValue.Topics))
 	}
@@ -137,7 +137,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPart
 	if len(actualPartitions) == 0 {
 		protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] has empty partitions", topicPartitionIndex)
 	} else {
-		protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] has %d partitions", topicPartitionIndex, len(actualPartitions))
+		protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] has %d partition(s)", topicPartitionIndex, len(actualPartitions))
 	}
 
 	for j, actualPartition := range actualPartitions {

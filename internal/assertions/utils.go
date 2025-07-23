@@ -13,7 +13,6 @@ func Contains(slice []string, target string) bool {
 }
 
 // mustValidateExclusions validates that the excluded fields are valid for the excludable fields
-// structure: response position (Body, TopicResponse, etc.) -> excludable fields, excluded fields
 func mustValidateExclusions(excludedFields []string, excludableFields []string) {
 	for _, field := range excludedFields {
 		if !Contains(excludableFields, field) {
