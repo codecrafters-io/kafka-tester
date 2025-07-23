@@ -1,10 +1,10 @@
 package kafkaapi
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -50,7 +50,7 @@ func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *log
 }
 
 // DescribeTopicPartitions returns api version response or error
-func DescribeTopicPartitions(b *protocol.Broker) (*DescribeTopicPartitionsResponse, error) {
+func DescribeTopicPartitions(b *kafka_client.Client) (*DescribeTopicPartitionsResponse, error) {
 	request := DescribeTopicPartitionsRequest{
 		Header: RequestHeader{
 			ApiKey:        75,
