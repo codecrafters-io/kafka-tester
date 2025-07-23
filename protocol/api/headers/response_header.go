@@ -16,17 +16,14 @@ type ResponseHeader struct {
 }
 
 func (h *ResponseHeader) Decode(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
-	if h.Version > 1 {
-		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported response header version: %d", h.Version))
-	}
-
 	switch h.Version {
 	case 0:
 		return h.decodeV0(decoder, logger, indentation)
 	case 1:
 		return h.decodeV1(decoder, logger, indentation)
+	default:
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported response header version: %d", h.Version))
 	}
-	return nil
 }
 
 func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
