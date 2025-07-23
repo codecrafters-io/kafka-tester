@@ -55,7 +55,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	// response for topicResponses will be sorted by topic name
 	// bar -> baz -> foo
 
-	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	message := request.Encode()
 	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
