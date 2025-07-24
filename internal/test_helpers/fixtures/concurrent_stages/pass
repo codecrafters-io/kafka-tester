@@ -4,7 +4,7 @@ Debug = true
 [33m[tester::#NH4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NH4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NH4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#NH4] [0m[94mSending request 1 of 2: "ApiVersions" (version: 4) request (Correlation id: 1616512461)[0m
+[33m[tester::#NH4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1616512461)[0m
 [33m[tester::#NH4] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NH4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NH4] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -367,7 +367,7 @@ Debug = true
 [33m[tester::#NH4] [0m[92m✓ API keys array is non-empty[0m
 [33m[tester::#NH4] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
 [33m[tester::#NH4] [0m[92m✓ Test 1 of 2: Passed[0m
-[33m[tester::#NH4] [0m[94mSending request 2 of 2: "ApiVersions" (version: 4) request (Correlation id: 96710698)[0m
+[33m[tester::#NH4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 96710698)[0m
 [33m[tester::#NH4] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NH4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NH4] [0m[36m-----+-------------------------------------------------+-----------------[0m
