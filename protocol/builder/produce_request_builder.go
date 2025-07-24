@@ -7,7 +7,7 @@ import (
 type ProduceRequestBuilder struct {
 	// topicName -> partitionIndex -> recordBatches
 	topics          map[string]map[int32]kafkaapi.RecordBatches
-	transactionalID string
+	transactionalID *string
 	acks            int16
 	timeoutMs       int32
 }
@@ -15,13 +15,13 @@ type ProduceRequestBuilder struct {
 func NewProduceRequestBuilder() *ProduceRequestBuilder {
 	return &ProduceRequestBuilder{
 		topics:          make(map[string]map[int32]kafkaapi.RecordBatches),
-		transactionalID: "",
+		transactionalID: nil,
 		acks:            1,
 		timeoutMs:       0,
 	}
 }
 
-func (b *ProduceRequestBuilder) WithTransactionalID(transactionalID string) *ProduceRequestBuilder {
+func (b *ProduceRequestBuilder) WithTransactionalID(transactionalID *string) *ProduceRequestBuilder {
 	b.transactionalID = transactionalID
 	return b
 }
