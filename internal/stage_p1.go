@@ -3,7 +3,6 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -35,26 +34,23 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithCorrelationId(correlationId).
 		Build()
 
-	response, err := client.SendAndReceive(request, stageLogger)
+	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
-	if err != nil {
+	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
 
-	expectedResponse := builder.NewApiVersionsResponseBuilder().
+	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
 		AddApiKeyEntry(0, 0, 11).
 		AddApiKeyEntry(18, 0, 4).
-		Build(correlationId)
+		WithCorrelationId(correlationId).
+		Build()
 
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponse.Header).Run(stageLogger); err != nil {
-		return err
-	}
-
-	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedResponse.Body).Run(stageLogger); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
 		return err
 	}
 
