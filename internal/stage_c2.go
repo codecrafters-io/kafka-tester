@@ -1,11 +1,10 @@
 package internal
 
 import (
-	"fmt"
 	"math"
 
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -48,14 +47,9 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 	for i, client := range clients {
 		correlationIds[i] = int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
-		request := kafkaapi.ApiVersionsRequest{
-			Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationIds[i]),
-			Body: kafkaapi.ApiVersionsRequestBody{
-				Version:               4,
-				ClientSoftwareName:    "kafka-cli",
-				ClientSoftwareVersion: "0.1",
-			},
-		}
+		request := builder.NewApiVersionsRequestBuilder().
+			WithCorrelationId(correlationIds[i]).
+			Build()
 
 		message := request.Encode()
 		stageLogger.Infof("Sending request %v of %v: \"ApiVersions\" (version: %v) request (Correlation id: %v)", i+1, clientCount, request.Header.ApiVersion, request.Header.CorrelationId)
@@ -70,6 +64,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	for idx := range clients {
 		j := len(clients) - idx - 1
 		client := clients[j]
+		correlationId := correlationIds[j]
 
 		rawResponse, err := client.Receive()
 		if err != nil {
@@ -82,36 +77,13 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			return err
 		}
 
-		if actualResponse.Header.CorrelationId != correlationIds[j] {
-			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], actualResponse.Header.CorrelationId)
-		}
-		stageLogger.Successf("✓ Correlation ID: %v", actualResponse.Header.CorrelationId)
+		expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+			AddApiKeyEntry(18, 0, 4).
+			WithCorrelationId(correlationId).
+			Build()
 
-		if actualResponse.Body.ErrorCode != 0 {
-			return fmt.Errorf("Expected Error code to be 0, got %v", actualResponse.Body.ErrorCode)
-		}
-		stageLogger.Successf("✓ Error code: 0 (NO_ERROR)")
-
-		if len(actualResponse.Body.ApiKeys) < 1 {
-			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(actualResponse.Body.ApiKeys))
-		}
-		stageLogger.Successf("✓ API keys array is non-empty")
-
-		foundAPIKey := false
-		MAX_VERSION_APIVERSION := int16(4)
-		for _, apiVersionKey := range actualResponse.Body.ApiKeys {
-			if apiVersionKey.ApiKey == 18 {
-				foundAPIKey = true
-				if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
-					stageLogger.Successf("✓ API version %v is supported for API_VERSIONS", MAX_VERSION_APIVERSION)
-				} else {
-					return fmt.Errorf("Expected API version %v to be supported for API_VERSIONS, got %v", MAX_VERSION_APIVERSION, apiVersionKey.MaxVersion)
-				}
-			}
-		}
-
-		if !foundAPIKey {
-			return fmt.Errorf("Expected APIVersionsResponseKey to be present for API key 18 (API_VERSIONS)")
+		if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
+			return err
 		}
 
 		stageLogger.Successf("✓ Test %v of %v: Passed", j+1, clientCount)
