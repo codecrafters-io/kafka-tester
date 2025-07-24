@@ -48,7 +48,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		},
 	}
 
-	message := kafkaapi.EncodeDescribeTopicPartitionsRequest(&request)
+	message := request.Encode()
 	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 

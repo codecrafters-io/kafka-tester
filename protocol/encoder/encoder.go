@@ -204,8 +204,11 @@ func (re *Encoder) Bytes() []byte {
 
 // Helpers
 
-func (re *Encoder) PackMessage() []byte {
-	encoded := re.Bytes()[:re.Offset()]
+func (re *Encoder) ToBytes() []byte {
+	return re.Bytes()[:re.Offset()]
+}
+
+func PackMessage(encoded []byte) []byte {
 	length := int32(len(encoded))
 
 	message := make([]byte, 4+length)

@@ -46,7 +46,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	message := kafkaapi.EncodeApiVersionsRequest(&request)
+	message := request.Encode()
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 

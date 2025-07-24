@@ -10,9 +10,8 @@ type DescribeTopicPartitionsRequest struct {
 	Body   DescribeTopicPartitionsRequestBody
 }
 
-func (r *DescribeTopicPartitionsRequest) Encode(pe *encoder.Encoder) {
-	r.Header.Encode(pe)
-	r.Body.Encode(pe)
+func (r DescribeTopicPartitionsRequest) Encode() []byte {
+	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -21,7 +20,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.Encoder) {
+func (r DescribeTopicPartitionsRequestBody) encode(pe *encoder.Encoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -41,6 +40,15 @@ func (r *DescribeTopicPartitionsRequestBody) Encode(pe *encoder.Encoder) {
 	}
 
 	pe.PutEmptyTaggedFieldArray()
+}
+
+func (r DescribeTopicPartitionsRequestBody) Encode() []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 4096))
+
+	r.encode(&encoder)
+
+	return encoder.ToBytes()
 }
 
 type TopicName struct {

@@ -3,20 +3,9 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
-
-func EncodeDescribeTopicPartitionsRequest(request *DescribeTopicPartitionsRequest) []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	request.Encode(&encoder)
-	messageBytes := encoder.PackMessage()
-
-	return messageBytes
-}
 
 // DecodeDescribeTopicPartitionsHeaderAndResponse decodes the header and response
 // If an error is encountered while decoding, the returned objects are nil

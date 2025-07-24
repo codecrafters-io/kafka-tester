@@ -64,7 +64,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	message := kafkaapi.EncodeFetchRequest(&request)
+	message := request.Encode()
 	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
