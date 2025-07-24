@@ -31,7 +31,7 @@ func (b *ProduceResponseBuilder) AddPartitionResponse(topicName string, partitio
 	return b
 }
 
-func (b *ProduceResponseBuilder) AddTopicPartitionResponse(topicName string, partitionIndex int32, errorCode int16) *ProduceResponseBuilder {
+func (b *ProduceResponseBuilder) CreateAndAddErrorPartitionResponse(topicName string, partitionIndex int32, errorCode int16) *ProduceResponseBuilder {
 	partitionResponse := NewPartitionResponseBuilder().
 		WithError(errorCode).
 		WithIndex(partitionIndex).
@@ -70,7 +70,7 @@ func (b *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResp
 	}
 }
 
-func (b *ProduceResponseBuilder) BuildEmpty() kafkaapi.ProduceResponse {
+func (b *ProduceResponseBuilder) BuildDefault() kafkaapi.ProduceResponse {
 	return kafkaapi.ProduceResponse{
 		Header: headers.ResponseHeader{
 			Version: 1,

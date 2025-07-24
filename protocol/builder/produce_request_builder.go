@@ -37,7 +37,6 @@ func (b *ProduceRequestBuilder) WithTimeoutMs(timeoutMs int32) *ProduceRequestBu
 }
 
 func (b *ProduceRequestBuilder) AddRecordBatch(topicName string, partitionIndex int32, recordBatch kafkaapi.RecordBatch) *ProduceRequestBuilder {
-	// Initialize topic if it doesn't exist
 	if b.topics[topicName] == nil {
 		b.topics[topicName] = make(map[int32]kafkaapi.RecordBatches)
 	}
