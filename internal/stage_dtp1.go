@@ -47,7 +47,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
-	response, err := client.SendAndReceive(message)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}

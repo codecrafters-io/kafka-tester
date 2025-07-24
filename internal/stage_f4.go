@@ -68,7 +68,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 	stageLogger.Infof("Sending \"Fetch\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"Fetch\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
-	response, err := client.SendAndReceive(message)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}

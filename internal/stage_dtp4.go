@@ -51,7 +51,7 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 	stageLogger.Infof("Sending \"DescribeTopicPartitions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"DescribeTopicPartitions\" request: \n%v\n", utils.GetFormattedHexdump(message))
 
-	response, err := client.SendAndReceive(message)
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
