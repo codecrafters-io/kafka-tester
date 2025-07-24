@@ -5,13 +5,24 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-type DescribeTopicPartitionsRequest struct {
-	Header headers.RequestHeader
-	Body   DescribeTopicPartitionsRequestBody
+type TopicName struct {
+	Name string
 }
 
-func (r DescribeTopicPartitionsRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+func (t TopicName) Encode(pe *encoder.Encoder) {
+	pe.PutCompactString(t.Name)
+	pe.PutEmptyTaggedFieldArray()
+}
+
+type Cursor struct {
+	TopicName      string
+	PartitionIndex int32
+}
+
+func (c Cursor) Encode(pe *encoder.Encoder) {
+	pe.PutCompactString(c.TopicName)
+	pe.PutInt32(c.PartitionIndex)
+	pe.PutEmptyTaggedFieldArray()
 }
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -51,22 +62,15 @@ func (r DescribeTopicPartitionsRequestBody) Encode() []byte {
 	return encoder.ToBytes()
 }
 
-type TopicName struct {
-	Name string
+type DescribeTopicPartitionsRequest struct {
+	Header headers.RequestHeader
+	Body   DescribeTopicPartitionsRequestBody
 }
 
-func (t *TopicName) Encode(pe *encoder.Encoder) {
-	pe.PutCompactString(t.Name)
-	pe.PutEmptyTaggedFieldArray()
+func (r DescribeTopicPartitionsRequest) GetHeader() headers.RequestHeader {
+	return r.Header
 }
 
-type Cursor struct {
-	TopicName      string
-	PartitionIndex int32
-}
-
-func (c *Cursor) Encode(pe *encoder.Encoder) {
-	pe.PutCompactString(c.TopicName)
-	pe.PutInt32(c.PartitionIndex)
-	pe.PutEmptyTaggedFieldArray()
+func (r DescribeTopicPartitionsRequest) Encode() []byte {
+	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
