@@ -1,0 +1,100 @@
+package internal
+
+import (
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
+)
+
+func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
+	b := kafka_executable.NewKafkaExecutable(stageHarness)
+	stageLogger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(stageLogger, false)
+	if err != nil {
+		return err
+	}
+
+	if err := b.Run(); err != nil {
+		return err
+	}
+
+	correlationId := getRandomCorrelationId()
+
+	client := kafka_client.NewClient("localhost:9092")
+	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
+		return err
+	}
+	defer func(client *kafka_client.Client) {
+		_ = client.Close()
+	}(client)
+
+	topic1 := common.TOPIC2_NAME
+	topic2 := common.TOPIC4_NAME
+	topic1Partition1 := int32(0)
+	topic2Partition1 := int32(0)
+	topic2Partition2 := int32(1)
+
+	recordBatch1 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.MESSAGE1).
+		Build()
+
+	recordBatch2 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.MESSAGE2).
+		Build()
+
+	recordBatch3 := builder.NewRecordBatchBuilder().
+		WithPartitionLeaderEpoch(0).
+		AddStringRecord(common.MESSAGE3).
+		Build()
+
+	request := builder.NewProduceRequestBuilder().
+		AddRecordBatch(topic1, topic1Partition1, recordBatch1).
+		AddRecordBatch(topic2, topic2Partition1, recordBatch2).
+		AddRecordBatch(topic2, topic2Partition2, recordBatch3).
+		Build(correlationId)
+
+	rawResponse, err := client.SendAndReceive(request, stageLogger)
+	if err != nil {
+		return err
+	}
+	actualResponse := builder.NewProduceResponseBuilder().BuildDefault()
+	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
+		return err
+	}
+
+	expectedResponse := builder.NewProduceResponseBuilder().
+		CreateAndAddErrorPartitionResponse(topic1, topic1Partition1, 0).
+		CreateAndAddErrorPartitionResponse(topic2, topic2Partition1, 0).
+		CreateAndAddErrorPartitionResponse(topic2, topic2Partition2, 0).
+		Build(correlationId)
+
+	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse, stageLogger).Run(stageLogger); err != nil {
+		return err
+	}
+
+	// topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, []kafkaapi.RecordBatch{request.Body.Topics[0].Partitions[0].RecordBatches[0]}, stageLogger)
+	// err = topicPartitionLogAssertion.Run()
+	// if err != nil {
+	// 	return err
+	// }
+
+	// topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[0].RecordBatches[0]}, stageLogger)
+	// err = topicPartitionLogAssertion.Run()
+	// if err != nil {
+	// 	return err
+	// }
+
+	// topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[1].RecordBatches[0]}, stageLogger)
+	// err = topicPartitionLogAssertion.Run()
+	// if err != nil {
+	// 	return err
+	// }
+
+	return nil
+}
