@@ -11,6 +11,16 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+type RecordBatches []RecordBatch
+
+func (rbs RecordBatches) getEncodedLength() int {
+	encodedLength := 0
+	for _, rb := range rbs {
+		encodedLength += rb.getEncodedLength()
+	}
+	return encodedLength
+}
+
 type RecordBatch struct {
 	BaseOffset           int64
 	BatchLength          int32
@@ -27,7 +37,7 @@ type RecordBatch struct {
 	Records              []Record
 }
 
-func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
+func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 	startOffset := pe.Offset()
 
 	pe.PutInt64(rb.BaseOffset)
@@ -58,6 +68,15 @@ func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	crcData := pe.Bytes()[crcEndOffset:pe.Offset()]
 	computedChecksum := crc32.Checksum(crcData, crc32.MakeTable(crc32.Castagnoli))
 	pe.PutInt32At(int32(computedChecksum), crcStartOffset, 4)
+}
+
+func (rb RecordBatch) getEncodedLength() int {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 1024))
+
+	rb.Encode(&encoder)
+
+	return encoder.Offset()
 }
 
 func (rb *RecordBatch) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
@@ -210,7 +229,7 @@ type Record struct {
 	Headers        []RecordHeader
 }
 
-func (r *Record) Encode(pe *encoder.Encoder) {
+func (r Record) Encode(pe *encoder.Encoder) {
 	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
 	// As this is variable length, we can't use placeholders and update later reliably.
 	// We need to have a value, close to the actual value, such that it takes the same space
@@ -231,7 +250,7 @@ func (r *Record) Encode(pe *encoder.Encoder) {
 	}
 }
 
-func (r *Record) GetEncodedLength() int {
+func (r Record) GetEncodedLength() int {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
 
@@ -363,7 +382,7 @@ type RecordHeader struct {
 	Value []byte
 }
 
-func (rh *RecordHeader) Encode(pe *encoder.Encoder) {
+func (rh RecordHeader) Encode(pe *encoder.Encoder) {
 	pe.PutVarint(int64(len(rh.Key)))
 	pe.PutBytes([]byte(rh.Key))
 	pe.PutVarint(int64(len(rh.Value)))
