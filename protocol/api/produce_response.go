@@ -43,11 +43,11 @@ func (r *RecordError) Decode(rd *decoder.Decoder, logger *logger.Logger, indenta
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- ._tagged_fields")
 	return nil
 }
 
@@ -68,12 +68,12 @@ func (p *ProducePartitionResponse) Decode(rd *decoder.Decoder, logger *logger.Lo
 	index, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("partition_index")
+			return decodingErr.WithAddedContext("index")
 		}
 		return err
 	}
 	p.Index = index
-	protocol.LogWithIndentation(logger, indentation, "- .partition_index (%d)", index)
+	protocol.LogWithIndentation(logger, indentation, "- .index (%d)", index)
 
 	errorCode, err := rd.GetInt16()
 	if err != nil {
@@ -126,11 +126,11 @@ func (p *ProducePartitionResponse) Decode(rd *decoder.Decoder, logger *logger.Lo
 
 	p.RecordErrors = make([]RecordError, recordErrorsLength)
 	for i := range recordErrorsLength {
-		protocol.LogWithIndentation(logger, indentation, "- .RecordErrors[%d]", i)
+		protocol.LogWithIndentation(logger, indentation, "- .record_errors[%d]", i)
 		err = p.RecordErrors[i].Decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("RecordErrors[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("record_errors[%d]", i))
 			}
 			return err
 		}
@@ -153,11 +153,11 @@ func (p *ProducePartitionResponse) Decode(rd *decoder.Decoder, logger *logger.Lo
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- ._tagged_fields")
 
 	return nil
 }
@@ -171,12 +171,12 @@ func (t *ProduceTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger
 	name, err := rd.GetCompactString()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("topic_name")
+			return decodingErr.WithAddedContext("name")
 		}
 		return err
 	}
 	t.Name = name
-	protocol.LogWithIndentation(logger, indentation, "- .topic_name (%s)", name)
+	protocol.LogWithIndentation(logger, indentation, "- .name (%s)", name)
 
 	partitionResponsesLength, err := rd.GetCompactArrayLength()
 	if err != nil {
@@ -189,11 +189,11 @@ func (t *ProduceTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger
 
 	t.PartitionResponses = make([]ProducePartitionResponse, partitionResponsesLength)
 	for i := range partitionResponsesLength {
-		protocol.LogWithIndentation(logger, indentation, "- .PartitionResponses[%d]", i)
+		protocol.LogWithIndentation(logger, indentation, "- .partition_responses[%d]", i)
 		err = t.PartitionResponses[i].Decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("PartitionResponses[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("partition_responses[%d]", i))
 			}
 			return err
 		}
@@ -202,11 +202,11 @@ func (t *ProduceTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- ._tagged_fields")
 	return nil
 }
 
@@ -227,11 +227,11 @@ func (p *ProduceResponseBody) Decode(rd *decoder.Decoder, logger *logger.Logger,
 
 	p.TopicResponses = make([]ProduceTopicResponse, responsesLength)
 	for i := range responsesLength {
-		protocol.LogWithIndentation(logger, indentation, "- .TopicResponses[%d]", i)
+		protocol.LogWithIndentation(logger, indentation, "- .responses[%d]", i)
 		err = p.TopicResponses[i].Decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.WithAddedContext(fmt.Sprintf("TopicResponses[%d]", i))
+				return decodingErr.WithAddedContext(fmt.Sprintf("responses[%d]", i))
 			}
 			return err
 		}
@@ -250,11 +250,11 @@ func (p *ProduceResponseBody) Decode(rd *decoder.Decoder, logger *logger.Logger,
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- ._tagged_fields")
 
 	// Check if there are any remaining bytes in the decoder
 	if rd.Remaining() != 0 {

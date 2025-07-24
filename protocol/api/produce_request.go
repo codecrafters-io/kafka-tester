@@ -60,9 +60,7 @@ func (r ProduceRequestBody) encode(pe *encoder.Encoder) {
 func (r ProduceRequestBody) Encode() []byte {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 4096))
-
 	r.encode(&encoder)
-
 	return encoder.ToBytes()
 }
 
