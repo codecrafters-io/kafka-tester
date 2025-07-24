@@ -363,9 +363,10 @@ Debug = true
 [33m[tester::#NH4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#NH4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#NH4] [0m[92m✓ Correlation ID: 1616512461[0m
-[33m[tester::#NH4] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[tester::#NH4] [0m[92m✓ API keys array is non-empty[0m
-[33m[tester::#NH4] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[tester::#NH4] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#NH4] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#NH4] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
+[33m[tester::#NH4] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
 [33m[tester::#NH4] [0m[92m✓ Test 1 of 2: Passed[0m
 [33m[tester::#NH4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 96710698)[0m
 [33m[tester::#NH4] [0m[36mHexdump of sent "ApiVersions" request: [0m
@@ -726,9 +727,10 @@ Debug = true
 [33m[tester::#NH4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#NH4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#NH4] [0m[92m✓ Correlation ID: 96710698[0m
-[33m[tester::#NH4] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[tester::#NH4] [0m[92m✓ API keys array is non-empty[0m
-[33m[tester::#NH4] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[tester::#NH4] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#NH4] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#NH4] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
+[33m[tester::#NH4] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
 [33m[tester::#NH4] [0m[92m✓ Test 2 of 2: Passed[0m
 [33m[tester::#NH4] [0m[92mTest passed.[0m
 [33m[tester::#NH4] [0m[36mTerminating program[0m
@@ -1107,9 +1109,10 @@ Debug = true
 [33m[tester::#SK0] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#SK0] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#SK0] [0m[92m✓ Correlation ID: 1743371062[0m
-[33m[tester::#SK0] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[tester::#SK0] [0m[92m✓ API keys array is non-empty[0m
-[33m[tester::#SK0] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[tester::#SK0] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#SK0] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#SK0] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
+[33m[tester::#SK0] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
 [33m[tester::#SK0] [0m[92m✓ Test 2 of 2: Passed[0m
 [33m[tester::#SK0] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#SK0] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -1462,9 +1465,10 @@ Debug = true
 [33m[tester::#SK0] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#SK0] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#SK0] [0m[92m✓ Correlation ID: -488288628[0m
-[33m[tester::#SK0] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
-[33m[tester::#SK0] [0m[92m✓ API keys array is non-empty[0m
-[33m[tester::#SK0] [0m[92m✓ API version 4 is supported for API_VERSIONS[0m
+[33m[tester::#SK0] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#SK0] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#SK0] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
+[33m[tester::#SK0] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
 [33m[tester::#SK0] [0m[92m✓ Test 1 of 2: Passed[0m
 [33m[tester::#SK0] [0m[92mTest passed.[0m
 [33m[tester::#SK0] [0m[36mTerminating program[0m
