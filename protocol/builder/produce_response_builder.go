@@ -6,6 +6,7 @@ import (
 )
 
 type ProduceResponseBuilder struct {
+	correlationId int32
 	// topicName -> partitionIndex -> partitionResponse
 	topics         map[string]map[int32]kafkaapi.ProducePartitionResponse
 	throttleTimeMs int32
@@ -16,6 +17,11 @@ func NewProduceResponseBuilder() *ProduceResponseBuilder {
 		topics:         make(map[string]map[int32]kafkaapi.ProducePartitionResponse),
 		throttleTimeMs: 0,
 	}
+}
+
+func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *ProduceResponseBuilder {
+	b.correlationId = correlationId
+	return b
 }
 
 func (b *ProduceResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *ProduceResponseBuilder {
@@ -39,7 +45,7 @@ func (b *ProduceResponseBuilder) CreateAndAddErrorPartitionResponse(topicName st
 	return b.AddPartitionResponse(topicName, partitionIndex, partitionResponse)
 }
 
-func (b *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResponse {
+func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 	if len(b.topics) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
@@ -62,7 +68,7 @@ func (b *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResp
 	return kafkaapi.ProduceResponse{
 		Header: headers.ResponseHeader{
 			Version:       1,
-			CorrelationId: correlationId,
+			CorrelationId: b.correlationId,
 		},
 		Body: kafkaapi.ProduceResponseBody{
 			TopicResponses: topicResponses,
@@ -71,7 +77,7 @@ func (b *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResp
 	}
 }
 
-func (b *ProduceResponseBuilder) BuildDefault() kafkaapi.ProduceResponse {
+func (b *ProduceResponseBuilder) BuildEmpty() kafkaapi.ProduceResponse {
 	return kafkaapi.ProduceResponse{
 		Header: headers.ResponseHeader{
 			Version: 1,
