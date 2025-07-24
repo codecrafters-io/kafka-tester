@@ -167,6 +167,10 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 		return err
 	}
 
+	if r.Body.Version == 0 {
+		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	}
+
 	logger.Debugf("- .ResponseBody")
 	if err := r.Body.Decode(&decoder, r.Body.Version, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
