@@ -1,6 +1,8 @@
 package builder
 
 import (
+	"sort"
+
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 )
 
@@ -50,9 +52,17 @@ func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceReque
 		panic("CodeCrafters Internal Error: At least one topic with partitions and record batches is required")
 	}
 
+	// Sort topic names in their chronological order for deterministic order
+	topicNames := make([]string, 0, len(b.topics))
+	for topicName := range b.topics {
+		topicNames = append(topicNames, topicName)
+	}
+	sort.Strings(topicNames)
+
 	// Convert topics map to slice
 	topicData := make([]kafkaapi.TopicData, 0, len(b.topics))
-	for topicName, partitions := range b.topics {
+	for _, topicName := range topicNames {
+		partitions := b.topics[topicName]
 		// Convert partitions map to slice for this topic
 		partitionData := make([]kafkaapi.PartitionData, 0, len(partitions))
 		for partitionIndex, recordBatches := range partitions {
@@ -61,6 +71,11 @@ func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceReque
 				RecordBatches: recordBatches,
 			})
 		}
+
+		// Sort partition data by index for deterministic order
+		sort.Slice(partitionData, func(i, j int) bool {
+			return partitionData[i].Index < partitionData[j].Index
+		})
 
 		topicData = append(topicData, kafkaapi.TopicData{
 			Name:       topicName,
