@@ -125,7 +125,7 @@ func (re *Encoder) PutCompactString(in string) {
 
 func (re *Encoder) PutNullableCompactString(in *string) {
 	if in == nil {
-		re.PutUVarint(1)
+		re.PutUVarint(0)
 		return
 	}
 	re.PutCompactString(*in)
