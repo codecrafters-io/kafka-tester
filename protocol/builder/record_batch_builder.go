@@ -25,7 +25,7 @@ func NewRecordBatchBuilder() *RecordBatchBuilder {
 		partitionLeaderEpoch: -1,
 		attributes:           0,
 		baseTimestamp:        now,
-		maxTimestamp:         now,
+		maxTimestamp:         -1,
 		producerId:           0,
 		producerEpoch:        0,
 		baseSequence:         0,
@@ -70,13 +70,6 @@ func (b *RecordBatchBuilder) AddStringRecord(value string) *RecordBatchBuilder {
 	return b.AddRecord(nil, []byte(value), []kafkaapi.RecordHeader{})
 }
 
-func (b *RecordBatchBuilder) AddStringRecords(messages []string) *RecordBatchBuilder {
-	for _, message := range messages {
-		b.AddStringRecord(message)
-	}
-	return b
-}
-
 func (b *RecordBatchBuilder) Build() kafkaapi.RecordBatch {
 	if len(b.records) == 0 {
 		panic("CodeCrafters Internal Error: At least one record is required in RecordBatch")
@@ -88,7 +81,7 @@ func (b *RecordBatchBuilder) Build() kafkaapi.RecordBatch {
 		Attributes:           b.attributes,
 		LastOffsetDelta:      int32(len(b.records) - 1),
 		FirstTimestamp:       b.baseTimestamp,
-		MaxTimestamp:         b.maxTimestamp,
+		MaxTimestamp:         b.baseTimestamp,
 		ProducerId:           b.producerId,
 		ProducerEpoch:        b.producerEpoch,
 		BaseSequence:         b.baseSequence,
