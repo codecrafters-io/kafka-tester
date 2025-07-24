@@ -73,9 +73,7 @@ func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 func (rb RecordBatch) getEncodedLength() int {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
-
 	rb.Encode(&encoder)
-
 	return encoder.Offset()
 }
 
