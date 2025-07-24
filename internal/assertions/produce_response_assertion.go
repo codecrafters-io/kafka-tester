@@ -61,7 +61,7 @@ func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 		if a.ActualValue.Body.ThrottleTimeMs != a.ExpectedValue.Body.ThrottleTimeMs {
 			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.Body.ThrottleTimeMs, a.ActualValue.Body.ThrottleTimeMs)
 		}
-		protocol.SuccessLogWithIndentation(logger, 0, "✓ Throttle Time: %d", a.ActualValue.Body.ThrottleTimeMs)
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ ThrottleTimeMs: %d", a.ActualValue.Body.ThrottleTimeMs)
 	}
 
 	if !Contains(a.excludedBodyFields, "topics") {
@@ -75,7 +75,7 @@ func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 
 func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
 	if len(a.ActualValue.Body.TopicResponses) != len(a.ExpectedValue.Body.TopicResponses) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Body.TopicResponses), len(a.ActualValue.Body.TopicResponses))
+		return fmt.Errorf("Expected Topics.length to be %d, got %d", len(a.ExpectedValue.Body.TopicResponses), len(a.ActualValue.Body.TopicResponses))
 	}
 
 	for i, actualTopic := range a.ActualValue.Body.TopicResponses {
@@ -83,7 +83,7 @@ func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
 
 		if !Contains(a.excludedTopicFields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
-				return fmt.Errorf("Expected %s to be %s, got %s", fmt.Sprintf("TopicResponse[%d] Name", i), expectedTopic.Name, actualTopic.Name)
+				return fmt.Errorf("Expected TopicResponse[%d] Name to be %s, got %s", i, expectedTopic.Name, actualTopic.Name)
 			}
 			protocol.SuccessLogWithIndentation(logger, 1, "✓ TopicResponse[%d] Name: %s", i, actualTopic.Name)
 		}
@@ -119,7 +119,7 @@ func (a *ProduceResponseAssertion) assertPartitions(expectedPartitions []kafkaap
 				panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", actualPartition.ErrorCode))
 			}
 
-			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] Error code: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
+			protocol.SuccessLogWithIndentation(logger, 2, "✓ PartitionResponse[%d] ErrorCode: %d (%s)", j, actualPartition.ErrorCode, errorCodeName)
 		}
 
 		if !Contains(a.excludedPartitionFields, "Index") {
