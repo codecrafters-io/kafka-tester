@@ -39,6 +39,10 @@ type ApiVersionsRequest struct {
 	Body   ApiVersionsRequestBody
 }
 
+func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
+	return r.Header
+}
+
 func (r ApiVersionsRequest) Encode() []byte {
 	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
