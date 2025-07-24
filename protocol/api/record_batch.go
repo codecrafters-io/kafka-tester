@@ -228,7 +228,7 @@ type Record struct {
 }
 
 func (r Record) Encode(pe *encoder.Encoder) {
-	pe.PutVarint(int64(r.GetEncodedLength())) // Length placeholder
+	pe.PutVarint(int64(r.getEncodedLength())) // Length placeholder
 	// As this is variable length, we can't use placeholders and update later reliably.
 	// We need to have a value, close to the actual value, such that it takes the same space
 	// This is an approx value, the actual value will be computed at the end
@@ -248,7 +248,7 @@ func (r Record) Encode(pe *encoder.Encoder) {
 	}
 }
 
-func (r Record) GetEncodedLength() int {
+func (r Record) getEncodedLength() int {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
 
