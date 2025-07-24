@@ -15,7 +15,7 @@ type RecordError struct {
 	BatchIndexErrorMessage *string
 }
 
-func (r *RecordError) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (r *RecordError) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	batchIndex, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -64,7 +64,7 @@ type ProducePartitionResponse struct {
 	ErrorMessage   *string
 }
 
-func (p *ProducePartitionResponse) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (p *ProducePartitionResponse) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	index, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -127,7 +127,7 @@ func (p *ProducePartitionResponse) Decode(rd *decoder.Decoder, logger *logger.Lo
 	p.RecordErrors = make([]RecordError, recordErrorsLength)
 	for i := range recordErrorsLength {
 		protocol.LogWithIndentation(logger, indentation, "- .record_errors[%d]", i)
-		err = p.RecordErrors[i].Decode(rd, logger, indentation+1)
+		err = p.RecordErrors[i].decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("record_errors[%d]", i))
@@ -167,7 +167,7 @@ type ProduceTopicResponse struct {
 	PartitionResponses []ProducePartitionResponse
 }
 
-func (t *ProduceTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (t *ProduceTopicResponse) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	name, err := rd.GetCompactString()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -190,7 +190,7 @@ func (t *ProduceTopicResponse) Decode(rd *decoder.Decoder, logger *logger.Logger
 	t.PartitionResponses = make([]ProducePartitionResponse, partitionResponsesLength)
 	for i := range partitionResponsesLength {
 		protocol.LogWithIndentation(logger, indentation, "- .partition_responses[%d]", i)
-		err = t.PartitionResponses[i].Decode(rd, logger, indentation+1)
+		err = t.PartitionResponses[i].decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("partition_responses[%d]", i))
@@ -215,7 +215,7 @@ type ProduceResponseBody struct {
 	ThrottleTimeMs int32
 }
 
-func (p *ProduceResponseBody) Decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (p *ProduceResponseBody) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	responsesLength, err := rd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -228,7 +228,7 @@ func (p *ProduceResponseBody) Decode(rd *decoder.Decoder, logger *logger.Logger,
 	p.TopicResponses = make([]ProduceTopicResponse, responsesLength)
 	for i := range responsesLength {
 		protocol.LogWithIndentation(logger, indentation, "- .responses[%d]", i)
-		err = p.TopicResponses[i].Decode(rd, logger, indentation+1)
+		err = p.TopicResponses[i].decode(rd, logger, indentation+1)
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("responses[%d]", i))
@@ -285,7 +285,7 @@ func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
 	}
 
 	logger.Debugf("- .ResponseBody")
-	if err := r.Body.Decode(&decoder, logger, 1); err != nil {
+	if err := r.Body.decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("Produce Response v11")
 			return decoder.FormatDetailedError(detailedError.Error())

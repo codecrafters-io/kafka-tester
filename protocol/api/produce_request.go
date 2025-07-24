@@ -10,7 +10,7 @@ type PartitionData struct {
 	RecordBatches []RecordBatch // record data to be produced.
 }
 
-func (p *PartitionData) encode(pe *encoder.Encoder) {
+func (p PartitionData) encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.Index)
 	pe.PutCompactArrayLength(RecordBatches(p.RecordBatches).getEncodedLength())
 	for _, recordBatch := range p.RecordBatches {
@@ -24,7 +24,7 @@ type TopicData struct {
 	Partitions []PartitionData // each partition to produce to
 }
 
-func (t *TopicData) encode(pe *encoder.Encoder) {
+func (t TopicData) encode(pe *encoder.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutCompactArrayLength(len(t.Partitions))
 	for _, partition := range t.Partitions {
