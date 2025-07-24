@@ -10,7 +10,7 @@ type PartitionResponseBuilder struct {
 	baseOffset      int64
 	logAppendTimeMs int64
 	logStartOffset  int64
-	recordErrors    []kafkaapi.RecordError
+	recordErrors    []kafkaapi.ProduceRecordError
 	errorMessage    *string
 }
 
@@ -21,7 +21,7 @@ func NewPartitionResponseBuilder() *PartitionResponseBuilder {
 		baseOffset:      0,
 		logAppendTimeMs: -1,
 		logStartOffset:  0,
-		recordErrors:    []kafkaapi.RecordError{},
+		recordErrors:    []kafkaapi.ProduceRecordError{},
 		errorMessage:    nil,
 	}
 }
@@ -55,7 +55,7 @@ func (b *PartitionResponseBuilder) WithLogStartOffset(logStartOffset int64) *Par
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithRecordErrors(recordErrors []kafkaapi.RecordError) *PartitionResponseBuilder {
+func (b *PartitionResponseBuilder) WithRecordErrors(recordErrors []kafkaapi.ProduceRecordError) *PartitionResponseBuilder {
 	b.recordErrors = recordErrors
 	return b
 }

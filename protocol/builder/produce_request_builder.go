@@ -60,13 +60,13 @@ func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceReque
 	sort.Strings(topicNames)
 
 	// Convert topics map to slice
-	topicData := make([]kafkaapi.TopicData, 0, len(b.topics))
+	topicData := make([]kafkaapi.ProduceTopicData, 0, len(b.topics))
 	for _, topicName := range topicNames {
 		partitions := b.topics[topicName]
 		// Convert partitions map to slice for this topic
-		partitionData := make([]kafkaapi.PartitionData, 0, len(partitions))
+		partitionData := make([]kafkaapi.ProducePartitionData, 0, len(partitions))
 		for partitionIndex, recordBatches := range partitions {
-			partitionData = append(partitionData, kafkaapi.PartitionData{
+			partitionData = append(partitionData, kafkaapi.ProducePartitionData{
 				Index:         partitionIndex,
 				RecordBatches: recordBatches,
 			})
@@ -77,7 +77,7 @@ func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceReque
 			return partitionData[i].Index < partitionData[j].Index
 		})
 
-		topicData = append(topicData, kafkaapi.TopicData{
+		topicData = append(topicData, kafkaapi.ProduceTopicData{
 			Name:       topicName,
 			Partitions: partitionData,
 		})

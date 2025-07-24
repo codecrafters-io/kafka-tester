@@ -10,12 +10,12 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type RecordError struct {
+type ProduceRecordError struct {
 	BatchIndex             int32
 	BatchIndexErrorMessage *string
 }
 
-func (r *RecordError) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (r *ProduceRecordError) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	batchIndex, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -60,7 +60,7 @@ type ProducePartitionResponse struct {
 	// For fresh valid partitions (without compaction or truncation), would be 0
 	// For invalid partitions, would be -1
 	LogStartOffset int64 // Earliest available offset in the partition's log file
-	RecordErrors   []RecordError
+	RecordErrors   []ProduceRecordError
 	ErrorMessage   *string
 }
 
@@ -124,7 +124,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder.Decoder, logger *logger.Lo
 	}
 	protocol.LogWithIndentation(logger, indentation, "- .record_errors.length (%d)", recordErrorsLength)
 
-	p.RecordErrors = make([]RecordError, recordErrorsLength)
+	p.RecordErrors = make([]ProduceRecordError, recordErrorsLength)
 	for i := range recordErrorsLength {
 		protocol.LogWithIndentation(logger, indentation, "- .record_errors[%d]", i)
 		err = p.RecordErrors[i].decode(rd, logger, indentation+1)
@@ -275,7 +275,7 @@ func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	logger.Debugf("- .ResponseHeader")
+	logger.Debugf("- .response_header")
 	if err := r.Header.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Produce Response v11")
@@ -284,7 +284,7 @@ func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
 		return err
 	}
 
-	logger.Debugf("- .ResponseBody")
+	logger.Debugf("- .response_body")
 	if err := r.Body.decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("Produce Response v11")
