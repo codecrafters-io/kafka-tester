@@ -29,18 +29,11 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client.Client) {
-		_ = client.Close()
-	}(client)
+	defer client.Close()
 
-	request := kafkaapi.ApiVersionsRequest{
-		Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
-		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               4,
-			ClientSoftwareName:    "kafka-cli",
-			ClientSoftwareVersion: "0.1",
-		},
-	}
+	request := builder.NewApiVersionsRequestBuilder().
+		WithCorrelationId(correlationId).
+		Build()
 
 	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
@@ -61,7 +54,6 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		return err
 	}
 
-	// TODO: Add ApiVersionsResponseAssertion to all stages
 	if err = assertions.NewApiVersionsResponseAssertion(*responseBody, expectedApiVersionResponse.Body).Run(stageLogger); err != nil {
 		return err
 	}
