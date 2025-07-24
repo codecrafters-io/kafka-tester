@@ -324,6 +324,11 @@ func (rd *Decoder) GetCompactNullableString() (*string, error) {
 		return nil, err
 	}
 
+	// Null string
+	if n == 0 {
+		return nil, nil
+	}
+
 	length := int(n - 1)
 
 	if length < 0 {
