@@ -57,7 +57,8 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		AddRecordBatch(topic1, topic1Partition1, recordBatch1).
 		AddRecordBatch(topic2, topic2Partition1, recordBatch2).
 		AddRecordBatch(topic2, topic2Partition2, recordBatch3).
-		Build(correlationId)
+		WithCorrelationId(correlationId).
+		Build()
 
 	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
