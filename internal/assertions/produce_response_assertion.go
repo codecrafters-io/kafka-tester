@@ -10,22 +10,17 @@ import (
 )
 
 type ProduceResponseAssertion struct {
-	ActualValue   kafkaapi.ProduceResponseBody
-	ExpectedValue kafkaapi.ProduceResponseBody
-
-	// empty slice = assert all fields (default)
-	// non-empty slice = assert with exclusions
-	// if excludedBodyFields contains "topics", then Topics are not asserted
-	// if excludedTopicFields contains "partitions", then Partitions are not asserted
+	ActualValue             kafkaapi.ProduceResponse
+	ExpectedValue           kafkaapi.ProduceResponse
 	excludedBodyFields      []string
 	excludedTopicFields     []string
 	excludedPartitionFields []string
 }
 
-func NewProduceResponseAssertion(actualValue kafkaapi.ProduceResponseBody, expectedValue kafkaapi.ProduceResponseBody, logger *logger.Logger) *ProduceResponseAssertion {
+func NewProduceResponseAssertion(actualValue kafkaapi.ProduceResponse, expectedValue kafkaapi.ProduceResponse, logger *logger.Logger) *ProduceResponseAssertion {
 	// Sort both responses for consistent comparison
-	// sortedActual := sortResponses(actualValue)
-	// sortedExpected := sortResponses(expectedValue)
+	actualValue.Body = sortResponseBodies(actualValue.Body)
+	expectedValue.Body = sortResponseBodies(expectedValue.Body)
 
 	return &ProduceResponseAssertion{
 		ActualValue:             actualValue,
@@ -63,10 +58,10 @@ func (a *ProduceResponseAssertion) SkipPartitionFields() *ProduceResponseAsserti
 
 func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 	if !Contains(a.excludedBodyFields, "ThrottleTimeMs") {
-		if a.ActualValue.ThrottleTimeMs != a.ExpectedValue.ThrottleTimeMs {
-			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.ThrottleTimeMs, a.ActualValue.ThrottleTimeMs)
+		if a.ActualValue.Body.ThrottleTimeMs != a.ExpectedValue.Body.ThrottleTimeMs {
+			return fmt.Errorf("Expected %s to be %d, got %d", "ThrottleTimeMs", a.ExpectedValue.Body.ThrottleTimeMs, a.ActualValue.Body.ThrottleTimeMs)
 		}
-		protocol.SuccessLogWithIndentation(logger, 0, "✓ Throttle Time: %d", a.ActualValue.ThrottleTimeMs)
+		protocol.SuccessLogWithIndentation(logger, 0, "✓ Throttle Time: %d", a.ActualValue.Body.ThrottleTimeMs)
 	}
 
 	if !Contains(a.excludedBodyFields, "topics") {
@@ -79,12 +74,12 @@ func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 }
 
 func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
-	if len(a.ActualValue.TopicResponses) != len(a.ExpectedValue.TopicResponses) {
-		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.TopicResponses), len(a.ActualValue.TopicResponses))
+	if len(a.ActualValue.Body.TopicResponses) != len(a.ExpectedValue.Body.TopicResponses) {
+		return fmt.Errorf("Expected %s to be %d, got %d", "topics.length", len(a.ExpectedValue.Body.TopicResponses), len(a.ActualValue.Body.TopicResponses))
 	}
 
-	for i, actualTopic := range a.ActualValue.TopicResponses {
-		expectedTopic := a.ExpectedValue.TopicResponses[i]
+	for i, actualTopic := range a.ActualValue.Body.TopicResponses {
+		expectedTopic := a.ExpectedValue.Body.TopicResponses[i]
 
 		if !Contains(a.excludedTopicFields, "Name") {
 			if actualTopic.Name != expectedTopic.Name {
@@ -163,6 +158,10 @@ func (a *ProduceResponseAssertion) Run(logger *logger.Logger) error {
 	// firstLevelFields: ["ThrottleTimeMs"]
 	// secondLevelFields (Topics): ["Name"]
 	// thirdLevelFields (Partitions): ["ErrorCode", "Index", "BaseOffset", "LogStartOffset", "LogAppendTimeMs"]
+	if err := NewResponseHeaderAssertion(a.ActualValue.Header, a.ExpectedValue.Header).Run(logger); err != nil {
+		return err
+	}
+
 	if err := a.assertBody(logger); err != nil {
 		return err
 	}
@@ -170,8 +169,8 @@ func (a *ProduceResponseAssertion) Run(logger *logger.Logger) error {
 	return nil
 }
 
-// sortResponses sorts topics by name and partitions within each topic by index
-func sortResponses(response kafkaapi.ProduceResponseBody) kafkaapi.ProduceResponseBody {
+// sortResponseBodies sorts topics by name and partitions within each topic by index
+func sortResponseBodies(response kafkaapi.ProduceResponseBody) kafkaapi.ProduceResponseBody {
 	sortedResponse := response
 	sortedResponse.TopicResponses = make([]kafkaapi.ProduceTopicResponse, len(response.TopicResponses))
 	copy(sortedResponse.TopicResponses, response.TopicResponses)
