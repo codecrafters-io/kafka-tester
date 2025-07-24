@@ -29,7 +29,7 @@ func (b *ProduceResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *Produ
 	return b
 }
 
-func (b *ProduceResponseBuilder) AddPartitionResponse(topicName string, partitionIndex int32, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
+func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionIndex int32, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
 	if b.topics[topicName] == nil {
 		b.topics[topicName] = make(map[int32]kafkaapi.ProducePartitionResponse)
 	}
@@ -37,12 +37,24 @@ func (b *ProduceResponseBuilder) AddPartitionResponse(topicName string, partitio
 	return b
 }
 
-func (b *ProduceResponseBuilder) CreateAndAddErrorPartitionResponse(topicName string, partitionIndex int32, errorCode int16) *ProduceResponseBuilder {
-	partitionResponse := NewPartitionResponseBuilder().
+func (b *ProduceResponseBuilder) AddErrorPartitionResponse(topicName string, partitionIndex int32, errorCode int16) *ProduceResponseBuilder {
+	if errorCode == 0 {
+		panic("CodeCrafters Internal Error: Error code must be non-zero")
+	}
+
+	partitionResponse := NewProducePartitionResponseBuilder().
 		WithError(errorCode).
 		WithIndex(partitionIndex).
 		Build()
-	return b.AddPartitionResponse(topicName, partitionIndex, partitionResponse)
+	return b.addPartitionResponse(topicName, partitionIndex, partitionResponse)
+}
+
+func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, partitionIndex int32) *ProduceResponseBuilder {
+	partitionResponse := NewProducePartitionResponseBuilder().
+		WithError(0).
+		WithIndex(partitionIndex).
+		Build()
+	return b.addPartitionResponse(topicName, partitionIndex, partitionResponse)
 }
 
 func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
