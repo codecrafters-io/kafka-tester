@@ -34,7 +34,7 @@ func (t TopicData) encode(pe *encoder.Encoder) {
 }
 
 type ProduceRequestBody struct {
-	TransactionalID string // transactional id or null if not transactional
+	TransactionalID *string // transactional id or null if not transactional
 	// Acks: number of acks the producer requires the leader to have received
 	// before considering a request complete
 	// Possible values:
@@ -47,7 +47,7 @@ type ProduceRequestBody struct {
 }
 
 func (r ProduceRequestBody) encode(pe *encoder.Encoder) {
-	pe.PutNullableCompactString(&r.TransactionalID)
+	pe.PutNullableCompactString(r.TransactionalID)
 	pe.PutInt16(int16(r.Acks))
 	pe.PutInt32(r.TimeoutMs)
 	pe.PutCompactArrayLength(len(r.Topics))
