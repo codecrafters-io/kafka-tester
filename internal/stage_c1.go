@@ -46,34 +46,34 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			},
 		}
 
-		response, err := client.SendAndReceive(request, stageLogger)
+		rawResponse, err := client.SendAndReceive(request, stageLogger)
 		if err != nil {
 			return err
 		}
 
-		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
-		if err != nil {
+		actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+		if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 			return err
 		}
 
-		if responseHeader.CorrelationId != correlationId {
-			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseHeader.CorrelationId)
+		if actualResponse.Header.CorrelationId != correlationId {
+			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, actualResponse.Header.CorrelationId)
 		}
-		stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+		stageLogger.Successf("✓ Correlation ID: %v", actualResponse.Header.CorrelationId)
 
-		if responseBody.ErrorCode != 0 {
-			return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
+		if actualResponse.Body.ErrorCode != 0 {
+			return fmt.Errorf("Expected Error code to be 0, got %v", actualResponse.Body.ErrorCode)
 		}
 		stageLogger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-		if len(responseBody.ApiKeys) < 1 {
-			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(responseBody.ApiKeys))
+		if len(actualResponse.Body.ApiKeys) < 1 {
+			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(actualResponse.Body.ApiKeys))
 		}
 		stageLogger.Successf("✓ API keys array is non-empty")
 
 		foundAPIKey := false
 		MAX_VERSION_APIVERSION := int16(4)
-		for _, apiVersionKey := range responseBody.ApiKeys {
+		for _, apiVersionKey := range actualResponse.Body.ApiKeys {
 			if apiVersionKey.ApiKey == 18 {
 				foundAPIKey = true
 				if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {

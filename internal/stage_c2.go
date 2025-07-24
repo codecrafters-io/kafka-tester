@@ -71,35 +71,35 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		j := len(clients) - idx - 1
 		client := clients[j]
 
-		response, err := client.Receive()
+		rawResponse, err := client.Receive()
 		if err != nil {
 			return err
 		}
-		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response.RawBytes))
+		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(rawResponse.RawBytes))
 
-		responseHeader, responseBody, err := kafkaapi.DecodeApiVersionsHeaderAndResponse(response.Payload, 3, stageLogger)
-		if err != nil {
+		actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+		if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 			return err
 		}
 
-		if responseHeader.CorrelationId != correlationIds[j] {
-			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], responseHeader.CorrelationId)
+		if actualResponse.Header.CorrelationId != correlationIds[j] {
+			return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationIds[j], actualResponse.Header.CorrelationId)
 		}
-		stageLogger.Successf("✓ Correlation ID: %v", responseHeader.CorrelationId)
+		stageLogger.Successf("✓ Correlation ID: %v", actualResponse.Header.CorrelationId)
 
-		if responseBody.ErrorCode != 0 {
-			return fmt.Errorf("Expected Error code to be 0, got %v", responseBody.ErrorCode)
+		if actualResponse.Body.ErrorCode != 0 {
+			return fmt.Errorf("Expected Error code to be 0, got %v", actualResponse.Body.ErrorCode)
 		}
 		stageLogger.Successf("✓ Error code: 0 (NO_ERROR)")
 
-		if len(responseBody.ApiKeys) < 1 {
-			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(responseBody.ApiKeys))
+		if len(actualResponse.Body.ApiKeys) < 1 {
+			return fmt.Errorf("Expected API keys array to include atleast 1 key (API_VERSIONS), got %v", len(actualResponse.Body.ApiKeys))
 		}
 		stageLogger.Successf("✓ API keys array is non-empty")
 
 		foundAPIKey := false
 		MAX_VERSION_APIVERSION := int16(4)
-		for _, apiVersionKey := range responseBody.ApiKeys {
+		for _, apiVersionKey := range actualResponse.Body.ApiKeys {
 			if apiVersionKey.ApiKey == 18 {
 				foundAPIKey = true
 				if apiVersionKey.MaxVersion >= MAX_VERSION_APIVERSION {
