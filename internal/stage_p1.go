@@ -10,6 +10,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
+//lint:ignore U1000, ignore for this PR
 func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
