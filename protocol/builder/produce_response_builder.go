@@ -6,15 +6,15 @@ import (
 )
 
 type ProduceResponseBuilder struct {
-	correlationId int32
-	// topicName -> partitionIndex -> partitionResponse
-	topicData      map[string]map[int32]kafkaapi.ProducePartitionResponse
+	correlationId  int32
+	topicData      []kafkaapi.ProduceTopicResponse
 	throttleTimeMs int32
 }
 
 func NewProduceResponseBuilder() *ProduceResponseBuilder {
 	return &ProduceResponseBuilder{
-		topicData:      make(map[string]map[int32]kafkaapi.ProducePartitionResponse),
+		correlationId:  -1,
+		topicData:      make([]kafkaapi.ProduceTopicResponse, 0),
 		throttleTimeMs: 0,
 	}
 }
@@ -24,11 +24,13 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 	return b
 }
 
-func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionIndex int32, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
-	if b.topicData[topicName] == nil {
-		b.topicData[topicName] = make(map[int32]kafkaapi.ProducePartitionResponse)
+func (b *ProduceResponseBuilder) addPartitionResponses(topicName string, partitionResponses ...kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
+	topicResponse := kafkaapi.ProduceTopicResponse{
+		Name:               topicName,
+		PartitionResponses: partitionResponses,
 	}
-	b.topicData[topicName][partitionIndex] = partitionResponse
+
+	b.topicData = append(b.topicData, topicResponse)
 	return b
 }
 
@@ -41,15 +43,19 @@ func (b *ProduceResponseBuilder) AddErrorPartitionResponse(topicName string, par
 		WithError(errorCode).
 		WithIndex(partitionIndex).
 		Build()
-	return b.addPartitionResponse(topicName, partitionIndex, partitionResponse)
+	return b.addPartitionResponses(topicName, partitionResponse)
 }
 
-func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, partitionIndex int32) *ProduceResponseBuilder {
-	partitionResponse := NewProducePartitionResponseBuilder().
-		WithError(0).
-		WithIndex(partitionIndex).
-		Build()
-	return b.addPartitionResponse(topicName, partitionIndex, partitionResponse)
+func (b *ProduceResponseBuilder) AddSuccessPartitionResponses(topicName string, partitionIndexes ...int32) *ProduceResponseBuilder {
+	partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitionIndexes))
+	for _, partitionIndex := range partitionIndexes {
+		partitionResponse := NewProducePartitionResponseBuilder().
+			WithError(0).
+			WithIndex(partitionIndex).
+			Build()
+		partitionResponses = append(partitionResponses, partitionResponse)
+	}
+	return b.addPartitionResponses(topicName, partitionResponses...)
 }
 
 func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
@@ -57,19 +63,8 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
 
-	topicResponses := make([]kafkaapi.ProduceTopicResponse, 0, len(b.topicData))
-
-	for topicName := range b.topicData {
-		partitions := b.topicData[topicName]
-		partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitions))
-		for _, partitionResponse := range partitions {
-			partitionResponses = append(partitionResponses, partitionResponse)
-		}
-
-		topicResponses = append(topicResponses, kafkaapi.ProduceTopicResponse{
-			Name:               topicName,
-			PartitionResponses: partitionResponses,
-		})
+	if b.correlationId == -1 {
+		panic("CodeCrafters Internal Error: Correlation ID is required")
 	}
 
 	return kafkaapi.ProduceResponse{
@@ -78,7 +73,7 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 			CorrelationId: b.correlationId,
 		},
 		Body: kafkaapi.ProduceResponseBody{
-			TopicResponses: topicResponses,
+			TopicResponses: b.topicData,
 			ThrottleTimeMs: b.throttleTimeMs,
 		},
 	}
