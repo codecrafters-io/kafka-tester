@@ -29,9 +29,7 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client.Client) {
-		_ = client.Close()
-	}(client)
+	defer client.Close()
 
 	recordBatch := builder.NewRecordBatchBuilder().
 		AddStringRecord(common.MESSAGE1).
