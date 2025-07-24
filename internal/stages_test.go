@@ -69,7 +69,7 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"value_length":           {regexp.MustCompile(`- .value_length \([0-9]{1,}\)`)},
 		"value":                  {regexp.MustCompile(`- .[vV]alue \("[A-Za-z0-9 !]{1,}"\)`)},
 		"name":                   {regexp.MustCompile(`- .name \([A-Za-z -]{1,}\)`)},
-		"topic_name":             {regexp.MustCompile(`- .topic_name \([A-Za-z0-9 ]{1,}\)`)},
+		"topic_name":             {regexp.MustCompile(`- .topic_name \([A-Za-z0-9 -]{1,}\)`)},
 		"next_cursor":            {regexp.MustCompile(`- .next_cursor \(\{[A-Za-z0-9 ]{1,}\}\)`)},
 		"Messages":               {regexp.MustCompile(`✓ Messages: \["[A-Za-z !]{1,}"\]`)},
 		"Topic Name":             {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Topic Name: [A-Za-z -]{3,}`)},
@@ -77,6 +77,12 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"Topic ID":               {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] TopicID: [0-9 -]{1,}`)},
 		"Record Value":           {regexp.MustCompile(`✓ Record\[[0-9]{1,}\] Value: [A-Za-z0-9 !]{1,}`)},
 		"RecordBatch BaseOffset": {regexp.MustCompile(`✓ RecordBatch\[[0-9]{1,}\] BaseOffset: [0-9]{1,}`)},
+		"partition_index":        {regexp.MustCompile(`- .partition_index \(\d\)`)},
+		"max_timestamp":          {regexp.MustCompile(`- .max_timestamp \([0-9]{1,}\)`)},
+		"base_timestamp":         {regexp.MustCompile(`- .base_timestamp \([0-9]{1,}\)`)},
+		"Topic Name 1":           {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] Name: [A-Za-z -]{3,}`)},
+		"Found recordBatches":    {regexp.MustCompile(`.*\[tester::#[A-Z0-9]{3}\].*Found [0-9]{1,} RecordBatches in .*`)},
+		"Decoding":               {regexp.MustCompile(`Decoding RecordBatch\[[\d]\] at offset [0-9]{1,}`)},
 	}
 
 	for replacement, regexes := range replacements {
