@@ -4,7 +4,7 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 )
 
-type PartitionResponseBuilder struct {
+type producePartitionResponseBuilder struct {
 	index           int32
 	errorCode       int16
 	baseOffset      int64
@@ -14,8 +14,8 @@ type PartitionResponseBuilder struct {
 	errorMessage    *string
 }
 
-func NewPartitionResponseBuilder() *PartitionResponseBuilder {
-	return &PartitionResponseBuilder{
+func NewProducePartitionResponseBuilder() *producePartitionResponseBuilder {
+	return &producePartitionResponseBuilder{
 		index:           -1,
 		errorCode:       0,
 		baseOffset:      0,
@@ -26,12 +26,12 @@ func NewPartitionResponseBuilder() *PartitionResponseBuilder {
 	}
 }
 
-func (b *PartitionResponseBuilder) WithIndex(index int32) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithIndex(index int32) *producePartitionResponseBuilder {
 	b.index = index
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithError(errorCode int16) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithError(errorCode int16) *producePartitionResponseBuilder {
 	b.errorCode = errorCode
 	if errorCode != 0 {
 		b.baseOffset = -1
@@ -40,32 +40,32 @@ func (b *PartitionResponseBuilder) WithError(errorCode int16) *PartitionResponse
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithBaseOffset(baseOffset int64) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithBaseOffset(baseOffset int64) *producePartitionResponseBuilder {
 	b.baseOffset = baseOffset
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithLogAppendTimeMs(logAppendTimeMs int64) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithLogAppendTimeMs(logAppendTimeMs int64) *producePartitionResponseBuilder {
 	b.logAppendTimeMs = logAppendTimeMs
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithLogStartOffset(logStartOffset int64) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithLogStartOffset(logStartOffset int64) *producePartitionResponseBuilder {
 	b.logStartOffset = logStartOffset
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithRecordErrors(recordErrors []kafkaapi.ProduceRecordError) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithRecordErrors(recordErrors []kafkaapi.ProduceRecordError) *producePartitionResponseBuilder {
 	b.recordErrors = recordErrors
 	return b
 }
 
-func (b *PartitionResponseBuilder) WithErrorMessage(errorMessage string) *PartitionResponseBuilder {
+func (b *producePartitionResponseBuilder) WithErrorMessage(errorMessage string) *producePartitionResponseBuilder {
 	b.errorMessage = &errorMessage
 	return b
 }
 
-func (b *PartitionResponseBuilder) Build() kafkaapi.ProducePartitionResponse {
+func (b *producePartitionResponseBuilder) Build() kafkaapi.ProducePartitionResponse {
 	if b.index == -1 {
 		panic("CodeCrafters Internal Error: index must be set before building PartitionResponse")
 	}
