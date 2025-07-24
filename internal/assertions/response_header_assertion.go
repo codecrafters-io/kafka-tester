@@ -21,7 +21,7 @@ func NewResponseHeaderAssertion(actualValue headers.ResponseHeader, expectedValu
 
 func (a *ResponseHeaderAssertion) assertCorrelationId(logger *logger.Logger) error {
 	if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
-		return fmt.Errorf("Expected %s to be %d, got %d", "CorrelationId", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
+		return fmt.Errorf("Expected CorrelationId to be %d, got %d", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
 	}
 	logger.Successf("✓ Correlation ID: %v", a.ActualValue.CorrelationId)
 
