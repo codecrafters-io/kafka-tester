@@ -7,8 +7,9 @@ import (
 )
 
 type ProduceRequestBuilder struct {
+	correlationId int32
 	// topicName -> partitionIndex -> recordBatches
-	topics          map[string]map[int32]kafkaapi.RecordBatches
+	topicData       map[string]map[int32]kafkaapi.RecordBatches
 	transactionalID *string
 	acks            int16
 	timeoutMs       int32
@@ -16,11 +17,17 @@ type ProduceRequestBuilder struct {
 
 func NewProduceRequestBuilder() *ProduceRequestBuilder {
 	return &ProduceRequestBuilder{
-		topics:          make(map[string]map[int32]kafkaapi.RecordBatches),
+		correlationId:   -1,
+		topicData:       make(map[string]map[int32]kafkaapi.RecordBatches),
 		transactionalID: nil,
 		acks:            1,
 		timeoutMs:       0,
 	}
+}
+
+func (b *ProduceRequestBuilder) WithCorrelationId(correlationId int32) *ProduceRequestBuilder {
+	b.correlationId = correlationId
+	return b
 }
 
 func (b *ProduceRequestBuilder) WithTransactionalID(transactionalID *string) *ProduceRequestBuilder {
@@ -39,30 +46,30 @@ func (b *ProduceRequestBuilder) WithTimeoutMs(timeoutMs int32) *ProduceRequestBu
 }
 
 func (b *ProduceRequestBuilder) AddRecordBatch(topicName string, partitionIndex int32, recordBatch kafkaapi.RecordBatch) *ProduceRequestBuilder {
-	if b.topics[topicName] == nil {
-		b.topics[topicName] = make(map[int32]kafkaapi.RecordBatches)
+	if b.topicData[topicName] == nil {
+		b.topicData[topicName] = make(map[int32]kafkaapi.RecordBatches)
 	}
 
-	b.topics[topicName][partitionIndex] = append(b.topics[topicName][partitionIndex], recordBatch)
+	b.topicData[topicName][partitionIndex] = append(b.topicData[topicName][partitionIndex], recordBatch)
 	return b
 }
 
-func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceRequest {
-	if len(b.topics) == 0 {
+func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
+	if len(b.topicData) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic with partitions and record batches is required")
 	}
 
 	// Sort topic names in their chronological order for deterministic order
-	topicNames := make([]string, 0, len(b.topics))
-	for topicName := range b.topics {
+	topicNames := make([]string, 0, len(b.topicData))
+	for topicName := range b.topicData {
 		topicNames = append(topicNames, topicName)
 	}
 	sort.Strings(topicNames)
 
-	// Convert topics map to slice
-	topicData := make([]kafkaapi.ProduceTopicData, 0, len(b.topics))
+	// Convert topicData map to slice
+	topicData := make([]kafkaapi.ProduceTopicData, 0, len(b.topicData))
 	for _, topicName := range topicNames {
-		partitions := b.topics[topicName]
+		partitions := b.topicData[topicName]
 		// Convert partitions map to slice for this topic
 		partitionData := make([]kafkaapi.ProducePartitionData, 0, len(partitions))
 		for partitionIndex, recordBatches := range partitions {
@@ -92,7 +99,7 @@ func (b *ProduceRequestBuilder) Build(correlationId int32) kafkaapi.ProduceReque
 
 	return kafkaapi.ProduceRequest{
 		Header: NewRequestHeaderBuilder().
-			BuildProduceRequestHeader(correlationId),
+			BuildProduceRequestHeader(b.correlationId),
 		Body: requestBody,
 	}
 }
