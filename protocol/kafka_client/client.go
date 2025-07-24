@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
