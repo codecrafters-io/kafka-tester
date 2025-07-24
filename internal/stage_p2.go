@@ -51,7 +51,7 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		CreateAndAddErrorPartitionResponse(common.TOPIC_UNKOWN_NAME, 0, 3).
+		AddErrorPartitionResponse(common.TOPIC_UNKOWN_NAME, 0, 3).
 		WithCorrelationId(correlationId).
 		Build()
 
