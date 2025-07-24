@@ -57,22 +57,24 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		AddRecordBatch(topic1, topic1Partition1, recordBatch1).
 		AddRecordBatch(topic2, topic2Partition1, recordBatch2).
 		AddRecordBatch(topic2, topic2Partition2, recordBatch3).
-		Build(correlationId)
+		WithCorrelationId(correlationId).
+		Build()
 
 	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
-	actualResponse := builder.NewProduceResponseBuilder().BuildDefault()
+	actualResponse := builder.NewProduceResponseBuilder().BuildEmpty()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		CreateAndAddErrorPartitionResponse(topic1, topic1Partition1, 0).
-		CreateAndAddErrorPartitionResponse(topic2, topic2Partition1, 0).
-		CreateAndAddErrorPartitionResponse(topic2, topic2Partition2, 0).
-		Build(correlationId)
+		AddSuccessPartitionResponse(topic1, topic1Partition1).
+		AddSuccessPartitionResponse(topic2, topic2Partition1).
+		AddSuccessPartitionResponse(topic2, topic2Partition2).
+		WithCorrelationId(correlationId).
+		Build()
 
 	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse, stageLogger).Run(stageLogger); err != nil {
 		return err
