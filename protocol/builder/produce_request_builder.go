@@ -28,21 +28,6 @@ func (b *ProduceRequestBuilder) WithCorrelationId(correlationId int32) *ProduceR
 	return b
 }
 
-func (b *ProduceRequestBuilder) WithTransactionalID(transactionalID *string) *ProduceRequestBuilder {
-	b.transactionalID = transactionalID
-	return b
-}
-
-func (b *ProduceRequestBuilder) WithAcks(acks int16) *ProduceRequestBuilder {
-	b.acks = acks
-	return b
-}
-
-func (b *ProduceRequestBuilder) WithTimeoutMs(timeoutMs int32) *ProduceRequestBuilder {
-	b.timeoutMs = timeoutMs
-	return b
-}
-
 func (b *ProduceRequestBuilder) AddRecordBatch(topicName string, partitionIndex int32, recordBatch kafkaapi.RecordBatch) *ProduceRequestBuilder {
 	if b.topicData[topicName] == nil {
 		b.topicData[topicName] = make(map[int32]kafkaapi.RecordBatches)

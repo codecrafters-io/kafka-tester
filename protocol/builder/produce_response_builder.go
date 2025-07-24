@@ -24,11 +24,6 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 	return b
 }
 
-func (b *ProduceResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *ProduceResponseBuilder {
-	b.throttleTimeMs = throttleTimeMs
-	return b
-}
-
 func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionIndex int32, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
 	if b.topics[topicName] == nil {
 		b.topics[topicName] = make(map[int32]kafkaapi.ProducePartitionResponse)

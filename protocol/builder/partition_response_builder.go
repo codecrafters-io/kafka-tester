@@ -40,31 +40,6 @@ func (b *producePartitionResponseBuilder) WithError(errorCode int16) *producePar
 	return b
 }
 
-func (b *producePartitionResponseBuilder) WithBaseOffset(baseOffset int64) *producePartitionResponseBuilder {
-	b.baseOffset = baseOffset
-	return b
-}
-
-func (b *producePartitionResponseBuilder) WithLogAppendTimeMs(logAppendTimeMs int64) *producePartitionResponseBuilder {
-	b.logAppendTimeMs = logAppendTimeMs
-	return b
-}
-
-func (b *producePartitionResponseBuilder) WithLogStartOffset(logStartOffset int64) *producePartitionResponseBuilder {
-	b.logStartOffset = logStartOffset
-	return b
-}
-
-func (b *producePartitionResponseBuilder) WithRecordErrors(recordErrors []kafkaapi.ProduceRecordError) *producePartitionResponseBuilder {
-	b.recordErrors = recordErrors
-	return b
-}
-
-func (b *producePartitionResponseBuilder) WithErrorMessage(errorMessage string) *producePartitionResponseBuilder {
-	b.errorMessage = &errorMessage
-	return b
-}
-
 func (b *producePartitionResponseBuilder) Build() kafkaapi.ProducePartitionResponse {
 	if b.index == -1 {
 		panic("CodeCrafters Internal Error: index must be set before building PartitionResponse")

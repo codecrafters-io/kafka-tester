@@ -43,17 +43,6 @@ func (b *RecordBatchBuilder) WithPartitionLeaderEpoch(epoch int32) *RecordBatchB
 	return b
 }
 
-func (b *RecordBatchBuilder) WithTimestamp(timestamp int64) *RecordBatchBuilder {
-	b.baseTimestamp = timestamp
-	b.maxTimestamp = timestamp
-	return b
-}
-
-func (b *RecordBatchBuilder) WithBaseSequence(sequence int32) *RecordBatchBuilder {
-	b.baseSequence = sequence
-	return b
-}
-
 func (b *RecordBatchBuilder) AddRecord(key []byte, value []byte, headers []kafkaapi.RecordHeader) *RecordBatchBuilder {
 	record := kafkaapi.Record{
 		Attributes:     0,
