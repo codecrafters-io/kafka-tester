@@ -10,7 +10,7 @@ type RecordBatchBuilder struct {
 	baseOffset           int64
 	partitionLeaderEpoch int32
 	attributes           int16
-	firstTimestamp       int64
+	baseTimestamp        int64
 	maxTimestamp         int64
 	producerId           int64
 	producerEpoch        int16
@@ -24,7 +24,7 @@ func NewRecordBatchBuilder() *RecordBatchBuilder {
 		baseOffset:           0,
 		partitionLeaderEpoch: -1,
 		attributes:           0,
-		firstTimestamp:       now,
+		baseTimestamp:        now,
 		maxTimestamp:         now,
 		producerId:           0,
 		producerEpoch:        0,
@@ -44,7 +44,7 @@ func (b *RecordBatchBuilder) WithPartitionLeaderEpoch(epoch int32) *RecordBatchB
 }
 
 func (b *RecordBatchBuilder) WithTimestamp(timestamp int64) *RecordBatchBuilder {
-	b.firstTimestamp = timestamp
+	b.baseTimestamp = timestamp
 	b.maxTimestamp = timestamp
 	return b
 }
@@ -87,7 +87,7 @@ func (b *RecordBatchBuilder) Build() kafkaapi.RecordBatch {
 		PartitionLeaderEpoch: b.partitionLeaderEpoch,
 		Attributes:           b.attributes,
 		LastOffsetDelta:      int32(len(b.records) - 1),
-		FirstTimestamp:       b.firstTimestamp,
+		FirstTimestamp:       b.baseTimestamp,
 		MaxTimestamp:         b.maxTimestamp,
 		ProducerId:           b.producerId,
 		ProducerEpoch:        b.producerEpoch,
