@@ -86,13 +86,13 @@ func (c *Client) Close() error {
 
 func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *logger.Logger) (Response, error) {
 	header := request.GetHeader()
-	apiType := utils.APIKeyToName(header.ApiKey)
+	apiName := utils.APIKeyToName(header.ApiKey)
 	apiVersion := header.ApiVersion
 	correlationId := header.CorrelationId
 	message := request.Encode()
 
-	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
-	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, utils.GetFormattedHexdump(message))
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiName, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
 
 	response := Response{}
 
@@ -106,7 +106,7 @@ func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *l
 		return response, err
 	}
 
-	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, utils.GetFormattedHexdump(response.RawBytes))
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }
