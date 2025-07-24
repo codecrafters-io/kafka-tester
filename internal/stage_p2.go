@@ -45,14 +45,15 @@ func testProduce2(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewProduceResponseBuilder().BuildDefault()
+	actualResponse := builder.NewProduceResponseBuilder().BuildEmpty()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
 		CreateAndAddErrorPartitionResponse(common.TOPIC_UNKOWN_NAME, 0, 3).
-		Build(correlationId)
+		WithCorrelationId(correlationId).
+		Build()
 
 	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse, stageLogger).Run(stageLogger); err != nil {
 		return err

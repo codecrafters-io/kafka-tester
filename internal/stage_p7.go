@@ -64,7 +64,7 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	if err != nil {
 		return err
 	}
-	actualResponse := builder.NewProduceResponseBuilder().BuildDefault()
+	actualResponse := builder.NewProduceResponseBuilder().BuildEmpty()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
@@ -73,7 +73,8 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		CreateAndAddErrorPartitionResponse(topic1, topic1Partition1, 0).
 		CreateAndAddErrorPartitionResponse(topic2, topic2Partition1, 0).
 		CreateAndAddErrorPartitionResponse(topic2, topic2Partition2, 0).
-		Build(correlationId)
+		WithCorrelationId(correlationId).
+		Build()
 
 	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse, stageLogger).Run(stageLogger); err != nil {
 		return err
