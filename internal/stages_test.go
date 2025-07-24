@@ -41,7 +41,7 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"produce_pass": {
-			StageSlugs:          []string{"p2", "p7"},
+			StageSlugs:          []string{"p02", "p07"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/produce/pass",
