@@ -47,12 +47,12 @@ func (a *ProduceResponseAssertion) ExcludePartitionFields(fields ...string) *Pro
 }
 
 func (a *ProduceResponseAssertion) SkipTopicFields() *ProduceResponseAssertion {
-	a.excludedBodyFields = append(a.excludedBodyFields, "topics")
+	a.excludedBodyFields = append(a.excludedBodyFields, "Topics")
 	return a
 }
 
 func (a *ProduceResponseAssertion) SkipPartitionFields() *ProduceResponseAssertion {
-	a.excludedTopicFields = append(a.excludedTopicFields, "partitions")
+	a.excludedTopicFields = append(a.excludedTopicFields, "Partitions")
 	return a
 }
 
@@ -64,7 +64,7 @@ func (a *ProduceResponseAssertion) assertBody(logger *logger.Logger) error {
 		protocol.SuccessLogWithIndentation(logger, 0, "✓ ThrottleTimeMs: %d", a.ActualValue.Body.ThrottleTimeMs)
 	}
 
-	if !Contains(a.excludedBodyFields, "topics") {
+	if !Contains(a.excludedBodyFields, "Topics") {
 		if err := a.assertTopics(logger); err != nil {
 			return err
 		}
@@ -91,7 +91,7 @@ func (a *ProduceResponseAssertion) assertTopics(logger *logger.Logger) error {
 		expectedPartitions := expectedTopic.PartitionResponses
 		actualPartitions := actualTopic.PartitionResponses
 
-		if !Contains(a.excludedTopicFields, "partitions") {
+		if !Contains(a.excludedTopicFields, "Partitions") {
 			if err := a.assertPartitions(expectedPartitions, actualPartitions, logger); err != nil {
 				return err
 			}
