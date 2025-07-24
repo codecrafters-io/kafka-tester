@@ -57,7 +57,7 @@ func testAPIVersionWithFetchKey(stageHarness *test_case_harness.TestCaseHarness)
 		AddApiKeyEntry(18, 0, 4).
 		Build(correlationId)
 
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Run(stageLogger); err != nil {
 		return err
 	}
 

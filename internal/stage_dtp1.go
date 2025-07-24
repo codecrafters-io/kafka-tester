@@ -57,7 +57,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		AddApiKeyEntry(75, 0, 0).
 		Build(correlationId)
 
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedApiVersionResponse.Header).Run(stageLogger); err != nil {
 		return err
 	}
 

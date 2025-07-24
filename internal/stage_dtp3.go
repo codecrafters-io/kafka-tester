@@ -59,7 +59,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 	expectedResponseHeader := headers.ResponseHeader{
 		CorrelationId: correlationId,
 	}
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Evaluate([]string{"CorrelationId"}, stageLogger); err != nil {
+	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
 
