@@ -8,13 +8,13 @@ import (
 type ProduceResponseBuilder struct {
 	correlationId int32
 	// topicName -> partitionIndex -> partitionResponse
-	topics         map[string]map[int32]kafkaapi.ProducePartitionResponse
+	topicData      map[string]map[int32]kafkaapi.ProducePartitionResponse
 	throttleTimeMs int32
 }
 
 func NewProduceResponseBuilder() *ProduceResponseBuilder {
 	return &ProduceResponseBuilder{
-		topics:         make(map[string]map[int32]kafkaapi.ProducePartitionResponse),
+		topicData:      make(map[string]map[int32]kafkaapi.ProducePartitionResponse),
 		throttleTimeMs: 0,
 	}
 }
@@ -25,10 +25,10 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 }
 
 func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionIndex int32, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
-	if b.topics[topicName] == nil {
-		b.topics[topicName] = make(map[int32]kafkaapi.ProducePartitionResponse)
+	if b.topicData[topicName] == nil {
+		b.topicData[topicName] = make(map[int32]kafkaapi.ProducePartitionResponse)
 	}
-	b.topics[topicName][partitionIndex] = partitionResponse
+	b.topicData[topicName][partitionIndex] = partitionResponse
 	return b
 }
 
@@ -53,14 +53,14 @@ func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, p
 }
 
 func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
-	if len(b.topics) == 0 {
+	if len(b.topicData) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
 
-	topicResponses := make([]kafkaapi.ProduceTopicResponse, 0, len(b.topics))
+	topicResponses := make([]kafkaapi.ProduceTopicResponse, 0, len(b.topicData))
 
-	for topicName := range b.topics {
-		partitions := b.topics[topicName]
+	for topicName := range b.topicData {
+		partitions := b.topicData[topicName]
 		partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitions))
 		for _, partitionResponse := range partitions {
 			partitionResponses = append(partitionResponses, partitionResponse)
