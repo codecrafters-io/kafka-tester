@@ -84,5 +84,13 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "fd8",
 			TestFunc: testFetchMultipleMessages,
 		},
+		{
+			Slug:     "p2",
+			TestFunc: testProduce2,
+		},
+		{
+			Slug:     "p7",
+			TestFunc: testProduce7,
+		},
 	},
 }

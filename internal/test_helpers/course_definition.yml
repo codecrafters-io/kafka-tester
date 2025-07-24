@@ -279,7 +279,7 @@ stages:
 
       The tester will execute your program like this:
       ```
-      $ ./your_program.sh  
+      $ ./your_program.sh
       ```
 
       It'll then connect to your broker on port 9092 and send an `ApiVersions` request. This request will ask for an unsupported version of `ApiVersions`:
@@ -914,3 +914,6 @@ stages:
 
     marketing_md: |-
       In this stage, you'll implement the Fetch response for a topic with multiple messages, reading them from disk.
+
+  - slug: "p2"
+  - slug: "p7"
