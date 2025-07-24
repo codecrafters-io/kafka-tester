@@ -1,8 +1,6 @@
-package headers
+package kafkaapi
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
@@ -11,22 +9,13 @@ import (
 
 // ResponseHeader defines the header for a Kafka response
 type ResponseHeader struct {
-	Version       int
 	CorrelationId int32
 }
 
-func (h *ResponseHeader) Decode(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
-	switch h.Version {
-	case 0:
-		return h.decodeV0(decoder, logger, indentation)
-	case 1:
-		return h.decodeV1(decoder, logger, indentation)
-	default:
-		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported response header version: %d", h.Version))
-	}
-}
+// TODO: Add version to struct, and based on that decide which internal function to call
+// Expose only Decode()
 
-func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) DecodeV0(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -40,11 +29,16 @@ func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder, logger *logger.Logge
 	return nil
 }
 
-func (h *ResponseHeader) decodeV1(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
-	err := h.decodeV0(decoder, logger, indentation)
+func (h *ResponseHeader) DecodeV1(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
+	correlation_id, err := decoder.GetInt32()
 	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return decodingErr.WithAddedContext("correlation_id")
+		}
 		return err
 	}
+	h.CorrelationId = correlation_id
+	protocol.LogWithIndentation(logger, indentation, "- .correlation_id (%d)", correlation_id)
 
 	_, err = decoder.GetEmptyTaggedFieldArray()
 	if err != nil {

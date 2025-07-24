@@ -1,8 +1,9 @@
 package kafkaapi
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 )
 
 type Partition struct {
@@ -14,7 +15,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p *Partition) Encode(pe *encoder.Encoder) {
+func (p Partition) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -29,7 +30,7 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t *Topic) Encode(pe *encoder.Encoder) {
+func (t Topic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
@@ -52,7 +53,7 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
+func (f ForgottenTopic) Encode(pe *encoder.Encoder) {
 	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
@@ -60,15 +61,6 @@ func (f *ForgottenTopic) Encode(pe *encoder.Encoder) {
 	pe.PutRawBytes(uuidBytes)
 
 	pe.PutCompactInt32Array(f.Partitions)
-}
-
-type FetchRequest struct {
-	Header headers.RequestHeader
-	Body   FetchRequestBody
-}
-
-func (r FetchRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
 
 type FetchRequestBody struct {
@@ -83,7 +75,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r FetchRequestBody) encode(pe *encoder.Encoder) {
+func (r FetchRequestBody) Encode(pe *encoder.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -112,11 +104,19 @@ func (r FetchRequestBody) encode(pe *encoder.Encoder) {
 	pe.PutEmptyTaggedFieldArray()
 }
 
-func (r FetchRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
+type FetchRequest struct {
+	Header headers.RequestHeader
+	Body   FetchRequestBody
+}
 
-	r.encode(&encoder)
+func (r FetchRequest) Encode() []byte {
+	return encodeRequest(r)
+}
 
-	return encoder.ToBytes()
+func (r FetchRequest) GetHeader() headers.RequestHeader {
+	return r.Header
+}
+
+func (r FetchRequest) GetBody() kafka_interface.RequestBodyI {
+	return r.Body
 }

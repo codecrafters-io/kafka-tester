@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -82,10 +84,19 @@ func (c *Client) Close() error {
 	return nil
 }
 
-func (c *Client) SendAndReceive(request []byte) (Response, error) {
+func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *logger.Logger) (Response, error) {
+	header := request.GetHeader()
+	apiType := utils.APIKeyToName(header.ApiKey)
+	apiVersion := header.ApiVersion
+	correlationId := header.CorrelationId
+	message := request.Encode()
+
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiType, apiVersion, correlationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiType, utils.GetFormattedHexdump(message))
+
 	response := Response{}
 
-	err := c.Send(request)
+	err := c.Send(message)
 	if err != nil {
 		return response, err
 	}
@@ -94,6 +105,8 @@ func (c *Client) SendAndReceive(request []byte) (Response, error) {
 	if err != nil {
 		return response, err
 	}
+
+	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiType, utils.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }
