@@ -1,8 +1,6 @@
 package builder
 
 import (
-	"sort"
-
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 )
@@ -46,26 +44,14 @@ func (b *ProduceResponseBuilder) Build(correlationId int32) kafkaapi.ProduceResp
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
 
-	// Sort topic names in their chronological order for deterministic order
-	topicNames := make([]string, 0, len(b.topics))
-	for topicName := range b.topics {
-		topicNames = append(topicNames, topicName)
-	}
-	sort.Strings(topicNames)
-
 	topicResponses := make([]kafkaapi.ProduceTopicResponse, 0, len(b.topics))
 
-	for _, topicName := range topicNames {
+	for topicName := range b.topics {
 		partitions := b.topics[topicName]
 		partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitions))
 		for _, partitionResponse := range partitions {
 			partitionResponses = append(partitionResponses, partitionResponse)
 		}
-
-		// Sort partition responses by index for deterministic order
-		sort.Slice(partitionResponses, func(i, j int) bool {
-			return partitionResponses[i].Index < partitionResponses[j].Index
-		})
 
 		topicResponses = append(topicResponses, kafkaapi.ProduceTopicResponse{
 			Name:               topicName,
