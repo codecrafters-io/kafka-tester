@@ -27,9 +27,9 @@ func (b *ProduceRequestBuilder) AddRecordBatch(topicName string, partitionIndex 
 		RecordBatches: []kafkaapi.RecordBatch{recordBatch},
 	}
 
-	for _, topicData := range b.topicData {
-		if topicData.Name == topicName {
-			topicData.Partitions = append(topicData.Partitions, partitionData)
+	for i := range b.topicData {
+		if b.topicData[i].Name == topicName {
+			b.topicData[i].Partitions = append(b.topicData[i].Partitions, partitionData)
 			return b
 		}
 	}

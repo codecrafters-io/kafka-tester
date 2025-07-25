@@ -25,9 +25,9 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 }
 
 func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
-	for _, topicResponse := range b.topicData {
-		if topicResponse.Name == topicName {
-			topicResponse.PartitionResponses = append(topicResponse.PartitionResponses, partitionResponse)
+	for i := range b.topicData {
+		if b.topicData[i].Name == topicName {
+			b.topicData[i].PartitionResponses = append(b.topicData[i].PartitionResponses, partitionResponse)
 			return b
 		}
 	}
