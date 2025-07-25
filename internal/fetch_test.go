@@ -225,8 +225,8 @@ func TestAPIVersionv3(t *testing.T) {
 		return
 	}
 
-	apiVersionsResponse := kafkaapi.ApiVersionsResponseBody{Version: 3}
-	if err := apiVersionsResponse.Decode(&decoder, 3, logger.GetQuietLogger(""), 0); err != nil {
+	apiVersionsResponse := kafkaapi.ApiVersionsResponseBody{Version: 4}
+	if err := apiVersionsResponse.Decode(&decoder, 4, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
