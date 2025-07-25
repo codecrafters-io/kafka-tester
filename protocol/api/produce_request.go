@@ -5,12 +5,12 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
-type PartitionData struct {
+type ProducePartitionData struct {
 	Index         int32         // partition index
 	RecordBatches []RecordBatch // record data to be produced.
 }
 
-func (p PartitionData) encode(pe *encoder.Encoder) {
+func (p ProducePartitionData) encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.Index)
 	pe.PutCompactArrayLength(RecordBatches(p.RecordBatches).getEncodedLength())
 	for _, recordBatch := range p.RecordBatches {
@@ -19,12 +19,12 @@ func (p PartitionData) encode(pe *encoder.Encoder) {
 	pe.PutEmptyTaggedFieldArray()
 }
 
-type TopicData struct {
-	Name       string          // topic name
-	Partitions []PartitionData // each partition to produce to
+type ProduceTopicData struct {
+	Name       string                 // topic name
+	Partitions []ProducePartitionData // each partition to produce to
 }
 
-func (t TopicData) encode(pe *encoder.Encoder) {
+func (t ProduceTopicData) encode(pe *encoder.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutCompactArrayLength(len(t.Partitions))
 	for _, partition := range t.Partitions {
@@ -43,7 +43,7 @@ type ProduceRequestBody struct {
 	// - WaitForAll: all in-sync replicas: -1
 	Acks      int16
 	TimeoutMs int32
-	Topics    []TopicData // topics to produce to
+	Topics    []ProduceTopicData // topics to produce to
 }
 
 func (r ProduceRequestBody) encode(pe *encoder.Encoder) {

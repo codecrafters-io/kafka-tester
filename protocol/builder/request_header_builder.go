@@ -12,7 +12,7 @@ func NewRequestHeaderBuilder() *RequestHeaderBuilder {
 	return &RequestHeaderBuilder{
 		apiKey:        0,
 		apiVersion:    0,
-		correlationId: 0,
+		correlationId: -1,
 	}
 }
 
@@ -32,6 +32,10 @@ func (b *RequestHeaderBuilder) WithCorrelationId(correlationId int32) *RequestHe
 }
 
 func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
+	if b.correlationId == -1 {
+		panic("CodeCrafters Internal Error: Correlation ID is required")
+	}
+
 	return headers.RequestHeader{
 		ApiKey:        b.apiKey,
 		ApiVersion:    b.apiVersion,
