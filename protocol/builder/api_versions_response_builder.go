@@ -15,7 +15,7 @@ type ApiVersionsResponseBuilder struct {
 
 func NewApiVersionsResponseBuilder() *ApiVersionsResponseBuilder {
 	return &ApiVersionsResponseBuilder{
-		version:        3,
+		version:        4,
 		correlationId:  -1,
 		errorCode:      0,
 		throttleTimeMs: 0,
