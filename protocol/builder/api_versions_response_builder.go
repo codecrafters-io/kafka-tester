@@ -73,6 +73,6 @@ func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi.ApiVersionsResponse {
 		Header: headers.ResponseHeader{
 			Version: 0,
 		},
-		Body: kafkaapi.ApiVersionsResponseBody{Version: 3},
+		Body: kafkaapi.ApiVersionsResponseBody{Version: 4},
 	}
 }
