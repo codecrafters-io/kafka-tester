@@ -1,189 +1,1145 @@
 Debug = true
 
-[33m[tester::#P02] [0m[94mRunning tests for Stage #P02 (p02)[0m
-[33m[tester::#P02] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#P02] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#P02] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#P02] [0m[94mSending "Produce" (version: 11) request (Correlation id: 177586623)[0m
-[33m[tester::#P02] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#P02] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#P02] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#P02] [0m[36m0000 | 00 00 00 98 00 00 00 0b 0a 95 c1 bf 00 0c 6b 61 | ..............ka[0m
-[33m[tester::#P02] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
-[33m[tester::#P02] [0m[36m0020 | 00 00 02 12 75 6e 6b 6e 6f 77 6e 2d 74 6f 70 69 | ....unknown-topi[0m
-[33m[tester::#P02] [0m[36m0030 | 63 2d 73 61 7a 02 00 00 00 00 5f 00 00 00 00 00 | c-saz....._.....[0m
-[33m[tester::#P02] [0m[36m0040 | 00 00 00 00 00 00 52 00 00 00 00 02 72 a5 df 2d | ......R.....r..-[0m
-[33m[tester::#P02] [0m[36m0050 | 00 00 00 00 00 00 00 00 01 98 41 5d ec a7 00 00 | ..........A]....[0m
-[33m[tester::#P02] [0m[36m0060 | 01 98 41 5d ec a7 00 00 00 00 00 00 00 00 00 00 | ..A]............[0m
-[33m[tester::#P02] [0m[36m0070 | 00 00 00 00 00 00 00 01 40 00 00 00 01 34 48 65 | ........@....4He[0m
-[33m[tester::#P02] [0m[36m0080 | 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e 67 69 | llo Reverse Engi[0m
-[33m[tester::#P02] [0m[36m0090 | 6e 65 65 72 69 6e 67 21 00 00 00 00             | neering!....[0m
-[33m[tester::#P02] [0m[36m[0m
-[33m[tester::#P02] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#P02] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#P02] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#P02] [0m[36m0000 | 00 00 00 40 0a 95 c1 bf 00 02 12 75 6e 6b 6e 6f | ...@.......unkno[0m
-[33m[tester::#P02] [0m[36m0010 | 77 6e 2d 74 6f 70 69 63 2d 73 61 7a 02 00 00 00 | wn-topic-saz....[0m
-[33m[tester::#P02] [0m[36m0020 | 00 00 03 ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
-[33m[tester::#P02] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff 01 00 00 00 00 | ................[0m
-[33m[tester::#P02] [0m[36m0040 | 00 00 00 00                                     | ....[0m
-[33m[tester::#P02] [0m[36m[0m
-[33m[tester::#P02] [Decoder] [0m[36m- .response_header[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#P02] [Decoder] [0m[36m- .response_body[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - .responses.length (1)[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - .responses[0][0m
-[33m[tester::#P02] [Decoder] [0m[36m    - .name (unknown-topic-saz)[0m
-[33m[tester::#P02] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
-[33m[tester::#P02] [Decoder] [0m[36m    - .partition_responses[0][0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .index (0)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .error_code (3)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .base_offset (-1)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .log_start_offset (-1)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .record_errors.length (0)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - .error_message (null)[0m
-[33m[tester::#P02] [Decoder] [0m[36m      - ._tagged_fields[0m
-[33m[tester::#P02] [Decoder] [0m[36m    - ._tagged_fields[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
-[33m[tester::#P02] [Decoder] [0m[36m  - ._tagged_fields[0m
-[33m[tester::#P02] [0m[92m✓ Correlation ID: 177586623[0m
-[33m[tester::#P02] [0m[92m✓ ThrottleTimeMs: 0[0m
-[33m[tester::#P02] [0m[92m  ✓ TopicResponse[0] Name: unknown-topic-saz[0m
-[33m[tester::#P02] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 3 (UNKNOWN_TOPIC_OR_PARTITION)[0m
-[33m[tester::#P02] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
-[33m[tester::#P02] [0m[92m    ✓ PartitionResponse[0] BaseOffset: -1[0m
-[33m[tester::#P02] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: -1[0m
-[33m[tester::#P02] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
-[33m[tester::#P02] [0m[92mTest passed.[0m
-[33m[tester::#P02] [0m[36mTerminating program[0m
-[33m[tester::#P02] [0m[36mProgram terminated successfully[0m
+[33m[tester::#UM3] [0m[94mRunning tests for Stage #UM3 (um3)[0m
+[33m[tester::#UM3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#UM3] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#UM3] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#UM3] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[tester::#UM3] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#UM3] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#UM3] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#UM3] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#UM3] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#UM3] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#UM3] [0m[36m[0m
+[33m[tester::#UM3] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[tester::#UM3] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#UM3] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#UM3] [0m[36m0000 | 00 00 02 19 0a 95 c1 bf 00 00 3e 00 00 00 00 00 | ..........>.....[0m
+[33m[tester::#UM3] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
+[33m[tester::#UM3] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
+[33m[tester::#UM3] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
+[33m[tester::#UM3] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
+[33m[tester::#UM3] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
+[33m[tester::#UM3] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
+[33m[tester::#UM3] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
+[33m[tester::#UM3] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
+[33m[tester::#UM3] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
+[33m[tester::#UM3] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
+[33m[tester::#UM3] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
+[33m[tester::#UM3] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
+[33m[tester::#UM3] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
+[33m[tester::#UM3] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
+[33m[tester::#UM3] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
+[33m[tester::#UM3] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
+[33m[tester::#UM3] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
+[33m[tester::#UM3] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
+[33m[tester::#UM3] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
+[33m[tester::#UM3] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
+[33m[tester::#UM3] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
+[33m[tester::#UM3] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
+[33m[tester::#UM3] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
+[33m[tester::#UM3] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
+[33m[tester::#UM3] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
+[33m[tester::#UM3] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
+[33m[tester::#UM3] [0m[36m0200 | 00 00 00 12 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#UM3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#UM3] [0m[36m[0m
+[33m[tester::#UM3] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m- .ResponseBody[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .error_code (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .num_api_keys (61)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[0][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (11)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[1][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (17)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[2][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[3][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (12)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[4][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (8)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[5][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (9)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[6][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (10)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (6)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[7][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (11)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (9)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[8][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (12)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[9][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (13)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[10][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (14)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[11][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (15)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[12][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (16)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[13][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (17)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[14][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (18)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[15][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (19)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (7)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[16][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (20)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (6)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[17][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (21)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[18][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (22)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[19][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (23)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[20][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (24)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (5)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[21][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (25)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[22][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (26)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[23][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (27)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[24][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (28)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[25][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (29)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[26][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (30)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[27][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (31)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[28][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (32)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[29][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (33)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[30][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (34)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[31][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (35)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (4)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[32][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (36)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[33][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (37)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[34][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (38)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[35][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (39)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[36][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (40)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[37][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (41)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (3)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[38][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (42)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[39][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (43)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[40][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (44)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[41][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (45)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[42][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (46)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[43][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (47)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[44][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (48)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[45][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (49)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[46][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (50)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[47][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (51)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[48][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (55)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (2)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[49][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (57)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[50][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (60)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[51][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (61)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[52][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (64)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[53][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (65)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[54][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (66)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (1)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[55][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (68)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[56][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (69)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[57][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (74)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[58][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (75)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[59][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (80)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .ApiKeys[60][0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .api_key (81)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .min_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .max_version (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m    - .TAG_BUFFER[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#UM3] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#UM3] [0m[92m✓ Correlation ID: 177586623[0m
+[33m[tester::#UM3] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#UM3] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#UM3] [0m[92m✓ MinVersion for  is <= 11 & >= 0[0m
+[33m[tester::#UM3] [0m[92m✓ MaxVersion for  is >= 11[0m
+[33m[tester::#UM3] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
+[33m[tester::#UM3] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
+[33m[tester::#UM3] [0m[92mTest passed.[0m
+[33m[tester::#UM3] [0m[36mTerminating program[0m
+[33m[tester::#UM3] [0m[36mProgram terminated successfully[0m
 
-[33m[tester::#P07] [0m[94mRunning tests for Stage #P07 (p07)[0m
-[33m[tester::#P07] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[tester::#P07] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#P07] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#P07] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#P07] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#P07] [0m[94mSending "Produce" (version: 11) request (Correlation id: 1616512461)[0m
-[33m[tester::#P07] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#P07] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#P07] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#P07] [0m[36m0000 | 00 00 01 45 00 00 00 0b 60 5a 05 cd 00 0c 6b 61 | ...E....`Z....ka[0m
-[33m[tester::#P07] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
-[33m[tester::#P07] [0m[36m0020 | 00 00 04 04 66 6f 6f 02 00 00 00 00 5f 00 00 00 | ....foo....._...[0m
-[33m[tester::#P07] [0m[36m0030 | 00 00 00 00 00 00 00 00 52 00 00 00 00 02 6e cd | ........R.....n.[0m
-[33m[tester::#P07] [0m[36m0040 | 62 95 00 00 00 00 00 00 00 00 01 98 41 5d f7 f8 | b...........A]..[0m
-[33m[tester::#P07] [0m[36m0050 | 00 00 01 98 41 5d f7 f8 00 00 00 00 00 00 00 00 | ....A]..........[0m
-[33m[tester::#P07] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 01 40 00 00 00 01 34 | ..........@....4[0m
-[33m[tester::#P07] [0m[36m0070 | 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e | Hello Reverse En[0m
-[33m[tester::#P07] [0m[36m0080 | 67 69 6e 65 65 72 69 6e 67 21 00 00 00 04 73 61 | gineering!....sa[0m
-[33m[tester::#P07] [0m[36m0090 | 7a 02 00 00 00 00 51 00 00 00 00 00 00 00 00 00 | z.....Q.........[0m
-[33m[tester::#P07] [0m[36m00a0 | 00 00 44 00 00 00 00 02 25 b9 44 56 00 00 00 00 | ..D.....%.DV....[0m
-[33m[tester::#P07] [0m[36m00b0 | 00 00 00 00 01 98 41 5d f7 f8 00 00 01 98 41 5d | ......A]......A][0m
-[33m[tester::#P07] [0m[36m00c0 | f7 f8 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
-[33m[tester::#P07] [0m[36m00d0 | 00 00 00 01 24 00 00 00 01 18 48 65 6c 6c 6f 20 | ....$.....Hello [0m
-[33m[tester::#P07] [0m[36m00e0 | 4b 61 66 6b 61 21 00 00 00 04 73 61 7a 02 00 00 | Kafka!....saz...[0m
-[33m[tester::#P07] [0m[36m00f0 | 00 01 54 00 00 00 00 00 00 00 00 00 00 00 47 00 | ..T...........G.[0m
-[33m[tester::#P07] [0m[36m0100 | 00 00 00 02 f9 38 43 25 00 00 00 00 00 00 00 00 | .....8C%........[0m
-[33m[tester::#P07] [0m[36m0110 | 01 98 41 5d f7 f8 00 00 01 98 41 5d f7 f8 00 00 | ..A]......A]....[0m
-[33m[tester::#P07] [0m[36m0120 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#P07] [0m[36m0130 | 2a 00 00 00 01 1e 48 65 6c 6c 6f 20 55 6e 69 76 | *.....Hello Univ[0m
-[33m[tester::#P07] [0m[36m0140 | 65 72 73 65 21 00 00 00 00                      | erse!....[0m
-[33m[tester::#P07] [0m[36m[0m
-[33m[tester::#P07] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#P07] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#P07] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#P07] [0m[36m0000 | 00 00 00 7a 60 5a 05 cd 00 03 04 66 6f 6f 02 00 | ...z`Z.....foo..[0m
-[33m[tester::#P07] [0m[36m0010 | 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
-[33m[tester::#P07] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
-[33m[tester::#P07] [0m[36m0030 | 00 04 73 61 7a 03 00 00 00 00 00 00 00 00 00 00 | ..saz...........[0m
-[33m[tester::#P07] [0m[36m0040 | 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 | ................[0m
-[33m[tester::#P07] [0m[36m0050 | 00 00 00 00 01 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
-[33m[tester::#P07] [0m[36m0060 | 00 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 | ................[0m
-[33m[tester::#P07] [0m[36m0070 | 00 00 00 00 00 01 00 00 00 00 00 00 00 00       | ..............[0m
-[33m[tester::#P07] [0m[36m[0m
-[33m[tester::#P07] [Decoder] [0m[36m- .response_header[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#P07] [Decoder] [0m[36m- .response_body[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .responses.length (2)[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .responses[0][0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .name (foo)[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .partition_responses[0][0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .index (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_code (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .base_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_start_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .record_errors.length (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_message (null)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - ._tagged_fields[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - ._tagged_fields[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .responses[1][0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .name (saz)[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .partition_responses.length (2)[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .partition_responses[0][0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .index (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_code (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .base_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_start_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .record_errors.length (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_message (null)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - ._tagged_fields[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - .partition_responses[1][0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .index (1)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_code (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .base_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .log_start_offset (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .record_errors.length (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - .error_message (null)[0m
-[33m[tester::#P07] [Decoder] [0m[36m      - ._tagged_fields[0m
-[33m[tester::#P07] [Decoder] [0m[36m    - ._tagged_fields[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
-[33m[tester::#P07] [Decoder] [0m[36m  - ._tagged_fields[0m
-[33m[tester::#P07] [0m[92m✓ Correlation ID: 1616512461[0m
-[33m[tester::#P07] [0m[92m✓ ThrottleTimeMs: 0[0m
-[33m[tester::#P07] [0m[92m  ✓ TopicResponse[0] Name: foo[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
-[33m[tester::#P07] [0m[92m  ✓ TopicResponse[1] Name: saz[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[1] ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[1] Index: 1[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[1] BaseOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[1] LogStartOffset: 0[0m
-[33m[tester::#P07] [0m[92m    ✓ PartitionResponse[1] LogAppendTimeMs: -1[0m
-[33m[tester::#P07] [0m[92mTest passed.[0m
-[33m[tester::#P07] [0m[36mTerminating program[0m
-[33m[tester::#P07] [0m[36mProgram terminated successfully[0m
+[33m[tester::#CK2] [0m[94mRunning tests for Stage #CK2 (ck2)[0m
+[33m[tester::#CK2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#CK2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#CK2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#CK2] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#CK2] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#CK2] [0m[94mSending "Produce" (version: 11) request (Correlation id: 1616512461)[0m
+[33m[tester::#CK2] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#CK2] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#CK2] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#CK2] [0m[36m0000 | 00 00 00 98 00 00 00 0b 60 5a 05 cd 00 0c 6b 61 | ........`Z....ka[0m
+[33m[tester::#CK2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#CK2] [0m[36m0020 | 00 00 02 12 75 6e 6b 6e 6f 77 6e 2d 74 6f 70 69 | ....unknown-topi[0m
+[33m[tester::#CK2] [0m[36m0030 | 63 2d 73 61 7a 02 00 00 00 00 5f 00 00 00 00 00 | c-saz....._.....[0m
+[33m[tester::#CK2] [0m[36m0040 | 00 00 00 00 00 00 52 00 00 00 00 02 f1 34 bb 19 | ......R......4..[0m
+[33m[tester::#CK2] [0m[36m0050 | 00 00 00 00 00 00 00 00 01 98 42 71 cb ed 00 00 | ..........Bq....[0m
+[33m[tester::#CK2] [0m[36m0060 | 01 98 42 71 cb ed 00 00 00 00 00 00 00 00 00 00 | ..Bq............[0m
+[33m[tester::#CK2] [0m[36m0070 | 00 00 00 00 00 00 00 01 40 00 00 00 01 34 48 65 | ........@....4He[0m
+[33m[tester::#CK2] [0m[36m0080 | 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e 67 69 | llo Reverse Engi[0m
+[33m[tester::#CK2] [0m[36m0090 | 6e 65 65 72 69 6e 67 21 00 00 00 00             | neering!....[0m
+[33m[tester::#CK2] [0m[36m[0m
+[33m[tester::#CK2] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#CK2] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#CK2] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#CK2] [0m[36m0000 | 00 00 00 40 60 5a 05 cd 00 02 12 75 6e 6b 6e 6f | ...@`Z.....unkno[0m
+[33m[tester::#CK2] [0m[36m0010 | 77 6e 2d 74 6f 70 69 63 2d 73 61 7a 02 00 00 00 | wn-topic-saz....[0m
+[33m[tester::#CK2] [0m[36m0020 | 00 00 03 ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
+[33m[tester::#CK2] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff 01 00 00 00 00 | ................[0m
+[33m[tester::#CK2] [0m[36m0040 | 00 00 00 00                                     | ....[0m
+[33m[tester::#CK2] [0m[36m[0m
+[33m[tester::#CK2] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#CK2] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - .responses.length (1)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#CK2] [Decoder] [0m[36m    - .name (unknown-topic-saz)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .index (0)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .error_code (3)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .base_offset (-1)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .log_start_offset (-1)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#CK2] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#CK2] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#CK2] [0m[92m✓ Correlation ID: 1616512461[0m
+[33m[tester::#CK2] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#CK2] [0m[92m  ✓ TopicResponse[0] Name: unknown-topic-saz[0m
+[33m[tester::#CK2] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 3 (UNKNOWN_TOPIC_OR_PARTITION)[0m
+[33m[tester::#CK2] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
+[33m[tester::#CK2] [0m[92m    ✓ PartitionResponse[0] BaseOffset: -1[0m
+[33m[tester::#CK2] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: -1[0m
+[33m[tester::#CK2] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#CK2] [0m[92mTest passed.[0m
+[33m[tester::#CK2] [0m[36mTerminating program[0m
+[33m[tester::#CK2] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#DP1] [0m[94mRunning tests for Stage #DP1 (dp1)[0m
+[33m[tester::#DP1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#DP1] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#DP1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#DP1] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#DP1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#DP1] [0m[94mSending "Produce" (version: 11) request (Correlation id: 96710698)[0m
+[33m[tester::#DP1] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#DP1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#DP1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#DP1] [0m[36m0000 | 00 00 00 8a 00 00 00 0b 05 c3 b0 2a 00 0c 6b 61 | ...........*..ka[0m
+[33m[tester::#DP1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#DP1] [0m[36m0020 | 00 00 02 04 71 75 7a 02 00 00 00 01 5f 00 00 00 | ....quz....._...[0m
+[33m[tester::#DP1] [0m[36m0030 | 00 00 00 00 00 00 00 00 52 00 00 00 00 02 bf 69 | ........R......i[0m
+[33m[tester::#DP1] [0m[36m0040 | 4d a9 00 00 00 00 00 00 00 00 01 98 42 71 d6 73 | M...........Bq.s[0m
+[33m[tester::#DP1] [0m[36m0050 | 00 00 01 98 42 71 d6 73 00 00 00 00 00 00 00 00 | ....Bq.s........[0m
+[33m[tester::#DP1] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 01 40 00 00 00 01 34 | ..........@....4[0m
+[33m[tester::#DP1] [0m[36m0070 | 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e | Hello Reverse En[0m
+[33m[tester::#DP1] [0m[36m0080 | 67 69 6e 65 65 72 69 6e 67 21 00 00 00 00       | gineering!....[0m
+[33m[tester::#DP1] [0m[36m[0m
+[33m[tester::#DP1] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#DP1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#DP1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#DP1] [0m[36m0000 | 00 00 00 32 05 c3 b0 2a 00 02 04 71 75 7a 02 00 | ...2...*...quz..[0m
+[33m[tester::#DP1] [0m[36m0010 | 00 00 01 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#DP1] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#DP1] [0m[36m0030 | 00 00 00 00 00 00                               | ......[0m
+[33m[tester::#DP1] [0m[36m[0m
+[33m[tester::#DP1] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - .correlation_id (96710698)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#DP1] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - .responses.length (1)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#DP1] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .index (1)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#DP1] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#DP1] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#DP1] [0m[92m✓ Correlation ID: 96710698[0m
+[33m[tester::#DP1] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#DP1] [0m[92m  ✓ TopicResponse[0] Name: quz[0m
+[33m[tester::#DP1] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#DP1] [0m[92m    ✓ PartitionResponse[0] Index: 1[0m
+[33m[tester::#DP1] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#DP1] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#DP1] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#DP1] [0m[92mTest passed.[0m
+[33m[tester::#DP1] [0m[36mTerminating program[0m
+[33m[tester::#DP1] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#PS7] [0m[94mRunning tests for Stage #PS7 (ps7)[0m
+[33m[tester::#PS7] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#PS7] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#PS7] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#PS7] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#PS7] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PS7] [0m[94mSending "Produce" (version: 11) request (Correlation id: 1893237013)[0m
+[33m[tester::#PS7] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#PS7] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PS7] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PS7] [0m[36m0000 | 00 00 00 8a 00 00 00 0b 70 d8 81 15 00 0c 6b 61 | ........p.....ka[0m
+[33m[tester::#PS7] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#PS7] [0m[36m0020 | 00 00 02 04 71 75 7a 02 00 00 00 02 5f 00 00 00 | ....quz....._...[0m
+[33m[tester::#PS7] [0m[36m0030 | 00 00 00 00 00 00 00 00 52 00 00 00 00 02 ba 6b | ........R......k[0m
+[33m[tester::#PS7] [0m[36m0040 | d5 5c 00 00 00 00 00 00 00 00 01 98 42 71 e1 31 | .\..........Bq.1[0m
+[33m[tester::#PS7] [0m[36m0050 | 00 00 01 98 42 71 e1 31 00 00 00 00 00 00 00 00 | ....Bq.1........[0m
+[33m[tester::#PS7] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 01 40 00 00 00 01 34 | ..........@....4[0m
+[33m[tester::#PS7] [0m[36m0070 | 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e | Hello Reverse En[0m
+[33m[tester::#PS7] [0m[36m0080 | 67 69 6e 65 65 72 69 6e 67 21 00 00 00 00       | gineering!....[0m
+[33m[tester::#PS7] [0m[36m[0m
+[33m[tester::#PS7] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#PS7] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PS7] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PS7] [0m[36m0000 | 00 00 00 32 70 d8 81 15 00 02 04 71 75 7a 02 00 | ...2p......quz..[0m
+[33m[tester::#PS7] [0m[36m0010 | 00 00 02 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#PS7] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#PS7] [0m[36m0030 | 00 00 00 00 00 00                               | ......[0m
+[33m[tester::#PS7] [0m[36m[0m
+[33m[tester::#PS7] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - .correlation_id (1893237013)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#PS7] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - .responses.length (1)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#PS7] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .index (2)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#PS7] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#PS7] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#PS7] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[tester::#PS7] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#PS7] [0m[92m  ✓ TopicResponse[0] Name: quz[0m
+[33m[tester::#PS7] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#PS7] [0m[92m    ✓ PartitionResponse[0] Index: 2[0m
+[33m[tester::#PS7] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#PS7] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#PS7] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#PS7] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .batch_length (82)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .crc (-1167338148)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .base_timestamp (1753461416241)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .max_timestamp (1753461416241)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#PS7] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .length (32)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .value_length (26)[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .value ("Hello Reverse Engineering!")[0m
+[33m[tester::#PS7] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#PS7] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#PS7] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#PS7] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#PS7] [0m[92mTest passed.[0m
+[33m[tester::#PS7] [0m[36mTerminating program[0m
+[33m[tester::#PS7] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#SB8] [0m[94mRunning tests for Stage #SB8 (sb8)[0m
+[33m[tester::#SB8] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#SB8] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#SB8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#SB8] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#SB8] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#SB8] [0m[94mSending "Produce" (version: 11) request (Correlation id: 1713764019)[0m
+[33m[tester::#SB8] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#SB8] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#SB8] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#SB8] [0m[36m0000 | 00 00 00 bb 00 00 00 0b 66 25 f6 b3 00 0c 6b 61 | ........f%....ka[0m
+[33m[tester::#SB8] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#SB8] [0m[36m0020 | 00 00 02 04 71 75 7a 02 00 00 00 02 8f 01 00 00 | ....quz.........[0m
+[33m[tester::#SB8] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 82 00 00 00 00 02 e6 | ................[0m
+[33m[tester::#SB8] [0m[36m0040 | 89 97 52 00 00 00 00 00 02 00 00 01 98 42 71 eb | ..R..........Bq.[0m
+[33m[tester::#SB8] [0m[36m0050 | ba 00 00 01 98 42 71 eb ba 00 00 00 00 00 00 00 | .....Bq.........[0m
+[33m[tester::#SB8] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 03 40 00 00 00 01 | ...........@....[0m
+[33m[tester::#SB8] [0m[36m0070 | 34 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 | 4Hello Reverse E[0m
+[33m[tester::#SB8] [0m[36m0080 | 6e 67 69 6e 65 65 72 69 6e 67 21 00 2a 00 00 02 | ngineering!.*...[0m
+[33m[tester::#SB8] [0m[36m0090 | 01 1e 48 65 6c 6c 6f 20 55 6e 69 76 65 72 73 65 | ..Hello Universe[0m
+[33m[tester::#SB8] [0m[36m00a0 | 21 00 32 00 00 04 01 26 48 65 6c 6c 6f 20 43 6f | !.2....&Hello Co[0m
+[33m[tester::#SB8] [0m[36m00b0 | 64 65 43 72 61 66 74 65 72 73 21 00 00 00 00    | deCrafters!....[0m
+[33m[tester::#SB8] [0m[36m[0m
+[33m[tester::#SB8] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#SB8] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#SB8] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#SB8] [0m[36m0000 | 00 00 00 32 66 25 f6 b3 00 02 04 71 75 7a 02 00 | ...2f%.....quz..[0m
+[33m[tester::#SB8] [0m[36m0010 | 00 00 02 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#SB8] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#SB8] [0m[36m0030 | 00 00 00 00 00 00                               | ......[0m
+[33m[tester::#SB8] [0m[36m[0m
+[33m[tester::#SB8] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - .correlation_id (1713764019)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#SB8] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - .responses.length (1)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#SB8] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .index (2)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#SB8] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#SB8] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#SB8] [0m[92m✓ Correlation ID: 1713764019[0m
+[33m[tester::#SB8] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#SB8] [0m[92m  ✓ TopicResponse[0] Name: quz[0m
+[33m[tester::#SB8] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#SB8] [0m[92m    ✓ PartitionResponse[0] Index: 2[0m
+[33m[tester::#SB8] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#SB8] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#SB8] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#SB8] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .batch_length (130)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .crc (-427190446)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .last_offset_delta (2)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .base_timestamp (1753461418938)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .max_timestamp (1753461418938)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .num_records (3)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .length (32)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value_length (26)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value ("Hello Reverse Engineering!")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .Record[1][0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .length (21)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .offset_delta (1)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value_length (15)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value ("Hello Universe!")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m  - .Record[2][0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .length (25)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .offset_delta (2)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value_length (19)[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .value ("Hello CodeCrafters!")[0m
+[33m[tester::#SB8] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#SB8] [logparser] [0m[36mSuccessfully decoded 1 record batches with 3 total records[0m
+[33m[tester::#SB8] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#SB8] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#SB8] [0m[92mTest passed.[0m
+[33m[tester::#SB8] [0m[36mTerminating program[0m
+[33m[tester::#SB8] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#MF2] [0m[94mRunning tests for Stage #MF2 (mf2)[0m
+[33m[tester::#MF2] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#MF2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#MF2] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#MF2] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#MF2] [0m[94mSending "Produce" (version: 11) request (Correlation id: 152863943)[0m
+[33m[tester::#MF2] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#MF2] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#MF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#MF2] [0m[36m0000 | 00 00 00 fd 00 00 00 0b 09 1c 84 c7 00 0c 6b 61 | ..............ka[0m
+[33m[tester::#MF2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#MF2] [0m[36m0020 | 00 00 02 04 71 75 7a 03 00 00 00 00 75 00 00 00 | ....quz.....u...[0m
+[33m[tester::#MF2] [0m[36m0030 | 00 00 00 00 00 00 00 00 68 00 00 00 00 02 67 ec | ........h.....g.[0m
+[33m[tester::#MF2] [0m[36m0040 | 4c 6a 00 00 00 00 00 01 00 00 01 98 42 71 f7 1b | Lj..........Bq..[0m
+[33m[tester::#MF2] [0m[36m0050 | 00 00 01 98 42 71 f7 1b 00 00 00 00 00 00 00 00 | ....Bq..........[0m
+[33m[tester::#MF2] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 02 40 00 00 00 01 34 | ..........@....4[0m
+[33m[tester::#MF2] [0m[36m0070 | 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e | Hello Reverse En[0m
+[33m[tester::#MF2] [0m[36m0080 | 67 69 6e 65 65 72 69 6e 67 21 00 2a 00 00 02 01 | gineering!.*....[0m
+[33m[tester::#MF2] [0m[36m0090 | 1e 48 65 6c 6c 6f 20 55 6e 69 76 65 72 73 65 21 | .Hello Universe![0m
+[33m[tester::#MF2] [0m[36m00a0 | 00 00 00 00 00 01 58 00 00 00 00 00 00 00 00 00 | ......X.........[0m
+[33m[tester::#MF2] [0m[36m00b0 | 00 00 4b 00 00 00 00 02 34 8a 83 68 00 00 00 00 | ..K.....4..h....[0m
+[33m[tester::#MF2] [0m[36m00c0 | 00 00 00 00 01 98 42 71 f7 1b 00 00 01 98 42 71 | ......Bq......Bq[0m
+[33m[tester::#MF2] [0m[36m00d0 | f7 1b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
+[33m[tester::#MF2] [0m[36m00e0 | 00 00 00 01 32 00 00 00 01 26 48 65 6c 6c 6f 20 | ....2....&Hello [0m
+[33m[tester::#MF2] [0m[36m00f0 | 43 6f 64 65 43 72 61 66 74 65 72 73 21 00 00 00 | CodeCrafters!...[0m
+[33m[tester::#MF2] [0m[36m0100 | 00                                              | .[0m
+[33m[tester::#MF2] [0m[36m[0m
+[33m[tester::#MF2] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#MF2] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#MF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#MF2] [0m[36m0000 | 00 00 00 53 09 1c 84 c7 00 02 04 71 75 7a 03 00 | ...S.......quz..[0m
+[33m[tester::#MF2] [0m[36m0010 | 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#MF2] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#MF2] [0m[36m0030 | 00 00 00 01 00 00 00 00 00 00 00 00 00 00 ff ff | ................[0m
+[33m[tester::#MF2] [0m[36m0040 | ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 | ................[0m
+[33m[tester::#MF2] [0m[36m0050 | 00 00 00 00 00 00 00                            | .......[0m
+[33m[tester::#MF2] [0m[36m[0m
+[33m[tester::#MF2] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - .correlation_id (152863943)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#MF2] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - .responses.length (1)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#MF2] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m    - .partition_responses.length (2)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .index (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#MF2] [Decoder] [0m[36m    - .partition_responses[1][0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .index (1)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#MF2] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#MF2] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#MF2] [0m[92m✓ Correlation ID: 152863943[0m
+[33m[tester::#MF2] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#MF2] [0m[92m  ✓ TopicResponse[0] Name: quz[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[1] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[1] Index: 1[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[1] BaseOffset: 0[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[1] LogStartOffset: 0[0m
+[33m[tester::#MF2] [0m[92m    ✓ PartitionResponse[1] LogAppendTimeMs: -1[0m
+[33m[tester::#MF2] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .batch_length (104)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .crc (1743539306)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .last_offset_delta (1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_timestamp (1753461421851)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .max_timestamp (1753461421851)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .num_records (2)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .length (32)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value_length (26)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value ("Hello Reverse Engineering!")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .Record[1][0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .length (21)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .offset_delta (1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value_length (15)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value ("Hello Universe!")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36mSuccessfully decoded 1 record batches with 2 total records[0m
+[33m[tester::#MF2] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#MF2] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#MF2] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .batch_length (75)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .crc (881492840)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_timestamp (1753461421851)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .max_timestamp (1753461421851)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .length (25)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value_length (19)[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .value ("Hello CodeCrafters!")[0m
+[33m[tester::#MF2] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#MF2] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#MF2] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#MF2] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#MF2] [0m[92mTest passed.[0m
+[33m[tester::#MF2] [0m[36mTerminating program[0m
+[33m[tester::#MF2] [0m[36mProgram terminated successfully[0m
+
+[33m[tester::#AR4] [0m[94mRunning tests for Stage #AR4 (ar4)[0m
+[33m[tester::#AR4] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/quz-2/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
+[33m[tester::#AR4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#AR4] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#AR4] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#AR4] [0m[94mSending "Produce" (version: 11) request (Correlation id: 2131553114)[0m
+[33m[tester::#AR4] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#AR4] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#AR4] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#AR4] [0m[36m0000 | 00 00 01 46 00 00 00 0b 7f 0c eb 5a 00 0c 6b 61 | ...F.......Z..ka[0m
+[33m[tester::#AR4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 00 00 | fka-tester......[0m
+[33m[tester::#AR4] [0m[36m0020 | 00 00 03 04 66 6f 6f 02 00 00 00 00 5f 00 00 00 | ....foo....._...[0m
+[33m[tester::#AR4] [0m[36m0030 | 00 00 00 00 00 00 00 00 52 00 00 00 00 02 8f 99 | ........R.......[0m
+[33m[tester::#AR4] [0m[36m0040 | e1 bd 00 00 00 00 00 00 00 00 01 98 42 72 01 cf | ............Br..[0m
+[33m[tester::#AR4] [0m[36m0050 | 00 00 01 98 42 72 01 cf 00 00 00 00 00 00 00 00 | ....Br..........[0m
+[33m[tester::#AR4] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 01 40 00 00 00 01 34 | ..........@....4[0m
+[33m[tester::#AR4] [0m[36m0070 | 48 65 6c 6c 6f 20 52 65 76 65 72 73 65 20 45 6e | Hello Reverse En[0m
+[33m[tester::#AR4] [0m[36m0080 | 67 69 6e 65 65 72 69 6e 67 21 00 00 00 04 71 75 | gineering!....qu[0m
+[33m[tester::#AR4] [0m[36m0090 | 7a 03 00 00 00 00 54 00 00 00 00 00 00 00 00 00 | z.....T.........[0m
+[33m[tester::#AR4] [0m[36m00a0 | 00 00 47 00 00 00 00 02 58 15 01 9a 00 00 00 00 | ..G.....X.......[0m
+[33m[tester::#AR4] [0m[36m00b0 | 00 00 00 00 01 98 42 72 01 cf 00 00 01 98 42 72 | ......Br......Br[0m
+[33m[tester::#AR4] [0m[36m00c0 | 01 cf 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
+[33m[tester::#AR4] [0m[36m00d0 | 00 00 00 01 2a 00 00 00 01 1e 48 65 6c 6c 6f 20 | ....*.....Hello [0m
+[33m[tester::#AR4] [0m[36m00e0 | 55 6e 69 76 65 72 73 65 21 00 00 00 00 00 01 58 | Universe!......X[0m
+[33m[tester::#AR4] [0m[36m00f0 | 00 00 00 00 00 00 00 00 00 00 00 4b 00 00 00 00 | ...........K....[0m
+[33m[tester::#AR4] [0m[36m0100 | 02 9a d5 57 0f 00 00 00 00 00 00 00 00 01 98 42 | ...W...........B[0m
+[33m[tester::#AR4] [0m[36m0110 | 72 01 cf 00 00 01 98 42 72 01 cf 00 00 00 00 00 | r......Br.......[0m
+[33m[tester::#AR4] [0m[36m0120 | 00 00 00 00 00 00 00 00 00 00 00 00 01 32 00 00 | .............2..[0m
+[33m[tester::#AR4] [0m[36m0130 | 00 01 26 48 65 6c 6c 6f 20 43 6f 64 65 43 72 61 | ..&Hello CodeCra[0m
+[33m[tester::#AR4] [0m[36m0140 | 66 74 65 72 73 21 00 00 00 00                   | fters!....[0m
+[33m[tester::#AR4] [0m[36m[0m
+[33m[tester::#AR4] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#AR4] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#AR4] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#AR4] [0m[36m0000 | 00 00 00 7a 7f 0c eb 5a 00 03 04 66 6f 6f 02 00 | ...z...Z...foo..[0m
+[33m[tester::#AR4] [0m[36m0010 | 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#AR4] [0m[36m0020 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#AR4] [0m[36m0030 | 00 04 71 75 7a 03 00 00 00 00 00 00 00 00 00 00 | ..quz...........[0m
+[33m[tester::#AR4] [0m[36m0040 | 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 | ................[0m
+[33m[tester::#AR4] [0m[36m0050 | 00 00 00 00 01 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
+[33m[tester::#AR4] [0m[36m0060 | 00 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 | ................[0m
+[33m[tester::#AR4] [0m[36m0070 | 00 00 00 00 00 01 00 00 00 00 00 00 00 00       | ..............[0m
+[33m[tester::#AR4] [0m[36m[0m
+[33m[tester::#AR4] [Decoder] [0m[36m- .response_header[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .correlation_id (2131553114)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#AR4] [Decoder] [0m[36m- .response_body[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .responses.length (2)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .responses[0][0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .name (foo)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .partition_responses.length (1)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .index (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .responses[1][0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .name (quz)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .partition_responses.length (2)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .partition_responses[0][0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .index (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - .partition_responses[1][0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .index (1)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_code (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .base_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_append_time_ms (-1)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .log_start_offset (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .record_errors.length (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - .error_message (null)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m      - ._tagged_fields[0m
+[33m[tester::#AR4] [Decoder] [0m[36m    - ._tagged_fields[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
+[33m[tester::#AR4] [Decoder] [0m[36m  - ._tagged_fields[0m
+[33m[tester::#AR4] [0m[92m✓ Correlation ID: 2131553114[0m
+[33m[tester::#AR4] [0m[92m✓ ThrottleTimeMs: 0[0m
+[33m[tester::#AR4] [0m[92m  ✓ TopicResponse[0] Name: foo[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#AR4] [0m[92m  ✓ TopicResponse[1] Name: quz[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] Index: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] BaseOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] LogStartOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[0] LogAppendTimeMs: -1[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[1] ErrorCode: 0 (NO_ERROR)[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[1] Index: 1[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[1] BaseOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[1] LogStartOffset: 0[0m
+[33m[tester::#AR4] [0m[92m    ✓ PartitionResponse[1] LogAppendTimeMs: -1[0m
+[33m[tester::#AR4] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .batch_length (82)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .crc (-1885740611)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .max_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .length (32)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value_length (26)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value ("Hello Reverse Engineering!")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#AR4] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#AR4] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .batch_length (71)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .crc (1477771674)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .max_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .length (21)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value_length (15)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value ("Hello Universe!")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#AR4] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-0/00000000000000000000.log[0m
+[33m[tester::#AR4] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#AR4] [logparser] [0m[36mDecoding RecordBatch[0] at offset 0[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_offset (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .batch_length (75)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .partition_leader_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .magic_byte (2)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .crc (-1697294577)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .record_attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .last_offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .max_timestamp (1753461424591)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_id (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .producer_epoch (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .base_sequence (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .num_records (1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m  - .Record[0][0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .length (25)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .attributes (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .timestamp_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .offset_delta (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key_length (-1)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .key ("")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value_length (19)[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .value ("Hello CodeCrafters!")[0m
+[33m[tester::#AR4] [logparser] [0m[36m    - .num_headers (0)[0m
+[33m[tester::#AR4] [logparser] [0m[36mSuccessfully decoded 1 record batches with 1 total records[0m
+[33m[tester::#AR4] [logparser] [0m[94mFound 1 RecordBatches in /tmp/kraft-combined-logs/quz-1/00000000000000000000.log[0m
+[33m[tester::#AR4] [0m[92m✓ RecordBatches in log file match expected RecordBatches[0m
+[33m[tester::#AR4] [0m[92mTest passed.[0m
+[33m[tester::#AR4] [0m[36mTerminating program[0m
+[33m[tester::#AR4] [0m[36mProgram terminated successfully[0m

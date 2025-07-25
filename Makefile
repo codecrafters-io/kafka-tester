@@ -38,7 +38,7 @@ test_fetch_with_kafka: build
 
 test_produce_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"p01\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: Add Produce API to APIVersions\"}, {\"slug\":\"p02\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with unknown topic\"}, {\"slug\":\"p03\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce with known topic\"}, {\"slug\":\"p04\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce with know topics 2\"}, {\"slug\":\"p05\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce multiple messages\"}, {\"slug\":\"p06\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce with multiple partitions\"}, {\"slug\":\"p07\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce with multiple topics\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"um3\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: Add Produce API to APIVersions\"}, {\"slug\":\"ck2\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with unknown topic\"}, {\"slug\":\"dp1\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce with known topic\"}, {\"slug\":\"ps7\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce with know topics 2\"}, {\"slug\":\"sb8\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce multiple messages\"}, {\"slug\":\"mf2\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce with multiple partitions\"}, {\"slug\":\"ar4\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce with multiple topics\"}]" \
 	dist/main.out
 
 test:

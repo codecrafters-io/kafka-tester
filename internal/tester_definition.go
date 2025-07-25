@@ -85,31 +85,31 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testFetchMultipleMessages,
 		},
 		{
-			Slug:     "p01",
+			Slug:     "um3",
 			TestFunc: testProduce1,
 		},
 		{
-			Slug:     "p02",
+			Slug:     "ck2",
 			TestFunc: testProduce2,
 		},
 		{
-			Slug:     "p03",
+			Slug:     "dp1",
 			TestFunc: testProduce3,
 		},
 		{
-			Slug:     "p04",
+			Slug:     "ps7",
 			TestFunc: testProduce4,
 		},
 		{
-			Slug:     "p05",
+			Slug:     "sb8",
 			TestFunc: testProduce5,
 		},
 		{
-			Slug:     "p06",
+			Slug:     "mf2",
 			TestFunc: testProduce6,
 		},
 		{
-			Slug:     "p07",
+			Slug:     "ar4",
 			TestFunc: testProduce7,
 		},
 	},

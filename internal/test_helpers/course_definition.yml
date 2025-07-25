@@ -915,5 +915,10 @@ stages:
     marketing_md: |-
       In this stage, you'll implement the Fetch response for a topic with multiple messages, reading them from disk.
 
-  - slug: "p02"
-  - slug: "p07"
+  - slug: "um3"
+  - slug: "ck2"
+  - slug: "dp1"
+  - slug: "ps7"
+  - slug: "sb8"
+  - slug: "mf2"
+  - slug: "ar4"
