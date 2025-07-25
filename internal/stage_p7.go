@@ -78,15 +78,15 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	if err = assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, []kafkaapi.RecordBatch{recordBatch1}, stageLogger).Run(); err != nil {
+	if err = assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, kafkaapi.RecordBatches{recordBatch1}).Run(stageLogger); err != nil {
 		return err
 	}
 
-	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{recordBatch2}, stageLogger).Run(); err != nil {
+	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, kafkaapi.RecordBatches{recordBatch2}).Run(stageLogger); err != nil {
 		return err
 	}
 
-	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, []kafkaapi.RecordBatch{recordBatch3}, stageLogger).Run(); err != nil {
+	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, kafkaapi.RecordBatches{recordBatch3}).Run(stageLogger); err != nil {
 		return err
 	}
 
