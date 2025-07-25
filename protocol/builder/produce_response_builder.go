@@ -6,16 +6,14 @@ import (
 )
 
 type ProduceResponseBuilder struct {
-	correlationId  int32
-	topicData      []kafkaapi.ProduceTopicResponse
-	throttleTimeMs int32
+	correlationId int32
+	topicData     []kafkaapi.ProduceTopicResponse
 }
 
 func NewProduceResponseBuilder() *ProduceResponseBuilder {
 	return &ProduceResponseBuilder{
-		correlationId:  -1,
-		topicData:      make([]kafkaapi.ProduceTopicResponse, 0),
-		throttleTimeMs: 0,
+		correlationId: -1,
+		topicData:     make([]kafkaapi.ProduceTopicResponse, 0),
 	}
 }
 
@@ -76,7 +74,7 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 		},
 		Body: kafkaapi.ProduceResponseBody{
 			TopicResponses: b.topicData,
-			ThrottleTimeMs: b.throttleTimeMs,
+			ThrottleTimeMs: 0,
 		},
 	}
 }
