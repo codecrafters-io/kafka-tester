@@ -10,78 +10,51 @@ import (
 )
 
 type LogFileParser struct {
-	logger *logger.Logger
-}
-
-// LogFileResult contains the parsed data from a log file
-type LogFileResult struct {
-	FilePath      string
+	filePath      string
+	RawBytes      []byte
 	RecordBatches []kafkaapi.RecordBatch
-	Messages      []string
-	TotalRecords  int
 }
 
-func NewLogFileParser(logger *logger.Logger) *LogFileParser {
+func NewLogFileParser(filePath string) *LogFileParser {
 	return &LogFileParser{
-		logger: logger,
+		filePath: filePath,
 	}
 }
 
-func (p *LogFileParser) ParseLogFile(filePath string) (*LogFileResult, error) {
-	data, err := os.ReadFile(filePath)
+func (p *LogFileParser) ReadLogFile(logger *logger.Logger) error {
+	data, err := os.ReadFile(p.filePath)
 	if err != nil {
-		return nil, fmt.Errorf("error reading file %s: %w", filePath, err)
+		return fmt.Errorf("error reading file %s: %w", p.filePath, err)
 	}
 
 	if len(data) == 0 {
-		p.logger.Debugf("File %s is empty", filePath)
-		return &LogFileResult{
-			FilePath:      filePath,
-			RecordBatches: []kafkaapi.RecordBatch{},
-			Messages:      []string{},
-			TotalRecords:  0,
-		}, nil
+		logger.Errorf("File %s is empty", p.filePath)
 	}
+	p.RawBytes = data
 
-	return p.parseLogData(filePath, data)
+	return nil
 }
 
-func (p *LogFileParser) parseLogData(filePath string, data []byte) (*LogFileResult, error) {
+func (p *LogFileParser) ParseLogFile(logger *logger.Logger) error {
 	realDecoder := &decoder.Decoder{}
-	realDecoder.Init(data)
-
-	result := &LogFileResult{
-		FilePath:      filePath,
-		RecordBatches: []kafkaapi.RecordBatch{},
-		Messages:      []string{},
-		TotalRecords:  0,
-	}
+	realDecoder.Init(p.RawBytes)
 
 	batchIndex := 0
 	for realDecoder.Remaining() > 0 {
 		recordBatch := kafkaapi.RecordBatch{}
 
-		p.logger.Debugf("Decoding RecordBatch[%d] at offset %d", batchIndex, realDecoder.Offset())
+		logger.Debugf("Decoding RecordBatch[%d] at offset %d", batchIndex, realDecoder.Offset())
 
-		err := recordBatch.Decode(realDecoder, p.logger, 1)
+		err := recordBatch.Decode(realDecoder, logger, 1)
 		if err != nil {
-			return nil, fmt.Errorf("error decoding record batch %d: %w", batchIndex, err)
+			return fmt.Errorf("Error decoding record batch %d: %w", batchIndex, err)
 		}
 
-		result.RecordBatches = append(result.RecordBatches, recordBatch)
-
-		for _, record := range recordBatch.Records {
-			if record.Value != nil {
-				result.Messages = append(result.Messages, string(record.Value))
-			}
-			result.TotalRecords++
-		}
-
+		p.RecordBatches = append(p.RecordBatches, recordBatch)
 		batchIndex++
 	}
 
-	p.logger.Debugf("Successfully decoded %d record batches with %d total records",
-		len(result.RecordBatches), result.TotalRecords)
+	logger.Debugf("Successfully decoded %d record batches", len(p.RecordBatches))
 
-	return result, nil
+	return nil
 }
