@@ -49,11 +49,11 @@ func (h *ResponseHeader) decodeV1(decoder *decoder.Decoder, logger *logger.Logge
 	_, err = decoder.GetEmptyTaggedFieldArray()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.WithAddedContext("TAG_BUFFER")
+			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
 	}
-	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
+	protocol.LogWithIndentation(logger, indentation, "- ._tagged_fields")
 
 	return nil
 }
