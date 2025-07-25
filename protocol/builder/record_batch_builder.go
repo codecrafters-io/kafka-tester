@@ -7,39 +7,19 @@ import (
 )
 
 type RecordBatchBuilder struct {
-	baseOffset           int64
-	partitionLeaderEpoch int32
-	attributes           int16
-	baseTimestamp        int64
-	maxTimestamp         int64
-	producerId           int64
-	producerEpoch        int16
-	baseSequence         int32
-	records              []kafkaapi.Record
+	baseOffset int64
+	records    []kafkaapi.Record
 }
 
 func NewRecordBatchBuilder() *RecordBatchBuilder {
-	now := time.Now().UnixMilli()
 	return &RecordBatchBuilder{
-		baseOffset:           0,
-		partitionLeaderEpoch: -1,
-		attributes:           0,
-		baseTimestamp:        now,
-		maxTimestamp:         -1,
-		producerId:           0,
-		producerEpoch:        0,
-		baseSequence:         0,
-		records:              []kafkaapi.Record{},
+		baseOffset: 0,
+		records:    []kafkaapi.Record{},
 	}
 }
 
 func (b *RecordBatchBuilder) WithBaseOffset(baseOffset int64) *RecordBatchBuilder {
 	b.baseOffset = baseOffset
-	return b
-}
-
-func (b *RecordBatchBuilder) WithPartitionLeaderEpoch(epoch int32) *RecordBatchBuilder {
-	b.partitionLeaderEpoch = epoch
 	return b
 }
 
@@ -64,16 +44,17 @@ func (b *RecordBatchBuilder) Build() kafkaapi.RecordBatch {
 		panic("CodeCrafters Internal Error: At least one record is required in RecordBatch")
 	}
 
+	now := time.Now().UnixMilli()
 	return kafkaapi.RecordBatch{
 		BaseOffset:           b.baseOffset,
-		PartitionLeaderEpoch: b.partitionLeaderEpoch,
-		Attributes:           b.attributes,
+		PartitionLeaderEpoch: 0,
+		Attributes:           0,
 		LastOffsetDelta:      int32(len(b.records) - 1),
-		FirstTimestamp:       b.baseTimestamp,
-		MaxTimestamp:         b.baseTimestamp,
-		ProducerId:           b.producerId,
-		ProducerEpoch:        b.producerEpoch,
-		BaseSequence:         b.baseSequence,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records:              b.records,
 	}
 }

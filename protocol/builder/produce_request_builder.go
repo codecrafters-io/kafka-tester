@@ -5,20 +5,14 @@ import (
 )
 
 type ProduceRequestBuilder struct {
-	correlationId   int32
-	topicData       []kafkaapi.ProduceTopicData
-	transactionalID *string
-	acks            int16
-	timeoutMs       int32
+	correlationId int32
+	topicData     []kafkaapi.ProduceTopicData
 }
 
 func NewProduceRequestBuilder() *ProduceRequestBuilder {
 	return &ProduceRequestBuilder{
-		correlationId:   -1,
-		topicData:       make([]kafkaapi.ProduceTopicData, 0),
-		transactionalID: nil,
-		acks:            1,
-		timeoutMs:       0,
+		correlationId: -1,
+		topicData:     make([]kafkaapi.ProduceTopicData, 0),
 	}
 }
 
@@ -48,9 +42,9 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
 	}
 
 	requestBody := kafkaapi.ProduceRequestBody{
-		TransactionalID: b.transactionalID,
-		Acks:            b.acks,
-		TimeoutMs:       b.timeoutMs,
+		TransactionalID: nil,
+		Acks:            1,
+		TimeoutMs:       0,
 		Topics:          b.topicData,
 	}
 
