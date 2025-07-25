@@ -36,16 +36,16 @@ func (p *LogFileParser) ReadLogFile(logger *logger.Logger) error {
 }
 
 func (p *LogFileParser) ParseLogFile(logger *logger.Logger) error {
-	realDecoder := &decoder.Decoder{}
-	realDecoder.Init(p.RawBytes)
+	decoder := &decoder.Decoder{}
+	decoder.Init(p.RawBytes)
 
 	batchIndex := 0
-	for realDecoder.Remaining() > 0 {
+	for decoder.Remaining() > 0 {
 		recordBatch := kafkaapi.RecordBatch{}
 
-		logger.Debugf("Decoding RecordBatch[%d] at offset %d", batchIndex, realDecoder.Offset())
+		logger.Infof("Decoding RecordBatch[%d] at offset %d", batchIndex, decoder.Offset())
 
-		err := recordBatch.Decode(realDecoder, logger, 1)
+		err := recordBatch.Decode(decoder, logger, 1)
 		if err != nil {
 			return fmt.Errorf("Error decoding record batch %d: %w", batchIndex, err)
 		}
@@ -54,7 +54,7 @@ func (p *LogFileParser) ParseLogFile(logger *logger.Logger) error {
 		batchIndex++
 	}
 
-	logger.Debugf("Successfully decoded %d record batches", len(p.RecordBatches))
+	logger.Infof("Successfully decoded %d record batches", len(p.RecordBatches))
 
 	return nil
 }
