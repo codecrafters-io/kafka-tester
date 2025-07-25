@@ -22,13 +22,21 @@ func (b *ProduceRequestBuilder) WithCorrelationId(correlationId int32) *ProduceR
 }
 
 func (b *ProduceRequestBuilder) AddRecordBatch(topicName string, partitionIndex int32, recordBatch kafkaapi.RecordBatch) *ProduceRequestBuilder {
+	partitionData := kafkaapi.ProducePartitionData{
+		Index:         partitionIndex,
+		RecordBatches: []kafkaapi.RecordBatch{recordBatch},
+	}
+
+	for _, topicData := range b.topicData {
+		if topicData.Name == topicName {
+			topicData.Partitions = append(topicData.Partitions, partitionData)
+			return b
+		}
+	}
 	topicData := kafkaapi.ProduceTopicData{
 		Name: topicName,
 		Partitions: []kafkaapi.ProducePartitionData{
-			{
-				Index:         partitionIndex,
-				RecordBatches: []kafkaapi.RecordBatch{recordBatch},
-			},
+			partitionData,
 		},
 	}
 

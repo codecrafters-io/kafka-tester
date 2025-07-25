@@ -24,13 +24,20 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 	return b
 }
 
-func (b *ProduceResponseBuilder) addPartitionResponses(topicName string, partitionResponses ...kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
-	topicResponse := kafkaapi.ProduceTopicResponse{
-		Name:               topicName,
-		PartitionResponses: partitionResponses,
+func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
+	for _, topicResponse := range b.topicData {
+		if topicResponse.Name == topicName {
+			topicResponse.PartitionResponses = append(topicResponse.PartitionResponses, partitionResponse)
+			return b
+		}
 	}
 
+	topicResponse := kafkaapi.ProduceTopicResponse{
+		Name:               topicName,
+		PartitionResponses: []kafkaapi.ProducePartitionResponse{partitionResponse},
+	}
 	b.topicData = append(b.topicData, topicResponse)
+
 	return b
 }
 
@@ -43,19 +50,15 @@ func (b *ProduceResponseBuilder) AddErrorPartitionResponse(topicName string, par
 		WithError(errorCode).
 		WithIndex(partitionIndex).
 		Build()
-	return b.addPartitionResponses(topicName, partitionResponse)
+	return b.addPartitionResponse(topicName, partitionResponse)
 }
 
-func (b *ProduceResponseBuilder) AddSuccessPartitionResponses(topicName string, partitionIndexes ...int32) *ProduceResponseBuilder {
-	partitionResponses := make([]kafkaapi.ProducePartitionResponse, 0, len(partitionIndexes))
-	for _, partitionIndex := range partitionIndexes {
-		partitionResponse := NewProducePartitionResponseBuilder().
-			WithError(0).
-			WithIndex(partitionIndex).
-			Build()
-		partitionResponses = append(partitionResponses, partitionResponse)
-	}
-	return b.addPartitionResponses(topicName, partitionResponses...)
+func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, partitionIndex int32) *ProduceResponseBuilder {
+	partitionResponse := NewProducePartitionResponseBuilder().
+		WithError(0).
+		WithIndex(partitionIndex).
+		Build()
+	return b.addPartitionResponse(topicName, partitionResponse)
 }
 
 func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
