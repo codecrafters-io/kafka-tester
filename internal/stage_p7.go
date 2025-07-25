@@ -67,8 +67,9 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		AddSuccessPartitionResponses(topic1, topic1Partition1).
-		AddSuccessPartitionResponses(topic2, topic2Partition1, topic2Partition2).
+		AddSuccessPartitionResponse(topic1, topic1Partition1).
+		AddSuccessPartitionResponse(topic2, topic2Partition1).
+		AddSuccessPartitionResponse(topic2, topic2Partition2).
 		WithCorrelationId(correlationId).
 		Build()
 
