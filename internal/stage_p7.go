@@ -3,6 +3,7 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -77,23 +78,17 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	// topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, []kafkaapi.RecordBatch{request.Body.Topics[0].Partitions[0].RecordBatches[0]}, stageLogger)
-	// err = topicPartitionLogAssertion.Run()
-	// if err != nil {
-	// 	return err
-	// }
+	if err = assertions.NewTopicPartitionLogAssertion(topic1, topic1Partition1, []kafkaapi.RecordBatch{recordBatch1}, stageLogger).Run(); err != nil {
+		return err
+	}
 
-	// topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[0].RecordBatches[0]}, stageLogger)
-	// err = topicPartitionLogAssertion.Run()
-	// if err != nil {
-	// 	return err
-	// }
+	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition1, []kafkaapi.RecordBatch{recordBatch2}, stageLogger).Run(); err != nil {
+		return err
+	}
 
-	// topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, []kafkaapi.RecordBatch{request.Body.Topics[1].Partitions[1].RecordBatches[0]}, stageLogger)
-	// err = topicPartitionLogAssertion.Run()
-	// if err != nil {
-	// 	return err
-	// }
+	if err = assertions.NewTopicPartitionLogAssertion(topic2, topic2Partition2, []kafkaapi.RecordBatch{recordBatch3}, stageLogger).Run(); err != nil {
+		return err
+	}
 
 	return nil
 }
