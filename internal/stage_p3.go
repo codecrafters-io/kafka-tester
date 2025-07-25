@@ -7,7 +7,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -15,7 +14,7 @@ import (
 func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), false)
+	err := serializer.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
@@ -32,15 +31,15 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	defer client.Close()
 
-	existingTopic := common.TOPIC4_NAME
-	unknownPartition := int32(random.RandomInt(4, 10))
+	topic := common.TOPIC4_NAME
+	partition := int32(random.RandomInt(0, 3))
 
 	recordBatch := builder.NewRecordBatchBuilder().
 		AddStringRecord(common.MESSAGE1).
 		Build()
 
 	request := builder.NewProduceRequestBuilder().
-		AddRecordBatch(existingTopic, unknownPartition, recordBatch).
+		AddRecordBatch(topic, partition, recordBatch).
 		WithCorrelationId(correlationId).
 		Build()
 
@@ -55,7 +54,7 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		AddErrorPartitionResponse(existingTopic, unknownPartition, 3).
+		AddSuccessPartitionResponse(topic, partition).
 		WithCorrelationId(correlationId).
 		Build()
 
