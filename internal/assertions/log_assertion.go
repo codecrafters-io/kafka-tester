@@ -17,23 +17,21 @@ type TopicPartitionLogAssertion struct {
 	topic         string
 	partition     int32
 	RecordBatches []kafkaapi.RecordBatch
-	logger        *logger.Logger
 }
 
-func NewTopicPartitionLogAssertion(topic string, partition int32, recordBatches []kafkaapi.RecordBatch, logger *logger.Logger) TopicPartitionLogAssertion {
+func NewTopicPartitionLogAssertion(topic string, partition int32, recordBatches []kafkaapi.RecordBatch) TopicPartitionLogAssertion {
 	return TopicPartitionLogAssertion{
 		topic:         topic,
 		partition:     partition,
 		RecordBatches: recordBatches,
-		logger:        logger,
 	}
 }
 
-func (a TopicPartitionLogAssertion) Run() error {
+func (a TopicPartitionLogAssertion) Run(logger *logger.Logger) error {
 	logFilePath := getLogFilePathForTopic(a.topic, a.partition)
 	logParser := logparser.NewLogFileParser(logFilePath)
 
-	err := logParser.ReadLogFile(a.logger)
+	err := logParser.ReadLogFile(logger)
 	if err != nil {
 		return fmt.Errorf("Failed to read log file %s: %w", logFilePath, err)
 	}
@@ -44,18 +42,18 @@ func (a TopicPartitionLogAssertion) Run() error {
 	}
 
 	if bytes.Equal(expectedEncodedRecordBatches, logParser.RawBytes) {
-		a.logger.Successf("✓ RecordBatches in log file (%s) match expected RecordBatches", logFilePath)
+		logger.Successf("✓ RecordBatches in log file (%s) match expected RecordBatches", logFilePath)
 		return nil
 	}
 
 	mismatchOffset := findMisMatchOffset(expectedEncodedRecordBatches, logParser.RawBytes)
 	finalErr := fmt.Errorf("RecordBatches in log file (%s) do not match expected RecordBatches", logFilePath)
 
-	a.logger.UpdateLastSecondaryPrefix("logparser")
-	defer a.logger.ResetSecondaryPrefixes()
+	logger.UpdateLastSecondaryPrefix("logparser")
+	defer logger.ResetSecondaryPrefixes()
 
-	a.logger.Infof("Parsing log file (%s) belonging to topic (%s) and partition (%d)", logFilePath, a.topic, a.partition)
-	err = logParser.ParseLogFile(a.logger)
+	logger.Infof("Parsing log file (%s) belonging to topic (%s) and partition (%d)", logFilePath, a.topic, a.partition)
+	err = logParser.ParseLogFile(logger)
 	if err != nil {
 		return fmt.Errorf("Failed to parse log file (%s): %w", logFilePath, err)
 	}
@@ -100,5 +98,5 @@ func findMisMatchOffset(expectedBytes []byte, actualBytes []byte) int {
 			return i
 		}
 	}
-	return -1
+	panic("Codecrafters Internal Error: No mismatch found")
 }
