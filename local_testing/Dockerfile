@@ -28,6 +28,12 @@ RUN sudo mv kafka_2.13-4.0.0-SNAPSHOT/ /usr/local/kafka-latest
 ENV PATH=$PATH:/usr/local/kafka-latest/bin
 RUN rm kafka_2.13-4.0.0-SNAPSHOT.tgz
 
+# RUN wget --progress=dot:giga https://media.githubusercontent.com/media/codecrafters-io/build-your-own-kafka/add-latest-kafka-release/kafka_2.13-4.0.0.tgz
+# RUN tar -xzf kafka_2.13-4.0.0.tgz
+# RUN sudo mv kafka_2.13-4.0.0/ /usr/local/kafka-latest
+# ENV PATH=$PATH:/usr/local/kafka-latest/bin
+# RUN rm kafka_2.13-4.0.0.tgz
+
 # Starting from Go 1.20, the go standard library is no longer compiled.
 # Setting GODEBUG to "installgoroot=all" restores the old behavior
 RUN GODEBUG="installgoroot=all" go install std

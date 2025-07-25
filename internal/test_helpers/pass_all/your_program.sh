@@ -7,3 +7,4 @@
 # rm -rf /tmp/kafka-logs /tmp/zookeeper /tmp/kraft-combined-logs
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 /usr/local/kafka-latest/bin/kafka-server-start.sh $@ > /dev/null
+# /Users/ryang/Developer/tmp/kafka/kafka_2.13-4.0.0/bin/kafka-server-start.sh $@ > /dev/null
