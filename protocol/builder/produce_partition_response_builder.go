@@ -5,24 +5,18 @@ import (
 )
 
 type producePartitionResponseBuilder struct {
-	index           int32
-	errorCode       int16
-	baseOffset      int64
-	logAppendTimeMs int64
-	logStartOffset  int64
-	recordErrors    []kafkaapi.ProduceRecordError
-	errorMessage    *string
+	index          int32
+	errorCode      int16
+	baseOffset     int64
+	logStartOffset int64
 }
 
 func NewProducePartitionResponseBuilder() *producePartitionResponseBuilder {
 	return &producePartitionResponseBuilder{
-		index:           -1,
-		errorCode:       0,
-		baseOffset:      0,
-		logAppendTimeMs: -1,
-		logStartOffset:  0,
-		recordErrors:    []kafkaapi.ProduceRecordError{},
-		errorMessage:    nil,
+		index:          -1,
+		errorCode:      0,
+		baseOffset:     0,
+		logStartOffset: 0,
 	}
 }
 
@@ -52,9 +46,9 @@ func (b *producePartitionResponseBuilder) Build() kafkaapi.ProducePartitionRespo
 		Index:           b.index,
 		ErrorCode:       b.errorCode,
 		BaseOffset:      b.baseOffset,
-		LogAppendTimeMs: b.logAppendTimeMs,
+		LogAppendTimeMs: -1,
 		LogStartOffset:  b.logStartOffset,
-		RecordErrors:    b.recordErrors,
-		ErrorMessage:    b.errorMessage,
+		RecordErrors:    []kafkaapi.ProduceRecordError{},
+		ErrorMessage:    nil,
 	}
 }
