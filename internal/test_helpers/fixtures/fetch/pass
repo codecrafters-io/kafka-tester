@@ -362,7 +362,7 @@ Debug = true
 [33m[tester::#GS0] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#GS0] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#GS0] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#GS0] [0m[92m✓ Correlation ID: 177586623[0m
+[33m[tester::#GS0] [0m[92m✓ correlation_id: 177586623[0m
 [33m[tester::#GS0] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#GS0] [0m[92m✓ API keys array length: 61[0m
 [33m[tester::#GS0] [0m[92m✓ MinVersion for FETCH is <= 16 & >= 0[0m
@@ -378,21 +378,21 @@ Debug = true
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/partition.metadata[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/00000000000000000000.log[0m
 [33m[tester::#DH6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[tester::#DH6] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#DH6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
@@ -415,14 +415,14 @@ Debug = true
 [33m[tester::#DH6] [0m[36m[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
-[33m[tester::#DH6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#DH6] [Decoder] [0m[36m  - ._tagged_fields[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .error_code (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .session_id (38711242)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .num_responses (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#DH6] [0m[92m✓ Correlation ID: 1616512461[0m
+[33m[tester::#DH6] [0m[92m✓ correlation_id: 1616512461[0m
 [33m[tester::#DH6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#DH6] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
 [33m[tester::#DH6] [0m[92m  ✓ TopicResponses: [][0m
@@ -435,21 +435,21 @@ Debug = true
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/partition.metadata[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/00000000000000000000.log[0m
 [33m[tester::#HN6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[tester::#HN6] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#HN6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
@@ -478,7 +478,7 @@ Debug = true
 [33m[tester::#HN6] [0m[36m[0m
 [33m[tester::#HN6] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#HN6] [Decoder] [0m[36m  - .correlation_id (96710698)[0m
-[33m[tester::#HN6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#HN6] [Decoder] [0m[36m  - ._tagged_fields[0m
 [33m[tester::#HN6] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#HN6] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m  - .error_code (0)[0m
@@ -499,7 +499,7 @@ Debug = true
 [33m[tester::#HN6] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#HN6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#HN6] [0m[92m✓ Correlation ID: 96710698[0m
+[33m[tester::#HN6] [0m[92m✓ correlation_id: 96710698[0m
 [33m[tester::#HN6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#HN6] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
 [33m[tester::#HN6] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-0000-0000-000000006065[0m
@@ -515,21 +515,21 @@ Debug = true
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/partition.metadata[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/00000000000000000000.log[0m
 [33m[tester::#CM4] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[tester::#CM4] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#CM4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
@@ -558,7 +558,7 @@ Debug = true
 [33m[tester::#CM4] [0m[36m[0m
 [33m[tester::#CM4] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#CM4] [Decoder] [0m[36m  - .correlation_id (254678266)[0m
-[33m[tester::#CM4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#CM4] [Decoder] [0m[36m  - ._tagged_fields[0m
 [33m[tester::#CM4] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#CM4] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m  - .error_code (0)[0m
@@ -579,7 +579,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#CM4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#CM4] [0m[92m✓ Correlation ID: 254678266[0m
+[33m[tester::#CM4] [0m[92m✓ correlation_id: 254678266[0m
 [33m[tester::#CM4] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#CM4] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
 [33m[tester::#CM4] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000097[0m
@@ -595,21 +595,21 @@ Debug = true
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/partition.metadata[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/00000000000000000000.log[0m
 [33m[tester::#EG2] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[tester::#EG2] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#EG2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
@@ -644,7 +644,7 @@ Debug = true
 [33m[tester::#EG2] [0m[36m[0m
 [33m[tester::#EG2] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#EG2] [Decoder] [0m[36m  - .correlation_id (1893237013)[0m
-[33m[tester::#EG2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#EG2] [Decoder] [0m[36m  - ._tagged_fields[0m
 [33m[tester::#EG2] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#EG2] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m  - .error_code (0)[0m
@@ -689,7 +689,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#EG2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#EG2] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[tester::#EG2] [0m[92m✓ correlation_id: 1893237013[0m
 [33m[tester::#EG2] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#EG2] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
 [33m[tester::#EG2] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000086[0m
@@ -707,21 +707,21 @@ Debug = true
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/partition.metadata[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/partition.metadata[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/partition.metadata[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/partition.metadata[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/partition.metadata[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/partition.metadata[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/partition.metadata[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/partition.metadata[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/partition.metadata[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/partition.metadata[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/partition.metadata[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/baz-0/00000000000000000000.log[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/bar-0/00000000000000000000.log[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/foo-0/00000000000000000000.log[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-0/00000000000000000000.log[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/pax-1/00000000000000000000.log[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-0/00000000000000000000.log[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-1/00000000000000000000.log[0m
-[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/saz-2/00000000000000000000.log[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-0/00000000000000000000.log[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-1/00000000000000000000.log[0m
+[33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/paz-2/00000000000000000000.log[0m
 [33m[tester::#FD8] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
 [33m[tester::#FD8] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#FD8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
@@ -760,11 +760,11 @@ Debug = true
 [33m[tester::#FD8] [0m[36m[0m
 [33m[tester::#FD8] [Decoder] [0m[36m- .ResponseHeader[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .correlation_id (1698452642)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m  - .TAG_BUFFER[0m
+[33m[tester::#FD8] [Decoder] [0m[36m  - ._tagged_fields[0m
 [33m[tester::#FD8] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .error_code (0)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m  - .session_id (181348630)[0m
+[33m[tester::#FD8] [Decoder] [0m[36m  - .session_id (9033705)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .num_responses (1)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .TopicResponse[0][0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - .topic_id (00000000-0000-4000-8000-000000000014)[0m
@@ -829,7 +829,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m      - .TAG_BUFFER[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#FD8] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#FD8] [0m[92m✓ Correlation ID: 1698452642[0m
+[33m[tester::#FD8] [0m[92m✓ correlation_id: 1698452642[0m
 [33m[tester::#FD8] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#FD8] [0m[92m✓ Error Code: 0 (NO_ERROR)[0m
 [33m[tester::#FD8] [0m[92m  ✓ TopicResponse[0] Topic UUID: 00000000-0000-4000-8000-000000000014[0m
