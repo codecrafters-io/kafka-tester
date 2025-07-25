@@ -105,6 +105,10 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testProduce5,
 		},
 		{
+			Slug:     "p06",
+			TestFunc: testProduce6,
+		},
+		{
 			Slug:     "p07",
 			TestFunc: testProduce7,
 		},
