@@ -39,17 +39,14 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 	topic2Partition2 := int32(1)
 
 	recordBatch1 := builder.NewRecordBatchBuilder().
-		WithPartitionLeaderEpoch(0).
 		AddStringRecord(common.MESSAGE1).
 		Build()
 
 	recordBatch2 := builder.NewRecordBatchBuilder().
-		WithPartitionLeaderEpoch(0).
 		AddStringRecord(common.MESSAGE2).
 		Build()
 
 	recordBatch3 := builder.NewRecordBatchBuilder().
-		WithPartitionLeaderEpoch(0).
 		AddStringRecord(common.MESSAGE3).
 		Build()
 
