@@ -49,7 +49,7 @@ func testProduce3(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewProduceResponseBuilder().BuildEmpty()
+	actualResponse := builder.NewEmptyProduceResponse()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
