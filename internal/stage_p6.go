@@ -33,16 +33,20 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 	defer client.Close()
 
 	topic := common.TOPIC4_NAME
-	partition := int32(random.RandomInt(0, 3))
+	partitions := random.RandomInts(0, 3, 2)
 
-	recordBatch := builder.NewRecordBatchBuilder().
+	recordBatch1 := builder.NewRecordBatchBuilder().
 		AddStringRecord(common.MESSAGE1).
 		AddStringRecord(common.MESSAGE2).
+		Build()
+
+	recordBatch2 := builder.NewRecordBatchBuilder().
 		AddStringRecord(common.MESSAGE3).
 		Build()
 
 	request := builder.NewProduceRequestBuilder().
-		AddRecordBatch(topic, partition, recordBatch).
+		AddRecordBatch(topic, int32(partitions[0]), recordBatch1).
+		AddRecordBatch(topic, int32(partitions[1]), recordBatch2).
 		WithCorrelationId(correlationId).
 		Build()
 
@@ -57,7 +61,8 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	expectedResponse := builder.NewProduceResponseBuilder().
-		AddSuccessPartitionResponse(topic, partition).
+		AddSuccessPartitionResponse(topic, int32(partitions[0])).
+		AddSuccessPartitionResponse(topic, int32(partitions[1])).
 		WithCorrelationId(correlationId).
 		Build()
 
@@ -65,7 +70,12 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, partition, []kafkaapi.RecordBatch{request.Body.Topics[0].Partitions[0].RecordBatches[0], request.Body.Topics[0].Partitions[0].RecordBatches[1], request.Body.Topics[0].Partitions[0].RecordBatches[2]}, stageLogger)
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[0]), []kafkaapi.RecordBatch{recordBatch1}, stageLogger)
+	if err = topicPartitionLogAssertion.Run(); err != nil {
+		return err
+	}
+
+	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[1]), []kafkaapi.RecordBatch{recordBatch2}, stageLogger)
 	if err = topicPartitionLogAssertion.Run(); err != nil {
 		return err
 	}
