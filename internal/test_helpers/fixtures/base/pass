@@ -363,7 +363,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
 [33m[tester::#PV1] [0m[92m✓ Correlation ID: 177586623[0m
-[33m[tester::#PV1] [0m[92m✓ Error code: 0 (NO_ERROR)[0m
+[33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#PV1] [0m[92m✓ API keys array length: 61[0m
 [33m[tester::#PV1] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
 [33m[tester::#PV1] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m

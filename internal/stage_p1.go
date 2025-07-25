@@ -10,14 +10,15 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.TestCaseHarness) error {
+//lint:ignore U1000, ignore for this PR
+func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	stageLogger := stageHarness.Logger
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), false)
 	if err != nil {
 		return err
 	}
 
-	stageLogger := stageHarness.Logger
 	if err := b.Run(); err != nil {
 		return err
 	}
@@ -45,8 +46,8 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 	}
 
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+		AddApiKeyEntry(0, 0, 11).
 		AddApiKeyEntry(18, 0, 4).
-		AddApiKeyEntry(75, 0, 0).
 		WithCorrelationId(correlationId).
 		Build()
 
