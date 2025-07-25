@@ -70,13 +70,13 @@ func testProduce6(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[0]), []kafkaapi.RecordBatch{recordBatch1}, stageLogger)
-	if err = topicPartitionLogAssertion.Run(); err != nil {
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[0]), kafkaapi.RecordBatches{recordBatch1})
+	if err = topicPartitionLogAssertion.Run(stageLogger); err != nil {
 		return err
 	}
 
-	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[1]), []kafkaapi.RecordBatch{recordBatch2}, stageLogger)
-	if err = topicPartitionLogAssertion.Run(); err != nil {
+	topicPartitionLogAssertion = assertions.NewTopicPartitionLogAssertion(topic, int32(partitions[1]), kafkaapi.RecordBatches{recordBatch2})
+	if err = topicPartitionLogAssertion.Run(stageLogger); err != nil {
 		return err
 	}
 

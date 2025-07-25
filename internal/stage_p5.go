@@ -65,8 +65,8 @@ func testProduce5(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, partition, []kafkaapi.RecordBatch{recordBatch}, stageLogger)
-	if err = topicPartitionLogAssertion.Run(); err != nil {
+	topicPartitionLogAssertion := assertions.NewTopicPartitionLogAssertion(topic, partition, kafkaapi.RecordBatches{recordBatch})
+	if err = topicPartitionLogAssertion.Run(stageLogger); err != nil {
 		return err
 	}
 
