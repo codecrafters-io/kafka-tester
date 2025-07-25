@@ -55,7 +55,6 @@ func (b *ProduceResponseBuilder) AddErrorPartitionResponse(topicName string, par
 
 func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, partitionIndex int32) *ProduceResponseBuilder {
 	partitionResponse := NewProducePartitionResponseBuilder().
-		WithError(0).
 		WithIndex(partitionIndex).
 		Build()
 	return b.addPartitionResponse(topicName, partitionResponse)

@@ -32,11 +32,14 @@ func (b *producePartitionResponseBuilder) WithIndex(index int32) *producePartiti
 }
 
 func (b *producePartitionResponseBuilder) WithError(errorCode int16) *producePartitionResponseBuilder {
-	b.errorCode = errorCode
-	if errorCode != 0 {
-		b.baseOffset = -1
-		b.logStartOffset = -1
+	if errorCode == 0 {
+		panic("CodeCrafters Internal Error: errorCode can't be set to 0 (NO_ERROR)")
 	}
+
+	b.errorCode = errorCode
+	b.baseOffset = -1
+	b.logStartOffset = -1
+
 	return b
 }
 
