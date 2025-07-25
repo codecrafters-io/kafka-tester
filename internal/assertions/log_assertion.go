@@ -90,5 +90,5 @@ func findMisMatchOffset(expectedBytes []byte, actualBytes []byte) int {
 			return i
 		}
 	}
-	panic("Codecrafters Internal Error: No mismatch found")
+	return len(expectedBytes)
 }
