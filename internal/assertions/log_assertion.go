@@ -9,7 +9,6 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -60,13 +59,6 @@ func (a TopicPartitionLogAssertion) Run(logger *logger.Logger) error {
 
 	if len(logParser.RecordBatches) != len(a.RecordBatches) {
 		return fmt.Errorf("Expected %d RecordBatches in log file (%s), got %d", len(a.RecordBatches), logFilePath, len(logParser.RecordBatches))
-	}
-
-	for i, actualRecordBatch := range logParser.RecordBatches {
-		expectedRecordBatch := a.RecordBatches[i]
-		if !bytes.Equal(serializer.GetEncodedBytes(actualRecordBatch), serializer.GetEncodedBytes(expectedRecordBatch)) {
-			return fmt.Errorf("RecordBatches in log file (%s) do not match expected RecordBatches", logFilePath)
-		}
 	}
 
 	return formattedError("mismatch here\n"+finalErr.Error(), mismatchOffset, logParser.RawBytes)
