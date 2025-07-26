@@ -45,8 +45,16 @@ func BuildResponseHeader(correlationId int32) headers.ResponseHeader {
 	return NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
 }
 
-func BuildEmptyResponseHeader(version int) headers.ResponseHeader {
+func buildEmptyResponseHeader(version int) headers.ResponseHeader {
 	return headers.ResponseHeader{
 		Version: version,
 	}
+}
+
+func BuildEmptyResponseHeaderv0() headers.ResponseHeader {
+	return buildEmptyResponseHeader(0)
+}
+
+func BuildEmptyResponseHeaderv1() headers.ResponseHeader {
+	return buildEmptyResponseHeader(1)
 }

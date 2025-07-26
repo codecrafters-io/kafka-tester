@@ -23,7 +23,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeader(1)
+	header := builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -67,7 +67,7 @@ func TestFetchv16With1Message(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeader(1)
+	header := builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -120,7 +120,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeader(1)
+	header := builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -170,7 +170,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeader(1)
+	header := builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -219,7 +219,7 @@ func TestAPIVersionv3(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	responseHeader := builder.BuildEmptyResponseHeader(0)
+	responseHeader := builder.BuildEmptyResponseHeaderv0()
 
 	if err := responseHeader.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
