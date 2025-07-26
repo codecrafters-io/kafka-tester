@@ -61,7 +61,7 @@ func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 
 func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
-		Header: NewResponseHeaderBuilder().WithVersion(0).Build(),
+		Header: BuildEmptyResponseHeaderv0(),
 		Body:   kafkaapi.ApiVersionsResponseBody{Version: 4},
 	}
 }
