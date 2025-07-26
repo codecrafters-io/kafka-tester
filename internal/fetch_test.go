@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	headers "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
@@ -23,7 +23,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := headers.ResponseHeader{Version: 1}
+	header := builder.BuildEmptyResponseHeader(1)
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -67,7 +67,7 @@ func TestFetchv16With1Message(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := headers.ResponseHeader{Version: 1}
+	header := builder.BuildEmptyResponseHeader(1)
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -120,7 +120,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := headers.ResponseHeader{Version: 1}
+	header := builder.BuildEmptyResponseHeader(1)
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -170,7 +170,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	header := headers.ResponseHeader{Version: 1}
+	header := builder.BuildEmptyResponseHeader(1)
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -219,7 +219,8 @@ func TestAPIVersionv3(t *testing.T) {
 	decoder := decoder.Decoder{}
 	decoder.Init(b)
 
-	responseHeader := headers.ResponseHeader{Version: 0}
+	responseHeader := builder.BuildEmptyResponseHeader(0)
+
 	if err := responseHeader.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
