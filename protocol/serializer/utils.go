@@ -6,19 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 	"github.com/google/uuid"
 )
-
-func GetEncodedBytes(encodableObject kafka_interface.Encodable) []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 1024))
-	encodableObject.Encode(&encoder)
-	encodedBytes := encoder.Bytes()[:encoder.Offset()]
-
-	return encodedBytes
-}
 
 func generateDirectories(paths []string) error {
 	for _, path := range paths {

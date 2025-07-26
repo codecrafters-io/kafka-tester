@@ -8,18 +8,11 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type RecordBatches []RecordBatch
-
-func (rbs RecordBatches) getEncodedLength() int {
-	encodedLength := 0
-	for _, rb := range rbs {
-		encodedLength += rb.getEncodedLength()
-	}
-	return encodedLength
-}
 
 func (rbs RecordBatches) Encode(pe *encoder.Encoder) {
 	for _, rb := range rbs {
@@ -74,13 +67,6 @@ func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 	crcData := pe.Bytes()[crcEndOffset:pe.Offset()]
 	computedChecksum := crc32.Checksum(crcData, crc32.MakeTable(crc32.Castagnoli))
 	pe.PutInt32At(int32(computedChecksum), crcStartOffset, 4)
-}
-
-func (rb RecordBatch) getEncodedLength() int {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 1024))
-	rb.Encode(&encoder)
-	return encoder.Offset()
 }
 
 func (rb *RecordBatch) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
@@ -234,7 +220,7 @@ type Record struct {
 }
 
 func (r Record) Encode(pe *encoder.Encoder) {
-	pe.PutVarint(int64(r.getEncodedLength())) // Length placeholder
+	pe.PutVarint(int64(utils.GetEncodedLength(r))) // Length placeholder
 	// As this is variable length, we can't use placeholders and update later reliably.
 	// We need to have a value, close to the actual value, such that it takes the same space
 	// This is an approx value, the actual value will be computed at the end
@@ -252,28 +238,6 @@ func (r Record) Encode(pe *encoder.Encoder) {
 	for _, header := range r.Headers {
 		header.Encode(pe)
 	}
-}
-
-func (r Record) getEncodedLength() int {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 1024))
-
-	encoder.PutInt8(r.Attributes)
-	encoder.PutVarint(r.TimestampDelta)
-	encoder.PutVarint(int64(r.OffsetDelta))
-	if string(r.Key) == "null" {
-		encoder.PutCompactBytes([]byte{})
-	} else {
-		encoder.PutCompactBytes(r.Key)
-	}
-	encoder.PutVarint(int64(len(r.Value)))
-	encoder.PutRawBytes(r.Value)
-	encoder.PutVarint(int64(len(r.Headers)))
-	for _, header := range r.Headers {
-		header.Encode(&encoder)
-	}
-
-	return encoder.Offset()
 }
 
 func (r *Record) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
