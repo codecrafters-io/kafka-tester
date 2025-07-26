@@ -77,7 +77,7 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 
 func NewEmptyProduceResponse() kafkaapi.ProduceResponse {
 	return kafkaapi.ProduceResponse{
-		Header: NewResponseHeaderBuilder().WithVersion(1).Build(),
+		Header: BuildEmptyResponseHeaderv1(),
 		Body:   kafkaapi.ProduceResponseBody{},
 	}
 }
