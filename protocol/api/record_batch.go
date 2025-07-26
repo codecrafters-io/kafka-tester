@@ -58,7 +58,7 @@ func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 	for i, record := range rb.Records {
 		record.OffsetDelta = int32(i) // Offset Deltas are consecutive numerals from 0 to N-1
 		// We can set them programmatically as we know the order of the records
-		record.Encode(pe)
+		record.EncodeFull(pe)
 	}
 
 	batchLength := pe.Offset() - 12 - startOffset // 8 bytes for BaseOffset & 4 bytes for BatchLength
@@ -219,11 +219,13 @@ type Record struct {
 	Headers        []RecordHeader
 }
 
-func (r Record) Encode(pe *encoder.Encoder) {
-	pe.PutVarint(int64(utils.GetEncodedLength(r))) // Length placeholder
+func (r Record) EncodeFull(pe *encoder.Encoder) {
+	pe.PutVarint(int64(utils.GetEncodedLength(r))) // Length
 	// As this is variable length, we can't use placeholders and update later reliably.
-	// We need to have a value, close to the actual value, such that it takes the same space
-	// This is an approx value, the actual value will be computed at the end
+	r.Encode(pe)
+}
+
+func (r Record) Encode(pe *encoder.Encoder) {
 	pe.PutInt8(r.Attributes)
 	pe.PutVarint(r.TimestampDelta)
 	pe.PutVarint(int64(r.OffsetDelta))
