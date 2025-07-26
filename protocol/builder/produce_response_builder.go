@@ -2,7 +2,6 @@ package builder
 
 import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 )
 
 type ProduceResponseBuilder struct {
@@ -68,10 +67,7 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 	}
 
 	return kafkaapi.ProduceResponse{
-		Header: headers.ResponseHeader{
-			Version:       1,
-			CorrelationId: b.correlationId,
-		},
+		Header: BuildResponseHeader(b.correlationId),
 		Body: kafkaapi.ProduceResponseBody{
 			TopicResponses: b.topicData,
 			ThrottleTimeMs: 0,
@@ -81,9 +77,7 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 
 func NewEmptyProduceResponse() kafkaapi.ProduceResponse {
 	return kafkaapi.ProduceResponse{
-		Header: headers.ResponseHeader{
-			Version: 1,
-		},
-		Body: kafkaapi.ProduceResponseBody{},
+		Header: NewResponseHeaderBuilder().WithVersion(1).Build(),
+		Body:   kafkaapi.ProduceResponseBody{},
 	}
 }
