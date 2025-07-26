@@ -265,7 +265,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 	return nil
 }
 
-func (p *ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
+func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 	pe.PutInt8(p.FrameVersion)
 	pe.PutInt8(p.Type)
 	pe.PutInt8(p.Version)

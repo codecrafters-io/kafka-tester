@@ -100,7 +100,6 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 	}
 
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
-		AssertBody([]string{"ThrottleTimeMs", "ErrorCode"}).
-		AssertTopics([]string{"Topic"}, []string{"ErrorCode", "PartitionIndex"}, nil, nil).
-		Run()
+		SkipRecordBatches().
+		Run(stageLogger)
 }

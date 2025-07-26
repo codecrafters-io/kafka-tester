@@ -21,6 +21,12 @@ func (rbs RecordBatches) getEncodedLength() int {
 	return encodedLength
 }
 
+func (rbs RecordBatches) Encode(pe *encoder.Encoder) {
+	for _, rb := range rbs {
+		rb.Encode(pe)
+	}
+}
+
 type RecordBatch struct {
 	BaseOffset           int64
 	BatchLength          int32
