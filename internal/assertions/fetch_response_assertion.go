@@ -105,18 +105,16 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 		expectedRecordBatches := expectedPartition.RecordBatches
 		actualRecordBatches := actualPartition.RecordBatches
 
+		// If RecordBatches are not excluded from assertion,
+		// They will be compared with their on-disk counterparts too
 		if !Contains(a.excludedPartitionFields, "RecordBatches") {
 			if err := a.assertRecordBatches(expectedRecordBatches, actualRecordBatches, logger); err != nil {
 				return err
 			}
-		}
-	}
 
-	// If RecordBatches are not excluded from assertion,
-	// They will be compared with their on-disk counterparts by default
-	if !Contains(a.excludedPartitionFields, "RecordBatches") {
-		if err := a.assertRecordBatchBytes(logger); err != nil {
-			return err
+			if err := a.assertRecordBatchBytes(logger); err != nil {
+				return err
+			}
 		}
 	}
 
