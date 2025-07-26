@@ -26,6 +26,30 @@ func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Respon
 	}
 }
 
+func (r *Response) checkLength() error {
+	messageSizeField := int(binary.BigEndian.Uint32(r.RawBytes[:4]))
+	receivedPayloadLength := len(r.Payload)
+
+	if messageSizeField != receivedPayloadLength {
+		errorMessage := fmt.Sprintf(`❌ Invalid response:
+The Message Size field does not match the length of the received payload.
+🔍 Mismatch:
+Message Size field:      %d (Bytes: %02x %02x %02x %02x)
+Received payload length: %d
+`, messageSizeField, r.RawBytes[0], r.RawBytes[1], r.RawBytes[2], r.RawBytes[3], receivedPayloadLength)
+
+		if messageSizeField == 4+receivedPayloadLength {
+			errorMessage += `
+💡 Hint:
+The Message Size field should not count itself.
+`
+		}
+
+		return errors.New(errorMessage)
+	}
+	return nil
+}
+
 // Client represents a single connection to the Kafka broker.
 type Client struct {
 	id   int32
@@ -108,6 +132,10 @@ func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *l
 
 	stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
 
+	if err := response.checkLength(); err != nil {
+		return response, err
+	}
+
 	return response, nil
 }
 
@@ -151,7 +179,8 @@ func (c *Client) Receive() (Response, error) {
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(c.conn, bodyResponse)
+	numBytesRead, err := io.ReadFull(c.conn, bodyResponse)
+	bodyResponse = bodyResponse[:numBytesRead]
 
 	// Reset the read deadline
 	c.conn.SetReadDeadline(time.Time{})
@@ -160,6 +189,10 @@ func (c *Client) Receive() (Response, error) {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
 			// This way we can surface a better error message to help w debugging
+			return response.createFrom(lengthResponse, bodyResponse), nil
+		}
+		if err == io.ErrUnexpectedEOF {
+			// Return the partial response when trying to read too much so EOF is reached
 			return response.createFrom(lengthResponse, bodyResponse), nil
 		}
 		return response, fmt.Errorf("error reading from connection: %v", err)
