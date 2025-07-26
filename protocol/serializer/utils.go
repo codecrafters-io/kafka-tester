@@ -6,31 +6,18 @@ import (
 	"os"
 	"strings"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 	"github.com/google/uuid"
 )
 
-func GetEncodedBytes(encodableObject interface{}) []byte {
+func GetEncodedBytes(encodableObject kafka_interface.Encodable) []byte {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 1024))
+	encodableObject.Encode(&encoder)
+	encodedBytes := encoder.Bytes()[:encoder.Offset()]
 
-	switch obj := encodableObject.(type) {
-	case kafkaapi.ClusterMetadataPayload:
-		obj.Encode(&encoder)
-	case kafkaapi.RecordBatches:
-		obj.Encode(&encoder)
-	case kafkaapi.RecordBatch:
-		obj.Encode(&encoder)
-	case kafkaapi.Record:
-		obj.Encode(&encoder)
-	default:
-		panic(fmt.Sprintf("GetEncodedBytes: unsupported type: %T", obj))
-	}
-
-	encoded := encoder.Bytes()[:encoder.Offset()]
-
-	return encoded
+	return encodedBytes
 }
 
 func generateDirectories(paths []string) error {
