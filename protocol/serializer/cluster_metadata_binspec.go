@@ -7,6 +7,7 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	utils "github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -88,7 +89,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(featureLevelRecord),
+				Value:          utils.GetEncodedBytes(featureLevelRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -109,21 +110,21 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord3),
+				Value:          utils.GetEncodedBytes(topicRecord3),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord3),
+				Value:          utils.GetEncodedBytes(partitionRecord3),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4),
+				Value:          utils.GetEncodedBytes(partitionRecord4),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},

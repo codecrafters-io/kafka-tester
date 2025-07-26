@@ -3,7 +3,26 @@ package utils
 import (
 	"fmt"
 	"strings"
+
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
 )
+
+func GetEncodedBytes(encodableObject kafka_interface.Encodable) []byte {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 1024))
+	encodableObject.Encode(&encoder)
+	encodedBytes := encoder.Bytes()[:encoder.Offset()]
+
+	return encodedBytes
+}
+
+func GetEncodedLength(encodableObject kafka_interface.Encodable) int {
+	encoder := encoder.Encoder{}
+	encoder.Init(make([]byte, 1024))
+	encodableObject.Encode(&encoder)
+	return encoder.Offset()
+}
 
 func APIKeyToName(apiKey int16) string {
 	switch apiKey {
