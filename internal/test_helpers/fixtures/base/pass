@@ -50,7 +50,7 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#PV1] [Decoder] [0m[36m- .response_header[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .error_code (0)[0m
@@ -362,7 +362,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#PV1] [0m[92m✓ Correlation ID: 177586623[0m
+[33m[tester::#PV1] [0m[92m✓ correlation_id: 177586623[0m
 [33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#PV1] [0m[92m✓ API keys array length: 61[0m
 [33m[tester::#PV1] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
@@ -391,7 +391,7 @@ Debug = true
 [33m[tester::#NC5] [0m[36m[0m
 [33m[tester::#NC5] [Decoder] [0m[36m- .Response[0m
 [33m[tester::#NC5] [Decoder] [0m[36m  - .message_length (16)[0m
-[33m[tester::#NC5] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#NC5] [Decoder] [0m[36m- .response_header[0m
 [33m[tester::#NC5] [Decoder] [0m[36m  - .correlation_id (1616512461)[0m
 [33m[tester::#NC5] [Decoder] [0m[36m  - .error_code (35)[0m
 [33m[tester::#NC5] [0m[92m✓ Correlation ID: 1616512461[0m
@@ -452,7 +452,7 @@ Debug = true
 [33m[tester::#WA6] [0m[36m[0m
 [33m[tester::#WA6] [Decoder] [0m[36m- .Response[0m
 [33m[tester::#WA6] [Decoder] [0m[36m  - .message_length (537)[0m
-[33m[tester::#WA6] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#WA6] [Decoder] [0m[36m- .response_header[0m
 [33m[tester::#WA6] [Decoder] [0m[36m  - .correlation_id (1698452642)[0m
 [33m[tester::#WA6] [0m[92m✓ Correlation ID: 1698452642[0m
 [33m[tester::#WA6] [0m[92mTest passed.[0m
@@ -511,7 +511,7 @@ Debug = true
 [33m[tester::#NV3] [0m[36m[0m
 [33m[tester::#NV3] [Decoder] [0m[36m- .Response[0m
 [33m[tester::#NV3] [Decoder] [0m[36m  - .message_length (537)[0m
-[33m[tester::#NV3] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#NV3] [Decoder] [0m[36m- .response_header[0m
 [33m[tester::#NV3] [Decoder] [0m[36m  - .correlation_id (7)[0m
 [33m[tester::#NV3] [0m[92m✓ Correlation ID: 7[0m
 [33m[tester::#NV3] [0m[92mTest passed.[0m
