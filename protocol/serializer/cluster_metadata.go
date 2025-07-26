@@ -6,6 +6,7 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -140,7 +141,7 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(featureLevelRecord),
+				Value:          utils.GetEncodedBytes(featureLevelRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -161,14 +162,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord1),
+				Value:          utils.GetEncodedBytes(topicRecord1),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord1),
+				Value:          utils.GetEncodedBytes(partitionRecord1),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -189,14 +190,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord2),
+				Value:          utils.GetEncodedBytes(topicRecord2),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord2),
+				Value:          utils.GetEncodedBytes(partitionRecord2),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -217,21 +218,21 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord3),
+				Value:          utils.GetEncodedBytes(topicRecord3),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord3),
+				Value:          utils.GetEncodedBytes(partitionRecord3),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4),
+				Value:          utils.GetEncodedBytes(partitionRecord4),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},

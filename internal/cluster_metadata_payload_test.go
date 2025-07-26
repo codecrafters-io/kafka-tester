@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -157,7 +157,7 @@ func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
 		},
 	}
 
-	bytes := serializer.GetEncodedBytes(beginTransactionRecord)
+	bytes := utils.GetEncodedBytes(beginTransactionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01170001001212426f6f747374726170207265636f726473", hex.EncodeToString(bytes))
@@ -174,7 +174,7 @@ func TestEncodeFeatureLevelRecordPayload(t *testing.T) {
 		},
 	}
 
-	bytes := serializer.GetEncodedBytes(featureLevelRecord)
+	bytes := utils.GetEncodedBytes(featureLevelRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "010c00116d657461646174612e76657273696f6e001400", hex.EncodeToString(bytes))
@@ -187,7 +187,7 @@ func TestEncodeZKMigrationRecordPayload(t *testing.T) {
 		Version:      0,
 		Data:         &kafkaapi.ZKMigrationStateRecord{MigrationState: 0},
 	}
-	bytes := serializer.GetEncodedBytes(zkMigrationRecord)
+	bytes := utils.GetEncodedBytes(zkMigrationRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "0115000000", hex.EncodeToString(bytes))
@@ -201,7 +201,7 @@ func TestEncodeEndTransactionRecordPayload(t *testing.T) {
 		Data:         &kafkaapi.EndTransactionRecord{},
 	}
 
-	bytes := serializer.GetEncodedBytes(endTransactionRecord)
+	bytes := utils.GetEncodedBytes(endTransactionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01180000", hex.EncodeToString(bytes))
@@ -216,7 +216,7 @@ func TestEncodeTopicRecordPayload(t *testing.T) {
 			TopicName: "foo",
 			TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c"},
 	}
-	bytes := serializer.GetEncodedBytes(topicRecord)
+	bytes := utils.GetEncodedBytes(topicRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01020004666f6fbfd99e5e3235455281f8d4af1741970c00", hex.EncodeToString(bytes))
@@ -241,7 +241,7 @@ func TestEncodePartitionRecordPayload(t *testing.T) {
 		},
 	}
 
-	bytes := serializer.GetEncodedBytes(partitionRecord)
+	bytes := utils.GetEncodedBytes(partitionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400", hex.EncodeToString(bytes))
