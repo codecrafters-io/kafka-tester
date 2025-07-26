@@ -78,7 +78,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	protocol.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
 
-	stageLogger.Debugf("- .ResponseHeader")
+	stageLogger.Debugf("- .response_header")
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
