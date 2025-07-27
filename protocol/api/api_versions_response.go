@@ -158,7 +158,7 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
 
-	logger.Debugf("- .ResponseHeader")
+	logger.Debugf("- .response_header")
 	if err := r.Header.Decode(&decoder, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v4")

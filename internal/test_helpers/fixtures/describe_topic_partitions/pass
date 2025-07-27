@@ -50,7 +50,7 @@ Debug = true
 [33m[tester::#YK1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#YK1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#YK1] [0m[36m[0m
-[33m[tester::#YK1] [Decoder] [0m[36m- .ResponseHeader[0m
+[33m[tester::#YK1] [Decoder] [0m[36m- .response_header[0m
 [33m[tester::#YK1] [Decoder] [0m[36m  - .correlation_id (177586623)[0m
 [33m[tester::#YK1] [Decoder] [0m[36m- .ResponseBody[0m
 [33m[tester::#YK1] [Decoder] [0m[36m  - .error_code (0)[0m
@@ -362,7 +362,7 @@ Debug = true
 [33m[tester::#YK1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#YK1] [Decoder] [0m[36m  - .throttle_time_ms (0)[0m
 [33m[tester::#YK1] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#YK1] [0m[92m✓ Correlation ID: 177586623[0m
+[33m[tester::#YK1] [0m[92m✓ correlation_id: 177586623[0m
 [33m[tester::#YK1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#YK1] [0m[92m✓ API keys array length: 61[0m
 [33m[tester::#YK1] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
@@ -410,7 +410,7 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#VT6] [Decoder] [0m[36m  - .next_cursor (null)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#VT6] [0m[92m✓ Correlation ID: 1616512461[0m
+[33m[tester::#VT6] [0m[92m✓ correlation_id: 1616512461[0m
 [33m[tester::#VT6] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#VT6] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#VT6] [0m[92m  ✓ TopicResponse[0] Error code: 3[0m
@@ -476,7 +476,7 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#EA7] [Decoder] [0m[36m  - .next_cursor (null)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#EA7] [0m[92m✓ Correlation ID: 96710698[0m
+[33m[tester::#EA7] [0m[92m✓ correlation_id: 96710698[0m
 [33m[tester::#EA7] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#EA7] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#EA7] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
@@ -557,7 +557,7 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#KU4] [Decoder] [0m[36m  - .next_cursor (null)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#KU4] [0m[92m✓ Correlation ID: 254678266[0m
+[33m[tester::#KU4] [0m[92m✓ correlation_id: 254678266[0m
 [33m[tester::#KU4] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#KU4] [0m[92m✓ Response body has 1 topic responses[0m
 [33m[tester::#KU4] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
@@ -686,7 +686,7 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .next_cursor (null)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m  - .TAG_BUFFER[0m
-[33m[tester::#WQ2] [0m[92m✓ Correlation ID: 1893237013[0m
+[33m[tester::#WQ2] [0m[92m✓ correlation_id: 1893237013[0m
 [33m[tester::#WQ2] [0m[92m✓ Throttle Time: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Response body has 3 topic responses[0m
 [33m[tester::#WQ2] [0m[92m  ✓ TopicResponse[0] Error code: 0[0m
