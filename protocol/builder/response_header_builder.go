@@ -22,6 +22,10 @@ func (rb *ResponseHeaderBuilder) WithCorrelationId(correlationId int32) *Respons
 }
 
 func (rb *ResponseHeaderBuilder) WithVersion(version int) *ResponseHeaderBuilder {
+	if version != 0 && version != 1 {
+		panic("CodeCrafters Internal Error: Version has to be >= 0 and <= 1")
+	}
+
 	rb.version = version
 	return rb
 }
@@ -29,10 +33,6 @@ func (rb *ResponseHeaderBuilder) WithVersion(version int) *ResponseHeaderBuilder
 func (rb *ResponseHeaderBuilder) Build() headers.ResponseHeader {
 	if rb.correlationId == -1 {
 		panic("CodeCrafters Internal Error: Correlation ID is required")
-	}
-
-	if rb.version != 0 && rb.version != 1 {
-		panic("CodeCrafters Internal Error: Version has to be >= 0 and <= 1")
 	}
 
 	return headers.ResponseHeader{
