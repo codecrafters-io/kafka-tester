@@ -10,12 +10,16 @@ import (
 )
 
 func GenerateLogDirs(logger *logger.Logger, topics []string) error {
-	topicData := []common.TopicConfig{}
+	topicsData := []common.TopicConfig{}
 	for _, topicName := range topics {
-		topicData = append(topicData, common.TOPICS[topicName])
+		topicData, ok := common.TOPICS[topicName]
+		if !ok {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: topic %s not found", topicName))
+		}
+		topicsData = append(topicsData, topicData)
 	}
 
-	return generateLogDirs(logger, len(topics) == 0, topicData)
+	return generateLogDirs(logger, len(topics) == 0, topicsData)
 }
 
 // GenerateLogDirs generates the log directories and files for the test cases.
