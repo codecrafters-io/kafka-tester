@@ -74,7 +74,7 @@ func testProduce7(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithCorrelationId(correlationId).
 		Build()
 
-	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse, stageLogger).Run(stageLogger); err != nil {
+	if err = assertions.NewProduceResponseAssertion(actualResponse, expectedResponse).Run(stageLogger); err != nil {
 		return err
 	}
 
