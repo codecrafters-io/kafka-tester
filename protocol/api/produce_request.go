@@ -3,6 +3,7 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 )
 
 type ProducePartitionData struct {
@@ -12,7 +13,7 @@ type ProducePartitionData struct {
 
 func (p ProducePartitionData) encode(pe *encoder.Encoder) {
 	pe.PutInt32(p.Index)
-	pe.PutCompactArrayLength(RecordBatches(p.RecordBatches).getEncodedLength())
+	pe.PutCompactArrayLength(utils.GetEncodedLength(RecordBatches(p.RecordBatches)))
 	for _, recordBatch := range p.RecordBatches {
 		recordBatch.Encode(pe)
 	}
