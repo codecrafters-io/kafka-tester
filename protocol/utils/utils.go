@@ -18,10 +18,7 @@ func GetEncodedBytes(encodableObject kafka_interface.Encodable) []byte {
 }
 
 func GetEncodedLength(encodableObject kafka_interface.Encodable) int {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 1024))
-	encodableObject.Encode(&encoder)
-	return encoder.Offset()
+	return len(GetEncodedBytes(encodableObject))
 }
 
 func APIKeyToName(apiKey int16) string {
