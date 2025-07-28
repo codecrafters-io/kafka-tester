@@ -43,14 +43,14 @@ type ZKMigrationStateRecord struct {
 
 func (f *ZKMigrationStateRecord) isPayloadRecord() {}
 
-type TopicRecord struct {
+type ClusterMetadataTopicRecord struct {
 	TopicName string
 	TopicUUID string
 }
 
-func (t *TopicRecord) isPayloadRecord() {}
+func (t *ClusterMetadataTopicRecord) isPayloadRecord() {}
 
-type PartitionRecord struct {
+type ClusterMetadataPartitionRecord struct {
 	PartitionID      int32
 	TopicUUID        string
 	Replicas         []int32
@@ -63,7 +63,7 @@ type PartitionRecord struct {
 	Directories      []string
 }
 
-func (p *PartitionRecord) isPayloadRecord() {}
+func (p *ClusterMetadataPartitionRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
 func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
@@ -132,7 +132,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 			return errors.NewPacketDecodingError(fmt.Sprintf("Remaining bytes after decoding: %d", partialDecoder.Remaining()), "ZK_MIGRATION_STATE_RECORD")
 		}
 	case 2:
-		topicRecord := &TopicRecord{}
+		topicRecord := &ClusterMetadataTopicRecord{}
 		p.Data = topicRecord
 
 		topicRecord.TopicName, err = partialDecoder.GetCompactString()
@@ -189,7 +189,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 		}
 
 	case 3:
-		partitionRecord := &PartitionRecord{}
+		partitionRecord := &ClusterMetadataPartitionRecord{}
 		p.Data = partitionRecord
 
 		partitionRecord.PartitionID, err = partialDecoder.GetInt32()
@@ -299,8 +299,8 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 		pe.PutInt8(record.MigrationState)
 		pe.PutUVarint(0) // taggedFieldCount
 
-	case *TopicRecord:
-		record := p.Data.(*TopicRecord)
+	case *ClusterMetadataTopicRecord:
+		record := p.Data.(*ClusterMetadataTopicRecord)
 
 		pe.PutCompactString(record.TopicName)
 		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
@@ -310,8 +310,8 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 		pe.PutRawBytes(uuidBytes)
 		pe.PutUVarint(0) // taggedFieldCount
 
-	case *PartitionRecord:
-		record := p.Data.(*PartitionRecord)
+	case *ClusterMetadataPartitionRecord:
+		record := p.Data.(*ClusterMetadataPartitionRecord)
 
 		pe.PutInt32(record.PartitionID)
 		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
