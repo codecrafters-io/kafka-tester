@@ -3,6 +3,7 @@ package serializer
 import (
 	"fmt"
 	"os"
+	"time"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
@@ -12,6 +13,7 @@ import (
 func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, topic4Name string, topic4UUID string, directoryUUID string, logger *logger.Logger) error {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 40960))
+	now := time.Now().UnixMilli()
 
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
@@ -191,14 +193,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 
 	recordBatch1 := kafkaapi.RecordBatch{
 		BaseOffset:           1,
-		PartitionLeaderEpoch: 1,
+		PartitionLeaderEpoch: 0,
 		Attributes:           0,
 		LastOffsetDelta:      0, // len(records) - 1
-		FirstTimestamp:       1726045943832,
-		MaxTimestamp:         1726045943832,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     0,
@@ -212,14 +214,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 
 	recordBatch2 := kafkaapi.RecordBatch{
 		BaseOffset:           int64(len(recordBatch1.Records) + int(recordBatch1.BaseOffset)),
-		PartitionLeaderEpoch: 1,
+		PartitionLeaderEpoch: 0,
 		Attributes:           0,
 		LastOffsetDelta:      1, // len(records) - 1
-		FirstTimestamp:       1726045957397,
-		MaxTimestamp:         1726045957397,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     0,
@@ -240,14 +242,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 
 	recordBatch3 := kafkaapi.RecordBatch{
 		BaseOffset:           int64(len(recordBatch2.Records) + int(recordBatch2.BaseOffset)),
-		PartitionLeaderEpoch: 1,
+		PartitionLeaderEpoch: 0,
 		Attributes:           0,
 		LastOffsetDelta:      1, // len(records) - 1
-		FirstTimestamp:       1726045957397,
-		MaxTimestamp:         1726045957397,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     0,
@@ -268,14 +270,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 
 	recordBatch4 := kafkaapi.RecordBatch{
 		BaseOffset:           int64(len(recordBatch3.Records) + int(recordBatch3.BaseOffset)),
-		PartitionLeaderEpoch: 1,
+		PartitionLeaderEpoch: 0,
 		Attributes:           0,
 		LastOffsetDelta:      2, // len(records) - 1
-		FirstTimestamp:       1726045957397,
-		MaxTimestamp:         1726045957397,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     0,
@@ -303,14 +305,14 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 
 	recordBatch5 := kafkaapi.RecordBatch{
 		BaseOffset:           int64(len(recordBatch4.Records) + int(recordBatch4.BaseOffset)),
-		PartitionLeaderEpoch: 1,
+		PartitionLeaderEpoch: 0,
 		Attributes:           0,
 		LastOffsetDelta:      3, // len(records) - 1
-		FirstTimestamp:       1726045957397,
-		MaxTimestamp:         1726045957397,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		FirstTimestamp:       now,
+		MaxTimestamp:         now,
+		ProducerId:           0,
+		ProducerEpoch:        0,
+		BaseSequence:         0,
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     0,
