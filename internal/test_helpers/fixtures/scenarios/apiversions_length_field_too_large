@@ -1,0 +1,32 @@
+Debug = true
+
+[33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
+[33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#PV1] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PV1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#PV1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#PV1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#PV1] [0m[36m[0m
+[33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [0m[36m0000 | 00 00 00 17 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
+[33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
+[33m[tester::#PV1] [0m[36m[0m
+[33m[tester::#PV1] [0m[91m❌ Invalid response:[0m
+[33m[tester::#PV1] [0m[91mThe Message Size field does not match the length of the received payload.[0m
+[33m[tester::#PV1] [0m[91m🔍 Mismatch:[0m
+[33m[tester::#PV1] [0m[91mMessage Size field:      23 (Bytes: 00 00 00 17)[0m
+[33m[tester::#PV1] [0m[91mReceived payload length: 19[0m
+[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91m💡 Hint:[0m
+[33m[tester::#PV1] [0m[91mThe Message Size field should not count itself.[0m
+[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91mTest failed[0m
+[33m[tester::#PV1] [0m[36mTerminating program[0m
+[33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
