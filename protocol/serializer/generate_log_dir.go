@@ -6,12 +6,11 @@ import (
 	"os"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer/types"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
-	allTopics := []types.Topic{}
+	allTopics := []common.TopicConfig{}
 	for _, topic := range common.TOPICS {
 		allTopics = append(allTopics, topic)
 	}
@@ -21,7 +20,7 @@ func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
 // GenerateLogDirs generates the log directories and files for the test cases.
 // If onlyClusterMetadata is true, only the cluster metadata will be generated.
 // .log files & partition metadata files inside the topic directories will not be created.
-func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []types.Topic) error {
+func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []common.TopicConfig) error {
 	// Topic1 -> Message1 (Partitions=[0])
 	// Topic2 -> None (Partitions=[0])
 	// Topic3 -> Message2, Message3 (Partitions=[0, 1])
@@ -119,7 +118,7 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []t
 	return nil
 }
 
-func GenerateTopicLogData(basePath string, topics []types.Topic, logger *logger.Logger) error {
+func GenerateTopicLogData(basePath string, topics []common.TopicConfig, logger *logger.Logger) error {
 	for _, topic := range topics {
 		err := generateTopicLogData(basePath, topic, logger)
 		if err != nil {
@@ -129,7 +128,7 @@ func GenerateTopicLogData(basePath string, topics []types.Topic, logger *logger.
 	return nil
 }
 
-func generateTopicLogData(basePath string, topic types.Topic, logger *logger.Logger) error {
+func generateTopicLogData(basePath string, topic common.TopicConfig, logger *logger.Logger) error {
 	for _, partition := range topic.Partitions {
 		logFilePath := fmt.Sprintf("%s/%s-%d/00000000000000000000.log", basePath, topic.Name, partition.ID)
 		err := writeTopicData(logFilePath, partition.Messages, logger)
@@ -140,7 +139,7 @@ func generateTopicLogData(basePath string, topic types.Topic, logger *logger.Log
 	return nil
 }
 
-func GeneratePartitionMetadata(basePath string, topics []types.Topic, logger *logger.Logger) error {
+func GeneratePartitionMetadata(basePath string, topics []common.TopicConfig, logger *logger.Logger) error {
 	for _, topic := range topics {
 		err := generatePartitionMetadata(basePath, topic, logger)
 		if err != nil {
@@ -150,7 +149,7 @@ func GeneratePartitionMetadata(basePath string, topics []types.Topic, logger *lo
 	return nil
 }
 
-func generatePartitionMetadata(basePath string, topic types.Topic, logger *logger.Logger) error {
+func generatePartitionMetadata(basePath string, topic common.TopicConfig, logger *logger.Logger) error {
 	topicID, err := uuidToBase64(topic.UUID)
 	if err != nil {
 		panic("CodeCrafters Internal Error: Could not convert topic UUID: " + topic.UUID + " to base64: " + err.Error())

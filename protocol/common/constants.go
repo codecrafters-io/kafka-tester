@@ -4,9 +4,19 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer/types"
 	"github.com/codecrafters-io/tester-utils/random"
 )
+
+type TopicConfig struct {
+	Name       string
+	UUID       string
+	Partitions []PartitionConfig
+}
+
+type PartitionConfig struct {
+	ID       int
+	Messages []string
+}
 
 const (
 	LOG_DIR                     = "/tmp/kraft-combined-logs"
@@ -28,7 +38,7 @@ var (
 	TOPIC_UNKOWN_NAME, TOPIC_UNKOWN_UUID               string
 
 	MESSAGE1, MESSAGE2, MESSAGE3 string
-	TOPICS                       map[string]types.Topic
+	TOPICS                       map[string]TopicConfig
 )
 
 func init() {
@@ -56,25 +66,25 @@ func init() {
 	MESSAGE2 = messages[1]
 	MESSAGE3 = messages[2]
 
-	TOPICS = map[string]types.Topic{
+	TOPICS = map[string]TopicConfig{
 		TOPIC1_NAME: {
 			Name: TOPIC1_NAME,
 			UUID: TOPIC1_UUID,
-			Partitions: []types.Partition{
+			Partitions: []PartitionConfig{
 				{ID: 0, Messages: []string{MESSAGE1}},
 			},
 		},
 		TOPIC2_NAME: {
 			Name: TOPIC2_NAME,
 			UUID: TOPIC2_UUID,
-			Partitions: []types.Partition{
+			Partitions: []PartitionConfig{
 				{ID: 0, Messages: []string{}},
 			},
 		},
 		TOPIC3_NAME: {
 			Name: TOPIC3_NAME,
 			UUID: TOPIC3_UUID,
-			Partitions: []types.Partition{
+			Partitions: []PartitionConfig{
 				{ID: 0, Messages: []string{MESSAGE2, MESSAGE3}},
 				{ID: 1, Messages: []string{}},
 			},
@@ -82,7 +92,7 @@ func init() {
 		TOPIC4_NAME: {
 			Name: TOPIC4_NAME,
 			UUID: TOPIC4_UUID,
-			Partitions: []types.Partition{
+			Partitions: []PartitionConfig{
 				{ID: 0, Messages: []string{}},
 				{ID: 1, Messages: []string{}},
 				{ID: 2, Messages: []string{}},
