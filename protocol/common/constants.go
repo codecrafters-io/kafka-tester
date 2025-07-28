@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer/types"
 	"github.com/codecrafters-io/tester-utils/random"
 )
 
@@ -27,6 +28,7 @@ var (
 	TOPIC_UNKOWN_NAME, TOPIC_UNKOWN_UUID               string
 
 	MESSAGE1, MESSAGE2, MESSAGE3 string
+	TOPICS                       map[string]types.Topic
 )
 
 func init() {
@@ -53,6 +55,40 @@ func init() {
 	MESSAGE1 = messages[0]
 	MESSAGE2 = messages[1]
 	MESSAGE3 = messages[2]
+
+	TOPICS = map[string]types.Topic{
+		TOPIC1_NAME: {
+			Name: TOPIC1_NAME,
+			UUID: TOPIC1_UUID,
+			Partitions: []types.Partition{
+				{ID: 0, Messages: []string{MESSAGE1}},
+			},
+		},
+		TOPIC2_NAME: {
+			Name: TOPIC2_NAME,
+			UUID: TOPIC2_UUID,
+			Partitions: []types.Partition{
+				{ID: 0, Messages: []string{}},
+			},
+		},
+		TOPIC3_NAME: {
+			Name: TOPIC3_NAME,
+			UUID: TOPIC3_UUID,
+			Partitions: []types.Partition{
+				{ID: 0, Messages: []string{MESSAGE2, MESSAGE3}},
+				{ID: 1, Messages: []string{}},
+			},
+		},
+		TOPIC4_NAME: {
+			Name: TOPIC4_NAME,
+			UUID: TOPIC4_UUID,
+			Partitions: []types.Partition{
+				{ID: 0, Messages: []string{}},
+				{ID: 1, Messages: []string{}},
+				{ID: 2, Messages: []string{}},
+			},
+		},
+	}
 }
 
 func getSortedValues[T string](values []T) []T {
