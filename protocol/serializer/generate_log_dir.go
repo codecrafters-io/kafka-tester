@@ -29,7 +29,6 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []c
 	// meta
 	nodeID := common.NODE_ID
 	version := common.VERSION
-	directoryUUID := common.DIRECTORY_UUID
 	directoryID, _ := uuidToBase64(common.DIRECTORY_UUID)
 
 	// cluster
@@ -99,15 +98,7 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []c
 		}
 	}
 
-	topic1Name := common.TOPIC1_NAME
-	topic1UUID := common.TOPIC1_UUID
-	topic2Name := common.TOPIC2_NAME
-	topic2UUID := common.TOPIC2_UUID
-	topic3Name := common.TOPIC3_NAME
-	topic3UUID := common.TOPIC3_UUID
-	topic4Name := common.TOPIC4_NAME
-	topic4UUID := common.TOPIC4_UUID
-	err = writeClusterMetadata(clusterMetadataDataFilePath, topic1Name, topic1UUID, topic2Name, topic2UUID, topic3Name, topic3UUID, topic4Name, topic4UUID, directoryUUID, logger)
+	err = writeClusterMetadata(clusterMetadataDataFilePath, topics, logger)
 	if err != nil {
 		return err
 	}
