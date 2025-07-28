@@ -14,7 +14,7 @@ import (
 func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(stageLogger, false)
+	err := serializer.GenerateLogDirs(stageLogger, []string{common.TOPIC2_NAME})
 	if err != nil {
 		return err
 	}

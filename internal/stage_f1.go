@@ -12,7 +12,7 @@ import (
 
 func testAPIVersionWithFetchKey(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), false)
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), []string{})
 	if err != nil {
 		return err
 	}
