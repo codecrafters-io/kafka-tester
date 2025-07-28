@@ -3,7 +3,6 @@ package serializer
 import (
 	"fmt"
 	"os"
-	"time"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
@@ -14,7 +13,6 @@ import (
 func writeClusterMetadata(path string, topic1Name string, topic1UUID string, topic2Name string, topic2UUID string, topic3Name string, topic3UUID string, topic4Name string, topic4UUID string, directoryUUID string, logger *logger.Logger) error {
 	encoder := encoder.Encoder{}
 	encoder.Init(make([]byte, 40960))
-	now := time.Now().UnixMilli()
 
 	featureLevelRecord := builder.NewClusterMetadataPayloadBuilder().
 		WithFeatureLevelRecord("metadata.version", 20).
@@ -64,159 +62,36 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 		WithPartitionRecord(2, topic4UUID).
 		Build()
 
-	recordBatch1 := kafkaapi.RecordBatch{
-		BaseOffset:           1,
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      0, // len(records) - 1
-		FirstTimestamp:       now,
-		MaxTimestamp:         now,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(featureLevelRecord),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
+	recordBatch1 := builder.NewRecordBatchBuilder().
+		AddRecord(nil, GetEncodedBytes(featureLevelRecord), []kafkaapi.RecordHeader{}).
+		Build()
 
-	recordBatch2 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(len(recordBatch1.Records) + int(recordBatch1.BaseOffset)),
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      1, // len(records) - 1
-		FirstTimestamp:       now,
-		MaxTimestamp:         now,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord1),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord1),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
+	recordBatch2 := builder.NewRecordBatchBuilder().
+		WithBaseOffset(int64(len(recordBatch1.Records)+int(recordBatch1.BaseOffset))).
+		AddRecord(nil, GetEncodedBytes(topicRecord1), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord1), []kafkaapi.RecordHeader{}).
+		Build()
 
-	recordBatch3 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(len(recordBatch2.Records) + int(recordBatch2.BaseOffset)),
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      1, // len(records) - 1
-		FirstTimestamp:       now,
-		MaxTimestamp:         now,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord2),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord2),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
+	recordBatch3 := builder.NewRecordBatchBuilder().
+		WithBaseOffset(int64(len(recordBatch2.Records)+int(recordBatch2.BaseOffset))).
+		AddRecord(nil, GetEncodedBytes(topicRecord2), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord2), []kafkaapi.RecordHeader{}).
+		Build()
 
-	recordBatch4 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(len(recordBatch3.Records) + int(recordBatch3.BaseOffset)),
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      2, // len(records) - 1
-		FirstTimestamp:       now,
-		MaxTimestamp:         now,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord3),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord3_0),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord3_1),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
+	recordBatch4 := builder.NewRecordBatchBuilder().
+		WithBaseOffset(int64(len(recordBatch3.Records)+int(recordBatch3.BaseOffset))).
+		AddRecord(nil, GetEncodedBytes(topicRecord3), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord3_0), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord3_1), []kafkaapi.RecordHeader{}).
+		Build()
 
-	recordBatch5 := kafkaapi.RecordBatch{
-		BaseOffset:           int64(len(recordBatch4.Records) + int(recordBatch4.BaseOffset)),
-		PartitionLeaderEpoch: 0,
-		Attributes:           0,
-		LastOffsetDelta:      3, // len(records) - 1
-		FirstTimestamp:       now,
-		MaxTimestamp:         now,
-		ProducerId:           0,
-		ProducerEpoch:        0,
-		BaseSequence:         0,
-		Records: []kafkaapi.Record{
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(topicRecord4),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4_0),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4_1),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord4_2),
-				Headers:        []kafkaapi.RecordHeader{},
-			},
-		},
-	}
+	recordBatch5 := builder.NewRecordBatchBuilder().
+		WithBaseOffset(int64(len(recordBatch4.Records)+int(recordBatch4.BaseOffset))).
+		AddRecord(nil, GetEncodedBytes(topicRecord4), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord4_0), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord4_1), []kafkaapi.RecordHeader{}).
+		AddRecord(nil, GetEncodedBytes(partitionRecord4_2), []kafkaapi.RecordHeader{}).
+		Build()
 
 	recordBatch1.Encode(&encoder)
 	recordBatch2.Encode(&encoder)
