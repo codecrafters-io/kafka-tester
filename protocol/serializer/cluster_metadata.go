@@ -6,6 +6,7 @@ import (
 	"time"
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -15,181 +16,53 @@ func writeClusterMetadata(path string, topic1Name string, topic1UUID string, top
 	encoder.Init(make([]byte, 40960))
 	now := time.Now().UnixMilli()
 
-	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         12,
-		Version:      0,
-		Data: &kafkaapi.FeatureLevelRecord{
-			Name:         "metadata.version",
-			FeatureLevel: 20,
-		},
-	}
+	featureLevelRecord := builder.NewClusterMetadataPayloadBuilder().
+		WithFeatureLevelRecord("metadata.version", 20).
+		Build()
 
-	topicRecord1 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         2,
-		Version:      0,
-		Data: &kafkaapi.TopicRecord{
-			TopicName: topic1Name,
-			TopicUUID: topic1UUID,
-		},
-	}
+	topicRecord1 := builder.NewClusterMetadataPayloadBuilder().
+		WithTopicRecord(topic1Name, topic1UUID).
+		Build()
 
-	partitionRecord1 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
-			TopicUUID:        topic1UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord1 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(0, topic1UUID).
+		Build()
 
-	topicRecord2 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         2,
-		Version:      0,
-		Data: &kafkaapi.TopicRecord{
-			TopicName: topic2Name,
-			TopicUUID: topic2UUID,
-		},
-	}
+	topicRecord2 := builder.NewClusterMetadataPayloadBuilder().
+		WithTopicRecord(topic2Name, topic2UUID).
+		Build()
 
-	partitionRecord2 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
-			TopicUUID:        topic2UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord2 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(0, topic2UUID).
+		Build()
 
-	topicRecord3 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         2,
-		Version:      0,
-		Data: &kafkaapi.TopicRecord{
-			TopicName: topic3Name,
-			TopicUUID: topic3UUID,
-		},
-	}
+	topicRecord3 := builder.NewClusterMetadataPayloadBuilder().
+		WithTopicRecord(topic3Name, topic3UUID).
+		Build()
 
-	partitionRecord3_0 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
-			TopicUUID:        topic3UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord3_0 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(0, topic3UUID).
+		Build()
 
-	partitionRecord3_1 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      1,
-			TopicUUID:        topic3UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord3_1 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(1, topic3UUID).
+		Build()
 
-	topicRecord4 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         2,
-		Version:      0,
-		Data: &kafkaapi.TopicRecord{
-			TopicName: topic4Name,
-			TopicUUID: topic4UUID,
-		},
-	}
+	topicRecord4 := builder.NewClusterMetadataPayloadBuilder().
+		WithTopicRecord(topic4Name, topic4UUID).
+		Build()
 
-	partitionRecord4_0 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      0,
-			TopicUUID:        topic4UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord4_0 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(0, topic4UUID).
+		Build()
 
-	partitionRecord4_1 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      1,
-			TopicUUID:        topic4UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord4_1 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(1, topic4UUID).
+		Build()
 
-	partitionRecord4_2 := kafkaapi.ClusterMetadataPayload{
-		FrameVersion: 1,
-		Type:         3,
-		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
-			PartitionID:      2,
-			TopicUUID:        topic4UUID,
-			Replicas:         []int32{1},
-			ISReplicas:       []int32{1},
-			RemovingReplicas: []int32{},
-			AddingReplicas:   []int32{},
-			Leader:           1,
-			LeaderEpoch:      0,
-			PartitionEpoch:   0,
-			Directories:      []string{directoryUUID},
-		},
-	}
+	partitionRecord4_2 := builder.NewClusterMetadataPayloadBuilder().
+		WithPartitionRecord(2, topic4UUID).
+		Build()
 
 	recordBatch1 := kafkaapi.RecordBatch{
 		BaseOffset:           1,
