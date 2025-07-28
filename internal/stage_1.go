@@ -10,7 +10,7 @@ import (
 
 func testBindToPort(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), []string{})
 	if err != nil {
 		return err
 	}

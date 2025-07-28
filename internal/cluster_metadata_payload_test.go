@@ -111,7 +111,7 @@ func TestDecodeTopicRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 2, topicRecord.Type)
 	assert.EqualValues(t, 0, topicRecord.Version)
 
-	payload, ok := topicRecord.Data.(*kafkaapi.TopicRecord)
+	payload, ok := topicRecord.Data.(*kafkaapi.ClusterMetadataTopicRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, "saz", payload.TopicName)
 	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
@@ -133,7 +133,7 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 3, partitionRecord.Type)
 	assert.EqualValues(t, 1, partitionRecord.Version)
 
-	payload, ok := partitionRecord.Data.(*kafkaapi.PartitionRecord)
+	payload, ok := partitionRecord.Data.(*kafkaapi.ClusterMetadataPartitionRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, 0, payload.PartitionID)
 	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
@@ -212,7 +212,7 @@ func TestEncodeTopicRecordPayload(t *testing.T) {
 		FrameVersion: 1,
 		Type:         2,
 		Version:      0,
-		Data: &kafkaapi.TopicRecord{
+		Data: &kafkaapi.ClusterMetadataTopicRecord{
 			TopicName: "foo",
 			TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c"},
 	}
@@ -227,7 +227,7 @@ func TestEncodePartitionRecordPayload(t *testing.T) {
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
+		Data: &kafkaapi.ClusterMetadataPartitionRecord{
 			PartitionID:      0,
 			TopicUUID:        "bfd99e5e-3235-4552-81f8-d4af1741970c",
 			Replicas:         []int32{1},
