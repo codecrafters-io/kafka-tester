@@ -9,16 +9,17 @@ import (
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type TopicPartitionLogAssertion struct {
 	topic         string
 	partition     int32
-	RecordBatches []kafkaapi.RecordBatch
+	RecordBatches kafkaapi.RecordBatches
 }
 
-func NewTopicPartitionLogAssertion(topic string, partition int32, recordBatches []kafkaapi.RecordBatch) TopicPartitionLogAssertion {
+func NewTopicPartitionLogAssertion(topic string, partition int32, recordBatches kafkaapi.RecordBatches) TopicPartitionLogAssertion {
 	return TopicPartitionLogAssertion{
 		topic:         topic,
 		partition:     partition,
@@ -35,7 +36,7 @@ func (a TopicPartitionLogAssertion) Run(logger *logger.Logger) error {
 		return fmt.Errorf("Failed to read log file %s: %w", logFilePath, err)
 	}
 
-	expectedEncodedRecordBatches := encodeRecordBatches(a.RecordBatches)
+	expectedEncodedRecordBatches := serializer.GetEncodedBytes(a.RecordBatches)
 	if len(expectedEncodedRecordBatches) == 0 {
 		panic("Codecrafters Internal Error: RecordBatches are empty")
 	}
@@ -46,7 +47,9 @@ func (a TopicPartitionLogAssertion) Run(logger *logger.Logger) error {
 	}
 
 	mismatchOffset := findMisMatchOffset(expectedEncodedRecordBatches, logParser.RawBytes)
-	finalErr := fmt.Errorf("RecordBatches in log file (%s) do not match expected RecordBatches", logFilePath)
+	expectedBytes := expectedEncodedRecordBatches[mismatchOffset:min(len(expectedEncodedRecordBatches), mismatchOffset+4)]
+	actualBytes := logParser.RawBytes[mismatchOffset:min(len(logParser.RawBytes), mismatchOffset+4)]
+	finalErr := fmt.Errorf("Expected bytes %d - %d, to be '%x', but got '%x'\nRecordBatches in log file (%s) do not match expected RecordBatches", mismatchOffset, min(len(logParser.RawBytes), mismatchOffset+4), expectedBytes, actualBytes, logFilePath)
 
 	logger.UpdateLastSecondaryPrefix("logparser")
 	defer logger.ResetSecondaryPrefixes()
@@ -61,7 +64,7 @@ func (a TopicPartitionLogAssertion) Run(logger *logger.Logger) error {
 		return fmt.Errorf("Expected %d RecordBatches in log file (%s), got %d", len(a.RecordBatches), logFilePath, len(logParser.RecordBatches))
 	}
 
-	return formattedError("mismatch here\n"+finalErr.Error(), mismatchOffset, logParser.RawBytes)
+	return formattedError(finalErr.Error(), mismatchOffset, logParser.RawBytes)
 }
 
 func getLogFilePathForTopic(topicName string, partition int32) string {
