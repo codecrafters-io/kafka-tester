@@ -9,12 +9,13 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func GenerateLogDirs(logger *logger.Logger, onlyClusterMetadata bool) error {
-	allTopics := []common.TopicConfig{}
-	for _, topic := range common.TOPICS {
-		allTopics = append(allTopics, topic)
+func GenerateLogDirs(logger *logger.Logger, topics []string) error {
+	topicData := []common.TopicConfig{}
+	for _, topicName := range topics {
+		topicData = append(topicData, common.TOPICS[topicName])
 	}
-	return generateLogDirs(logger, onlyClusterMetadata, allTopics)
+
+	return generateLogDirs(logger, len(topics) == 0, topicData)
 }
 
 // GenerateLogDirs generates the log directories and files for the test cases.
@@ -79,6 +80,11 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []c
 		return err
 	}
 
+	err = writePartitionMetadata(clusterPartitionMetadataPath, 0, clusterMetadataTopicID, logger)
+	if err != nil {
+		return err
+	}
+
 	if !onlyClusterMetadata {
 		err = GeneratePartitionMetadata(basePath, topics, logger)
 		if err != nil {
@@ -86,7 +92,7 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []c
 		}
 	}
 
-	err = writePartitionMetadata(clusterPartitionMetadataPath, 0, clusterMetadataTopicID, logger)
+	err = writeClusterMetadata(clusterMetadataDataFilePath, topics, logger)
 	if err != nil {
 		return err
 	}
@@ -96,11 +102,6 @@ func generateLogDirs(logger *logger.Logger, onlyClusterMetadata bool, topics []c
 		if err != nil {
 			return err
 		}
-	}
-
-	err = writeClusterMetadata(clusterMetadataDataFilePath, topics, logger)
-	if err != nil {
-		return err
 	}
 
 	logger.Infof("Finished writing log files to: %s", basePath)
