@@ -8,22 +8,38 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
 
-type ClusterMetadataPayload struct {
+//lint:ignore U1000, these are not used in the codebase currently
+type ClusterMetadataRecordValue struct {
 	FrameVersion int8
 	Type         int8
 	Version      int8
-	Data         ClusterMetadataPayloadDataRecord
+	Data         []byte
 }
 
-type ClusterMetadataPayloadDataRecord interface {
-	isPayloadRecord()
+func (v ClusterMetadataRecordValue) Encode() []byte {
+	return []byte{}
 }
 
-type BeginTransactionRecord struct {
+type BeginTransactionRecordValue struct {
 	Name string
 }
 
-func (b *BeginTransactionRecord) isPayloadRecord() {}
+func (b *BeginTransactionRecordValue) Encode() []byte {
+	encoder := encoder.RealEncoder{}
+	encoder.Init(make([]byte, 4096))
+
+	encoder.PutUVarint(1) // taggedFieldCount
+	// Encode all the fields
+
+	encodedData := encoder.Bytes()[:encoder.Offset()]
+
+	return ClusterMetadataRecordValue{
+		FrameVersion: 1,
+		Type:         0,
+		Version:      0,
+		Data:         encodedData,
+	}.Encode()
+}
 
 type EndTransactionRecord struct {
 }
