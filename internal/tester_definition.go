@@ -31,7 +31,6 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "pv1",
 			TestFunc: testAPIVersion,
-			Timeout:  time.Hour,
 		},
 		{
 			Slug:     "nh4",
