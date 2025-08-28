@@ -198,7 +198,7 @@ type ApiKeyEntry__Updated struct {
 }
 
 func (a *ApiKeyEntry__Updated) Decode(d *decoder.Decoder, version int16, index int) (err error) {
-	d.BeginSubSection(fmt.Sprintf("ApiVersionEntry[%d]", index))
+	d.BeginSubSection(fmt.Sprintf("ApiKeys[%d]", index))
 	defer d.EndCurrentSubSection()
 
 	a.Version = version
