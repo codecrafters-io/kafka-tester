@@ -22,6 +22,7 @@ func NewKafkaExecutable(stageHarness *test_case_harness.TestCaseHarness) *KafkaE
 		executable: stageHarness.NewExecutable(),
 		logger:     stageHarness.Logger,
 	}
+
 	stageHarness.RegisterTeardownFunc(func() { b.Kill() })
 
 	return b
