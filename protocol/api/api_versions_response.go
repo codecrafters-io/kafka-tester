@@ -182,3 +182,145 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 
 	return nil
 }
+
+/********************** Updated Interface *****************/
+
+// ApiKeyEntry__Updated contains the APIs supported by the broker.
+type ApiKeyEntry__Updated struct {
+	// Version defines the protocol version to use for encode and decode
+	Version int16
+	// ApiKey contains the API index.
+	ApiKey int16
+	// MinVersion contains the minimum supported version, inclusive.
+	MinVersion int16
+	// MaxVersion contains the maximum supported version, inclusive.
+	MaxVersion int16
+}
+
+func (a *ApiKeyEntry__Updated) Decode(d *decoder.Decoder, version int16, index int) (err error) {
+	d.BeginSubSection(fmt.Sprintf("ApiVersionEntry[%d]", index))
+	defer d.EndCurrentSubSection()
+
+	a.Version = version
+	if a.ApiKey, err = d.GetInt16_Updated("api_key"); err != nil {
+		return err
+	}
+
+	if a.MinVersion, err = d.GetInt16_Updated("min_version"); err != nil {
+		return err
+	}
+
+	if a.MaxVersion, err = d.GetInt16_Updated("max_version"); err != nil {
+		return err
+	}
+
+	if version >= 3 {
+		if err := d.ConsumeTagBuffer(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+type ApiVersionsResponseBody__Updated struct {
+	// Version defines the protocol version to use for encode and decode
+	Version int16
+	// ErrorCode contains the top-level error code.
+	ErrorCode int16
+	// ApiKeys contains the APIs supported by the broker.
+	ApiKeys []ApiKeyEntry__Updated
+	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+	ThrottleTimeMs int32
+}
+
+func (r *ApiVersionsResponseBody__Updated) Decode(d *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+	d.BeginSubSection("response_body")
+	defer d.EndCurrentSubSection()
+	r.Version = version
+
+	if r.ErrorCode, err = d.GetInt16_Updated("error_code"); err != nil {
+		return err
+	}
+
+	var numApiKeys int
+
+	if r.Version >= 3 {
+		numApiKeys, err = d.GetCompactArrayLength_Updated("num_api_keys")
+
+		if err != nil {
+			return err
+		}
+	} else {
+		numApiKeys, err = d.GetArrayLength_Updated("num_api_keys")
+
+		if err != nil {
+			return err
+		}
+	}
+
+	if numApiKeys < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
+	}
+
+	r.ApiKeys = make([]ApiKeyEntry__Updated, numApiKeys)
+
+	for i := 0; i < numApiKeys; i++ {
+		var apiKeyEntry ApiKeyEntry__Updated
+
+		if err = apiKeyEntry.Decode(d, r.Version, i); err != nil {
+			return err
+		}
+
+		r.ApiKeys[i] = apiKeyEntry
+	}
+
+	if r.Version >= 1 {
+		if r.ThrottleTimeMs, err = d.GetInt32_Updated("throttle_time_ms"); err != nil {
+			return err
+		}
+	}
+
+	if r.Version >= 3 {
+		if err = d.ConsumeTagBuffer(); err != nil {
+			return err
+		}
+	}
+
+	// Check if there are any remaining bytes in the decoder
+	if d.Remaining() != 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.Remaining()))
+	}
+
+	return nil
+}
+
+type ApiVersionsResponse__Updated struct {
+	Header headers.ResponseHeader__Updated
+	Body   ApiVersionsResponseBody__Updated
+}
+
+func (r *ApiVersionsResponse__Updated) Decode(response []byte, logger *logger.Logger) error {
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	decoder := decoder.Decoder{}
+	decoder.InitNew(response, logger)
+	defer logger.ResetSecondaryPrefixes()
+
+	if err := r.Header.Decode(&decoder); err != nil {
+		return err
+	}
+
+	if r.Body.Version == 0 {
+		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	}
+
+	if err := r.Body.Decode(&decoder, r.Body.Version, logger, 1); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("ApiVersions v4")
+			return decoder.FormatDetailedError(detailedError.Error())
+		}
+		return err
+	}
+
+	return nil
+}

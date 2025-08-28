@@ -39,17 +39,17 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	actualResponse := builder.NewApiVersionsResponseBuilder__Updated().BuildEmpty()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
 
-	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder__Updated().
 		AddApiKeyEntry(18, 0, 4).
 		WithCorrelationId(correlationId).
 		Build()
 
-	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
+	if err = assertions.NewApiVersionsResponseAssertion__Updated(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
 		return err
 	}
 

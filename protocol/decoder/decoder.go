@@ -7,16 +7,75 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type Decoder struct {
-	bytes  []byte
-	offset int
+	bytes              []byte
+	offset             int
+	logger             *logger.Logger
+	backupLogger       *logger.Logger
+	indentationLevel   int
+	currentSectionName string
 }
 
-func (d *Decoder) Init(raw []byte) {
-	d.bytes = raw
+func (d *Decoder) Init(bytes []byte) {
+	d.bytes = bytes
 	d.offset = 0
+}
+
+// InitNew is the Parallel Change for Init()
+// Every method will be postfixed using 'New' for parallel change
+func (d *Decoder) InitNew(bytes []byte, logger *logger.Logger) {
+	d.bytes = bytes
+	d.offset = 0
+	d.logger = logger.Clone()
+	d.logger.UpdateLastSecondaryPrefix("Decoder")
+	d.backupLogger = nil
+}
+
+func (d *Decoder) BeginSubSection(sectionName string) {
+	d.currentSectionName = sectionName
+	dot := "."
+	// don't print . on first indentation level
+	if d.indentationLevel == 0 {
+		dot = ""
+	}
+
+	d.logger.Debugf("%s%s%s", d.getIndentationString(), dot, sectionName)
+	d.indentLog()
+}
+
+func (d *Decoder) EndCurrentSubSection() {
+	d.unindentLog()
+}
+
+func (d *Decoder) indentLog() {
+	d.indentationLevel += 1
+}
+
+func (d *Decoder) unindentLog() {
+	d.indentationLevel = max(d.indentationLevel-1, 0)
+}
+
+func (d *Decoder) LogDecodedValue(value string) {
+	d.logger.Debugf("%s.%s", d.getIndentationString(), value)
+}
+
+func (d *Decoder) MuteLogger() {
+	d.backupLogger = d.logger
+	mutedLogger := d.backupLogger.Clone()
+	mutedLogger.IsDebug = false
+	mutedLogger.IsQuiet = true
+	d.logger = mutedLogger
+}
+
+func (d *Decoder) UnmuteLogger() {
+	if d.backupLogger == nil {
+		return
+	}
+	d.logger = d.backupLogger
+	d.backupLogger = nil
 }
 
 func (d *Decoder) GetInt8() (int8, error) {
@@ -39,6 +98,19 @@ func (d *Decoder) GetInt16() (int16, error) {
 	return decodedInteger, nil
 }
 
+// GetInt16_Updated is the Parallels change version of GetInt16()
+func (d *Decoder) GetInt16_Updated(variableName string) (int16, error) {
+	if d.Remaining() < 2 {
+		rem := d.Remaining()
+		errorMessage := fmt.Sprintf("Expected int16 length to be 2 bytes, got %d bytes", rem)
+		return -1, errors.NewPacketDecodingError(errorMessage, "INT16", variableName)
+	}
+	decodedInteger := int16(binary.BigEndian.Uint16(d.bytes[d.offset:]))
+	d.offset += 2
+	d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
+	return decodedInteger, nil
+}
+
 func (d *Decoder) GetInt32() (int32, error) {
 	if d.Remaining() < 4 {
 		rem := d.Remaining()
@@ -46,6 +118,20 @@ func (d *Decoder) GetInt32() (int32, error) {
 	}
 	decodedInteger := int32(binary.BigEndian.Uint32(d.bytes[d.offset:]))
 	d.offset += 4
+	return decodedInteger, nil
+}
+
+// GetInt32_Updated is the Parallel change version of GetInt32
+func (d *Decoder) GetInt32_Updated(variableName string) (int32, error) {
+	if d.Remaining() < 4 {
+		rem := d.Remaining()
+		errorMessage := fmt.Sprintf("Expected int32 length to be 4 bytes, got %d bytes", rem)
+		err := errors.NewPacketDecodingError(errorMessage, "INT32", variableName)
+		return -1, err
+	}
+	decodedInteger := int32(binary.BigEndian.Uint32(d.bytes[d.offset:]))
+	d.offset += 4
+	d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
 	return decodedInteger, nil
 }
 
@@ -83,6 +169,22 @@ func (d *Decoder) GetUnsignedVarint() (uint64, error) {
 	return decodedInteger, nil
 }
 
+// GetUnsignedVarint_Updated is parallels version of GetUnsignedVarint
+func (d *Decoder) GetUnsignedVarint_Updated(variableName string) (uint64, error) {
+	decodedInteger, n := binary.Uvarint(d.bytes[d.offset:])
+	if n == 0 {
+		return 0, errors.NewPacketDecodingError("Unexpected end of data", "UNSIGNED_VARINT", variableName)
+	}
+
+	if n < 0 {
+		return 0, errors.NewPacketDecodingError(fmt.Sprintf("Unexpected unsigned varint overflow after decoding %d bytes", -n), "UNSIGNED_VARINT", variableName)
+	}
+
+	d.offset += n
+	d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
+	return decodedInteger, nil
+}
+
 func (d *Decoder) GetSignedVarint() (int64, error) {
 	decodedInteger, n := binary.Varint(d.bytes[d.offset:])
 	if n == 0 {
@@ -117,6 +219,34 @@ func (d *Decoder) GetArrayLength() (int, error) {
 	return arrayLength, nil
 }
 
+// GetArrayLength_Updated is parallels version of GetArrayLength
+func (d *Decoder) GetArrayLength_Updated(variableName string) (int, error) {
+	if d.Remaining() < 4 {
+		rem := d.Remaining()
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rem), "ARRAY_LENGTH")
+	}
+
+	decodedInteger, err := d.GetInt32()
+
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return -1, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
+		}
+		return -1, err
+	}
+
+	arrayLength := int(decodedInteger)
+
+	if arrayLength > d.Remaining() {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, d.offset), "array length")
+	} else if arrayLength > 2*math.MaxUint16 {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength), "ARRAY_LENGTH")
+	}
+
+	d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, arrayLength))
+	return arrayLength, nil
+}
+
 func (d *Decoder) GetCompactArrayLength() (int, error) {
 	decodedInteger, err := d.GetUnsignedVarint()
 	if err != nil {
@@ -131,6 +261,29 @@ func (d *Decoder) GetCompactArrayLength() (int, error) {
 	}
 
 	return int(decodedInteger) - 1, nil
+}
+
+// GetCompactArrayLength_Updated is parallels version of GetcompactArrayLength
+func (d *Decoder) GetCompactArrayLength_Updated(variableName string) (int, error) {
+	decodedInteger, err := d.GetUnsignedVarint()
+
+	if err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			return 0, decodingErr.WithAddedContext(variableName)
+		}
+		return 0, err
+	}
+
+	var arrayLength int
+	if decodedInteger == 0 {
+		arrayLength = 0
+	} else {
+		arrayLength = int(decodedInteger) - 1
+	}
+
+	d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, arrayLength))
+
+	return arrayLength, nil
 }
 
 func (d *Decoder) GetBool() (bool, error) {
@@ -187,6 +340,45 @@ func (d *Decoder) GetEmptyTaggedFieldArray() (int, error) {
 	}
 
 	return 0, nil
+}
+
+// ConsumeTagBuffer is a parallel of GetEmptyTaggedFieldArray
+func (d *Decoder) ConsumeTagBuffer() error {
+	d.MuteLogger()
+	// for error cases
+	defer d.UnmuteLogger()
+	tagCount, err := d.GetUnsignedVarint_Updated("TAG_BUFFER")
+
+	if err != nil {
+		return err
+	}
+
+	// skip over any tagged fields without deserializing them
+	// as we don't currently support doing anything with them
+	for i := uint64(0); i < tagCount; i++ {
+		// fetch and ignore tag identifier
+		_, err := d.GetUnsignedVarint_Updated("TAG_BUFFER")
+
+		if err != nil {
+			return err
+		}
+
+		length, err := d.GetUnsignedVarint_Updated("TAG_BUFFER")
+
+		if err != nil {
+			return err
+		}
+
+		_, err = d.ConsumeRawBytes(int(length), "TAG_BUFFER")
+
+		if err != nil {
+			return err
+		}
+	}
+
+	d.UnmuteLogger()
+	d.LogDecodedValue("TAG_BUFFER")
+	return nil
 }
 
 func (d *Decoder) GetBytes() ([]byte, error) {
@@ -495,6 +687,19 @@ func (d *Decoder) GetRawBytes(length int) ([]byte, error) {
 	return d.bytes[start:d.offset], nil
 }
 
+// ConsumeRawBytes is parallels version of GetRawBytes
+func (d *Decoder) ConsumeRawBytes(length int, variableName string) ([]byte, error) {
+	if length < 0 {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be >= 0, got %d", length), "RAW_BYTES", variableName)
+	} else if length > d.Remaining() {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", d.Remaining(), length), "RAW_BYTES", variableName)
+	}
+
+	start := d.offset
+	d.offset += length
+	return d.bytes[start:d.offset], nil
+}
+
 func (d *Decoder) Offset() int {
 	return d.offset
 }
@@ -527,4 +732,8 @@ func (d *Decoder) FormatDetailedError(message string) error {
 
 	//lint:ignore SA1006 we are okay with this
 	return fmt.Errorf(strings.Join(lines, "\n"))
+}
+
+func (d *Decoder) getIndentationString() string {
+	return strings.Repeat("  ", d.indentationLevel)
 }

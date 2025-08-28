@@ -4,11 +4,9 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
@@ -19,22 +17,25 @@ import (
 func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+
 	if err != nil {
 		return err
 	}
 
 	stageLogger := stageHarness.Logger
+
 	if err := b.Run(); err != nil {
 		return err
 	}
 
 	client := kafka_client.NewClient("localhost:9092")
+
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client.Client) {
-		_ = client.Close()
-	}(client)
+
+	defer client.Close()
+
 	correlationId := int32(7)
 
 	request := kafkaapi.ApiVersionsRequest{
@@ -49,42 +50,37 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	message := request.Encode()
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
-
 	err = client.Send(message)
+
 	if err != nil {
 		return err
 	}
+
 	response, err := client.ReceiveRaw()
+
 	if err != nil {
 		return err
 	}
+
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
 	decoder := decoder.Decoder{}
-	decoder.Init(response)
-	stageLogger.UpdateLastSecondaryPrefix("Decoder")
+	decoder.InitNew(response, stageLogger)
 
-	stageLogger.Debugf("- .Response")
-	messageLength, err := decoder.GetInt32()
+	decoder.BeginSubSection("response")
+	_, err = decoder.GetInt32_Updated("message_length")
+
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
-			return decoder.FormatDetailedError(err.Error())
-		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
 
-	stageLogger.Debugf("- .response_header")
-	responseCorrelationId, err := decoder.GetInt32()
+	decoder.BeginSubSection("response_header")
+	responseCorrelationId, err := decoder.GetInt32_Updated("correlation_id")
+
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
-			return decoder.FormatDetailedError(err.Error())
-		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
+
 	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != int32(correlationId) {
