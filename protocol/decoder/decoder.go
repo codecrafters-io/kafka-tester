@@ -14,63 +14,63 @@ type Decoder struct {
 	offset int
 }
 
-func (rd *Decoder) Init(raw []byte) {
-	rd.bytes = raw
-	rd.offset = 0
+func (d *Decoder) Init(raw []byte) {
+	d.bytes = raw
+	d.offset = 0
 }
 
-func (rd *Decoder) GetInt8() (int8, error) {
-	if rd.Remaining() < 1 {
-		rem := rd.Remaining()
+func (d *Decoder) GetInt8() (int8, error) {
+	if d.Remaining() < 1 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int8 length to be 1 byte, got %d bytes", rem), "INT8")
 	}
-	decodedInteger := int8(rd.bytes[rd.offset])
-	rd.offset++
+	decodedInteger := int8(d.bytes[d.offset])
+	d.offset++
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetInt16() (int16, error) {
-	if rd.Remaining() < 2 {
-		rem := rd.Remaining()
+func (d *Decoder) GetInt16() (int16, error) {
+	if d.Remaining() < 2 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int16 length to be 2 bytes, got %d bytes", rem), "INT16")
 	}
-	decodedInteger := int16(binary.BigEndian.Uint16(rd.bytes[rd.offset:]))
-	rd.offset += 2
+	decodedInteger := int16(binary.BigEndian.Uint16(d.bytes[d.offset:]))
+	d.offset += 2
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetInt32() (int32, error) {
-	if rd.Remaining() < 4 {
-		rem := rd.Remaining()
+func (d *Decoder) GetInt32() (int32, error) {
+	if d.Remaining() < 4 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 length to be 4 bytes, got %d bytes", rem), "INT32")
 	}
-	decodedInteger := int32(binary.BigEndian.Uint32(rd.bytes[rd.offset:]))
-	rd.offset += 4
+	decodedInteger := int32(binary.BigEndian.Uint32(d.bytes[d.offset:]))
+	d.offset += 4
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetInt64() (int64, error) {
-	if rd.Remaining() < 8 {
-		rem := rd.Remaining()
+func (d *Decoder) GetInt64() (int64, error) {
+	if d.Remaining() < 8 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 length to be 8 bytes, got %d bytes", rem), "INT64")
 	}
-	decodedInteger := int64(binary.BigEndian.Uint64(rd.bytes[rd.offset:]))
-	rd.offset += 8
+	decodedInteger := int64(binary.BigEndian.Uint64(d.bytes[d.offset:]))
+	d.offset += 8
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetFloat64() (float64, error) {
-	if rd.Remaining() < 8 {
-		rem := rd.Remaining()
+func (d *Decoder) GetFloat64() (float64, error) {
+	if d.Remaining() < 8 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected float64 length to be 8 bytes, got %d bytes", rem), "FLOAT64")
 	}
-	decodedFloat := math.Float64frombits(binary.BigEndian.Uint64(rd.bytes[rd.offset:]))
-	rd.offset += 8
+	decodedFloat := math.Float64frombits(binary.BigEndian.Uint64(d.bytes[d.offset:]))
+	d.offset += 8
 	return decodedFloat, nil
 }
 
-func (rd *Decoder) GetUnsignedVarint() (uint64, error) {
-	decodedInteger, n := binary.Uvarint(rd.bytes[rd.offset:])
+func (d *Decoder) GetUnsignedVarint() (uint64, error) {
+	decodedInteger, n := binary.Uvarint(d.bytes[d.offset:])
 	if n == 0 {
 		return 0, errors.NewPacketDecodingError("Unexpected end of data", "UNSIGNED_VARINT")
 	}
@@ -79,28 +79,28 @@ func (rd *Decoder) GetUnsignedVarint() (uint64, error) {
 		return 0, errors.NewPacketDecodingError(fmt.Sprintf("Unexpected unsigned varint overflow after decoding %d bytes", -n), "UNSIGNED_VARINT")
 	}
 
-	rd.offset += n
+	d.offset += n
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetSignedVarint() (int64, error) {
-	decodedInteger, n := binary.Varint(rd.bytes[rd.offset:])
+func (d *Decoder) GetSignedVarint() (int64, error) {
+	decodedInteger, n := binary.Varint(d.bytes[d.offset:])
 	if n == 0 {
 		return -1, errors.NewPacketDecodingError("Unexpected end of data", "SIGNED_VARINT")
 	}
 	if n < 0 {
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Unexpected varint overflow after decoding %d bytes", -n), "SIGNED_VARINT")
 	}
-	rd.offset += n
+	d.offset += n
 	return decodedInteger, nil
 }
 
-func (rd *Decoder) GetArrayLength() (int, error) {
-	if rd.Remaining() < 4 {
-		rem := rd.Remaining()
+func (d *Decoder) GetArrayLength() (int, error) {
+	if d.Remaining() < 4 {
+		rem := d.Remaining()
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rem), "ARRAY_LENGTH")
 	}
-	decodedInteger, err := rd.GetInt32()
+	decodedInteger, err := d.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return -1, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
@@ -108,8 +108,8 @@ func (rd *Decoder) GetArrayLength() (int, error) {
 		return -1, err
 	}
 	arrayLength := int(decodedInteger)
-	if arrayLength > rd.Remaining() {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, rd.offset), "array length")
+	if arrayLength > d.Remaining() {
+		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, d.offset), "array length")
 	} else if arrayLength > 2*math.MaxUint16 {
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength), "ARRAY_LENGTH")
 	}
@@ -117,8 +117,8 @@ func (rd *Decoder) GetArrayLength() (int, error) {
 	return arrayLength, nil
 }
 
-func (rd *Decoder) GetCompactArrayLength() (int, error) {
-	decodedInteger, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetCompactArrayLength() (int, error) {
+	decodedInteger, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return 0, decodingErr.WithAddedContext("COMPACT_ARRAY_LENGTH")
@@ -133,8 +133,8 @@ func (rd *Decoder) GetCompactArrayLength() (int, error) {
 	return int(decodedInteger) - 1, nil
 }
 
-func (rd *Decoder) GetBool() (bool, error) {
-	decodedBool, err := rd.GetInt8()
+func (d *Decoder) GetBool() (bool, error) {
+	decodedBool, err := d.GetInt8()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return false, decodingErr.WithAddedContext("BOOLEAN")
@@ -150,8 +150,8 @@ func (rd *Decoder) GetBool() (bool, error) {
 	return true, nil
 }
 
-func (rd *Decoder) GetEmptyTaggedFieldArray() (int, error) {
-	tagCount, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetEmptyTaggedFieldArray() (int, error) {
+	tagCount, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return 0, decodingErr.WithAddedContext("TAGGED_FIELD_ARRAY")
@@ -163,21 +163,21 @@ func (rd *Decoder) GetEmptyTaggedFieldArray() (int, error) {
 	// as we don't currently support doing anything with them
 	for i := uint64(0); i < tagCount; i++ {
 		// fetch and ignore tag identifier
-		_, err := rd.GetUnsignedVarint()
+		_, err := d.GetUnsignedVarint()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return 0, decodingErr.WithAddedContext("TAGGED_FIELD_ARRAY")
 			}
 			return 0, err
 		}
-		length, err := rd.GetUnsignedVarint()
+		length, err := d.GetUnsignedVarint()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return 0, decodingErr.WithAddedContext("TAGGED_FIELD_ARRAY")
 			}
 			return 0, err
 		}
-		_, err = rd.GetRawBytes(int(length))
+		_, err = d.GetRawBytes(int(length))
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return 0, decodingErr.WithAddedContext("TAGGED_FIELD_ARRAY")
@@ -189,8 +189,8 @@ func (rd *Decoder) GetEmptyTaggedFieldArray() (int, error) {
 	return 0, nil
 }
 
-func (rd *Decoder) GetBytes() ([]byte, error) {
-	bytesCount, err := rd.GetInt32()
+func (d *Decoder) GetBytes() ([]byte, error) {
+	bytesCount, err := d.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("RAW_BYTES")
@@ -201,11 +201,11 @@ func (rd *Decoder) GetBytes() ([]byte, error) {
 		return nil, nil
 	}
 
-	return rd.GetRawBytes(int(bytesCount))
+	return d.GetRawBytes(int(bytesCount))
 }
 
-func (rd *Decoder) GetVarintBytes() ([]byte, error) {
-	bytesCount, err := rd.GetSignedVarint()
+func (d *Decoder) GetVarintBytes() ([]byte, error) {
+	bytesCount, err := d.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("VARINT_BYTES")
@@ -216,11 +216,11 @@ func (rd *Decoder) GetVarintBytes() ([]byte, error) {
 		return nil, nil
 	}
 
-	return rd.GetRawBytes(int(bytesCount))
+	return d.GetRawBytes(int(bytesCount))
 }
 
-func (rd *Decoder) GetCompactBytes() ([]byte, error) {
-	bytesCount, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetCompactBytes() ([]byte, error) {
+	bytesCount, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("COMPACT_BYTES")
@@ -229,11 +229,11 @@ func (rd *Decoder) GetCompactBytes() ([]byte, error) {
 	}
 
 	length := int(bytesCount - 1)
-	return rd.GetRawBytes(length)
+	return d.GetRawBytes(length)
 }
 
-func (rd *Decoder) GetStringLength() (int, error) {
-	length, err := rd.GetInt16()
+func (d *Decoder) GetStringLength() (int, error) {
+	length, err := d.GetInt16()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return 0, decodingErr.WithAddedContext("STRING_LENGTH")
@@ -246,15 +246,15 @@ func (rd *Decoder) GetStringLength() (int, error) {
 	switch {
 	case n < -1:
 		return 0, errors.NewPacketDecodingError(fmt.Sprintf("Expected string length to be >= -1, got %d", n), "STRING_LENGTH")
-	case n > rd.Remaining():
-		return 0, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", n, rd.offset), "STRING_LENGTH")
+	case n > d.Remaining():
+		return 0, errors.NewPacketDecodingError(fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", n, d.offset), "STRING_LENGTH")
 	}
 
 	return n, nil
 }
 
-func (rd *Decoder) GetString() (string, error) {
-	length, err := rd.GetStringLength()
+func (d *Decoder) GetString() (string, error) {
+	length, err := d.GetStringLength()
 	if err != nil || length == -1 {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return "", decodingErr.WithAddedContext("STRING")
@@ -262,18 +262,18 @@ func (rd *Decoder) GetString() (string, error) {
 		return "", err
 	}
 
-	if rd.Remaining() < length {
-		rem := rd.Remaining()
+	if d.Remaining() < length {
+		rem := d.Remaining()
 		return "", errors.NewPacketDecodingError(fmt.Sprintf("Expected string length to be %d bytes, got %d bytes", length, rem), "STRING")
 	}
 
-	tmpStr := string(rd.bytes[rd.offset : rd.offset+length])
-	rd.offset += length
+	tmpStr := string(d.bytes[d.offset : d.offset+length])
+	d.offset += length
 	return tmpStr, nil
 }
 
-func (rd *Decoder) GetNullableString() (*string, error) {
-	length, err := rd.GetStringLength()
+func (d *Decoder) GetNullableString() (*string, error) {
+	length, err := d.GetStringLength()
 	if err != nil || length == -1 {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("NULLABLE_STRING")
@@ -281,18 +281,18 @@ func (rd *Decoder) GetNullableString() (*string, error) {
 		return nil, err
 	}
 
-	if rd.Remaining() < length {
-		rem := rd.Remaining()
+	if d.Remaining() < length {
+		rem := d.Remaining()
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected string length to be %d bytes, got %d bytes", length, rem), "NULLABLE_STRING")
 	}
 
-	tmpStr := string(rd.bytes[rd.offset : rd.offset+length])
-	rd.offset += length
+	tmpStr := string(d.bytes[d.offset : d.offset+length])
+	d.offset += length
 	return &tmpStr, nil
 }
 
-func (rd *Decoder) GetCompactString() (string, error) {
-	decodedInteger, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetCompactString() (string, error) {
+	decodedInteger, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return "", decodingErr.WithAddedContext("COMPACT_STRING")
@@ -305,18 +305,18 @@ func (rd *Decoder) GetCompactString() (string, error) {
 		return "", errors.NewPacketDecodingError(fmt.Sprintf("Expected COMPACT_STRING length to be > 0, got %d", length), "COMPACT_STRING")
 	}
 
-	if rd.Remaining() < length {
-		rem := rd.Remaining()
+	if d.Remaining() < length {
+		rem := d.Remaining()
 		return "", errors.NewPacketDecodingError(fmt.Sprintf("Expected string length to be %d bytes, got %d bytes", length, rem), "COMPACT_STRING")
 	}
 
-	tmpStr := string(rd.bytes[rd.offset : rd.offset+length])
-	rd.offset += length
+	tmpStr := string(d.bytes[d.offset : d.offset+length])
+	d.offset += length
 	return tmpStr, nil
 }
 
-func (rd *Decoder) GetCompactNullableString() (*string, error) {
-	decodedInteger, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetCompactNullableString() (*string, error) {
+	decodedInteger, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("COMPACT_NULLABLE_STRING")
@@ -335,18 +335,18 @@ func (rd *Decoder) GetCompactNullableString() (*string, error) {
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected compact nullable string length to be > 0, got %d", length), "COMPACT_NULLABLE_STRING")
 	}
 
-	if rd.Remaining() < length {
-		rem := rd.Remaining()
+	if d.Remaining() < length {
+		rem := d.Remaining()
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected string length to be %d bytes, got %d bytes", length, rem), "COMPACT_NULLABLE_STRING")
 	}
 
-	tmpStr := string(rd.bytes[rd.offset : rd.offset+length])
-	rd.offset += length
+	tmpStr := string(d.bytes[d.offset : d.offset+length])
+	d.offset += length
 	return &tmpStr, nil
 }
 
-func (rd *Decoder) GetCompactInt32Array() ([]int32, error) {
-	decodedInteger, err := rd.GetUnsignedVarint()
+func (d *Decoder) GetCompactInt32Array() ([]int32, error) {
+	decodedInteger, err := d.GetUnsignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
@@ -363,7 +363,7 @@ func (rd *Decoder) GetCompactInt32Array() ([]int32, error) {
 	array := make([]int32, arrayLength)
 
 	for i := range array {
-		element, err := rd.GetInt32()
+		element, err := d.GetInt32()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
@@ -375,8 +375,8 @@ func (rd *Decoder) GetCompactInt32Array() ([]int32, error) {
 	return array, nil
 }
 
-func (rd *Decoder) GetInt32Array() ([]int32, error) {
-	arrayLength, err := rd.GetArrayLength()
+func (d *Decoder) GetInt32Array() ([]int32, error) {
+	arrayLength, err := d.GetArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("INT32_ARRAY")
@@ -384,8 +384,8 @@ func (rd *Decoder) GetInt32Array() ([]int32, error) {
 		return nil, err
 	}
 
-	if rd.Remaining() < 4*arrayLength {
-		rem := rd.Remaining()
+	if d.Remaining() < 4*arrayLength {
+		rem := d.Remaining()
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int32 array length to be %d bytes, got %d bytes", 4*arrayLength, rem), "INT32_ARRAY")
 	}
 
@@ -399,7 +399,7 @@ func (rd *Decoder) GetInt32Array() ([]int32, error) {
 
 	array := make([]int32, arrayLength)
 	for i := range array {
-		element, err := rd.GetInt32()
+		element, err := d.GetInt32()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
@@ -411,8 +411,8 @@ func (rd *Decoder) GetInt32Array() ([]int32, error) {
 	return array, nil
 }
 
-func (rd *Decoder) GetInt64Array() ([]int64, error) {
-	arrayLength, err := rd.GetArrayLength()
+func (d *Decoder) GetInt64Array() ([]int64, error) {
+	arrayLength, err := d.GetArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("INT64_ARRAY")
@@ -420,8 +420,8 @@ func (rd *Decoder) GetInt64Array() ([]int64, error) {
 		return nil, err
 	}
 
-	if rd.Remaining() < 8*arrayLength {
-		rem := rd.Remaining()
+	if d.Remaining() < 8*arrayLength {
+		rem := d.Remaining()
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected int64 array length to be %d bytes, got %d bytes", 8*arrayLength, rem), "INT64_ARRAY")
 	}
 
@@ -435,7 +435,7 @@ func (rd *Decoder) GetInt64Array() ([]int64, error) {
 
 	ret := make([]int64, arrayLength)
 	for i := range ret {
-		element, err := rd.GetInt64()
+		element, err := d.GetInt64()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return nil, decodingErr.WithAddedContext("COMPACT_INT32_ARRAY")
@@ -447,8 +447,8 @@ func (rd *Decoder) GetInt64Array() ([]int64, error) {
 	return ret, nil
 }
 
-func (rd *Decoder) GetStringArray() ([]string, error) {
-	arrayLength, err := rd.GetArrayLength()
+func (d *Decoder) GetStringArray() ([]string, error) {
+	arrayLength, err := d.GetArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return nil, decodingErr.WithAddedContext("STRING_ARRAY")
@@ -466,7 +466,7 @@ func (rd *Decoder) GetStringArray() ([]string, error) {
 
 	array := make([]string, arrayLength)
 	for i := range array {
-		element, err := rd.GetString()
+		element, err := d.GetString()
 		if err != nil {
 			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 				return nil, decodingErr.WithAddedContext("STRING_ARRAY")
@@ -479,46 +479,46 @@ func (rd *Decoder) GetStringArray() ([]string, error) {
 	return array, nil
 }
 
-func (rd *Decoder) Remaining() int {
-	return len(rd.bytes) - rd.offset
+func (d *Decoder) Remaining() int {
+	return len(d.bytes) - d.offset
 }
 
-func (rd *Decoder) GetRawBytes(length int) ([]byte, error) {
+func (d *Decoder) GetRawBytes(length int) ([]byte, error) {
 	if length < 0 {
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be >= 0, got %d", length), "RAW_BYTES")
-	} else if length > rd.Remaining() {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", rd.Remaining(), length), "RAW_BYTES")
+	} else if length > d.Remaining() {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", d.Remaining(), length), "RAW_BYTES")
 	}
 
-	start := rd.offset
-	rd.offset += length
-	return rd.bytes[start:rd.offset], nil
+	start := d.offset
+	d.offset += length
+	return d.bytes[start:d.offset], nil
 }
 
-func (rd *Decoder) Offset() int {
-	return rd.offset
+func (d *Decoder) Offset() int {
+	return d.offset
 }
 
-func (rd *Decoder) GetRawBytesFromOffset(length int) ([]byte, error) {
+func (d *Decoder) GetRawBytesFromOffset(length int) ([]byte, error) {
 	if length < 0 {
 		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected length to be >= 0, got %d", length), "RAW_BYTES_FROM_OFFSET")
 	}
 
-	if rd.offset >= len(rd.bytes) {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(rd.bytes), rd.offset), "RAW_BYTES_FROM_OFFSET")
-	} else if rd.offset+length > len(rd.bytes) {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(rd.bytes), rd.offset), "RAW_BYTES_FROM_OFFSET")
+	if d.offset >= len(d.bytes) {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(d.bytes), d.offset), "RAW_BYTES_FROM_OFFSET")
+	} else if d.offset+length > len(d.bytes) {
+		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected offset to be less than length of raw bytes (%d), got %d", len(d.bytes), d.offset), "RAW_BYTES_FROM_OFFSET")
 	}
 
-	return rd.bytes[rd.offset : rd.offset+length], nil
+	return d.bytes[d.offset : d.offset+length], nil
 }
 
 // FormatDetailedError formats the error message with the received bytes and the offset
-func (rd *Decoder) FormatDetailedError(message string) error {
+func (d *Decoder) FormatDetailedError(message string) error {
 	lines := []string{}
 
-	offset := rd.Offset()
-	receivedBytes := rd.bytes
+	offset := d.Offset()
+	receivedBytes := d.bytes
 	receivedByteString := NewInspectableHexDump(receivedBytes)
 
 	lines = append(lines, "Received:")
