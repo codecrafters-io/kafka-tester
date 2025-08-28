@@ -6,3 +6,4 @@ docs/
 
 # ryan's kafka implementation
 internal/test_helpers/ryan/**
+.vscode/
