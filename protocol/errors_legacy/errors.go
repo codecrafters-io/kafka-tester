@@ -1,4 +1,4 @@
-package errors
+package errors_legacy
 
 import (
 	"fmt"

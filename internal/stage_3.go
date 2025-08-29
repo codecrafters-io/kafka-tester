@@ -9,7 +9,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
@@ -69,7 +69,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Debugf("- .Response")
 	messageLength, err := decoder.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
 			return decoder.FormatDetailedError(err.Error())
 		}
@@ -80,7 +80,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger.Debugf("- .response_header")
 	responseCorrelationId, err := decoder.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
 			return decoder.FormatDetailedError(err.Error())
 		}

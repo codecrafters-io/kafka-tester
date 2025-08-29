@@ -2,7 +2,7 @@ package kafkaapi_legacy
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -18,7 +18,7 @@ func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *log
 	responseHeader := headers_legacy.ResponseHeader{Version: 1}
 	logger.Debugf("- .ResponseHeader")
 	if err := responseHeader.Decode(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("DescribeTopicPartitions v0")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
 		}
@@ -28,7 +28,7 @@ func DecodeDescribeTopicPartitionsHeaderAndResponse(response []byte, logger *log
 	DescribeTopicPartitionsResponse := DescribeTopicPartitionsResponse{}
 	logger.Debugf("- .ResponseBody")
 	if err := DescribeTopicPartitionsResponse.Decode(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("DescribeTopicPartitions v0")
 			return nil, nil, decoder.FormatDetailedError(detailedError.Error())
 		}

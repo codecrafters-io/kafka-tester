@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -18,7 +18,7 @@ type ProduceRecordError struct {
 func (r *ProduceRecordError) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	batchIndex, err := rd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("batch_index")
 		}
 		return err
@@ -28,7 +28,7 @@ func (r *ProduceRecordError) decode(rd *decoder_legacy.Decoder, logger *logger.L
 
 	batchIndexErrorMessage, err := rd.GetCompactNullableString()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("batch_index_error_message")
 		}
 		return err
@@ -42,7 +42,7 @@ func (r *ProduceRecordError) decode(rd *decoder_legacy.Decoder, logger *logger.L
 
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
@@ -67,7 +67,7 @@ type ProducePartitionResponse struct {
 func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	index, err := rd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("index")
 		}
 		return err
@@ -77,7 +77,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	errorCode, err := rd.GetInt16()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -87,7 +87,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	baseOffset, err := rd.GetInt64()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("base_offset")
 		}
 		return err
@@ -97,7 +97,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	logAppendTimeMs, err := rd.GetInt64()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("log_append_time_ms")
 		}
 		return err
@@ -107,7 +107,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	logStartOffset, err := rd.GetInt64()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("log_start_offset")
 		}
 		return err
@@ -117,7 +117,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	recordErrorsLength, err := rd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("record_errors.length")
 		}
 		return err
@@ -129,7 +129,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 		protocol.LogWithIndentation(logger, indentation, "- .record_errors[%d]", i)
 		err = p.RecordErrors[i].decode(rd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("record_errors[%d]", i))
 			}
 			return err
@@ -138,7 +138,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	errorMessage, err := rd.GetCompactNullableString()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_message")
 		}
 		return err
@@ -152,7 +152,7 @@ func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *lo
 
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
@@ -170,7 +170,7 @@ type ProduceTopicResponse struct {
 func (t *ProduceTopicResponse) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	name, err := rd.GetCompactString()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("name")
 		}
 		return err
@@ -180,7 +180,7 @@ func (t *ProduceTopicResponse) decode(rd *decoder_legacy.Decoder, logger *logger
 
 	partitionResponsesLength, err := rd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("partition_responses.length")
 		}
 		return err
@@ -192,7 +192,7 @@ func (t *ProduceTopicResponse) decode(rd *decoder_legacy.Decoder, logger *logger
 		protocol.LogWithIndentation(logger, indentation, "- .partition_responses[%d]", i)
 		err = t.PartitionResponses[i].decode(rd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("partition_responses[%d]", i))
 			}
 			return err
@@ -201,7 +201,7 @@ func (t *ProduceTopicResponse) decode(rd *decoder_legacy.Decoder, logger *logger
 
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
@@ -218,7 +218,7 @@ type ProduceResponseBody struct {
 func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	responsesLength, err := rd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("responses.length")
 		}
 		return err
@@ -230,7 +230,7 @@ func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.
 		protocol.LogWithIndentation(logger, indentation, "- .responses[%d]", i)
 		err = p.TopicResponses[i].decode(rd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("responses[%d]", i))
 			}
 			return err
@@ -239,7 +239,7 @@ func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.
 
 	throttleTimeMs, err := rd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("throttle_time_ms")
 		}
 		return err
@@ -249,7 +249,7 @@ func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.
 
 	_, err = rd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("_tagged_fields")
 		}
 		return err
@@ -258,7 +258,7 @@ func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.
 
 	// Check if there are any remaining bytes in the decoder
 	if rd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ProduceResponseBody", rd.Remaining()))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ProduceResponseBody", rd.Remaining()))
 	}
 
 	return nil
@@ -277,7 +277,7 @@ func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
 
 	logger.Debugf("- .response_header")
 	if err := r.Header.Decode(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("Produce Response v11")
 			return decoder.FormatDetailedError(detailedError.Error())
 		}
@@ -286,7 +286,7 @@ func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
 
 	logger.Debugf("- .response_body")
 	if err := r.Body.decode(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("Produce Response v11")
 			return decoder.FormatDetailedError(detailedError.Error())
 		}

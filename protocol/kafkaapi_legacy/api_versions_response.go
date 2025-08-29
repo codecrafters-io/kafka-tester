@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -25,7 +25,7 @@ type ApiKeyEntry struct {
 func (a *ApiKeyEntry) Decode(pd *decoder_legacy.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("api_key")
 		}
 		return err
@@ -33,7 +33,7 @@ func (a *ApiKeyEntry) Decode(pd *decoder_legacy.Decoder, version int16, logger *
 	protocol.LogWithIndentation(logger, indentation, "- .api_key (%d)", a.ApiKey)
 
 	if a.MinVersion, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("min_version")
 		}
 		return err
@@ -41,7 +41,7 @@ func (a *ApiKeyEntry) Decode(pd *decoder_legacy.Decoder, version int16, logger *
 	protocol.LogWithIndentation(logger, indentation, "- .min_version (%d)", a.MinVersion)
 
 	if a.MaxVersion, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("max_version")
 		}
 		return err
@@ -50,7 +50,7 @@ func (a *ApiKeyEntry) Decode(pd *decoder_legacy.Decoder, version int16, logger *
 
 	if version >= 3 {
 		if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("TAG_BUFFER")
 			}
 			return err
@@ -75,7 +75,7 @@ type ApiVersionsResponseBody struct {
 func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -86,7 +86,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 	if r.Version >= 3 {
 		numApiKeys, err = pd.GetCompactArrayLength()
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("num_api_keys")
 			}
 			return err
@@ -94,7 +94,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 	} else {
 		numApiKeys, err = pd.GetArrayLength()
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("num_api_keys")
 			}
 			return err
@@ -103,7 +103,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 	protocol.LogWithIndentation(logger, indentation, "- .num_api_keys (%d)", numApiKeys)
 
 	if numApiKeys < 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
 	}
 
 	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
@@ -111,7 +111,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 		var apiKeyEntry ApiKeyEntry
 		protocol.LogWithIndentation(logger, indentation, "- .ApiKeys[%d]", i)
 		if err = apiKeyEntry.Decode(pd, r.Version, logger, indentation+1); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("ApiKeyEntry[%d]", i))
 			}
 			return err
@@ -121,7 +121,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 
 	if r.Version >= 1 {
 		if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("throttle_time_ms")
 			}
 			return err
@@ -131,7 +131,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 
 	if r.Version >= 3 {
 		if _, err = pd.GetEmptyTaggedFieldArray(); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext("TAG_BUFFER")
 			}
 			return err
@@ -141,7 +141,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 
 	// Check if there are any remaining bytes in the decoder
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", pd.Remaining()))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", pd.Remaining()))
 	}
 
 	return nil
@@ -160,7 +160,7 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 
 	logger.Debugf("- .response_header")
 	if err := r.Header.Decode(&decoder, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Header").WithAddedContext("ApiVersions v4")
 			return decoder.FormatDetailedError(detailedError.Error())
 		}
@@ -173,7 +173,7 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 
 	logger.Debugf("- .ResponseBody")
 	if err := r.Body.Decode(&decoder, r.Body.Version, logger, 1); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			detailedError := decodingErr.WithAddedContext("Response Body").WithAddedContext("ApiVersions v4")
 			return decoder.FormatDetailedError(detailedError.Error())
 		}
