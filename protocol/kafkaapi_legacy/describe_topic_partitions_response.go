@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -19,7 +19,7 @@ type DescribeTopicPartitionsResponse struct {
 func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	a.ThrottleTimeMs, err = pd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("throttle_time_ms")
 		}
 		return err
@@ -28,7 +28,7 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder_legacy.Decoder, log
 
 	var numTopics int
 	if numTopics, err = pd.GetCompactArrayLength(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic.length")
 		}
 		return err
@@ -41,7 +41,7 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder_legacy.Decoder, log
 		var topic DescribeTopicPartitionsResponseTopic
 		protocol.LogWithIndentation(logger, indentation, "- .Topics[%d]", i)
 		if err = topic.Decode(pd, logger, indentation+1); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("Topics[%d]", i))
 			}
 			return err
@@ -52,14 +52,14 @@ func (a *DescribeTopicPartitionsResponse) Decode(pd *decoder_legacy.Decoder, log
 	a.NextCursor = DescribeTopicPartitionsResponseCursor{}
 	err = a.NextCursor.Decode(pd, logger, indentation)
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("next_cursor")
 		}
 		return err
 	}
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -81,7 +81,7 @@ type DescribeTopicPartitionsResponseTopic struct {
 func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	a.ErrorCode, err = pd.GetInt16()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -90,7 +90,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 
 	name, err := pd.GetCompactNullableString()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("name")
 		}
 		return err
@@ -100,14 +100,14 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_id_bytes")
 		}
 		return err
 	}
 	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_id")
 		}
 		return err
@@ -117,7 +117,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 
 	a.IsInternal, err = pd.GetBool()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("is_internal")
 		}
 		return err
@@ -126,7 +126,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 
 	var numPartitions int
 	if numPartitions, err = pd.GetCompactArrayLength(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("num_partitions")
 		}
 		return err
@@ -138,7 +138,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 		var partition DescribeTopicPartitionsResponsePartition
 		protocol.LogWithIndentation(logger, indentation, "- .Partitions[%d]", i)
 		if err = partition.Decode(pd, logger, indentation+1); err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("Partitions[%d]", i))
 			}
 			return err
@@ -148,7 +148,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 
 	topicAuthorizedOperations, err := pd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_authorized_operations")
 		}
 		return err
@@ -157,7 +157,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 	protocol.LogWithIndentation(logger, indentation, "- .topic_authorized_operations (%d)", a.TopicAuthorizedOperations)
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -182,7 +182,7 @@ type DescribeTopicPartitionsResponsePartition struct {
 func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	d.ErrorCode, err = pd.GetInt16()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -191,7 +191,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 
 	d.PartitionIndex, err = pd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("partition_index")
 		}
 		return err
@@ -200,7 +200,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 
 	d.LeaderID, err = pd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("leader_id")
 		}
 		return err
@@ -209,7 +209,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 
 	d.LeaderEpoch, err = pd.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("leader_epoch")
 		}
 		return err
@@ -217,7 +217,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .leader_epoch (%d)", d.LeaderEpoch)
 
 	if d.ReplicaNodes, err = pd.GetCompactInt32Array(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("replica_nodes")
 		}
 		return err
@@ -225,7 +225,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .replica_nodes (%v)", d.ReplicaNodes)
 
 	if d.IsrNodes, err = pd.GetCompactInt32Array(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("isr_nodes")
 		}
 		return err
@@ -233,7 +233,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .isr_nodes (%v)", d.IsrNodes)
 
 	if d.EligibleLeaderReplicas, err = pd.GetCompactInt32Array(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("eligible_leader_replicas")
 		}
 		return err
@@ -241,7 +241,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .eligible_leader_replicas (%v)", d.EligibleLeaderReplicas)
 
 	if d.LastKnownELR, err = pd.GetCompactInt32Array(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("last_known_elr")
 		}
 		return err
@@ -249,7 +249,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .last_known_elr (%v)", d.LastKnownELR)
 
 	if d.OfflineReplicas, err = pd.GetCompactInt32Array(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("offline_replicas")
 		}
 		return err
@@ -257,7 +257,7 @@ func (d *DescribeTopicPartitionsResponsePartition) Decode(pd *decoder_legacy.Dec
 	protocol.LogWithIndentation(logger, indentation, "- .offline_replicas (%v)", d.OfflineReplicas)
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -286,8 +286,8 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder_legacy.Decode
 	// This field is nullable, the first byte indicates whether it's null or not
 	checkPresence, err := pd.GetInt8()
 	if err != nil {
-		if _, ok := err.(*errors.PacketDecodingError); ok {
-			customError := errors.NewPacketDecodingError(fmt.Sprintf("Expected either 0xFF (cursor is null) or 0x01 (cursor is not null), got 0x%02X", uint8(checkPresence)), "RAW_BYTES")
+		if _, ok := err.(*errors_legacy.PacketDecodingError); ok {
+			customError := errors_legacy.NewPacketDecodingError(fmt.Sprintf("Expected either 0xFF (cursor is null) or 0x01 (cursor is not null), got 0x%02X", uint8(checkPresence)), "RAW_BYTES")
 			return customError.WithAddedContext("cursor_is_null")
 		}
 		return err
@@ -302,7 +302,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder_legacy.Decode
 	}
 
 	if c.TopicName, err = pd.GetCompactString(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_name")
 		}
 		return err
@@ -310,7 +310,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder_legacy.Decode
 	protocol.LogWithIndentation(logger, indentation+1, "- .topic_name (%s)", c.TopicName)
 
 	if c.PartitionIndex, err = pd.GetInt32(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("partition_index")
 		}
 		return err
@@ -318,7 +318,7 @@ func (c *DescribeTopicPartitionsResponseCursor) Decode(pd *decoder_legacy.Decode
 	protocol.LogWithIndentation(logger, indentation+1, "- .partition_index (%d)", c.PartitionIndex)
 
 	if _, err := pd.GetEmptyTaggedFieldArray(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err

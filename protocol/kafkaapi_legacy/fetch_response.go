@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -25,7 +25,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	r.Version = version
 
 	if r.ThrottleTimeMs, err = pd.GetInt32(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("throttle_time_ms")
 		}
 		return err
@@ -33,7 +33,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	protocol.LogWithIndentation(logger, indentation, "- .throttle_time_ms (%d)", r.ThrottleTimeMs)
 
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -41,7 +41,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", r.ErrorCode)
 
 	if r.SessionID, err = pd.GetInt32(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("session_id")
 		}
 		return err
@@ -50,7 +50,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 
 	numResponses, err := pd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("num_responses")
 		}
 		return err
@@ -58,7 +58,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	protocol.LogWithIndentation(logger, indentation, "- .num_responses (%d)", numResponses)
 
 	if numResponses < 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("Count of TopicResponses cannot be negative: %d", numResponses))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("Count of TopicResponses cannot be negative: %d", numResponses))
 	}
 
 	r.TopicResponses = make([]TopicResponse, numResponses)
@@ -67,7 +67,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 		protocol.LogWithIndentation(logger, indentation, "- .TopicResponse[%d]", i)
 		err := topicResponse.Decode(pd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("TopicResponse[%d]", i))
 			}
 			return err
@@ -76,7 +76,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -84,7 +84,7 @@ func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger
 	protocol.LogWithIndentation(logger, indentation, "- .TAG_BUFFER")
 
 	if pd.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding FetchResponse", pd.Remaining()))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding FetchResponse", pd.Remaining()))
 	}
 
 	return nil
@@ -98,14 +98,14 @@ type TopicResponse struct {
 func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_id_bytes")
 		}
 		return err
 	}
 	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_id")
 		}
 		return err
@@ -115,7 +115,7 @@ func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logge
 
 	numPartitions, err := pd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("num_partitions")
 		}
 		return err
@@ -124,7 +124,7 @@ func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logge
 	protocol.LogWithIndentation(logger, indentation, "- .num_partitions (%d)", numPartitions)
 
 	if numPartitions < 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("Count of PartitionResponses cannot be negative: %d", numPartitions))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("Count of PartitionResponses cannot be negative: %d", numPartitions))
 	}
 
 	for j := range tr.PartitionResponses {
@@ -132,7 +132,7 @@ func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logge
 		protocol.LogWithIndentation(logger, indentation, "- .PartitionResponse[%d]", j)
 		err := partition.Decode(pd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("PartitionResponse[%d]", j))
 			}
 			return err
@@ -141,7 +141,7 @@ func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logge
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -164,7 +164,7 @@ type PartitionResponse struct {
 
 func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if pr.PartitionIndex, err = pd.GetInt32(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("partition_index")
 		}
 		return err
@@ -172,7 +172,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	protocol.LogWithIndentation(logger, indentation, "- .partition_index (%d)", pr.PartitionIndex)
 
 	if pr.ErrorCode, err = pd.GetInt16(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("error_code")
 		}
 		return err
@@ -180,7 +180,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	protocol.LogWithIndentation(logger, indentation, "- .error_code (%d)", pr.ErrorCode)
 
 	if pr.HighWatermark, err = pd.GetInt64(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("high_watermark")
 		}
 		return err
@@ -188,7 +188,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	protocol.LogWithIndentation(logger, indentation, "- .high_watermark (%d)", pr.HighWatermark)
 
 	if pr.LastStableOffset, err = pd.GetInt64(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("last_stable_offset")
 		}
 		return err
@@ -196,7 +196,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	protocol.LogWithIndentation(logger, indentation, "- .last_stable_offset (%d)", pr.LastStableOffset)
 
 	if pr.LogStartOffset, err = pd.GetInt64(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("log_start_offset")
 		}
 		return err
@@ -205,7 +205,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 
 	numAbortedTransactions, err := pd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("num_aborted_transactions")
 		}
 		return err
@@ -213,7 +213,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	protocol.LogWithIndentation(logger, indentation, "- .num_aborted_transactions (%d)", numAbortedTransactions)
 
 	if numAbortedTransactions < 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("Count of AbortedTransactions cannot be negative: %d", numAbortedTransactions))
+		return errors_legacy.NewPacketDecodingError(fmt.Sprintf("Count of AbortedTransactions cannot be negative: %d", numAbortedTransactions))
 	}
 
 	if numAbortedTransactions > 0 {
@@ -223,7 +223,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 			protocol.LogWithIndentation(logger, indentation, "- .AbortedTransaction[%d]", k)
 			err := abortedTransaction.Decode(pd, logger, indentation+1)
 			if err != nil {
-				if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 					return decodingErr.WithAddedContext(fmt.Sprintf("AbortedTransaction[%d]", k))
 				}
 				return err
@@ -233,7 +233,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	}
 
 	if pr.PreferedReadReplica, err = pd.GetInt32(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("preferred_read_replica")
 		}
 		return err
@@ -243,7 +243,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	// Record Batches are encoded as COMPACT_RECORDS
 	numBytes, err := pd.GetCompactArrayLength()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("compact_records_length")
 		}
 		return err
@@ -256,7 +256,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 		protocol.LogWithIndentation(logger, indentation, "- .RecordBatch[%d]", k)
 		err := recordBatch.Decode(pd, logger, indentation+1)
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 				return decodingErr.WithAddedContext(fmt.Sprintf("RecordBatch[%d]", k))
 			}
 			return err
@@ -270,7 +270,7 @@ func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.L
 	}
 	_, err = pd.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err
@@ -287,7 +287,7 @@ type AbortedTransaction struct {
 
 func (ab *AbortedTransaction) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if ab.ProducerID, err = pd.GetInt64(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("producer_id")
 		}
 		return err
@@ -295,7 +295,7 @@ func (ab *AbortedTransaction) Decode(pd *decoder_legacy.Decoder, logger *logger.
 	protocol.LogWithIndentation(logger, indentation, "- .producer_id (%d)", ab.ProducerID)
 
 	if ab.FirstOffset, err = pd.GetInt64(); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("first_offset")
 		}
 		return err

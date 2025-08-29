@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -29,7 +29,7 @@ func (h *ResponseHeader) Decode(decoder *decoder_legacy.Decoder, logger *logger.
 func (h *ResponseHeader) decodeV0(decoder *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("correlation_id")
 		}
 		return err
@@ -48,7 +48,7 @@ func (h *ResponseHeader) decodeV1(decoder *decoder_legacy.Decoder, logger *logge
 
 	_, err = decoder.GetEmptyTaggedFieldArray()
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("TAG_BUFFER")
 		}
 		return err

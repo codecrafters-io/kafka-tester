@@ -7,7 +7,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 )
 
 type Encoder struct {
@@ -155,7 +155,7 @@ func (re *Encoder) PutStringArray(in []string) {
 
 func (re *Encoder) PutCompactInt32Array(in []int32) error {
 	if in == nil {
-		return errors.NewPacketDecodingError("expected int32 array to be non null", "PutCompactInt32Array")
+		return errors_legacy.NewPacketDecodingError("expected int32 array to be non null", "PutCompactInt32Array")
 	}
 	// 0 represents a null array, so +1 has to be added
 	re.PutUVarint(uint64(len(in)) + 1)
@@ -242,7 +242,7 @@ func EncodeUUID(uuidString string) ([]byte, error) {
 func DecodeUUID(encodedUUID []byte) (string, error) {
 	// Check if the encoded UUID is exactly 16 bytes long
 	if len(encodedUUID) != 16 {
-		return "", errors.NewPacketDecodingError(fmt.Sprintf("invalid UUID length: expected 16 bytes, got %d", len(encodedUUID)), "DecodeUUID")
+		return "", errors_legacy.NewPacketDecodingError(fmt.Sprintf("invalid UUID length: expected 16 bytes, got %d", len(encodedUUID)), "DecodeUUID")
 	}
 
 	// Convert the bytes to a hex string
