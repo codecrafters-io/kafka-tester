@@ -6,12 +6,10 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -40,9 +38,9 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi_legacy.ApiVersionsRequest{
-		Header: builder_legacy.NewRequestHeaderBuilder().WithApiKey(18).WithApiVersion(int16(apiVersion)).WithCorrelationId(correlationId).Build(),
-		Body: kafkaapi_legacy.ApiVersionsRequestBody{
+	request := kafkaapi.ApiVersionsRequest{
+		Header: builder.NewRequestHeaderBuilder().WithApiKey(18).WithApiVersion(int16(apiVersion)).WithCorrelationId(correlationId).Build(),
+		Body: kafkaapi.ApiVersionsRequestBody{
 			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
@@ -63,41 +61,29 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
-	decoder := decoder_legacy.Decoder{}
-	decoder.Init(response)
 	stageLogger.UpdateLastSecondaryPrefix("Decoder")
+	decoder := decoder.Decoder{}
+	decoder.Init(response, stageLogger)
 
-	stageLogger.Debugf("- .Response")
-	messageLength, err := decoder.GetInt32()
+	decoder.BeginSubSection("response")
+
+	_, err = decoder.GetInt32("message_length")
 	if err != nil {
-		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("message length").WithAddedContext("response")
-			return decoder.FormatDetailedError(err.Error())
-		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .message_length (%d)", messageLength)
 
-	stageLogger.Debugf("- .response_header")
-	responseCorrelationId, err := decoder.GetInt32()
+	decoder.BeginSubSection("response_header")
+	responseCorrelationId, err := decoder.GetInt32("correlation_id")
+
 	if err != nil {
-		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("correlation_id").WithAddedContext("response")
-			return decoder.FormatDetailedError(err.Error())
-		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .correlation_id (%d)", responseCorrelationId)
 
-	errorCode, err := decoder.GetInt16()
+	errorCode, err := decoder.GetInt16("error_code")
 	if err != nil {
-		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
-			err = decodingErr.WithAddedContext("errorCode").WithAddedContext("ApiVersionsResponseBody")
-			return decoder.FormatDetailedError(err.Error())
-		}
 		return err
 	}
-	protocol.LogWithIndentation(stageLogger, 1, "- .error_code (%d)", errorCode)
+
 	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != correlationId {
