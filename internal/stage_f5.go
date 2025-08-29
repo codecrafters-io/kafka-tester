@@ -1,20 +1,20 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(stageLogger, false)
+	err := serializer_legacy.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
@@ -25,27 +25,27 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 
 	correlationId := getRandomCorrelationId()
 
-	client := kafka_client.NewClient("localhost:9092")
+	client := kafka_client_legacy.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client.Client) {
+	defer func(client *kafka_client_legacy.Client) {
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.FetchRequest{
-		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
-		Body: kafkaapi.FetchRequestBody{
+	request := kafkaapi_legacy.FetchRequest{
+		Header: builder_legacy.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
+		Body: kafkaapi_legacy.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
 			MaxBytes:          52428800,
 			IsolationLevel:    0,
 			FetchSessionID:    0,
 			FetchSessionEpoch: 0,
-			Topics: []kafkaapi.Topic{
+			Topics: []kafkaapi_legacy.Topic{
 				{
 					TopicUUID: common.TOPIC1_UUID,
-					Partitions: []kafkaapi.Partition{
+					Partitions: []kafkaapi_legacy.Partition{
 						{
 							ID:                 0,
 							CurrentLeaderEpoch: -1,
@@ -57,7 +57,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 					},
 				},
 			},
-			ForgottenTopics: []kafkaapi.ForgottenTopic{},
+			ForgottenTopics: []kafkaapi_legacy.ForgottenTopic{},
 			RackID:          "",
 		},
 	}
@@ -67,32 +67,32 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
+	responseHeader, responseBody, err := kafkaapi_legacy.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	expectedResponseHeader := builder.BuildResponseHeader(correlationId)
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
+	expectedResponseHeader := builder_legacy.BuildResponseHeader(correlationId)
+	if err = assertions_legacy.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
 
-	expectedFetchResponse := kafkaapi.FetchResponse{
+	expectedFetchResponse := kafkaapi_legacy.FetchResponse{
 		ThrottleTimeMs: 0,
 		ErrorCode:      0,
 		SessionID:      0,
-		TopicResponses: []kafkaapi.TopicResponse{
+		TopicResponses: []kafkaapi_legacy.TopicResponse{
 			{
 				Topic: common.TOPIC1_UUID,
-				PartitionResponses: []kafkaapi.PartitionResponse{
+				PartitionResponses: []kafkaapi_legacy.PartitionResponse{
 					{
 						PartitionIndex:      0,
 						ErrorCode:           0,
 						HighWatermark:       0,
 						LastStableOffset:    0,
 						LogStartOffset:      0,
-						AbortedTransactions: []kafkaapi.AbortedTransaction{},
-						RecordBatches: []kafkaapi.RecordBatch{
+						AbortedTransactions: []kafkaapi_legacy.AbortedTransaction{},
+						RecordBatches: []kafkaapi_legacy.RecordBatch{
 							{
 								BaseOffset:           0,
 								BatchLength:          0,
@@ -105,7 +105,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
-								Records: []kafkaapi.Record{
+								Records: []kafkaapi_legacy.Record{
 									{
 										Length:         0,
 										Attributes:     0,
@@ -113,7 +113,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 										OffsetDelta:    0,
 										Key:            nil,
 										Value:          []byte(common.MESSAGE1),
-										Headers:        []kafkaapi.RecordHeader{},
+										Headers:        []kafkaapi_legacy.RecordHeader{},
 									},
 								},
 							},
@@ -125,6 +125,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
+	return assertions_legacy.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		Run(stageLogger)
 }

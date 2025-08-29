@@ -1,11 +1,11 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -14,7 +14,7 @@ import (
 func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), false)
+	err := serializer_legacy.GenerateLogDirs(logger.GetQuietLogger(""), false)
 	if err != nil {
 		return err
 	}
@@ -25,13 +25,13 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 
-	client := kafka_client.NewClient("localhost:9092")
+	client := kafka_client_legacy.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
 	defer client.Close()
 
-	request := builder.NewApiVersionsRequestBuilder().
+	request := builder_legacy.NewApiVersionsRequestBuilder().
 		WithCorrelationId(correlationId).
 		Build()
 
@@ -40,18 +40,18 @@ func testProduce1(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	actualResponse := builder_legacy.NewApiVersionsResponseBuilder().BuildEmpty()
 	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 		return err
 	}
 
-	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+	expectedApiVersionResponse := builder_legacy.NewApiVersionsResponseBuilder().
 		AddApiKeyEntry(0, 0, 11).
 		AddApiKeyEntry(18, 0, 4).
 		WithCorrelationId(correlationId).
 		Build()
 
-	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
+	if err = assertions_legacy.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
 		return err
 	}
 
