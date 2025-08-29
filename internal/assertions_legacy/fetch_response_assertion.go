@@ -1,4 +1,4 @@
-package assertions
+package assertions_legacy
 
 import (
 	"bytes"
