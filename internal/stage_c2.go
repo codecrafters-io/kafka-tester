@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
@@ -47,7 +47,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 
 	for i, client := range clients {
 		correlationIds[i] = int32(random.RandomInt(-math.MaxInt32, math.MaxInt32))
-		request := builder.NewApiVersionsRequestBuilder().
+		request := builder_legacy.NewApiVersionsRequestBuilder().
 			WithCorrelationId(correlationIds[i]).
 			Build()
 
@@ -72,12 +72,12 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 		}
 		stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(rawResponse.RawBytes))
 
-		actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+		actualResponse := builder_legacy.NewApiVersionsResponseBuilder().BuildEmpty()
 		if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
 			return err
 		}
 
-		expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
+		expectedApiVersionResponse := builder_legacy.NewApiVersionsResponseBuilder().
 			AddApiKeyEntry(18, 0, 4).
 			WithCorrelationId(correlationId).
 			Build()

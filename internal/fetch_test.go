@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -23,7 +23,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeaderv1()
+	header := builder_legacy.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -67,7 +67,7 @@ func TestFetchv16With1Message(t *testing.T) {
 	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeaderv1()
+	header := builder_legacy.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -120,7 +120,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeaderv1()
+	header := builder_legacy.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -170,7 +170,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
-	header := builder.BuildEmptyResponseHeaderv1()
+	header := builder_legacy.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
@@ -219,7 +219,7 @@ func TestAPIVersionv3(t *testing.T) {
 	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
-	responseHeader := builder.BuildEmptyResponseHeaderv0()
+	responseHeader := builder_legacy.BuildEmptyResponseHeaderv0()
 
 	if err := responseHeader.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
