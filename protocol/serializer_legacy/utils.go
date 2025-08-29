@@ -1,4 +1,4 @@
-package serializer
+package serializer_legacy
 
 import (
 	"encoding/base64"
