@@ -10,7 +10,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
@@ -32,11 +32,11 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
 
-	client := kafka_client.NewClient("localhost:9092")
+	client := kafka_client_legacy.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client.Client) {
+	defer func(client *kafka_client_legacy.Client) {
 		_ = client.Close()
 	}(client)
 

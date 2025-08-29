@@ -1,4 +1,4 @@
-package kafka_interface
+package kafka_interface_legacy
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
