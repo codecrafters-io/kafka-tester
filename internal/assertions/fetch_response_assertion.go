@@ -5,19 +5,19 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type FetchResponseAssertion struct {
-	ActualValue             kafkaapi.FetchResponse
-	ExpectedValue           kafkaapi.FetchResponse
+	ActualValue             kafkaapi_legacy.FetchResponse
+	ExpectedValue           kafkaapi_legacy.FetchResponse
 	excludedPartitionFields []string
 }
 
-func NewFetchResponseAssertion(actualValue kafkaapi.FetchResponse, expectedValue kafkaapi.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
+func NewFetchResponseAssertion(actualValue kafkaapi_legacy.FetchResponse, expectedValue kafkaapi_legacy.FetchResponse, logger *logger.Logger) *FetchResponseAssertion {
 	return &FetchResponseAssertion{
 		ActualValue:             actualValue,
 		ExpectedValue:           expectedValue,
@@ -78,7 +78,7 @@ func (a *FetchResponseAssertion) assertTopics(logger *logger.Logger) error {
 	return nil
 }
 
-func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.PartitionResponse, actualPartitions []kafkaapi.PartitionResponse, logger *logger.Logger) error {
+func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi_legacy.PartitionResponse, actualPartitions []kafkaapi_legacy.PartitionResponse, logger *logger.Logger) error {
 	if len(actualPartitions) != len(expectedPartitions) {
 		return fmt.Errorf("Expected partitions.length to be %d, got %d", len(expectedPartitions), len(actualPartitions))
 	}
@@ -121,7 +121,7 @@ func (a *FetchResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.
 	return nil
 }
 
-func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kafkaapi.RecordBatch, actualRecordBatches []kafkaapi.RecordBatch, logger *logger.Logger) error {
+func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kafkaapi_legacy.RecordBatch, actualRecordBatches []kafkaapi_legacy.RecordBatch, logger *logger.Logger) error {
 	if len(actualRecordBatches) != len(expectedRecordBatches) {
 		return fmt.Errorf("Expected recordBatches.length to be %d, got %d", len(expectedRecordBatches), len(actualRecordBatches))
 	}
@@ -150,7 +150,7 @@ func (a *FetchResponseAssertion) assertRecordBatches(expectedRecordBatches []kaf
 	return nil
 }
 
-func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record, actualRecords []kafkaapi.Record, logger *logger.Logger) error {
+func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi_legacy.Record, actualRecords []kafkaapi_legacy.Record, logger *logger.Logger) error {
 	if len(actualRecords) != len(expectedRecords) {
 		return fmt.Errorf("Expected records.length to be %d, got %d", len(expectedRecords), len(actualRecords))
 	}
@@ -169,14 +169,14 @@ func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record
 }
 
 func (a *FetchResponseAssertion) assertRecordBatchBytes(logger *logger.Logger) error {
-	actualRecordBatches := kafkaapi.RecordBatches{}
+	actualRecordBatches := kafkaapi_legacy.RecordBatches{}
 	for _, topic := range a.ActualValue.TopicResponses {
 		for _, partition := range topic.PartitionResponses {
 			actualRecordBatches = append(actualRecordBatches, partition.RecordBatches...)
 		}
 	}
 
-	expectedRecordBatches := kafkaapi.RecordBatches{}
+	expectedRecordBatches := kafkaapi_legacy.RecordBatches{}
 	for _, topic := range a.ExpectedValue.TopicResponses {
 		for _, partition := range topic.PartitionResponses {
 			expectedRecordBatches = append(expectedRecordBatches, partition.RecordBatches...)

@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -33,10 +33,10 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.DescribeTopicPartitionsRequest{
+	request := kafkaapi_legacy.DescribeTopicPartitionsRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
-		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
-			Topics: []kafkaapi.TopicName{
+		Body: kafkaapi_legacy.DescribeTopicPartitionsRequestBody{
+			Topics: []kafkaapi_legacy.TopicName{
 				{
 					Name: common.TOPIC1_NAME,
 				},
@@ -58,7 +58,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
+	responseHeader, responseBody, err := kafkaapi_legacy.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -68,14 +68,14 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+	expectedDescribeTopicPartitionsResponse := kafkaapi_legacy.DescribeTopicPartitionsResponse{
 		ThrottleTimeMs: 0,
-		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+		Topics: []kafkaapi_legacy.DescribeTopicPartitionsResponseTopic{
 			{
 				ErrorCode: 0,
 				Name:      common.TOPIC1_NAME,
 				TopicID:   common.TOPIC1_UUID,
-				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+				Partitions: []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition{
 					{
 						ErrorCode:              0,
 						PartitionIndex:         0,
@@ -93,7 +93,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 				ErrorCode: 0,
 				Name:      common.TOPIC2_NAME,
 				TopicID:   common.TOPIC2_UUID,
-				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+				Partitions: []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition{
 					{
 						ErrorCode:              0,
 						PartitionIndex:         0,
@@ -111,7 +111,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 				ErrorCode: 0,
 				Name:      common.TOPIC3_NAME,
 				TopicID:   common.TOPIC3_UUID,
-				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{
+				Partitions: []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition{
 					{
 						ErrorCode:              0,
 						PartitionIndex:         0,

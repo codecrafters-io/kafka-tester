@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -34,10 +34,10 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.DescribeTopicPartitionsRequest{
+	request := kafkaapi_legacy.DescribeTopicPartitionsRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
-		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
-			Topics: []kafkaapi.TopicName{
+		Body: kafkaapi_legacy.DescribeTopicPartitionsRequestBody{
+			Topics: []kafkaapi_legacy.TopicName{
 				{
 					Name: common.TOPIC_UNKOWN_NAME,
 				},
@@ -51,7 +51,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
+	responseHeader, responseBody, err := kafkaapi_legacy.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -61,14 +61,14 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		return err
 	}
 
-	expectedDescribeTopicPartitionsResponse := kafkaapi.DescribeTopicPartitionsResponse{
+	expectedDescribeTopicPartitionsResponse := kafkaapi_legacy.DescribeTopicPartitionsResponse{
 		ThrottleTimeMs: 0,
-		Topics: []kafkaapi.DescribeTopicPartitionsResponseTopic{
+		Topics: []kafkaapi_legacy.DescribeTopicPartitionsResponseTopic{
 			{
 				ErrorCode:  3,
 				Name:       common.TOPIC_UNKOWN_NAME,
 				TopicID:    common.TOPIC_UNKOWN_UUID,
-				Partitions: []kafkaapi.DescribeTopicPartitionsResponsePartition{},
+				Partitions: []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition{},
 			},
 		},
 	}
