@@ -6,7 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -183,8 +183,8 @@ func (a *FetchResponseAssertion) assertRecordBatchBytes(logger *logger.Logger) e
 		}
 	}
 
-	expectedRecordBatchBytes := serializer.GetEncodedBytes(expectedRecordBatches)
-	actualRecordBatchBytes := serializer.GetEncodedBytes(actualRecordBatches)
+	expectedRecordBatchBytes := serializer_legacy.GetEncodedBytes(expectedRecordBatches)
+	actualRecordBatchBytes := serializer_legacy.GetEncodedBytes(actualRecordBatches)
 	// Byte Comparison for expected v actual RecordBatch bytes
 	// As we write them to disk, and expect users to not change the values
 	// we can use a simple byte comparison here.
