@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/kafka_interface_legacy"
 	"github.com/google/uuid"
 )
 

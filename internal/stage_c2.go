@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -27,11 +27,11 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	}
 
 	clientCount := random.RandomInt(2, 4)
-	clients := make([]*kafka_client.Client, clientCount)
+	clients := make([]*kafka_client_legacy.Client, clientCount)
 	correlationIds := make([]int32, clientCount)
 
 	for i := 0; i < clientCount; i++ {
-		clients[i] = kafka_client.NewClient("localhost:9092")
+		clients[i] = kafka_client_legacy.NewClient("localhost:9092")
 		if err := clients[i].ConnectWithRetries(b, stageLogger); err != nil {
 			return err
 		}

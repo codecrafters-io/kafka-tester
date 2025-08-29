@@ -8,7 +8,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
@@ -29,12 +29,10 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	client := kafka_client.NewClient("localhost:9092")
-
+	client := kafka_client_legacy.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-
 	defer client.Close()
 
 	correlationId := getRandomCorrelationId()
