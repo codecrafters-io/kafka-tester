@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -16,7 +16,7 @@ func serializeTopicData(messages []string) []byte {
 	encoder.Init(make([]byte, 4096))
 
 	for i, message := range messages {
-		recordBatch := kafkaapi.RecordBatch{
+		recordBatch := kafkaapi_legacy.RecordBatch{
 			BaseOffset:           int64(i),
 			PartitionLeaderEpoch: 0,
 			Attributes:           0,
@@ -26,13 +26,13 @@ func serializeTopicData(messages []string) []byte {
 			ProducerId:           0,
 			ProducerEpoch:        0,
 			BaseSequence:         0,
-			Records: []kafkaapi.Record{
+			Records: []kafkaapi_legacy.Record{
 				{
 					Attributes:     0,
 					TimestampDelta: 0,
 					Key:            nil,
 					Value:          []byte(message),
-					Headers:        []kafkaapi.RecordHeader{},
+					Headers:        []kafkaapi_legacy.RecordHeader{},
 				},
 			},
 		}

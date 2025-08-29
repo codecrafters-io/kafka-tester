@@ -6,7 +6,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -17,31 +17,31 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 	topic3Name := "saz"
 	topic3UUID := "00000000-0000-4000-8000-000000000091"
 
-	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
+	featureLevelRecord := kafkaapi_legacy.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         12,
 		Version:      0,
-		Data: &kafkaapi.FeatureLevelRecord{
+		Data: &kafkaapi_legacy.FeatureLevelRecord{
 			Name:         "metadata.version",
 			FeatureLevel: 20,
 		},
 	}
 
-	topicRecord3 := kafkaapi.ClusterMetadataPayload{
+	topicRecord3 := kafkaapi_legacy.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         2,
 		Version:      0,
-		Data: &kafkaapi.TopicRecord{
+		Data: &kafkaapi_legacy.TopicRecord{
 			TopicName: topic3Name,
 			TopicUUID: topic3UUID,
 		},
 	}
 
-	partitionRecord3 := kafkaapi.ClusterMetadataPayload{
+	partitionRecord3 := kafkaapi_legacy.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
+		Data: &kafkaapi_legacy.PartitionRecord{
 			PartitionID:      0,
 			TopicUUID:        topic3UUID,
 			Replicas:         []int32{1},
@@ -55,11 +55,11 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		},
 	}
 
-	partitionRecord4 := kafkaapi.ClusterMetadataPayload{
+	partitionRecord4 := kafkaapi_legacy.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
-		Data: &kafkaapi.PartitionRecord{
+		Data: &kafkaapi_legacy.PartitionRecord{
 			PartitionID:      1,
 			TopicUUID:        topic3UUID,
 			Replicas:         []int32{1},
@@ -73,7 +73,7 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		},
 	}
 
-	recordBatch1 := kafkaapi.RecordBatch{
+	recordBatch1 := kafkaapi_legacy.RecordBatch{
 		BaseOffset:           0,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
@@ -83,18 +83,18 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		ProducerId:           -1,
 		ProducerEpoch:        -1,
 		BaseSequence:         -1,
-		Records: []kafkaapi.Record{
+		Records: []kafkaapi_legacy.Record{
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
 				Value:          GetEncodedBytes(featureLevelRecord),
-				Headers:        []kafkaapi.RecordHeader{},
+				Headers:        []kafkaapi_legacy.RecordHeader{},
 			},
 		},
 	}
 
-	recordBatch4 := kafkaapi.RecordBatch{
+	recordBatch4 := kafkaapi_legacy.RecordBatch{
 		BaseOffset:           1,
 		PartitionLeaderEpoch: 1,
 		Attributes:           0,
@@ -104,27 +104,27 @@ func writeClusterMetadataBinSpec(path string, directoryUUID string, logger *logg
 		ProducerId:           -1,
 		ProducerEpoch:        -1,
 		BaseSequence:         -1,
-		Records: []kafkaapi.Record{
+		Records: []kafkaapi_legacy.Record{
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
 				Value:          GetEncodedBytes(topicRecord3),
-				Headers:        []kafkaapi.RecordHeader{},
+				Headers:        []kafkaapi_legacy.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
 				Value:          GetEncodedBytes(partitionRecord3),
-				Headers:        []kafkaapi.RecordHeader{},
+				Headers:        []kafkaapi_legacy.RecordHeader{},
 			},
 			{
 				Attributes:     0,
 				TimestampDelta: 0,
 				Key:            nil,
 				Value:          GetEncodedBytes(partitionRecord4),
-				Headers:        []kafkaapi.RecordHeader{},
+				Headers:        []kafkaapi_legacy.RecordHeader{},
 			},
 		},
 	}

@@ -3,18 +3,18 @@ package builder
 import (
 	"time"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type RecordBatchBuilder struct {
 	baseOffset int64
-	records    []kafkaapi.Record
+	records    []kafkaapi_legacy.Record
 }
 
 func NewRecordBatchBuilder() *RecordBatchBuilder {
 	return &RecordBatchBuilder{
 		baseOffset: 0,
-		records:    []kafkaapi.Record{},
+		records:    []kafkaapi_legacy.Record{},
 	}
 }
 
@@ -23,8 +23,8 @@ func (b *RecordBatchBuilder) WithBaseOffset(baseOffset int64) *RecordBatchBuilde
 	return b
 }
 
-func (b *RecordBatchBuilder) AddRecord(key []byte, value []byte, headers []kafkaapi.RecordHeader) *RecordBatchBuilder {
-	record := kafkaapi.Record{
+func (b *RecordBatchBuilder) AddRecord(key []byte, value []byte, headers []kafkaapi_legacy.RecordHeader) *RecordBatchBuilder {
+	record := kafkaapi_legacy.Record{
 		Attributes:     0,
 		TimestampDelta: 0,
 		Key:            key,
@@ -36,16 +36,16 @@ func (b *RecordBatchBuilder) AddRecord(key []byte, value []byte, headers []kafka
 }
 
 func (b *RecordBatchBuilder) AddStringRecord(value string) *RecordBatchBuilder {
-	return b.AddRecord(nil, []byte(value), []kafkaapi.RecordHeader{})
+	return b.AddRecord(nil, []byte(value), []kafkaapi_legacy.RecordHeader{})
 }
 
-func (b *RecordBatchBuilder) Build() kafkaapi.RecordBatch {
+func (b *RecordBatchBuilder) Build() kafkaapi_legacy.RecordBatch {
 	if len(b.records) == 0 {
 		panic("CodeCrafters Internal Error: At least one record is required in RecordBatch")
 	}
 
 	now := time.Now().UnixMilli()
-	return kafkaapi.RecordBatch{
+	return kafkaapi_legacy.RecordBatch{
 		BaseOffset:           b.baseOffset,
 		PartitionLeaderEpoch: 0,
 		Attributes:           0,
