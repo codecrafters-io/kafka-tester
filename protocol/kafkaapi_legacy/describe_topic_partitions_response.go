@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -105,7 +105,7 @@ func (a *DescribeTopicPartitionsResponseTopic) Decode(pd *decoder_legacy.Decoder
 		}
 		return err
 	}
-	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
+	topicUUID, err := encoder_legacy.DecodeUUID(topicUUIDBytes)
 	if err != nil {
 		if decodingErr, ok := err.(*errors_legacy.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("topic_id")

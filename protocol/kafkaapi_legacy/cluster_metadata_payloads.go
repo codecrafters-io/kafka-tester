@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 )
 
@@ -265,7 +265,7 @@ func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
 	return nil
 }
 
-func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
+func (p ClusterMetadataPayload) Encode(pe *encoder_legacy.Encoder) {
 	pe.PutInt8(p.FrameVersion)
 	pe.PutInt8(p.Type)
 	pe.PutInt8(p.Version)
@@ -303,7 +303,7 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 		record := p.Data.(*TopicRecord)
 
 		pe.PutCompactString(record.TopicName)
-		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
+		uuidBytes, err := encoder_legacy.EncodeUUID(record.TopicUUID)
 		if err != nil {
 			panic(err)
 		}
@@ -314,7 +314,7 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 		record := p.Data.(*PartitionRecord)
 
 		pe.PutInt32(record.PartitionID)
-		uuidBytes, err := encoder.EncodeUUID(record.TopicUUID)
+		uuidBytes, err := encoder_legacy.EncodeUUID(record.TopicUUID)
 		if err != nil {
 			panic(err)
 		}
@@ -329,7 +329,7 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 		if p.Version >= 1 {
 			pe.PutUVarint(uint64(len(record.Directories) + 1))
 			for i := range record.Directories {
-				uuidBytes, err := encoder.EncodeUUID(record.Directories[i])
+				uuidBytes, err := encoder_legacy.EncodeUUID(record.Directories[i])
 				if err != nil {
 					panic(err)
 				}
@@ -346,7 +346,7 @@ func getUUID(pd *decoder_legacy.Decoder) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	topicUUID, err := encoder.DecodeUUID(topicUUIDBytes)
+	topicUUID, err := encoder_legacy.DecodeUUID(topicUUIDBytes)
 	if err != nil {
 		return "", err
 	}

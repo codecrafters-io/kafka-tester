@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -12,7 +12,7 @@ import (
 func serializeTopicData(messages []string) []byte {
 	// Given an array of messages, generates the RecordBatch struct first,
 	// then uses the encoder.Encoder to encode them into bytes.
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	for i, message := range messages {

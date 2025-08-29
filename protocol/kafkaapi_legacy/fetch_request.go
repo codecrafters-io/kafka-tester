@@ -1,7 +1,7 @@
 package kafkaapi_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
@@ -14,7 +14,7 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p Partition) Encode(pe *encoder.Encoder) {
+func (p Partition) Encode(pe *encoder_legacy.Encoder) {
 	pe.PutInt32(p.ID)
 	pe.PutInt32(p.CurrentLeaderEpoch)
 	pe.PutInt64(p.FetchOffset)
@@ -29,8 +29,8 @@ type Topic struct {
 	Partitions []Partition
 }
 
-func (t Topic) Encode(pe *encoder.Encoder) {
-	uuidBytes, err := encoder.EncodeUUID(t.TopicUUID)
+func (t Topic) Encode(pe *encoder_legacy.Encoder) {
+	uuidBytes, err := encoder_legacy.EncodeUUID(t.TopicUUID)
 	if err != nil {
 		return
 	}
@@ -52,8 +52,8 @@ type ForgottenTopic struct {
 	Partitions []int32
 }
 
-func (f ForgottenTopic) Encode(pe *encoder.Encoder) {
-	uuidBytes, err := encoder.EncodeUUID(f.TopicUUID)
+func (f ForgottenTopic) Encode(pe *encoder_legacy.Encoder) {
+	uuidBytes, err := encoder_legacy.EncodeUUID(f.TopicUUID)
 	if err != nil {
 		return
 	}
@@ -72,7 +72,7 @@ func (r FetchRequest) GetHeader() headers_legacy.RequestHeader {
 }
 
 func (r FetchRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return encoder_legacy.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
 
 type FetchRequestBody struct {
@@ -87,7 +87,7 @@ type FetchRequestBody struct {
 	RackID            string
 }
 
-func (r FetchRequestBody) encode(pe *encoder.Encoder) {
+func (r FetchRequestBody) encode(pe *encoder_legacy.Encoder) {
 	pe.PutInt32(r.MaxWaitMS)
 	pe.PutInt32(r.MinBytes)
 	pe.PutInt32(r.MaxBytes)
@@ -117,7 +117,7 @@ func (r FetchRequestBody) encode(pe *encoder.Encoder) {
 }
 
 func (r FetchRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.encode(&encoder)
