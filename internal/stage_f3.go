@@ -6,7 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -35,19 +35,19 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.FetchRequest{
+	request := kafkaapi_legacy.FetchRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
-		Body: kafkaapi.FetchRequestBody{
+		Body: kafkaapi_legacy.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
 			MaxBytes:          52428800,
 			IsolationLevel:    0,
 			FetchSessionID:    0,
 			FetchSessionEpoch: 0,
-			Topics: []kafkaapi.Topic{
+			Topics: []kafkaapi_legacy.Topic{
 				{
 					TopicUUID: UUID,
-					Partitions: []kafkaapi.Partition{
+					Partitions: []kafkaapi_legacy.Partition{
 						{
 							ID:                 0,
 							CurrentLeaderEpoch: -1,
@@ -59,7 +59,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 					},
 				},
 			},
-			ForgottenTopics: []kafkaapi.ForgottenTopic{},
+			ForgottenTopics: []kafkaapi_legacy.ForgottenTopic{},
 			RackID:          "",
 		},
 	}
@@ -69,7 +69,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
+	responseHeader, responseBody, err := kafkaapi_legacy.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -79,14 +79,14 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 		return err
 	}
 
-	expectedFetchResponse := kafkaapi.FetchResponse{
+	expectedFetchResponse := kafkaapi_legacy.FetchResponse{
 		ThrottleTimeMs: 0,
 		ErrorCode:      0,
 		SessionID:      0,
-		TopicResponses: []kafkaapi.TopicResponse{
+		TopicResponses: []kafkaapi_legacy.TopicResponse{
 			{
 				Topic: UUID,
-				PartitionResponses: []kafkaapi.PartitionResponse{
+				PartitionResponses: []kafkaapi_legacy.PartitionResponse{
 					{
 						PartitionIndex: 0,
 						ErrorCode:      100,

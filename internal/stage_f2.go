@@ -5,7 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -32,17 +32,17 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi.FetchRequest{
+	request := kafkaapi_legacy.FetchRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
-		Body: kafkaapi.FetchRequestBody{
+		Body: kafkaapi_legacy.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
 			MaxBytes:          52428800,
 			IsolationLevel:    0,
 			FetchSessionID:    0,
 			FetchSessionEpoch: 0,
-			Topics:            []kafkaapi.Topic{},
-			ForgottenTopics:   []kafkaapi.ForgottenTopic{},
+			Topics:            []kafkaapi_legacy.Topic{},
+			ForgottenTopics:   []kafkaapi_legacy.ForgottenTopic{},
 			RackID:            "",
 		},
 	}
@@ -52,7 +52,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
+	responseHeader, responseBody, err := kafkaapi_legacy.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -62,11 +62,11 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		return err
 	}
 
-	expectedFetchResponse := kafkaapi.FetchResponse{
+	expectedFetchResponse := kafkaapi_legacy.FetchResponse{
 		ThrottleTimeMs: 0,
 		ErrorCode:      0,
 		SessionID:      0,
-		TopicResponses: []kafkaapi.TopicResponse{},
+		TopicResponses: []kafkaapi_legacy.TopicResponse{},
 	}
 	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		SkipRecordBatches().

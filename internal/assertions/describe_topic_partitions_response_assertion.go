@@ -4,13 +4,13 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type DescribeTopicPartitionsResponseAssertion struct {
-	ActualValue             kafkaapi.DescribeTopicPartitionsResponse
-	ExpectedValue           kafkaapi.DescribeTopicPartitionsResponse
+	ActualValue             kafkaapi_legacy.DescribeTopicPartitionsResponse
+	ExpectedValue           kafkaapi_legacy.DescribeTopicPartitionsResponse
 	excludedBodyFields      []string
 	excludedTopicFields     []string
 	excludedPartitionFields []string
@@ -20,7 +20,7 @@ var DTP_EXCLUDABLE_BODY_FIELDS = []string{"ThrottleTimeMs", "Topics"}
 var DTP_EXCLUDABLE_TOPIC_FIELDS = []string{"ErrorCode", "Name", "TopicID", "Partitions"}
 var DTP_EXCLUDABLE_PARTITION_FIELDS = []string{"ErrorCode", "PartitionIndex"}
 
-func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi.DescribeTopicPartitionsResponse, expectedValue kafkaapi.DescribeTopicPartitionsResponse) *DescribeTopicPartitionsResponseAssertion {
+func NewDescribeTopicPartitionsResponseAssertion(actualValue kafkaapi_legacy.DescribeTopicPartitionsResponse, expectedValue kafkaapi_legacy.DescribeTopicPartitionsResponse) *DescribeTopicPartitionsResponseAssertion {
 	return &DescribeTopicPartitionsResponseAssertion{
 		ActualValue:             actualValue,
 		ExpectedValue:           expectedValue,
@@ -123,7 +123,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) assertTopics(logger *logger.L
 	return nil
 }
 
-func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi.DescribeTopicPartitionsResponsePartition, topicPartitionIndex int, logger *logger.Logger) error {
+func (a *DescribeTopicPartitionsResponseAssertion) assertPartitions(expectedPartitions []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition, actualPartitions []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition, topicPartitionIndex int, logger *logger.Logger) error {
 	if len(actualPartitions) != len(expectedPartitions) {
 		return fmt.Errorf("Expected partitions.length to be %d, got %d", len(expectedPartitions), len(actualPartitions))
 	}

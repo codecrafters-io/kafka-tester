@@ -7,7 +7,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,7 +30,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 		return
 	}
 
-	response := kafkaapi.FetchResponse{Version: 16}
+	response := kafkaapi_legacy.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -74,7 +74,7 @@ func TestFetchv16With1Message(t *testing.T) {
 		return
 	}
 
-	response := kafkaapi.FetchResponse{Version: 16}
+	response := kafkaapi_legacy.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -127,7 +127,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 		return
 	}
 
-	response := kafkaapi.FetchResponse{Version: 16}
+	response := kafkaapi_legacy.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -177,7 +177,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 		return
 	}
 
-	response := kafkaapi.FetchResponse{Version: 16}
+	response := kafkaapi_legacy.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -226,7 +226,7 @@ func TestAPIVersionv3(t *testing.T) {
 		return
 	}
 
-	apiVersionsResponse := kafkaapi.ApiVersionsResponseBody{Version: 4}
+	apiVersionsResponse := kafkaapi_legacy.ApiVersionsResponseBody{Version: 4}
 	if err := apiVersionsResponse.Decode(&decoder, 4, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return

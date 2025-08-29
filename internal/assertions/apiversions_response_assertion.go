@@ -3,7 +3,7 @@ package assertions
 import (
 	"fmt"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -21,11 +21,11 @@ var errorCodes = map[int]string{
 }
 
 type ApiVersionsResponseAssertion struct {
-	ActualValue   kafkaapi.ApiVersionsResponse
-	ExpectedValue kafkaapi.ApiVersionsResponse
+	ActualValue   kafkaapi_legacy.ApiVersionsResponse
+	ExpectedValue kafkaapi_legacy.ApiVersionsResponse
 }
 
-func NewApiVersionsResponseAssertion(actualValue kafkaapi.ApiVersionsResponse, expectedValue kafkaapi.ApiVersionsResponse) *ApiVersionsResponseAssertion {
+func NewApiVersionsResponseAssertion(actualValue kafkaapi_legacy.ApiVersionsResponse, expectedValue kafkaapi_legacy.ApiVersionsResponse) *ApiVersionsResponseAssertion {
 	return &ApiVersionsResponseAssertion{
 		ActualValue:   actualValue,
 		ExpectedValue: expectedValue,

@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -39,9 +39,9 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 
-	request := kafkaapi.ApiVersionsRequest{
+	request := kafkaapi_legacy.ApiVersionsRequest{
 		Header: builder.NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(correlationId),
-		Body: kafkaapi.ApiVersionsRequestBody{
+		Body: kafkaapi_legacy.ApiVersionsRequestBody{
 			Version:               4,
 			ClientSoftwareName:    "kafka-cli",
 			ClientSoftwareVersion: "0.1",
