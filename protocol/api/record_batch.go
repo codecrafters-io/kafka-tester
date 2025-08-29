@@ -5,7 +5,7 @@ import (
 	"hash/crc32"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -83,7 +83,7 @@ func (rb RecordBatch) getEncodedLength() int {
 	return encoder.Offset()
 }
 
-func (rb *RecordBatch) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (rb *RecordBatch) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if rb.BaseOffset, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("base_offset")
@@ -276,7 +276,7 @@ func (r Record) getEncodedLength() int {
 	return encoder.Offset()
 }
 
-func (r *Record) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (r *Record) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	length, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -393,7 +393,7 @@ func (rh RecordHeader) Encode(pe *encoder.Encoder) {
 	pe.PutBytes(rh.Value)
 }
 
-func (rh *RecordHeader) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (rh *RecordHeader) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	keyLength, err := pd.GetSignedVarint()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {

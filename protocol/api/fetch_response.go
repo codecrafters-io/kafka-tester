@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -18,7 +18,7 @@ type FetchResponse struct {
 	TopicResponses []TopicResponse
 }
 
-func (r *FetchResponse) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *FetchResponse) Decode(pd *decoder_legacy.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	// After every element in the struct is decoded
 	// We log out the value at the current indentation level
 	// As we nest deeper, we increment the indentation level
@@ -95,7 +95,7 @@ type TopicResponse struct {
 	PartitionResponses []PartitionResponse
 }
 
-func (tr *TopicResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (tr *TopicResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -162,7 +162,7 @@ type PartitionResponse struct {
 	PreferedReadReplica int32
 }
 
-func (pr *PartitionResponse) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (pr *PartitionResponse) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if pr.PartitionIndex, err = pd.GetInt32(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("partition_index")
@@ -285,7 +285,7 @@ type AbortedTransaction struct {
 	FirstOffset int64
 }
 
-func (ab *AbortedTransaction) Decode(pd *decoder.Decoder, logger *logger.Logger, indentation int) (err error) {
+func (ab *AbortedTransaction) Decode(pd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) (err error) {
 	if ab.ProducerID, err = pd.GetInt64(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			return decodingErr.WithAddedContext("producer_id")

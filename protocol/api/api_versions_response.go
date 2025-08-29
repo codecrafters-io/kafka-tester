@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -22,7 +22,7 @@ type ApiKeyEntry struct {
 	MaxVersion int16
 }
 
-func (a *ApiKeyEntry) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (a *ApiKeyEntry) Decode(pd *decoder_legacy.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	a.Version = version
 	if a.ApiKey, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -72,7 +72,7 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(pd *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
 	r.Version = version
 	if r.ErrorCode, err = pd.GetInt16(); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -153,7 +153,7 @@ type ApiVersionsResponse struct {
 }
 
 func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()

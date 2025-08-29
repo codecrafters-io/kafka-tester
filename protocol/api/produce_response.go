@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -15,7 +15,7 @@ type ProduceRecordError struct {
 	BatchIndexErrorMessage *string
 }
 
-func (r *ProduceRecordError) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (r *ProduceRecordError) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	batchIndex, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -64,7 +64,7 @@ type ProducePartitionResponse struct {
 	ErrorMessage   *string
 }
 
-func (p *ProducePartitionResponse) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (p *ProducePartitionResponse) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	index, err := rd.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -167,7 +167,7 @@ type ProduceTopicResponse struct {
 	PartitionResponses []ProducePartitionResponse
 }
 
-func (t *ProduceTopicResponse) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (t *ProduceTopicResponse) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	name, err := rd.GetCompactString()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -215,7 +215,7 @@ type ProduceResponseBody struct {
 	ThrottleTimeMs int32
 }
 
-func (p *ProduceResponseBody) decode(rd *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (p *ProduceResponseBody) decode(rd *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	responsesLength, err := rd.GetCompactArrayLength()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -270,7 +270,7 @@ type ProduceResponse struct {
 }
 
 func (r *ProduceResponse) Decode(response []byte, logger *logger.Logger) error {
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()

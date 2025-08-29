@@ -2,14 +2,14 @@ package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 func DecodeFetchHeaderAndResponse(response []byte, version int16, logger *logger.Logger) (*headers.ResponseHeader, *FetchResponse, error) {
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(response)
 	logger.UpdateLastSecondaryPrefix("Decoder")
 	defer logger.ResetSecondaryPrefixes()
