@@ -6,13 +6,13 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/kafka_interface_legacy"
 	"github.com/google/uuid"
 )
 
 func GetEncodedBytes(encodableObject kafka_interface.Encodable) []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 1024))
 	encodableObject.Encode(&encoder)
 	encodedBytes := encoder.Bytes()[:encoder.Offset()]
