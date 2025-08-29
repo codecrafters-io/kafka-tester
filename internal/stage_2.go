@@ -10,7 +10,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/errors_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -18,7 +18,7 @@ import (
 
 func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
+	err := serializer_legacy.GenerateLogDirs(logger.GetQuietLogger(""), true)
 	if err != nil {
 		return err
 	}

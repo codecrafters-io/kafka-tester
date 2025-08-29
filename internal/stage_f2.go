@@ -6,14 +6,14 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer.GenerateLogDirs(stageLogger, false)
+	err := serializer_legacy.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
