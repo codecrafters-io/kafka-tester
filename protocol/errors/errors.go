@@ -19,8 +19,14 @@ func NewPacketDecodingError(message string) *PacketDecodingError {
 	}
 }
 
-func (e *PacketDecodingError) AddContexts(context ...string) *PacketDecodingError {
-	e.Context = append(context, e.Context...)
+func (e *PacketDecodingError) AddContexts(contexts ...string) *PacketDecodingError {
+	nonEmptyContexts := []string{}
+	for _, context := range contexts {
+		if context != "" {
+			nonEmptyContexts = append(nonEmptyContexts, context)
+		}
+	}
+	e.Context = append(nonEmptyContexts, e.Context...)
 	return e
 }
 

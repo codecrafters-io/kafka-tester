@@ -12,6 +12,8 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+type tagBuffer struct{}
+
 type Decoder struct {
 	bytes              []byte
 	offset             int
@@ -53,8 +55,22 @@ func (d *Decoder) unindentLog() {
 	d.indentationLevel = max(d.indentationLevel-1, 0)
 }
 
-func (d *Decoder) LogDecodedValue(value string) {
-	d.logger.Debugf("%s.%s", d.getIndentationString(), value)
+func (d *Decoder) LogDecodedValue(variableName string, value any) {
+	indentation := d.getIndentationString()
+	if variableName != "" {
+		switch castedValue := value.(type) {
+		case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+			d.logger.Debugf("%s.%s (%d)", indentation, variableName, castedValue)
+		case string:
+			d.logger.Debugf("%s.%s (%s)", indentation, variableName, castedValue)
+		case bool:
+			d.logger.Debugf("%s.%s (%t)", indentation, variableName, castedValue)
+		case tagBuffer:
+			d.logger.Debugf("%s.%s", indentation, "TAG_BUFFER")
+		default:
+			d.logger.Debugf("%s%s (%v)", indentation, variableName, castedValue)
+		}
+	}
 }
 
 func (d *Decoder) MuteLogger() {
@@ -85,9 +101,8 @@ func (d *Decoder) GetInt8(variableName string) (int8, error) {
 
 	decodedInteger := int8(d.bytes[d.offset])
 	d.offset++
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -100,9 +115,7 @@ func (d *Decoder) GetInt16(variableName string) (int16, error) {
 
 	decodedInteger := int16(binary.BigEndian.Uint16(d.bytes[d.offset:]))
 	d.offset += 2
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -116,9 +129,7 @@ func (d *Decoder) GetInt32(variableName string) (int32, error) {
 
 	decodedInteger := int32(binary.BigEndian.Uint32(d.bytes[d.offset:]))
 	d.offset += 4
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -131,9 +142,7 @@ func (d *Decoder) GetInt64(variableName string) (int64, error) {
 
 	decodedInteger := int64(binary.BigEndian.Uint64(d.bytes[d.offset:]))
 	d.offset += 8
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -150,9 +159,7 @@ func (d *Decoder) GetUnsignedVarint(variableName string) (uint64, error) {
 	}
 
 	d.offset += n
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -168,9 +175,7 @@ func (d *Decoder) GetSignedVarint(variableName string) (int64, error) {
 	}
 
 	d.offset += n
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return decodedInteger, nil
 }
 
@@ -195,9 +200,7 @@ func (d *Decoder) GetBool(variableName string) (bool, error) {
 	}
 
 	d.offset++
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%t)", variableName, decodedBool))
-	}
+	d.LogDecodedValue(variableName, decodedBool)
 	return decodedBool, nil
 }
 
@@ -227,9 +230,7 @@ func (d *Decoder) GetArrayLength(variableName string) (int, error) {
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength)).AddContexts("ARRAY_LENGTH", variableName)
 	}
 
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, arrayLength))
-	}
+	d.LogDecodedValue(variableName, arrayLength)
 	return arrayLength, nil
 }
 
@@ -247,9 +248,7 @@ func (d *Decoder) GetCompactArrayLength(variableName string) (int, error) {
 		return 0, nil
 	}
 
-	if variableName != "" {
-		d.LogDecodedValue(fmt.Sprintf("%s (%d)", variableName, decodedInteger))
-	}
+	d.LogDecodedValue(variableName, decodedInteger)
 	return int(decodedInteger) - 1, nil
 }
 
@@ -299,7 +298,7 @@ func (d *Decoder) ConsumeTagBuffer() error {
 		}
 	}
 
-	d.LogDecodedValue("TAG_BUFFER")
+	d.LogDecodedValue("", tagBuffer{})
 	return nil
 }
 
