@@ -1,0 +1,151 @@
+package kafkaapi
+
+import (
+	"fmt"
+
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/tester-utils/logger"
+)
+
+// ApiKeyEntry contains the APIs supported by the broker.
+type ApiKeyEntry struct {
+	// Version defines the protocol version to use for encode and decode
+	Version int16
+	// ApiKey contains the API index.
+	ApiKey int16
+	// MinVersion contains the minimum supported version, inclusive.
+	MinVersion int16
+	// MaxVersion contains the maximum supported version, inclusive.
+	MaxVersion int16
+}
+
+func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName string) (err error) {
+	d.BeginSubSection(variableName)
+	defer d.EndCurrentSubSection()
+
+	a.Version = version
+	if a.ApiKey, err = d.GetInt16("api_key"); err != nil {
+		return err
+	}
+
+	if a.MinVersion, err = d.GetInt16("min_version"); err != nil {
+		return err
+	}
+
+	if a.MaxVersion, err = d.GetInt16("max_version"); err != nil {
+		return err
+	}
+
+	if version >= 3 {
+		if err := d.ConsumeTagBuffer(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+type ApiVersionsResponseBody struct {
+	// Version defines the protocol version to use for encode and decode
+	Version int16
+	// ErrorCode contains the top-level error code.
+	ErrorCode int16
+	// ApiKeys contains the APIs supported by the broker.
+	ApiKeys []ApiKeyEntry
+	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
+	ThrottleTimeMs int32
+}
+
+func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+	d.BeginSubSection("response_body")
+	defer d.EndCurrentSubSection()
+	r.Version = version
+
+	if r.ErrorCode, err = d.GetInt16("error_code"); err != nil {
+		return err
+	}
+
+	var numApiKeys int
+
+	if r.Version >= 3 {
+		numApiKeys, err = d.GetCompactArrayLength("ApiKeys.Length")
+
+		if err != nil {
+			return err
+		}
+	} else {
+		numApiKeys, err = d.GetArrayLength("ApiKeys.Length")
+
+		if err != nil {
+			return err
+		}
+	}
+
+	if numApiKeys < 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
+	}
+
+	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
+
+	for i := 0; i < numApiKeys; i++ {
+		var apiKeyEntry ApiKeyEntry
+		apiKeyEntryName := fmt.Sprintf("ApiKeys[%d]", i)
+
+		if err = apiKeyEntry.Decode(d, r.Version, apiKeyEntryName); err != nil {
+			return err
+		}
+
+		r.ApiKeys[i] = apiKeyEntry
+	}
+
+	if r.Version >= 1 {
+		if r.ThrottleTimeMs, err = d.GetInt32("throttle_time_ms"); err != nil {
+			return err
+		}
+	}
+
+	if r.Version >= 3 {
+		if err = d.ConsumeTagBuffer(); err != nil {
+			return err
+		}
+	}
+
+	// Check if there are any remaining bytes in the decoder
+	if d.Remaining() != 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.Remaining()))
+	}
+
+	return nil
+}
+
+type ApiVersionsResponse struct {
+	Header headers.ResponseHeader
+	Body   ApiVersionsResponseBody
+}
+
+func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
+	logger.UpdateLastSecondaryPrefix("Decoder")
+	decoder := decoder.Decoder{}
+	decoder.Init(response, logger)
+	defer logger.ResetSecondaryPrefixes()
+
+	if err := r.Header.Decode(&decoder); err != nil {
+		return err
+	}
+
+	if r.Body.Version == 0 {
+		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	}
+
+	if err := r.Body.Decode(&decoder, r.Body.Version, logger, 1); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.AddContexts("Response Body", "ApiVersions v4")
+			return decoder.FormatDetailedError(detailedError.Error())
+		}
+		return err
+	}
+
+	return nil
+}
