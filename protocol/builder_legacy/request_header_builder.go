@@ -1,4 +1,4 @@
-package builder
+package builder_legacy
 
 import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 
