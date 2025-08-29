@@ -1,8 +1,8 @@
-package kafkaapi
+package kafkaapi_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
 type ProducePartitionData struct {
@@ -65,11 +65,11 @@ func (r ProduceRequestBody) Encode() []byte {
 }
 
 type ProduceRequest struct {
-	Header headers.RequestHeader
+	Header headers_legacy.RequestHeader
 	Body   ProduceRequestBody
 }
 
-func (r ProduceRequest) GetHeader() headers.RequestHeader {
+func (r ProduceRequest) GetHeader() headers_legacy.RequestHeader {
 	return r.Header
 }
 

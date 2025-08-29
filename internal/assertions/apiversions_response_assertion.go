@@ -3,7 +3,7 @@ package assertions
 import (
 	"fmt"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 

@@ -3,16 +3,16 @@ package assertions
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type ResponseHeaderAssertion struct {
-	ActualValue   headers.ResponseHeader
-	ExpectedValue headers.ResponseHeader
+	ActualValue   headers_legacy.ResponseHeader
+	ExpectedValue headers_legacy.ResponseHeader
 }
 
-func NewResponseHeaderAssertion(actualValue headers.ResponseHeader, expectedValue headers.ResponseHeader) *ResponseHeaderAssertion {
+func NewResponseHeaderAssertion(actualValue headers_legacy.ResponseHeader, expectedValue headers_legacy.ResponseHeader) *ResponseHeaderAssertion {
 	return &ResponseHeaderAssertion{
 		ActualValue:   actualValue,
 		ExpectedValue: expectedValue,

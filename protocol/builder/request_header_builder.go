@@ -1,6 +1,6 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 
 type RequestHeaderBuilder struct {
 	apiKey        int16
@@ -31,12 +31,12 @@ func (b *RequestHeaderBuilder) WithCorrelationId(correlationId int32) *RequestHe
 	return b
 }
 
-func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
+func (b *RequestHeaderBuilder) Build() headers_legacy.RequestHeader {
 	if b.correlationId == -1 {
 		panic("CodeCrafters Internal Error: Correlation ID is required")
 	}
 
-	return headers.RequestHeader{
+	return headers_legacy.RequestHeader{
 		ApiKey:        b.apiKey,
 		ApiVersion:    b.apiVersion,
 		CorrelationId: b.correlationId,
@@ -44,18 +44,18 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 	}
 }
 
-func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) headers.RequestHeader {
+func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) headers_legacy.RequestHeader {
 	return b.WithApiKey(0).WithApiVersion(11).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) headers.RequestHeader {
+func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) headers_legacy.RequestHeader {
 	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) headers.RequestHeader {
+func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) headers_legacy.RequestHeader {
 	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
 }
 
-func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsRequestHeader(correlationId int32) headers.RequestHeader {
+func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsRequestHeader(correlationId int32) headers_legacy.RequestHeader {
 	return b.WithApiKey(75).WithApiVersion(0).WithCorrelationId(correlationId).Build()
 }

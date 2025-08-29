@@ -1,4 +1,4 @@
-package kafkaapi
+package kafkaapi_legacy
 
 import (
 	"fmt"

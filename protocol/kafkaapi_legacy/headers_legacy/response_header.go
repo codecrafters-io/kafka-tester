@@ -1,4 +1,4 @@
-package headers
+package headers_legacy
 
 import (
 	"fmt"

@@ -3,7 +3,7 @@ package builder
 import (
 	"time"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type RecordBatchBuilder struct {
