@@ -332,7 +332,7 @@ func (d *Decoder) GetCompactNullableString() (*string, error) {
 	length := int(decodedInteger - 1)
 
 	if length < 0 {
-		return nil, errors.NewPacketDecodingError(fmt.Sprintf("Expected compact nullable string length to be > 0, got %d", length), "COMPACT_NULLABLE_STRING")
+		return nil, nil
 	}
 
 	if d.Remaining() < length {
