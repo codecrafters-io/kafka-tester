@@ -1,7 +1,7 @@
 package kafkaapi_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
@@ -9,7 +9,7 @@ type TopicName struct {
 	Name string
 }
 
-func (t TopicName) Encode(pe *encoder.Encoder) {
+func (t TopicName) Encode(pe *encoder_legacy.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutEmptyTaggedFieldArray()
 }
@@ -19,7 +19,7 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c Cursor) Encode(pe *encoder.Encoder) {
+func (c Cursor) Encode(pe *encoder_legacy.Encoder) {
 	pe.PutCompactString(c.TopicName)
 	pe.PutInt32(c.PartitionIndex)
 	pe.PutEmptyTaggedFieldArray()
@@ -31,7 +31,7 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor                 Cursor
 }
 
-func (r DescribeTopicPartitionsRequestBody) encode(pe *encoder.Encoder) {
+func (r DescribeTopicPartitionsRequestBody) encode(pe *encoder_legacy.Encoder) {
 	// Encode topics array length
 	pe.PutCompactArrayLength(len(r.Topics))
 
@@ -54,7 +54,7 @@ func (r DescribeTopicPartitionsRequestBody) encode(pe *encoder.Encoder) {
 }
 
 func (r DescribeTopicPartitionsRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.encode(&encoder)
@@ -72,5 +72,5 @@ func (r DescribeTopicPartitionsRequest) GetHeader() headers_legacy.RequestHeader
 }
 
 func (r DescribeTopicPartitionsRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return encoder_legacy.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }

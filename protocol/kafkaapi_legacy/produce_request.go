@@ -1,7 +1,7 @@
 package kafkaapi_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
@@ -10,7 +10,7 @@ type ProducePartitionData struct {
 	RecordBatches []RecordBatch // record data to be produced.
 }
 
-func (p ProducePartitionData) encode(pe *encoder.Encoder) {
+func (p ProducePartitionData) encode(pe *encoder_legacy.Encoder) {
 	pe.PutInt32(p.Index)
 	pe.PutCompactArrayLength(RecordBatches(p.RecordBatches).getEncodedLength())
 	for _, recordBatch := range p.RecordBatches {
@@ -24,7 +24,7 @@ type ProduceTopicData struct {
 	Partitions []ProducePartitionData // each partition to produce to
 }
 
-func (t ProduceTopicData) encode(pe *encoder.Encoder) {
+func (t ProduceTopicData) encode(pe *encoder_legacy.Encoder) {
 	pe.PutCompactString(t.Name)
 	pe.PutCompactArrayLength(len(t.Partitions))
 	for _, partition := range t.Partitions {
@@ -46,7 +46,7 @@ type ProduceRequestBody struct {
 	Topics    []ProduceTopicData // topics to produce to
 }
 
-func (r ProduceRequestBody) encode(pe *encoder.Encoder) {
+func (r ProduceRequestBody) encode(pe *encoder_legacy.Encoder) {
 	pe.PutNullableCompactString(r.TransactionalID)
 	pe.PutInt16(int16(r.Acks))
 	pe.PutInt32(r.TimeoutMs)
@@ -58,7 +58,7 @@ func (r ProduceRequestBody) encode(pe *encoder.Encoder) {
 }
 
 func (r ProduceRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 	r.encode(&encoder)
 	return encoder.ToBytes()
@@ -74,5 +74,5 @@ func (r ProduceRequest) GetHeader() headers_legacy.RequestHeader {
 }
 
 func (r ProduceRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return encoder_legacy.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }

@@ -3,7 +3,7 @@ package kafkaapi_legacy
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
@@ -16,7 +16,7 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r ApiVersionsRequestBody) encode(enc *encoder.Encoder) {
+func (r ApiVersionsRequestBody) encode(enc *encoder_legacy.Encoder) {
 	if r.Version < 3 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
@@ -26,7 +26,7 @@ func (r ApiVersionsRequestBody) encode(enc *encoder.Encoder) {
 }
 
 func (r ApiVersionsRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	r.encode(&encoder)
@@ -44,5 +44,5 @@ func (r ApiVersionsRequest) GetHeader() headers_legacy.RequestHeader {
 }
 
 func (r ApiVersionsRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return encoder_legacy.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }

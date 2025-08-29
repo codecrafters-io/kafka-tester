@@ -1,7 +1,7 @@
 package kafka_interface_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
@@ -11,5 +11,5 @@ type RequestI interface {
 }
 
 type Encodable interface {
-	Encode(pe *encoder.Encoder)
+	Encode(pe *encoder_legacy.Encoder)
 }

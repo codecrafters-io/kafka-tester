@@ -1,7 +1,7 @@
 package headers_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder_legacy"
 )
 
 // RequestHeader defines the header for a Kafka request
@@ -17,7 +17,7 @@ type RequestHeader struct {
 }
 
 // encode v2
-func (h RequestHeader) encode(enc *encoder.Encoder) {
+func (h RequestHeader) encode(enc *encoder_legacy.Encoder) {
 	enc.PutInt16(h.ApiKey)
 	enc.PutInt16(h.ApiVersion)
 	enc.PutInt32(h.CorrelationId)
@@ -26,7 +26,7 @@ func (h RequestHeader) encode(enc *encoder.Encoder) {
 }
 
 func (h RequestHeader) Encode() []byte {
-	encoder := encoder.Encoder{}
+	encoder := encoder_legacy.Encoder{}
 	encoder.Init(make([]byte, 4096))
 
 	h.encode(&encoder)
