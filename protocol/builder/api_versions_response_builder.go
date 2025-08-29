@@ -1,14 +1,14 @@
 package builder
 
 import (
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type ApiVersionsResponseBuilder struct {
 	version        int16
 	correlationId  int32
 	errorCode      int16
-	apiKeys        []kafkaapi.ApiKeyEntry
+	apiKeys        []kafkaapi_legacy.ApiKeyEntry
 	throttleTimeMs int32
 }
 
@@ -18,7 +18,7 @@ func NewApiVersionsResponseBuilder() *ApiVersionsResponseBuilder {
 		correlationId:  -1,
 		errorCode:      0,
 		throttleTimeMs: 0,
-		apiKeys:        []kafkaapi.ApiKeyEntry{},
+		apiKeys:        []kafkaapi_legacy.ApiKeyEntry{},
 	}
 }
 
@@ -38,7 +38,7 @@ func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *A
 }
 
 func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
-	b.apiKeys = append(b.apiKeys, kafkaapi.ApiKeyEntry{
+	b.apiKeys = append(b.apiKeys, kafkaapi_legacy.ApiKeyEntry{
 		Version:    b.version,
 		ApiKey:     apiKey,
 		MinVersion: minVersion,
@@ -47,10 +47,10 @@ func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int
 	return b
 }
 
-func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
-	return kafkaapi.ApiVersionsResponse{
+func (b *ApiVersionsResponseBuilder) Build() kafkaapi_legacy.ApiVersionsResponse {
+	return kafkaapi_legacy.ApiVersionsResponse{
 		Header: NewResponseHeaderBuilder().WithCorrelationId(b.correlationId).WithVersion(0).Build(),
-		Body: kafkaapi.ApiVersionsResponseBody{
+		Body: kafkaapi_legacy.ApiVersionsResponseBody{
 			Version:        b.version,
 			ErrorCode:      b.errorCode,
 			ApiKeys:        b.apiKeys,
@@ -59,9 +59,9 @@ func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 	}
 }
 
-func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi.ApiVersionsResponse {
-	return kafkaapi.ApiVersionsResponse{
+func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi_legacy.ApiVersionsResponse {
+	return kafkaapi_legacy.ApiVersionsResponse{
 		Header: BuildEmptyResponseHeaderv0(),
-		Body:   kafkaapi.ApiVersionsResponseBody{Version: 4},
+		Body:   kafkaapi_legacy.ApiVersionsResponseBody{Version: 4},
 	}
 }

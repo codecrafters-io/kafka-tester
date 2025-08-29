@@ -1,7 +1,7 @@
 package builder
 
 import (
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type producePartitionResponseBuilder struct {
@@ -37,18 +37,18 @@ func (b *producePartitionResponseBuilder) WithError(errorCode int16) *producePar
 	return b
 }
 
-func (b *producePartitionResponseBuilder) Build() kafkaapi.ProducePartitionResponse {
+func (b *producePartitionResponseBuilder) Build() kafkaapi_legacy.ProducePartitionResponse {
 	if b.index == -1 {
 		panic("CodeCrafters Internal Error: index must be set before building PartitionResponse")
 	}
 
-	return kafkaapi.ProducePartitionResponse{
+	return kafkaapi_legacy.ProducePartitionResponse{
 		Index:           b.index,
 		ErrorCode:       b.errorCode,
 		BaseOffset:      b.baseOffset,
 		LogAppendTimeMs: -1,
 		LogStartOffset:  b.logStartOffset,
-		RecordErrors:    []kafkaapi.ProduceRecordError{},
+		RecordErrors:    []kafkaapi_legacy.ProduceRecordError{},
 		ErrorMessage:    nil,
 	}
 }

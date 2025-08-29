@@ -1,18 +1,18 @@
 package builder
 
 import (
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type ProduceResponseBuilder struct {
 	correlationId int32
-	topicData     []kafkaapi.ProduceTopicResponse
+	topicData     []kafkaapi_legacy.ProduceTopicResponse
 }
 
 func NewProduceResponseBuilder() *ProduceResponseBuilder {
 	return &ProduceResponseBuilder{
 		correlationId: -1,
-		topicData:     make([]kafkaapi.ProduceTopicResponse, 0),
+		topicData:     make([]kafkaapi_legacy.ProduceTopicResponse, 0),
 	}
 }
 
@@ -21,7 +21,7 @@ func (b *ProduceResponseBuilder) WithCorrelationId(correlationId int32) *Produce
 	return b
 }
 
-func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionResponse kafkaapi.ProducePartitionResponse) *ProduceResponseBuilder {
+func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitionResponse kafkaapi_legacy.ProducePartitionResponse) *ProduceResponseBuilder {
 	for i := range b.topicData {
 		if b.topicData[i].Name == topicName {
 			b.topicData[i].PartitionResponses = append(b.topicData[i].PartitionResponses, partitionResponse)
@@ -29,9 +29,9 @@ func (b *ProduceResponseBuilder) addPartitionResponse(topicName string, partitio
 		}
 	}
 
-	topicResponse := kafkaapi.ProduceTopicResponse{
+	topicResponse := kafkaapi_legacy.ProduceTopicResponse{
 		Name:               topicName,
-		PartitionResponses: []kafkaapi.ProducePartitionResponse{partitionResponse},
+		PartitionResponses: []kafkaapi_legacy.ProducePartitionResponse{partitionResponse},
 	}
 	b.topicData = append(b.topicData, topicResponse)
 
@@ -57,7 +57,7 @@ func (b *ProduceResponseBuilder) AddSuccessPartitionResponse(topicName string, p
 	return b.addPartitionResponse(topicName, partitionResponse)
 }
 
-func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
+func (b *ProduceResponseBuilder) Build() kafkaapi_legacy.ProduceResponse {
 	if len(b.topicData) == 0 {
 		panic("CodeCrafters Internal Error: At least one topic response is required")
 	}
@@ -66,18 +66,18 @@ func (b *ProduceResponseBuilder) Build() kafkaapi.ProduceResponse {
 		panic("CodeCrafters Internal Error: Correlation ID is required")
 	}
 
-	return kafkaapi.ProduceResponse{
+	return kafkaapi_legacy.ProduceResponse{
 		Header: BuildResponseHeader(b.correlationId),
-		Body: kafkaapi.ProduceResponseBody{
+		Body: kafkaapi_legacy.ProduceResponseBody{
 			TopicResponses: b.topicData,
 			ThrottleTimeMs: 0,
 		},
 	}
 }
 
-func NewEmptyProduceResponse() kafkaapi.ProduceResponse {
-	return kafkaapi.ProduceResponse{
+func NewEmptyProduceResponse() kafkaapi_legacy.ProduceResponse {
+	return kafkaapi_legacy.ProduceResponse{
 		Header: BuildEmptyResponseHeaderv1(),
-		Body:   kafkaapi.ProduceResponseBody{},
+		Body:   kafkaapi_legacy.ProduceResponseBody{},
 	}
 }

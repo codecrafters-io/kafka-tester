@@ -1,6 +1,6 @@
 package builder
 
-import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 
 type ApiVersionsRequestBuilder struct {
 	version               int16
@@ -23,11 +23,11 @@ func (b *ApiVersionsRequestBuilder) WithCorrelationId(correlationId int32) *ApiV
 	return b
 }
 
-func (b *ApiVersionsRequestBuilder) Build() kafkaapi.ApiVersionsRequest {
-	return kafkaapi.ApiVersionsRequest{
+func (b *ApiVersionsRequestBuilder) Build() kafkaapi_legacy.ApiVersionsRequest {
+	return kafkaapi_legacy.ApiVersionsRequest{
 		Header: NewRequestHeaderBuilder().
 			BuildApiVersionsRequestHeader(b.correlationId),
-		Body: kafkaapi.ApiVersionsRequestBody{
+		Body: kafkaapi_legacy.ApiVersionsRequestBody{
 			Version:               b.version,
 			ClientSoftwareName:    b.clientSoftwareName,
 			ClientSoftwareVersion: b.clientSoftwareVersion,
