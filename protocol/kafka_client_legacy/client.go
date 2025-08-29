@@ -1,4 +1,4 @@
-package kafka_client
+package kafka_client_legacy
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/interface"
+	kafka_interface "github.com/codecrafters-io/kafka-tester/protocol/kafka_interface_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
