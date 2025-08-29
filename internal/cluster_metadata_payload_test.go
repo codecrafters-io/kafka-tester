@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/stretchr/testify/assert"
 )

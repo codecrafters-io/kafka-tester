@@ -1,13 +1,13 @@
 package kafka_interface
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
 type RequestI interface {
 	Encode() []byte
-	GetHeader() headers.RequestHeader
+	GetHeader() headers_legacy.RequestHeader
 }
 
 type Encodable interface {

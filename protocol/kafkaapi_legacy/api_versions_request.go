@@ -1,10 +1,10 @@
-package kafkaapi
+package kafkaapi_legacy
 
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
 type ApiVersionsRequestBody struct {
@@ -35,11 +35,11 @@ func (r ApiVersionsRequestBody) Encode() []byte {
 }
 
 type ApiVersionsRequest struct {
-	Header headers.RequestHeader
+	Header headers_legacy.RequestHeader
 	Body   ApiVersionsRequestBody
 }
 
-func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
+func (r ApiVersionsRequest) GetHeader() headers_legacy.RequestHeader {
 	return r.Header
 }
 

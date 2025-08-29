@@ -1,12 +1,12 @@
-package kafkaapi
+package kafkaapi_legacy
 
 import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -148,7 +148,7 @@ func (r *ApiVersionsResponseBody) Decode(pd *decoder_legacy.Decoder, version int
 }
 
 type ApiVersionsResponse struct {
-	Header headers.ResponseHeader
+	Header headers_legacy.ResponseHeader
 	Body   ApiVersionsResponseBody
 }
 

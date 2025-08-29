@@ -1,8 +1,8 @@
-package kafkaapi
+package kafkaapi_legacy
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
 type Partition struct {
@@ -63,11 +63,11 @@ func (f ForgottenTopic) Encode(pe *encoder.Encoder) {
 }
 
 type FetchRequest struct {
-	Header headers.RequestHeader
+	Header headers_legacy.RequestHeader
 	Body   FetchRequestBody
 }
 
-func (r FetchRequest) GetHeader() headers.RequestHeader {
+func (r FetchRequest) GetHeader() headers_legacy.RequestHeader {
 	return r.Header
 }
 

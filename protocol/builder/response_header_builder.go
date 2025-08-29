@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/api/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy/headers_legacy"
 )
 
 type ResponseHeaderBuilder struct {
@@ -30,31 +30,31 @@ func (rb *ResponseHeaderBuilder) WithVersion(version int) *ResponseHeaderBuilder
 	return rb
 }
 
-func (rb *ResponseHeaderBuilder) Build() headers.ResponseHeader {
+func (rb *ResponseHeaderBuilder) Build() headers_legacy.ResponseHeader {
 	if rb.correlationId == -1 {
 		panic("CodeCrafters Internal Error: Correlation ID is required")
 	}
 
-	return headers.ResponseHeader{
+	return headers_legacy.ResponseHeader{
 		Version:       rb.version,
 		CorrelationId: rb.correlationId,
 	}
 }
 
-func BuildResponseHeader(correlationId int32) headers.ResponseHeader {
+func BuildResponseHeader(correlationId int32) headers_legacy.ResponseHeader {
 	return NewResponseHeaderBuilder().WithCorrelationId(correlationId).Build()
 }
 
-func buildEmptyResponseHeader(version int) headers.ResponseHeader {
-	return headers.ResponseHeader{
+func buildEmptyResponseHeader(version int) headers_legacy.ResponseHeader {
+	return headers_legacy.ResponseHeader{
 		Version: version,
 	}
 }
 
-func BuildEmptyResponseHeaderv0() headers.ResponseHeader {
+func BuildEmptyResponseHeaderv0() headers_legacy.ResponseHeader {
 	return buildEmptyResponseHeader(0)
 }
 
-func BuildEmptyResponseHeaderv1() headers.ResponseHeader {
+func BuildEmptyResponseHeaderv1() headers_legacy.ResponseHeader {
 	return buildEmptyResponseHeader(1)
 }

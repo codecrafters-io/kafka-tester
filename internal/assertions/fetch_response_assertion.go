@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"

@@ -1,6 +1,6 @@
 package builder
 
-import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+import kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 
 type ApiVersionsRequestBuilder struct {
 	version               int16

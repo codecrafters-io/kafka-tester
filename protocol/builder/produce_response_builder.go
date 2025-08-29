@@ -1,7 +1,7 @@
 package builder
 
 import (
-	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
+	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
 )
 
 type ProduceResponseBuilder struct {
