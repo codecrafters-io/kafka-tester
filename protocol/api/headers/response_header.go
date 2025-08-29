@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/protocol"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -15,7 +15,7 @@ type ResponseHeader struct {
 	CorrelationId int32
 }
 
-func (h *ResponseHeader) Decode(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) Decode(decoder *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	switch h.Version {
 	case 0:
 		return h.decodeV0(decoder, logger, indentation)
@@ -26,7 +26,7 @@ func (h *ResponseHeader) Decode(decoder *decoder.Decoder, logger *logger.Logger,
 	}
 }
 
-func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) decodeV0(decoder *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	correlation_id, err := decoder.GetInt32()
 	if err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
@@ -40,7 +40,7 @@ func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder, logger *logger.Logge
 	return nil
 }
 
-func (h *ResponseHeader) decodeV1(decoder *decoder.Decoder, logger *logger.Logger, indentation int) error {
+func (h *ResponseHeader) decodeV1(decoder *decoder_legacy.Decoder, logger *logger.Logger, indentation int) error {
 	err := h.decodeV0(decoder, logger, indentation)
 	if err != nil {
 		return err

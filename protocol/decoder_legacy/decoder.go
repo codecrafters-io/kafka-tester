@@ -1,4 +1,4 @@
-package decoder
+package decoder_legacy
 
 import (
 	"encoding/binary"

@@ -7,7 +7,7 @@ import (
 
 	kafkaapi "github.com/codecrafters-io/kafka-tester/protocol/api"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
 )
@@ -20,7 +20,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
 	header := builder.BuildEmptyResponseHeaderv1()
@@ -64,7 +64,7 @@ func TestFetchv16With1Message(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
 	header := builder.BuildEmptyResponseHeaderv1()
@@ -117,7 +117,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
 	header := builder.BuildEmptyResponseHeaderv1()
@@ -167,7 +167,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
 	header := builder.BuildEmptyResponseHeaderv1()
@@ -216,7 +216,7 @@ func TestAPIVersionv3(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder.Decoder{}
+	decoder := decoder_legacy.Decoder{}
 	decoder.Init(b)
 
 	responseHeader := builder.BuildEmptyResponseHeaderv0()

@@ -3,7 +3,7 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 )
@@ -67,7 +67,7 @@ func (p *PartitionRecord) isPayloadRecord() {}
 
 //lint:ignore U1000, these are not used in the codebase currently
 func (p *ClusterMetadataPayload) Decode(data []byte) (err error) {
-	partialDecoder := decoder.Decoder{}
+	partialDecoder := decoder_legacy.Decoder{}
 	partialDecoder.Init(data)
 
 	p.FrameVersion, err = partialDecoder.GetInt8() // Frame Version: 0
@@ -341,7 +341,7 @@ func (p ClusterMetadataPayload) Encode(pe *encoder.Encoder) {
 }
 
 //lint:ignore U1000, these are not used in the codebase currently
-func getUUID(pd *decoder.Decoder) (string, error) {
+func getUUID(pd *decoder_legacy.Decoder) (string, error) {
 	topicUUIDBytes, err := pd.GetRawBytes(16)
 	if err != nil {
 		return "", err
