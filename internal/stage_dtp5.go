@@ -3,7 +3,7 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
@@ -34,7 +34,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 	}(client)
 
 	request := kafkaapi_legacy.DescribeTopicPartitionsRequest{
-		Header: builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
+		Header: builder_legacy.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
 		Body: kafkaapi_legacy.DescribeTopicPartitionsRequestBody{
 			Topics: []kafkaapi_legacy.TopicName{
 				{
@@ -63,7 +63,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	expectedResponseHeader := builder.BuildResponseHeader(correlationId)
+	expectedResponseHeader := builder_legacy.BuildResponseHeader(correlationId)
 	if err = assertions_legacy.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
