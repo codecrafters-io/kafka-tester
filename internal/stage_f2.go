@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -58,7 +58,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}
 
 	expectedResponseHeader := builder.BuildResponseHeader(correlationId)
-	if err = assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
+	if err = assertions_legacy.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
 
@@ -68,7 +68,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		SessionID:      0,
 		TopicResponses: []kafkaapi_legacy.TopicResponse{},
 	}
-	return assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
+	return assertions_legacy.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		SkipRecordBatches().
 		Run(stageLogger)
 }

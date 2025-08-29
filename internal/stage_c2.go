@@ -3,7 +3,7 @@ package internal
 import (
 	"math"
 
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -82,7 +82,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			WithCorrelationId(correlationId).
 			Build()
 
-		if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
+		if err = assertions_legacy.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
 			return err
 		}
 
