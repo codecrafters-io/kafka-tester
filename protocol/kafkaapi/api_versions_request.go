@@ -17,21 +17,19 @@ type ApiVersionsRequestBody struct {
 }
 
 func (r ApiVersionsRequestBody) encode(enc *encoder.Encoder) {
+
 	if r.Version < 3 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
-	enc.PutCompactString(r.ClientSoftwareName)
-	enc.PutCompactString(r.ClientSoftwareVersion)
-	enc.PutEmptyTaggedFieldArray()
+	enc.WriteCompactString(r.ClientSoftwareName)
+	enc.WriteCompactString(r.ClientSoftwareVersion)
+	enc.WriteEmptyTagBuffer()
 }
 
 func (r ApiVersionsRequestBody) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
-
-	r.encode(&encoder)
-
-	return encoder.ToBytes()
+	encoder := encoder.NewEncoder(make([]byte, 4096))
+	r.encode(encoder)
+	return encoder.EncodedBytes()
 }
 
 type ApiVersionsRequest struct {

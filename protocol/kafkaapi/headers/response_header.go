@@ -26,7 +26,7 @@ func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
 }
 
 func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder) error {
-	correlation_id, err := decoder.GetInt32("correlation_id")
+	correlation_id, err := decoder.ReadInt32("correlation_id")
 
 	if err != nil {
 		return err

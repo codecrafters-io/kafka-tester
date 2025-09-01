@@ -59,30 +59,26 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
-	stageLogger.UpdateLastSecondaryPrefix("Decoder")
-	decoder := decoder.Decoder{}
-	decoder.Init(response, stageLogger)
+	decoder := decoder.NewDecoder(response, stageLogger)
 
 	decoder.BeginSubSection("response")
 
-	_, err = decoder.GetInt32("message_length")
+	_, err = decoder.ReadInt32("message_length")
 	if err != nil {
 		return err
 	}
 
 	decoder.BeginSubSection("response_header")
-	responseCorrelationId, err := decoder.GetInt32("correlation_id")
+	responseCorrelationId, err := decoder.ReadInt32("correlation_id")
 
 	if err != nil {
 		return err
 	}
 
-	errorCode, err := decoder.GetInt16("error_code")
+	errorCode, err := decoder.ReadInt16("error_code")
 	if err != nil {
 		return err
 	}
-
-	stageLogger.ResetSecondaryPrefixes()
 
 	if responseCorrelationId != correlationId {
 		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)

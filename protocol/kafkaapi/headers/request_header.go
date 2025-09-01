@@ -18,18 +18,17 @@ type RequestHeader struct {
 
 // encode v2
 func (h RequestHeader) encode(enc *encoder.Encoder) {
-	enc.PutInt16(h.ApiKey)
-	enc.PutInt16(h.ApiVersion)
-	enc.PutInt32(h.CorrelationId)
-	enc.PutString(h.ClientId)
-	enc.PutEmptyTaggedFieldArray()
+	enc.WriteInt16(h.ApiKey)
+	enc.WriteInt16(h.ApiVersion)
+	enc.WriteInt32(h.CorrelationId)
+	enc.WriteString(h.ClientId)
+	enc.WriteEmptyTagBuffer()
 }
 
 func (h RequestHeader) Encode() []byte {
-	encoder := encoder.Encoder{}
-	encoder.Init(make([]byte, 4096))
+	encoder := encoder.NewEncoder(make([]byte, 4096))
 
-	h.encode(&encoder)
+	h.encode(encoder)
 
-	return encoder.ToBytes()
+	return encoder.EncodedBytes()
 }

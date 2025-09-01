@@ -30,9 +30,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 	defer client.Close()
 
-	request := builder.NewApiVersionsRequestBuilder().
-		WithCorrelationId(correlationId).
-		Build()
+	request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationId).Build()
 
 	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {

@@ -26,15 +26,15 @@ func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName str
 	defer d.EndCurrentSubSection()
 
 	a.Version = version
-	if a.ApiKey, err = d.GetInt16("api_key"); err != nil {
+	if a.ApiKey, err = d.ReadInt16("api_key"); err != nil {
 		return err
 	}
 
-	if a.MinVersion, err = d.GetInt16("min_version"); err != nil {
+	if a.MinVersion, err = d.ReadInt16("min_version"); err != nil {
 		return err
 	}
 
-	if a.MaxVersion, err = d.GetInt16("max_version"); err != nil {
+	if a.MaxVersion, err = d.ReadInt16("max_version"); err != nil {
 		return err
 	}
 
@@ -63,20 +63,20 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16, logg
 	defer d.EndCurrentSubSection()
 	r.Version = version
 
-	if r.ErrorCode, err = d.GetInt16("error_code"); err != nil {
+	if r.ErrorCode, err = d.ReadInt16("error_code"); err != nil {
 		return err
 	}
 
 	var numApiKeys int
 
 	if r.Version >= 3 {
-		numApiKeys, err = d.GetCompactArrayLength("ApiKeys.Length")
+		numApiKeys, err = d.ReadCompactArrayLength("ApiKeys.Length")
 
 		if err != nil {
 			return err
 		}
 	} else {
-		numApiKeys, err = d.GetArrayLength("ApiKeys.Length")
+		numApiKeys, err = d.ReadArrayLength("ApiKeys.Length")
 
 		if err != nil {
 			return err
@@ -101,7 +101,7 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16, logg
 	}
 
 	if r.Version >= 1 {
-		if r.ThrottleTimeMs, err = d.GetInt32("throttle_time_ms"); err != nil {
+		if r.ThrottleTimeMs, err = d.ReadInt32("throttle_time_ms"); err != nil {
 			return err
 		}
 	}
@@ -113,8 +113,8 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16, logg
 	}
 
 	// Check if there are any remaining bytes in the decoder
-	if d.Remaining() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.Remaining()))
+	if d.UnreadBytesCount() != 0 {
+		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.UnreadBytesCount()))
 	}
 
 	return nil
@@ -126,12 +126,9 @@ type ApiVersionsResponse struct {
 }
 
 func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
-	logger.UpdateLastSecondaryPrefix("Decoder")
-	decoder := decoder.Decoder{}
-	decoder.Init(response, logger)
-	defer logger.ResetSecondaryPrefixes()
+	decoder := decoder.NewDecoder(response, logger)
 
-	if err := r.Header.Decode(&decoder); err != nil {
+	if err := r.Header.Decode(decoder); err != nil {
 		return err
 	}
 
@@ -139,9 +136,9 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	}
 
-	if err := r.Body.Decode(&decoder, r.Body.Version, logger, 1); err != nil {
+	if err := r.Body.Decode(decoder, r.Body.Version, logger, 1); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.AddContexts("Response Body", "ApiVersions v4")
+			detailedError := decodingErr.AddContexts("Response Body", "ApiVersions Response")
 			return decoder.FormatDetailedError(detailedError.Error())
 		}
 		return err
