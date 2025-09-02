@@ -191,6 +191,18 @@ func (d *Decoder) ConsumeTagBuffer() error {
 	// skip over any tagged fields without deserializing them
 	// as we don't currently support doing anything with them
 	for range tagCount {
+		// ignore tag identifier
+		_, err := d.ReadUnsignedVarint("")
+
+		if err != nil {
+			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+				return decodingErr.AddContexts("TAG_BUFFER")
+			}
+
+			return err
+		}
+
+		// value length
 		length, err := d.ReadUnsignedVarint("")
 
 		if err != nil {
@@ -201,6 +213,7 @@ func (d *Decoder) ConsumeTagBuffer() error {
 			return err
 		}
 
+		// value
 		_, err = d.ConsumeRawBytes(int(length), "")
 
 		if err != nil {
