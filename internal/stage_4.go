@@ -14,12 +14,13 @@ import (
 )
 
 func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) error {
-	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
 
 	if err := files_manager.InitializeClusterMetadata(stageLogger); err != nil {
 		return err
 	}
+
+	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
 	if err := b.Run(); err != nil {
 		return err
