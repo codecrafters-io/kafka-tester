@@ -56,6 +56,11 @@ func (d *Decoder) EndCurrentSubSection() {
 }
 
 func (d *Decoder) logDecodedValue(variableName string, value any) {
+	// WILL_REMOVE LATER: Not sure if this is a good approach, if variable name is not empty, we don't log it
+	// useful in cases where we don't want to log intermediate variables. (eg. see line 192 in ConsumeTagBuffer)
+	// However, it isn't so obvious from the usage
+	// If i'd made this a string pointer, a lot more changes were requred and constructs like (&"variable_name") wouldn't have been possible
+	// Need some feedback on this
 	if variableName == "" {
 		return
 	}
@@ -186,17 +191,6 @@ func (d *Decoder) ConsumeTagBuffer() error {
 	// skip over any tagged fields without deserializing them
 	// as we don't currently support doing anything with them
 	for range tagCount {
-		// fetch and ignore tag identifier
-		_, err := d.ReadUnsignedVarint("")
-
-		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.AddContexts("TAG_BUFFER")
-			}
-
-			return err
-		}
-
 		length, err := d.ReadUnsignedVarint("")
 
 		if err != nil {
