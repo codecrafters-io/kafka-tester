@@ -3,37 +3,36 @@ package internal
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/tester-utils/logger"
-
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/files_manager"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer_legacy.GenerateLogDirs(logger.GetQuietLogger(""), true)
-	if err != nil {
+	stageLogger := stageHarness.Logger
+
+	if err := files_manager.InitializeClusterMetadata(stageLogger); err != nil {
 		return err
 	}
 
-	stageLogger := stageHarness.Logger
 	if err := b.Run(); err != nil {
 		return err
 	}
 
 	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
-
 	client := kafka_client.NewClient("localhost:9092")
+
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
+
 	defer client.Close()
 
 	request := kafkaapi.ApiVersionsRequest{
@@ -48,22 +47,23 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	message := request.Encode()
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
+	err := client.Send(message)
 
-	err = client.Send(message)
 	if err != nil {
 		return err
 	}
+
 	response, err := client.ReceiveRaw()
+
 	if err != nil {
 		return err
 	}
+
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
-
 	decoder := decoder.NewDecoder(response, stageLogger)
-
 	decoder.BeginSubSection("response")
-
 	_, err = decoder.ReadInt32("message_length")
+
 	if err != nil {
 		return err
 	}
@@ -76,6 +76,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	errorCode, err := decoder.ReadInt16("error_code")
+
 	if err != nil {
 		return err
 	}

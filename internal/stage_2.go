@@ -6,22 +6,20 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/files_manager"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := serializer_legacy.GenerateLogDirs(logger.GetQuietLogger(""), true)
-	if err != nil {
+	stageLogger := stageHarness.Logger
+
+	if err := files_manager.InitializeClusterMetadata(stageHarness.Logger); err != nil {
 		return err
 	}
-
-	stageLogger := stageHarness.Logger
 
 	if err := b.Run(); err != nil {
 		return err
@@ -34,7 +32,6 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	defer client.Close()
-
 	correlationId := int32(7)
 
 	request := kafkaapi.ApiVersionsRequest{
@@ -49,7 +46,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	message := request.Encode()
 	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
-	err = client.Send(message)
+	err := client.Send(message)
 
 	if err != nil {
 		return err
@@ -62,9 +59,7 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
-
 	decoder := decoder.NewDecoder(response, stageLogger)
-
 	decoder.BeginSubSection("response")
 	_, err = decoder.ReadInt32("message_length")
 
