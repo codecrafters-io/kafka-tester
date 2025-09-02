@@ -10,9 +10,7 @@ type Encoder struct {
 }
 
 func NewEncoder() *Encoder {
-	// Start with a reasonable size instead of 0
-	// to avoid re-grow operations for relatively small size encoding
-	buffer := bytes.NewBuffer(make([]byte, 1024))
+	buffer := bytes.NewBuffer(nil)
 	return &Encoder{
 		buffer: buffer,
 	}

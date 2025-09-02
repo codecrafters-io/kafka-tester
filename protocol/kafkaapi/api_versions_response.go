@@ -58,7 +58,7 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16, logger *logger.Logger, indentation int) (err error) {
+func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16) (err error) {
 	d.BeginSubSection("response_body")
 	defer d.EndCurrentSubSection()
 	r.Version = version
@@ -136,7 +136,7 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) err
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	}
 
-	if err := r.Body.Decode(decoder, r.Body.Version, logger, 1); err != nil {
+	if err := r.Body.Decode(decoder, r.Body.Version); err != nil {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.AddContexts("Response Body", "ApiVersions Response")
 			return decoder.FormatDetailedError(detailedError.Error())
