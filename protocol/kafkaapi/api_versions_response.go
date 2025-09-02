@@ -9,39 +9,25 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-// ApiKeyEntry contains the APIs supported by the broker.
-type ApiKeyEntry struct {
-	// Version defines the protocol version to use for encode and decode
-	Version int16
-	// ApiKey contains the API index.
-	ApiKey int16
-	// MinVersion contains the minimum supported version, inclusive.
-	MinVersion int16
-	// MaxVersion contains the maximum supported version, inclusive.
-	MaxVersion int16
+type ApiVersionsResponse struct {
+	Header headers.ResponseHeader
+	Body   ApiVersionsResponseBody
 }
 
-func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName string) (err error) {
-	d.BeginSubSection(variableName)
-	defer d.EndCurrentSubSection()
+func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
+	decoder := decoder.NewDecoder(response, logger)
 
-	a.Version = version
-	if a.ApiKey, err = d.ReadInt16("api_key"); err != nil {
+	if err := r.Header.Decode(decoder); err != nil {
 		return err
 	}
 
-	if a.MinVersion, err = d.ReadInt16("min_version"); err != nil {
-		return err
-	}
-
-	if a.MaxVersion, err = d.ReadInt16("max_version"); err != nil {
-		return err
-	}
-
-	if version >= 3 {
-		if err := d.ConsumeTagBuffer(); err != nil {
-			return err
+	if err := r.Body.Decode(decoder); err != nil {
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.AddContexts("ApiVersions Response")
+			return decoder.FormatDetailedError(detailedError.Error())
 		}
+
+		return err
 	}
 
 	return nil
@@ -58,10 +44,13 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16) (err error) {
+func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
+	if r.Version == 0 {
+		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	}
+
 	d.BeginSubSection("response_body")
 	defer d.EndCurrentSubSection()
-	r.Version = version
 
 	if r.ErrorCode, err = d.ReadInt16("error_code"); err != nil {
 		return err
@@ -120,28 +109,36 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder, version int16) (err
 	return nil
 }
 
-type ApiVersionsResponse struct {
-	Header headers.ResponseHeader
-	Body   ApiVersionsResponseBody
+// ApiKeyEntry contains the APIs supported by the broker.
+type ApiKeyEntry struct {
+	// ApiKey contains the API index.
+	ApiKey int16
+	// MinVersion contains the minimum supported version, inclusive.
+	MinVersion int16
+	// MaxVersion contains the maximum supported version, inclusive.
+	MaxVersion int16
 }
 
-func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
-	decoder := decoder.NewDecoder(response, logger)
+func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName string) (err error) {
+	d.BeginSubSection(variableName)
+	defer d.EndCurrentSubSection()
 
-	if err := r.Header.Decode(decoder); err != nil {
+	if a.ApiKey, err = d.ReadInt16("api_key"); err != nil {
 		return err
 	}
 
-	if r.Body.Version == 0 {
-		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	if a.MinVersion, err = d.ReadInt16("min_version"); err != nil {
+		return err
 	}
 
-	if err := r.Body.Decode(decoder, r.Body.Version); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.AddContexts("Response Body", "ApiVersions Response")
-			return decoder.FormatDetailedError(detailedError.Error())
+	if a.MaxVersion, err = d.ReadInt16("max_version"); err != nil {
+		return err
+	}
+
+	if version >= 3 {
+		if err := d.ConsumeTagBuffer(); err != nil {
+			return err
 		}
-		return err
 	}
 
 	return nil

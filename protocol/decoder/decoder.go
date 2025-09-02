@@ -30,6 +30,10 @@ func NewDecoder(bytes []byte, logger *logger.Logger) *Decoder {
 	}
 }
 
+func (d *Decoder) Offset() int {
+	return d.offset
+}
+
 func (d *Decoder) UnreadBytesCount() int {
 	return len(d.bytes) - d.offset
 }
@@ -43,13 +47,7 @@ func (d *Decoder) unindentLog() {
 }
 
 func (d *Decoder) BeginSubSection(sectionName string) {
-	dot := "."
-	// don't print (.) on first indentation level
-	if d.indentationLevel == 0 {
-		dot = ""
-	}
-
-	d.logger.Debugf("%s%s%s", d.getIndentationString(), dot, sectionName)
+	d.logger.Debugf("%s%s", d.getIndentationString(), sectionName)
 	d.indentLog()
 }
 
@@ -58,22 +56,26 @@ func (d *Decoder) EndCurrentSubSection() {
 }
 
 func (d *Decoder) logDecodedValue(variableName string, value any) {
+	if variableName == "" {
+		return
+	}
+
 	indentationString := d.getIndentationString()
 
 	switch castedValue := value.(type) {
 	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
-		d.logger.Debugf("%s.%s (%d)", indentationString, variableName, castedValue)
+		d.logger.Debugf("%s%s (%d)", indentationString, variableName, castedValue)
 	case string:
-		d.logger.Debugf("%s.%s (%s)", indentationString, variableName, castedValue)
+		d.logger.Debugf("%s%s (%s)", indentationString, variableName, castedValue)
 	case bool:
-		d.logger.Debugf("%s.%s (%t)", indentationString, variableName, castedValue)
+		d.logger.Debugf("%s%s (%t)", indentationString, variableName, castedValue)
 	default:
 		d.logger.Debugf("%s%s (%v)", indentationString, variableName, castedValue)
 	}
 }
 
 func (d *Decoder) logTagBuffer() {
-	d.logger.Debugf("%s.%s", d.getIndentationString(), "TAG_BUFFER")
+	d.logger.Debugf("%s%s", d.getIndentationString(), "TAG_BUFFER")
 }
 
 // Primitive Types
@@ -234,10 +236,6 @@ func (d *Decoder) ConsumeRawBytes(length int, variableName string) ([]byte, erro
 	return d.bytes[start:d.offset], nil
 }
 
-func (d *Decoder) Offset() int {
-	return d.offset
-}
-
 // FormatDetailedError formats the error message with the received bytes and the offset
 func (d *Decoder) FormatDetailedError(message string) error {
 	lines := []string{}
@@ -254,5 +252,13 @@ func (d *Decoder) FormatDetailedError(message string) error {
 }
 
 func (d *Decoder) getIndentationString() string {
-	return strings.Repeat("  ", d.indentationLevel)
+	indentationSpaces := strings.Repeat("  ", d.indentationLevel)
+	bullet := "- "
+
+	// Only need dot for indented level
+	if d.indentationLevel != 0 {
+		bullet = "- ."
+	}
+
+	return indentationSpaces + bullet
 }

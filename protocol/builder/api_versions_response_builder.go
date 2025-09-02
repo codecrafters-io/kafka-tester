@@ -37,7 +37,6 @@ func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *A
 
 func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
 	b.apiKeys = append(b.apiKeys, kafkaapi.ApiKeyEntry{
-		Version:    b.version,
 		ApiKey:     apiKey,
 		MinVersion: minVersion,
 		MaxVersion: maxVersion,
