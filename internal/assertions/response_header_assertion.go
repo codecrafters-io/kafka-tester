@@ -23,6 +23,7 @@ func (a *ResponseHeaderAssertion) assertCorrelationId(logger *logger.Logger) err
 	if a.ActualValue.CorrelationId != a.ExpectedValue.CorrelationId {
 		return fmt.Errorf("Expected correlation_id to be %d, got %d", a.ExpectedValue.CorrelationId, a.ActualValue.CorrelationId)
 	}
+
 	logger.Successf("✓ correlation_id: %v", a.ActualValue.CorrelationId)
 
 	return nil

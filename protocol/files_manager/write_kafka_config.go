@@ -26,7 +26,7 @@ log.dirs=/tmp/kraft-combined-logs`
 		return fmt.Errorf("error writing file to %s: %w", kraftServerPropertiesPath, err)
 	}
 
-	logger.Debugf("%sWrote file to: %s", f.getIndentedPrefix(), kraftServerPropertiesPath)
+	logger.Debugf("%sWrote %s", f.getIndentedPrefix(), kraftServerPropertiesPath)
 	return nil
 }
 
@@ -40,6 +40,6 @@ func (f *FilesManager) writeKafkaCleanShutdown() error {
 		return fmt.Errorf("error writing file to %s: %w", kafkaCleanShutdownPath, err)
 	}
 
-	logger.Debugf("%sWrote file to: %s", f.getIndentedPrefix(), kafkaCleanShutdownPath)
+	logger.Debugf("%sWrote %s", f.getIndentedPrefix(), kafkaCleanShutdownPath)
 	return nil
 }

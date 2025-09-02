@@ -17,7 +17,7 @@ func uuidToBase64(uuidStr string) (string, error) {
 
 	base64Str := base64.StdEncoding.EncodeToString(parsedUUID[:])
 	// Replace '+' with '-' to match the original format
-	base64Str = strings.Replace(base64Str, "+", "-", 1)
+	base64Str = strings.ReplaceAll(base64Str, "+", "-")
 	// Remove padding
 	base64Str = strings.TrimRight(base64Str, "=")
 	return base64Str, nil

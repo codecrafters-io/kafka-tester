@@ -41,6 +41,7 @@ func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int
 		MinVersion: minVersion,
 		MaxVersion: maxVersion,
 	})
+
 	return b
 }
 

@@ -30,6 +30,6 @@ func (f *FilesManager) writeMetaProperties(logger *logger.Logger) error {
 		return fmt.Errorf("error writing meta properties file: %w", err)
 	}
 
-	logger.Debugf("%sWrote meta properties to: %s", f.getIndentedPrefix(), metaPropertiesPath)
+	logger.Debugf("%sWrote %s", f.getIndentedPrefix(), metaPropertiesPath)
 	return nil
 }
