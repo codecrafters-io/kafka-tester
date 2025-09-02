@@ -3,7 +3,7 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	protocol_encoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 )
 
@@ -16,20 +16,16 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r ApiVersionsRequestBody) encode(enc *encoder.Encoder) {
-
-	if r.Version < 3 {
+func (r ApiVersionsRequestBody) Encode() []byte {
+	if r.Version != 4 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
-	enc.WriteCompactString(r.ClientSoftwareName)
-	enc.WriteCompactString(r.ClientSoftwareVersion)
-	enc.WriteEmptyTagBuffer()
-}
 
-func (r ApiVersionsRequestBody) Encode() []byte {
-	encoder := encoder.NewEncoder(make([]byte, 4096))
-	r.encode(encoder)
-	return encoder.EncodedBytes()
+	encoder := protocol_encoder.NewEncoder()
+	encoder.WriteCompactString(r.ClientSoftwareName)
+	encoder.WriteCompactString(r.ClientSoftwareVersion)
+	encoder.WriteEmptyTagBuffer()
+	return encoder.Bytes()
 }
 
 type ApiVersionsRequest struct {
@@ -42,5 +38,5 @@ func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 }
 
 func (r ApiVersionsRequest) Encode() []byte {
-	return encoder.PackMessage(append(r.Header.Encode(), r.Body.Encode()...))
+	return protocol_encoder.PackEncodedBytesAsMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }

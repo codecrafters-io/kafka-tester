@@ -16,19 +16,12 @@ type RequestHeader struct {
 	ClientId string
 }
 
-// encode v2
-func (h RequestHeader) encode(enc *encoder.Encoder) {
-	enc.WriteInt16(h.ApiKey)
-	enc.WriteInt16(h.ApiVersion)
-	enc.WriteInt32(h.CorrelationId)
-	enc.WriteString(h.ClientId)
-	enc.WriteEmptyTagBuffer()
-}
-
 func (h RequestHeader) Encode() []byte {
-	encoder := encoder.NewEncoder(make([]byte, 4096))
-
-	h.encode(encoder)
-
-	return encoder.EncodedBytes()
+	encoder := encoder.NewEncoder()
+	encoder.WriteInt16(h.ApiKey)
+	encoder.WriteInt16(h.ApiVersion)
+	encoder.WriteInt32(h.CorrelationId)
+	encoder.WriteString(h.ClientId)
+	encoder.WriteEmptyTagBuffer()
+	return encoder.Bytes()
 }
