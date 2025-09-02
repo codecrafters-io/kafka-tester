@@ -12,7 +12,8 @@ import (
 func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
-	if err := files_manager.InitializeClusterMetadata(stageLogger); err != nil {
+	files_manager := files_manager.NewFilesManager(stageLogger)
+	if err := files_manager.InitializeClusterMetadata(); err != nil {
 		return err
 	}
 

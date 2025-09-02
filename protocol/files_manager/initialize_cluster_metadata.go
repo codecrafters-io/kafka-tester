@@ -5,19 +5,18 @@ import (
 	"os"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func InitializeClusterMetadata(logger *logger.Logger) (writeError error) {
-	logDir := common.LOG_DIR
+func (f *FilesManager) InitializeClusterMetadata() (writeError error) {
+	logger := f.logger
 
-	// Clean up any existing files/directories first
-	if cleanUpError := cleanUp(); cleanUpError != nil {
-		return fmt.Errorf("failed to cleanup: %s", cleanUpError)
-	}
+	logger.UpdateLastSecondaryPrefix("Files Manager")
 
 	// Cleanup on error
 	defer func() {
+		logger.ResetSecondaryPrefixes()
+		f.ResetIndentationLevel()
+
 		if writeError != nil {
 			// Only log the cleanup error, write error will be returned automatically and logged later by test runner
 			if cleanupError := cleanUp(); cleanupError != nil {
@@ -26,8 +25,18 @@ func InitializeClusterMetadata(logger *logger.Logger) (writeError error) {
 		}
 	}()
 
+	logDir := common.LOG_DIR
+
+	// Clean up any existing files/directories first
+	if cleanUpError := cleanUp(); cleanUpError != nil {
+		return fmt.Errorf("failed to cleanup: %s", cleanUpError)
+	}
+
+	logger.Debugf("Writing cluster metadata files")
+	f.IndentLogs()
+
 	// Write kraft server properties
-	if writeError = writeKraftServerProperties(logger); writeError != nil {
+	if writeError = f.writeKraftServerProperties(); writeError != nil {
 		return fmt.Errorf("failed to write kraft server properties: %w", writeError)
 	}
 
@@ -36,18 +45,19 @@ func InitializeClusterMetadata(logger *logger.Logger) (writeError error) {
 		return fmt.Errorf("failed to create log directory %s: %w", logDir, err)
 	}
 
-	logger.Debugf("Created log directory: %s", logDir)
+	logger.Debugf("%sCreated log directory: %s", f.getIndentedPrefix(), logDir)
 
 	// Write kafka clean shutdown
-	if err := writeKafkaCleanShutdown(logger); err != nil {
+	if err := f.writeKafkaCleanShutdown(); err != nil {
 		return fmt.Errorf("failed to write kafka clean shutdown: %w", err)
 	}
 
 	// Write meta properties
-	if err := writeMetaProperties(logger); err != nil {
+	if err := f.writeMetaProperties(logger); err != nil {
 		return fmt.Errorf("failed to write meta properties: %w", err)
 	}
 
+	f.DeIndentLogs()
 	logger.Debugf("Successfully initialized all cluster metadata files")
 	return nil
 }

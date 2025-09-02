@@ -6,10 +6,10 @@ import (
 	"path"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func writeKraftServerProperties(logger *logger.Logger) error {
+func (f *FilesManager) writeKraftServerProperties() error {
+	logger := f.logger
 	kraftServerPropertiesPath := common.SERVER_PROPERTIES_FILE_PATH
 
 	kraftServerProperties := `process.roles=broker,controller
@@ -26,20 +26,20 @@ log.dirs=/tmp/kraft-combined-logs`
 		return fmt.Errorf("error writing file to %s: %w", kraftServerPropertiesPath, err)
 	}
 
-	logger.Debugf("Wrote file to: %s", kraftServerPropertiesPath)
+	logger.Debugf("%sWrote file to: %s", f.getIndentedPrefix(), kraftServerPropertiesPath)
 	return nil
 }
 
-func writeKafkaCleanShutdown(logger *logger.Logger) error {
+func (f *FilesManager) writeKafkaCleanShutdown() error {
+	logger := f.logger
 	kafkaCleanShutdownPath := path.Join(common.LOG_DIR, ".kafka_cleanshutdown")
 	kafkaCleanShutdown := `{"version":0,"brokerEpoch":10}`
-
 	err := os.WriteFile(kafkaCleanShutdownPath, []byte(kafkaCleanShutdown), 0644)
 
 	if err != nil {
 		return fmt.Errorf("error writing file to %s: %w", kafkaCleanShutdownPath, err)
 	}
 
-	logger.Debugf("Wrote file to: %s", kafkaCleanShutdownPath)
+	logger.Debugf("%sWrote file to: %s", f.getIndentedPrefix(), kafkaCleanShutdownPath)
 	return nil
 }

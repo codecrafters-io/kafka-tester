@@ -10,7 +10,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-func writeMetaProperties(logger *logger.Logger) error {
+func (f *FilesManager) writeMetaProperties(logger *logger.Logger) error {
 	metaPropertiesPath := path.Join(common.LOG_DIR, "meta.properties")
 	clusterID := common.CLUSTER_ID
 	nodeID := common.NODE_ID
@@ -30,6 +30,6 @@ func writeMetaProperties(logger *logger.Logger) error {
 		return fmt.Errorf("error writing meta properties file: %w", err)
 	}
 
-	logger.Debugf("Wrote meta properties to: %s", metaPropertiesPath)
+	logger.Debugf("%sWrote meta properties to: %s", f.getIndentedPrefix(), metaPropertiesPath)
 	return nil
 }
