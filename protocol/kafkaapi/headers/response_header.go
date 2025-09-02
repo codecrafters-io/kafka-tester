@@ -15,6 +15,7 @@ type ResponseHeader struct {
 func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
 	decoder.BeginSubSection("response_header")
 	defer decoder.EndCurrentSubSection()
+
 	switch h.Version {
 	case 0:
 		return h.decodeV0(decoder)
@@ -25,21 +26,13 @@ func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
 	}
 }
 
-func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder) error {
-	correlation_id, err := decoder.ReadInt32("correlation_id")
-
-	if err != nil {
-		return err
-	}
-
-	h.CorrelationId = correlation_id
-	return nil
+func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder) (err error) {
+	h.CorrelationId, err = decoder.ReadInt32("correlation_id")
+	return err
 }
 
 func (h *ResponseHeader) decodeV1(decoder *decoder.Decoder) error {
-	err := h.decodeV0(decoder)
-
-	if err != nil {
+	if err := h.decodeV0(decoder); err != nil {
 		return err
 	}
 

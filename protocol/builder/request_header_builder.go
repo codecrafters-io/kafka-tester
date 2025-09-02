@@ -46,18 +46,6 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 	}
 }
 
-func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) headers.RequestHeader {
-	return b.WithApiKey(0).WithApiVersion(11).WithCorrelationId(correlationId).Build()
-}
-
-func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationId int32) headers.RequestHeader {
-	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationId).Build()
-}
-
 func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) headers.RequestHeader {
 	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
-}
-
-func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsRequestHeader(correlationId int32) headers.RequestHeader {
-	return b.WithApiKey(75).WithApiVersion(0).WithCorrelationId(correlationId).Build()
 }

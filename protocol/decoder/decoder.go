@@ -146,7 +146,7 @@ func (d *Decoder) ReadArrayLength(variableName string) (int, error) {
 	if arrayLength > d.UnreadBytesCount() {
 		errorMessage := fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, d.UnreadBytesCount())
 		return -1, errors.NewPacketDecodingError(errorMessage).AddContexts("ARRAY_LENGTH", variableName)
-	} else if arrayLength > 2*math.MaxUint16 {
+	} else if (arrayLength > 2*math.MaxUint16) || (arrayLength < 0) {
 		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength)).AddContexts("ARRAY_LENGTH", variableName)
 	}
 

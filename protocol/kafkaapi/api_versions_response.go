@@ -14,19 +14,25 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) error {
+func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) (err error) {
 	decoder := decoder.NewDecoder(response, logger)
 
-	if err := r.Header.Decode(decoder); err != nil {
+	decoder.BeginSubSection("ApiVersions Response")
+
+	defer func() {
+		decoder.EndCurrentSubSection()
+
+		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
+			detailedError := decodingErr.AddContexts("ApiVersions Response")
+			err = decoder.FormatDetailedError(detailedError.Error())
+		}
+	}()
+
+	if err = r.Header.Decode(decoder); err != nil {
 		return err
 	}
 
-	if err := r.Body.Decode(decoder); err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.AddContexts("ApiVersions Response")
-			return decoder.FormatDetailedError(detailedError.Error())
-		}
-
+	if err = r.Body.Decode(decoder); err != nil {
 		return err
 	}
 
@@ -47,10 +53,19 @@ type ApiVersionsResponseBody struct {
 func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 	if r.Version == 0 {
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
+	} else if r.Version < 3 {
+		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	d.BeginSubSection("response_body")
-	defer d.EndCurrentSubSection()
+	d.BeginSubSection("ApiVersions Response Body")
+
+	defer func() {
+		d.EndCurrentSubSection()
+
+		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingError.AddContexts("ApiVersions Response Body")
+		}
+	}()
 
 	if r.ErrorCode, err = d.ReadInt16("error_code"); err != nil {
 		return err
@@ -58,22 +73,8 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 
 	var numApiKeys int
 
-	if r.Version >= 3 {
-		numApiKeys, err = d.ReadCompactArrayLength("ApiKeys.Length")
-
-		if err != nil {
-			return err
-		}
-	} else {
-		numApiKeys, err = d.ReadArrayLength("ApiKeys.Length")
-
-		if err != nil {
-			return err
-		}
-	}
-
-	if numApiKeys < 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("Count of ApiKeys cannot be negative: %d", numApiKeys))
+	if numApiKeys, err = d.ReadCompactArrayLength("ApiKeys.Length"); err != nil {
+		return err
 	}
 
 	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
@@ -82,23 +83,19 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		var apiKeyEntry ApiKeyEntry
 		apiKeyEntryName := fmt.Sprintf("ApiKeys[%d]", i)
 
-		if err = apiKeyEntry.Decode(d, r.Version, apiKeyEntryName); err != nil {
+		if err = apiKeyEntry.Decode(d, apiKeyEntryName); err != nil {
 			return err
 		}
 
 		r.ApiKeys[i] = apiKeyEntry
 	}
 
-	if r.Version >= 1 {
-		if r.ThrottleTimeMs, err = d.ReadInt32("throttle_time_ms"); err != nil {
-			return err
-		}
+	if r.ThrottleTimeMs, err = d.ReadInt32("throttle_time_ms"); err != nil {
+		return err
 	}
 
-	if r.Version >= 3 {
-		if err = d.ConsumeTagBuffer(); err != nil {
-			return err
-		}
+	if err = d.ConsumeTagBuffer(); err != nil {
+		return err
 	}
 
 	// Check if there are any remaining bytes in the decoder
@@ -119,9 +116,16 @@ type ApiKeyEntry struct {
 	MaxVersion int16
 }
 
-func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName string) (err error) {
+func (a *ApiKeyEntry) Decode(d *decoder.Decoder, variableName string) (err error) {
 	d.BeginSubSection(variableName)
-	defer d.EndCurrentSubSection()
+
+	defer func() {
+		d.EndCurrentSubSection()
+
+		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
+			err = decodingError.AddContexts(variableName)
+		}
+	}()
 
 	if a.ApiKey, err = d.ReadInt16("api_key"); err != nil {
 		return err
@@ -135,10 +139,8 @@ func (a *ApiKeyEntry) Decode(d *decoder.Decoder, version int16, variableName str
 		return err
 	}
 
-	if version >= 3 {
-		if err := d.ConsumeTagBuffer(); err != nil {
-			return err
-		}
+	if err = d.ConsumeTagBuffer(); err != nil {
+		return err
 	}
 
 	return nil
