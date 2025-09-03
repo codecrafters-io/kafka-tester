@@ -83,6 +83,18 @@ func (d *Decoder) logTagBuffer() {
 	d.logger.Debugf("%s%s", d.getIndentationString(), "TAG_BUFFER")
 }
 
+// logCompactArrayLength logs the decoded unsigned varint
+// If decoded Uvarint is 0, it signifies a null array
+// It is different from when the decoded integer 1, which means an empty array
+// compact array length is always encoded as (actual_length + 1)
+func (d *Decoder) logCompactArrayLength(decodedUnsignedVarint uint64) {
+	if decodedUnsignedVarint == 0 {
+		d.logger.Debugf("%s%d (NULL)", d.getIndentationString(), decodedUnsignedVarint)
+	} else {
+		d.logger.Debugf("%s%d", d.getIndentationString(), (decodedUnsignedVarint - 1))
+	}
+}
+
 // Primitive Types
 
 func (d *Decoder) ReadInt16(variableName string) (int16, error) {
@@ -169,11 +181,7 @@ func (d *Decoder) ReadCompactArrayLength(variableName string) (int, error) {
 		return 0, err
 	}
 
-	if decodedInteger == 0 {
-		return 0, nil
-	}
-
-	d.logDecodedValue(variableName, decodedInteger)
+	d.logCompactArrayLength(decodedInteger)
 	return int(decodedInteger) - 1, nil
 }
 

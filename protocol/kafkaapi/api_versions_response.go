@@ -18,10 +18,9 @@ func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) (er
 	decoder := decoder.NewDecoder(response, logger)
 
 	decoder.BeginSubSection("ApiVersions Response")
+	defer decoder.EndCurrentSubSection()
 
 	defer func() {
-		decoder.EndCurrentSubSection()
-
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
 			detailedError := decodingErr.AddContexts("ApiVersions Response")
 			err = decoder.FormatDetailedError(detailedError.Error())
@@ -58,10 +57,9 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 	}
 
 	d.BeginSubSection("ApiVersions Response Body")
+	defer d.EndCurrentSubSection()
 
 	defer func() {
-		d.EndCurrentSubSection()
-
 		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
 			err = decodingError.AddContexts("ApiVersions Response Body")
 		}
@@ -118,10 +116,9 @@ type ApiKeyEntry struct {
 
 func (a *ApiKeyEntry) Decode(d *decoder.Decoder, variableName string) (err error) {
 	d.BeginSubSection(variableName)
+	defer d.EndCurrentSubSection()
 
 	defer func() {
-		d.EndCurrentSubSection()
-
 		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
 			err = decodingError.AddContexts(variableName)
 		}
