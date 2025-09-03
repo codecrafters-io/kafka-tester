@@ -1,13 +1,6 @@
 Debug = true
 
 [33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
-[33m[tester::#PV1] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#PV1] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
-[33m[tester::#PV1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[tester::#PV1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#PV1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#PV1] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[tester::#PV1] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#PV1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -54,7 +47,7 @@ Debug = true
 [33m[tester::#PV1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#PV1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#PV1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersions Response[0m
@@ -380,13 +373,6 @@ Debug = true
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
 
 [33m[tester::#NC5] [0m[94mRunning tests for Stage #NC5 (nc5)[0m
-[33m[tester::#NC5] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#NC5] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
-[33m[tester::#NC5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[tester::#NC5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#NC5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#NC5] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[tester::#NC5] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#NC5] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NC5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NC5] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -416,13 +402,6 @@ Debug = true
 [33m[tester::#NC5] [0m[36mProgram terminated successfully[0m
 
 [33m[tester::#WA6] [0m[94mRunning tests for Stage #WA6 (wa6)[0m
-[33m[tester::#WA6] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#WA6] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
-[33m[tester::#WA6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[tester::#WA6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#WA6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#WA6] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[tester::#WA6] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#WA6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#WA6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#WA6] [0m[36mConnection to broker at localhost:9092 successful[0m
@@ -482,13 +461,6 @@ Debug = true
 [33m[tester::#WA6] [0m[36mProgram terminated successfully[0m
 
 [33m[tester::#NV3] [0m[94mRunning tests for Stage #NV3 (nv3)[0m
-[33m[tester::#NV3] [Serializer] [0m[36mWriting log files to: /tmp/kraft-combined-logs[0m
-[33m[tester::#NV3] [Serializer] [0m[36m  - Wrote file to: /tmp/server.properties[0m
-[33m[tester::#NV3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/meta.properties[0m
-[33m[tester::#NV3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
-[33m[tester::#NV3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/partition.metadata[0m
-[33m[tester::#NV3] [Serializer] [0m[36m  - Wrote file to: /tmp/kraft-combined-logs/__cluster_metadata-0/00000000000000000000.log[0m
-[33m[tester::#NV3] [Serializer] [0m[94mFinished writing log files to: /tmp/kraft-combined-logs[0m
 [33m[tester::#NV3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NV3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NV3] [0m[36mConnection to broker at localhost:9092 successful[0m
