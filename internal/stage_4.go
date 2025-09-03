@@ -77,6 +77,8 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
+	decoder.EndCurrentSubSection()
+
 	decoder.BeginSubSection("ApiVersionsResponseBody")
 	errorCode, err := decoder.ReadInt16("ErrorCode")
 

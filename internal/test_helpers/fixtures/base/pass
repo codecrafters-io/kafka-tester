@@ -394,8 +394,8 @@ Debug = true
 [33m[tester::#NC5] [Decoder] [0m[36m  - .MessageLength (16)[0m
 [33m[tester::#NC5] [Decoder] [0m[36m  - .ResponseHeader[0m
 [33m[tester::#NC5] [Decoder] [0m[36m    - .CorrelationID (1616512461)[0m
-[33m[tester::#NC5] [Decoder] [0m[36m    - .ApiVersionsResponseBody[0m
-[33m[tester::#NC5] [Decoder] [0m[36m      - .ErrorCode (35)[0m
+[33m[tester::#NC5] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
+[33m[tester::#NC5] [Decoder] [0m[36m    - .ErrorCode (35)[0m
 [33m[tester::#NC5] [0m[92m✓ Correlation ID: 1616512461[0m
 [33m[tester::#NC5] [0m[92m✓ Error code: 35 (UNSUPPORTED_VERSION)[0m
 [33m[tester::#NC5] [0m[92mTest passed.[0m
