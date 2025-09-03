@@ -56,12 +56,12 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	d.BeginSubSection("ApiVersionsResponse.Body")
+	d.BeginSubSection("ApiVersionsResponseBody")
 	defer d.EndCurrentSubSection()
 
 	defer func() {
 		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingError.AddContexts("ApiVersionsResponse.Body")
+			err = decodingError.AddContexts("ApiVersionsResponseBody")
 		}
 	}()
 
