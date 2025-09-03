@@ -6,9 +6,9 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/files_manager"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -16,8 +16,7 @@ import (
 func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
-	files_manager := files_manager.NewFilesManager(stageLogger)
-	if err := files_manager.InitializeClusterMetadata(); err != nil {
+	if err := serializer_legacy.GenerateLogDirs(stageHarness.Logger, true); err != nil {
 		return err
 	}
 
