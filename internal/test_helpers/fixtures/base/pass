@@ -51,11 +51,11 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersions Response[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .response_header[0m
+[33m[tester::#PV1] [Decoder] [0m[36m  - .Response Header[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .correlation_id (177586623)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersions Response Body[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .error_code (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys.Length (62)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .61[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .api_key (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .min_version (0)[0m
