@@ -47,7 +47,7 @@ Debug = true
 [33m[tester::#PV1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#PV1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#PV1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -361,7 +361,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ThrottleTimeMS (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ThrottleTimeMs (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
 [33m[tester::#PV1] [0m[92m✓ correlation_id: 177586623[0m
 [33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m

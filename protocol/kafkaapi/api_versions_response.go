@@ -88,7 +88,7 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		r.ApiKeys[i] = apiKeyEntry
 	}
 
-	if r.ThrottleTimeMs, err = d.ReadInt32("ThrottleTimeMS"); err != nil {
+	if r.ThrottleTimeMs, err = d.ReadInt32("ThrottleTimeMs"); err != nil {
 		return err
 	}
 
