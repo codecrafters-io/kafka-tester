@@ -62,16 +62,16 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 	decoder := decoder.NewDecoder(response, stageLogger)
-	decoder.BeginSubSection("response")
-	_, err = decoder.ReadInt32("message_length")
+	decoder.BeginSubSection("ApiVersionsResponse")
+	_, err = decoder.ReadInt32("MessageLength")
 
 	if err != nil {
 		return err
 	}
 
-	decoder.BeginSubSection("response_header")
+	decoder.BeginSubSection("ResponseHeader")
 
-	responseCorrelationId, err := decoder.ReadInt32("correlation_id")
+	responseCorrelationId, err := decoder.ReadInt32("CorrelationID")
 
 	if err != nil {
 		return err

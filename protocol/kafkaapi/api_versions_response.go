@@ -17,12 +17,12 @@ type ApiVersionsResponse struct {
 func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) (err error) {
 	decoder := decoder.NewDecoder(response, logger)
 
-	decoder.BeginSubSection("ApiVersions Response")
+	decoder.BeginSubSection("ApiVersionsResponse")
 	defer decoder.EndCurrentSubSection()
 
 	defer func() {
 		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.AddContexts("ApiVersions Response")
+			detailedError := decodingErr.AddContexts("ApiVersionsResponse")
 			err = decoder.FormatDetailedError(detailedError.Error())
 		}
 	}()
@@ -56,16 +56,16 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	d.BeginSubSection("ApiVersions Response Body")
+	d.BeginSubSection("ApiVersionsResponseBody")
 	defer d.EndCurrentSubSection()
 
 	defer func() {
 		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingError.AddContexts("ApiVersions Response Body")
+			err = decodingError.AddContexts("ApiVersionsResponseBody")
 		}
 	}()
 
-	if r.ErrorCode, err = d.ReadInt16("error_code"); err != nil {
+	if r.ErrorCode, err = d.ReadInt16("ErrorCode"); err != nil {
 		return err
 	}
 
@@ -88,7 +88,7 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		r.ApiKeys[i] = apiKeyEntry
 	}
 
-	if r.ThrottleTimeMs, err = d.ReadInt32("throttle_time_ms"); err != nil {
+	if r.ThrottleTimeMs, err = d.ReadInt32("ThrottleTimeMs"); err != nil {
 		return err
 	}
 
@@ -124,15 +124,15 @@ func (a *ApiKeyEntry) Decode(d *decoder.Decoder, variableName string) (err error
 		}
 	}()
 
-	if a.ApiKey, err = d.ReadInt16("api_key"); err != nil {
+	if a.ApiKey, err = d.ReadInt16("APIKey"); err != nil {
 		return err
 	}
 
-	if a.MinVersion, err = d.ReadInt16("min_version"); err != nil {
+	if a.MinVersion, err = d.ReadInt16("MinVersion"); err != nil {
 		return err
 	}
 
-	if a.MaxVersion, err = d.ReadInt16("max_version"); err != nil {
+	if a.MaxVersion, err = d.ReadInt16("MaxVersion"); err != nil {
 		return err
 	}
 

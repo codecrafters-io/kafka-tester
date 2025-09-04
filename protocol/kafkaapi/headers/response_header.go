@@ -13,7 +13,7 @@ type ResponseHeader struct {
 }
 
 func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
-	decoder.BeginSubSection("Response Header")
+	decoder.BeginSubSection("ResponseHeader")
 	defer decoder.EndCurrentSubSection()
 
 	switch h.Version {
