@@ -3,9 +3,10 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	wireDecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -14,18 +15,11 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func (r *ApiVersionsResponse) Decode(response []byte, logger *logger.Logger) (err error) {
-	decoder := decoder.NewDecoder(response, logger)
+func (r *ApiVersionsResponse) Decode(responseBytes []byte, logger *logger.Logger, assertion assertions.Assertion) (err error) {
+	decoder := wireDecoder.NewInstrumentedDecoder(responseBytes, logger, assertion)
 
 	decoder.BeginSubSection("ApiVersionsResponse")
 	defer decoder.EndCurrentSubSection()
-
-	defer func() {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			detailedError := decodingErr.AddContexts("ApiVersionsResponse")
-			err = decoder.FormatDetailedError(detailedError.Error())
-		}
-	}()
 
 	if err = r.Header.Decode(decoder); err != nil {
 		return err
@@ -42,14 +36,14 @@ type ApiVersionsResponseBody struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ErrorCode contains the top-level error code.
-	ErrorCode int16
+	ErrorCode value.Int16
 	// ApiKeys contains the APIs supported by the broker.
 	ApiKeys []ApiKeyEntry
 	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-	ThrottleTimeMs int32
+	ThrottleTimeMs value.Int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
+func (r *ApiVersionsResponseBody) Decode(d *wireDecoder.Decoder) (err error) {
 	if r.Version == 0 {
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	} else if r.Version < 3 {
@@ -59,33 +53,13 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 	d.BeginSubSection("ApiVersionsResponseBody")
 	defer d.EndCurrentSubSection()
 
-	defer func() {
-		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingError.AddContexts("ApiVersionsResponseBody")
-		}
-	}()
-
 	if r.ErrorCode, err = d.ReadInt16("ErrorCode"); err != nil {
 		return err
 	}
 
-	var numApiKeys int
-
-	if numApiKeys, err = d.ReadCompactArrayLength("ApiKeys.Length"); err != nil {
+	// DecodeApiKeysEntry
+	if r.ApiKeys, err = wireDecoder.ReadCompactArray[ApiKeyEntry](d, "ApiKeys"); err != nil {
 		return err
-	}
-
-	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
-
-	for i := 0; i < numApiKeys; i++ {
-		var apiKeyEntry ApiKeyEntry
-		apiKeyEntryName := fmt.Sprintf("ApiKeys[%d]", i)
-
-		if err = apiKeyEntry.Decode(d, apiKeyEntryName); err != nil {
-			return err
-		}
-
-		r.ApiKeys[i] = apiKeyEntry
 	}
 
 	if r.ThrottleTimeMs, err = d.ReadInt32("ThrottleTimeMs"); err != nil {
@@ -97,8 +71,8 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 	}
 
 	// Check if there are any remaining bytes in the decoder
-	if d.UnreadBytesCount() != 0 {
-		return errors.NewPacketDecodingError(fmt.Sprintf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.UnreadBytesCount()))
+	if d.RemainingBytesCount() != 0 {
+		return fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.RemainingBytesCount())
 	}
 
 	return nil
@@ -107,22 +81,16 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 // ApiKeyEntry contains the APIs supported by the broker.
 type ApiKeyEntry struct {
 	// ApiKey contains the API index.
-	ApiKey int16
+	ApiKey value.Int16
 	// MinVersion contains the minimum supported version, inclusive.
-	MinVersion int16
+	MinVersion value.Int16
 	// MaxVersion contains the maximum supported version, inclusive.
-	MaxVersion int16
+	MaxVersion value.Int16
 }
 
-func (a *ApiKeyEntry) Decode(d *decoder.Decoder, variableName string) (err error) {
+func (a ApiKeyEntry) Decode(d *wireDecoder.Decoder, variableName string) (err error) {
 	d.BeginSubSection(variableName)
 	defer d.EndCurrentSubSection()
-
-	defer func() {
-		if decodingError, ok := err.(*errors.PacketDecodingError); ok {
-			err = decodingError.AddContexts(variableName)
-		}
-	}()
 
 	if a.ApiKey, err = d.ReadInt16("APIKey"); err != nil {
 		return err

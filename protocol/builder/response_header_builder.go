@@ -1,6 +1,9 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type ResponseHeaderBuilder struct {
 	correlationId int32
@@ -35,7 +38,7 @@ func (rb *ResponseHeaderBuilder) Build() headers.ResponseHeader {
 
 	return headers.ResponseHeader{
 		Version:       rb.version,
-		CorrelationId: rb.correlationId,
+		CorrelationId: value.Int32{Value: rb.correlationId},
 	}
 }
 

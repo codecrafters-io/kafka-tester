@@ -2,6 +2,9 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int16_validation"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int32_validation"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -33,7 +36,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 	request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationId).Build()
-	rawResponse, err := client.SendAndReceive(request, stageLogger)
+	response, err := client.SendAndReceive(request, stageLogger)
 
 	if err != nil {
 		return err
@@ -41,18 +44,11 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
 
-	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
-		return err
-	}
-
-	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
-		AddApiKeyEntry(18, 0, 4).
-		WithCorrelationId(correlationId).
-		Build()
-
-	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
-		return err
-	}
-
-	return nil
+	assertion := assertions.NewApiVersionsResponseAssertion().SetPrimitiveValidations(
+		validations.NewValidationMap(map[string]validations.Validation{
+			"ApiVersionsResponse.ResponseHeader.CorrelationID":      int32_validation.IsEqual(correlationId),
+			"ApiVersionsResponse.ApiVersionsResponseBody.ErrorCode": int16_validation.IsEqual(0),
+		}),
+	)
+	return actualResponse.Decode(response.Payload, stageLogger, assertion)
 }

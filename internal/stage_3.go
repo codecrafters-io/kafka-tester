@@ -1,11 +1,12 @@
 package internal
 
 import (
-	"fmt"
-
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int32_validation"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	wireDecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
@@ -61,7 +62,15 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
-	decoder := decoder.NewDecoder(response, stageLogger)
+
+	assertion := assertions.NewApiVersionsResponseAssertion().SetPrimitiveValidations(
+		validations.NewValidationMap(map[string]validations.Validation{
+			"ApiVersionsResponse.ResponseHeader.CorrelationID": int32_validation.IsEqual(correlationId),
+		}),
+	)
+
+	decoder := wireDecoder.NewInstrumentedDecoder(response, stageLogger, assertion)
+
 	decoder.BeginSubSection("ApiVersionsResponse")
 	_, err = decoder.ReadInt32("MessageLength")
 
@@ -70,20 +79,13 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	decoder.BeginSubSection("ResponseHeader")
-
-	responseCorrelationId, err := decoder.ReadInt32("CorrelationID")
+	_, err = decoder.ReadInt32("CorrelationID")
 
 	if err != nil {
 		return err
 	}
 
 	stageLogger.ResetSecondaryPrefixes()
-
-	if responseCorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
-	}
-
-	stageLogger.Successf("✓ Correlation ID: %v", responseCorrelationId)
 
 	return nil
 }

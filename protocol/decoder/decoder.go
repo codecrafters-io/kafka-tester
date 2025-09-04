@@ -2,277 +2,278 @@ package decoder
 
 import (
 	"encoding/binary"
+	"errors"
 	"fmt"
-	"math"
 	"strings"
 
-	go_errors "errors"
-
-	"github.com/codecrafters-io/kafka-tester/protocol/errors"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/offset_buffer"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
+	kafkaValue "github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type Decoder struct {
-	bytes            []byte
-	offset           int
-	logger           *logger.Logger
-	indentationLevel int
+type Decodable interface {
+	Decode(decoder *Decoder, variableName string) error
 }
 
-func NewDecoder(bytes []byte, logger *logger.Logger) *Decoder {
+type DecoderCallbacks struct {
+	OnDecode func(locator string, value kafkaValue.KafkaProtocolValue) error
+}
+
+type Decoder struct {
+	buffer    *offset_buffer.Buffer
+	locator   []string
+	logger    *logger.Logger
+	callbacks *DecoderCallbacks
+}
+
+func NewDecoder(rawBytes []byte, logger *logger.Logger) *Decoder {
 	decoderLogger := logger.Clone()
 	decoderLogger.UpdateLastSecondaryPrefix("Decoder")
 	return &Decoder{
-		bytes:            bytes,
-		offset:           0,
-		logger:           decoderLogger,
-		indentationLevel: 0,
+		buffer:    offset_buffer.NewBuffer(rawBytes),
+		locator:   nil,
+		logger:    decoderLogger,
+		callbacks: nil,
 	}
 }
 
-func (d *Decoder) Offset() int {
-	return d.offset
+func NewInstrumentedDecoder(rawBytes []byte, logger *logger.Logger, assertion assertions.Assertion) *Decoder {
+	decoder := NewDecoder(rawBytes, logger)
+	decoder.AddCallbacks(DecoderCallbacks{
+		OnDecode: func(locator string, value kafkaValue.KafkaProtocolValue) error {
+			validaton := assertion.GetPrimitiveValidation(locator)
+
+			// no validator
+			if utils.CheckIfNilValidation(validaton) {
+				decoder.LogDecodedValue(value, "-")
+				return nil
+			}
+
+			err := validaton.Validate(value)
+
+			if err != nil {
+				decoder.LogIncorrectDecodedValue(value)
+				return err
+			}
+
+			decoder.LogDecodedValue(value, "✔")
+			return nil
+		},
+	})
+	return decoder
 }
 
-func (d *Decoder) UnreadBytesCount() int {
-	return len(d.bytes) - d.offset
+func (d *Decoder) getLocator() string {
+	return strings.Join(d.locator, ".")
 }
 
-func (d *Decoder) indentLog() {
-	d.indentationLevel += 1
+func (d *Decoder) getLocatorWithVariableName(variableName string) string {
+	return fmt.Sprintf("%s.%s", d.getLocator(), variableName)
 }
 
-func (d *Decoder) unindentLog() {
-	d.indentationLevel = max(d.indentationLevel-1, 0)
+func (d *Decoder) GetLogger() *logger.Logger {
+	return d.logger
+}
+
+func (d *Decoder) AddCallbacks(callbacks DecoderCallbacks) {
+	d.callbacks = &callbacks
 }
 
 func (d *Decoder) BeginSubSection(sectionName string) {
-	d.logger.Debugf("%s%s", d.getIndentationString(), sectionName)
-	d.indentLog()
+	d.logger.Debugf("%s%s", d.getIndentationString("-"), sectionName)
+	d.locator = append(d.locator, sectionName)
 }
 
 func (d *Decoder) EndCurrentSubSection() {
-	d.unindentLog()
+	if len(d.locator) > 0 {
+		d.locator = d.locator[:len(d.locator)-1]
+	}
 }
 
-func (d *Decoder) logDecodedValue(variableName string, value any) {
-	// WILL_REMOVE LATER: Not sure if this is a good approach, if variable name is not empty, we don't log it
-	// useful in cases where we don't want to log intermediate variables. (eg. see line 192 in ConsumeTagBuffer)
-	// However, it isn't so obvious from the usage
-	// If i'd made this a string pointer, a lot more changes were requred and constructs like (&"variable_name") wouldn't have been possible
-	// Need some feedback on this
-	if variableName == "" {
+func (d *Decoder) RemainingBytesCount() uint64 {
+	return d.buffer.RemainingBytesCount()
+}
+
+func (d *Decoder) LogDecodedValue(value kafkaValue.KafkaProtocolValue, bulletMarker string) {
+	indentationString := d.getIndentationString(bulletMarker)
+
+	if value.GetType() == kafkaValue.TAG_BUFFER {
+		d.logger.Debugf("%s%s", indentationString, kafkaValue.TAG_BUFFER)
 		return
 	}
 
-	indentationString := d.getIndentationString()
-
-	switch castedValue := value.(type) {
-	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
-		d.logger.Debugf("%s%s (%d)", indentationString, variableName, castedValue)
-	case string:
-		d.logger.Debugf("%s%s (%s)", indentationString, variableName, castedValue)
-	case bool:
-		d.logger.Debugf("%s%s (%t)", indentationString, variableName, castedValue)
-	default:
-		d.logger.Debugf("%s%s (%v)", indentationString, variableName, castedValue)
-	}
+	variableName := value.GetVariableName()
+	valueString := value.GetValueString()
+	d.logger.Debugf("%s%s (%s)", indentationString, variableName, valueString)
 }
 
-func (d *Decoder) logTagBuffer() {
-	d.logger.Debugf("%s%s", d.getIndentationString(), "TAG_BUFFER")
+func (d *Decoder) LogIncorrectDecodedValue(value kafkaValue.KafkaProtocolValue) {
+	indentationString := d.getIndentationString("✘")
+	variableName := value.GetVariableName()
+	variableType := value.GetType()
+	d.logger.Errorf("%s%s (%s)", indentationString, variableName, variableType)
 }
 
-// logCompactArrayLength logs the decoded unsigned varint
-// If decoded Uvarint is 0, it signifies a null array
-// It is different from when the decoded integer 1, which means an empty array
-// compact array length is always encoded as (actual_length + 1)
-func (d *Decoder) logCompactArrayLength(decodedUnsignedVarint uint64) {
-	if decodedUnsignedVarint == 0 {
-		d.logger.Debugf("%s%d (NULL)", d.getIndentationString(), decodedUnsignedVarint)
-	} else {
-		d.logger.Debugf("%s%d", d.getIndentationString(), (decodedUnsignedVarint - 1))
-	}
+func (d *Decoder) LogDecodingError(variableName string) {
+	indentationString := d.getIndentationString("✘")
+	d.logger.Errorf("%s%s", indentationString, variableName)
 }
 
 // Primitive Types
 
-func (d *Decoder) ReadInt16(variableName string) (int16, error) {
-	if d.UnreadBytesCount() < 2 {
-		rem := d.UnreadBytesCount()
-		errorMessage := fmt.Sprintf("Expected int16 length to be 2 bytes, got %d bytes", rem)
-		return -1, errors.NewPacketDecodingError(errorMessage).AddContexts("INT16", variableName)
+func (d *Decoder) ReadInt16(variableName string) (kafkaValue.Int16, error) {
+	if d.RemainingBytesCount() < 2 {
+		rem := d.RemainingBytesCount()
+		d.LogDecodingError(variableName)
+		return kafkaValue.Int16{}, fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem)
 	}
 
-	decodedInteger := int16(binary.BigEndian.Uint16(d.bytes[d.offset:]))
-	d.offset += 2
-	d.logDecodedValue(variableName, decodedInteger)
-	return decodedInteger, nil
+	decodedInteger := kafkaValue.Int16{
+		VariableName: variableName,
+		Value:        int16(binary.BigEndian.Uint16(d.buffer.ReadRawBytes(2))),
+	}
+
+	return decodedInteger, d.callbacks.OnDecode(d.getLocatorWithVariableName(variableName), &decodedInteger)
 }
 
-func (d *Decoder) ReadInt32(variableName string) (int32, error) {
-	if d.UnreadBytesCount() < 4 {
-		rem := d.UnreadBytesCount()
-		errorMessage := fmt.Sprintf("Expected int32 length to be 4 bytes, got %d bytes", rem)
-		err := errors.NewPacketDecodingError(errorMessage).AddContexts("INT32", variableName)
-		return -1, err
+func (d *Decoder) ReadInt32(variableName string) (kafkaValue.Int32, error) {
+	if d.RemainingBytesCount() < 4 {
+		rem := d.RemainingBytesCount()
+		d.LogDecodingError(variableName)
+		return kafkaValue.Int32{}, fmt.Errorf("Expected INT32 length to be 4 bytes, got %d bytes", rem)
 	}
 
-	decodedInteger := int32(binary.BigEndian.Uint32(d.bytes[d.offset:]))
-	d.offset += 4
-	d.logDecodedValue(variableName, decodedInteger)
-	return decodedInteger, nil
+	decodedInteger := kafkaValue.Int32{
+		VariableName: variableName,
+		Value:        int32(binary.BigEndian.Uint32(d.buffer.ReadRawBytes(4))),
+	}
+
+	return decodedInteger, d.callbacks.OnDecode(d.getLocatorWithVariableName(variableName), &decodedInteger)
 }
 
-func (d *Decoder) ReadUnsignedVarint(variableName string) (uint64, error) {
-	decodedInteger, n := binary.Uvarint(d.bytes[d.offset:])
+func (d *Decoder) readUnsignedVarintWithoutLogging() (kafkaValue.UnsignedVarint, error) {
+	decodedUVarInt, numberOfBytesRead := d.buffer.ReadUnsignedVarint()
 
-	if n == 0 {
-		return 0, errors.NewPacketDecodingError("Unexpected end of data").AddContexts("UNSIGNED_VARINT", variableName)
+	// binary.Uvarint returns 0 bytes read if buffer is too small, negative if malformed
+	if numberOfBytesRead == 0 {
+		return kafkaValue.UnsignedVarint{}, errors.New("Insufficient bytes to decode UNSIGNED_VARINT")
 	}
 
-	if n < 0 {
-		errorMessage := fmt.Sprintf("Unexpected unsigned varint overflow after decoding %d bytes", -n)
-		return 0, errors.NewPacketDecodingError(errorMessage).AddContexts("UNSIGNED_VARINT", variableName)
+	if numberOfBytesRead < 0 {
+		return kafkaValue.UnsignedVarint{}, errors.New("Malformed UNSIGNED_VARINT encoding")
 	}
 
-	d.offset += n
-	d.logDecodedValue(variableName, decodedInteger)
-	return decodedInteger, nil
+	return kafkaValue.UnsignedVarint{
+		Value: decodedUVarInt,
+	}, nil
+}
+
+func (d *Decoder) ReadCompactArrayLength(variableName string) (kafkaValue.CompactArrayLength, error) {
+	unsignedVarInt, err := d.readUnsignedVarintWithoutLogging()
+
+	if err != nil {
+		return kafkaValue.CompactArrayLength{}, err
+	}
+
+	decodedValue := kafkaValue.CompactArrayLength{Value: unsignedVarInt.Value, VariableName: variableName}
+
+	return decodedValue, d.callbacks.OnDecode(d.getLocatorWithVariableName(variableName), &decodedValue)
 }
 
 // Composite Types : Uses Basic Types for decoding
 
-func (d *Decoder) ReadArrayLength(variableName string) (int, error) {
-	if d.UnreadBytesCount() < 4 {
-		rem := d.UnreadBytesCount()
-		errorMessage := fmt.Sprintf("Expected array length prefix to be 4 bytes, got %d bytes", rem)
-		return -1, errors.NewPacketDecodingError(errorMessage).AddContexts("ARRAY_LENGTH", variableName)
-	}
-	decodedInteger, err := d.ReadInt32("")
+func ReadCompactArray[T Decodable](decoder *Decoder, variableName string) ([]T, error) {
+	decoder.BeginSubSection(variableName)
+	defer decoder.EndCurrentSubSection()
+
+	compactArrayLength, err := decoder.ReadCompactArrayLength(fmt.Sprintf("%s.Length", variableName))
 
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return -1, decodingErr.AddContexts("ARRAY_LENGTH", variableName)
+		return nil, err
+	}
+
+	actualArrayLength := compactArrayLength.ActualLength()
+
+	// Create array with the specified length
+	result := make([]T, actualArrayLength)
+
+	// Decode each element
+	for i := uint64(0); i < uint64(actualArrayLength); i++ {
+		elementVariableName := fmt.Sprintf("%s[%d]", variableName, i)
+
+		// Create a new instance of T
+		var element T
+
+		// Decode the element
+		err := element.Decode(decoder, elementVariableName)
+		if err != nil {
+			return nil, err
 		}
-		return -1, err
+
+		result[i] = element
 	}
 
-	arrayLength := int(decodedInteger)
-
-	if arrayLength > d.UnreadBytesCount() {
-		errorMessage := fmt.Sprintf("Expect to read at least %d bytes, but only %d bytes are remaining", arrayLength, d.UnreadBytesCount())
-		return -1, errors.NewPacketDecodingError(errorMessage).AddContexts("ARRAY_LENGTH", variableName)
-	} else if (arrayLength > 2*math.MaxUint16) || (arrayLength < 0) {
-		return -1, errors.NewPacketDecodingError(fmt.Sprintf("Invalid array length: %d", arrayLength)).AddContexts("ARRAY_LENGTH", variableName)
-	}
-
-	d.logDecodedValue(variableName, arrayLength)
-	return arrayLength, nil
-}
-
-func (d *Decoder) ReadCompactArrayLength(variableName string) (int, error) {
-	decodedInteger, err := d.ReadUnsignedVarint("")
-
-	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return 0, decodingErr.AddContexts("COMPACT_ARRAY_LENGTH", variableName)
-		}
-		return 0, err
-	}
-
-	d.logCompactArrayLength(decodedInteger)
-	return int(decodedInteger) - 1, nil
+	return result, nil
 }
 
 func (d *Decoder) ConsumeTagBuffer() error {
-	tagCount, err := d.ReadUnsignedVarint("")
+	d.BeginSubSection("TAG_BUFFER")
+	defer d.EndCurrentSubSection()
+
+	tagCount, err := d.readUnsignedVarintWithoutLogging()
 
 	if err != nil {
-		if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-			return decodingErr.AddContexts("TAG_BUFFER")
-		}
-
 		return err
 	}
 
 	// skip over any tagged fields without deserializing them
 	// as we don't currently support doing anything with them
-	for range tagCount {
+	for range tagCount.Value {
 		// ignore tag identifier
-		_, err := d.ReadUnsignedVarint("")
+		_, err := d.readUnsignedVarintWithoutLogging()
 
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.AddContexts("TAG_BUFFER")
-			}
-
 			return err
 		}
 
 		// value length
-		length, err := d.ReadUnsignedVarint("")
+		length, err := d.readUnsignedVarintWithoutLogging()
 
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.AddContexts("TAG_BUFFER")
-			}
-
 			return err
+		} else if int(length.Value) < 0 {
+			return errors.New("Expected length of value in tag buffer to be positive")
 		}
 
 		// value
-		_, err = d.ConsumeRawBytes(int(length), "")
+		_, err = d.ConsumeRawBytes(length.Value)
 
 		if err != nil {
-			if decodingErr, ok := err.(*errors.PacketDecodingError); ok {
-				return decodingErr.AddContexts("TAG_BUFFER")
-			}
-
 			return err
 		}
 	}
-
-	d.logTagBuffer()
 	return nil
 }
 
-func (d *Decoder) ConsumeRawBytes(length int, variableName string) ([]byte, error) {
-	if length < 0 {
-		errorMessage := fmt.Sprintf("Expected length to be >= 0, got %d", length)
-		return nil, errors.NewPacketDecodingError(errorMessage).AddContexts("RAW_BYTES", variableName)
-	} else if length > d.UnreadBytesCount() {
-		errorMessage := fmt.Sprintf("Expected length to be lesser than remaining bytes (%d), got %d", d.UnreadBytesCount(), length)
-		return nil, errors.NewPacketDecodingError(errorMessage).AddContexts("RAW_BYTES", variableName)
+func (d *Decoder) ConsumeRawBytes(length uint64) ([]byte, error) {
+	if length > uint64(d.RemainingBytesCount()) {
+		return nil, fmt.Errorf("Expected length to be lesser than remaining bytes (%d), got %d", d.RemainingBytesCount(), length)
 	}
 
-	start := d.offset
-	d.offset += length
-	return d.bytes[start:d.offset], nil
+	result := d.buffer.ReadRawBytes(length)
+	return result, nil
 }
 
-// FormatDetailedError formats the error message with the received bytes and the offset
-func (d *Decoder) FormatDetailedError(message string) error {
-	lines := []string{}
-
-	offset := d.Offset()
-	receivedBytes := d.bytes
-	receivedBytesHexDump := NewInspectableHexDump(receivedBytes)
-
-	lines = append(lines, "Received:")
-	lines = append(lines, receivedBytesHexDump.FormatWithHighlightedOffset(offset))
-	lines = append(lines, message)
-
-	return go_errors.New(strings.Join(lines, "\n"))
-}
-
-func (d *Decoder) getIndentationString() string {
-	indentationSpaces := strings.Repeat("  ", d.indentationLevel)
-	bullet := "- "
+func (d *Decoder) getIndentationString(bulletMarker string) string {
+	indentationLevel := len(d.locator)
+	indentationSpaces := strings.Repeat("  ", indentationLevel)
+	bullet := fmt.Sprintf("%s ", bulletMarker)
 
 	// Only need dot for indented level
-	if d.indentationLevel != 0 {
-		bullet = "- ."
+	if indentationLevel != 0 {
+		bullet = fmt.Sprintf("%s .", bulletMarker)
 	}
 
 	return indentationSpaces + bullet
