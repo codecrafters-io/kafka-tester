@@ -37,6 +37,7 @@ func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 
+// TODO[PaulRefactor]: Every request will need to implement this, see if we can just expose GetBody instead?
 func (r ApiVersionsRequest) Encode() []byte {
 	return protocol_encoder.PackEncodedBytesAsMessage(append(r.Header.Encode(), r.Body.Encode()...))
 }
