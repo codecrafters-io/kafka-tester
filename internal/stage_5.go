@@ -58,8 +58,6 @@ func Unnamed[T any](actualResponse T, assertion response_assertions.ResponseAsse
 	var assertionError error
 	var assertionErrorLocator string
 
-	stageLogger.Infof("Decoder.CurrentLocator(): %s", decoder.CurrentLocator())
-
 	// First, let's assert the decoded values
 	for decodedValue, locator := range decoder.DecodedValuesWithLocators() {
 		if err := assertion.AssertDecodedValue(locator, decodedValue); err != nil {

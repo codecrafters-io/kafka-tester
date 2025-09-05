@@ -21,7 +21,7 @@ func (r *ResponseTreePrinter) Print() {
 	lastPrintedLocator := NewLocator("")
 	currentIndentationLevel := 0
 
-	buildIndentString := func() string {
+	buildIndentPrefix := func() string {
 		return strings.Repeat(" ", currentIndentationLevel*2)
 	}
 
@@ -33,30 +33,32 @@ func (r *ResponseTreePrinter) Print() {
 		} else if locator.IsDescendantOf(lastPrintedLocator) {
 			// If it's a descendant, we indent and print each ancestor between
 			for _, ancestorLocator := range locator.AncestorsFrom(lastPrintedLocator) {
+				r.Logger.Infof("%s- %s", buildIndentPrefix(), ancestorLocator.LastSegment())
 				currentIndentationLevel++
-				r.Logger.Infof("%s- %s", buildIndentString(), ancestorLocator.LastSegment())
 			}
 		} else {
-			// If it's neither a sibling or a descendant, we reset indentation level to 0 and print each ancestor
-			currentIndentationLevel = 0
+			// If it's neither a sibling or a descendant, we reset indentation level until the common ancestor
+			commonAncestor := locator.CommonAncestor(lastPrintedLocator)
+			currentIndentationLevel = len(commonAncestor.segments)
+			lastPrintedLocator = commonAncestor
 
-			for _, ancestorLocator := range locator.Ancestors() {
-				r.Logger.Infof("%s- %s", buildIndentString(), ancestorLocator.LastSegment())
+			for _, ancestorLocator := range locator.AncestorsFrom(lastPrintedLocator) {
+				r.Logger.Infof("%s- %s", buildIndentPrefix(), ancestorLocator.LastSegment())
 				currentIndentationLevel++
 			}
 		}
 
 		if r.AssertionError != nil && locator.String() == r.AssertionErrorLocator {
-			r.Logger.Infof("%s- %s (Assertion Error)", buildIndentString(), locator)
+			r.Logger.Infof("%s❌ %s (%s)", buildIndentPrefix(), locator.LastSegment(), value.String())
 			break
 		}
 
 		if r.DecodeError != nil && locator.String() == r.DecodeErrorLocator {
-			r.Logger.Infof("%s- %s (Decode Error)", buildIndentString(), locator)
+			r.Logger.Infof("%s- %s (Decode Error)", buildIndentPrefix(), locator.LastSegment())
 			break
 		}
 
-		r.Logger.Infof("%s- %s (%s)", buildIndentString(), locator, value.String())
+		r.Logger.Infof("%s- %s (%s)", buildIndentPrefix(), locator.LastSegment(), value.String())
 		lastPrintedLocator = locator
 	}
 }
@@ -82,7 +84,30 @@ func (l Locator) Is(other Locator) bool {
 }
 
 func (l Locator) IsDescendantOf(other Locator) bool {
-	return strings.HasPrefix(l.String(), other.String())
+	if other.String() == "" {
+		return true
+	}
+	return strings.HasPrefix(l.String(), other.String()+".")
+}
+
+func (l Locator) CommonAncestor(other Locator) Locator {
+	commonSegments := []string{}
+
+	minLength := len(l.segments)
+	if len(other.segments) < minLength {
+		minLength = len(other.segments)
+	}
+
+	for i := 0; i < minLength; i++ {
+		if l.segments[i] == other.segments[i] {
+			commonSegments = append(commonSegments, l.segments[i])
+		} else {
+			break
+		}
+	}
+
+	return Locator{segments: commonSegments}
+
 }
 
 func (l Locator) AncestorsUntil(other Locator) []Locator {
@@ -91,10 +116,11 @@ func (l Locator) AncestorsUntil(other Locator) []Locator {
 	}
 
 	ancestors := []Locator{}
+	current := l.Parent()
 
-	for l.IsDescendantOf(other) {
-		ancestors = append(ancestors, l.Parent())
-		l = l.Parent()
+	for !current.IsEqual(other) {
+		ancestors = append(ancestors, current)
+		current = current.Parent()
 	}
 
 	return ancestors
@@ -102,10 +128,11 @@ func (l Locator) AncestorsUntil(other Locator) []Locator {
 
 func (l Locator) Ancestors() []Locator {
 	ancestors := []Locator{}
+	current := l
 
-	for l.Parent().String() != "" {
-		ancestors = append(ancestors, l.Parent())
-		l = l.Parent()
+	for current.Parent().String() != "" {
+		ancestors = append(ancestors, current.Parent())
+		current = current.Parent()
 	}
 
 	return ancestors
@@ -136,9 +163,15 @@ func (l Locator) IsChildOf(other Locator) bool {
 }
 
 func (l Locator) Parent() Locator {
+	if len(l.segments) == 0 {
+		return Locator{segments: []string{}}
+	}
 	return Locator{segments: l.segments[:len(l.segments)-1]}
 }
 
 func (l Locator) IsSiblingOf(other Locator) bool {
-	return l.Parent().Is(other.Parent())
+	if len(l.segments) == 0 || len(other.segments) == 0 {
+		return false
+	}
+	return l.Parent().IsEqual(other.Parent())
 }
