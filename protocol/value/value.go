@@ -21,6 +21,7 @@ type Int16 struct {
 	Value int16
 }
 
+// TODO[PaulRefactor]: See if we can avoid the pointer stuff and just use normal values?
 func (v *Int16) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
