@@ -18,6 +18,8 @@ var apiKeyNames = map[int16]string{
 }
 
 type ApiVersionsResponseAssertion struct {
+	// TODO[PaulRefactor]: Kind of feels like we're serializing this too early, see if we can store expected values and then build assertions map on-demand?
+	//                     This might be simpler in some cases though (less fields to name), so evaluate and only change if worth-it.
 	valueAssertions    value_assertion.ValueAssertionCollection
 	expectedAPIKey     int16
 	expectedMinVersion int16
@@ -26,11 +28,14 @@ type ApiVersionsResponseAssertion struct {
 
 func NewApiVersionsResponseAssertion() *ApiVersionsResponseAssertion {
 	return &ApiVersionsResponseAssertion{
+		// TODO[PaulRefactor]: Rename to NewValueAssertionCollection() since we don't use the name "Map" anymore
 		valueAssertions: value_assertion.NewValueAssertionMap(),
 	}
 }
 
 func (a *ApiVersionsResponseAssertion) WithCorrelationId(expectedCorrelationID int32) *ApiVersionsResponseAssertion {
+	// TODO[PaulRefactor]: Hard to know whether the keys here actually correspond to values in the response.
+	//                     See if we can change this to structurally ensure we can't make mistakes here?
 	a.valueAssertions.Add(
 		"ApiVersionsResponse.ResponseHeader.CorrelationID", int32_value_assertion.IsEqual(expectedCorrelationID),
 	)
