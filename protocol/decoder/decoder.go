@@ -114,6 +114,8 @@ func (d *Decoder) ReadCompactArrayLength(variableName string) (kafkaValue.Compac
 
 // ReadCompactArray reads a compact array of type T
 // The compact array length is read as well
+//
+// TODO[PaulRefactor]: This seems pretty complex!
 func ReadCompactArray[T any, PT interface {
 	*T
 	Decodable
