@@ -5,6 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -39,15 +40,14 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildForDecode()
-
 	assertion := assertions.NewApiVersionsResponseAssertion().
 		WithCorrelationId(correlationId).
 		WithErrorCode(0).
 		WithAPIKey(18, 0, 4)
 
 	// TODO[PaulRefactor]: This seems like a common pattern that will be in all stages - Decode, followed by RunCompositeAssertions. See if we can make this more easy todo?
-	if err := actualResponse.Decode(response.Payload, stageLogger, assertion.GetValueAssertionCollection()); err != nil {
+	actualResponse, err := kafkaapi.DecodeApiVersionsResponse(response.Payload, stageLogger, assertion.GetValueAssertionCollection())
+	if err != nil {
 		return err
 	}
 

@@ -16,22 +16,27 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-// TODO[PaulRefactor]: Try to change Decode() to a top-level function, so a response doesn't have to be constructed beforehand.
-func (r *ApiVersionsResponse) Decode(responseBytes []byte, logger *logger.Logger, valueAssertions value_assertion.ValueAssertionCollection) (err error) {
+func DecodeApiVersionsResponse(responseBytes []byte, logger *logger.Logger, valueAssertions value_assertion.ValueAssertionCollection) (ApiVersionsResponse, error) {
+	response := ApiVersionsResponse{
+		Header: headers.ResponseHeader{Version: 0},
+		Body:   ApiVersionsResponseBody{Version: 4},
+	}
+
 	decoder := instrumented_decoder.NewInstrumentedDecoder(responseBytes, logger, valueAssertions)
 
 	decoder.BeginSubSection("ApiVersionsResponse")
 	defer decoder.EndCurrentSubSection()
 
-	if err = r.Header.Decode(decoder); err != nil {
-		return err
+	// TODO[PaulRefactor]: This pattern of Header.Decode, Body.Decoder seems like it'll be common among all response. See if we can extract?
+	if err := response.Header.Decode(decoder); err != nil {
+		return response, err
 	}
 
-	if err = r.Body.Decode(decoder); err != nil {
-		return err
+	if err := response.Body.Decode(decoder); err != nil {
+		return response, err
 	}
 
-	return nil
+	return response, nil
 }
 
 type ApiVersionsResponseBody struct {
