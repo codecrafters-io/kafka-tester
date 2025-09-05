@@ -46,6 +46,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithErrorCode(0).
 		WithAPIKey(18, 0, 4)
 
+	// TODO[PaulRefactor]: This seems like a common pattern that will be in all stages - Decode, followed by RunCompositeAssertions. See if we can make this more easy todo?
 	if err := actualResponse.Decode(response.Payload, stageLogger, assertion.GetValueAssertionCollection()); err != nil {
 		return err
 	}
