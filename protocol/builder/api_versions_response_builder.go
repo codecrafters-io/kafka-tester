@@ -60,6 +60,7 @@ func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 	}
 }
 
+// TODO[PaulRefactor]: Try to remove this, and change how "Decode()" requires an "Empty" response.
 func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
 		Header: BuildEmptyResponseHeaderv0(),

@@ -16,6 +16,7 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
+// TODO[PaulRefactor]: Try to change Decode() to a top-level function, so a response doesn't have to be constructed beforehand.
 func (r *ApiVersionsResponse) Decode(responseBytes []byte, logger *logger.Logger, valueAssertions value_assertion.ValueAssertionCollection) (err error) {
 	decoder := instrumented_decoder.NewInstrumentedDecoder(responseBytes, logger, valueAssertions)
 
