@@ -13,13 +13,11 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func DecodeApiVersionsResponse(responseBytes []byte) (ApiVersionsResponse, error) {
+func DecodeApiVersionsResponse(decoder *value_storing_decoder.ValueStoringDecoder) (ApiVersionsResponse, error) {
 	response := ApiVersionsResponse{
 		Header: headers.ResponseHeader{Version: 0},
 		Body:   ApiVersionsResponseBody{Version: 4},
 	}
-
-	decoder := value_storing_decoder.NewValueStoringDecoder(responseBytes)
 
 	decoder.PushLocatorSegment("ApiVersionsResponse")
 	defer decoder.PopLocatorSegment()

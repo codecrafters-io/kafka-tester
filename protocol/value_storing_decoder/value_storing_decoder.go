@@ -1,23 +1,39 @@
 package value_storing_decoder
 
 import (
+	"iter"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
+type ValueWithLocator struct {
+	Value   value.KafkaProtocolValue
+	Locator string
+}
+
 type ValueStoringDecoder struct {
 	currentLocatorSegments    []string
 	decoder                   *decoder.Decoder
-	decodedValuesByLocatorMap map[string]value.KafkaProtocolValue
+	decodedValuesWithLocators []ValueWithLocator
 }
 
 func NewValueStoringDecoder(bytes []byte) *ValueStoringDecoder {
 	return &ValueStoringDecoder{
 		decoder:                   decoder.NewDecoder(bytes),
 		currentLocatorSegments:    []string{},
-		decodedValuesByLocatorMap: make(map[string]value.KafkaProtocolValue),
+		decodedValuesWithLocators: []ValueWithLocator{},
+	}
+}
+
+func (d *ValueStoringDecoder) DecodedValuesWithLocators() iter.Seq2[value.KafkaProtocolValue, string] {
+	return func(yield func(value.KafkaProtocolValue, string) bool) {
+		for _, valueWithLocator := range d.decodedValuesWithLocators {
+			if !yield(valueWithLocator.Value, valueWithLocator.Locator) {
+				return
+			}
+		}
 	}
 }
 
@@ -37,7 +53,7 @@ func (d *ValueStoringDecoder) ReadCompactArrayLength(locator string) (value.Comp
 		return value.CompactArrayLength{}, err
 	}
 
-	d.storeDecodedValue(decodedValue)
+	d.appendDecodedValue(decodedValue)
 	d.PopLocatorSegment()
 
 	return decodedValue, nil
@@ -51,7 +67,7 @@ func (d *ValueStoringDecoder) ReadInt16(locator string) (value.Int16, error) {
 		return value.Int16{}, err
 	}
 
-	d.storeDecodedValue(decodedValue)
+	d.appendDecodedValue(decodedValue)
 	d.PopLocatorSegment()
 
 	return decodedValue, nil
@@ -65,7 +81,7 @@ func (d *ValueStoringDecoder) ReadInt32(locator string) (value.Int32, error) {
 		return value.Int32{}, err
 	}
 
-	d.storeDecodedValue(decodedValue)
+	d.appendDecodedValue(decodedValue)
 	d.PopLocatorSegment()
 
 	return decodedValue, nil
@@ -90,6 +106,9 @@ func (d *ValueStoringDecoder) constructLocator() string {
 	return strings.Join(d.currentLocatorSegments, ".")
 }
 
-func (d *ValueStoringDecoder) storeDecodedValue(decodedValue value.KafkaProtocolValue) {
-	d.decodedValuesByLocatorMap[d.constructLocator()] = decodedValue
+func (d *ValueStoringDecoder) appendDecodedValue(decodedValue value.KafkaProtocolValue) {
+	d.decodedValuesWithLocators = append(d.decodedValuesWithLocators, ValueWithLocator{
+		Value:   decodedValue,
+		Locator: d.constructLocator(),
+	})
 }
