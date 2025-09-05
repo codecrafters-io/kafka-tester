@@ -6,6 +6,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
+// TODO[PaulRefactor]: Remove the word "Validation" altogether, we can get away with just calling these assertions
 type IsEqualValidation struct {
 	ExpectedVaue uint64
 }
