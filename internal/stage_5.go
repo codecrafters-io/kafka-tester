@@ -5,7 +5,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -13,7 +13,7 @@ import (
 func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
-	if err := serializer_legacy.GenerateLogDirs(logger.GetQuietLogger(""), true); err != nil {
+	if err := legacy_serializer.GenerateLogDirs(logger.GetQuietLogger(""), true); err != nil {
 		return err
 	}
 

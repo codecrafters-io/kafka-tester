@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/stretchr/testify/assert"
 )
@@ -20,17 +20,17 @@ func TestFetchv16With0Messages(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder_legacy.Decoder{}
+	decoder := legacy_decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder_legacy.BuildEmptyResponseHeaderv1()
+	header := legacy_builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
 
-	response := kafkaapi_legacy.FetchResponse{Version: 16}
+	response := legacy_kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -64,17 +64,17 @@ func TestFetchv16With1Message(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder_legacy.Decoder{}
+	decoder := legacy_decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder_legacy.BuildEmptyResponseHeaderv1()
+	header := legacy_builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
 
-	response := kafkaapi_legacy.FetchResponse{Version: 16}
+	response := legacy_kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -117,17 +117,17 @@ func TestFetchv16With2Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder_legacy.Decoder{}
+	decoder := legacy_decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder_legacy.BuildEmptyResponseHeaderv1()
+	header := legacy_builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
 
-	response := kafkaapi_legacy.FetchResponse{Version: 16}
+	response := legacy_kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -167,17 +167,17 @@ func TestFetchv16With3Messages(t *testing.T) {
 	}
 
 	messages := []string{}
-	decoder := decoder_legacy.Decoder{}
+	decoder := legacy_decoder.Decoder{}
 	decoder.Init(b)
 
-	header := builder_legacy.BuildEmptyResponseHeaderv1()
+	header := legacy_builder.BuildEmptyResponseHeaderv1()
 
 	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
 
-	response := kafkaapi_legacy.FetchResponse{Version: 16}
+	response := legacy_kafkaapi.FetchResponse{Version: 16}
 	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
@@ -216,17 +216,17 @@ func TestAPIVersionv3(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := decoder_legacy.Decoder{}
+	decoder := legacy_decoder.Decoder{}
 	decoder.Init(b)
 
-	responseHeader := builder_legacy.BuildEmptyResponseHeaderv0()
+	responseHeader := legacy_builder.BuildEmptyResponseHeaderv0()
 
 	if err := responseHeader.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
 	}
 
-	apiVersionsResponse := kafkaapi_legacy.ApiVersionsResponseBody{Version: 4}
+	apiVersionsResponse := legacy_kafkaapi.ApiVersionsResponseBody{Version: 4}
 	if err := apiVersionsResponse.Decode(&decoder, 4, logger.GetQuietLogger(""), 0); err != nil {
 		fmt.Println(decoder.FormatDetailedError(err.Error()))
 		return
