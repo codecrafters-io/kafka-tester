@@ -157,6 +157,8 @@ func ReadCompactArray[T any, PT interface {
 func (d *Decoder) ConsumeTagBuffer() error {
 	d.callbacks.OnCompositeDecodingStart("TAG_BUFFER")
 	defer d.callbacks.OnCompositeDecodingEnd()
+
+	// TODO[PaulRefactor]: What if there is an error with this? Do we not call the OnDecodeError callback?
 	tagCount, err := d.readUnsignedVarintWithoutCallback()
 
 	if err != nil {
