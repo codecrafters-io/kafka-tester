@@ -48,6 +48,7 @@ func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int
 	return b
 }
 
+// TODO[PaulRefactor]: Now this doesn't get used anywhere? Completely replaced by ApiVersionsResponseAssertion?
 func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 	return kafkaapi.ApiVersionsResponse{
 		Header: NewResponseHeaderBuilder().WithCorrelationId(b.correlationId).WithVersion(0).Build(),
