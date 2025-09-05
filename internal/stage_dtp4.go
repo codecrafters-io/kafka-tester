@@ -1,20 +1,20 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
+	"github.com/codecrafters-io/kafka-tester/internal/legacy_assertions"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer_legacy.GenerateLogDirs(stageLogger, true)
+	err := legacy_serializer.GenerateLogDirs(stageLogger, true)
 	if err != nil {
 		return err
 	}
@@ -25,18 +25,18 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 
 	correlationId := getRandomCorrelationId()
 
-	client := kafka_client_legacy.NewClient("localhost:9092")
+	client := legacy_kafka_client.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client_legacy.Client) {
+	defer func(client *legacy_kafka_client.Client) {
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi_legacy.DescribeTopicPartitionsRequest{
-		Header: builder_legacy.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
-		Body: kafkaapi_legacy.DescribeTopicPartitionsRequestBody{
-			Topics: []kafkaapi_legacy.TopicName{
+	request := legacy_kafkaapi.DescribeTopicPartitionsRequest{
+		Header: legacy_builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
+		Body: legacy_kafkaapi.DescribeTopicPartitionsRequestBody{
+			Topics: []legacy_kafkaapi.TopicName{
 				{
 					Name: common.TOPIC3_NAME,
 				},
@@ -50,24 +50,24 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi_legacy.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
+	responseHeader, responseBody, err := legacy_kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	expectedResponseHeader := builder_legacy.BuildResponseHeader(correlationId)
-	if err = assertions_legacy.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
+	expectedResponseHeader := legacy_builder.BuildResponseHeader(correlationId)
+	if err = legacy_assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
 
-	expectedDescribeTopicPartitionsResponse := kafkaapi_legacy.DescribeTopicPartitionsResponse{
+	expectedDescribeTopicPartitionsResponse := legacy_kafkaapi.DescribeTopicPartitionsResponse{
 		ThrottleTimeMs: 0,
-		Topics: []kafkaapi_legacy.DescribeTopicPartitionsResponseTopic{
+		Topics: []legacy_kafkaapi.DescribeTopicPartitionsResponseTopic{
 			{
 				ErrorCode: 0,
 				Name:      common.TOPIC3_NAME,
 				TopicID:   common.TOPIC3_UUID,
-				Partitions: []kafkaapi_legacy.DescribeTopicPartitionsResponsePartition{
+				Partitions: []legacy_kafkaapi.DescribeTopicPartitionsResponsePartition{
 					{
 						ErrorCode:              0,
 						PartitionIndex:         0,
@@ -95,5 +95,5 @@ func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harn
 		},
 	}
 
-	return assertions_legacy.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse).Run(stageLogger)
+	return legacy_assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse).Run(stageLogger)
 }

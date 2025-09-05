@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +18,7 @@ func TestDecodeBeginTransactionRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	beginTransactionRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	beginTransactionRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = beginTransactionRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -26,7 +26,7 @@ func TestDecodeBeginTransactionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 23, beginTransactionRecord.Type)
 	assert.EqualValues(t, 0, beginTransactionRecord.Version)
 
-	payload, ok := beginTransactionRecord.Data.(*kafkaapi_legacy.BeginTransactionRecord)
+	payload, ok := beginTransactionRecord.Data.(*legacy_kafkaapi.BeginTransactionRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, "Bootstrap records", payload.Name)
 }
@@ -39,7 +39,7 @@ func TestDecodeFeatureLevelRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	featureLevelRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	featureLevelRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = featureLevelRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -47,7 +47,7 @@ func TestDecodeFeatureLevelRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 12, featureLevelRecord.Type)
 	assert.EqualValues(t, 0, featureLevelRecord.Version)
 
-	payload, ok := featureLevelRecord.Data.(*kafkaapi_legacy.FeatureLevelRecord)
+	payload, ok := featureLevelRecord.Data.(*legacy_kafkaapi.FeatureLevelRecord)
 	assert.EqualValues(t, "metadata.version", payload.Name)
 	assert.EqualValues(t, 20, payload.FeatureLevel)
 	assert.True(t, ok)
@@ -62,7 +62,7 @@ func TestDecodeZKMigrationRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	zkMigrationRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	zkMigrationRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = zkMigrationRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -70,7 +70,7 @@ func TestDecodeZKMigrationRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 21, zkMigrationRecord.Type)
 	assert.EqualValues(t, 0, zkMigrationRecord.Version)
 
-	payload, ok := zkMigrationRecord.Data.(*kafkaapi_legacy.ZKMigrationStateRecord)
+	payload, ok := zkMigrationRecord.Data.(*legacy_kafkaapi.ZKMigrationStateRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, 0, payload.MigrationState)
 }
@@ -83,7 +83,7 @@ func TestDecodeEndTransactionRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	endTransactionRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	endTransactionRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = endTransactionRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -91,7 +91,7 @@ func TestDecodeEndTransactionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 24, endTransactionRecord.Type)
 	assert.EqualValues(t, 0, endTransactionRecord.Version)
 
-	_, ok := endTransactionRecord.Data.(*kafkaapi_legacy.EndTransactionRecord)
+	_, ok := endTransactionRecord.Data.(*legacy_kafkaapi.EndTransactionRecord)
 	assert.True(t, ok)
 }
 
@@ -103,7 +103,7 @@ func TestDecodeTopicRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	topicRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	topicRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = topicRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -111,7 +111,7 @@ func TestDecodeTopicRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 2, topicRecord.Type)
 	assert.EqualValues(t, 0, topicRecord.Version)
 
-	payload, ok := topicRecord.Data.(*kafkaapi_legacy.TopicRecord)
+	payload, ok := topicRecord.Data.(*legacy_kafkaapi.TopicRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, "saz", payload.TopicName)
 	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
@@ -125,7 +125,7 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 		panic(err)
 	}
 
-	partitionRecord := kafkaapi_legacy.ClusterMetadataPayload{}
+	partitionRecord := legacy_kafkaapi.ClusterMetadataPayload{}
 	err = partitionRecord.Decode(b)
 
 	assert.NoError(t, err)
@@ -133,7 +133,7 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 	assert.EqualValues(t, 3, partitionRecord.Type)
 	assert.EqualValues(t, 1, partitionRecord.Version)
 
-	payload, ok := partitionRecord.Data.(*kafkaapi_legacy.PartitionRecord)
+	payload, ok := partitionRecord.Data.(*legacy_kafkaapi.PartitionRecord)
 	assert.True(t, ok)
 	assert.EqualValues(t, 0, payload.PartitionID)
 	assert.EqualValues(t, "00000000-0000-4000-8000-000000000091", payload.TopicUUID)
@@ -148,86 +148,86 @@ func TestDecodePartitionRecordPayload(t *testing.T) {
 }
 
 func TestEncodeBeginTransactionRecordPayload(t *testing.T) {
-	beginTransactionRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	beginTransactionRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         23,
 		Version:      0,
-		Data: &kafkaapi_legacy.BeginTransactionRecord{
+		Data: &legacy_kafkaapi.BeginTransactionRecord{
 			Name: "Bootstrap records",
 		},
 	}
 
-	bytes := serializer_legacy.GetEncodedBytes(beginTransactionRecord)
+	bytes := legacy_serializer.GetEncodedBytes(beginTransactionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01170001001212426f6f747374726170207265636f726473", hex.EncodeToString(bytes))
 }
 
 func TestEncodeFeatureLevelRecordPayload(t *testing.T) {
-	featureLevelRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	featureLevelRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         12,
 		Version:      0,
-		Data: &kafkaapi_legacy.FeatureLevelRecord{
+		Data: &legacy_kafkaapi.FeatureLevelRecord{
 			Name:         "metadata.version",
 			FeatureLevel: 20,
 		},
 	}
 
-	bytes := serializer_legacy.GetEncodedBytes(featureLevelRecord)
+	bytes := legacy_serializer.GetEncodedBytes(featureLevelRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "010c00116d657461646174612e76657273696f6e001400", hex.EncodeToString(bytes))
 }
 
 func TestEncodeZKMigrationRecordPayload(t *testing.T) {
-	zkMigrationRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	zkMigrationRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         21,
 		Version:      0,
-		Data:         &kafkaapi_legacy.ZKMigrationStateRecord{MigrationState: 0},
+		Data:         &legacy_kafkaapi.ZKMigrationStateRecord{MigrationState: 0},
 	}
-	bytes := serializer_legacy.GetEncodedBytes(zkMigrationRecord)
+	bytes := legacy_serializer.GetEncodedBytes(zkMigrationRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "0115000000", hex.EncodeToString(bytes))
 }
 
 func TestEncodeEndTransactionRecordPayload(t *testing.T) {
-	endTransactionRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	endTransactionRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         24,
 		Version:      0,
-		Data:         &kafkaapi_legacy.EndTransactionRecord{},
+		Data:         &legacy_kafkaapi.EndTransactionRecord{},
 	}
 
-	bytes := serializer_legacy.GetEncodedBytes(endTransactionRecord)
+	bytes := legacy_serializer.GetEncodedBytes(endTransactionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01180000", hex.EncodeToString(bytes))
 }
 
 func TestEncodeTopicRecordPayload(t *testing.T) {
-	topicRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	topicRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         2,
 		Version:      0,
-		Data: &kafkaapi_legacy.TopicRecord{
+		Data: &legacy_kafkaapi.TopicRecord{
 			TopicName: "foo",
 			TopicUUID: "bfd99e5e-3235-4552-81f8-d4af1741970c"},
 	}
-	bytes := serializer_legacy.GetEncodedBytes(topicRecord)
+	bytes := legacy_serializer.GetEncodedBytes(topicRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01020004666f6fbfd99e5e3235455281f8d4af1741970c00", hex.EncodeToString(bytes))
 }
 
 func TestEncodePartitionRecordPayload(t *testing.T) {
-	partitionRecord := kafkaapi_legacy.ClusterMetadataPayload{
+	partitionRecord := legacy_kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
 		Type:         3,
 		Version:      1,
-		Data: &kafkaapi_legacy.PartitionRecord{
+		Data: &legacy_kafkaapi.PartitionRecord{
 			PartitionID:      0,
 			TopicUUID:        "bfd99e5e-3235-4552-81f8-d4af1741970c",
 			Replicas:         []int32{1},
@@ -241,7 +241,7 @@ func TestEncodePartitionRecordPayload(t *testing.T) {
 		},
 	}
 
-	bytes := serializer_legacy.GetEncodedBytes(partitionRecord)
+	bytes := legacy_serializer.GetEncodedBytes(partitionRecord)
 	fmt.Printf("%s\n", hex.Dump(bytes))
 
 	assert.Equal(t, "01030100000000bfd99e5e3235455281f8d4af1741970c020000000102000000010101000000010000000000000000020224973cbadd44cf874445a99619da3400", hex.EncodeToString(bytes))

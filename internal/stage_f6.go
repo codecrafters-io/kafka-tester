@@ -1,20 +1,20 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions_legacy"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/protocol/builder_legacy"
+	"github.com/codecrafters-io/kafka-tester/internal/legacy_assertions"
 	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi_legacy"
-	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
-	err := serializer_legacy.GenerateLogDirs(stageLogger, false)
+	err := legacy_serializer.GenerateLogDirs(stageLogger, false)
 	if err != nil {
 		return err
 	}
@@ -25,27 +25,27 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 
 	correlationId := getRandomCorrelationId()
 
-	client := kafka_client_legacy.NewClient("localhost:9092")
+	client := legacy_kafka_client.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *kafka_client_legacy.Client) {
+	defer func(client *legacy_kafka_client.Client) {
 		_ = client.Close()
 	}(client)
 
-	request := kafkaapi_legacy.FetchRequest{
-		Header: builder_legacy.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
-		Body: kafkaapi_legacy.FetchRequestBody{
+	request := legacy_kafkaapi.FetchRequest{
+		Header: legacy_builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
+		Body: legacy_kafkaapi.FetchRequestBody{
 			MaxWaitMS:         500,
 			MinBytes:          1,
 			MaxBytes:          52428800,
 			IsolationLevel:    0,
 			FetchSessionID:    0,
 			FetchSessionEpoch: 0,
-			Topics: []kafkaapi_legacy.Topic{
+			Topics: []legacy_kafkaapi.Topic{
 				{
 					TopicUUID: common.TOPIC3_UUID,
-					Partitions: []kafkaapi_legacy.Partition{
+					Partitions: []legacy_kafkaapi.Partition{
 						{
 							ID:                 0,
 							CurrentLeaderEpoch: -1,
@@ -57,7 +57,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 					},
 				},
 			},
-			ForgottenTopics: []kafkaapi_legacy.ForgottenTopic{},
+			ForgottenTopics: []legacy_kafkaapi.ForgottenTopic{},
 			RackID:          "",
 		},
 	}
@@ -67,32 +67,32 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		return err
 	}
 
-	responseHeader, responseBody, err := kafkaapi_legacy.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
+	responseHeader, responseBody, err := legacy_kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	expectedResponseHeader := builder_legacy.BuildResponseHeader(correlationId)
-	if err = assertions_legacy.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
+	expectedResponseHeader := legacy_builder.BuildResponseHeader(correlationId)
+	if err = legacy_assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
 		return err
 	}
 
-	expectedFetchResponse := kafkaapi_legacy.FetchResponse{
+	expectedFetchResponse := legacy_kafkaapi.FetchResponse{
 		ThrottleTimeMs: 0,
 		ErrorCode:      0,
 		SessionID:      0,
-		TopicResponses: []kafkaapi_legacy.TopicResponse{
+		TopicResponses: []legacy_kafkaapi.TopicResponse{
 			{
 				Topic: common.TOPIC3_UUID,
-				PartitionResponses: []kafkaapi_legacy.PartitionResponse{
+				PartitionResponses: []legacy_kafkaapi.PartitionResponse{
 					{
 						PartitionIndex:      0,
 						ErrorCode:           0,
 						HighWatermark:       0,
 						LastStableOffset:    0,
 						LogStartOffset:      0,
-						AbortedTransactions: []kafkaapi_legacy.AbortedTransaction{},
-						RecordBatches: []kafkaapi_legacy.RecordBatch{
+						AbortedTransactions: []legacy_kafkaapi.AbortedTransaction{},
+						RecordBatches: []legacy_kafkaapi.RecordBatch{
 							{
 								BaseOffset:           0,
 								BatchLength:          0,
@@ -105,7 +105,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
-								Records: []kafkaapi_legacy.Record{
+								Records: []legacy_kafkaapi.Record{
 									{
 										Length:         0,
 										Attributes:     0,
@@ -113,7 +113,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 										OffsetDelta:    0,
 										Key:            []byte{},
 										Value:          []byte(common.MESSAGE2),
-										Headers:        []kafkaapi_legacy.RecordHeader{},
+										Headers:        []legacy_kafkaapi.RecordHeader{},
 									},
 								},
 							},
@@ -129,7 +129,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 								ProducerId:           0,
 								ProducerEpoch:        0,
 								BaseSequence:         0,
-								Records: []kafkaapi_legacy.Record{
+								Records: []legacy_kafkaapi.Record{
 									{
 										Length:         0,
 										Attributes:     0,
@@ -137,7 +137,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 										OffsetDelta:    0,
 										Key:            []byte{},
 										Value:          []byte(common.MESSAGE3),
-										Headers:        []kafkaapi_legacy.RecordHeader{},
+										Headers:        []legacy_kafkaapi.RecordHeader{},
 									},
 								},
 							},
@@ -149,6 +149,6 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 		},
 	}
 
-	return assertions_legacy.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
+	return legacy_assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
 		Run(stageLogger)
 }
