@@ -39,7 +39,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	actualResponse := builder.NewApiVersionsResponseBuilder().BuildForDecode()
 
 	assertion := assertions.NewApiVersionsResponseAssertion().
 		WithCorrelationId(correlationId).
