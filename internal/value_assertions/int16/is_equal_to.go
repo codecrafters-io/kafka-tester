@@ -7,7 +7,7 @@ import (
 )
 
 func IsEqualTo(expectedValue int16, actualValue value.KafkaProtocolValue) error {
-	castedActualValue, ok := actualValue.(*value.Int16)
+	castedActualValue, ok := actualValue.(value.Int16)
 	if !ok {
 		panic("CodeCrafters Internal Error: Expected INT16 value, got " + actualValue.GetType())
 	}

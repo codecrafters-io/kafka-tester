@@ -3,9 +3,10 @@ package kafkaapi
 import (
 	"fmt"
 
+	// TODO[PaulRefactor]: Avoid the import of value_storing_decoder from protocol?
+	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
-	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 )
 
 type ApiVersionsResponse struct {
@@ -57,7 +58,7 @@ func (r *ApiVersionsResponseBody) Decode(decoder *value_storing_decoder.ValueSto
 		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	decoder.PushLocatorSegment("ApiVersionsResponseBody")
+	decoder.PushLocatorSegment("Body")
 	defer decoder.PopLocatorSegment()
 
 	if r.ErrorCode, err = decoder.ReadInt16("ErrorCode"); err != nil {

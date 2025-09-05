@@ -60,6 +60,17 @@ func (a *ApiVersionsResponseAssertion) AssertDecodedValue(locator string, decode
 		return int16_assertions.IsEqualTo(a.expectedErrorCode, decodedValue)
 	}
 
+	if locator == "ApiVersionsResponse.Body.ThrottleTimeMs" {
+		// We don't validate ThrottleTimeMs
+		return nil
+	}
+
+	// TODO: See what basic validations we can do?
+	if locator == "ApiVersionsResponse.Body.ApiKeys.Length" {
+		// Ignore for now
+		return nil
+	}
+
 	// TODO[PaulRefactor]: Add assertions for ApiKeys[].ApiKey, ApiKeys[].MinVersion, ApiKeys[].MaxVersion
 
 	// This ensures that we're handling ALL possible locators

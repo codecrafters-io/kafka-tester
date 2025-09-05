@@ -3,8 +3,9 @@ package headers
 import (
 	"fmt"
 
+	// TODO[PaulRefactor]: Avoid the import of value_storing_decoder from protocol?
+	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
-	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 )
 
 // ResponseHeader is the parallels version of ResponseHeader
@@ -14,7 +15,7 @@ type ResponseHeader struct {
 }
 
 func (h *ResponseHeader) Decode(decoder *value_storing_decoder.ValueStoringDecoder) error {
-	decoder.PushLocatorSegment("ResponseHeader")
+	decoder.PushLocatorSegment("Header")
 	defer decoder.PopLocatorSegment()
 
 	switch h.Version {

@@ -2,12 +2,12 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
-	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )

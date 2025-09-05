@@ -7,12 +7,12 @@ import (
 )
 
 func IsEqualTo(expectedValue int32, actualValue value.KafkaProtocolValue) error {
-	castedActualValue, ok := actualValue.(*value.Int32)
+	castedActualValue, ok := actualValue.(value.Int32)
 	if !ok {
 		panic("CodeCrafters Internal Error: Expected INT32 value, got " + actualValue.GetType())
 	}
 
-	if castedActualValue.Value != int32(expectedValue) {
+	if castedActualValue.Value != expectedValue {
 		return fmt.Errorf("Error: Expected INT32 value to be %d, got %d", expectedValue, castedActualValue.Value)
 	}
 

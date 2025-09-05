@@ -27,6 +27,11 @@ func NewValueStoringDecoder(bytes []byte) *ValueStoringDecoder {
 	}
 }
 
+// TODO[PaulRefactor]: See if we can bake this into error?
+func (d *ValueStoringDecoder) CurrentLocator() string {
+	return strings.Join(d.currentLocatorSegments, ".")
+}
+
 func (d *ValueStoringDecoder) DecodedValuesWithLocators() iter.Seq2[value.KafkaProtocolValue, string] {
 	return func(yield func(value.KafkaProtocolValue, string) bool) {
 		for _, valueWithLocator := range d.decodedValuesWithLocators {

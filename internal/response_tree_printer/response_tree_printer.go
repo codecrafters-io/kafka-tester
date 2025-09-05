@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -25,35 +25,39 @@ func (r *ResponseTreePrinter) Print() {
 		return strings.Repeat(" ", currentIndentationLevel*2)
 	}
 
-	for _, locatorString := range r.Decoder.DecodedValuesWithLocators() {
+	for value, locatorString := range r.Decoder.DecodedValuesWithLocators() {
 		locator := NewLocator(locatorString)
 
 		if locator.IsSiblingOf(lastPrintedLocator) {
-			// We don't need to adjust indentation level
+			// If the locator is a sibling, we don't need to adjust indentation level
 		} else if locator.IsDescendantOf(lastPrintedLocator) {
 			// If it's a descendant, we indent and print each ancestor between
 			for _, ancestorLocator := range locator.AncestorsFrom(lastPrintedLocator) {
 				currentIndentationLevel++
 				r.Logger.Infof("%s- %s", buildIndentString(), ancestorLocator.LastSegment())
-				lastPrintedLocator = ancestorLocator
 			}
-
-			currentIndentationLevel++
 		} else {
-			// If it's neither a sibling or a descendant, we reset indentation level to 0
-			lastPrintedLocator = NewLocator("")
+			// If it's neither a sibling or a descendant, we reset indentation level to 0 and print each ancestor
 			currentIndentationLevel = 0
+
+			for _, ancestorLocator := range locator.Ancestors() {
+				r.Logger.Infof("%s- %s", buildIndentString(), ancestorLocator.LastSegment())
+				currentIndentationLevel++
+			}
 		}
 
 		if r.AssertionError != nil && locator.String() == r.AssertionErrorLocator {
-			r.Logger.Infof("- %s (Assertion Error)", locator)
-			lastPrintedLocator = locator
+			r.Logger.Infof("%s- %s (Assertion Error)", buildIndentString(), locator)
+			break
 		}
 
 		if r.DecodeError != nil && locator.String() == r.DecodeErrorLocator {
-			r.Logger.Infof("- %s (Decode Error)", locator)
-			lastPrintedLocator = locator
+			r.Logger.Infof("%s- %s (Decode Error)", buildIndentString(), locator)
+			break
 		}
+
+		r.Logger.Infof("%s- %s (%s)", buildIndentString(), locator, value.String())
+		lastPrintedLocator = locator
 	}
 }
 
@@ -89,6 +93,17 @@ func (l Locator) AncestorsUntil(other Locator) []Locator {
 	ancestors := []Locator{}
 
 	for l.IsDescendantOf(other) {
+		ancestors = append(ancestors, l.Parent())
+		l = l.Parent()
+	}
+
+	return ancestors
+}
+
+func (l Locator) Ancestors() []Locator {
+	ancestors := []Locator{}
+
+	for l.Parent().String() != "" {
 		ancestors = append(ancestors, l.Parent())
 		l = l.Parent()
 	}
