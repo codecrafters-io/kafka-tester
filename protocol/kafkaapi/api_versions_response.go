@@ -3,12 +3,9 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/value_assertion"
-	wireDecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
-	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 )
 
 type ApiVersionsResponse struct {
@@ -16,16 +13,16 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func DecodeApiVersionsResponse(responseBytes []byte, logger *logger.Logger, valueAssertions value_assertion.ValueAssertionCollection) (ApiVersionsResponse, error) {
+func DecodeApiVersionsResponse(responseBytes []byte) (ApiVersionsResponse, error) {
 	response := ApiVersionsResponse{
 		Header: headers.ResponseHeader{Version: 0},
 		Body:   ApiVersionsResponseBody{Version: 4},
 	}
 
-	decoder := instrumented_decoder.NewInstrumentedDecoder(responseBytes, logger, valueAssertions)
+	decoder := value_storing_decoder.NewValueStoringDecoder(responseBytes)
 
-	decoder.BeginSubSection("ApiVersionsResponse")
-	defer decoder.EndCurrentSubSection()
+	decoder.PushLocatorSegment("ApiVersionsResponse")
+	defer decoder.PopLocatorSegment()
 
 	// TODO[PaulRefactor]: This pattern of Header.Decode, Body.Decoder seems like it'll be common among all response. See if we can extract?
 	if err := response.Header.Decode(decoder); err != nil {
@@ -55,22 +52,22 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs value.Int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(decoder *instrumented_decoder.InstrumentedDecoder) (err error) {
+func (r *ApiVersionsResponseBody) Decode(decoder *value_storing_decoder.ValueStoringDecoder) (err error) {
 	if r.Version == 0 {
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	} else if r.Version < 3 {
 		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	decoder.BeginSubSection("ApiVersionsResponseBody")
-	defer decoder.EndCurrentSubSection()
+	decoder.PushLocatorSegment("ApiVersionsResponseBody")
+	defer decoder.PopLocatorSegment()
 
 	if r.ErrorCode, err = decoder.ReadInt16("ErrorCode"); err != nil {
 		return err
 	}
 
 	// DecodeApiKeysEntry
-	if r.ApiKeys, err = wireDecoder.ReadCompactArray[ApiKeyEntry](decoder.Decoder, "ApiKeys"); err != nil {
+	if r.ApiKeys, err = r.decodeApiKeyEntries(decoder); err != nil {
 		return err
 	}
 
@@ -85,6 +82,27 @@ func (r *ApiVersionsResponseBody) Decode(decoder *instrumented_decoder.Instrumen
 	return nil
 }
 
+func (r *ApiVersionsResponseBody) decodeApiKeyEntries(decoder *value_storing_decoder.ValueStoringDecoder) ([]ApiKeyEntry, error) {
+	lengthValue, err := decoder.ReadCompactArrayLength("ApiKeys.Length")
+	if err != nil {
+		return nil, err
+	}
+
+	apiKeyEntries := make([]ApiKeyEntry, lengthValue.ActualLength())
+	for i := 0; i < int(lengthValue.ActualLength()); i++ {
+		apiKeyEntryLocator := fmt.Sprintf("ApiKeys[%d]", i)
+		apiKeyEntry := ApiKeyEntry{}
+
+		if err := apiKeyEntry.Decode(decoder, apiKeyEntryLocator); err != nil {
+			return nil, err
+		}
+
+		apiKeyEntries[i] = apiKeyEntry
+	}
+
+	return apiKeyEntries, nil
+}
+
 // ApiKeyEntry contains the APIs supported by the broker.
 type ApiKeyEntry struct {
 	// ApiKey contains the API index.
@@ -95,10 +113,16 @@ type ApiKeyEntry struct {
 	MaxVersion value.Int16
 }
 
-func (a *ApiKeyEntry) Decode(decoder *wireDecoder.Decoder, variableName string) (err error) {
-	decoderCallbacks := decoder.GetCallBacks()
-	decoderCallbacks.OnCompositeDecodingStart(variableName)
-	defer decoderCallbacks.OnCompositeDecodingEnd()
+func (a *ApiKeyEntry) Decode(decoder *value_storing_decoder.ValueStoringDecoder, locator string) (err error) {
+	decoder.PushLocatorSegment(locator)
+
+	// Ensure the locator segment remains if there's an error (used in error messages)
+	// TODO[PaulRefactor]: See if we can bake error context in?
+	defer func() {
+		if err == nil {
+			decoder.PopLocatorSegment()
+		}
+	}()
 
 	if a.ApiKey, err = decoder.ReadInt16("APIKey"); err != nil {
 		return err

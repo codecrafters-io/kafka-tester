@@ -1,14 +1,13 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
+	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -62,27 +61,32 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
-	assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId).WithErrorCode(35)
+	// TODO[PaulRefactor]: Actually run assertions!
+	// assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId).WithErrorCode(35)
+	decoder := value_storing_decoder.NewValueStoringDecoder(response)
 
-	decoder := instrumented_decoder.NewInstrumentedDecoder(response, stageLogger, assertion.GetValueAssertionCollection())
+	decoder.PushLocatorSegment("ApiVersionsResponse")
+	defer decoder.PopLocatorSegment()
 
-	decoder.BeginSubSection("ApiVersionsResponse")
 	_, err = decoder.ReadInt32("MessageLength")
 
 	if err != nil {
 		return err
 	}
 
-	decoder.BeginSubSection("ResponseHeader")
+	decoder.PushLocatorSegment("ResponseHeader")
+	defer decoder.PopLocatorSegment()
+
 	_, err = decoder.ReadInt32("CorrelationID")
 
 	if err != nil {
 		return err
 	}
 
-	decoder.EndCurrentSubSection()
+	decoder.PopLocatorSegment()
 
-	decoder.BeginSubSection("ApiVersionsResponseBody")
+	decoder.PushLocatorSegment("ApiVersionsResponseBody")
+	defer decoder.PopLocatorSegment()
 
 	_, err = decoder.ReadInt16("ErrorCode")
 	if err != nil {

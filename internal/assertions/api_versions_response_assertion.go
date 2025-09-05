@@ -3,10 +3,10 @@ package assertions
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/value_assertion"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/value_assertion/int16_value_assertion"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/value_assertion/int32_value_assertion"
+	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
+	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -18,86 +18,92 @@ var apiKeyNames = map[int16]string{
 }
 
 type ApiVersionsResponseAssertion struct {
-	// TODO[PaulRefactor]: Kind of feels like we're serializing this too early, see if we can store expected values and then build assertions map on-demand?
-	//                     This might be simpler in some cases though (less fields to name), so evaluate and only change if worth-it.
-	valueAssertions    value_assertion.ValueAssertionCollection
-	expectedAPIKey     int16
-	expectedMinVersion int16
-	expectedMaxVersion int16
+	expectedCorrelationID int32
+	expectedErrorCode     int16
+	expectedApiKeys       []kafkaapi.ApiKeyEntry
 }
 
 func NewApiVersionsResponseAssertion() *ApiVersionsResponseAssertion {
 	return &ApiVersionsResponseAssertion{
-		// TODO[PaulRefactor]: Rename to NewValueAssertionCollection() since we don't use the name "Map" anymore
-		valueAssertions: value_assertion.NewValueAssertionMap(),
+		expectedCorrelationID: -1,
+		expectedErrorCode:     0,
+		expectedApiKeys:       []kafkaapi.ApiKeyEntry{},
 	}
 }
 
 func (a *ApiVersionsResponseAssertion) WithCorrelationId(expectedCorrelationID int32) *ApiVersionsResponseAssertion {
-	// TODO[PaulRefactor]: Hard to know whether the keys here actually correspond to values in the response.
-	//                     See if we can change this to structurally ensure we can't make mistakes here?
-	a.valueAssertions.Add(
-		"ApiVersionsResponse.ResponseHeader.CorrelationID", int32_value_assertion.IsEqual(expectedCorrelationID),
-	)
+	a.expectedCorrelationID = expectedCorrelationID
 	return a
 }
 
 func (a *ApiVersionsResponseAssertion) WithErrorCode(expectedErrorCode int16) *ApiVersionsResponseAssertion {
-	a.valueAssertions.Add(
-		"ApiVersionsResponse.ApiVersionsResponseBody.ErrorCode", int16_value_assertion.IsEqual(expectedErrorCode),
-	)
+	a.expectedErrorCode = expectedErrorCode
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) GetValueAssertionCollection() value_assertion.ValueAssertionCollection {
-	return a.valueAssertions
+func (a *ApiVersionsResponseAssertion) WithApiKeyEntry(expectedApiKey int16, expectedMinVersion int16, expectedMaxVersion int16) *ApiVersionsResponseAssertion {
+	a.expectedApiKeys = append(a.expectedApiKeys, kafkaapi.ApiKeyEntry{
+		ApiKey:     value.Int16{Value: expectedApiKey},
+		MinVersion: value.Int16{Value: expectedMinVersion},
+		MaxVersion: value.Int16{Value: expectedMaxVersion},
+	})
+
+	return a
 }
 
-// Composite Assertions
+func (a *ApiVersionsResponseAssertion) AssertDecodedValue(locator string, decodedValue value.KafkaProtocolValue) error {
+	if locator == "ApiVersionsResponse.Header.CorrelationID" {
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, decodedValue)
+	}
 
-func (a *ApiVersionsResponseAssertion) WithAPIKey(expectedAPIKey, expectedMinVersion, expectedMaxVersion int16) *ApiVersionsResponseAssertion {
-	a.expectedAPIKey = expectedAPIKey
-	a.expectedMinVersion = expectedMinVersion
-	a.expectedMaxVersion = expectedMaxVersion
-	return a
+	if locator == "ApiVersionsResponse.Body.ErrorCode" {
+		return int16_assertions.IsEqualTo(a.expectedErrorCode, decodedValue)
+	}
+
+	// TODO[PaulRefactor]: Add assertions for ApiKeys[].ApiKey, ApiKeys[].MinVersion, ApiKeys[].MaxVersion
+
+	// This ensures that we're handling ALL possible locators
+	panic("CodeCrafters Internal Error: Unhandled locator: " + locator)
 }
 
 func (a *ApiVersionsResponseAssertion) RunCompositeAssertions(response kafkaapi.ApiVersionsResponse, logger *logger.Logger) error {
+	for _, expectedApiKey := range a.expectedApiKeys {
+		foundAPIKey := false
+		var actualApiKeyEntry kafkaapi.ApiKeyEntry
 
-	// Check that at least one entry has API key = 18 (API_VERSIONS)
-	foundAPIKey18 := false
-	var apiKey18Entry kafkaapi.ApiKeyEntry
-
-	for _, apiKeyEntry := range response.Body.ApiKeys {
-		if apiKeyEntry.ApiKey.Value == a.expectedAPIKey {
-			foundAPIKey18 = true
-			apiKey18Entry = apiKeyEntry
-			break
+		for _, apiKeyEntry := range response.Body.ApiKeys {
+			if apiKeyEntry.ApiKey.Value == expectedApiKey.ApiKey.Value {
+				foundAPIKey = true
+				actualApiKeyEntry = apiKeyEntry
+				break
+			}
 		}
-	}
 
-	if !foundAPIKey18 {
-		apiKeyName := apiKeyNames[a.expectedAPIKey]
-		return fmt.Errorf("Expected ApiKeys array to include API key %d (%s)", a.expectedAPIKey, apiKeyName)
-	}
+		if !foundAPIKey {
+			apiKeyName := apiKeyNames[expectedApiKey.ApiKey.Value]
+			return fmt.Errorf("Expected ApiKeys array to include API key %d (%s)", expectedApiKey.ApiKey.Value, apiKeyName)
+		}
 
-	// Check version rules from legacy code
-	apiKeyName := apiKeyNames[a.expectedAPIKey]
+		apiKeyName := apiKeyNames[expectedApiKey.ApiKey.Value]
 
-	if apiKey18Entry.MinVersion.Value > a.expectedMaxVersion {
-		return fmt.Errorf("Expected min version %v to be <= max version %v for %s", apiKey18Entry.MinVersion.Value, a.expectedMaxVersion, apiKeyName)
-	}
+		if actualApiKeyEntry.MinVersion.Value > expectedApiKey.MaxVersion.Value {
+			return fmt.Errorf("Expected min version %v to be <= max version %v for %s", actualApiKeyEntry.MinVersion.Value, expectedApiKey.MaxVersion.Value, apiKeyName)
+		}
 
-	// anything above or equal to expected minVersion is fine
-	if apiKey18Entry.MinVersion.Value < a.expectedMinVersion {
-		return fmt.Errorf("Expected API version %v to be supported for %s, got %v", a.expectedMinVersion, apiKeyName, apiKey18Entry.MinVersion.Value)
-	}
-	logger.Successf("✔ MinVersion for %s is <= %v & >= %v", apiKeyName, a.expectedMaxVersion, a.expectedMinVersion)
+		// anything below or equal to expected minVersion is fine
+		if actualApiKeyEntry.MinVersion.Value < expectedApiKey.MinVersion.Value {
+			return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiKey.MinVersion.Value, apiKeyName, actualApiKeyEntry.MinVersion.Value)
+		}
 
-	if apiKey18Entry.MaxVersion.Value < a.expectedMaxVersion {
-		return fmt.Errorf("Expected API version %v to be supported for %s, got %v", a.expectedMaxVersion, apiKeyName, apiKey18Entry.MaxVersion.Value)
+		logger.Successf("✔ MinVersion for %s is <= %v & >= %v", apiKeyName, expectedApiKey.MaxVersion.Value, expectedApiKey.MinVersion.Value)
+
+		// anything above or equal to expected maxVersion is fine
+		if actualApiKeyEntry.MaxVersion.Value < expectedApiKey.MaxVersion.Value {
+			return fmt.Errorf("Expected API version %v to be supported for %s, got %v", expectedApiKey.MaxVersion.Value, apiKeyName, actualApiKeyEntry.MaxVersion.Value)
+		}
+
+		logger.Successf("✔ MaxVersion for %s is >= %v", apiKeyName, expectedApiKey.MaxVersion.Value)
 	}
-	logger.Successf("✔ MaxVersion for %s is >= %v", apiKeyName, a.expectedMaxVersion)
 
 	return nil
 }

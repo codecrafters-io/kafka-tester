@@ -3,8 +3,8 @@ package headers
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
+	"github.com/codecrafters-io/kafka-tester/protocol/value_storing_decoder"
 )
 
 // ResponseHeader is the parallels version of ResponseHeader
@@ -13,9 +13,9 @@ type ResponseHeader struct {
 	CorrelationId value.Int32
 }
 
-func (h *ResponseHeader) Decode(decoder *instrumented_decoder.InstrumentedDecoder) error {
-	decoder.BeginSubSection("ResponseHeader")
-	defer decoder.EndCurrentSubSection()
+func (h *ResponseHeader) Decode(decoder *value_storing_decoder.ValueStoringDecoder) error {
+	decoder.PushLocatorSegment("ResponseHeader")
+	defer decoder.PopLocatorSegment()
 
 	switch h.Version {
 	case 0:
@@ -27,12 +27,12 @@ func (h *ResponseHeader) Decode(decoder *instrumented_decoder.InstrumentedDecode
 	}
 }
 
-func (h *ResponseHeader) decodeV0(decoder *instrumented_decoder.InstrumentedDecoder) (err error) {
+func (h *ResponseHeader) decodeV0(decoder *value_storing_decoder.ValueStoringDecoder) (err error) {
 	h.CorrelationId, err = decoder.ReadInt32("CorrelationID")
 	return err
 }
 
-func (h *ResponseHeader) decodeV1(decoder *instrumented_decoder.InstrumentedDecoder) error {
+func (h *ResponseHeader) decodeV1(decoder *value_storing_decoder.ValueStoringDecoder) error {
 	if err := h.decodeV0(decoder); err != nil {
 		return err
 	}

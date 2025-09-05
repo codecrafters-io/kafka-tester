@@ -13,16 +13,9 @@ type Decodable interface {
 	Decode(decoder *Decoder, variableName string) error
 }
 
-type DecoderCallbacks struct {
-	OnDecode                 func(variableName string, value kafkaValue.KafkaProtocolValue) error
-	OnDecodeError            func(variableName string)
-	OnCompositeDecodingStart func(compositeVariableName string)
-	OnCompositeDecodingEnd   func()
-}
-
+// TODO[PaulRefactor]: remove all traces of callbacks here
 type Decoder struct {
-	buffer    *offset_buffer.Buffer
-	callbacks *DecoderCallbacks
+	buffer *offset_buffer.Buffer
 }
 
 func NewDecoder(rawBytes []byte) *Decoder {
@@ -31,25 +24,15 @@ func NewDecoder(rawBytes []byte) *Decoder {
 	}
 }
 
-func (d *Decoder) SetCallbacks(callbacks *DecoderCallbacks) *Decoder {
-	d.callbacks = callbacks
-	return d
-}
-
-func (d *Decoder) GetCallBacks() *DecoderCallbacks {
-	return d.callbacks
-}
-
 func (d *Decoder) RemainingBytesCount() uint64 {
 	return d.buffer.RemainingBytesCount()
 }
 
 // Primitive Types
 
-func (d *Decoder) ReadInt16(variableName string) (kafkaValue.Int16, error) {
+func (d *Decoder) ReadInt16() (kafkaValue.Int16, error) {
 	if d.RemainingBytesCount() < 2 {
 		rem := d.RemainingBytesCount()
-		d.callbacks.OnDecodeError(variableName)
 		return kafkaValue.Int16{}, fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem)
 	}
 
@@ -57,13 +40,12 @@ func (d *Decoder) ReadInt16(variableName string) (kafkaValue.Int16, error) {
 		Value: int16(binary.BigEndian.Uint16(d.buffer.ReadRawBytes(2))),
 	}
 
-	return decodedInteger, d.callbacks.OnDecode(variableName, &decodedInteger)
+	return decodedInteger, nil
 }
 
-func (d *Decoder) ReadInt32(variableName string) (kafkaValue.Int32, error) {
+func (d *Decoder) ReadInt32() (kafkaValue.Int32, error) {
 	if d.RemainingBytesCount() < 4 {
 		rem := d.RemainingBytesCount()
-		d.callbacks.OnDecodeError(variableName)
 		return kafkaValue.Int32{}, fmt.Errorf("Expected INT32 length to be 4 bytes, got %d bytes", rem)
 	}
 
@@ -71,18 +53,13 @@ func (d *Decoder) ReadInt32(variableName string) (kafkaValue.Int32, error) {
 		Value: int32(binary.BigEndian.Uint32(d.buffer.ReadRawBytes(4))),
 	}
 
-	return decodedInteger, d.callbacks.OnDecode(variableName, &decodedInteger)
+	return decodedInteger, nil
 }
 
-func (d *Decoder) consumeUnsignedVarint() (uint64, int) {
+func (d *Decoder) ReadUnsignedVarint() (kafkaValue.UnsignedVarint, error) {
 	decodedInteger, numberOfBytesRead := binary.Uvarint(d.buffer.RemainingBytes())
 	// Moves the offset
 	d.buffer.ReadRawBytes(uint64(numberOfBytesRead))
-	return decodedInteger, numberOfBytesRead
-}
-
-func (d *Decoder) readUnsignedVarintWithoutCallback() (kafkaValue.UnsignedVarint, error) {
-	decodedUVarInt, numberOfBytesRead := d.consumeUnsignedVarint()
 
 	// binary.Uvarint returns 0 bytes read if buffer is too small, negative if malformed
 	if numberOfBytesRead == 0 {
@@ -94,72 +71,22 @@ func (d *Decoder) readUnsignedVarintWithoutCallback() (kafkaValue.UnsignedVarint
 	}
 
 	return kafkaValue.UnsignedVarint{
-		Value: decodedUVarInt,
+		Value: decodedInteger,
 	}, nil
 }
 
-func (d *Decoder) ReadCompactArrayLength(variableName string) (kafkaValue.CompactArrayLength, error) {
-	unsignedVarInt, err := d.readUnsignedVarintWithoutCallback()
+func (d *Decoder) ReadCompactArrayLength() (kafkaValue.CompactArrayLength, error) {
+	unsignedVarInt, err := d.ReadUnsignedVarint()
 
 	if err != nil {
 		return kafkaValue.CompactArrayLength{}, err
 	}
 
-	decodedValue := kafkaValue.CompactArrayLength(unsignedVarInt)
-
-	return decodedValue, d.callbacks.OnDecode(variableName, &decodedValue)
-}
-
-// Composite Types : Uses Basic Types for decoding
-
-// ReadCompactArray reads a compact array of type T
-// The compact array length is read as well
-//
-// TODO[PaulRefactor]: This seems pretty complex!
-func ReadCompactArray[T any, PT interface {
-	*T
-	Decodable
-}](decoder *Decoder, variableName string) ([]T, error) {
-	decoder.callbacks.OnCompositeDecodingStart(variableName)
-	defer decoder.callbacks.OnCompositeDecodingEnd()
-
-	compactArrayLength, err := decoder.ReadCompactArrayLength(fmt.Sprintf("%s.Length", variableName))
-
-	if err != nil {
-		return nil, err
-	}
-
-	actualArrayLength := compactArrayLength.ActualLength()
-
-	// Create array with the specified length
-	result := make([]T, actualArrayLength)
-
-	// Decode each element
-	for i := uint64(0); i < uint64(actualArrayLength); i++ {
-		elementVariableName := fmt.Sprintf("%s[%d]", variableName, i)
-
-		// Create a new instance of T
-		element := new(T)
-
-		// Cast to pointer type that implements Decodable
-		ptr := PT(element)
-		err := ptr.Decode(decoder, elementVariableName)
-		if err != nil {
-			return nil, err
-		}
-
-		result[i] = *element
-	}
-
-	return result, nil
+	return kafkaValue.CompactArrayLength(unsignedVarInt), nil
 }
 
 func (d *Decoder) ConsumeTagBuffer() error {
-	d.callbacks.OnCompositeDecodingStart("TAG_BUFFER")
-	defer d.callbacks.OnCompositeDecodingEnd()
-
-	// TODO[PaulRefactor]: What if there is an error with this? Do we not call the OnDecodeError callback?
-	tagCount, err := d.readUnsignedVarintWithoutCallback()
+	tagCount, err := d.ReadUnsignedVarint()
 
 	if err != nil {
 		return err
@@ -169,14 +96,14 @@ func (d *Decoder) ConsumeTagBuffer() error {
 	// as we don't currently support doing anything with them
 	for range tagCount.Value {
 		// ignore tag identifier
-		_, err := d.readUnsignedVarintWithoutCallback()
+		_, err := d.ReadUnsignedVarint()
 
 		if err != nil {
 			return err
 		}
 
 		// value length
-		length, err := d.readUnsignedVarintWithoutCallback()
+		length, err := d.ReadUnsignedVarint()
 
 		if err != nil {
 			return err

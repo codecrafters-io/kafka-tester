@@ -15,18 +15,15 @@ type KafkaProtocolValue interface {
 	GetType() string
 }
 
-// Primitive Types
-
 type Int16 struct {
 	Value int16
 }
 
-// TODO[PaulRefactor]: See if we can avoid the pointer stuff and just use normal values?
-func (v *Int16) String() string {
+func (v Int16) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
-func (v *Int16) GetType() string {
+func (v Int16) GetType() string {
 	return "INT16"
 }
 
@@ -34,11 +31,11 @@ type Int32 struct {
 	Value int32
 }
 
-func (v *Int32) String() string {
+func (v Int32) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
-func (v *Int32) GetType() string {
+func (v Int32) GetType() string {
 	return "INT32"
 }
 
@@ -46,19 +43,20 @@ type UnsignedVarint struct {
 	Value uint64
 }
 
-func (v *UnsignedVarint) String() string {
+func (v UnsignedVarint) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
-func (v *UnsignedVarint) GetType() string {
+func (v UnsignedVarint) GetType() string {
 	return "UNSIGNED_VARINT"
 }
 
+// TODO[PaulRefactor]: Check if this is _actually_ a primitive Kafka type
 type CompactArrayLength struct {
 	Value uint64
 }
 
-func (v *CompactArrayLength) String() string {
+func (v CompactArrayLength) String() string {
 	switch v.Value {
 	case 0:
 		return "0 (NULL ARRAY)"
@@ -68,7 +66,7 @@ func (v *CompactArrayLength) String() string {
 	return fmt.Sprintf("%d", v.Value-1)
 }
 
-func (v *CompactArrayLength) ActualLength() uint64 {
+func (v CompactArrayLength) ActualLength() uint64 {
 	if v.Value == 0 {
 		return v.Value
 	}
@@ -80,6 +78,6 @@ func (v *CompactArrayLength) ActualLength() uint64 {
 	return v.Value - 1
 }
 
-func (v *CompactArrayLength) GetType() string {
+func (v CompactArrayLength) GetType() string {
 	return "UNSIGNED_VARINT"
 }
