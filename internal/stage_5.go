@@ -50,5 +50,5 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	return assertion.RunCompositeAssertions(actualResponse)
+	return assertion.RunCompositeAssertions(actualResponse, stageLogger)
 }
