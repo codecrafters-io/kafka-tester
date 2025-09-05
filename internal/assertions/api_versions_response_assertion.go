@@ -10,6 +10,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+// TODO[PaulRefactor]: We already have APIKeyToName somewhere, see if that can be used here?
 var apiKeyNames = map[int16]string{
 	1:  "FETCH",
 	18: "API_VERSIONS",
