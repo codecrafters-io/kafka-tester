@@ -2,12 +2,9 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int16_validation"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int32_validation"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	wireDecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/serializer_legacy"
@@ -65,14 +62,9 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
 
-	assertion := assertions.NewApiVersionsResponseAssertion().SetPrimitiveValidations(
-		validations.NewValidationMap(map[string]validations.Validation{
-			"ApiVersionsResponse.ResponseHeader.CorrelationID":      int32_validation.IsEqual(correlationId),
-			"ApiVersionsResponse.ApiVersionsResponseBody.ErrorCode": int16_validation.IsEqual(35),
-		}),
-	)
+	assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId).WithErrorCode(35)
 
-	decoder := wireDecoder.NewInstrumentedDecoder(response, stageLogger, assertion)
+	decoder := instrumented_decoder.NewInstrumentedDecoder(response, stageLogger, assertion.GetValueAssertionCollection())
 
 	decoder.BeginSubSection("ApiVersionsResponse")
 	_, err = decoder.ReadInt32("MessageLength")

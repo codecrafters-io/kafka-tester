@@ -5,27 +5,23 @@ import (
 )
 
 const (
+	INT16      = "INT16"
+	INT32      = "INT32"
 	TAG_BUFFER = "TAG_BUFFER"
 )
 
 type KafkaProtocolValue interface {
-	GetVariableName() string
-	GetValueString() string
+	String() string
 	GetType() string
 }
 
 // Primitive Types
 
 type Int16 struct {
-	VariableName string
-	Value        int16
+	Value int16
 }
 
-func (v *Int16) GetVariableName() string {
-	return v.VariableName
-}
-
-func (v *Int16) GetValueString() string {
+func (v *Int16) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
@@ -34,15 +30,10 @@ func (v *Int16) GetType() string {
 }
 
 type Int32 struct {
-	VariableName string
-	Value        int32
+	Value int32
 }
 
-func (v *Int32) GetVariableName() string {
-	return v.VariableName
-}
-
-func (v *Int32) GetValueString() string {
+func (v *Int32) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
@@ -51,15 +42,10 @@ func (v *Int32) GetType() string {
 }
 
 type UnsignedVarint struct {
-	VariableName string
-	Value        uint64
+	Value uint64
 }
 
-func (v *UnsignedVarint) GetVariableName() string {
-	return v.VariableName
-}
-
-func (v *UnsignedVarint) GetValueString() string {
+func (v *UnsignedVarint) String() string {
 	return fmt.Sprintf("%d", v.Value)
 }
 
@@ -68,15 +54,10 @@ func (v *UnsignedVarint) GetType() string {
 }
 
 type CompactArrayLength struct {
-	VariableName string
-	Value        uint64
+	Value uint64
 }
 
-func (v *CompactArrayLength) GetVariableName() string {
-	return v.VariableName
-}
-
-func (v *CompactArrayLength) GetValueString() string {
+func (v *CompactArrayLength) String() string {
 	switch v.Value {
 	case 0:
 		return "0 (NULL ARRAY)"

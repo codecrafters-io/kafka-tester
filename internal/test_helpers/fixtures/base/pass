@@ -47,14 +47,14 @@ Debug = true
 [33m[tester::#PV1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#PV1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#PV1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .ResponseHeader[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    ✔ .CorrelationID (177586623)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    ✔ .ErrorCode (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .ApiKeys.Length (61)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .ApiKeys[0][0m
@@ -391,7 +391,7 @@ Debug = true
 [33m[tester::#NC5] [Decoder] [0m[36m  - .ResponseHeader[0m
 [33m[tester::#NC5] [Decoder] [0m[36m    ✔ .CorrelationID (1616512461)[0m
 [33m[tester::#NC5] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
-[33m[tester::#NC5] [Decoder] [0m[36m    ✔ .ErrorCode (35)[0m
+[33m[tester::#NC5] [Decoder] [0m[36m    - .ErrorCode (35)[0m
 [33m[tester::#NC5] [0m[92mTest passed.[0m
 [33m[tester::#NC5] [0m[36mTerminating program[0m
 [33m[tester::#NC5] [0m[36mProgram terminated successfully[0m

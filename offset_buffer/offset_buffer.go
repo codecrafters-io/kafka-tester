@@ -1,7 +1,5 @@
 package offset_buffer
 
-import "encoding/binary"
-
 type Buffer struct {
 	data   []byte
 	offset uint64
@@ -29,6 +27,7 @@ func (b *Buffer) RemainingBytes() []byte {
 
 // ReadRawBytes always returns `numberOfBytesToRead` bytes from b.data
 // If the remaining bytes is less than the specified, it will panic
+// It is the caller's responsibility to ensure they have enough bytes by calling RemainingBytesCount()
 func (b *Buffer) ReadRawBytes(length uint64) []byte {
 	if b.RemainingBytesCount() < length {
 		panic("Codecrafters Internal Error - Remaining bytes is less than `numberOfBytesToRead`")
@@ -37,12 +36,4 @@ func (b *Buffer) ReadRawBytes(length uint64) []byte {
 	copy(result, b.data[b.offset:])
 	b.offset += length
 	return result
-}
-
-// ReadUnsignedVarint reads unsigned varint from buffer and returns the value
-// Only the offset is changed, the return value is same as that of binary.Uvarint()
-func (b *Buffer) ReadUnsignedVarint() (uint64, int) {
-	decodedInteger, length := binary.Uvarint(b.RemainingBytes())
-	b.offset += uint64(length)
-	return decodedInteger, length
 }

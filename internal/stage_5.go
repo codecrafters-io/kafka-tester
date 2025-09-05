@@ -2,9 +2,6 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int16_validation"
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations/int32_validation"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
@@ -44,11 +41,14 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
 
-	assertion := assertions.NewApiVersionsResponseAssertion().SetPrimitiveValidations(
-		validations.NewValidationMap(map[string]validations.Validation{
-			"ApiVersionsResponse.ResponseHeader.CorrelationID":      int32_validation.IsEqual(correlationId),
-			"ApiVersionsResponse.ApiVersionsResponseBody.ErrorCode": int16_validation.IsEqual(0),
-		}),
-	)
-	return actualResponse.Decode(response.Payload, stageLogger, assertion)
+	assertion := assertions.NewApiVersionsResponseAssertion().
+		WithCorrelationId(correlationId).
+		WithErrorCode(0).
+		WithAPIKey(18, 0, 4)
+
+	if err := actualResponse.Decode(response.Payload, stageLogger, assertion.GetValueAssertionCollection()); err != nil {
+		return err
+	}
+
+	return assertion.RunCompositeAssertions(actualResponse)
 }

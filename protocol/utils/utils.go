@@ -2,10 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"reflect"
 	"strings"
-
-	"github.com/codecrafters-io/kafka-tester/internal/assertions/validations"
 )
 
 func APIKeyToName(apiKey int16) string {
@@ -65,8 +62,4 @@ func GetFormattedHexdump(data []byte) string {
 	formattedHexdump.WriteString("| " + asciiChars.String())
 
 	return formattedHexdump.String()
-}
-
-func CheckIfNilValidation(validation validations.Validation) bool {
-	return validation == nil || reflect.ValueOf(validation).IsNil()
 }

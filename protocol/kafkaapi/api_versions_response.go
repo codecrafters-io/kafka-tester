@@ -3,8 +3,9 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/assertions/value_assertion"
 	wireDecoder "github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -15,8 +16,8 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func (r *ApiVersionsResponse) Decode(responseBytes []byte, logger *logger.Logger, assertion assertions.Assertion) (err error) {
-	decoder := wireDecoder.NewInstrumentedDecoder(responseBytes, logger, assertion)
+func (r *ApiVersionsResponse) Decode(responseBytes []byte, logger *logger.Logger, valueAssertions value_assertion.ValueAssertionCollection) (err error) {
+	decoder := instrumented_decoder.NewInstrumentedDecoder(responseBytes, logger, valueAssertions)
 
 	decoder.BeginSubSection("ApiVersionsResponse")
 	defer decoder.EndCurrentSubSection()
@@ -43,36 +44,36 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs value.Int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(d *wireDecoder.Decoder) (err error) {
+func (r *ApiVersionsResponseBody) Decode(decoder *instrumented_decoder.InstrumentedDecoder) (err error) {
 	if r.Version == 0 {
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	} else if r.Version < 3 {
 		return fmt.Errorf("unsupported ApiVersionsResponseBody version: %d. Expected version: >= 3", r.Version)
 	}
 
-	d.BeginSubSection("ApiVersionsResponseBody")
-	defer d.EndCurrentSubSection()
+	decoder.BeginSubSection("ApiVersionsResponseBody")
+	defer decoder.EndCurrentSubSection()
 
-	if r.ErrorCode, err = d.ReadInt16("ErrorCode"); err != nil {
+	if r.ErrorCode, err = decoder.ReadInt16("ErrorCode"); err != nil {
 		return err
 	}
 
 	// DecodeApiKeysEntry
-	if r.ApiKeys, err = wireDecoder.ReadCompactArray[ApiKeyEntry](d, "ApiKeys"); err != nil {
+	if r.ApiKeys, err = wireDecoder.ReadCompactArray[ApiKeyEntry](decoder.Decoder, "ApiKeys"); err != nil {
 		return err
 	}
 
-	if r.ThrottleTimeMs, err = d.ReadInt32("ThrottleTimeMs"); err != nil {
+	if r.ThrottleTimeMs, err = decoder.ReadInt32("ThrottleTimeMs"); err != nil {
 		return err
 	}
 
-	if err = d.ConsumeTagBuffer(); err != nil {
+	if err = decoder.ConsumeTagBuffer(); err != nil {
 		return err
 	}
 
 	// Check if there are any remaining bytes in the decoder
-	if d.RemainingBytesCount() != 0 {
-		return fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", d.RemainingBytesCount())
+	if decoder.RemainingBytesCount() != 0 {
+		return fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", decoder.RemainingBytesCount())
 	}
 
 	return nil
@@ -88,23 +89,24 @@ type ApiKeyEntry struct {
 	MaxVersion value.Int16
 }
 
-func (a ApiKeyEntry) Decode(d *wireDecoder.Decoder, variableName string) (err error) {
-	d.BeginSubSection(variableName)
-	defer d.EndCurrentSubSection()
+func (a *ApiKeyEntry) Decode(decoder *wireDecoder.Decoder, variableName string) (err error) {
+	decoderCallbacks := decoder.GetCallBacks()
+	decoderCallbacks.OnCompositeDecodingStart(variableName)
+	defer decoderCallbacks.OnCompositeDecodingEnd()
 
-	if a.ApiKey, err = d.ReadInt16("APIKey"); err != nil {
+	if a.ApiKey, err = decoder.ReadInt16("APIKey"); err != nil {
 		return err
 	}
 
-	if a.MinVersion, err = d.ReadInt16("MinVersion"); err != nil {
+	if a.MinVersion, err = decoder.ReadInt16("MinVersion"); err != nil {
 		return err
 	}
 
-	if a.MaxVersion, err = d.ReadInt16("MaxVersion"); err != nil {
+	if a.MaxVersion, err = decoder.ReadInt16("MaxVersion"); err != nil {
 		return err
 	}
 
-	if err = d.ConsumeTagBuffer(); err != nil {
+	if err = decoder.ConsumeTagBuffer(); err != nil {
 		return err
 	}
 

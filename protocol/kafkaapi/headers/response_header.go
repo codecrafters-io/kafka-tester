@@ -3,7 +3,7 @@ package headers
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/instrumented_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
@@ -13,7 +13,7 @@ type ResponseHeader struct {
 	CorrelationId value.Int32
 }
 
-func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
+func (h *ResponseHeader) Decode(decoder *instrumented_decoder.InstrumentedDecoder) error {
 	decoder.BeginSubSection("ResponseHeader")
 	defer decoder.EndCurrentSubSection()
 
@@ -27,12 +27,12 @@ func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
 	}
 }
 
-func (h *ResponseHeader) decodeV0(decoder *decoder.Decoder) (err error) {
+func (h *ResponseHeader) decodeV0(decoder *instrumented_decoder.InstrumentedDecoder) (err error) {
 	h.CorrelationId, err = decoder.ReadInt32("CorrelationID")
 	return err
 }
 
-func (h *ResponseHeader) decodeV1(decoder *decoder.Decoder) error {
+func (h *ResponseHeader) decodeV1(decoder *instrumented_decoder.InstrumentedDecoder) error {
 	if err := h.decodeV0(decoder); err != nil {
 		return err
 	}
