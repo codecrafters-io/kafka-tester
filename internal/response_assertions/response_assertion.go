@@ -1,6 +1,4 @@
-package assertions
-
-// TODO[PaulRefactor]: Rename package itself to "response_assertions", separate from value_assertions
+package response_assertions
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/value"

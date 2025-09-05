@@ -1,4 +1,4 @@
-package assertions
+package response_assertions
 
 import (
 	"fmt"
