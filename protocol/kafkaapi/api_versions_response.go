@@ -36,6 +36,11 @@ func DecodeApiVersionsResponse(responseBytes []byte, logger *logger.Logger, valu
 		return response, err
 	}
 
+	// Check if there are any remaining bytes in the decoder
+	if decoder.RemainingBytesCount() != 0 {
+		return response, fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", decoder.RemainingBytesCount())
+	}
+
 	return response, nil
 }
 
@@ -75,11 +80,6 @@ func (r *ApiVersionsResponseBody) Decode(decoder *instrumented_decoder.Instrumen
 
 	if err = decoder.ConsumeTagBuffer(); err != nil {
 		return err
-	}
-
-	// Check if there are any remaining bytes in the decoder
-	if decoder.RemainingBytesCount() != 0 {
-		return fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", decoder.RemainingBytesCount())
 	}
 
 	return nil
