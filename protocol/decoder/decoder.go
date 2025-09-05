@@ -114,7 +114,7 @@ func (d *Decoder) ReadCompactArrayLength(variableName string) (kafkaValue.Compac
 
 // ReadCompactArray reads a compact array of type T
 // The compact array length is read as well
-func ReadCompactArray[T any, PT interface {
+func ReadCompactArray[T any, PointerToT interface {
 	*T
 	Decodable
 }](decoder *Decoder, variableName string) ([]T, error) {
@@ -140,7 +140,7 @@ func ReadCompactArray[T any, PT interface {
 		element := new(T)
 
 		// Cast to pointer type that implements Decodable
-		ptr := PT(element)
+		ptr := PointerToT(element)
 		err := ptr.Decode(decoder, elementVariableName)
 		if err != nil {
 			return nil, err
