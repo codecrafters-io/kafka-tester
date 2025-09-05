@@ -10,6 +10,7 @@ type ValueAssertion interface {
 	Assert(receivedValue kafkaValue.KafkaProtocolValue) error
 }
 
+// TODO[PaulRefactor]: The name "collection" is a bit misleading here, since this also involves locators - it isn't just a array-esque collection
 type ValueAssertionCollection map[string]ValueAssertion
 
 func NewValueAssertionMap() ValueAssertionCollection {
@@ -29,6 +30,7 @@ func (a ValueAssertionCollection) GetValueAssertion(locator string) ValueAsserti
 }
 
 func RunValueAssertion(valueAssertion ValueAssertion, value kafkaValue.KafkaProtocolValue) error {
+	// TODO[PaulRefactor]: Can't this just call valueAssertion.Assert() directly? Is there a need for casting?
 	switch value.GetType() {
 	case kafkaValue.INT16:
 		castedInt16Value, _ := value.(*kafkaValue.Int16)
@@ -41,6 +43,7 @@ func RunValueAssertion(valueAssertion ValueAssertion, value kafkaValue.KafkaProt
 	}
 }
 
+// TODO[PaulRefactor]: Can't we just check nil directly? Haven't seen this pattern elsewhere before.
 func CheckIfValueAssertionIsNil(valueAssertion ValueAssertion) bool {
 	return valueAssertion == nil || reflect.ValueOf(valueAssertion).IsNil()
 }
