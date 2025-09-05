@@ -1,5 +1,6 @@
 package offset_buffer
 
+// TODO[PaulRefactor]: See if there's a stdlib equivalent for this, or another package we can use -- feels super generic and unlikely it's an "unsolved" problem?
 type Buffer struct {
 	data   []byte
 	offset uint64
