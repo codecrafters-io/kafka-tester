@@ -30,7 +30,7 @@ func TestStages(t *testing.T) {
 		// "wrong_array_length": {
 		// 	StageSlugs:          []string{"pv1"},
 		// 	CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
-		// 	ExpectedExitCode:    0,
+		// 	ExpectedExitCode:    1,
 		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
 		// 	NormalizeOutputFunc: normalizeTesterOutput,
 		// },
