@@ -3,12 +3,15 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 )
 
 // Response
 
 func PackMessage(messageBytes []byte) []byte {
 	messageSize := len(messageBytes)
+
+	fmt.Println(messageBytes)
 
 	result := make([]byte, 4+messageSize)
 	binary.BigEndian.PutUint32(result[0:4], uint32(messageSize))

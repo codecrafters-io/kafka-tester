@@ -26,6 +26,14 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/correlation_id_mismatch",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		// Currently the tester crashes for this case, so commenting it out
+		// "wrong_array_length": {
+		// 	StageSlugs:          []string{"pv1"},
+		// 	CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
+		// 	ExpectedExitCode:    1,
+		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
+		// 	NormalizeOutputFunc: normalizeTesterOutput,
+		// },
 		"concurrent_stages_pass": {
 			StageSlugs:          []string{"nh4", "sk0"},
 			CodePath:            "./test_helpers/pass_all",
