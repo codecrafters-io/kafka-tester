@@ -30,10 +30,17 @@ func TestStages(t *testing.T) {
 		// "wrong_array_length": {
 		// 	StageSlugs:          []string{"pv1"},
 		// 	CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
-		// 	ExpectedExitCode:    1,
+		// 	ExpectedExitCode:    0,
 		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
 		// 	NormalizeOutputFunc: normalizeTesterOutput,
 		// },
+		"missing_tag_buffer": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/missing_tag_buffer",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/missing_tag_buffer",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"concurrent_stages_pass": {
 			StageSlugs:          []string{"nh4", "sk0"},
 			CodePath:            "./test_helpers/pass_all",

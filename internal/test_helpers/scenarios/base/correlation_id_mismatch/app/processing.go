@@ -18,7 +18,7 @@ func ProcessRequest(request *Request) Response {
 func ProcessApiVersionsRequest(request *Request) *ApiVersionsResponse {
 	response := &ApiVersionsResponse{
 		Header: &ResponseHeader{
-			CorrelationID: 0,
+			CorrelationID: 0, // intentional mistake
 		},
 		Body: ApiVersionsResponseBody{
 			ErrorCode: 0,

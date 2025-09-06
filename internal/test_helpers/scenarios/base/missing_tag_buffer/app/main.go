@@ -19,7 +19,7 @@ func main() {
 	}
 	defer listener.Close()
 
-	fmt.Println("This server always responds with correlation ID 0. See processing/ProcessApiVersionsRequest for intentional mistake.")
+	fmt.Println("This server always responds with missing tag buffer in entries of ApiKeyEntry array. See response/ApiKeyEntry.Encode() for intentional mistake.")
 
 	for {
 		conn, err := listener.Accept()
