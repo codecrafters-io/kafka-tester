@@ -1,0 +1,49 @@
+Debug = true
+
+[33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
+[33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#PV1] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[your_program] [0mThis server always responds with missing tag buffer in entries of ApiKeyEntry array. See response/ApiKeyEntry.Encode() for intentional mistake.
+[33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PV1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#PV1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#PV1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#PV1] [0m[36m[0m
+[33m[tester::#PV1] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [0m[36m0000 | 00 00 00 12 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
+[33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00                               | ......[0m
+[33m[tester::#PV1] [0m[36m[0m
+[33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
+[33m[tester::#PV1] [Decoder] [0m[36m  - .ResponseHeader[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .correlation_id (177586623)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ErrorCode (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .1[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0][0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (18)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ThrottleTimeMs (0)[0m
+[33m[tester::#PV1] [0m[91mReceived:[0m
+[33m[tester::#PV1] [0m[91mHex (bytes 13-17)                               | ASCII[0m
+[33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m
+[33m[tester::#PV1] [0m[91m00 00 00 00 00                                  | .....[0m
+[33m[tester::#PV1] [0m[91m                ^                                      ^[0m
+[33m[tester::#PV1] [0m[91mError: Unexpected end of data[0m
+[33m[tester::#PV1] [0m[91mContext:[0m
+[33m[tester::#PV1] [0m[91m- ApiVersionsResponse[0m
+[33m[tester::#PV1] [0m[91m  - ApiVersionsResponseBody[0m
+[33m[tester::#PV1] [0m[91m    - TAG_BUFFER[0m
+[33m[tester::#PV1] [0m[91m      - UNSIGNED_VARINT[0m
+[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [0m[91mTest failed[0m
+[33m[tester::#PV1] [0m[36mTerminating program[0m
+[33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
