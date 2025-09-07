@@ -49,12 +49,12 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	decoder := value_storing_decoder.NewValueStoringDecoder(response.Payload)
 
-	// TODO[PaulRefactor]: This seems like a common pattern that will be in all stages - Decode, followed by RunCompositeAssertions. See if we can make this more easy todo?
-	actualResponse, err := kafkaapi.DecodeApiVersionsResponse(decoder)
-	return Unnamed(actualResponse, assertion, decoder, err, stageLogger)
+	return DecodeAndAssertResponse(decoder, kafkaapi.DecodeApiVersionsResponse, assertion, stageLogger)
 }
 
-func Unnamed[T any](actualResponse T, assertion response_assertions.ResponseAssertion[T], decoder *value_storing_decoder.ValueStoringDecoder, decodeError error, stageLogger *logger.Logger) error {
+func DecodeAndAssertResponse[T any](decoder *value_storing_decoder.ValueStoringDecoder, decodeFunc func(decoder *value_storing_decoder.ValueStoringDecoder) (T, error), assertion response_assertions.ResponseAssertion[T], stageLogger *logger.Logger) error {
+	actualResponse, decodeError := decodeFunc(decoder)
+
 	var assertionError error
 	var assertionErrorLocator string
 
@@ -66,17 +66,17 @@ func Unnamed[T any](actualResponse T, assertion response_assertions.ResponseAsse
 		}
 	}
 
-	responseTreePrinter := response_tree_printer.ResponseTreePrinter{
+	// TODO[PaulRefactor]: Print debug if no errors
+	response_tree_printer.ResponseTreePrinter{
 		AssertionError:        assertionError,
 		AssertionErrorLocator: assertionErrorLocator,
 		DecodeError:           decodeError,
 		DecodeErrorLocator:    decoder.CurrentLocator(),
 		Decoder:               decoder,
 		Logger:                stageLogger,
-	}
+	}.Print()
 
-	responseTreePrinter.Print()
-
+	// Let's prefer assertion errors over decode errors since they're more friendly and actionable
 	if assertionError != nil {
 		return assertionError
 	}

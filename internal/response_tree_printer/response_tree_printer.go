@@ -17,7 +17,7 @@ type ResponseTreePrinter struct {
 	Logger                *logger.Logger
 }
 
-func (r *ResponseTreePrinter) Print() {
+func (r ResponseTreePrinter) Print() {
 	lastPrintedLocator := NewLocator("")
 	currentIndentationLevel := 0
 
