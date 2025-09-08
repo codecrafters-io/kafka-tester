@@ -17,10 +17,6 @@ func (p FieldPath) String() string {
 	return strings.Join(p.Segments, ".")
 }
 
-func (p FieldPath) IsEqual(other FieldPath) bool {
-	return p.String() == other.String()
-}
-
 func (p FieldPath) Is(other FieldPath) bool {
 	return p.String() == other.String()
 }
@@ -59,20 +55,8 @@ func (p FieldPath) AncestorsUntil(other FieldPath) []FieldPath {
 	ancestors := []FieldPath{}
 	current := p.Parent()
 
-	for !current.IsEqual(other) {
+	for !current.Is(other) {
 		ancestors = append(ancestors, current)
-		current = current.Parent()
-	}
-
-	return ancestors
-}
-
-func (p FieldPath) Ancestors() []FieldPath {
-	ancestors := []FieldPath{}
-	current := p
-
-	for current.Parent().String() != "" {
-		ancestors = append(ancestors, current.Parent())
 		current = current.Parent()
 	}
 
@@ -99,10 +83,6 @@ func (p FieldPath) AncestorsFrom(other FieldPath) []FieldPath {
 	return ancestors
 }
 
-func (p FieldPath) IsChildOf(other FieldPath) bool {
-	return p.Parent().IsEqual(other)
-}
-
 func (p FieldPath) Parent() FieldPath {
 	if len(p.Segments) == 0 {
 		return FieldPath{Segments: []string{}}
@@ -116,5 +96,5 @@ func (p FieldPath) IsSiblingOf(other FieldPath) bool {
 		return false
 	}
 
-	return p.Parent().IsEqual(other.Parent())
+	return p.Parent().Is(other.Parent())
 }
