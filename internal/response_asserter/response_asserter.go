@@ -1,6 +1,8 @@
 package response_asserter
 
 import (
+	"fmt"
+
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/internal/field_values_printer"
@@ -9,7 +11,7 @@ import (
 )
 
 type ResponseAsserter[ResponseType any] struct {
-	DecodeFunc func(decoder *field_decoder.FieldDecoder) (ResponseType, error)
+	DecodeFunc func(decoder *field_decoder.FieldDecoder) (ResponseType, *field_decoder.FieldDecoderError)
 	Assertion  response_assertions.ResponseAssertion[ResponseType]
 	Logger     *logger.Logger
 }
@@ -29,12 +31,19 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) 
 		}
 	}
 
+	// If there are bytes remaining after decoding, we should report this as an error
+	if assertionError == nil && decodeError == nil && decoder.RemainingBytesCount() != 0 {
+		decodeError = &field_decoder.FieldDecoderError{
+			Message: fmt.Sprintf("unexpected %d bytes found after decoding response", decoder.RemainingBytesCount()),
+			Path:    field_path.NewFieldPath("RemainingBytes"), // Used for formatting error message
+		}
+	}
+
 	// TODO[PaulRefactor]: Print debug if no errors
 	field_values_printer.FieldValuesPrinter{
 		AssertionError:     assertionError,
 		AssertionErrorPath: assertionErrorPath,
 		DecodeError:        decodeError,
-		DecodeErrorPath:    decoder.CurrentPath(),
 		DecodedFields:      decoder.DecodedFields(),
 		Logger:             a.Logger,
 	}.Print()

@@ -1,14 +1,11 @@
 package response_decoders
 
 import (
-	"fmt"
-
-	// TODO[PaulRefactor]: Avoid the import of value_storing_decoder from protocol?
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 )
 
-func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, error) {
+func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, *field_decoder.FieldDecoderError) {
 	decoder.PushPathSegment("ApiVersionsResponse")
 	defer decoder.PopPathSegment()
 
@@ -22,19 +19,13 @@ func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.Ap
 		return kafkaapi.ApiVersionsResponse{}, err
 	}
 
-	// Check if there are any remaining bytes in the decoder
-	// TODO[PaulRefactor]: See if we can extract this outside decoders?
-	if decoder.RemainingBytesCount() != 0 {
-		return kafkaapi.ApiVersionsResponse{}, fmt.Errorf("unexpected %d bytes remaining in decoder after decoding ApiVersionsResponseBody", decoder.RemainingBytesCount())
-	}
-
 	return kafkaapi.ApiVersionsResponse{
 		Header: header,
 		Body:   body,
 	}, nil
 }
 
-func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponseBody, error) {
+func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponseBody, *field_decoder.FieldDecoderError) {
 	decoder.PushPathSegment("Body")
 	defer decoder.PopPathSegment()
 
@@ -65,7 +56,7 @@ func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaap
 	}, nil
 }
 
-func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiKeyEntry, error) {
+func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiKeyEntry, *field_decoder.FieldDecoderError) {
 	apiKey, err := decoder.ReadInt16("APIKey")
 	if err != nil {
 		return kafkaapi.ApiKeyEntry{}, err

@@ -11,8 +11,7 @@ import (
 type FieldValuesPrinter struct {
 	AssertionError     error
 	AssertionErrorPath field_path.FieldPath
-	DecodeError        error
-	DecodeErrorPath    field_path.FieldPath // TODO[PaulRefactor]: See if we can include this in DecodeError?
+	DecodeError        *field_decoder.FieldDecoderError
 	DecodedFields      []field_decoder.Field
 	Logger             *logger.Logger
 }
@@ -46,12 +45,12 @@ func (r FieldValuesPrinter) Print() {
 			}
 		}
 
-		if r.AssertionError != nil && decodedField.Path.Is(r.AssertionErrorPath) {
+		if r.AssertionError != nil && r.AssertionErrorPath.Is(decodedField.Path) {
 			r.Logger.Infof("%s❌ %s (%s)", buildIndentPrefix(), decodedField.Path.LastSegment(), decodedField.Value.String())
 			break
 		}
 
-		if r.DecodeError != nil && decodedField.Path.Is(r.DecodeErrorPath) {
+		if r.DecodeError != nil && r.DecodeError.Path.Is(decodedField.Path) {
 			r.Logger.Infof("%s- %s (Decode Error)", buildIndentPrefix(), decodedField.Path.LastSegment())
 			break
 		}

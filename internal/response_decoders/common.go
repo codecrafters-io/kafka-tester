@@ -7,7 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 )
 
-func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
+func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, *field_decoder.FieldDecoderError) {
 	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
 	decoder.PushPathSegment("Header")
 	defer decoder.PopPathSegment()
@@ -43,7 +43,7 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 // 	}, nil
 // }
 
-func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*field_decoder.FieldDecoder) (T, error), path string) ([]T, error) {
+func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*field_decoder.FieldDecoder) (T, *field_decoder.FieldDecoderError), path string) ([]T, *field_decoder.FieldDecoderError) {
 	decoder.PushPathSegment(path)
 	defer decoder.PopPathSegment()
 
