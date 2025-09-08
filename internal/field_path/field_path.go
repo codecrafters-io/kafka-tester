@@ -71,16 +71,16 @@ func (p FieldPath) LastSegment() string {
 	return p.Segments[len(p.Segments)-1]
 }
 
-func (p FieldPath) AncestorsFrom(other FieldPath) []FieldPath {
-	ancestors := p.AncestorsUntil(other)
+func (p FieldPath) DescendantsUntil(other FieldPath) []FieldPath {
+	descendants := other.AncestorsUntil(p)
 
 	// Reverse the slice
-	for i := 0; i < len(ancestors)/2; i++ {
-		j := len(ancestors) - 1 - i
-		ancestors[i], ancestors[j] = ancestors[j], ancestors[i]
+	for i := 0; i < len(descendants)/2; i++ {
+		j := len(descendants) - 1 - i
+		descendants[i], descendants[j] = descendants[j], descendants[i]
 	}
 
-	return ancestors
+	return descendants
 }
 
 func (p FieldPath) Parent() FieldPath {

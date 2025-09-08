@@ -30,7 +30,7 @@ func (r FieldValuesPrinter) Print() {
 			// If the path is a sibling, we don't need to adjust indentation level
 		} else if decodedField.Path.IsDescendantOf(lastPrintedFieldPath) {
 			// If it's a descendant, we indent and print each ancestor between
-			for _, ancestorPath := range decodedField.Path.AncestorsFrom(lastPrintedFieldPath) {
+			for _, ancestorPath := range lastPrintedFieldPath.DescendantsUntil(decodedField.Path) {
 				r.Logger.Infof("%s- %s", buildIndentPrefix(), ancestorPath.LastSegment())
 				currentIndentationLevel++
 			}
@@ -40,7 +40,7 @@ func (r FieldValuesPrinter) Print() {
 			currentIndentationLevel = len(commonAncestor.Segments)
 			lastPrintedFieldPath = commonAncestor
 
-			for _, ancestorPath := range decodedField.Path.AncestorsFrom(lastPrintedFieldPath) {
+			for _, ancestorPath := range lastPrintedFieldPath.DescendantsUntil(decodedField.Path) {
 				r.Logger.Infof("%s- %s", buildIndentPrefix(), ancestorPath.LastSegment())
 				currentIndentationLevel++
 			}
