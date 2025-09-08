@@ -3,7 +3,7 @@ package headers
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 )
 
 // ResponseHeader is the parallels version of ResponseHeader
