@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -13,7 +13,7 @@ type FieldValuesPrinter struct {
 	AssertionErrorLocator string
 	DecodeError           error
 	DecodeErrorLocator    string // See if we can include this in DecodeError?
-	Decoder               *value_storing_decoder.ValueStoringDecoder
+	DecodedFields         []field_decoder.Field
 	Logger                *logger.Logger
 }
 
@@ -25,8 +25,8 @@ func (r FieldValuesPrinter) Print() {
 		return strings.Repeat(" ", currentIndentationLevel*2)
 	}
 
-	for value, locatorString := range r.Decoder.DecodedValuesWithLocators() {
-		locator := NewLocator(locatorString)
+	for _, decodedField := range r.DecodedFields {
+		locator := NewLocator(decodedField.Locator)
 
 		if locator.IsSiblingOf(lastPrintedLocator) {
 			// If the locator is a sibling, we don't need to adjust indentation level
@@ -49,7 +49,7 @@ func (r FieldValuesPrinter) Print() {
 		}
 
 		if r.AssertionError != nil && locator.String() == r.AssertionErrorLocator {
-			r.Logger.Infof("%s❌ %s (%s)", buildIndentPrefix(), locator.LastSegment(), value.String())
+			r.Logger.Infof("%s❌ %s (%s)", buildIndentPrefix(), locator.LastSegment(), decodedField.Value.String())
 			break
 		}
 
@@ -58,7 +58,7 @@ func (r FieldValuesPrinter) Print() {
 			break
 		}
 
-		r.Logger.Infof("%s- %s (%s)", buildIndentPrefix(), locator.LastSegment(), value.String())
+		r.Logger.Infof("%s- %s (%s)", buildIndentPrefix(), locator.LastSegment(), decodedField.Value.String())
 		lastPrintedLocator = locator
 	}
 }

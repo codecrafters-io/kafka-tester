@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	// TODO[PaulRefactor]: Avoid the import of value_storing_decoder from protocol?
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
@@ -14,7 +14,7 @@ type ResponseHeader struct {
 	CorrelationId value.Int32
 }
 
-func (h *ResponseHeader) Decode(decoder *value_storing_decoder.ValueStoringDecoder) error {
+func (h *ResponseHeader) Decode(decoder *field_decoder.FieldDecoder) error {
 	decoder.PushLocatorSegment("Header")
 	defer decoder.PopLocatorSegment()
 
@@ -28,12 +28,12 @@ func (h *ResponseHeader) Decode(decoder *value_storing_decoder.ValueStoringDecod
 	}
 }
 
-func (h *ResponseHeader) decodeV0(decoder *value_storing_decoder.ValueStoringDecoder) (err error) {
+func (h *ResponseHeader) decodeV0(decoder *field_decoder.FieldDecoder) (err error) {
 	h.CorrelationId, err = decoder.ReadInt32("CorrelationID")
 	return err
 }
 
-func (h *ResponseHeader) decodeV1(decoder *value_storing_decoder.ValueStoringDecoder) error {
+func (h *ResponseHeader) decodeV1(decoder *field_decoder.FieldDecoder) error {
 	if err := h.decodeV0(decoder); err != nil {
 		return err
 	}

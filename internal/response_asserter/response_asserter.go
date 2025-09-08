@@ -1,30 +1,30 @@
 package response_asserter
 
 import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/internal/field_values_printer"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type ResponseAsserter[ResponseType any] struct {
-	DecodeFunc func(decoder *value_storing_decoder.ValueStoringDecoder) (ResponseType, error)
+	DecodeFunc func(decoder *field_decoder.FieldDecoder) (ResponseType, error)
 	Assertion  response_assertions.ResponseAssertion[ResponseType]
 	Logger     *logger.Logger
 }
 
 func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) (ResponseType, error) {
-	decoder := value_storing_decoder.NewValueStoringDecoder(responsePayload)
+	decoder := field_decoder.NewFieldDecoder(responsePayload)
 	actualResponse, decodeError := a.DecodeFunc(decoder)
 
 	var assertionError error
 	var assertionErrorLocator string
 
 	// First, let's assert the decoded values
-	for decodedValue, locator := range decoder.DecodedValuesWithLocators() {
-		if err := a.Assertion.AssertDecodedValue(locator, decodedValue); err != nil {
+	for _, decodedField := range decoder.DecodedFields() {
+		if err := a.Assertion.AssertDecodedValue(decodedField.Locator, decodedField.Value); err != nil {
 			assertionError = err
-			assertionErrorLocator = locator
+			assertionErrorLocator = decodedField.Locator
 		}
 	}
 
@@ -34,7 +34,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) 
 		AssertionErrorLocator: assertionErrorLocator,
 		DecodeError:           decodeError,
 		DecodeErrorLocator:    decoder.CurrentLocator(),
-		Decoder:               decoder,
+		DecodedFields:         decoder.DecodedFields(),
 		Logger:                a.Logger,
 	}.Print()
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	// TODO[PaulRefactor]: Avoid the import of value_storing_decoder from protocol?
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
@@ -14,7 +14,7 @@ type ApiVersionsResponse struct {
 	Body   ApiVersionsResponseBody
 }
 
-func DecodeApiVersionsResponse(decoder *value_storing_decoder.ValueStoringDecoder) (ApiVersionsResponse, error) {
+func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (ApiVersionsResponse, error) {
 	response := ApiVersionsResponse{
 		Header: headers.ResponseHeader{Version: 0},
 		Body:   ApiVersionsResponseBody{Version: 4},
@@ -51,7 +51,7 @@ type ApiVersionsResponseBody struct {
 	ThrottleTimeMs value.Int32
 }
 
-func (r *ApiVersionsResponseBody) Decode(decoder *value_storing_decoder.ValueStoringDecoder) (err error) {
+func (r *ApiVersionsResponseBody) Decode(decoder *field_decoder.FieldDecoder) (err error) {
 	if r.Version == 0 {
 		panic("CodeCrafters Internal Error: ApiVersionsResponseBody.Version is not initialized")
 	} else if r.Version < 3 {
@@ -81,7 +81,7 @@ func (r *ApiVersionsResponseBody) Decode(decoder *value_storing_decoder.ValueSto
 	return nil
 }
 
-func (r *ApiVersionsResponseBody) decodeApiKeyEntries(decoder *value_storing_decoder.ValueStoringDecoder) ([]ApiKeyEntry, error) {
+func (r *ApiVersionsResponseBody) decodeApiKeyEntries(decoder *field_decoder.FieldDecoder) ([]ApiKeyEntry, error) {
 	lengthValue, err := decoder.ReadCompactArrayLength("ApiKeys.Length")
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ type ApiKeyEntry struct {
 	MaxVersion value.Int16
 }
 
-func (a *ApiKeyEntry) Decode(decoder *value_storing_decoder.ValueStoringDecoder, locator string) (err error) {
+func (a *ApiKeyEntry) Decode(decoder *field_decoder.FieldDecoder, locator string) (err error) {
 	decoder.PushLocatorSegment(locator)
 
 	// Ensure the locator segment remains if there's an error (used in error messages)

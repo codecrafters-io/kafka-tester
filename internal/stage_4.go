@@ -1,8 +1,8 @@
 package internal
 
 import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -63,7 +63,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 
 	// TODO[PaulRefactor]: Actually run assertions!
 	// assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId).WithErrorCode(35)
-	decoder := value_storing_decoder.NewValueStoringDecoder(response)
+	decoder := field_decoder.NewFieldDecoder(response)
 
 	decoder.PushLocatorSegment("ApiVersionsResponse")
 	defer decoder.PopLocatorSegment()
