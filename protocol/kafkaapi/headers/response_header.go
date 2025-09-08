@@ -8,7 +8,6 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
-// ResponseHeader is the parallels version of ResponseHeader
 type ResponseHeader struct {
 	Version       int
 	CorrelationId value.Int32

@@ -45,6 +45,7 @@ func (d *FieldDecoder) PopLocatorSegment() {
 
 func (d *FieldDecoder) ReadCompactArrayLength(locator string) (value.CompactArrayLength, error) {
 	d.PushLocatorSegment(locator)
+	defer d.PopLocatorSegment()
 
 	decodedValue, err := d.decoder.ReadCompactArrayLength()
 	if err != nil {
@@ -52,13 +53,13 @@ func (d *FieldDecoder) ReadCompactArrayLength(locator string) (value.CompactArra
 	}
 
 	d.appendDecodedField(decodedValue)
-	d.PopLocatorSegment()
 
 	return decodedValue, nil
 }
 
 func (d *FieldDecoder) ReadInt16(locator string) (value.Int16, error) {
 	d.PushLocatorSegment(locator)
+	defer d.PopLocatorSegment()
 
 	decodedValue, err := d.decoder.ReadInt16()
 	if err != nil {
@@ -66,13 +67,13 @@ func (d *FieldDecoder) ReadInt16(locator string) (value.Int16, error) {
 	}
 
 	d.appendDecodedField(decodedValue)
-	d.PopLocatorSegment()
 
 	return decodedValue, nil
 }
 
 func (d *FieldDecoder) ReadInt32(locator string) (value.Int32, error) {
 	d.PushLocatorSegment(locator)
+	defer d.PopLocatorSegment()
 
 	decodedValue, err := d.decoder.ReadInt32()
 	if err != nil {
@@ -87,12 +88,12 @@ func (d *FieldDecoder) ReadInt32(locator string) (value.Int32, error) {
 
 func (d *FieldDecoder) ConsumeTagBuffer() error {
 	d.PushLocatorSegment("TAG_BUFFER")
+	defer d.PopLocatorSegment()
 
 	if err := d.decoder.ConsumeTagBuffer(); err != nil {
 		return err
 	}
 
-	d.PopLocatorSegment()
 	return nil
 }
 
