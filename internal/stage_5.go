@@ -2,9 +2,8 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
-	"github.com/codecrafters-io/kafka-tester/internal/response_tree_printer"
-	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -36,8 +35,8 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 	request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationId).Build()
-	response, err := client.SendAndReceive(request, stageLogger)
 
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
@@ -47,42 +46,11 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithErrorCode(0).
 		WithApiKeyEntry(18, 0, 4)
 
-	return DecodeAndAssertResponse(response.Payload, kafkaapi.DecodeApiVersionsResponse, assertion, stageLogger)
-}
+	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
+		DecodeFunc: kafkaapi.DecodeApiVersionsResponse,
+		Assertion:  assertion,
+		Logger:     stageLogger,
+	}.DecodeAndAssert(response.Payload)
 
-func DecodeAndAssertResponse[T any](responsePayload []byte, decodeFunc func(decoder *value_storing_decoder.ValueStoringDecoder) (T, error), assertion response_assertions.ResponseAssertion[T], stageLogger *logger.Logger) error {
-	decoder := value_storing_decoder.NewValueStoringDecoder(responsePayload)
-	actualResponse, decodeError := decodeFunc(decoder)
-
-	var assertionError error
-	var assertionErrorLocator string
-
-	// First, let's assert the decoded values
-	for decodedValue, locator := range decoder.DecodedValuesWithLocators() {
-		if err := assertion.AssertDecodedValue(locator, decodedValue); err != nil {
-			assertionError = err
-			assertionErrorLocator = locator
-		}
-	}
-
-	// TODO[PaulRefactor]: Print debug if no errors
-	response_tree_printer.ResponseTreePrinter{
-		AssertionError:        assertionError,
-		AssertionErrorLocator: assertionErrorLocator,
-		DecodeError:           decodeError,
-		DecodeErrorLocator:    decoder.CurrentLocator(),
-		Decoder:               decoder,
-		Logger:                stageLogger,
-	}.Print()
-
-	// Let's prefer assertion errors over decode errors since they're more friendly and actionable
-	if assertionError != nil {
-		return assertionError
-	}
-
-	if decodeError != nil {
-		return decodeError
-	}
-
-	return assertion.RunCompositeAssertions(actualResponse, stageLogger)
+	return err
 }
