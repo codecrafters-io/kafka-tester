@@ -45,12 +45,7 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	message := request.Encode()
-	stageLogger.Infof("Sending \"ApiVersions\" (version: %v) request (Correlation id: %v)", request.Header.ApiVersion, request.Header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"ApiVersions\" request: \n%v\n", utils.GetFormattedHexdump(message))
-	err := client.Send(message)
-
-	if err != nil {
+	if err := client.Send(request, stageLogger); err != nil {
 		return err
 	}
 
