@@ -9,11 +9,6 @@ import (
 	kafkaValue "github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
-type Decodable interface {
-	Decode(decoder *Decoder, variableName string) error
-}
-
-// TODO[PaulRefactor]: remove all traces of callbacks here
 type Decoder struct {
 	buffer *offset_buffer.Buffer
 }
@@ -58,6 +53,7 @@ func (d *Decoder) ReadInt32() (kafkaValue.Int32, error) {
 
 func (d *Decoder) ReadUnsignedVarint() (kafkaValue.UnsignedVarint, error) {
 	decodedInteger, numberOfBytesRead := binary.Uvarint(d.buffer.RemainingBytes())
+
 	// Moves the offset
 	d.buffer.ReadRawBytes(uint64(numberOfBytesRead))
 
