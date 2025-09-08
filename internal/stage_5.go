@@ -47,12 +47,11 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithErrorCode(0).
 		WithApiKeyEntry(18, 0, 4)
 
-	decoder := value_storing_decoder.NewValueStoringDecoder(response.Payload)
-
-	return DecodeAndAssertResponse(decoder, kafkaapi.DecodeApiVersionsResponse, assertion, stageLogger)
+	return DecodeAndAssertResponse(response.Payload, kafkaapi.DecodeApiVersionsResponse, assertion, stageLogger)
 }
 
-func DecodeAndAssertResponse[T any](decoder *value_storing_decoder.ValueStoringDecoder, decodeFunc func(decoder *value_storing_decoder.ValueStoringDecoder) (T, error), assertion response_assertions.ResponseAssertion[T], stageLogger *logger.Logger) error {
+func DecodeAndAssertResponse[T any](responsePayload []byte, decodeFunc func(decoder *value_storing_decoder.ValueStoringDecoder) (T, error), assertion response_assertions.ResponseAssertion[T], stageLogger *logger.Logger) error {
+	decoder := value_storing_decoder.NewValueStoringDecoder(responsePayload)
 	actualResponse, decodeError := decodeFunc(decoder)
 
 	var assertionError error
