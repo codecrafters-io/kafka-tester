@@ -8,11 +8,7 @@ import (
 )
 
 func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, *field_decoder.FieldDecoderError) {
-	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
-	decoder.PushPathSegment("Header")
-	defer decoder.PopPathSegment()
-
-	correlationId, err := decoder.ReadInt32("CorrelationID")
+	correlationId, err := decoder.ReadInt32("Header.CorrelationID")
 	if err != nil {
 		return headers.ResponseHeader{}, err
 	}
@@ -24,7 +20,6 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 }
 
 // func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
-// 	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
 // 	decoder.PushPathSegment("Header")
 // 	defer decoder.PopPathSegment()
 

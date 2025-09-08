@@ -51,7 +51,6 @@ func (v UnsignedVarint) GetType() string {
 	return "UNSIGNED_VARINT"
 }
 
-// TODO[PaulRefactor]: Check if this is _actually_ a primitive Kafka type
 type CompactArrayLength struct {
 	Value uint64
 }
@@ -79,5 +78,5 @@ func (v CompactArrayLength) ActualLength() uint64 {
 }
 
 func (v CompactArrayLength) GetType() string {
-	return "UNSIGNED_VARINT"
+	return "COMPACT_ARRAY_LENGTH"
 }
