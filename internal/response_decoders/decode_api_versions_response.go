@@ -43,7 +43,7 @@ func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaap
 		return kafkaapi.ApiVersionsResponseBody{}, err
 	}
 
-	apiKeyEntries, err := decodeApiVersionsResponseApiKeyEntries(decoder)
+	apiKeyEntries, err := decodeCompactArray(decoder, decodeApiVersionsResponseApiKeyEntry, "ApiKeys")
 	if err != nil {
 		return kafkaapi.ApiVersionsResponseBody{}, err
 	}
@@ -63,29 +63,6 @@ func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaap
 		ApiKeys:        apiKeyEntries,
 		ThrottleTimeMs: throttleTimeMs,
 	}, nil
-}
-
-func decodeApiVersionsResponseApiKeyEntries(decoder *field_decoder.FieldDecoder) ([]kafkaapi.ApiKeyEntry, error) {
-	lengthValue, err := decoder.ReadCompactArrayLength("ApiKeys.Length")
-	if err != nil {
-		return nil, err
-	}
-
-	apiKeyEntries := make([]kafkaapi.ApiKeyEntry, lengthValue.ActualLength())
-
-	for i := 0; i < int(lengthValue.ActualLength()); i++ {
-		decoder.PushPathSegment(fmt.Sprintf("ApiKeys[%d]", i))
-		apiKeyEntry, err := decodeApiVersionsResponseApiKeyEntry(decoder)
-		decoder.PopPathSegment()
-
-		if err != nil {
-			return nil, err
-		}
-
-		apiKeyEntries[i] = apiKeyEntry
-	}
-
-	return apiKeyEntries, nil
 }
 
 func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiKeyEntry, error) {
