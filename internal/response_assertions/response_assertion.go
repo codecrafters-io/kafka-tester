@@ -1,18 +1,18 @@
 package response_assertions
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/value"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type ResponseAssertion[T any] interface {
-	// AssertDecodedValue is used to assert a specific value as it is decoded.
+	// AssertSingleField is used to assert fields as they're decoded.
 	//
-	// Errors will be rendered in the middle of the decoded response, right after the specific decoded value.
-	AssertDecodedValue(locator string, value value.KafkaProtocolValue) error
+	// Errors will be rendered in the middle of the decoded response, right after the specific field.
+	AssertSingleField(field field_decoder.Field) error
 
-	// RunCompositeAssertions is used to run assertions that span multiple values and hence wouldn't fit in AssertDecodedValue.
+	// AssertAcrossFields is used to run assertions that span multiple fields and hence wouldn't fit in AssertSingleField.
 	//
 	// Errors will be rendered after the whole decoded response is printed.
-	RunCompositeAssertions(actualResponse T, logger *logger.Logger) error
+	AssertAcrossFields(actualResponse T, logger *logger.Logger) error
 }

@@ -7,8 +7,8 @@ import (
 
 func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
 	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
-	decoder.PushLocatorSegment("Header")
-	defer decoder.PopLocatorSegment()
+	decoder.PushPathSegment("Header")
+	defer decoder.PopPathSegment()
 
 	correlationId, err := decoder.ReadInt32("CorrelationID")
 	if err != nil {
@@ -21,22 +21,22 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 	}, nil
 }
 
-func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
-	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
-	decoder.PushLocatorSegment("Header")
-	defer decoder.PopLocatorSegment()
+// func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
+// 	// TODO[PaulRefactor]: Allow reading values like Header.CorrelationId directly?
+// 	decoder.PushPathSegment("Header")
+// 	defer decoder.PopPathSegment()
 
-	correlationId, err := decoder.ReadInt32("CorrelationID")
-	if err != nil {
-		return headers.ResponseHeader{}, err
-	}
+// 	correlationId, err := decoder.ReadInt32("CorrelationID")
+// 	if err != nil {
+// 		return headers.ResponseHeader{}, err
+// 	}
 
-	if err := decoder.ConsumeTagBuffer(); err != nil {
-		return headers.ResponseHeader{}, err
-	}
+// 	if err := decoder.ConsumeTagBuffer(); err != nil {
+// 		return headers.ResponseHeader{}, err
+// 	}
 
-	return headers.ResponseHeader{
-		Version:       1,
-		CorrelationId: correlationId,
-	}, nil
-}
+// 	return headers.ResponseHeader{
+// 		Version:       1,
+// 		CorrelationId: correlationId,
+// 	}, nil
+// }

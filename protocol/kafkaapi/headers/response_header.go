@@ -14,8 +14,8 @@ type ResponseHeader struct {
 }
 
 func (h *ResponseHeader) Decode(decoder *field_decoder.FieldDecoder) error {
-	decoder.PushLocatorSegment("Header")
-	defer decoder.PopLocatorSegment()
+	decoder.PushPathSegment("Header")
+	defer decoder.PopPathSegment()
 
 	switch h.Version {
 	case 0:

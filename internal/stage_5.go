@@ -43,9 +43,9 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	}
 
 	assertion := response_assertions.NewApiVersionsResponseAssertion().
-		WithCorrelationId(correlationId).
-		WithErrorCode(0).
-		WithApiKeyEntry(18, 0, 4)
+		ExpectCorrelationId(correlationId).
+		ExpectErrorCode(0).
+		ExpectApiKeyEntry(18, 0, 4)
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
 		DecodeFunc: response_decoders.DecodeApiVersionsResponse,

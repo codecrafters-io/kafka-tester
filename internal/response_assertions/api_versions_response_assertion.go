@@ -3,6 +3,7 @@ package response_assertions
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -31,17 +32,17 @@ func NewApiVersionsResponseAssertion() *ApiVersionsResponseAssertion {
 	}
 }
 
-func (a *ApiVersionsResponseAssertion) WithCorrelationId(expectedCorrelationID int32) *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) ExpectCorrelationId(expectedCorrelationID int32) *ApiVersionsResponseAssertion {
 	a.expectedCorrelationID = expectedCorrelationID
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) WithErrorCode(expectedErrorCode int16) *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) ExpectErrorCode(expectedErrorCode int16) *ApiVersionsResponseAssertion {
 	a.expectedErrorCode = expectedErrorCode
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) WithApiKeyEntry(expectedApiKey int16, expectedMinVersion int16, expectedMaxVersion int16) *ApiVersionsResponseAssertion {
+func (a *ApiVersionsResponseAssertion) ExpectApiKeyEntry(expectedApiKey int16, expectedMinVersion int16, expectedMaxVersion int16) *ApiVersionsResponseAssertion {
 	a.expectedApiKeys = append(a.expectedApiKeys, kafkaapi.ApiKeyEntry{
 		ApiKey:     value.Int16{Value: expectedApiKey},
 		MinVersion: value.Int16{Value: expectedMinVersion},
@@ -51,33 +52,33 @@ func (a *ApiVersionsResponseAssertion) WithApiKeyEntry(expectedApiKey int16, exp
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) AssertDecodedValue(locator string, decodedValue value.KafkaProtocolValue) error {
-	if locator == "ApiVersionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, decodedValue)
+func (a *ApiVersionsResponseAssertion) AssertSingleField(field field_decoder.Field) error {
+	if field.Path.String() == "ApiVersionsResponse.Header.CorrelationID" {
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
 
-	if locator == "ApiVersionsResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCode, decodedValue)
+	if field.Path.String() == "ApiVersionsResponse.Body.ErrorCode" {
+		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.Value)
 	}
 
-	if locator == "ApiVersionsResponse.Body.ThrottleTimeMs" {
+	if field.Path.String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {
 		// We don't validate ThrottleTimeMs
 		return nil
 	}
 
 	// TODO: See what basic validations we can do?
-	if locator == "ApiVersionsResponse.Body.ApiKeys.Length" {
+	if field.Path.String() == "ApiVersionsResponse.Body.ApiKeys.Length" {
 		// Ignore for now
 		return nil
 	}
 
 	// TODO[PaulRefactor]: Add assertions for ApiKeys[].ApiKey, ApiKeys[].MinVersion, ApiKeys[].MaxVersion
 
-	// This ensures that we're handling ALL possible locators
-	panic("CodeCrafters Internal Error: Unhandled locator: " + locator)
+	// This ensures that we're handling ALL possible fields
+	panic("CodeCrafters Internal Error: Unhandled locator: " + field.Path.String())
 }
 
-func (a *ApiVersionsResponseAssertion) RunCompositeAssertions(response kafkaapi.ApiVersionsResponse, logger *logger.Logger) error {
+func (a *ApiVersionsResponseAssertion) AssertAcrossFields(response kafkaapi.ApiVersionsResponse, logger *logger.Logger) error {
 	for _, expectedApiKey := range a.expectedApiKeys {
 		foundAPIKey := false
 		var actualApiKeyEntry kafkaapi.ApiKeyEntry

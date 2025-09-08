@@ -9,8 +9,8 @@ import (
 )
 
 func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, error) {
-	decoder.PushLocatorSegment("ApiVersionsResponse")
-	defer decoder.PopLocatorSegment()
+	decoder.PushPathSegment("ApiVersionsResponse")
+	defer decoder.PopPathSegment()
 
 	header, err := decodeV0Header(decoder)
 	if err != nil {
@@ -35,8 +35,8 @@ func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.Ap
 }
 
 func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponseBody, error) {
-	decoder.PushLocatorSegment("Body")
-	defer decoder.PopLocatorSegment()
+	decoder.PushPathSegment("Body")
+	defer decoder.PopPathSegment()
 
 	errorCode, err := decoder.ReadInt16("ErrorCode")
 	if err != nil {
@@ -74,9 +74,9 @@ func decodeApiVersionsResponseApiKeyEntries(decoder *field_decoder.FieldDecoder)
 	apiKeyEntries := make([]kafkaapi.ApiKeyEntry, lengthValue.ActualLength())
 
 	for i := 0; i < int(lengthValue.ActualLength()); i++ {
-		decoder.PushLocatorSegment(fmt.Sprintf("ApiKeys[%d]", i))
+		decoder.PushPathSegment(fmt.Sprintf("ApiKeys[%d]", i))
 		apiKeyEntry, err := decodeApiVersionsResponseApiKeyEntry(decoder)
-		decoder.PopLocatorSegment()
+		decoder.PopPathSegment()
 
 		if err != nil {
 			return nil, err
