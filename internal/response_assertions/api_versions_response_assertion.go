@@ -7,16 +7,10 @@ import (
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
-
-// TODO[PaulRefactor]: We already have APIKeyToName somewhere, see if that can be used here?
-var apiKeyNames = map[int16]string{
-	1:  "FETCH",
-	18: "API_VERSIONS",
-	75: "DESCRIBE_TOPIC_PARTITIONS",
-}
 
 type ApiVersionsResponseAssertion struct {
 	expectedCorrelationID int32
@@ -92,11 +86,11 @@ func (a *ApiVersionsResponseAssertion) AssertAcrossFields(response kafkaapi.ApiV
 		}
 
 		if !foundAPIKey {
-			apiKeyName := apiKeyNames[expectedApiKey.ApiKey.Value]
+			apiKeyName := utils.APIKeyToName(expectedApiKey.ApiKey.Value)
 			return fmt.Errorf("Expected ApiKeys array to include API key %d (%s)", expectedApiKey.ApiKey.Value, apiKeyName)
 		}
 
-		apiKeyName := apiKeyNames[expectedApiKey.ApiKey.Value]
+		apiKeyName := utils.APIKeyToName(expectedApiKey.ApiKey.Value)
 
 		if actualApiKeyEntry.MinVersion.Value > expectedApiKey.MaxVersion.Value {
 			return fmt.Errorf("Expected min version %v to be <= max version %v for %s", actualApiKeyEntry.MinVersion.Value, expectedApiKey.MaxVersion.Value, apiKeyName)
