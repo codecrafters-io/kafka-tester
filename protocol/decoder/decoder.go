@@ -104,7 +104,7 @@ func (d *Decoder) ConsumeTagBuffer() error {
 		if err != nil {
 			return err
 		} else if int(length.Value) < 0 {
-			return errors.New("Expected length of value in tag buffer to be positive")
+			return errors.New("Expected length of value in tag buffer to be non-negative")
 		}
 
 		// value
