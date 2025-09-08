@@ -5,6 +5,6 @@ import (
 )
 
 type RequestI interface {
-	Encode() []byte
+	GetEncodedBody() []byte
 	GetHeader() headers.RequestHeader
 }
