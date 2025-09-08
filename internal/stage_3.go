@@ -64,8 +64,8 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 	// assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId)
 	decoder := field_decoder.NewFieldDecoder(response)
 
-	decoder.PushPathSegment("ApiVersionsResponse")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ApiVersionsResponse")
+	defer decoder.PopPathContext()
 
 	_, err = decoder.ReadInt32("MessageLength")
 
@@ -73,8 +73,8 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	decoder.PushPathSegment("ResponseHeader")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ResponseHeader")
+	defer decoder.PopPathContext()
 
 	_, err = decoder.ReadInt32("CorrelationID")
 

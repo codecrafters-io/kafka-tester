@@ -6,8 +6,8 @@ import (
 )
 
 func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, *field_decoder.FieldDecoderError) {
-	decoder.PushPathSegment("ApiVersionsResponse")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ApiVersionsResponse")
+	defer decoder.PopPathContext()
 
 	header, err := decodeV0Header(decoder)
 	if err != nil {
@@ -26,8 +26,8 @@ func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.Ap
 }
 
 func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponseBody, *field_decoder.FieldDecoderError) {
-	decoder.PushPathSegment("Body")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("Body")
+	defer decoder.PopPathContext()
 
 	errorCode, err := decoder.ReadInt16("ErrorCode")
 	if err != nil {

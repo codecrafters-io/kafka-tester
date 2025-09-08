@@ -14,7 +14,7 @@ type Field struct {
 }
 
 type FieldDecoder struct {
-	currentPathSegments []string
+	currentPathContexts []string
 	decoder             *decoder.Decoder
 	decodedFields       []Field
 }
@@ -30,7 +30,7 @@ func (e *FieldDecoderError) Error() string {
 
 func NewFieldDecoder(bytes []byte) *FieldDecoder {
 	return &FieldDecoder{
-		currentPathSegments: []string{},
+		currentPathContexts: []string{},
 		decodedFields:       []Field{},
 		decoder:             decoder.NewDecoder(bytes),
 	}
@@ -40,17 +40,17 @@ func (d *FieldDecoder) DecodedFields() []Field {
 	return d.decodedFields
 }
 
-func (d *FieldDecoder) PushPathSegment(pathSegment string) {
-	d.currentPathSegments = append(d.currentPathSegments, pathSegment)
+func (d *FieldDecoder) PushPathContext(pathContext string) {
+	d.currentPathContexts = append(d.currentPathContexts, pathContext)
 }
 
-func (d *FieldDecoder) PopPathSegment() {
-	d.currentPathSegments = d.currentPathSegments[:len(d.currentPathSegments)-1]
+func (d *FieldDecoder) PopPathContext() {
+	d.currentPathContexts = d.currentPathContexts[:len(d.currentPathContexts)-1]
 }
 
 func (d *FieldDecoder) ReadCompactArrayLength(path string) (value.CompactArrayLength, *FieldDecoderError) {
-	d.PushPathSegment(path)
-	defer d.PopPathSegment()
+	d.PushPathContext(path)
+	defer d.PopPathContext()
 
 	decodedValue, err := d.decoder.ReadCompactArrayLength()
 	if err != nil {
@@ -63,8 +63,8 @@ func (d *FieldDecoder) ReadCompactArrayLength(path string) (value.CompactArrayLe
 }
 
 func (d *FieldDecoder) ReadInt16(path string) (value.Int16, *FieldDecoderError) {
-	d.PushPathSegment(path)
-	defer d.PopPathSegment()
+	d.PushPathContext(path)
+	defer d.PopPathContext()
 
 	decodedValue, err := d.decoder.ReadInt16()
 	if err != nil {
@@ -77,8 +77,8 @@ func (d *FieldDecoder) ReadInt16(path string) (value.Int16, *FieldDecoderError) 
 }
 
 func (d *FieldDecoder) ReadInt32(path string) (value.Int32, *FieldDecoderError) {
-	d.PushPathSegment(path)
-	defer d.PopPathSegment()
+	d.PushPathContext(path)
+	defer d.PopPathContext()
 
 	decodedValue, err := d.decoder.ReadInt32()
 	if err != nil {
@@ -91,8 +91,8 @@ func (d *FieldDecoder) ReadInt32(path string) (value.Int32, *FieldDecoderError) 
 }
 
 func (d *FieldDecoder) ConsumeTagBuffer() *FieldDecoderError {
-	d.PushPathSegment("TAG_BUFFER")
-	defer d.PopPathSegment()
+	d.PushPathContext("TAG_BUFFER")
+	defer d.PopPathContext()
 
 	if err := d.decoder.ConsumeTagBuffer(); err != nil {
 		return d.wrapError(err)
@@ -106,7 +106,7 @@ func (d *FieldDecoder) RemainingBytesCount() uint64 {
 }
 
 func (d *FieldDecoder) currentPath() field_path.FieldPath {
-	return field_path.NewFieldPath(strings.Join(d.currentPathSegments, "."))
+	return field_path.NewFieldPath(strings.Join(d.currentPathContexts, "."))
 }
 
 func (d *FieldDecoder) appendDecodedField(decodedValue value.KafkaProtocolValue) {

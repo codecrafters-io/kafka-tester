@@ -20,8 +20,8 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 }
 
 // func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, error) {
-// 	decoder.PushPathSegment("Header")
-// 	defer decoder.PopPathSegment()
+// 	decoder.PushPathContext("Header")
+// 	defer decoder.PopPathContext()
 
 // 	correlationId, err := decoder.ReadInt32("CorrelationID")
 // 	if err != nil {
@@ -39,8 +39,8 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 // }
 
 func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*field_decoder.FieldDecoder) (T, *field_decoder.FieldDecoderError), path string) ([]T, *field_decoder.FieldDecoderError) {
-	decoder.PushPathSegment(path)
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext(path)
+	defer decoder.PopPathContext()
 
 	lengthValue, err := decoder.ReadCompactArrayLength("Length")
 	if err != nil {
@@ -50,9 +50,9 @@ func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc f
 	elements := make([]T, lengthValue.ActualLength())
 
 	for i := 0; i < int(lengthValue.ActualLength()); i++ {
-		decoder.PushPathSegment(fmt.Sprintf("%s[%d]", path, i))
+		decoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))
 		element, err := decodeFunc(decoder)
-		decoder.PopPathSegment()
+		decoder.PopPathContext()
 
 		if err != nil {
 			return nil, err

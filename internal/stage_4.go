@@ -65,8 +65,8 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	// assertion := assertions.NewApiVersionsResponseAssertion().WithCorrelationId(correlationId).WithErrorCode(35)
 	decoder := field_decoder.NewFieldDecoder(response)
 
-	decoder.PushPathSegment("ApiVersionsResponse")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ApiVersionsResponse")
+	defer decoder.PopPathContext()
 
 	_, err = decoder.ReadInt32("MessageLength")
 
@@ -74,8 +74,8 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	decoder.PushPathSegment("ResponseHeader")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ResponseHeader")
+	defer decoder.PopPathContext()
 
 	_, err = decoder.ReadInt32("CorrelationID")
 
@@ -83,10 +83,10 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	decoder.PopPathSegment()
+	decoder.PopPathContext()
 
-	decoder.PushPathSegment("ApiVersionsResponseBody")
-	defer decoder.PopPathSegment()
+	decoder.PushPathContext("ApiVersionsResponseBody")
+	defer decoder.PopPathContext()
 
 	_, err = decoder.ReadInt16("ErrorCode")
 	if err != nil {
