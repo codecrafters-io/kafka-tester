@@ -88,19 +88,13 @@ func (c *Client) Close() error {
 func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *logger.Logger) (Response, error) {
 	header := request.GetHeader()
 	apiName := utils.APIKeyToName(header.ApiKey)
-	message := request_encoder.Encode(request)
 
-	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiName, header.ApiVersion, header.CorrelationId)
-	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
-
-	response := Response{}
-
-	err := c.Send(message)
+	err := c.Send(request, stageLogger)
 	if err != nil {
-		return response, err
+		return Response{}, err
 	}
 
-	response, err = c.Receive()
+	response, err := c.Receive()
 	if err != nil {
 		return response, err
 	}
@@ -110,7 +104,14 @@ func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *l
 	return response, nil
 }
 
-func (c *Client) Send(message []byte) error {
+func (c *Client) Send(request kafka_interface.RequestI, stageLogger *logger.Logger) error {
+	header := request.GetHeader()
+	apiName := utils.APIKeyToName(header.ApiKey)
+	message := request_encoder.Encode(request)
+
+	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiName, header.ApiVersion, header.CorrelationId)
+	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
+
 	// Set a deadline for the write operation
 	err := c.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
