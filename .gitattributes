@@ -1,0 +1,2 @@
+# Exclude fixtures from PR diff counts
+internal/test_helpers/fixtures/** linguist-generated=true
