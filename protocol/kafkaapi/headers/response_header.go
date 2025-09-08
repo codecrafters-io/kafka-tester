@@ -3,7 +3,7 @@ package headers
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
