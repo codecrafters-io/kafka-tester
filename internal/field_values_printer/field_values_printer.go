@@ -1,4 +1,4 @@
-package response_tree_printer
+package field_values_printer
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type ResponseTreePrinter struct {
+type FieldValuesPrinter struct {
 	AssertionError        error
 	AssertionErrorLocator string
 	DecodeError           error
@@ -17,7 +17,7 @@ type ResponseTreePrinter struct {
 	Logger                *logger.Logger
 }
 
-func (r ResponseTreePrinter) Print() {
+func (r FieldValuesPrinter) Print() {
 	lastPrintedLocator := NewLocator("")
 	currentIndentationLevel := 0
 

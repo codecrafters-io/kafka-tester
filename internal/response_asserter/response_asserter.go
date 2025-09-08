@@ -1,8 +1,8 @@
 package response_asserter
 
 import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_values_printer"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
-	"github.com/codecrafters-io/kafka-tester/internal/response_tree_printer"
 	"github.com/codecrafters-io/kafka-tester/internal/value_storing_decoder"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -29,7 +29,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) 
 	}
 
 	// TODO[PaulRefactor]: Print debug if no errors
-	response_tree_printer.ResponseTreePrinter{
+	field_values_printer.FieldValuesPrinter{
 		AssertionError:        assertionError,
 		AssertionErrorLocator: assertionErrorLocator,
 		DecodeError:           decodeError,
