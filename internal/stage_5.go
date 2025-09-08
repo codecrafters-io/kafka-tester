@@ -2,7 +2,10 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_tree_printer"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
@@ -39,11 +42,32 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	// TODO: Move fieldDecoder construction out of individual stage test files
+	fieldDecoder := field_decoder.NewFieldDecoder(rawResponse.Payload)
 
-	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
-		return err
+	decoderLogger := stageLogger.Clone()
+	decoderLogger.PushSecondaryPrefix("Decoder")
+
+	actualResponse, decodeErr := response_decoders.DecodeApiVersionsResponse(fieldDecoder)
+	if decodeErr != nil {
+		decodeErrPath := decodeErr.Path() // Assignment required to use & operator
+
+		// TODO: Move logic for printing field tree out of individual stage test files
+		field_tree_printer.FieldTreePrinter{
+			DecodedFields: fieldDecoder.DecodedFields(),
+			ErrorPath:     &decodeErrPath,
+			Logger:        decoderLogger,
+		}.Print()
+
+		return decodeErr
 	}
+
+	// TODO: Move logic for printing field tree out of individual stage test files
+	field_tree_printer.FieldTreePrinter{
+		DecodedFields: fieldDecoder.DecodedFields(),
+		ErrorPath:     nil,
+		Logger:        decoderLogger,
+	}.Print()
 
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
 		AddApiKeyEntry(18, 0, 4).
