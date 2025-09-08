@@ -86,14 +86,14 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	if responseCorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
+	if responseCorrelationId.Value != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %d, got %d", correlationId, responseCorrelationId.Value)
 	}
 
-	stageLogger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+	stageLogger.Successf("✓ Correlation ID: %d", responseCorrelationId.Value)
 
-	if errorCode != 35 {
-		return fmt.Errorf("Expected Error code to be 35, got %v", errorCode)
+	if errorCode.Value != 35 {
+		return fmt.Errorf("Expected Error code to be 35, got %d", errorCode.Value)
 	}
 
 	stageLogger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")

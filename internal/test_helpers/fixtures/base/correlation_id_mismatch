@@ -25,7 +25,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m    - .correlation_id (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .ErrorCode (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .1[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys.Length (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (18)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m

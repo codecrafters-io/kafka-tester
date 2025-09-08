@@ -78,11 +78,11 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 
 	stageLogger.ResetSecondaryPrefixes()
 
-	if responseCorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", int32(correlationId), responseCorrelationId)
+	if responseCorrelationId.Value != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %d, got %d", int32(correlationId), responseCorrelationId.Value)
 	}
 
-	stageLogger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+	stageLogger.Successf("✓ Correlation ID: %d", responseCorrelationId.Value)
 
 	return nil
 }
