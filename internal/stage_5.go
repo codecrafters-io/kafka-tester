@@ -2,7 +2,11 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_tree_printer"
+	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
@@ -39,10 +43,35 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	// TODO: Move fieldDecoder construction out of individual stage test files
+	fieldDecoder := field_decoder.NewFieldDecoder(rawResponse.Payload)
 
-	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
-		return err
+	decoderLogger := stageLogger.Clone()
+	decoderLogger.PushSecondaryPrefix("Decoder")
+
+	actualResponse, decodeErr := response_decoders.DecodeApiVersionsResponse(fieldDecoder)
+
+	if decodeErr != nil {
+		// TODO: Move logic for printing field tree out of individual stage test files
+		field_tree_printer.FieldTreePrinter{
+			DecodedFields: fieldDecoder.DecodedFields(),
+			Logger:        decoderLogger,
+		}.PrintForErrorLogs(decodeErr.Path())
+
+		// TODO: Move logic for printing hex dump out of individual stage test files
+		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(rawResponse.Payload)
+		stageLogger.Errorln("Received bytes:")
+		stageLogger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffset(decodeErr.Offset()))
+
+		return decodeErr
+	}
+
+	// TODO: Move logic for printing field tree out of individual stage test files
+	if decoderLogger.IsDebug {
+		field_tree_printer.FieldTreePrinter{
+			DecodedFields: fieldDecoder.DecodedFields(),
+			Logger:        decoderLogger,
+		}.PrintForDebugLogs()
 	}
 
 	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
@@ -50,6 +79,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		WithCorrelationId(correlationId).
 		Build()
 
+	// TODO: Integrate FieldTreePrinter into assertion errors
 	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
 		return err
 	}

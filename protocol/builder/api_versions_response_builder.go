@@ -5,6 +5,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
+// ApiVersionsResponseBuilder exposes a builder pattern for constructing ApiVersionsResponse objects
+// TODO: Remove this altogether and replace with just the Assertion class
 type ApiVersionsResponseBuilder struct {
 	version        int16
 	correlationId  int32
@@ -57,12 +59,5 @@ func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 			ApiKeys:        b.apiKeys,
 			ThrottleTimeMs: value.Int32{Value: b.throttleTimeMs},
 		},
-	}
-}
-
-func (b *ApiVersionsResponseBuilder) BuildEmpty() kafkaapi.ApiVersionsResponse {
-	return kafkaapi.ApiVersionsResponse{
-		Header: BuildEmptyResponseHeaderv0(),
-		Body:   kafkaapi.ApiVersionsResponseBody{Version: 4},
 	}
 }

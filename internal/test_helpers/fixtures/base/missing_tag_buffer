@@ -20,30 +20,20 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0000 | 00 00 00 12 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
 [33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00                               | ......[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .ResponseHeader[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .correlation_id (177586623)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ErrorCode (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys.Length (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (18)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [0m[91mReceived:[0m
-[33m[tester::#PV1] [0m[91mHex (bytes 13-17)                               | ASCII[0m
-[33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m
-[33m[tester::#PV1] [0m[91m00 00 00 00 00                                  | .....[0m
-[33m[tester::#PV1] [0m[91m                ^                                      ^[0m
-[33m[tester::#PV1] [0m[91mError: Unexpected end of data[0m
-[33m[tester::#PV1] [0m[91mContext:[0m
-[33m[tester::#PV1] [0m[91m- ApiVersionsResponse[0m
-[33m[tester::#PV1] [0m[91m  - ApiVersionsResponseBody[0m
-[33m[tester::#PV1] [0m[91m    - TAG_BUFFER[0m
-[33m[tester::#PV1] [0m[91m      - UNSIGNED_VARINT[0m
-[33m[tester::#PV1] [0m[91m[0m
+[33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
+[33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    - CorrelationID (177586623)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m  - Body[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    - ErrorCode (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    - ApiKeys[0m
+[33m[tester::#PV1] [Decoder] [0m[94m      - Length (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m      - ApiKeys[0][0m
+[33m[tester::#PV1] [Decoder] [0m[94m        - APIKey (18)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    - ThrottleTimeMs (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    ❌ TAG_BUFFER (decode error)[0m
+[33m[tester::#PV1] [0m[91mInsufficient bytes to decode UNSIGNED_VARINT[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
