@@ -5,9 +5,9 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"

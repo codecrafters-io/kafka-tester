@@ -3,9 +3,9 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
