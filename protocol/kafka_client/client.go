@@ -14,6 +14,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
+// TODO[PaulRefactor]: Make this a more generic "Message" type?
 type Response struct {
 	RawBytes []byte
 	Payload  []byte
