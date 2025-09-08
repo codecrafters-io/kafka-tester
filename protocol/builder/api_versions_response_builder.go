@@ -1,6 +1,9 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type ApiVersionsResponseBuilder struct {
 	version        int16
@@ -37,9 +40,9 @@ func (b *ApiVersionsResponseBuilder) WithThrottleTimeMs(throttleTimeMs int32) *A
 
 func (b *ApiVersionsResponseBuilder) AddApiKeyEntry(apiKey int16, minVersion int16, maxVersion int16) *ApiVersionsResponseBuilder {
 	b.apiKeys = append(b.apiKeys, kafkaapi.ApiKeyEntry{
-		ApiKey:     apiKey,
-		MinVersion: minVersion,
-		MaxVersion: maxVersion,
+		ApiKey:     value.Int16{Value: apiKey},
+		MinVersion: value.Int16{Value: minVersion},
+		MaxVersion: value.Int16{Value: maxVersion},
 	})
 
 	return b
@@ -50,9 +53,9 @@ func (b *ApiVersionsResponseBuilder) Build() kafkaapi.ApiVersionsResponse {
 		Header: NewResponseHeaderBuilder().WithCorrelationId(b.correlationId).WithVersion(0).Build(),
 		Body: kafkaapi.ApiVersionsResponseBody{
 			Version:        b.version,
-			ErrorCode:      b.errorCode,
+			ErrorCode:      value.Int16{Value: b.errorCode},
 			ApiKeys:        b.apiKeys,
-			ThrottleTimeMs: b.throttleTimeMs,
+			ThrottleTimeMs: value.Int32{Value: b.throttleTimeMs},
 		},
 	}
 }

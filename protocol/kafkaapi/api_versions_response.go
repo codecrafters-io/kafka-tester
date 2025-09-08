@@ -3,9 +3,10 @@ package kafkaapi
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -42,11 +43,11 @@ type ApiVersionsResponseBody struct {
 	// Version defines the protocol version to use for encode and decode
 	Version int16
 	// ErrorCode contains the top-level error code.
-	ErrorCode int16
+	ErrorCode value.Int16
 	// ApiKeys contains the APIs supported by the broker.
 	ApiKeys []ApiKeyEntry
 	// ThrottleTimeMs contains the duration in milliseconds for which the request was throttled due to a quota violation, or zero if the request did not violate any quota.
-	ThrottleTimeMs int32
+	ThrottleTimeMs value.Int32
 }
 
 func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
@@ -69,15 +70,14 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 		return err
 	}
 
-	var numApiKeys int
-
-	if numApiKeys, err = d.ReadCompactArrayLength("ApiKeys.Length"); err != nil {
+	numApiKeys, err := d.ReadCompactArrayLength("ApiKeys.Length")
+	if err != nil {
 		return err
 	}
 
-	r.ApiKeys = make([]ApiKeyEntry, numApiKeys)
+	r.ApiKeys = make([]ApiKeyEntry, numApiKeys.ActualLength())
 
-	for i := 0; i < numApiKeys; i++ {
+	for i := 0; i < len(r.ApiKeys); i++ {
 		var apiKeyEntry ApiKeyEntry
 		apiKeyEntryName := fmt.Sprintf("ApiKeys[%d]", i)
 
@@ -107,11 +107,11 @@ func (r *ApiVersionsResponseBody) Decode(d *decoder.Decoder) (err error) {
 // ApiKeyEntry contains the APIs supported by the broker.
 type ApiKeyEntry struct {
 	// ApiKey contains the API index.
-	ApiKey int16
+	ApiKey value.Int16
 	// MinVersion contains the minimum supported version, inclusive.
-	MinVersion int16
+	MinVersion value.Int16
 	// MaxVersion contains the maximum supported version, inclusive.
-	MaxVersion int16
+	MaxVersion value.Int16
 }
 
 func (a *ApiKeyEntry) Decode(d *decoder.Decoder, variableName string) (err error) {

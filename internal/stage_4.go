@@ -5,9 +5,9 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -86,14 +86,14 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	if responseCorrelationId != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %v, got %v", correlationId, responseCorrelationId)
+	if responseCorrelationId.Value != correlationId {
+		return fmt.Errorf("Expected Correlation ID to be %d, got %d", correlationId, responseCorrelationId.Value)
 	}
 
-	stageLogger.Successf("✓ Correlation ID: %v", responseCorrelationId)
+	stageLogger.Successf("✓ Correlation ID: %d", responseCorrelationId.Value)
 
-	if errorCode != 35 {
-		return fmt.Errorf("Expected Error code to be 35, got %v", errorCode)
+	if errorCode.Value != 35 {
+		return fmt.Errorf("Expected Error code to be 35, got %d", errorCode.Value)
 	}
 
 	stageLogger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")

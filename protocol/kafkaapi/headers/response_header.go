@@ -3,13 +3,14 @@ package headers
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 // ResponseHeader is the parallels version of ResponseHeader
 type ResponseHeader struct {
 	Version       int
-	CorrelationId int32
+	CorrelationId value.Int32
 }
 
 func (h *ResponseHeader) Decode(decoder *decoder.Decoder) error {
