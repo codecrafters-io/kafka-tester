@@ -30,11 +30,6 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[94m        - APIKey (18)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[91m        X MaxVersion (decode error)[0m
-[33m[tester::#PV1] [0m[91mReceived bytes:[0m
-[33m[tester::#PV1] [0m[91mHex (bytes 6-11)                                | ASCII[0m
-[33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m
-[33m[tester::#PV1] [0m[91m02 00 12 00 00 01                               | ......[0m
-[33m[tester::#PV1] [0m[91m                ^                                      ^[0m
 [33m[tester::#PV1] [0m[91mExpected INT16 length to be 2 bytes, got 1 bytes[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

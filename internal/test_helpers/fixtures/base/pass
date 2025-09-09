@@ -302,11 +302,8 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [0m[92m✓ correlation_id: 177586623[0m
-[33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#PV1] [0m[92m✓ API keys array length: 61[0m
-[33m[tester::#PV1] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
-[33m[tester::#PV1] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
+[33m[tester::#PV1] [0m[92m✔ MinVersion for ApiVersions is <= 4 & >= 0[0m
+[33m[tester::#PV1] [0m[92m✔ MaxVersion for ApiVersions is >= 4[0m
 [33m[tester::#PV1] [0m[92mTest passed.[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m

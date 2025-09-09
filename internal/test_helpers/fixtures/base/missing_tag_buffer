@@ -33,11 +33,6 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[94m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ThrottleTimeMs (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[91m    X TAG_BUFFER (decode error)[0m
-[33m[tester::#PV1] [0m[91mReceived bytes:[0m
-[33m[tester::#PV1] [0m[91mHex (bytes 13-17)                               | ASCII[0m
-[33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m
-[33m[tester::#PV1] [0m[91m00 00 00 00 00                                  | .....[0m
-[33m[tester::#PV1] [0m[91m                ^                                      ^[0m
 [33m[tester::#PV1] [0m[91mInsufficient bytes to decode UNSIGNED_VARINT[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

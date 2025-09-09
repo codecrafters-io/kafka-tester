@@ -20,19 +20,10 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0000 | 00 00 00 13 00 00 00 00 00 00 02 00 12 00 00 00 | ................[0m
 [33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - Header[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - CorrelationID (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - Body[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - Length (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[0][0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (18)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [0m[91mExpected correlation_id to be 177586623, got 0[0m
+[33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
+[33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    ❌ CorrelationID (0)[0m
+[33m[tester::#PV1] [0m[91mError: Expected INT32 value to be 177586623, got 0[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
