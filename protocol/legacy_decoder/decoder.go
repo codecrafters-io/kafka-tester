@@ -6,6 +6,7 @@ import (
 	"math"
 	"strings"
 
+	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_errors"
 )
 
@@ -519,7 +520,7 @@ func (d *Decoder) FormatDetailedError(message string) error {
 
 	offset := d.Offset()
 	receivedBytes := d.bytes
-	receivedByteString := NewInspectableHexDump(receivedBytes)
+	receivedByteString := inspectable_hex_dump.NewInspectableHexDump(receivedBytes)
 
 	lines = append(lines, "Received:")
 	lines = append(lines, receivedByteString.FormatWithHighlightedOffset(offset))

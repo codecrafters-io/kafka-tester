@@ -7,6 +7,7 @@ import (
 
 	go_errors "errors"
 
+	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
 	"github.com/codecrafters-io/kafka-tester/protocol/errors"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -217,7 +218,7 @@ func (d *Decoder) FormatDetailedError(message string) error {
 
 	offset := d.Offset()
 	receivedBytes := d.bytes
-	receivedBytesHexDump := NewInspectableHexDump(receivedBytes)
+	receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(receivedBytes)
 
 	lines = append(lines, "Received:")
 	lines = append(lines, receivedBytesHexDump.FormatWithHighlightedOffset(offset))
