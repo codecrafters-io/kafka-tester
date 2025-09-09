@@ -10,7 +10,11 @@ type FieldPath struct {
 }
 
 func NewFieldPath(pathString string) FieldPath {
-	return FieldPath{Segments: strings.Split(pathString, ".")}
+	if pathString == "" {
+		return FieldPath{Segments: []string{}}
+	} else {
+		return FieldPath{Segments: strings.Split(pathString, ".")}
+	}
 }
 
 func (p FieldPath) String() string {
