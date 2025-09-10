@@ -51,323 +51,262 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .ResponseHeader[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .correlation_id (177586623)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ErrorCode (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys.Length (61)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[0][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (11)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[1][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (17)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[2][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[3][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (12)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[4][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (8)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[5][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[6][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (10)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (6)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[7][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (11)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[8][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (12)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[9][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (13)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[10][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (14)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[11][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (15)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[12][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (16)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[13][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (17)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[14][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (18)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[15][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (19)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (7)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[16][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (20)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (6)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[17][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (21)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[18][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (22)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[19][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (23)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[20][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (24)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (5)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[21][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (25)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[22][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (26)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[23][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (27)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[24][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (28)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[25][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (29)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[26][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (30)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[27][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (31)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[28][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (32)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[29][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (33)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[30][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (34)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[31][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (35)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (4)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[32][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (36)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[33][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (37)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[34][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (38)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[35][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (39)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[36][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (40)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[37][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (41)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (3)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[38][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (42)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[39][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (43)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[40][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (44)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[41][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (45)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[42][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (46)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[43][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (47)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[44][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (48)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[45][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (49)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[46][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (50)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[47][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (51)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[48][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (55)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[49][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (57)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[50][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (60)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[51][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (61)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[52][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (64)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[53][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (65)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[54][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (66)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[55][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (68)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[56][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (69)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[57][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (74)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[58][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (75)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[59][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (80)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ApiKeys[60][0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .APIKey (81)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - .TAG_BUFFER[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m    - .TAG_BUFFER[0m
-[33m[tester::#PV1] [0m[92m✓ correlation_id: 177586623[0m
+[33m[tester::#PV1] [Decoder] [0m[36m  - Header[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - CorrelationID (177586623)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m  - Body[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - ErrorCode (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - ApiKeys[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - Length (61)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[0][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (11)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[1][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (17)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[2][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[3][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (12)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[4][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (8)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[5][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[6][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (10)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (6)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[7][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (11)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[8][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (12)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[9][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (13)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[10][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (14)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[11][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (15)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[12][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (16)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[13][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (17)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[14][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (18)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[15][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (19)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (7)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[16][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (20)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (6)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[17][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (21)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[18][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (22)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[19][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (23)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[20][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (24)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[21][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (25)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[22][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (26)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[23][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (27)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[24][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (28)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[25][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (29)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[26][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (30)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[27][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (31)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[28][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (32)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[29][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (33)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[30][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (34)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[31][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (35)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[32][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (36)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[33][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (37)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[34][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (38)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[35][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (39)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[36][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (40)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[37][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (41)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[38][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (42)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[39][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (43)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[40][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (44)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[41][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (45)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[42][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (46)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[43][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (47)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[44][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (48)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[45][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (49)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[46][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (50)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[47][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (51)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[48][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (55)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[49][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (57)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[50][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (60)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[51][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (61)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[52][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (64)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[53][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (65)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[54][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (66)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[55][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (68)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[56][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (69)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[57][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (74)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[58][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (75)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[59][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (80)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[60][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (81)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
+[33m[tester::#PV1] [0m[92m✓ CorrelationID: 177586623[0m
 [33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#PV1] [0m[92m✓ API keys array length: 61[0m
-[33m[tester::#PV1] [0m[92m✓ MinVersion for API_VERSIONS is <= 4 & >= 0[0m
-[33m[tester::#PV1] [0m[92m✓ MaxVersion for API_VERSIONS is >= 4[0m
+[33m[tester::#PV1] [0m[92m✔ MinVersion for ApiVersions is <= 4 & >= 0[0m
+[33m[tester::#PV1] [0m[92m✔ MaxVersion for ApiVersions is >= 4[0m
 [33m[tester::#PV1] [0m[92mTest passed.[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
