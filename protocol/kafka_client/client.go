@@ -135,7 +135,7 @@ func (c *Client) Send(request kafka_interface.RequestI, stageLogger *logger.Logg
 func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response Response, err error) {
 	defer func() {
 		if err == nil {
-			stageLogger.Debugf("Hexdump of Received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
+			stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
 		}
 	}()
 
