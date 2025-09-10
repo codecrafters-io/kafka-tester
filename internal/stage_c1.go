@@ -5,17 +5,17 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/internal/legacy_assertions"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_handler"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
-	err := legacy_serializer.GenerateLogDirs(logger.GetQuietLogger(""), true)
-	if err != nil {
+
+	if err := kafka_files_handler.NewFilesHandler().GenerateServerConfiguration(logger.GetQuietLogger("")); err != nil {
 		return err
 	}
 
