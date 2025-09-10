@@ -41,10 +41,6 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	request := builder.NewApiVersionsRequestBuilder().
 		WithCorrelationId(correlationId).WithVersion(apiVersion).Build()
 
-	if err := client.Send(request, stageLogger); err != nil {
-		return err
-	}
-
 	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err

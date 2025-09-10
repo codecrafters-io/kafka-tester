@@ -36,10 +36,6 @@ func testHardcodedCorrelationId(stageHarness *test_case_harness.TestCaseHarness)
 	correlationId := int32(7)
 	request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationId).Build()
 
-	if err := client.Send(request, stageLogger); err != nil {
-		return err
-	}
-
 	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
