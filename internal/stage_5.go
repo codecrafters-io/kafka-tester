@@ -1,10 +1,13 @@
 package internal
 
 import (
-	"github.com/codecrafters-io/kafka-tester/internal/assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
+	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -33,26 +36,22 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	correlationId := getRandomCorrelationId()
 	request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationId).Build()
-	rawResponse, err := client.SendAndReceive(request, stageLogger)
 
+	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	actualResponse := builder.NewApiVersionsResponseBuilder().BuildEmpty()
+	assertion := response_assertions.NewApiVersionsResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectErrorCode(0).
+		ExpectApiKeyEntry(18, 0, 4)
 
-	if err := actualResponse.Decode(rawResponse.Payload, stageLogger); err != nil {
-		return err
-	}
+	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
+		DecodeFunc: response_decoders.DecodeApiVersionsResponse,
+		Assertion:  assertion,
+		Logger:     stageLogger,
+	}.DecodeAndAssert(rawResponse.Payload)
 
-	expectedApiVersionResponse := builder.NewApiVersionsResponseBuilder().
-		AddApiKeyEntry(18, 0, 4).
-		WithCorrelationId(correlationId).
-		Build()
-
-	if err = assertions.NewApiVersionsResponseAssertion(actualResponse, expectedApiVersionResponse).Run(stageLogger); err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }

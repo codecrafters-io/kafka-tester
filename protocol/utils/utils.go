@@ -22,6 +22,22 @@ func APIKeyToName(apiKey int16) string {
 	}
 }
 
+func ErrorCodeToName(errorCode int16) string {
+	errorCodes := map[int16]string{
+		0:   "NO_ERROR",
+		3:   "UNKNOWN_TOPIC_OR_PARTITION",
+		35:  "UNSUPPORTED_VERSION",
+		100: "UNKNOWN_TOPIC_ID",
+	}
+
+	errorCodeName, ok := errorCodes[errorCode]
+	if !ok {
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Expected %d to be in errorCodes map", errorCode))
+	}
+
+	return errorCodeName
+}
+
 func GetFormattedHexdump(data []byte) string {
 	// This is used for logs
 	// Contains headers + vertical & horizontal separators + offset
