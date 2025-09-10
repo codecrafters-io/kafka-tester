@@ -17,7 +17,7 @@ type ApiVersionsRequestBody struct {
 }
 
 func (r ApiVersionsRequestBody) encode(enc *legacy_encoder.Encoder) {
-	if r.Version < 3 {
+	if r.Version < 4 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
 	enc.PutCompactString(r.ClientSoftwareName)

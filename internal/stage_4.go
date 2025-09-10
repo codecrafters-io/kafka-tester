@@ -1,15 +1,14 @@
 package internal
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
+	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder_2"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
-	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -27,8 +26,6 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	correlationId := getRandomCorrelationId()
-	apiVersion := getInvalidAPIVersion()
 	client := kafka_client.NewClient("localhost:9092")
 
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
@@ -36,62 +33,29 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	defer client.Close()
+	correlationId := getRandomCorrelationId()
+	apiVersion := getInvalidAPIVersion()
 
-	request := kafkaapi.ApiVersionsRequest{
-		Header: builder.NewRequestHeaderBuilder().WithApiKey(18).WithApiVersion(int16(apiVersion)).WithCorrelationId(correlationId).Build(),
-		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               4,
-			ClientSoftwareName:    "kafka-cli",
-			ClientSoftwareVersion: "0.1",
-		},
-	}
+	request := builder.NewApiVersionsRequestBuilder().
+		WithCorrelationId(correlationId).WithVersion(apiVersion).Build()
 
 	if err := client.Send(request, stageLogger); err != nil {
 		return err
 	}
 
-	response, err := client.ReceiveRaw()
-
+	response, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	stageLogger.Debugf("Hexdump of received \"ApiVersions\" response: \n%v\n", utils.GetFormattedHexdump(response))
-	decoder := decoder.NewDecoder(response, stageLogger)
-	decoder.BeginSubSection("ApiVersionsResponse")
-	_, err = decoder.ReadInt32("MessageLength")
+	assertion := response_assertions.NewApiVersionsResponseAssertion().
+		ExpectCorrelationId(correlationId).ExpectErrorCode(35)
 
-	if err != nil {
-		return err
-	}
+	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
+		DecodeFunc: response_decoders.DecodeApiVersionsResponseUpToErrorCode,
+		Assertion:  assertion,
+		Logger:     stageLogger,
+	}.DecodeAndAssert(response.Payload)
 
-	decoder.BeginSubSection("ResponseHeader")
-	responseCorrelationId, err := decoder.ReadInt32("CorrelationID")
-
-	if err != nil {
-		return err
-	}
-
-	decoder.EndCurrentSubSection()
-
-	decoder.BeginSubSection("ApiVersionsResponseBody")
-	errorCode, err := decoder.ReadInt16("ErrorCode")
-
-	if err != nil {
-		return err
-	}
-
-	if responseCorrelationId.Value != correlationId {
-		return fmt.Errorf("Expected Correlation ID to be %d, got %d", correlationId, responseCorrelationId.Value)
-	}
-
-	stageLogger.Successf("✓ Correlation ID: %d", responseCorrelationId.Value)
-
-	if errorCode.Value != 35 {
-		return fmt.Errorf("Expected Error code to be 35, got %d", errorCode.Value)
-	}
-
-	stageLogger.Successf("✓ Error code: 35 (UNSUPPORTED_VERSION)")
-
-	return nil
+	return err
 }
