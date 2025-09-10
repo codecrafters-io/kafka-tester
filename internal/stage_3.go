@@ -52,7 +52,12 @@ func testCorrelationId(stageHarness *test_case_harness.TestCaseHarness) error {
 		DecodeFunc: response_decoders.DecodeApiVersionsResponseUpToHeader,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(response.Payload)
+	}.DecodeAndAssertSingleFields(response.Payload)
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	stageLogger.Successf("✓ CorrelationID: %d", correlationId)
+	return nil
 }

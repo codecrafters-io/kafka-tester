@@ -344,7 +344,6 @@ Debug = true
 [33m[tester::#NC5] [Decoder] [0m[36m    - ErrorCode (35)[0m
 [33m[tester::#NC5] [0m[92m✓ CorrelationID: 1616512461[0m
 [33m[tester::#NC5] [0m[92m✓ ErrorCode: 35 (UNSUPPORTED_VERSION)[0m
-[33m[tester::#NC5] [0m[92m✓ API keys array length: 0[0m
 [33m[tester::#NC5] [0m[92mTest passed.[0m
 [33m[tester::#NC5] [0m[36mTerminating program[0m
 [33m[tester::#NC5] [0m[36mProgram terminated successfully[0m
@@ -411,8 +410,6 @@ Debug = true
 [33m[tester::#WA6] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#WA6] [Decoder] [0m[36m    - CorrelationID (254678266)[0m
 [33m[tester::#WA6] [0m[92m✓ CorrelationID: 254678266[0m
-[33m[tester::#WA6] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#WA6] [0m[92m✓ API keys array length: 0[0m
 [33m[tester::#WA6] [0m[92mTest passed.[0m
 [33m[tester::#WA6] [0m[36mTerminating program[0m
 [33m[tester::#WA6] [0m[36mProgram terminated successfully[0m
@@ -479,8 +476,6 @@ Debug = true
 [33m[tester::#NV3] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#NV3] [Decoder] [0m[36m    - CorrelationID (7)[0m
 [33m[tester::#NV3] [0m[92m✓ CorrelationID: 7[0m
-[33m[tester::#NV3] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#NV3] [0m[92m✓ API keys array length: 0[0m
 [33m[tester::#NV3] [0m[92mTest passed.[0m
 [33m[tester::#NV3] [0m[36mTerminating program[0m
 [33m[tester::#NV3] [0m[36mProgram terminated successfully[0m

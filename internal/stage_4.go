@@ -9,6 +9,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -35,6 +36,7 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	defer client.Close()
 	correlationId := getRandomCorrelationId()
 	apiVersion := getInvalidAPIVersion()
+	expectedErrorCode := 35
 
 	request := builder.NewApiVersionsRequestBuilder().
 		WithCorrelationId(correlationId).WithVersion(apiVersion).Build()
@@ -49,13 +51,19 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	assertion := response_assertions.NewApiVersionsResponseAssertion().
-		ExpectCorrelationId(correlationId).ExpectErrorCode(35)
+		ExpectCorrelationId(correlationId).ExpectErrorCode(int16(expectedErrorCode))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
 		DecodeFunc: response_decoders.DecodeApiVersionsResponseUpToErrorCode,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(response.Payload)
+	}.DecodeAndAssertSingleFields(response.Payload)
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	stageLogger.Successf("✓ CorrelationID: %d", correlationId)
+	stageLogger.Successf("✓ ErrorCode: %d (%s)", expectedErrorCode, utils.ErrorCodeToName(int16(expectedErrorCode)))
+	return nil
 }
