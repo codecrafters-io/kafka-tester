@@ -17,7 +17,7 @@ type ApiVersionsRequestBody struct {
 }
 
 func (r ApiVersionsRequestBody) Encode() []byte {
-	if r.Version != 4 {
+	if r.Version < 4 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
 

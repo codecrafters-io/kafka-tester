@@ -12,7 +12,7 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#PV1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#PV1] [0m[36m0000 | 00 00 02 19 0a 95 c1 bf 00 00 3e 00 00 00 00 00 | ..........>.....[0m
@@ -47,8 +47,8 @@ Debug = true
 [33m[tester::#PV1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#PV1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#PV1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#PV1] [0m[36m0200 | 00 00 00 09 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - Header[0m
@@ -315,11 +315,11 @@ Debug = true
 [33m[tester::#NC5] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NC5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NC5] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#NC5] [0m[94mSending "ApiVersions" (version: 15281) request (Correlation id: 1616512461)[0m
+[33m[tester::#NC5] [0m[94mSending "ApiVersions" (version: 1698) request (Correlation id: 1616512461)[0m
 [33m[tester::#NC5] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NC5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NC5] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#NC5] [0m[36m0000 | 00 00 00 26 00 12 3b b1 60 5a 05 cd 00 0c 6b 61 | ...&..;.`Z....ka[0m
+[33m[tester::#NC5] [0m[36m0000 | 00 00 00 26 00 12 06 a2 60 5a 05 cd 00 0c 6b 61 | ...&....`Z....ka[0m
 [33m[tester::#NC5] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#NC5] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#NC5] [0m[36m[0m
@@ -330,13 +330,12 @@ Debug = true
 [33m[tester::#NC5] [0m[36m0010 | 00 00 00 04                                     | ....[0m
 [33m[tester::#NC5] [0m[36m[0m
 [33m[tester::#NC5] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#NC5] [Decoder] [0m[36m  - .MessageLength (16)[0m
-[33m[tester::#NC5] [Decoder] [0m[36m  - .ResponseHeader[0m
-[33m[tester::#NC5] [Decoder] [0m[36m    - .CorrelationID (1616512461)[0m
-[33m[tester::#NC5] [Decoder] [0m[36m  - .ApiVersionsResponseBody[0m
-[33m[tester::#NC5] [Decoder] [0m[36m    - .ErrorCode (35)[0m
-[33m[tester::#NC5] [0m[92m✓ Correlation ID: 1616512461[0m
-[33m[tester::#NC5] [0m[92m✓ Error code: 35 (UNSUPPORTED_VERSION)[0m
+[33m[tester::#NC5] [Decoder] [0m[36m  - Header[0m
+[33m[tester::#NC5] [Decoder] [0m[36m    - CorrelationID (1616512461)[0m
+[33m[tester::#NC5] [Decoder] [0m[36m  - Body[0m
+[33m[tester::#NC5] [Decoder] [0m[36m    - ErrorCode (35)[0m
+[33m[tester::#NC5] [0m[92m✓ CorrelationID: 1616512461[0m
+[33m[tester::#NC5] [0m[92m✓ ErrorCode: 35 (UNSUPPORTED_VERSION)[0m
 [33m[tester::#NC5] [0m[92mTest passed.[0m
 [33m[tester::#NC5] [0m[36mTerminating program[0m
 [33m[tester::#NC5] [0m[36mProgram terminated successfully[0m
@@ -345,18 +344,18 @@ Debug = true
 [33m[tester::#WA6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#WA6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#WA6] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#WA6] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1698452642)[0m
+[33m[tester::#WA6] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 254678266)[0m
 [33m[tester::#WA6] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#WA6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WA6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#WA6] [0m[36m0000 | 00 00 00 26 00 12 00 04 65 3c 54 a2 00 0c 6b 61 | ...&....e<T...ka[0m
+[33m[tester::#WA6] [0m[36m0000 | 00 00 00 26 00 12 00 04 0f 2e 14 fa 00 0c 6b 61 | ...&..........ka[0m
 [33m[tester::#WA6] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#WA6] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#WA6] [0m[36m[0m
 [33m[tester::#WA6] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#WA6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WA6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#WA6] [0m[36m0000 | 00 00 02 19 65 3c 54 a2 00 00 3e 00 00 00 00 00 | ....e<T...>.....[0m
+[33m[tester::#WA6] [0m[36m0000 | 00 00 02 19 0f 2e 14 fa 00 00 3e 00 00 00 00 00 | ..........>.....[0m
 [33m[tester::#WA6] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
 [33m[tester::#WA6] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
 [33m[tester::#WA6] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
@@ -388,14 +387,13 @@ Debug = true
 [33m[tester::#WA6] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#WA6] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#WA6] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#WA6] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#WA6] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#WA6] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#WA6] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#WA6] [0m[36m[0m
 [33m[tester::#WA6] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#WA6] [Decoder] [0m[36m  - .MessageLength (537)[0m
-[33m[tester::#WA6] [Decoder] [0m[36m  - .ResponseHeader[0m
-[33m[tester::#WA6] [Decoder] [0m[36m    - .CorrelationID (1698452642)[0m
-[33m[tester::#WA6] [0m[92m✓ Correlation ID: 1698452642[0m
+[33m[tester::#WA6] [Decoder] [0m[36m  - Header[0m
+[33m[tester::#WA6] [Decoder] [0m[36m    - CorrelationID (254678266)[0m
+[33m[tester::#WA6] [0m[92m✓ CorrelationID: 254678266[0m
 [33m[tester::#WA6] [0m[92mTest passed.[0m
 [33m[tester::#WA6] [0m[36mTerminating program[0m
 [33m[tester::#WA6] [0m[36mProgram terminated successfully[0m
@@ -447,19 +445,24 @@ Debug = true
 [33m[tester::#NV3] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#NV3] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#NV3] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#NV3] [0m[36m0200 | 00 00 00 0e 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#NV3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#NV3] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#NV3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#NV3] [0m[36m[0m
 [33m[tester::#NV3] [Decoder] [0m[36m- ApiVersionsResponse[0m
-[33m[tester::#NV3] [Decoder] [0m[36m  - .MessageLength (537)[0m
-[33m[tester::#NV3] [Decoder] [0m[36m  - .ResponseHeader[0m
-[33m[tester::#NV3] [Decoder] [0m[36m    - .CorrelationID (7)[0m
-[33m[tester::#NV3] [0m[92m✓ Correlation ID: 7[0m
+[33m[tester::#NV3] [Decoder] [0m[36m  - Header[0m
+[33m[tester::#NV3] [Decoder] [0m[36m    - CorrelationID (7)[0m
+[33m[tester::#NV3] [0m[92m✓ CorrelationID: 7[0m
 [33m[tester::#NV3] [0m[92mTest passed.[0m
 [33m[tester::#NV3] [0m[36mTerminating program[0m
 [33m[tester::#NV3] [0m[36mProgram terminated successfully[0m
 
 [33m[tester::#VI6] [0m[94mRunning tests for Stage #VI6 (vi6)[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mGenerating server configuration files[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mWrote server properties to /tmp/server.properties[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mCreated /tmp/kraft-combined-logs[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mWrote meta properties to /tmp/kraft-combined-logs/meta.properties[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mWrote kafka cleanshutdown to /tmp/kraft-combined-logs/.kafka_cleanshutdown[0m
+[33m[tester::#VI6] [Files Handler] [0m[36mSuccessfully generated server configuration files[0m
 [33m[tester::#VI6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#VI6] [0m[94mConnecting to port 9092...[0m
 [33m[tester::#VI6] [0m[36mConnection successful[0m

@@ -6,12 +6,8 @@ import (
 	"github.com/codecrafters-io/tester-utils/random"
 )
 
-func getInvalidAPIVersion() int {
-	apiVersion := 1
-	for apiVersion <= 3 && apiVersion >= 0 {
-		apiVersion = random.RandomInt(0, math.MaxInt16)
-	}
-	return random.RandomElementFromArray([]int{apiVersion, -apiVersion})
+func getInvalidAPIVersion() int16 {
+	return int16(random.RandomInt(1000, 2000))
 }
 
 func getRandomCorrelationId() int32 {

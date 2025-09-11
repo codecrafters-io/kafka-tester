@@ -82,3 +82,45 @@ func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (
 		MaxVersion: maxVersion,
 	}, nil
 }
+
+// decoder for early stages where we decode only a portion of the response
+
+func DecodeApiVersionsResponseUpToHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, field_decoder.FieldDecoderError) {
+	decoder.PushPathContext("ApiVersionsResponse")
+	defer decoder.PopPathContext()
+
+	header, err := decodeV0Header(decoder)
+	if err != nil {
+		return kafkaapi.ApiVersionsResponse{}, err
+	}
+
+	return kafkaapi.ApiVersionsResponse{
+		Header: header,
+		Body:   kafkaapi.ApiVersionsResponseBody{},
+	}, nil
+}
+
+func DecodeApiVersionsResponseUpToErrorCode(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, field_decoder.FieldDecoderError) {
+	decoder.PushPathContext("ApiVersionsResponse")
+	defer decoder.PopPathContext()
+
+	header, err := decodeV0Header(decoder)
+	if err != nil {
+		return kafkaapi.ApiVersionsResponse{}, err
+	}
+
+	decoder.PushPathContext("Body")
+	defer decoder.PopPathContext()
+
+	errorCode, err := decoder.ReadInt16Field("ErrorCode")
+	if err != nil {
+		return kafkaapi.ApiVersionsResponse{}, err
+	}
+
+	return kafkaapi.ApiVersionsResponse{
+		Header: header,
+		Body: kafkaapi.ApiVersionsResponseBody{
+			ErrorCode: errorCode,
+		},
+	}, nil
+}

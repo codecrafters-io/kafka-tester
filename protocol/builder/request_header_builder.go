@@ -46,6 +46,6 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 	}
 }
 
-func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32) headers.RequestHeader {
-	return b.WithApiKey(18).WithApiVersion(4).WithCorrelationId(correlationId).Build()
+func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32, apiVersion int16) headers.RequestHeader {
+	return b.WithApiKey(18).WithApiVersion(apiVersion).WithCorrelationId(correlationId).Build()
 }

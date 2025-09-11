@@ -23,9 +23,14 @@ func (b *ApiVersionsRequestBuilder) WithCorrelationId(correlationId int32) *ApiV
 	return b
 }
 
+func (b *ApiVersionsRequestBuilder) WithVersion(version int16) *ApiVersionsRequestBuilder {
+	b.version = version
+	return b
+}
+
 func (b *ApiVersionsRequestBuilder) Build() kafkaapi.ApiVersionsRequest {
 	return kafkaapi.ApiVersionsRequest{
-		Header: NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(b.correlationId),
+		Header: NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(b.correlationId, b.version),
 		Body: kafkaapi.ApiVersionsRequestBody{
 			Version:               b.version,
 			ClientSoftwareName:    b.clientSoftwareName,

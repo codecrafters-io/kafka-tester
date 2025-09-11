@@ -88,18 +88,17 @@ func (c *Client) Close() error {
 func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *logger.Logger) (Response, error) {
 	header := request.GetHeader()
 	apiName := utils.APIKeyToName(header.ApiKey)
-
 	err := c.Send(request, stageLogger)
+
 	if err != nil {
 		return Response{}, err
 	}
 
-	response, err := c.Receive()
+	response, err := c.Receive(apiName, stageLogger)
+
 	if err != nil {
 		return response, err
 	}
-
-	stageLogger.Debugf("Hexdump of Received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
 
 	return response, nil
 }
@@ -108,7 +107,6 @@ func (c *Client) Send(request kafka_interface.RequestI, stageLogger *logger.Logg
 	header := request.GetHeader()
 	apiName := utils.APIKeyToName(header.ApiKey)
 	message := request_encoder.Encode(request)
-
 	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiName, header.ApiVersion, header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
 
@@ -127,17 +125,22 @@ func (c *Client) Send(request kafka_interface.RequestI, stageLogger *logger.Logg
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			return fmt.Errorf("write operation timed out")
 		}
+
 		return fmt.Errorf("error writing to connection: %v", err)
 	}
 
 	return nil
 }
 
-func (c *Client) Receive() (Response, error) {
-	response := Response{}
+func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response Response, err error) {
+	defer func() {
+		if err == nil {
+			stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
+		}
+	}()
 
 	lengthResponse := make([]byte, 4) // length
-	_, err := c.conn.Read(lengthResponse)
+	_, err = c.conn.Read(lengthResponse)
 	if err != nil {
 		return response, err
 	}

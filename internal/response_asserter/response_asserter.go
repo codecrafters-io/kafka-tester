@@ -15,7 +15,7 @@ type ResponseAsserter[ResponseType any] struct {
 	Logger     *logger.Logger
 }
 
-func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) (ResponseType, error) {
+func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayload []byte) (ResponseType, error) {
 	decoder := field_decoder.NewFieldDecoder(responsePayload)
 	actualResponse, decodeError := a.DecodeFunc(decoder)
 
@@ -39,7 +39,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) 
 		Logger:        fieldTreePrinterLogger,
 	}
 
-	// TODO: Add tests for this and revive the logic
+	// TODO: Add tests for this and revive the logic: Will incorporate in a new PR
 	//
 	// If there are bytes remaining after decoding, we should report this as an error
 	// if assertionError == nil && decodeError == nil && decoder.RemainingBytesCount() != 0 {
@@ -68,6 +68,16 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) 
 
 	// If there are no decoder/single-field assertion errors, we only print the tree for debug logs
 	fieldTreePrinter.PrintForDebugLogs()
+
+	return actualResponse, nil
+}
+
+func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) (ResponseType, error) {
+	actualResponse, err := a.DecodeAndAssertSingleFields(responsePayload)
+
+	if err != nil {
+		return actualResponse, err
+	}
 
 	return actualResponse, a.Assertion.AssertAcrossFields(actualResponse, a.Logger)
 }
