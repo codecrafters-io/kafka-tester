@@ -14,7 +14,7 @@ Debug = true
 [33m[tester::#PV1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#PV1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#PV1] [0m[36m0000 | 00 00 00 0c 0a 95 c1 bf 00 00 02 00 12 00 00 01 | ................[0m
