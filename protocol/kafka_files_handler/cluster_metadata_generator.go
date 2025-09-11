@@ -5,7 +5,6 @@ import (
 	"os"
 	"path"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 )
@@ -22,7 +21,7 @@ func NewClusterMetadataGenerator(generatedTopicsData []*GeneratedTopicData) *Clu
 
 func (g *ClusterMetadataGenerator) Generate() error {
 	// Create __cluster_metadata-0 directory
-	clusterMetadataDir := path.Join(common.LOG_DIR, CLUSTER_METADATA_DIRECTORY)
+	clusterMetadataDir := path.Join(KRAFT_LOG_DIRECTORY, CLUSTER_METADATA_DIRECTORY)
 	if err := os.MkdirAll(clusterMetadataDir, 0755); err != nil {
 		return fmt.Errorf("error creating cluster metadata directory %s: %w", clusterMetadataDir, err)
 	}
@@ -103,7 +102,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 					Leader:           1,
 					LeaderEpoch:      0,
 					PartitionEpoch:   0,
-					DirectoryUUIDs:   []string{common.DIRECTORY_UUID},
+					DirectoryUUIDs:   []string{DIRECTORY_UUID},
 				},
 			}
 			partitionRecords = append(partitionRecords, partitionRecord)
@@ -166,7 +165,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 }
 
 func (g *ClusterMetadataGenerator) writePartitionMetadata() error {
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", 0, common.CLUSTER_METADATA_TOPIC_ID)
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", 0, CLUSTER_METADATA_TOPIC_ID)
 	metadataFilePath := path.Join(KRAFT_LOG_DIRECTORY, CLUSTER_METADATA_DIRECTORY, PARTITION_METADATA_FILE_NAME)
 	err := os.WriteFile(metadataFilePath, []byte(content), 0644)
 

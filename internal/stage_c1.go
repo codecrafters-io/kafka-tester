@@ -15,7 +15,7 @@ import (
 func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
-	if err := kafka_files_handler.NewFilesHandler().GenerateServerConfiguration(logger.GetQuietLogger("")); err != nil {
+	if err := kafka_files_handler.NewFilesHandler(logger.GetQuietLogger("")).GenerateServerConfiguration(); err != nil {
 		return err
 	}
 

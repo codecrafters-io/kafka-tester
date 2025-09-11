@@ -5,15 +5,15 @@ import (
 	"os"
 	"path"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/common"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type PartitionMetadata struct {
 	Version   int
 	TopicName string
-	TopicID   string
+	TopicUUID string
 }
 
 type PartitionGenerationConfig struct {
@@ -21,10 +21,10 @@ type PartitionGenerationConfig struct {
 	Logs        []string
 }
 
-func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata) (kafkaapi.RecordBatches, error) {
+func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata, logger *logger.Logger) (kafkaapi.RecordBatches, error) {
 	// Create directory first
 	partitionDirPath := path.Join(
-		common.LOG_DIR,
+		KRAFT_LOG_DIRECTORY,
 		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
 	)
 
@@ -33,12 +33,12 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata) (kafkaa
 	}
 
 	// Write partition metadata file
-	if err := c.writePartitionMetadata(metadata); err != nil {
+	if err := c.writePartitionMetadata(metadata, logger); err != nil {
 		return nil, err
 	}
 
 	// Write actual log file which contains messages
-	recordBatches, err := c.writeLogFile(metadata)
+	recordBatches, err := c.writeLogFile(metadata, logger)
 
 	if err != nil {
 		return nil, err
@@ -47,11 +47,11 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata) (kafkaa
 	return recordBatches, nil
 }
 
-func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata) (kafkaapi.RecordBatches, error) {
+func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, logger *logger.Logger) (kafkaapi.RecordBatches, error) {
 	recordBatches := c.generateRecordBatchesFromLogs(c.Logs)
 
 	logFilePath := path.Join(
-		common.LOG_DIR,
+		KRAFT_LOG_DIRECTORY,
 		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
 		LOG_FILE_NAME,
 	)
@@ -63,24 +63,30 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata) (ka
 		return nil, fmt.Errorf("error writing file to %s: %w", logFilePath, err)
 	}
 
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, logFilePath)
 	return recordBatches, nil
 }
 
-func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata) error {
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, metadata.TopicID)
+func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata, logger *logger.Logger) error {
+	topicIDBase64, err := uuidToBase64(metadata.TopicUUID)
+	if err != nil {
+		return err
+	}
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIDBase64)
 
 	filePath := path.Join(
-		common.LOG_DIR,
+		KRAFT_LOG_DIRECTORY,
 		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
 		"partition.metadata",
 	)
 
-	err := os.WriteFile(filePath, []byte(content), 0644)
+	err = os.WriteFile(filePath, []byte(content), 0644)
 
 	if err != nil {
 		return fmt.Errorf("error writing partition metadata file: %w", err)
 	}
 
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, filePath)
 	return nil
 }
 

@@ -6,17 +6,35 @@ import (
 	"path"
 	"time"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/common"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type FilesHandler struct {
-	logDirectoryGenerationConfig *LogDirectoryGenerationConfig
-	logDirectoryGenerationData   *LogDirectoryGenerationData
+// Structures to hold information about generated topics and partitions
+
+type GeneratedTopicData struct {
+	Name                              string
+	UUID                              string
+	generatedRecordBatchesByPartition map[int]kafkaapi.RecordBatches
 }
 
-func NewFilesHandler() *FilesHandler {
-	return &FilesHandler{}
+type GeneratedLogDirectoryData struct {
+	GeneratedTopicsData []*GeneratedTopicData
+}
+
+// FilesHandler allows creation of multiple topics/partitions at once
+type FilesHandler struct {
+	logDirectoryGenerationConfig *LogDirectoryGenerationConfig
+	generatedLogDirectoryData    *GeneratedLogDirectoryData
+	logger                       *logger.Logger
+}
+
+func NewFilesHandler(logger *logger.Logger) *FilesHandler {
+	filesHandlerLogger := logger.Clone()
+	filesHandlerLogger.UpdateLastSecondaryPrefix("Files Handler")
+	return &FilesHandler{
+		logger: filesHandlerLogger,
+	}
 }
 
 func (f *FilesHandler) AddLogDirectoryGenerationConfig(logDirectoryGenerationConfig LogDirectoryGenerationConfig) *FilesHandler {
@@ -24,11 +42,16 @@ func (f *FilesHandler) AddLogDirectoryGenerationConfig(logDirectoryGenerationCon
 	return f
 }
 
-func (f *FilesHandler) GenerateServerConfiguration(logger *logger.Logger) (err error) {
-	logger.UpdateLastSecondaryPrefix("ServerConfig")
-	defer logger.ResetSecondaryPrefixes()
+func (f *FilesHandler) GenerateServerConfigAndLogDirs() error {
+	if err := f.GenerateServerConfiguration(); err != nil {
+		return err
+	}
 
-	logger.Debugf("Generating server configuration files")
+	return f.generateLogDirectories()
+}
+
+func (f *FilesHandler) GenerateServerConfiguration() (err error) {
+	f.logger.Debugf("Generating server configuration files")
 
 	// Write /tmp/server.properties
 	err = f.writeKraftServerProperties()
@@ -36,22 +59,19 @@ func (f *FilesHandler) GenerateServerConfiguration(logger *logger.Logger) (err e
 		return fmt.Errorf("failed to write server properties: %w", err)
 	}
 
-	// TODO: Replace DIRECTORY_UUID with random value if it doesn't affect server's behavior
+	// (re)create /tmp/kraft-combined-logs
+	if err := f.initializeLogDirecotry(KRAFT_LOG_DIRECTORY); err != nil {
+		return err
+	}
 
-	directoryID, err := uuidToBase64(common.DIRECTORY_UUID)
+	// Write log_directory/meta.properties
+	directoryID, err := uuidToBase64(DIRECTORY_UUID)
+
 	if err != nil {
 		return fmt.Errorf("failed to convert directory UUID to base64: %w", err)
 	}
 
-	// (re)create /tmp/kraft-combined-logs
-	if err := f.initializeLogDirecotry(common.LOG_DIR); err != nil {
-		return err
-	}
-
-	// TODO: Replace CLUSTER_ID, NODE_ID, VERSION with random values
-
-	// Write log_directory/meta.properties
-	err = f.writeMetaProperties(common.CLUSTER_ID, directoryID, common.NODE_ID, common.VERSION)
+	err = f.writeMetaProperties(CLUSTER_ID, directoryID, NODE_ID, META_VERSION)
 	if err != nil {
 		return fmt.Errorf("failed to write meta properties: %w", err)
 	}
@@ -62,31 +82,28 @@ func (f *FilesHandler) GenerateServerConfiguration(logger *logger.Logger) (err e
 		return fmt.Errorf("failed to write clean shutdown: %w", err)
 	}
 
-	logger.Debugf("Successfully generated server configuration files")
+	f.logger.Debugf("Successfully generated server configuration files")
 	return nil
 }
 
-func (f *FilesHandler) GenerateServerConfigAndLogDirectory(logger *logger.Logger) error {
-	if err := f.GenerateServerConfiguration(logger); err != nil {
-		return err
-	}
-
+func (f *FilesHandler) generateLogDirectories() error {
 	if f.logDirectoryGenerationConfig == nil {
 		panic("Codecrafters Internal Error - GenerateServerConfigAndLogDirectory called without LogDirectoryGenerationConfig")
 	}
 
-	logDirectoryGenerationData, err := f.logDirectoryGenerationConfig.Generate()
+	generatedLogDirectoryData, err := f.logDirectoryGenerationConfig.Generate(f.logger)
 
 	if err != nil {
 		return err
 	}
 
-	f.logDirectoryGenerationData = logDirectoryGenerationData
+	f.logger.Debugf("Created all log directories")
+	f.generatedLogDirectoryData = generatedLogDirectoryData
 	return nil
 }
 
 func (f *FilesHandler) writeKraftServerProperties() error {
-	filePath := common.SERVER_PROPERTIES_FILE_PATH
+	filePath := SERVER_PROPERTIES_FILE_PATH
 
 	kraftServerProperties := `process.roles=broker,controller
 node.id=1
@@ -102,6 +119,7 @@ log.dirs=/tmp/kraft-combined-logs`
 		return fmt.Errorf("error writing file to %s: %w", filePath, err)
 	}
 
+	f.logger.Debugf("Wrote server properties to %s", filePath)
 	return nil
 }
 
@@ -109,7 +127,7 @@ func (f *FilesHandler) writeMetaProperties(clusterID, directoryID string, nodeID
 	content := fmt.Sprintf("#\n#%s\ncluster.id=%s\ndirectory.id=%s\nnode.id=%d\nversion=%d\n",
 		time.Now().Format("Mon Jan 02 15:04:05 MST 2006"), clusterID, directoryID, nodeID, version)
 
-	filePath := path.Join(common.LOG_DIR, "meta.properties")
+	filePath := path.Join(KRAFT_LOG_DIRECTORY, META_PROPERTIES_FILE_NAME)
 
 	err := os.WriteFile(filePath, []byte(content), 0644)
 
@@ -117,34 +135,37 @@ func (f *FilesHandler) writeMetaProperties(clusterID, directoryID string, nodeID
 		return fmt.Errorf("error writing meta properties file: %w", err)
 	}
 
+	f.logger.Debugf("Wrote meta properties to %s", filePath)
 	return nil
 }
 
 func (f *FilesHandler) writeKafkaCleanShutdown() error {
-	kafkaCleanShutdown := `{"version":0,"brokerEpoch":10}`
-	filePath := path.Join(common.LOG_DIR, ".kafka_cleanshutdown")
+	contents := `{"version":0,"brokerEpoch":10}`
+	filePath := path.Join(KRAFT_LOG_DIRECTORY, KAFKA_CLEAN_SHUTDOWN_FILE_NAME)
 
-	err := os.WriteFile(filePath, []byte(kafkaCleanShutdown), 0644)
+	err := os.WriteFile(filePath, []byte(contents), 0644)
 
 	if err != nil {
 		return fmt.Errorf("error writing file to %s: %w", filePath, err)
 	}
 
+	f.logger.Debugf("Wrote kafka cleanshutdown to %s", filePath)
 	return nil
 }
 
-func (f *FilesHandler) initializeLogDirecotry(logDirectoryPath string) error {
-	err := os.RemoveAll(logDirectoryPath)
+func (f *FilesHandler) initializeLogDirecotry(path string) error {
+	err := os.RemoveAll(path)
 
 	if err != nil {
-		return fmt.Errorf("could not remove log directory at %s: %w", logDirectoryPath, err)
+		return fmt.Errorf("could not remove log directory at %s: %w", path, err)
 	}
 
-	err = os.MkdirAll(logDirectoryPath, 0755)
+	err = os.MkdirAll(path, 0755)
 
 	if err != nil {
-		return fmt.Errorf("could not create log directory at %s: %w", logDirectoryPath, err)
+		return fmt.Errorf("could not create log directory at %s: %w", path, err)
 	}
 
+	f.logger.Debugf("Created %s", path)
 	return nil
 }

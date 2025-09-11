@@ -16,7 +16,7 @@ import (
 func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
-	if err := kafka_files_handler.NewFilesHandler().GenerateServerConfiguration(logger.GetQuietLogger("")); err != nil {
+	if err := kafka_files_handler.NewFilesHandler(logger.GetQuietLogger("")).GenerateServerConfiguration(); err != nil {
 		return err
 	}
 

@@ -48,10 +48,9 @@ func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 	}
 
 	propertiesEncoderBytes := propertiesEncoder.Bytes()
-	crcData := propertiesEncoder.Bytes()
-	computedChecksum := crc32.Checksum(crcData, crc32.MakeTable(crc32.Castagnoli))
+	computedChecksum := crc32.Checksum(propertiesEncoderBytes, crc32.MakeTable(crc32.Castagnoli))
 	rb.CRC = int32(computedChecksum)
-	rb.BatchLength = int32(len(propertiesEncoderBytes) + 4 + 2 + 4) // partitionLeaderEpoch + magic value + CRC
+	rb.BatchLength = int32(len(propertiesEncoderBytes) + 4 + 1 + 4) // partitionLeaderEpoch + magic value + CRC
 
 	// Encode everything now
 	pe.WriteInt64(rb.BaseOffset)
@@ -60,51 +59,4 @@ func (rb RecordBatch) Encode(pe *encoder.Encoder) {
 	pe.WriteInt8(2)       // Magic value is 2
 	pe.WriteInt32(rb.CRC) // CRC placeholder
 	pe.WriteRawBytes(propertiesEncoderBytes)
-}
-
-type Record struct {
-	Length         int32
-	Attributes     int8
-	TimestampDelta int64
-	OffsetDelta    int32
-	Key            []byte
-	Value          []byte
-	Headers        []RecordHeader
-}
-
-func (r Record) Encode(pe *encoder.Encoder) {
-	propertiesEncoder := encoder.NewEncoder()
-
-	propertiesEncoder.WriteInt8(r.Attributes)
-	propertiesEncoder.WriteVarint(r.TimestampDelta)
-	propertiesEncoder.WriteVarint(int64(r.OffsetDelta))
-	if r.Key == nil {
-		propertiesEncoder.WriteCompactBytes([]byte{})
-	} else {
-		propertiesEncoder.WriteCompactBytes(r.Key)
-	}
-	propertiesEncoder.WriteVarint(int64(len(r.Value)))
-	propertiesEncoder.WriteRawBytes(r.Value)
-	propertiesEncoder.WriteVarint(int64(len(r.Headers)))
-
-	for _, header := range r.Headers {
-		header.Encode(propertiesEncoder)
-	}
-
-	propertiesEncoderBytes := propertiesEncoder.Bytes()
-
-	pe.WriteVarint(int64(len(propertiesEncoderBytes)))
-	pe.WriteRawBytes(propertiesEncoderBytes)
-}
-
-type RecordHeader struct {
-	Key   string
-	Value []byte
-}
-
-func (rh RecordHeader) Encode(pe *encoder.Encoder) {
-	pe.WriteVarint(int64(len(rh.Key)))
-	pe.WriteRawBytes([]byte(rh.Key))
-	pe.WriteVarint(int64(len(rh.Value)))
-	pe.WriteRawBytes(rh.Value)
 }

@@ -1,20 +1,18 @@
 package kafka_files_handler
 
+import "github.com/codecrafters-io/tester-utils/logger"
+
 type LogDirectoryGenerationConfig struct {
 	TopicGenerationConfigList []TopicGenerationConfig
 }
 
-type LogDirectoryGenerationData struct {
-	TopicsGenerationData []*GeneratedTopicData
-}
-
-func (c *LogDirectoryGenerationConfig) Generate() (*LogDirectoryGenerationData, error) {
+func (c *LogDirectoryGenerationConfig) Generate(logger *logger.Logger) (*GeneratedLogDirectoryData, error) {
 
 	var allGeneratedTopicsData []*GeneratedTopicData
 
 	// generate logs by topics
 	for _, topicGenerationConfig := range c.TopicGenerationConfigList {
-		generatedTopicData, err := topicGenerationConfig.Generate()
+		generatedTopicData, err := topicGenerationConfig.Generate(logger)
 
 		if err != nil {
 			return nil, err
@@ -31,7 +29,7 @@ func (c *LogDirectoryGenerationConfig) Generate() (*LogDirectoryGenerationData, 
 		return nil, err
 	}
 
-	return &LogDirectoryGenerationData{
-		TopicsGenerationData: allGeneratedTopicsData,
+	return &GeneratedLogDirectoryData{
+		GeneratedTopicsData: allGeneratedTopicsData,
 	}, nil
 }

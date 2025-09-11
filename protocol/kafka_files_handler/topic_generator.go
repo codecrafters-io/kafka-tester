@@ -1,6 +1,9 @@
 package kafka_files_handler
 
-import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/tester-utils/logger"
+)
 
 type TopicGenerationConfig struct {
 	Name                         string
@@ -8,13 +11,7 @@ type TopicGenerationConfig struct {
 	PartitonGenerationConfigList []PartitionGenerationConfig
 }
 
-type GeneratedTopicData struct {
-	Name                              string
-	UUID                              string
-	generatedRecordBatchesByPartition map[int]kafkaapi.RecordBatches
-}
-
-func (c *TopicGenerationConfig) Generate() (*GeneratedTopicData, error) {
+func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopicData, error) {
 
 	generatedTopicData := &GeneratedTopicData{
 		Name:                              c.Name,
@@ -29,8 +26,8 @@ func (c *TopicGenerationConfig) Generate() (*GeneratedTopicData, error) {
 		recordBatches, err := partitionGenerationConfig.Generate(PartitionMetadata{
 			Version:   0,
 			TopicName: c.Name,
-			TopicID:   c.UUID,
-		})
+			TopicUUID: c.UUID,
+		}, logger)
 
 		if err != nil {
 			return nil, err
