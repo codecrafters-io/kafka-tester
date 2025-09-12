@@ -84,6 +84,19 @@ func (d *Decoder) ReadInt32() (kafkaValue.Int32, DecoderError) {
 	return decodedInteger, nil
 }
 
+func (d *Decoder) ReadInt64() (kafkaValue.Int64, DecoderError) {
+	if d.RemainingBytesCount() < 8 {
+		rem := d.RemainingBytesCount()
+		return kafkaValue.Int64{}, d.wrapError(fmt.Errorf("Expected INT64 length to be 8 bytes, got %d bytes", rem))
+	}
+
+	decodedInteger := kafkaValue.Int64{
+		Value: int64(binary.BigEndian.Uint64(d.buffer.MustReadNBytes(8))),
+	}
+
+	return decodedInteger, nil
+}
+
 func (d *Decoder) ReadUnsignedVarint() (kafkaValue.UnsignedVarint, DecoderError) {
 	decodedInteger, numberOfBytesRead := binary.Uvarint(d.buffer.RemainingBytes())
 
