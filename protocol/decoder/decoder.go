@@ -47,7 +47,7 @@ func (d *Decoder) ReadBoolean() (kafkaValue.Boolean, DecoderError) {
 func (d *Decoder) ReadInt8() (kafkaValue.Int8, DecoderError) {
 	if d.RemainingBytesCount() < 2 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Int8{}, d.wrapError(fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem))
+		return kafkaValue.Int8{}, d.wrapError(fmt.Errorf("Expected INT8 length to be 2 bytes, got %d bytes", rem))
 	}
 
 	readByte := d.buffer.MustReadNBytes(1)[0]
