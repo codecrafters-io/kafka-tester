@@ -67,7 +67,7 @@ func decodeTopic(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPar
 	// Read compact nullable string
 	name, err := decoder.ReadCompactNullableStringField("Name")
 	if err != nil {
-		return kafkaapi.DescribeTopicPartitionsResponseTopic{}, nil
+		return kafkaapi.DescribeTopicPartitionsResponseTopic{}, err
 	}
 
 	// Read topic UUID

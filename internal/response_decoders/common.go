@@ -31,7 +31,7 @@ func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 	}
 
 	return headers.ResponseHeader{
-		Version:       0,
+		Version:       1,
 		CorrelationId: correlationId,
 	}, nil
 }
