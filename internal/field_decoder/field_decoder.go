@@ -124,7 +124,7 @@ func (d *FieldDecoder) ReadUUIDField(path string) (value.UUID, FieldDecoderError
 
 	uuidString, decodeErr := utils.DecodeUUID(rawBytes.Value)
 	if decodeErr != nil {
-		return value.UUID{}, d.wrapError(err)
+		return value.UUID{}, d.wrapError(decodeErr)
 	}
 
 	decodedUUID := value.UUID{
