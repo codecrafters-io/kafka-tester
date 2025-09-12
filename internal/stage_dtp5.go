@@ -7,7 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_handler"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
@@ -16,16 +16,16 @@ import (
 
 func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
-	files_handler := kafka_files_handler.NewFilesHandler(logger.GetQuietLogger(""))
+	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 	topicNames := getRandomTopicNames(2)
 	topicUUIDs := getRandomTopicUUIDs(2)
 
-	files_handler.AddLogDirectoryGenerationConfig(kafka_files_handler.LogDirectoryGenerationConfig{
-		TopicGenerationConfigList: []kafka_files_handler.TopicGenerationConfig{
+	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
+		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{
 			{
 				Name: topicNames[0],
 				UUID: topicUUIDs[0],
-				PartitonGenerationConfigList: []kafka_files_handler.PartitionGenerationConfig{
+				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
 						PartitionID: 0,
 						Logs:        []string{random.RandomString()},
@@ -35,7 +35,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 			{
 				Name: topicNames[1],
 				UUID: topicUUIDs[1],
-				PartitonGenerationConfigList: []kafka_files_handler.PartitionGenerationConfig{
+				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
 						PartitionID: 0,
 						Logs:        []string{random.RandomString()},

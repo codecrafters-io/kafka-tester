@@ -5,7 +5,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_handler"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -28,7 +28,7 @@ type DescribeTopicPartitionsResponseAssertion struct {
 	expectedTopics        []ExpectedTopic
 }
 
-func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *kafka_files_handler.GeneratedLogDirectoryData) []ExpectedTopic {
+func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *kafka_files_generator.GeneratedLogDirectoryData) []ExpectedTopic {
 	var expectedTopics []ExpectedTopic
 
 	for _, topicData := range generatedLogDirectoryData.GeneratedTopicsData {
@@ -123,7 +123,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 			}
 			logger.Successf("✓ Topic[%d] Partition[%d] ID: %d", i, j, expectedPartition.PartititionID)
 
-			// Check partition's error code
+			// Check partition's error
 			if expectedPartition.ErrorCode != foundPartition.ErrorCode.Value {
 				return fmt.Errorf("Expected partition[%d] error code for Topic[%d] to be %d, got %d", j, i, expectedPartition.ErrorCode, foundPartition.ErrorCode.Value)
 			}

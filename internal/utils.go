@@ -26,7 +26,7 @@ func getRandomTopicUUID() string {
 // This doesn't feel right
 // This can be in either of three places
 // 1. Here
-// 2. Inside generate function of kafka_files_handler where we sort the values and generate directories
+// 2. Inside generate function of kafka_files_generator where we sort the values and generate directories
 // 3. Inside assertion
 // Previously, the topics were created in sorted manner so no sorting was needed in assertion
 // This information should have been conveyed using stage instructions. Don't know whether changing instructions would be a good idea.
