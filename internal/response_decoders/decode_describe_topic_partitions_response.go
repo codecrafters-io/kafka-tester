@@ -126,6 +126,9 @@ func decodePartition(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopi
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
+	// this is not a good way to do it
+	// should i decode length first, and then array in a loop
+	// need suggestions
 	replicaNodes, err := decodeCompactArray(decoder, decodeInt32, "ReplicaNodes")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
