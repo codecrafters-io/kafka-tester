@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strings"
 )
@@ -78,4 +79,21 @@ func GetFormattedHexdump(data []byte) string {
 	formattedHexdump.WriteString("| " + asciiChars.String())
 
 	return formattedHexdump.String()
+}
+
+func DecodeUUID(encodedUUID []byte) (string, error) {
+	if len(encodedUUID) != 16 {
+		return "", fmt.Errorf("invalid UUID length: expected 16 bytes, got %d", len(encodedUUID))
+	}
+
+	uuidHex := hex.EncodeToString(encodedUUID)
+
+	uuid := fmt.Sprintf("%s-%s-%s-%s-%s",
+		uuidHex[0:8],
+		uuidHex[8:12],
+		uuidHex[12:16],
+		uuidHex[16:20],
+		uuidHex[20:32])
+
+	return uuid, nil
 }
