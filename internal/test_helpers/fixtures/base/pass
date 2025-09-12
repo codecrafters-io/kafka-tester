@@ -47,8 +47,8 @@ Debug = true
 [33m[tester::#PV1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#PV1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#PV1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#PV1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#PV1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#PV1] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - Header[0m
@@ -323,7 +323,7 @@ Debug = true
 [33m[tester::#NC5] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#NC5] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#NC5] [0m[36m[0m
-[33m[tester::#NC5] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#NC5] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#NC5] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NC5] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#NC5] [0m[36m0000 | 00 00 00 10 60 5a 05 cd 00 23 00 00 00 01 00 12 | ....`Z...#......[0m
@@ -352,7 +352,7 @@ Debug = true
 [33m[tester::#WA6] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#WA6] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#WA6] [0m[36m[0m
-[33m[tester::#WA6] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#WA6] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#WA6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WA6] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#WA6] [0m[36m0000 | 00 00 02 19 0f 2e 14 fa 00 00 3e 00 00 00 00 00 | ..........>.....[0m
@@ -387,8 +387,8 @@ Debug = true
 [33m[tester::#WA6] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#WA6] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#WA6] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#WA6] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#WA6] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#WA6] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#WA6] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#WA6] [0m[36m[0m
 [33m[tester::#WA6] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#WA6] [Decoder] [0m[36m  - Header[0m
@@ -410,7 +410,7 @@ Debug = true
 [33m[tester::#NV3] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#NV3] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#NV3] [0m[36m[0m
-[33m[tester::#NV3] [0m[36mHexdump of Received "ApiVersions" response: [0m
+[33m[tester::#NV3] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#NV3] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NV3] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#NV3] [0m[36m0000 | 00 00 02 19 00 00 00 07 00 00 3e 00 00 00 00 00 | ..........>.....[0m
@@ -445,8 +445,8 @@ Debug = true
 [33m[tester::#NV3] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#NV3] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#NV3] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#NV3] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#NV3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#NV3] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#NV3] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#NV3] [0m[36m[0m
 [33m[tester::#NV3] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#NV3] [Decoder] [0m[36m  - Header[0m
