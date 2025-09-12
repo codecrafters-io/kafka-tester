@@ -92,7 +92,7 @@ func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMet
 }
 
 func (c *PartitionGenerationConfig) generateRecordBatchesFromLogs(logs []string) kafkaapi.RecordBatches {
-	var recordBatches kafkaapi.RecordBatches
+	recordBatches := kafkaapi.RecordBatches{}
 
 	for i, message := range logs {
 		recordBatches = append(recordBatches, kafkaapi.RecordBatch{

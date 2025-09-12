@@ -1,8 +1,16 @@
 package kafkaapi
 
-import "github.com/codecrafters-io/kafka-tester/protocol/value"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type FetchResponse struct {
+	Header headers.ResponseHeader
+	Body   FetchResponseBody
+}
+
+type FetchResponseBody struct {
 	ThrottleTimeMs value.Int32
 	ErrorCode      value.Int16
 	SessionId      value.Int32
@@ -15,14 +23,14 @@ type TopicResponse struct {
 }
 
 type PartitionResponse struct {
-	Id                  value.Int32
-	ErrorCode           value.Int16
-	HighWatermark       value.Int64
-	LastStableOffset    value.Int64
-	LogStartOffset      value.Int64
-	AbortedTransactions []AbortedTransaction
-	RecordBatches       []RecordBatch
-	PreferedReadReplica value.Int64
+	Id                   value.Int32
+	ErrorCode            value.Int16
+	HighWatermark        value.Int64
+	LastStableOffset     value.Int64
+	LogStartOffset       value.Int64
+	AbortedTransactions  []AbortedTransaction
+	RecordBatches        []RecordBatch
+	PreferredReadReplica value.Int32
 }
 
 type AbortedTransaction struct {

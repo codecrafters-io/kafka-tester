@@ -11,31 +11,51 @@ func DecodeFetchResponse(decoder *field_decoder.FieldDecoder) (
 	kafkaapi.FetchResponse,
 	field_decoder.FieldDecoderError,
 ) {
-	throttleTimeMs, err := decoder.ReadInt32Field("ThrottleTimeMS")
+	decoder.PushPathContext("FetchResponse")
+	defer decoder.PopPathContext()
+
+	header, err := decodeV1Header(decoder)
 	if err != nil {
 		return kafkaapi.FetchResponse{}, err
+	}
+
+	body, err := decodeFetchResponseBody(decoder)
+	if err != nil {
+		return kafkaapi.FetchResponse{}, err
+	}
+	return kafkaapi.FetchResponse{
+		Header: header,
+		Body:   body,
+	}, nil
+
+}
+
+func decodeFetchResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.FetchResponseBody, field_decoder.FieldDecoderError) {
+	throttleTimeMs, err := decoder.ReadInt32Field("ThrottleTimeMS")
+	if err != nil {
+		return kafkaapi.FetchResponseBody{}, err
 	}
 
 	errorCode, err := decoder.ReadInt16Field("ErrorCode")
 	if err != nil {
-		return kafkaapi.FetchResponse{}, err
+		return kafkaapi.FetchResponseBody{}, err
 	}
 
 	sessionId, err := decoder.ReadInt32Field("SessionID")
 	if err != nil {
-		return kafkaapi.FetchResponse{}, err
+		return kafkaapi.FetchResponseBody{}, err
 	}
 
 	topicResponses, err := decodeCompactArray(decoder, decodeFetchTopic, "Topics")
 	if err != nil {
-		return kafkaapi.FetchResponse{}, err
+		return kafkaapi.FetchResponseBody{}, err
 	}
 
 	if err := decoder.ConsumeTagBufferField(); err != nil {
-		return kafkaapi.FetchResponse{}, err
+		return kafkaapi.FetchResponseBody{}, err
 	}
 
-	return kafkaapi.FetchResponse{
+	return kafkaapi.FetchResponseBody{
 		ThrottleTimeMs: throttleTimeMs,
 		ErrorCode:      errorCode,
 		SessionId:      sessionId,
@@ -95,7 +115,7 @@ func decodeFetchPartition(decoder *field_decoder.FieldDecoder) (kafkaapi.Partiti
 		return kafkaapi.PartitionResponse{}, err
 	}
 
-	preferredReadReplica, err := decoder.ReadInt64Field("PreferredReadReplica")
+	preferredReadReplica, err := decoder.ReadInt32Field("PreferredReadReplica")
 	if err != nil {
 		return kafkaapi.PartitionResponse{}, err
 	}
@@ -120,14 +140,14 @@ func decodeFetchPartition(decoder *field_decoder.FieldDecoder) (kafkaapi.Partiti
 	}
 
 	return kafkaapi.PartitionResponse{
-		Id:                  id,
-		ErrorCode:           errorCode,
-		HighWatermark:       highWaterMark,
-		LastStableOffset:    lastStableOffset,
-		LogStartOffset:      logStartOffset,
-		AbortedTransactions: abortedTransactions,
-		PreferedReadReplica: preferredReadReplica,
-		RecordBatches:       recordBatches,
+		Id:                   id,
+		ErrorCode:            errorCode,
+		HighWatermark:        highWaterMark,
+		LastStableOffset:     lastStableOffset,
+		LogStartOffset:       logStartOffset,
+		AbortedTransactions:  abortedTransactions,
+		PreferredReadReplica: preferredReadReplica,
+		RecordBatches:        recordBatches,
 	}, nil
 }
 
