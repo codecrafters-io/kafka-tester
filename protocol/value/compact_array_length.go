@@ -11,7 +11,8 @@ func (v CompactArrayLength) String() string {
 	case 0:
 		return "0 (NULL ARRAY)"
 	case 1:
-		return "1 (EMPTY ARRAY)"
+		// Actual length is still 0
+		return "0 (EMPTY ARRAY)"
 	}
 	return fmt.Sprintf("%d", v.ActualLength())
 }

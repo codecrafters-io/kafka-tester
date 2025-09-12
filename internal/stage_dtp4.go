@@ -2,98 +2,89 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
-	"github.com/codecrafters-io/kafka-tester/internal/legacy_assertions"
-	"github.com/codecrafters-io/kafka-tester/protocol/common"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafka_client"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
+	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
+	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_handler"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testDTPartitionWithTopicAndMultiplePartitions2(stageHarness *test_case_harness.TestCaseHarness) error {
-	b := kafka_executable.NewKafkaExecutable(stageHarness)
+func testDTPartitionWithTopicAndMultiplePartitions(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
-	err := legacy_serializer.GenerateLogDirs(stageLogger, true)
-	if err != nil {
+
+	files_handler := kafka_files_handler.NewFilesHandler(logger.GetQuietLogger(""))
+
+	files_handler.AddLogDirectoryGenerationConfig(kafka_files_handler.LogDirectoryGenerationConfig{
+		TopicGenerationConfigList: []kafka_files_handler.TopicGenerationConfig{
+			{
+				Name: random.RandomWord(),
+				UUID: getRandomTopicUUID(),
+				PartitonGenerationConfigList: []kafka_files_handler.PartitionGenerationConfig{
+					{
+						PartitionID: 0,
+						Logs:        []string{random.RandomString()},
+					},
+					{
+						PartitionID: 1,
+						Logs:        []string{random.RandomString()},
+					},
+				},
+			},
+		},
+	})
+
+	if err := files_handler.GenerateServerConfigAndLogDirs(); err != nil {
 		return err
 	}
+
+	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
 	if err := b.Run(); err != nil {
 		return err
 	}
 
-	correlationId := getRandomCorrelationId()
+	client := kafka_client.NewClient("localhost:9092")
 
-	client := legacy_kafka_client.NewClient("localhost:9092")
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
 		return err
 	}
-	defer func(client *legacy_kafka_client.Client) {
-		_ = client.Close()
-	}(client)
 
-	request := legacy_kafkaapi.DescribeTopicPartitionsRequest{
-		Header: legacy_builder.NewRequestHeaderBuilder().BuildDescribeTopicPartitionsRequestHeader(correlationId),
-		Body: legacy_kafkaapi.DescribeTopicPartitionsRequestBody{
-			Topics: []legacy_kafkaapi.TopicName{
-				{
-					Name: common.TOPIC3_NAME,
-				},
-			},
-			ResponsePartitionLimit: 2,
-		},
+	defer client.Close()
+	correlationId := getRandomCorrelationId()
+	generatedLogDirectoryData := files_handler.GetGeneratedLogDirectoryData()
+
+	allGeneratedTopicNames := []string{}
+	totalPartitionsCount := 0
+	for _, topicData := range generatedLogDirectoryData.GeneratedTopicsData {
+		allGeneratedTopicNames = append(allGeneratedTopicNames, topicData.Name)
+		totalPartitionsCount += len(topicData.GeneratedRecordBatchesByPartition)
 	}
 
-	response, err := client.SendAndReceive(request, stageLogger)
+	request := builder.NewDescribeTopicPartitionsRequestBuilder().
+		WithCorrelationId(correlationId).
+		WithTopicNames(allGeneratedTopicNames).
+		WithResponsePartitionLimit(int32(totalPartitionsCount)).
+		Build()
+
+	rawResponse, err := client.SendAndReceive(request, stageLogger)
 	if err != nil {
 		return err
 	}
 
-	responseHeader, responseBody, err := legacy_kafkaapi.DecodeDescribeTopicPartitionsHeaderAndResponse(response.Payload, stageLogger)
-	if err != nil {
-		return err
-	}
+	assertion := response_assertions.NewDescribeTopicPartitionsResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectTopics(response_assertions.GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData))
 
-	expectedResponseHeader := legacy_builder.BuildResponseHeader(correlationId)
-	if err = legacy_assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
-		return err
-	}
+	_, err = response_asserter.ResponseAsserter[kafkaapi.DescribeTopicPartitionsResponse]{
+		DecodeFunc: response_decoders.DecodeDescribeTopicPartitionsResponse,
+		Assertion:  assertion,
+		Logger:     stageLogger,
+	}.DecodeAndAssert(rawResponse.Payload)
 
-	expectedDescribeTopicPartitionsResponse := legacy_kafkaapi.DescribeTopicPartitionsResponse{
-		ThrottleTimeMs: 0,
-		Topics: []legacy_kafkaapi.DescribeTopicPartitionsResponseTopic{
-			{
-				ErrorCode: 0,
-				Name:      common.TOPIC3_NAME,
-				TopicID:   common.TOPIC3_UUID,
-				Partitions: []legacy_kafkaapi.DescribeTopicPartitionsResponsePartition{
-					{
-						ErrorCode:              0,
-						PartitionIndex:         0,
-						LeaderID:               1,
-						LeaderEpoch:            1,
-						ReplicaNodes:           []int32{1},
-						IsrNodes:               []int32{1},
-						EligibleLeaderReplicas: []int32{1},
-						LastKnownELR:           []int32{1},
-						OfflineReplicas:        []int32{1},
-					},
-					{
-						ErrorCode:              0,
-						PartitionIndex:         1,
-						LeaderID:               1,
-						LeaderEpoch:            1,
-						ReplicaNodes:           []int32{1},
-						IsrNodes:               []int32{1},
-						EligibleLeaderReplicas: []int32{1},
-						LastKnownELR:           []int32{1},
-						OfflineReplicas:        []int32{1},
-					},
-				},
-			},
-		},
-	}
-
-	return legacy_assertions.NewDescribeTopicPartitionsResponseAssertion(*responseBody, expectedDescribeTopicPartitionsResponse).Run(stageLogger)
+	return err
 }

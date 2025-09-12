@@ -25,6 +25,39 @@ func (d *Decoder) RemainingBytesCount() uint64 {
 
 // Read functions
 
+func (d *Decoder) ReadBoolean() (kafkaValue.Boolean, DecoderError) {
+	if d.RemainingBytesCount() < 1 {
+		rem := d.RemainingBytesCount()
+		return kafkaValue.Boolean{}, d.wrapError(fmt.Errorf("Expected BOOLEAN length to be 1 byte, got %d bytes", rem))
+	}
+
+	boolValue := false
+	readByte := d.buffer.MustReadNBytes(1)[0]
+
+	// Kafka considers non-zero value as true
+	if readByte != 0 {
+		boolValue = true
+	}
+
+	return kafkaValue.Boolean{
+		Value: boolValue,
+	}, nil
+}
+
+func (d *Decoder) ReadInt8() (kafkaValue.Int8, DecoderError) {
+	if d.RemainingBytesCount() < 2 {
+		rem := d.RemainingBytesCount()
+		return kafkaValue.Int8{}, d.wrapError(fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem))
+	}
+
+	readByte := d.buffer.MustReadNBytes(1)[0]
+	decodedInteger := kafkaValue.Int8{
+		Value: int8(readByte),
+	}
+
+	return decodedInteger, nil
+}
+
 func (d *Decoder) ReadInt16() (kafkaValue.Int16, DecoderError) {
 	if d.RemainingBytesCount() < 2 {
 		rem := d.RemainingBytesCount()
@@ -80,6 +113,18 @@ func (d *Decoder) ReadCompactArrayLength() (kafkaValue.CompactArrayLength, Decod
 	}
 
 	return kafkaValue.CompactArrayLength(unsignedVarInt), nil
+}
+
+func (d *Decoder) ReadRawBytes(count int) (kafkaValue.RawBytes, DecoderError) {
+	if d.RemainingBytesCount() < uint64(count) {
+		return kafkaValue.RawBytes{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for RAW_BYTES to be %d, got %d", count, d.RemainingBytesCount()))
+	}
+
+	readBytes := d.buffer.MustReadNBytes(uint64(count))
+
+	return kafkaValue.RawBytes{
+		Value: readBytes,
+	}, nil
 }
 
 func (d *Decoder) ConsumeTagBuffer() DecoderError {

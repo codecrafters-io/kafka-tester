@@ -5,11 +5,28 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, field_decoder.FieldDecoderError) {
 	correlationId, err := decoder.ReadInt32Field("Header.CorrelationID")
 	if err != nil {
+		return headers.ResponseHeader{}, err
+	}
+
+	return headers.ResponseHeader{
+		Version:       0,
+		CorrelationId: correlationId,
+	}, nil
+}
+
+func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, field_decoder.FieldDecoderError) {
+	correlationId, err := decoder.ReadInt32Field("Header.CorrelationID")
+	if err != nil {
+		return headers.ResponseHeader{}, err
+	}
+
+	if err := decoder.ConsumeTagBufferField(); err != nil {
 		return headers.ResponseHeader{}, err
 	}
 
@@ -43,4 +60,12 @@ func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc f
 	}
 
 	return elements, nil
+}
+
+func decodeInt32(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
 }

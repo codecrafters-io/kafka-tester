@@ -16,7 +16,7 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 	generatedTopicData := &GeneratedTopicData{
 		Name:                              c.Name,
 		UUID:                              c.UUID,
-		generatedRecordBatchesByPartition: make(map[int]kafkaapi.RecordBatches),
+		GeneratedRecordBatchesByPartition: make(map[int]kafkaapi.RecordBatches),
 	}
 
 	// generate logs by partition
@@ -33,7 +33,7 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 			return nil, err
 		}
 
-		generatedTopicData.generatedRecordBatchesByPartition[partitionID] = recordBatches
+		generatedTopicData.GeneratedRecordBatchesByPartition[partitionID] = recordBatches
 	}
 
 	return generatedTopicData, nil
