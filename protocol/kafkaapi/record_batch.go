@@ -6,6 +6,10 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 )
 
+// This data structure is used both in generating log files and also
+// In the response of fetch API
+// So, decided to include decode method for this data structure here instead
+
 type RecordBatches []RecordBatch
 
 func (rbs RecordBatches) Encode(pe *encoder.Encoder) {
