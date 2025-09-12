@@ -1,4 +1,4 @@
-package kafka_files_handler
+package kafka_files_generator
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
