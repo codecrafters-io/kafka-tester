@@ -21,8 +21,10 @@ func (r Record) Encode(pe *encoder.Encoder) {
 
 	// Special encoding that does not belong to any data type and is only present inside Records
 	// similar to protobuf encoding. It is mentioned in the Kafka docs here:  https://kafka.apache.org/documentation/#recordheader
-	propertiesEncoder.WriteVarint(int64(len(r.Key)))
-	if r.Key != nil {
+	if r.Key == nil {
+		propertiesEncoder.WriteVarint(-1)
+	} else {
+		propertiesEncoder.WriteVarint(int64(len(r.Key)))
 		propertiesEncoder.WriteRawBytes(r.Key)
 	}
 
