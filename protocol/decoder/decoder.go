@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/offset_buffer"
 	kafkaValue "github.com/codecrafters-io/kafka-tester/protocol/value"
+	"github.com/google/uuid"
 )
 
 type Decoder struct {
@@ -113,6 +114,78 @@ func (d *Decoder) ReadCompactArrayLength() (kafkaValue.CompactArrayLength, Decod
 	}
 
 	return kafkaValue.CompactArrayLength(unsignedVarInt), nil
+}
+
+func (d *Decoder) ReadCompactStringLength() (kafkaValue.CompactStringLength, DecoderError) {
+	unsignedVarInt, err := d.ReadUnsignedVarint()
+
+	if err != nil {
+		return kafkaValue.CompactStringLength{}, err
+	}
+
+	return kafkaValue.CompactStringLength(unsignedVarInt), nil
+}
+
+func (d *Decoder) ReadCompactString() (kafkaValue.CompactString, DecoderError) {
+	lengthValue, err := d.ReadCompactStringLength()
+	if err != nil {
+		return kafkaValue.CompactString{}, d.wrapError(err)
+	}
+
+	if lengthValue.Value == 0 {
+		return kafkaValue.CompactString{}, d.wrapError(fmt.Errorf("Compact string length cannot be 0"))
+	}
+
+	if d.RemainingBytesCount() < lengthValue.ActualLength() {
+		return kafkaValue.CompactString{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for COMPACT_STRING to be %d, got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+	}
+
+	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
+
+	return kafkaValue.CompactString{
+		Value: string(rawBytes),
+	}, nil
+}
+
+func (d *Decoder) ReadCompactNullableString() (kafkaValue.CompactNullableString, DecoderError) {
+	lengthValue, err := d.ReadCompactStringLength()
+
+	if err != nil {
+		return kafkaValue.CompactNullableString{}, d.wrapError(err)
+	}
+
+	if lengthValue.Value == 0 {
+		return kafkaValue.CompactNullableString{}, nil
+	}
+
+	if d.RemainingBytesCount() < lengthValue.ActualLength() {
+		return kafkaValue.CompactNullableString{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for COMPACT_NULLABLE_STRING to be %d, got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+	}
+
+	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
+	stringValue := string(rawBytes)
+
+	return kafkaValue.CompactNullableString{
+		Value: &stringValue,
+	}, nil
+}
+
+func (d *Decoder) ReadUUID() (kafkaValue.UUID, DecoderError) {
+	uuidBytesCount := 16
+	if d.RemainingBytesCount() < uint64(uuidBytesCount) {
+		return kafkaValue.UUID{}, d.wrapError(fmt.Errorf("Expected remaining bytes count to be %d, got %d", uuidBytesCount, d.RemainingBytesCount()))
+	}
+
+	uuidBytes := d.buffer.MustReadNBytes(uint64(uuidBytesCount))
+
+	uuid, err := uuid.FromBytes(uuidBytes)
+	if err != nil {
+		return kafkaValue.UUID{}, d.wrapError(fmt.Errorf("Failed to decode UUID: %s", err))
+	}
+
+	return kafkaValue.UUID{
+		Value: uuid.String(),
+	}, nil
 }
 
 func (d *Decoder) ReadRawBytes(count int) (kafkaValue.RawBytes, DecoderError) {

@@ -1,12 +1,10 @@
 package field_decoder
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
@@ -59,21 +57,10 @@ func (d *FieldDecoder) ReadCompactNullableStringField(path string) (value.Compac
 	d.PushPathContext(path)
 	defer d.PopPathContext()
 
-	lengthValue, err := d.decoder.ReadCompactArrayLength()
-	if err != nil {
-		return value.CompactNullableString{}, d.wrapError(err)
-	}
-
-	rawBytes, err := d.decoder.ReadRawBytes(int(lengthValue.ActualLength()))
+	decodedValue, err := d.decoder.ReadCompactNullableString()
 
 	if err != nil {
 		return value.CompactNullableString{}, d.wrapError(err)
-	}
-
-	stringValue := string(rawBytes.Value)
-
-	decodedValue := value.CompactNullableString{
-		Value: &stringValue,
 	}
 
 	d.appendDecodedField(decodedValue)
@@ -85,26 +72,10 @@ func (d *FieldDecoder) ReadCompactStringField(path string) (value.CompactString,
 	d.PushPathContext(path)
 	defer d.PopPathContext()
 
-	lengthValue, err := d.decoder.ReadCompactArrayLength()
+	decodedValue, err := d.decoder.ReadCompactString()
 
 	if err != nil {
 		return value.CompactString{}, d.wrapError(err)
-	}
-
-	if lengthValue.Value == 0 {
-		return value.CompactString{}, d.wrapError(fmt.Errorf("Compact string length cannot be 0"))
-	}
-
-	rawBytes, err := d.decoder.ReadRawBytes(int(lengthValue.ActualLength()))
-
-	if err != nil {
-		return value.CompactString{}, d.wrapError(err)
-	}
-
-	stringValue := string(rawBytes.Value)
-
-	decodedValue := value.CompactString{
-		Value: stringValue,
 	}
 
 	d.appendDecodedField(decodedValue)
@@ -116,23 +87,13 @@ func (d *FieldDecoder) ReadUUIDField(path string) (value.UUID, FieldDecoderError
 	d.PushPathContext(path)
 	defer d.PopPathContext()
 
-	rawBytes, err := d.decoder.ReadRawBytes(16)
-
+	decodedValue, err := d.decoder.ReadUUID()
 	if err != nil {
 		return value.UUID{}, d.wrapError(err)
 	}
 
-	uuidString, decodeErr := utils.DecodeUUID(rawBytes.Value)
-	if decodeErr != nil {
-		return value.UUID{}, d.wrapError(decodeErr)
-	}
-
-	decodedUUID := value.UUID{
-		Value: uuidString,
-	}
-
-	d.appendDecodedField(decodedUUID)
-	return decodedUUID, nil
+	d.appendDecodedField(decodedValue)
+	return decodedValue, nil
 }
 
 func (d *FieldDecoder) ReadBooleanField(path string) (value.Boolean, FieldDecoderError) {
