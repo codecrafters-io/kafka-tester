@@ -29,7 +29,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
 						PartitionID: partitionID,
-						Logs:        []string{random.RandomString()},
+						Logs:        []string{random.RandomWord()},
 					},
 				},
 			},
@@ -63,7 +63,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 
 	request := builder.NewFetchRequestBuilder().
 		WithCorrelationId(correlationId).
-		WithSessionId(int32(sessionId)).
 		WithTopicUUID(topicUUID).
 		WithPartitionID(int32(partitionId)).
 		Build()

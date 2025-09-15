@@ -61,7 +61,6 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 
 	request := builder.NewFetchRequestBuilder().
 		WithCorrelationId(correlationId).
-		WithSessionId(int32(sessionId)).
 		WithTopicUUID(sentTopicUUID).
 		WithPartitionID(int32(sentPartitionId)).
 		Build()

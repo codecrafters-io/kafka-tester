@@ -38,7 +38,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 	encoder := encoder.NewEncoder()
 
 	var recordBatches []kafkaapi.RecordBatch
-	baseOffset := int64(0)
+	baseOffset := int64(1)
 
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,

@@ -1,6 +1,7 @@
 package kafka_files_generator
 
 import (
+	"encoding/base64"
 	"fmt"
 	"os"
 	"path"
@@ -9,6 +10,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/google/uuid"
 )
 
 type PartitionMetadata struct {
@@ -69,11 +71,11 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, log
 }
 
 func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata, logger *logger.Logger) error {
-	topicIDBase64, err := uuidToBase64(metadata.TopicUUID)
+	topicIDBase64, err := uuid.Parse(metadata.TopicUUID)
 	if err != nil {
 		return err
 	}
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIDBase64)
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, base64.StdEncoding.EncodeToString(topicIDBase64[:]))
 
 	filePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
@@ -112,7 +114,7 @@ func (c *PartitionGenerationConfig) generateRecordBatchFromLogs(logs []string) k
 					TimestampDelta: value.Varint{Value: 0},
 					Key:            nil,
 					Value:          []byte(message),
-					Headers:        []kafkaapi.RecordHeader{},
+					Headers:        nil,
 				},
 			},
 		})

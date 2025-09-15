@@ -59,6 +59,20 @@ func (d *FieldDecoder) ReadCompactArrayLengthField(path string) (value.CompactAr
 	return decodedValue, nil
 }
 
+func (d *FieldDecoder) ReadCompactRecordSizeField(path string) (value.CompactRecordSize, FieldDecoderError) {
+	d.PushPathContext(path)
+	defer d.PopPathContext()
+
+	decodedValue, err := d.decoder.ReadCompactRecordSize()
+	if err != nil {
+		return value.CompactRecordSize{}, d.WrapError(err)
+	}
+
+	d.appendDecodedField(decodedValue)
+
+	return decodedValue, nil
+}
+
 func (d *FieldDecoder) ReadUnsignedVarInt(path string) (value.UnsignedVarint, FieldDecoderError) {
 	d.PushPathContext(path)
 	defer d.PopPathContext()

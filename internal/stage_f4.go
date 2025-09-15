@@ -71,7 +71,6 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	assertion := response_assertions.NewFetchResponseAssertion().
 		ExpectCorrelationId(correlationId).
-		ExpectSessionId(int32(sessionId)).
 		ExpectErrorCodeInBody(0).
 		ExpectTopicUUID(topicUUID).
 		ExpectPartitionID(int32(partitionId)).

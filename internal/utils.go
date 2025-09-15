@@ -58,11 +58,10 @@ func getRandomTopicNames(count int) []string {
 }
 
 func getRandomTopicUUIDs(count int) []string {
-	randomInts := random.RandomInts(1, 100, count)
 	uuids := []string{}
 
-	for range randomInts {
-		uuids = append(uuids, uuid.NewString())
+	for range count {
+		uuids = append(uuids, getRandomTopicUUID())
 	}
 
 	return uuids

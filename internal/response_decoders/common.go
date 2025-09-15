@@ -104,15 +104,14 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	decoder.PushPathContext(path)
 	defer decoder.PopPathContext()
 
-	recordBatchesCompactSize, err := decoder.ReadUnsignedVarInt("Size")
+	recordBatchesCompactSize, err := decoder.ReadCompactRecordSizeField("Size")
+
 	if err != nil {
 		return nil, err
 	}
 
-	recordBatchesTotalSize := recordBatchesCompactSize.Value - 1
-
-	if decoder.RemainingBytesCount() < recordBatchesTotalSize {
-		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesCompactSize.Value, decoder.RemainingBytesCount())
+	if decoder.RemainingBytesCount() < recordBatchesCompactSize.ActualSize() {
+		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
 		return kafkaapi.RecordBatches{}, decoder.WrapError(errorMessage)
 	}
 
@@ -121,7 +120,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	allRecordBatches := kafkaapi.RecordBatches{}
 
 	index := 0
-	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesTotalSize) {
+	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
 		recordBatch, err := decodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
 		if err != nil {
 			return nil, decoder.WrapError(err)
@@ -131,8 +130,8 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	}
 
 	// verify record batch size
-	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesTotalSize) {
-		return nil, decoder.WrapError(fmt.Errorf("Expected recordbatches size to be %d, got %d", (decoder.ReadBytesCount() - recordBatchesStartOffset), recordBatchesTotalSize))
+	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
+		return nil, decoder.WrapError(fmt.Errorf("Expected recordbatches size to be %d, got %d", (decoder.ReadBytesCount() - recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()))
 	}
 
 	return allRecordBatches, nil

@@ -153,6 +153,16 @@ func (d *Decoder) ReadCompactArrayLength() (kafkaValue.CompactArrayLength, Decod
 	return kafkaValue.CompactArrayLength(unsignedVarInt), nil
 }
 
+func (d *Decoder) ReadCompactRecordSize() (kafkaValue.CompactRecordSize, DecoderError) {
+	unsignedVarInt, err := d.ReadUnsignedVarint()
+
+	if err != nil {
+		return kafkaValue.CompactRecordSize{}, err
+	}
+
+	return kafkaValue.CompactRecordSize(unsignedVarInt), nil
+}
+
 // ReadRawBytes is re-added because of a condition encountered in fetch api extension
 // although there's no data type as raw bytes
 // we still need it for data structure like 'Record', (ref. https://kafka.apache.org/documentation/#record)
