@@ -61,12 +61,10 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 
 	correlationId := getRandomCorrelationId()
 	partitionId := 0
-	sessionId := random.RandomInt(100000, 200000)
 
 	request := builder.NewFetchRequestBuilder().
 		WithCorrelationId(correlationId).
 		WithTopicUUID(topicUUID).
-		WithSessionId(int32(sessionId)).
 		WithPartitionID(int32(partitionId)).
 		Build()
 
@@ -78,7 +76,6 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 	assertion := response_assertions.NewFetchResponseAssertion().
 		ExpectCorrelationId(correlationId).
 		ExpectErrorCodeInBody(0).
-		ExpectSessionId(request.Body.SessionId).
 		ExpectTopicUUID(topicUUID).
 		ExpectPartitionID(int32(partitionId)).
 		ExpectErrorCodeInPartition(0).

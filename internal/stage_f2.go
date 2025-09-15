@@ -35,11 +35,9 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	defer client.Close()
 
 	correlationId := getRandomCorrelationId()
-	sessionId := 0
 
 	request := builder.NewFetchRequstWithEmptyTopicsBuilder().
 		WithCorrelationId(correlationId).
-		WithSessionId(int32(sessionId)).
 		Build()
 
 	rawResponse, err := client.SendAndReceive(request, stageLogger)
@@ -49,7 +47,6 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 
 	assertion := response_assertions.NewFetchResponseAssertion().
 		ExpectCorrelationId(correlationId).
-		ExpectSessionId(int32(sessionId)).
 		ExpectErrorCodeInBody(0).
 		ExpectThrottleTimeMs(0)
 

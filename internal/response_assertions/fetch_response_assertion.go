@@ -3,6 +3,7 @@ package response_assertions
 import (
 	"bytes"
 	"fmt"
+	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
@@ -18,7 +19,6 @@ type FetchResponseAssertion struct {
 	expectedCorrelationID        int32
 	expectedThrottleTimeMs       int32
 	expectedErrorCodeInBody      int16
-	expectedSessionId            *int32
 	expectedTopicUUID            *string
 	expectedPartitionId          *int32
 	expectedErrorCodeInPartition *int16
@@ -36,11 +36,6 @@ func (a *FetchResponseAssertion) ExpectCorrelationId(expectedCorrelationID int32
 
 func (a *FetchResponseAssertion) ExpectThrottleTimeMs(expectedThrottleTimeMs int32) *FetchResponseAssertion {
 	a.expectedThrottleTimeMs = expectedThrottleTimeMs
-	return a
-}
-
-func (a *FetchResponseAssertion) ExpectSessionId(expectedSessionId int32) *FetchResponseAssertion {
-	a.expectedSessionId = &expectedSessionId
 	return a
 }
 
@@ -67,28 +62,6 @@ func (a *FetchResponseAssertion) ExpectPartitionID(expectedPartitionId int32) *F
 func (a *FetchResponseAssertion) ExpectRecordBatches(recordBatches kafkaapi.RecordBatches) *FetchResponseAssertion {
 	a.expectedRecordBatches = recordBatches
 	return a
-}
-
-func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	if field.Path.String() == "FetchResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
-	}
-
-	if field.Path.String() == "FetchResponse.Body.SessionID" {
-		if a.expectedSessionId != nil {
-			return int32_assertions.IsEqualTo(*a.expectedSessionId, field.Value)
-		}
-	}
-
-	if field.Path.String() == "FetchResponse.Body.ThrottleTimeMS" {
-		return int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.Value)
-	}
-
-	if field.Path.String() == "FetchResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.Value)
-	}
-
-	return nil
 }
 
 func (a *FetchResponseAssertion) AssertAcrossFields(response kafkaapi.FetchResponse, logger *logger.Logger) error {
@@ -160,65 +133,11 @@ func (a *FetchResponseAssertion) assertPartitionResponses(partitionResponses []k
 
 		// Assert record batches if they are set
 		if a.expectedRecordBatches != nil {
-			if err := a.assertRecordBatches(actualPartition.RecordBatches, logger); err != nil {
-				return err
-			}
-
-			// Perform byte-level comparison for more robust validation
+			// Perform byte-level comparison as stated in the instructions
 			if err := a.assertRecordBatchBytes(actualPartition.RecordBatches, logger); err != nil {
 				return err
 			}
 		}
-	}
-
-	return nil
-}
-
-func (a *FetchResponseAssertion) assertRecordBatches(actualRecordBatches []kafkaapi.RecordBatch, logger *logger.Logger) error {
-	expectedRecordBatchCount := len(a.expectedRecordBatches)
-	actualRecordBatchCount := len(actualRecordBatches)
-
-	if actualRecordBatchCount != expectedRecordBatchCount {
-		return fmt.Errorf("Expected recordBatches.length to be %d, got %d", expectedRecordBatchCount, actualRecordBatchCount)
-	}
-	logger.Successf("✓ RecordBatches Length: %v", actualRecordBatchCount)
-
-	for i, actualRecordBatch := range actualRecordBatches {
-		expectedRecordBatch := a.expectedRecordBatches[i]
-
-		// Check base offset
-		actualBaseOffset := actualRecordBatch.BaseOffset.Value
-		expectedBaseOffset := expectedRecordBatch.BaseOffset.Value
-		if actualBaseOffset != expectedBaseOffset {
-			return fmt.Errorf("Expected RecordBatch[%d] BaseOffset to be %d, got %d", i, expectedBaseOffset, actualBaseOffset)
-		}
-		logger.Successf("✓ RecordBatch[%d] BaseOffset: %d", i, actualBaseOffset)
-
-		if err := a.assertRecords(expectedRecordBatch.Records, actualRecordBatch.Records, i, logger); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (a *FetchResponseAssertion) assertRecords(expectedRecords []kafkaapi.Record, actualRecords []kafkaapi.Record, batchIndex int, logger *logger.Logger) error {
-	expectedRecordCount := len(expectedRecords)
-	actualRecordCount := len(actualRecords)
-
-	if actualRecordCount != expectedRecordCount {
-		return fmt.Errorf("Expected records.length to be %d, got %d", expectedRecordCount, actualRecordCount)
-	}
-	logger.Successf("✓ Records Length: %v", actualRecordCount)
-
-	for i, actualRecord := range actualRecords {
-		expectedRecord := expectedRecords[i]
-
-		// Check record value
-		if !bytes.Equal(actualRecord.Value, expectedRecord.Value) {
-			return fmt.Errorf("Expected Record[%d] Value to be %v, got %v", i, expectedRecord.Value, actualRecord.Value)
-		}
-		logger.Successf("✓ Record[%d] Value: %s", i, actualRecord.Value)
 	}
 
 	return nil
@@ -251,4 +170,193 @@ func (a *FetchResponseAssertion) assertRecordBatchBytes(actualRecordBatches []ka
 
 	logger.Successf("✓ RecordBatch bytes match with the contents on disk")
 	return nil
+}
+
+func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
+	fieldPath := field.Path.String()
+
+	// Header fields
+	if fieldPath == "FetchResponse.Header.CorrelationID" {
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
+	}
+
+	// Body level fields
+	if fieldPath == "FetchResponse.Body.ThrottleTimeMS" {
+		return int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.Value)
+	}
+
+	if fieldPath == "FetchResponse.Body.ErrorCode" {
+		return int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.Value)
+	}
+
+	if fieldPath == "FetchResponse.Body.SessionID" {
+		return nil
+	}
+
+	// Topics array and its elements
+	if fieldPath == "FetchResponse.Body.Topics.Length" {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.UUID`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// Partitions array and its elements
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Length`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.Id`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ErrorCode`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.HighWaterMark`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastStableOffset`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LogStartOffset`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// AbortedTransactions array
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.Length`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.AbortedTransactions\[\d+\]\.ProducerID`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.AbortedTransactions\[\d+\]\.FirstOffset`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.PreferredReadReplica`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// RecordBatches array and size
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.Size`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// RecordBatch fields
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Offset`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Length`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.PartitionLeaderEpoch`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.MagicByte`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.CRC`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Attributes`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.LastOffsetDelta`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.FirstTimeStamp`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.MaxTimeStamp`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.ProducerID`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.ProducerEpoch`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.BaseSequence`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// Records array
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Length`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// Record fields
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Length`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Attributes`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.TimestampDelta`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.OffsetDelta`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.KeyLength`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Key`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.ValueLength`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Value`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.HeadersLength`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// Record headers (if any exist)
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.KeyLength`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.Key`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.ValueLength`).MatchString(fieldPath) {
+		return nil
+	}
+
+	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.Value`).MatchString(fieldPath) {
+		return nil
+	}
+
+	// This ensures that we're handling ALL possible fields
+	panic("CodeCrafters Internal Error: Unhandled field path: " + fieldPath)
 }

@@ -54,12 +54,10 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 	defer client.Close()
 
 	correlationId := getRandomCorrelationId()
-	sessionId := 0
 	partitionId := 0
 
 	request := builder.NewFetchRequestBuilder().
 		WithCorrelationId(correlationId).
-		WithSessionId(int32(sessionId)).
 		WithTopicUUID(topicUUID).
 		WithPartitionID(int32(partitionId)).
 		Build()

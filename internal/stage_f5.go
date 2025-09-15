@@ -58,7 +58,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	defer client.Close()
 
 	correlationId := getRandomCorrelationId()
-	sessionId := 0
 	partitionId := 0
 
 	request := builder.NewFetchRequestBuilder().
@@ -74,7 +73,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 
 	assertion := response_assertions.NewFetchResponseAssertion().
 		ExpectCorrelationId(correlationId).
-		ExpectSessionId(int32(sessionId)).
 		ExpectErrorCodeInBody(0).
 		ExpectTopicUUID(topicUUID).
 		ExpectPartitionID(int32(partitionId)).

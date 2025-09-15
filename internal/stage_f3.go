@@ -55,7 +55,6 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 	defer client.Close()
 
 	correlationId := getRandomCorrelationId()
-	sessionId := 0
 	sentTopicUUID := topicUUIDs[1]
 	sentPartitionId := 0
 
@@ -72,7 +71,6 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 
 	assertion := response_assertions.NewFetchResponseAssertion().
 		ExpectCorrelationId(correlationId).
-		ExpectSessionId(int32(sessionId)).
 		ExpectErrorCodeInBody(0).
 		ExpectTopicUUID(sentTopicUUID).
 		ExpectPartitionID(int32(sentPartitionId)).

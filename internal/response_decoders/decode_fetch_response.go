@@ -29,6 +29,9 @@ func DecodeFetchResponse(decoder *field_decoder.FieldDecoder) (
 }
 
 func decodeFetchResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.FetchResponseBody, field_decoder.FieldDecoderError) {
+	decoder.PushPathContext("Body")
+	defer decoder.PopPathContext()
+
 	throttleTimeMs, err := decoder.ReadInt32Field("ThrottleTimeMS")
 	if err != nil {
 		return kafkaapi.FetchResponseBody{}, err

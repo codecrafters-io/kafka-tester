@@ -1,12 +1,13 @@
 package builder
 
 import (
+	"math"
+
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 )
 
 type FetchRequstWithEmptyTopicsBuilder struct {
 	correlationId int32
-	sessionId     int32
 }
 
 func NewFetchRequstWithEmptyTopicsBuilder() *FetchRequstWithEmptyTopicsBuilder {
@@ -18,16 +19,13 @@ func (b *FetchRequstWithEmptyTopicsBuilder) WithCorrelationId(correlationId int3
 	return b
 }
 
-func (b *FetchRequstWithEmptyTopicsBuilder) WithSessionId(sessionId int32) *FetchRequstWithEmptyTopicsBuilder {
-	b.sessionId = sessionId
-	return b
-}
-
 func (b *FetchRequstWithEmptyTopicsBuilder) Build() kafkaapi.FetchRequest {
 	return kafkaapi.FetchRequest{
 		Header: NewRequestHeaderBuilder().BuildFetchRequestHeader(b.correlationId),
 		Body: kafkaapi.FetchRequestBody{
-			SessionId:       b.sessionId,
+			MaxWaitMS:       500,
+			MinBytes:        1,
+			MaxBytes:        math.MaxInt32,
 			Topics:          []kafkaapi.Topic{},
 			ForgottenTopics: []kafkaapi.ForgottenTopic{},
 		},
