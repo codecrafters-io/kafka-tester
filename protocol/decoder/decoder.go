@@ -153,9 +153,15 @@ func (d *Decoder) ReadCompactArrayLength() (kafkaValue.CompactArrayLength, Decod
 	return kafkaValue.CompactArrayLength(unsignedVarInt), nil
 }
 
+// ReadRawBytes is re-added because of a condition encountered in fetch api extension
+// although there's no data type as raw bytes
+// we still need it for data structure like 'Record', (ref. https://kafka.apache.org/documentation/#record)
+// Here, the 'key' and 'value' fields are array of bytes,
+// Furthermore, they need special format for printing (so decoder logs is easy to read (see String() for RawBytes))
+// So, need help implementing a better solution if exists.
 func (d *Decoder) ReadRawBytes(count int) (kafkaValue.RawBytes, DecoderError) {
 	if d.RemainingBytesCount() < uint64(count) {
-		return kafkaValue.RawBytes{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for RAW_BYTES to be %d, got %d", count, d.RemainingBytesCount()))
+		return kafkaValue.RawBytes{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for reading raw bytes to be %d, got %d", count, d.RemainingBytesCount()))
 	}
 
 	readBytes := d.buffer.MustReadNBytes(uint64(count))
