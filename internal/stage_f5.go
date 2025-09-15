@@ -19,7 +19,6 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 
-	// use one UUID for topic creation and another (unknown) for fetch
 	topicUUID := getRandomTopicUUID()
 	partitionID := 0
 	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{

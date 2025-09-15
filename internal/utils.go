@@ -1,11 +1,13 @@
 package internal
 
 import (
-	"fmt"
+	"encoding/base64"
 	"math"
 	"slices"
+	"strings"
 
 	"github.com/codecrafters-io/tester-utils/random"
+	"github.com/google/uuid"
 )
 
 func getInvalidAPIVersion() int16 {
@@ -17,7 +19,26 @@ func getRandomCorrelationId() int32 {
 }
 
 func getRandomTopicUUID() string {
-	return fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(1, 100))
+	// whenever these are encountered, kafka crashes due to illegal character exception
+	// so, we use url-safe base64
+	urlUnsafeCharacters := []string{"+", "-", "/", "_"}
+
+	for {
+		id := uuid.New()
+		base54Id := base64.StdEncoding.EncodeToString(id[:])
+		isURLSafe := true
+
+		for _, char := range urlUnsafeCharacters {
+			if strings.Contains(base54Id, char) {
+				isURLSafe = false
+				break
+			}
+		}
+
+		if isURLSafe {
+			return id.String()
+		}
+	}
 }
 
 // getRandomTopicNames returns sorted random words slice
@@ -40,8 +61,8 @@ func getRandomTopicUUIDs(count int) []string {
 	randomInts := random.RandomInts(1, 100, count)
 	uuids := []string{}
 
-	for _, randomInt := range randomInts {
-		uuids = append(uuids, fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", randomInt))
+	for range randomInts {
+		uuids = append(uuids, uuid.NewString())
 	}
 
 	return uuids

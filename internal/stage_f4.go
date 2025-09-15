@@ -19,7 +19,6 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 
-	// use one UUID for topic creation and another (unknown) for fetch
 	topicUUID := getRandomTopicUUID()
 	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
 		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{
@@ -28,6 +27,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 				UUID: topicUUID,
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
+						// No messages in this stage, however partition ID is needed for creating cluster metadata
 						PartitionID: 0,
 					},
 				},

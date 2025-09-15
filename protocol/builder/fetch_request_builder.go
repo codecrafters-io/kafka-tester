@@ -51,6 +51,9 @@ func (b *FetchRequestBuilder) Build() kafkaapi.FetchRequest {
 	return kafkaapi.FetchRequest{
 		Header: NewRequestHeaderBuilder().BuildFetchRequestHeader(b.correlationId),
 		Body: kafkaapi.FetchRequestBody{
+			MaxWaitMS: 500,
+			MinBytes:  1,
+			MaxBytes:  math.MaxInt32,
 			SessionId: b.sessionId,
 			Topics: []kafkaapi.Topic{
 				{

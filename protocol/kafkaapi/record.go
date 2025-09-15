@@ -8,10 +8,10 @@ import (
 type Record struct {
 	Length         value.Int32
 	Attributes     value.Int8
-	TimestampDelta value.Int64
-	OffsetDelta    value.Int32
-	Key            value.RawBytes
-	Value          value.RawBytes
+	TimestampDelta value.Varint
+	OffsetDelta    value.Varint
+	Key            []byte
+	Value          []byte
 	Headers        []RecordHeader
 }
 
@@ -24,22 +24,31 @@ func (r Record) Encode(pe *encoder.Encoder) {
 
 	// Special encoding that does not belong to any data type and is only present inside Records
 	// similar to protobuf encoding. It is mentioned in the Kafka docs here:  https://kafka.apache.org/documentation/#recordheader
-	if r.Key.Value == nil {
+	if r.Key == nil {
 		propertiesEncoder.WriteVarint(-1)
 	} else {
-		propertiesEncoder.WriteVarint(int64(len(r.Key.Value)))
-		propertiesEncoder.WriteRawBytes(r.Key.Value)
+		propertiesEncoder.WriteVarint(int64(len(r.Key)))
+		propertiesEncoder.WriteRawBytes(r.Key)
 	}
 
-	propertiesEncoder.WriteVarint(int64(len(r.Value.Value)))
-	propertiesEncoder.WriteRawBytes(r.Value.Value)
-	propertiesEncoder.WriteVarint(int64(len(r.Headers)))
+	if r.Value == nil {
+		propertiesEncoder.WriteVarint(-1)
+	} else {
+		propertiesEncoder.WriteVarint(int64(len(r.Value)))
+		propertiesEncoder.WriteRawBytes(r.Value)
+	}
+
+	if r.Headers == nil {
+		propertiesEncoder.WriteVarint(-1)
+	} else if len(r.Headers) == 0 {
+		propertiesEncoder.WriteVarint(int64(len(r.Headers)))
+	}
+
 	for _, header := range r.Headers {
 		header.Encode(propertiesEncoder)
 	}
 
 	propertiesEncoderBytes := propertiesEncoder.Bytes()
-
 	pe.WriteVarint(int64(len(propertiesEncoderBytes)))
 	pe.WriteRawBytes(propertiesEncoderBytes)
 }

@@ -1,8 +1,6 @@
 package response_decoders
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 )
@@ -120,17 +118,7 @@ func decodeFetchPartition(decoder *field_decoder.FieldDecoder) (kafkaapi.Partiti
 		return kafkaapi.PartitionResponse{}, err
 	}
 
-	recordBatchesTotalSize, err := decoder.ReadCompactArrayLengthField("RecordBatchesSize")
-	if err != nil {
-		return kafkaapi.PartitionResponse{}, err
-	}
-
-	if decoder.RemainingBytesCount() < recordBatchesTotalSize.Value {
-		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesTotalSize.Value, decoder.RemainingBytesCount())
-		return kafkaapi.PartitionResponse{}, decoder.WrapError(errorMessage)
-	}
-
-	recordBatches, err := decodeRecordBatches(decoder)
+	recordBatches, err := decodeCompactRecordBatches(decoder, "RecordBatches")
 	if err != nil {
 		return kafkaapi.PartitionResponse{}, err
 	}
@@ -166,12 +154,4 @@ func decodeAbortedTransaction(decoder *field_decoder.FieldDecoder) (kafkaapi.Abo
 		ProducerID:  producerID,
 		FirstOffset: firstOffset,
 	}, nil
-}
-
-// For decoding record batches
-
-func decodeRecordBatches(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordBatches, field_decoder.FieldDecoderError) {
-	// recordBatches := kafkaapi.RecordBatches{}
-
-	return kafkaapi.RecordBatches{}, nil
 }

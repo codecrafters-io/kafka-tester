@@ -47,7 +47,7 @@ func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	propertiesEncoder.WriteInt32(int32(len(rb.Records)))
 
 	for i, record := range rb.Records {
-		record.OffsetDelta = value.Int32{Value: int32(i)} // Offset Deltas are consecutive numerals from 0 to N-1
+		record.OffsetDelta = value.Varint{Value: int64(i)} // Offset Deltas are consecutive numerals from 0 to N-1
 		// We can set them programmatically as we know the order of the records
 		record.Encode(propertiesEncoder)
 	}
@@ -68,4 +68,31 @@ func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	pe.WriteInt8(2)             // Magic value is 2
 	pe.WriteInt32(rb.CRC.Value) // CRC placeholder
 	pe.WriteRawBytes(propertiesEncoderBytes)
+}
+
+func (rb *RecordBatch) IsCRCValueOk() bool {
+	return true
+}
+
+func (rb *RecordBatch) SetCRC() {
+	propertiesEncoder := encoder.NewEncoder()
+	propertiesEncoder.WriteInt16(rb.Attributes.Value)
+	propertiesEncoder.WriteInt32(rb.LastOffsetDelta.Value)
+	propertiesEncoder.WriteInt64(rb.FirstTimestamp.Value)
+	propertiesEncoder.WriteInt64(rb.MaxTimestamp.Value)
+	propertiesEncoder.WriteInt64(rb.ProducerId.Value)
+	propertiesEncoder.WriteInt16(rb.ProducerEpoch.Value)
+	propertiesEncoder.WriteInt32(rb.BaseSequence.Value)
+	propertiesEncoder.WriteInt32(int32(len(rb.Records)))
+
+	for i, record := range rb.Records {
+		record.OffsetDelta = value.Varint{Value: int64(i)}
+		record.Encode(propertiesEncoder)
+	}
+
+	propertiesEncoderBytes := propertiesEncoder.Bytes()
+	computedChecksum := crc32.Checksum(propertiesEncoderBytes, crc32.MakeTable(crc32.Castagnoli))
+	rb.CRC = value.Int32{
+		Value: int32(computedChecksum),
+	}
 }

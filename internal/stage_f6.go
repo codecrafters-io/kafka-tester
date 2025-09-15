@@ -19,9 +19,10 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 
-	// use one UUID for topic creation and another (unknown) for fetch
 	topicUUID := getRandomTopicUUID()
 	partitionID := 0
+	logsCount := random.RandomInt(2, 4)
+
 	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
 		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{
 			{
@@ -30,7 +31,7 @@ func testFetchMultipleMessages(stageHarness *test_case_harness.TestCaseHarness) 
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
 						PartitionID: partitionID,
-						Logs:        []string{random.RandomString(), random.RandomString()},
+						Logs:        random.RandomWords(logsCount),
 					},
 				},
 			},

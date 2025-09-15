@@ -29,6 +29,10 @@ func NewFieldDecoder(bytes []byte) *FieldDecoder {
 	}
 }
 
+func (d *FieldDecoder) ReadBytesCount() uint64 {
+	return d.decoder.ReadBytesCount()
+}
+
 func (d *FieldDecoder) DecodedFields() []DecodedField {
 	return d.decodedFields
 }
@@ -48,6 +52,36 @@ func (d *FieldDecoder) ReadCompactArrayLengthField(path string) (value.CompactAr
 	decodedValue, err := d.decoder.ReadCompactArrayLength()
 	if err != nil {
 		return value.CompactArrayLength{}, d.WrapError(err)
+	}
+
+	d.appendDecodedField(decodedValue)
+
+	return decodedValue, nil
+}
+
+func (d *FieldDecoder) ReadUnsignedVarInt(path string) (value.UnsignedVarint, FieldDecoderError) {
+	d.PushPathContext(path)
+	defer d.PopPathContext()
+
+	decodedValue, err := d.decoder.ReadUnsignedVarint()
+
+	if err != nil {
+		return value.UnsignedVarint{}, d.WrapError(err)
+	}
+
+	d.appendDecodedField(decodedValue)
+
+	return decodedValue, nil
+}
+
+func (d *FieldDecoder) ReadVarint(path string) (value.Varint, FieldDecoderError) {
+	d.PushPathContext(path)
+	defer d.PopPathContext()
+
+	decodedValue, err := d.decoder.ReadVarint()
+
+	if err != nil {
+		return value.Varint{}, d.WrapError(err)
 	}
 
 	d.appendDecodedField(decodedValue)
@@ -198,6 +232,20 @@ func (d *FieldDecoder) ReadInt64Field(path string) (value.Int64, FieldDecoderErr
 
 	if err != nil {
 		return value.Int64{}, d.WrapError(err)
+	}
+
+	d.appendDecodedField(decodedValue)
+
+	return decodedValue, nil
+}
+
+func (d *FieldDecoder) ReadRawBytes(path string, count int) (value.RawBytes, FieldDecoderError) {
+	d.PushPathContext(path)
+	defer d.PopPathContext()
+
+	decodedValue, err := d.decoder.ReadRawBytes(count)
+	if err != nil {
+		return value.RawBytes{}, d.WrapError(err)
 	}
 
 	d.appendDecodedField(decodedValue)

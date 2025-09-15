@@ -19,6 +19,10 @@ func NewDecoder(rawBytes []byte) *Decoder {
 	}
 }
 
+func (d *Decoder) ReadBytesCount() uint64 {
+	return d.buffer.Offset()
+}
+
 func (d *Decoder) RemainingBytesCount() uint64 {
 	return d.buffer.RemainingBytesCount()
 }
@@ -114,6 +118,27 @@ func (d *Decoder) ReadUnsignedVarint() (kafkaValue.UnsignedVarint, DecoderError)
 	}
 
 	return kafkaValue.UnsignedVarint{
+		Value: decodedInteger,
+	}, nil
+}
+
+func (d *Decoder) ReadVarint() (kafkaValue.Varint, DecoderError) {
+	decodedInteger, numberOfBytesRead := binary.Varint(d.buffer.RemainingBytes())
+
+	// Move the offset
+	d.buffer.MustReadNBytes(uint64(numberOfBytesRead))
+
+	// binary.Varint returns 0 bytes read if buffer is too small
+	if numberOfBytesRead == 0 {
+		return kafkaValue.Varint{}, d.wrapError(errors.New("Insufficient bytes to decode VARINT"))
+	}
+
+	// binary.Varint returns negative if malformed
+	if numberOfBytesRead < 0 {
+		return kafkaValue.Varint{}, d.wrapError(errors.New("Malformed VARINT encoding"))
+	}
+
+	return kafkaValue.Varint{
 		Value: decodedInteger,
 	}, nil
 }
