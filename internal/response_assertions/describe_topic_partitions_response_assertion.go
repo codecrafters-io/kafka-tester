@@ -205,7 +205,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 		return nil
 	}
 
-	return nil
+	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {
