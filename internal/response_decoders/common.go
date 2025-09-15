@@ -5,7 +5,6 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
-	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader, field_decoder.FieldDecoderError) {
@@ -60,14 +59,4 @@ func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc f
 	}
 
 	return elements, nil
-}
-
-// decodeInt32 decodes int32 field using the passed-in decoder
-// see usage
-func decodeInt32(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
 }

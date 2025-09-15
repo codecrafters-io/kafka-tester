@@ -12,9 +12,8 @@ type DescribeTopicPartitionsResponse struct {
 
 type DescribeTopicPartitionsResponseBody struct {
 	ThrottleTimeMs value.Int32
-	// CompactArray
-	Topics     []DescribeTopicPartitionsResponseTopic
-	NextCursor DescribeTopicPartitionsResponseCursor
+	Topics         []DescribeTopicPartitionsResponseTopic
+	NextCursor     DescribeTopicPartitionsResponseCursor
 }
 
 type DescribeTopicPartitionsResponseCursor struct {

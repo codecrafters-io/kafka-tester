@@ -12,7 +12,7 @@ import (
 )
 
 type ExpectedPartition struct {
-	PartititionID int32
+	PartititionId int32
 	ErrorCode     int16
 }
 type ExpectedTopic struct {
@@ -36,7 +36,7 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 
 		for partitionID := range topicData.GeneratedRecordBatchesByPartition {
 			expectedPartitions = append(expectedPartitions, ExpectedPartition{
-				PartititionID: int32(partitionID),
+				PartititionId: int32(partitionID),
 				ErrorCode:     0,
 			})
 		}
@@ -70,7 +70,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	if field.Path.String() == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
 		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
-	// Cannot panic here, the response is really nested and I'm not sure if we should put checks for every possible nested field
+
+	if field.Path.String() == "DescribeTopicPartitionsResponse.Body.ThrottleTimeMs" {
+		return nil
+	}
+
+	// keep writing these checks with nil return value for all the fields
 
 	return nil
 }
@@ -118,10 +123,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 			foundPartition := foundTopic.Partitions[j]
 
 			// Check partition ID
-			if expectedPartition.PartititionID != foundPartition.PartitionIndex.Value {
-				return fmt.Errorf("Expected partition[%d] ID for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartititionID, foundPartition.PartitionIndex.Value)
+			if expectedPartition.PartititionId != foundPartition.PartitionIndex.Value {
+				return fmt.Errorf("Expected partition[%d] ID for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartititionId, foundPartition.PartitionIndex.Value)
 			}
-			logger.Successf("✓ Topic[%d] Partition[%d] ID: %d", i, j, expectedPartition.PartititionID)
+			logger.Successf("✓ Topic[%d] Partition[%d] ID: %d", i, j, expectedPartition.PartititionId)
 
 			// Check partition's error
 			if expectedPartition.ErrorCode != foundPartition.ErrorCode.Value {

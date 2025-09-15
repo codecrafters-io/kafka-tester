@@ -405,11 +405,11 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#EA7] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#EA7] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#EA7] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#EA7] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#EA7] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#EA7] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#EA7] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#EA7] [Decoder] [0m[36m            - LastKnownELR[0m
@@ -477,11 +477,11 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#KU4] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#KU4] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - LastKnownELR[0m
@@ -496,11 +496,11 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#KU4] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#KU4] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#KU4] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#KU4] [Decoder] [0m[36m            - LastKnownELR[0m
@@ -575,11 +575,11 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - LastKnownELR[0m
@@ -602,11 +602,11 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - LastKnownELR[0m
@@ -621,11 +621,11 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m            - ReplicaNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - ReplicaNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - ReplicaNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - IsrNodes[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - IsrNodes[0][0m
-[33m[tester::#WQ2] [Decoder] [0m[36m                -  (1)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m                - IsrNode (1)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - EligibleLeaderReplicas[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m            - LastKnownELR[0m

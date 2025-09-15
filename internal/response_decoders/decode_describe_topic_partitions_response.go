@@ -3,6 +3,7 @@ package response_decoders
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func DecodeDescribeTopicPartitionsResponse(decoder *field_decoder.FieldDecoder) (
@@ -126,30 +127,27 @@ func decodePartition(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopi
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
-	// this is not a good way to do it
-	// should i decode length first, and then array in a loop
-	// need suggestions
-	replicaNodes, err := decodeCompactArray(decoder, decodeInt32, "ReplicaNodes")
+	replicaNodes, err := decodeCompactArray(decoder, decodeReplicaNode, "ReplicaNodes")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
-	isrNodes, err := decodeCompactArray(decoder, decodeInt32, "IsrNodes")
+	isrNodes, err := decodeCompactArray(decoder, decodeIsrNode, "IsrNodes")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
-	eligibleLeaderReplicas, err := decodeCompactArray(decoder, decodeInt32, "EligibleLeaderReplicas")
+	eligibleLeaderReplicas, err := decodeCompactArray(decoder, decodeEligibleLeaderReplica, "EligibleLeaderReplicas")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
-	lastKnownELR, err := decodeCompactArray(decoder, decodeInt32, "LastKnownELR")
+	lastKnownELR, err := decodeCompactArray(decoder, decodeLastKnownELRNode, "LastKnownELR")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
 
-	offlineReplicas, err := decodeCompactArray(decoder, decodeInt32, "OfflineReplicas")
+	offlineReplicas, err := decodeCompactArray(decoder, decodeOfflineReplica, "OfflineReplicas")
 	if err != nil {
 		return kafkaapi.DescribeTopicPartitionsResponsePartition{}, err
 	}
@@ -202,4 +200,44 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 		TopicName:      topicName,
 		PartitionIndex: partitionIndex,
 	}, nil
+}
+
+func decodeReplicaNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("ReplicaNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
+}
+
+func decodeIsrNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("IsrNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
+}
+
+func decodeEligibleLeaderReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("EligibleLeaderReplica")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
+}
+
+func decodeLastKnownELRNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("LastKnownELRNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
+}
+
+func decodeOfflineReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
+	decodedValue, err := decoder.ReadInt32Field("OfflineReplica")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return decodedValue, nil
 }
