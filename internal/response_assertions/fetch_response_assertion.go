@@ -16,6 +16,7 @@ type FetchResponseAssertion struct {
 	expectedPartitionId          int32
 	expectedErrorCodeInBody      int16
 	expectedErrorCodeInPartition int16
+	expectedRecordBatches        kafkaapi.RecordBatches
 }
 
 func NewFetchResponseAssertion() *FetchResponseAssertion {
@@ -54,6 +55,11 @@ func (a *FetchResponseAssertion) ExpectTopicUUID(expectedTopicUUID string) *Fetc
 
 func (a *FetchResponseAssertion) ExpectPartitionID(expectedPartitionId int32) *FetchResponseAssertion {
 	a.expectedPartitionId = int32(expectedPartitionId)
+	return a
+}
+
+func (a *FetchResponseAssertion) ExpectRecordBatches(recordBatches kafkaapi.RecordBatches) *FetchResponseAssertion {
+	a.expectedRecordBatches = recordBatches
 	return a
 }
 
