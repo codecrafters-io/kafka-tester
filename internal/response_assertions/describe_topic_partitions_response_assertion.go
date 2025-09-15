@@ -2,6 +2,7 @@ package response_assertions
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
@@ -67,15 +68,142 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectTopics(expectedTopics [
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	if field.Path.String() == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
+	path := field.Path.String()
+
+	// Header fields
+	if path == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
 		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
 
-	if field.Path.String() == "DescribeTopicPartitionsResponse.Body.ThrottleTimeMs" {
+	// Body level fields
+	if path == "DescribeTopicPartitionsResponse.Body.ThrottleTimeMs" {
 		return nil
 	}
 
-	// keep writing these checks with nil return value for all the fields
+	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
+		return nil
+	}
+
+	// Topic level fields (using regex for array indices)
+	topicErrorCodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.ErrorCode$`)
+	if topicErrorCodePattern.MatchString(path) {
+		return nil
+	}
+
+	topicNamePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Name$`)
+	if topicNamePattern.MatchString(path) {
+		return nil
+	}
+
+	topicUUIDPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.UUID$`)
+	if topicUUIDPattern.MatchString(path) {
+		return nil
+	}
+
+	topicIsInternalPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.IsInternal$`)
+	if topicIsInternalPattern.MatchString(path) {
+		return nil
+	}
+
+	topicAuthorizedOpsPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.TopicAuthorizedOperations$`)
+	if topicAuthorizedOpsPattern.MatchString(path) {
+		return nil
+	}
+
+	// Partitions array length
+	partitionsLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Length$`)
+	if partitionsLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	// Partition level fields (using regex for array indices)
+	partitionErrorCodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ErrorCode$`)
+	if partitionErrorCodePattern.MatchString(path) {
+		return nil
+	}
+
+	partitionIndexPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.PartitionIndex$`)
+	if partitionIndexPattern.MatchString(path) {
+		return nil
+	}
+
+	partitionLeaderIdPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderId$`)
+	if partitionLeaderIdPattern.MatchString(path) {
+		return nil
+	}
+
+	partitionLeaderEpochPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderEpoch$`)
+	if partitionLeaderEpochPattern.MatchString(path) {
+		return nil
+	}
+
+	// ReplicaNodes array fields
+	replicaNodesLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ReplicaNodes\.Length$`)
+	if replicaNodesLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	replicaNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ReplicaNodes\.ReplicaNodes\[\d+\]\.ReplicaNode$`)
+	if replicaNodePattern.MatchString(path) {
+		return nil
+	}
+
+	// IsrNodes array fields
+	isrNodesLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.IsrNodes\.Length$`)
+	if isrNodesLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	isrNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.IsrNodes\.IsrNodes\[\d+\]\.IsrNode$`)
+	if isrNodePattern.MatchString(path) {
+		return nil
+	}
+
+	// EligibleLeaderReplicas array fields
+	eligibleLeaderReplicasLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.EligibleLeaderReplicas\.Length$`)
+	if eligibleLeaderReplicasLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	eligibleLeaderReplicaPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.EligibleLeaderReplicas\.EligibleLeaderReplicas\[\d+\]\.EligibleLeaderReplica$`)
+	if eligibleLeaderReplicaPattern.MatchString(path) {
+		return nil
+	}
+
+	// LastKnownELR array fields
+	lastKnownELRLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastKnownELR\.Length$`)
+	if lastKnownELRLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	lastKnownELRNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastKnownELR\.LastKnownELR\[\d+\]\.LastKnownELRNode$`)
+	if lastKnownELRNodePattern.MatchString(path) {
+		return nil
+	}
+
+	// OfflineReplicas array fields
+	offlineReplicasLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.OfflineReplicas\.Length$`)
+	if offlineReplicasLengthPattern.MatchString(path) {
+		return nil
+	}
+
+	offlineReplicaPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.OfflineReplicas\.OfflineReplicas\[\d+\]\.OfflineReplica$`)
+	if offlineReplicaPattern.MatchString(path) {
+		return nil
+	}
+
+	// Cursor fields
+	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
+		return nil
+	}
+
+	if path == "DescribeTopicPartitionsResponse.Body.Cursor.TopicName" {
+		return nil
+	}
+
+	if path == "DescribeTopicPartitionsResponse.Body.Cursor.PartitionIndex" {
+		return nil
+	}
 
 	return nil
 }
