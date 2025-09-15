@@ -35,9 +35,9 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 	for _, topicData := range generatedLogDirectoryData.GeneratedTopicsData {
 		var expectedPartitions []ExpectedPartition
 
-		for partitionID := range topicData.GeneratedRecordBatchesByPartition {
+		for _, generatedRecordBatchesByPartition := range topicData.GeneratedRecordBatchesByPartition {
 			expectedPartitions = append(expectedPartitions, ExpectedPartition{
-				PartititionId: int32(partitionID),
+				PartititionId: int32(generatedRecordBatchesByPartition.PartitionID),
 				ErrorCode:     0,
 			})
 		}
