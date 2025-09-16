@@ -192,25 +192,25 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 		if expectedTopic.Name != foundTopic.Name.String() {
 			return fmt.Errorf("Expected name of Topic[%d] to be %s, got %s", i, expectedTopic.Name, foundTopic.Name.String())
 		}
-		logger.Successf("✓ Topic[%d] name: %s", i, expectedTopic.Name)
+		logger.Successf("✓ Topic[%d].Name: %s", i, expectedTopic.Name)
 
 		// Assert UUIDs
 		if expectedTopic.UUID != foundTopic.TopicUUID.String() {
 			return fmt.Errorf("Expected UUID of Topic[%d] to be %s, got %s", i, expectedTopic.UUID, foundTopic.TopicUUID.String())
 		}
-		logger.Successf("✓ Topic[%d] UUID: %s", i, expectedTopic.UUID)
+		logger.Successf("✓ Topic[%d].UUID: %s", i, expectedTopic.UUID)
 
 		// Assert error code
 		if expectedTopic.ErrorCode != foundTopic.ErrorCode.Value {
 			return fmt.Errorf("Expected error code of Topic[%d] to be %d, got %d", i, expectedTopic.ErrorCode, foundTopic.ErrorCode.Value)
 		}
-		logger.Successf("✓ Topic[%d] error code: %d", i, expectedTopic.ErrorCode)
+		logger.Successf("✓ Topic[%d].ErrorCode: %d", i, expectedTopic.ErrorCode)
 
 		// Check partitions length
 		if len(expectedTopic.ExpectedPartitions) != len(foundTopic.Partitions) {
 			return fmt.Errorf("Expected partitions array length for Topic[%d] to be %d, got %d", i, len(expectedTopic.ExpectedPartitions), len(foundTopic.Partitions))
 		}
-		logger.Successf("✓ Topic[%d] partitions array length: %d", i, len(foundTopic.Partitions))
+		logger.Successf("✓ Topic[%d].Partitions.Length: %d", i, len(foundTopic.Partitions))
 
 		// For each partition check id and error code
 		for j, expectedPartition := range expectedTopic.ExpectedPartitions {
@@ -218,15 +218,15 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 
 			// Check partition ID
 			if expectedPartition.PartititionId != foundPartition.PartitionIndex.Value {
-				return fmt.Errorf("Expected partition[%d] ID for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartititionId, foundPartition.PartitionIndex.Value)
+				return fmt.Errorf("Expected partition[%d] id for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartititionId, foundPartition.PartitionIndex.Value)
 			}
-			logger.Successf("✓ Topic[%d] Partition[%d] ID: %d", i, j, expectedPartition.PartititionId)
+			logger.Successf("✓ Topic[%d].Partition[%d].ID: %d", i, j, expectedPartition.PartititionId)
 
 			// Check partition's error
 			if expectedPartition.ErrorCode != foundPartition.ErrorCode.Value {
-				return fmt.Errorf("Expected partition[%d] error code for Topic[%d] to be %d, got %d", j, i, expectedPartition.ErrorCode, foundPartition.ErrorCode.Value)
+				return fmt.Errorf("Expected error code for partition[%d] of Topic[%d] to be %d, got %d", j, i, expectedPartition.ErrorCode, foundPartition.ErrorCode.Value)
 			}
-			logger.Successf("✓ Topic[%d] Partition[%d] error code: %d (%s)", i, j, expectedPartition.ErrorCode, utils.ErrorCodeToName(expectedPartition.ErrorCode))
+			logger.Successf("✓ Topic[%d].Partition[%d].ErrorCode: %d (%s)", i, j, expectedPartition.ErrorCode, utils.ErrorCodeToName(expectedPartition.ErrorCode))
 		}
 	}
 
