@@ -20,7 +20,7 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 
 	// generate logs by partition
 	for _, partitionGenerationConfig := range c.PartitonGenerationConfigList {
-		partitionID := partitionGenerationConfig.PartitionID
+		partitionId := partitionGenerationConfig.PartitionId
 
 		recordBatches, err := partitionGenerationConfig.Generate(PartitionMetadata{
 			Version:   0,
@@ -35,7 +35,7 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 		generatedTopicData.GeneratedRecordBatchesByPartition = append(
 			generatedTopicData.GeneratedRecordBatchesByPartition,
 			GeneratedRecordBatchesByPartition{
-				PartitionID:   partitionID,
+				PartitionId:   partitionId,
 				recordBatches: recordBatches,
 			},
 		)

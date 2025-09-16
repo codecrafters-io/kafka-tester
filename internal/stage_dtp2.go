@@ -28,7 +28,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 				UUID: getRandomTopicUUID(),
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: 0,
+						PartitionId: 0,
 						Logs:        []string{random.RandomString()},
 					},
 				},

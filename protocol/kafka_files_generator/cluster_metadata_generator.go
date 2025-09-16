@@ -93,7 +93,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 				Type:         3,
 				Version:      1,
 				Data: &kafkaapi.PartitionRecord{
-					PartitionID:      int32(generatedRecordBatchByPartition.PartitionID),
+					PartitionId:      int32(generatedRecordBatchByPartition.PartitionId),
 					TopicUUID:        topicData.UUID,
 					Replicas:         []int32{1},
 					ISReplicas:       []int32{1},

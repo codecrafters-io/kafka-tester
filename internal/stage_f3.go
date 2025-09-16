@@ -11,7 +11,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchWithUnknownTopicId(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
 	err := legacy_serializer.GenerateLogDirs(stageLogger, false)

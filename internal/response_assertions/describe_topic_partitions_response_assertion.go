@@ -24,7 +24,7 @@ type ExpectedTopic struct {
 }
 
 type DescribeTopicPartitionsResponseAssertion struct {
-	expectedCorrelationID int32
+	expectedCorrelationId int32
 	expectedErrorCode     int16
 	expectedTopics        []ExpectedTopic
 }
@@ -37,7 +37,7 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 
 		for _, generatedRecordBatchesByPartition := range topicData.GeneratedRecordBatchesByPartition {
 			expectedPartitions = append(expectedPartitions, ExpectedPartition{
-				PartititionId: int32(generatedRecordBatchesByPartition.PartitionID),
+				PartititionId: int32(generatedRecordBatchesByPartition.PartitionId),
 				ErrorCode:     0,
 			})
 		}
@@ -58,7 +58,7 @@ func NewDescribeTopicPartitionsResponseAssertion() *DescribeTopicPartitionsRespo
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExpectCorrelationId(expectedCorrelationID int32) *DescribeTopicPartitionsResponseAssertion {
-	a.expectedCorrelationID = expectedCorrelationID
+	a.expectedCorrelationId = expectedCorrelationID
 	return a
 }
 
@@ -72,7 +72,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 	// Header fields
 	if path == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
+		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.Value)
 	}
 
 	// Body level fields
@@ -210,7 +210,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {
 	// Log success messages from single-field assertions
-	logger.Successf("✓ CorrelationID: %d", a.expectedCorrelationID)
+	logger.Successf("✓ CorrelationID: %d", a.expectedCorrelationId)
 	logger.Successf("✓ ErrorCode: %d (%s)", a.expectedErrorCode, utils.ErrorCodeToName(a.expectedErrorCode))
 
 	if len(a.expectedTopics) != len(response.Body.Topics) {

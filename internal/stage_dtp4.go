@@ -26,11 +26,11 @@ func testDTPartitionWithTopicAndMultiplePartitions(stageHarness *test_case_harne
 				UUID: getRandomTopicUUID(),
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: 0,
+						PartitionId: 0,
 						Logs:        []string{random.RandomString()},
 					},
 					{
-						PartitionID: 1,
+						PartitionId: 1,
 						Logs:        []string{random.RandomString()},
 					},
 				},

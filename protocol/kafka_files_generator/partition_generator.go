@@ -17,7 +17,7 @@ type PartitionMetadata struct {
 }
 
 type PartitionGenerationConfig struct {
-	PartitionID int
+	PartitionId int
 	Logs        []string
 }
 
@@ -25,7 +25,7 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata, logger 
 	// Create directory first
 	partitionDirPath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 	)
 
 	if err := os.MkdirAll(partitionDirPath, 0755); err != nil {
@@ -52,7 +52,7 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, log
 
 	logFilePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 		LOG_FILE_NAME,
 	)
 
@@ -63,20 +63,20 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, log
 		return nil, fmt.Errorf("error writing file to %s: %w", logFilePath, err)
 	}
 
-	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, logFilePath)
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionId, metadata.TopicName, logFilePath)
 	return recordBatches, nil
 }
 
 func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata, logger *logger.Logger) error {
-	topicIDBase64, err := uuidToBase64(metadata.TopicUUID)
+	topicIdBase64, err := uuidToBase64(metadata.TopicUUID)
 	if err != nil {
 		return err
 	}
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIDBase64)
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIdBase64)
 
 	filePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 		"partition.metadata",
 	)
 
@@ -86,7 +86,7 @@ func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMet
 		return fmt.Errorf("error writing partition metadata file: %w", err)
 	}
 
-	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, filePath)
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionId, metadata.TopicName, filePath)
 	return nil
 }
 

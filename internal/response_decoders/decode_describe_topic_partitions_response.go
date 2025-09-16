@@ -159,12 +159,12 @@ func decodePartition(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopi
 	return kafkaapi.DescribeTopicPartitionsResponsePartition{
 		ErrorCode:              errorCode,
 		PartitionIndex:         partitionIndex,
-		LeaderID:               leaderId,
+		LeaderId:               leaderId,
 		LeaderEpoch:            leaderEpoch,
 		ReplicaNodes:           replicaNodes,
 		IsrNodes:               isrNodes,
 		EligibleLeaderReplicas: eligibleLeaderReplicas,
-		LastKnownELR:           lastKnownELR,
+		LastKnownElr:           lastKnownELR,
 		OfflineReplicas:        offlineReplicas,
 	}, nil
 }

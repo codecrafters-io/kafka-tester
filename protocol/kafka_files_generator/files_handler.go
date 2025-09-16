@@ -13,7 +13,7 @@ import (
 // Structures to hold information about generated topics and partitions
 
 type GeneratedRecordBatchesByPartition struct {
-	PartitionID   int
+	PartitionId   int
 	recordBatches kafkaapi.RecordBatches
 }
 

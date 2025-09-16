@@ -33,11 +33,11 @@ type DescribeTopicPartitionsResponseTopic struct {
 type DescribeTopicPartitionsResponsePartition struct {
 	ErrorCode              value.Int16
 	PartitionIndex         value.Int32
-	LeaderID               value.Int32
+	LeaderId               value.Int32
 	LeaderEpoch            value.Int32
 	ReplicaNodes           []value.Int32
 	IsrNodes               []value.Int32
 	EligibleLeaderReplicas []value.Int32
-	LastKnownELR           []value.Int32
+	LastKnownElr           []value.Int32
 	OfflineReplicas        []value.Int32
 }
