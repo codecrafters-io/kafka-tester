@@ -77,7 +77,7 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 				UUID:               getEmptyTopicUUID(),
 				ExpectedPartitions: []response_assertions.ExpectedPartition{},
 			},
-		})
+		}).ExpectCursorAbsence()
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.DescribeTopicPartitionsResponse]{
 		DecodeFunc: response_decoders.DecodeDescribeTopicPartitionsResponse,

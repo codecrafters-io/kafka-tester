@@ -28,8 +28,9 @@ type ExpectedTopic struct {
 }
 
 type DescribeTopicPartitionsResponseAssertion struct {
-	expectedCorrelationId int32
-	expectedTopics        []ExpectedTopic
+	expectedCorrelationId  int32
+	expectedCursorPresence int8
+	expectedTopics         []ExpectedTopic
 }
 
 func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *kafka_files_generator.GeneratedLogDirectoryData) []ExpectedTopic {
@@ -72,6 +73,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectCorrelationId(expectedC
 
 func (a *DescribeTopicPartitionsResponseAssertion) ExpectTopics(expectedTopics []ExpectedTopic) *DescribeTopicPartitionsResponseAssertion {
 	a.expectedTopics = expectedTopics
+	return a
+}
+
+func (a *DescribeTopicPartitionsResponseAssertion) ExpectCursorAbsence() *DescribeTopicPartitionsResponseAssertion {
+	a.expectedCursorPresence = -1
 	return a
 }
 
@@ -180,7 +186,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 	// Cursor fields
 	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
-		return int8_assertions.IsEqualTo(-1, field.Value)
+		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.Value)
 	}
 
 	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
@@ -190,6 +196,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 	// Log success messages from single-field assertions
 	logger.Successf("✓ CorrelationID: %d", a.expectedCorrelationId)
 	logger.Successf("✓ Topics array length: %d", len(response.Body.Topics))
+	logger.Successf("✓ Cursor.IsCursorPresent: %d", a.expectedCursorPresence)
 
 	for i, expectedTopic := range a.expectedTopics {
 		foundTopic := response.Body.Topics[i]
