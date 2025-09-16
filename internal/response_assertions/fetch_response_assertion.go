@@ -22,13 +22,19 @@ type FetchResponseAssertion struct {
 	expectedThrottleTimeMs       int32
 	expectedErrorCodeInBody      int16
 	expectedTopicUUID            *string
+	expectedTopicsLength         value.CompactArrayLength
 	expectedPartitionId          *int32
 	expectedErrorCodeInPartition *int16
 	expectedRecordBatches        kafkaapi.RecordBatches
 }
 
 func NewFetchResponseAssertion() *FetchResponseAssertion {
-	return &FetchResponseAssertion{}
+	return &FetchResponseAssertion{
+		// Expect empty topics by default
+		expectedTopicsLength: value.CompactArrayLength{
+			Value: 1,
+		},
+	}
 }
 
 func (a *FetchResponseAssertion) ExpectCorrelationId(expectedCorrelationID int32) *FetchResponseAssertion {
@@ -53,6 +59,9 @@ func (a *FetchResponseAssertion) ExpectErrorCodeInPartition(expectedErorrCode in
 
 func (a *FetchResponseAssertion) ExpectTopicUUID(expectedTopicUUID string) *FetchResponseAssertion {
 	a.expectedTopicUUID = &expectedTopicUUID
+	a.expectedTopicsLength = value.CompactArrayLength{
+		Value: 2,
+	}
 	return a
 }
 
@@ -196,15 +205,7 @@ func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedFi
 	}
 
 	if fieldPath == "FetchResponse.Body.Topics.Length" {
-		// Empty array
-		compactArrayLength := value.CompactArrayLength{Value: 1}
-
-		// With one element (Hardcoded because we use only one topic for the extension)
-		if a.expectedTopicUUID != nil {
-			compactArrayLength = value.CompactArrayLength{Value: 2}
-		}
-
-		return compact_array_length_assertions.IsEqualTo(compactArrayLength, field.Value)
+		return compact_array_length_assertions.IsEqualTo(a.expectedTopicsLength, field.Value)
 	}
 
 	// Partitions array and its elements
