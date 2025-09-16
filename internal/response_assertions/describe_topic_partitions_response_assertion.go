@@ -17,8 +17,8 @@ import (
 )
 
 type ExpectedPartition struct {
-	PartititionId int32
-	ErrorCode     int16
+	ErrorCode   int16
+	PartitionId int32
 }
 type ExpectedTopic struct {
 	Name               string
@@ -40,8 +40,8 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 
 		for _, generatedRecordBatchesByPartition := range topicData.GeneratedRecordBatchesByPartition {
 			expectedPartitions = append(expectedPartitions, ExpectedPartition{
-				PartititionId: int32(generatedRecordBatchesByPartition.PartitionId),
-				ErrorCode:     0,
+				PartitionId: int32(generatedRecordBatchesByPartition.PartitionId),
+				ErrorCode:   0,
 			})
 		}
 
@@ -53,7 +53,7 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 		})
 	}
 
-	// sort expected topics by alphabet order
+	// sort expected topics by in alphabetical order
 	sort.Slice(expectedTopics, func(i, j int) bool {
 		return expectedTopics[i].Name < expectedTopics[j].Name
 	})
@@ -223,10 +223,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response k
 			foundPartition := foundTopic.Partitions[j]
 
 			// Check partition ID
-			if expectedPartition.PartititionId != foundPartition.PartitionIndex.Value {
-				return fmt.Errorf("Expected partition[%d] id for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartititionId, foundPartition.PartitionIndex.Value)
+			if expectedPartition.PartitionId != foundPartition.PartitionIndex.Value {
+				return fmt.Errorf("Expected partition[%d] id for Topic[%d] to be %d, got %d", j, i, expectedPartition.PartitionId, foundPartition.PartitionIndex.Value)
 			}
-			logger.Successf("✓ Topic[%d].Partition[%d].ID: %d", i, j, expectedPartition.PartititionId)
+			logger.Successf("✓ Topic[%d].Partition[%d].ID: %d", i, j, expectedPartition.PartitionId)
 
 			// Check partition's error
 			if expectedPartition.ErrorCode != foundPartition.ErrorCode.Value {
