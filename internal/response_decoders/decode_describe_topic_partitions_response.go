@@ -203,41 +203,21 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 }
 
 func decodeReplicaNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("ReplicaNode")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
+	return decoder.ReadInt32Field("ReplicaNode")
 }
 
 func decodeIsrNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("IsrNode")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
+	return decoder.ReadInt32Field("IsrNode")
 }
 
 func decodeEligibleLeaderReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("EligibleLeaderReplica")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
+	return decoder.ReadInt32Field("EligibleLeaderReplica")
 }
 
 func decodeLastKnownELRNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("LastKnownELRNode")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
+	return decoder.ReadInt32Field("LastKnownELRNode")
 }
 
 func decodeOfflineReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("OfflineReplica")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
+	return decoder.ReadInt32Field("OfflineReplica")
 }
