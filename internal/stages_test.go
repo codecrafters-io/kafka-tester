@@ -99,7 +99,7 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 		"Topic ID":               {regexp.MustCompile(`✓ TopicResponse\[[0-9]{1,}\] TopicID: [0-9 -]{1,}`)},
 		"Record Value":           {regexp.MustCompile(`✓ Record\[[0-9]{1,}\] Value: [A-Za-z0-9 !]{1,}`)},
 		"RecordBatch BaseOffset": {regexp.MustCompile(`✓ RecordBatch\[[0-9]{1,}\] BaseOffset: [0-9]{1,}`)},
-		"SessionId":              {regexp.MustCompile(`- SessionID (\[0-9].*)`)},
+		"SessionId":              {regexp.MustCompile(`- SessionID (\[0-9].*)`), regexp.MustCompile(`- SessionID \([0-9]+\)`)},
 	}
 
 	for replacement, regexes := range replacements {
