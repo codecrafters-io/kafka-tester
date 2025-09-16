@@ -7,21 +7,20 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_serializer"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) error {
+	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
 
-	if err := legacy_serializer.GenerateLogDirs(logger.GetQuietLogger(""), true); err != nil {
+	if err := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger("")).GenerateServerConfiguration(); err != nil {
 		return err
 	}
-
-	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
 	if err := b.Run(); err != nil {
 		return err
