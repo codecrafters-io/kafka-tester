@@ -24,7 +24,7 @@ func getRandomTopicUUID() string {
 	// This ensures deterministic behavior for fixtures while still allowing randomization
 
 	baseUUID := "71a59a51-8968-4f8b-937e-"
-	urlUnsafeCharacters := []string{"+", "-", "/", "_"}
+	urlUnsafeCharacters := []string{"+", "/"}
 
 	for {
 		// Generate 12 random hex digits for the last part
