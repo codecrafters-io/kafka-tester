@@ -71,9 +71,9 @@ func testDTPartitionWithUnknownTopic(stageHarness *test_case_harness.TestCaseHar
 		ExpectCorrelationId(correlationId).
 		ExpectTopics([]response_assertions.ExpectedTopic{
 			{
-				Name:      unknownTopicName,
-				ErrorCode: 3,
+				Name: unknownTopicName,
 				// ERROR CODE FOR UNKNOWN_TOPIC_OR_PARTITION
+				ErrorCode:          3,
 				UUID:               getEmptyTopicUUID(),
 				ExpectedPartitions: []response_assertions.ExpectedPartition{},
 			},
