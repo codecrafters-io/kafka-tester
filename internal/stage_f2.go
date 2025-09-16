@@ -57,39 +57,4 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 	}.DecodeAndAssert(rawResponse.Payload)
 
 	return err
-
-	// request := legacy_kafkaapi.FetchRequest{
-	// 	Header: legacy_builder.NewRequestHeaderBuilder().BuildFetchRequestHeader(correlationId),
-	// 	Body: legacy_kafkaapi.FetchRequestBody{
-	// 		MaxWaitMS:         500,
-	// 		MinBytes:          1,
-	// 		MaxBytes:          52428800,
-	// 		IsolationLevel:    0,
-	// 		FetchSessionID:    0,
-	// 		FetchSessionEpoch: 0,
-	// 		Topics:            []legacy_kafkaapi.Topic{},
-	// 		ForgottenTopics:   []legacy_kafkaapi.ForgottenTopic{},
-	// 		RackID:            "",
-	// 	},
-	// }
-
-	// responseHeader, responseBody, err := legacy_kafkaapi.DecodeFetchHeaderAndResponse(response.Payload, 16, stageLogger)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// expectedResponseHeader := legacy_builder.BuildResponseHeader(correlationId)
-	// if err = legacy_assertions.NewResponseHeaderAssertion(*responseHeader, expectedResponseHeader).Run(stageLogger); err != nil {
-	// 	return err
-	// }
-
-	// expectedFetchResponse := legacy_kafkaapi.FetchResponse{
-	// 	ThrottleTimeMs: 0,
-	// 	ErrorCode:      0,
-	// 	SessionID:      0,
-	// 	TopicResponses: []legacy_kafkaapi.TopicResponse{},
-	// }
-	// return legacy_assertions.NewFetchResponseAssertion(*responseBody, expectedFetchResponse, stageLogger).
-	// 	SkipRecordBatches().
-	// 	Run(stageLogger)
 }
