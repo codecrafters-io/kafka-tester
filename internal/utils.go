@@ -3,7 +3,6 @@ package internal
 import (
 	"fmt"
 	"math"
-	"slices"
 
 	"github.com/codecrafters-io/tester-utils/random"
 )
@@ -20,20 +19,8 @@ func getRandomTopicUUID() string {
 	return fmt.Sprintf("00000000-0000-4000-8000-0000000000%02d", random.RandomInt(1, 100))
 }
 
-// getRandomTopicNames returns sorted random words slice
-// We sort these values because kafka returns topics in alphabetically sorted way
-// eg bar -> baz -> foo
-// This doesn't feel right
-// This can be in either of three places
-// 1. Here
-// 2. Inside generate function of kafka_files_generator where we sort the values and generate directories
-// 3. Inside assertion
-// Previously, the topics were created in sorted manner so no sorting was needed in assertion
-// This information should have been conveyed using stage instructions. Don't know whether changing instructions would be a good idea.
 func getRandomTopicNames(count int) []string {
-	topicNames := random.RandomWords(count)
-	slices.Sort(topicNames)
-	return topicNames
+	return random.RandomWords(count)
 }
 
 func getRandomTopicUUIDs(count int) []string {

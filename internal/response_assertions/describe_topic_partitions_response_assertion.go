@@ -3,6 +3,7 @@ package response_assertions
 import (
 	"fmt"
 	"regexp"
+	"sort"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
@@ -51,6 +52,11 @@ func GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData *k
 			ErrorCode:          0,
 		})
 	}
+
+	// sort expected topics by alphabet order
+	sort.Slice(expectedTopics, func(i, j int) bool {
+		return expectedTopics[i].Name < expectedTopics[j].Name
+	})
 
 	return expectedTopics
 }
