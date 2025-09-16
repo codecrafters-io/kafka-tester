@@ -59,8 +59,17 @@ type RecordHeader struct {
 }
 
 func (rh RecordHeader) Encode(pe *encoder.Encoder) {
-	pe.WriteVarint(int64(len(rh.Key.Value)))
-	pe.WriteRawBytes(rh.Key.Value)
-	pe.WriteVarint(int64(len(rh.Value.Value)))
-	pe.WriteRawBytes(rh.Value.Value)
+	if rh.Key.Value == nil {
+		pe.WriteVarint(-1)
+	} else {
+		pe.WriteVarint(int64(len(rh.Key.Value)))
+		pe.WriteRawBytes(rh.Key.Value)
+	}
+
+	if rh.Value.Value == nil {
+		pe.WriteVarint(-1)
+	} else {
+		pe.WriteVarint(int64(len(rh.Value.Value)))
+		pe.WriteRawBytes(rh.Value.Value)
+	}
 }

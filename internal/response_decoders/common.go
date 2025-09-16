@@ -302,7 +302,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	var headers []kafkaapi.RecordHeader
 
 	if headersLength.Value != -1 {
-		headers := make([]kafkaapi.RecordHeader, headersLength.Value)
+		headers = make([]kafkaapi.RecordHeader, headersLength.Value)
 		for i := 0; i < int(headersLength.Value); i++ {
 			header, err := decodeRecordHeader(decoder)
 			if err != nil {
