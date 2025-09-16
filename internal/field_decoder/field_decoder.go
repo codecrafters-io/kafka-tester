@@ -6,7 +6,6 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
@@ -164,23 +163,13 @@ func (d *FieldDecoder) ReadUUIDField(path string) (value.UUID, FieldDecoderError
 	d.PushPathContext(path)
 	defer d.PopPathContext()
 
-	rawBytes, err := d.decoder.ReadRawBytes(16)
-
+	decodedValue, err := d.decoder.ReadUUID()
 	if err != nil {
 		return value.UUID{}, d.WrapError(err)
 	}
 
-	uuidString, decodeErr := utils.DecodeUUID(rawBytes.Value)
-	if decodeErr != nil {
-		return value.UUID{}, d.WrapError(decodeErr)
-	}
-
-	decodedUUID := value.UUID{
-		Value: uuidString,
-	}
-
-	d.appendDecodedField(decodedUUID)
-	return decodedUUID, nil
+	d.appendDecodedField(decodedValue)
+	return decodedValue, nil
 }
 
 func (d *FieldDecoder) ReadBooleanField(path string) (value.Boolean, FieldDecoderError) {

@@ -27,7 +27,7 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 				UUID: topicUUIDs[0],
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: 0,
+						PartitionId: 0,
 						Logs:        []string{random.RandomString()},
 					},
 				},
@@ -37,11 +37,11 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 				UUID: topicUUIDs[1],
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: 0,
+						PartitionId: 0,
 						Logs:        []string{random.RandomString()},
 					},
 					{
-						PartitionID: 1,
+						PartitionId: 1,
 						Logs:        []string{random.RandomString()},
 					},
 				},
@@ -89,7 +89,8 @@ func testDTPartitionWithTopics(stageHarness *test_case_harness.TestCaseHarness) 
 
 	assertion := response_assertions.NewDescribeTopicPartitionsResponseAssertion().
 		ExpectCorrelationId(correlationId).
-		ExpectTopics(response_assertions.GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData))
+		ExpectTopics(response_assertions.GetExpectedTopicsFromGeneratedLogDirectoryData(generatedLogDirectoryData)).
+		ExpectCursorAbsence()
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.DescribeTopicPartitionsResponse]{
 		DecodeFunc: response_decoders.DecodeDescribeTopicPartitionsResponse,

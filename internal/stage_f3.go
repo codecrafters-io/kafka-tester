@@ -14,7 +14,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness) error {
+func testFetchWithUnknownTopicId(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
@@ -28,7 +28,7 @@ func testFetchWithUnknownTopicID(stageHarness *test_case_harness.TestCaseHarness
 				UUID: topicUUIDs[0],
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: 0,
+						PartitionId: 0,
 						Logs:        []string{random.RandomString()},
 					},
 				},

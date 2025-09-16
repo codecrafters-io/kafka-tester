@@ -70,7 +70,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "hn6",
-			TestFunc: testFetchWithUnknownTopicID,
+			TestFunc: testFetchWithUnknownTopicId,
 		},
 		{
 			Slug:     "cm4",

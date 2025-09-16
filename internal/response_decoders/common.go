@@ -358,11 +358,3 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 		Value: valueBytes,
 	}, nil
 }
-
-func decodeInt32(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	decodedValue, err := decoder.ReadInt32Field("")
-	if err != nil {
-		return value.Int32{}, err
-	}
-	return decodedValue, nil
-}

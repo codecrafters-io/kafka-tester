@@ -88,13 +88,13 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 
 		// Collect all partition records for this topic
 		var partitionRecords []kafkaapi.ClusterMetadataPayload
-		for partitionID := range topicData.GeneratedRecordBatchesByPartition {
+		for _, generatedRecordBatchByPartition := range topicData.GeneratedRecordBatchesByPartition {
 			partitionRecord := kafkaapi.ClusterMetadataPayload{
 				FrameVersion: 1,
 				Type:         3,
 				Version:      1,
 				Data: &kafkaapi.PartitionRecord{
-					PartitionID:      int32(partitionID),
+					PartitionId:      int32(generatedRecordBatchByPartition.PartitionId),
 					TopicUUID:        topicData.UUID,
 					Replicas:         []int32{1},
 					ISReplicas:       []int32{1},

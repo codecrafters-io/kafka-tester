@@ -12,10 +12,15 @@ import (
 
 // Structures to hold information about generated topics and partitions
 
+type GeneratedRecordBatchesByPartition struct {
+	PartitionId   int
+	recordBatches kafkaapi.RecordBatches
+}
+
 type GeneratedTopicData struct {
 	Name                              string
 	UUID                              string
-	GeneratedRecordBatchesByPartition map[int]kafkaapi.RecordBatches
+	GeneratedRecordBatchesByPartition []GeneratedRecordBatchesByPartition
 }
 
 type GeneratedLogDirectoryData struct {

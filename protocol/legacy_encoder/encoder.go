@@ -239,6 +239,7 @@ func EncodeUUID(uuidString string) ([]byte, error) {
 	return uuid, nil
 }
 
+// DecodeUUID is still used in legacy_kafkaapi (Will be removed after removing legacy packages)
 func DecodeUUID(encodedUUID []byte) (string, error) {
 	// Check if the encoded UUID is exactly 16 bytes long
 	if len(encodedUUID) != 16 {
