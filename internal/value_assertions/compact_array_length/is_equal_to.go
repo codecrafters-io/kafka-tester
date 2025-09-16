@@ -13,7 +13,7 @@ func IsEqualTo(expectedValue value.CompactArrayLength, actualValue value.KafkaPr
 	}
 
 	if castedActualValue.Value != expectedValue.Value {
-		return fmt.Errorf("Error: Expected COMPACT_ARRAY_LENGTH value to be %d, got %d", expectedValue, castedActualValue.Value)
+		return fmt.Errorf("Error: Expected COMPACT_ARRAY_LENGTH value to be %s, got %s", expectedValue, castedActualValue)
 	}
 
 	return nil
