@@ -40,12 +40,11 @@ func (r Record) Encode(pe *encoder.Encoder) {
 
 	if r.Headers == nil {
 		propertiesEncoder.WriteVarint(-1)
-	} else if len(r.Headers) == 0 {
+	} else {
 		propertiesEncoder.WriteVarint(int64(len(r.Headers)))
-	}
-
-	for _, header := range r.Headers {
-		header.Encode(propertiesEncoder)
+		for _, header := range r.Headers {
+			header.Encode(propertiesEncoder)
+		}
 	}
 
 	propertiesEncoderBytes := propertiesEncoder.Bytes()
