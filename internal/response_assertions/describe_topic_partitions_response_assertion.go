@@ -5,10 +5,12 @@ import (
 	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -80,7 +82,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	}
 
 	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
-		return nil
+		return compact_array_length_assertions.IsEqualTo(
+			value.NewCompactArrayLength(a.expectedTopics),
+			field.Value,
+		)
 	}
 
 	// Topic level fields (using regex for array indices)
@@ -178,11 +183,6 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {
 	// Log success messages from single-field assertions
 	logger.Successf("✓ CorrelationID: %d", a.expectedCorrelationId)
-
-	if len(a.expectedTopics) != len(response.Body.Topics) {
-		return fmt.Errorf("Expected Topics array length to be %d, got %d", len(a.expectedTopics), len(response.Body.Topics))
-	}
-
 	logger.Successf("✓ Topics array length: %d", len(response.Body.Topics))
 
 	for i, expectedTopic := range a.expectedTopics {

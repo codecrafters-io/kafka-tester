@@ -6,6 +6,18 @@ type CompactArrayLength struct {
 	Value uint64
 }
 
+func NewCompactArrayLength[T any](array []T) CompactArrayLength {
+	if array == nil {
+		return CompactArrayLength{
+			Value: 0,
+		}
+	}
+
+	return CompactArrayLength{
+		Value: uint64(len(array) + 1),
+	}
+}
+
 func (v CompactArrayLength) String() string {
 	switch v.Value {
 	case 0:
