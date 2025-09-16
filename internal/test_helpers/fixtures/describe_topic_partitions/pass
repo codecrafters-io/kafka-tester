@@ -47,7 +47,7 @@ Debug = true
 [33m[tester::#YK1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#YK1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#YK1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#YK1] [0m[36m0200 | 00 00 00 09 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#YK1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#YK1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#YK1] [0m[36m[0m
 [33m[tester::#YK1] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -351,23 +351,13 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#VT6] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-<<<<<<< HEAD
 [33m[tester::#VT6] [0m[92m✓ CorrelationID: 2105232020[0m
-[33m[tester::#VT6] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#VT6] [0m[92m✓ Topics array length: 1[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0] name: UNKNOWN_TOPIC_92[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0] UUID: 00000000-0000-0000-0000-000000000000[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0] error code: 3[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0] partitions array length: 0[0m
-=======
-[33m[tester::#VT6] [0m[92m✓ CorrelationID: 265307650[0m
 [33m[tester::#VT6] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#VT6] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0].Name: UNKNOWN_TOPIC_16[0m
+[33m[tester::#VT6] [0m[92m✓ Topic[0].Name: UNKNOWN_TOPIC_92[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].UUID: 00000000-0000-0000-0000-000000000000[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].ErrorCode: 3[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].Partitions.Length: 0[0m
->>>>>>> list-partitions-refactor
 [33m[tester::#VT6] [0m[92mTest passed.[0m
 [33m[tester::#VT6] [0m[36mTerminating program[0m
 [33m[tester::#VT6] [0m[36mProgram terminated successfully[0m
@@ -429,27 +419,15 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#EA7] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-<<<<<<< HEAD
 [33m[tester::#EA7] [0m[92m✓ CorrelationID: 1886837589[0m
-[33m[tester::#EA7] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#EA7] [0m[92m✓ Topics array length: 1[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] name: mango[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] UUID: 71a59a51-8968-4f8b-937e-2d59b2dc350e[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] error code: 0[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] partitions array length: 1[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] Partition[0] ID: 0[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0] Partition[0] error code: 0 (NO_ERROR)[0m
-=======
-[33m[tester::#EA7] [0m[92m✓ CorrelationID: 655447862[0m
 [33m[tester::#EA7] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#EA7] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Name: mango[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000070[0m
+[33m[tester::#EA7] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-2d59b2dc350e[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Partitions.Length: 1[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Partition[0].ErrorCode: 0 (NO_ERROR)[0m
->>>>>>> list-partitions-refactor
 [33m[tester::#EA7] [0m[92mTest passed.[0m
 [33m[tester::#EA7] [0m[36mTerminating program[0m
 [33m[tester::#EA7] [0m[36mProgram terminated successfully[0m
@@ -532,31 +510,17 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#KU4] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-<<<<<<< HEAD
 [33m[tester::#KU4] [0m[92m✓ CorrelationID: 32408702[0m
-[33m[tester::#KU4] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#KU4] [0m[92m✓ Topics array length: 1[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] name: apple[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] UUID: 71a59a51-8968-4f8b-937e-7e97ccdaaa9c[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] error code: 0[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] partitions array length: 2[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] Partition[0] ID: 0[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] Partition[0] error code: 0 (NO_ERROR)[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] Partition[1] ID: 1[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0] Partition[1] error code: 0 (NO_ERROR)[0m
-=======
-[33m[tester::#KU4] [0m[92m✓ CorrelationID: 1111232230[0m
 [33m[tester::#KU4] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#KU4] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0].Name: pear[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000003[0m
+[33m[tester::#KU4] [0m[92m✓ Topic[0].Name: apple[0m
+[33m[tester::#KU4] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-7e97ccdaaa9c[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partitions.Length: 2[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partition[0].ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partition[1].ID: 1[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partition[1].ErrorCode: 0 (NO_ERROR)[0m
->>>>>>> list-partitions-refactor
 [33m[tester::#KU4] [0m[92mTest passed.[0m
 [33m[tester::#KU4] [0m[36mTerminating program[0m
 [33m[tester::#KU4] [0m[36mProgram terminated successfully[0m
@@ -671,43 +635,23 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-<<<<<<< HEAD
 [33m[tester::#WQ2] [0m[92m✓ CorrelationID: 1943775648[0m
-[33m[tester::#WQ2] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#WQ2] [0m[92m✓ Topics array length: 2[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] name: banana[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] UUID: 71a59a51-8968-4f8b-937e-0000000001ac[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] error code: 0[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] partitions array length: 1[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] Partition[0] ID: 0[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0] Partition[0] error code: 0 (NO_ERROR)[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] name: raspberry[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] UUID: 71a59a51-8968-4f8b-937e-0000000004cb[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] error code: 0[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] partitions array length: 2[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] Partition[0] ID: 0[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] Partition[0] error code: 0 (NO_ERROR)[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] Partition[1] ID: 1[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1] Partition[1] error code: 0 (NO_ERROR)[0m
-=======
-[33m[tester::#WQ2] [0m[92m✓ CorrelationID: 1888955582[0m
 [33m[tester::#WQ2] [0m[92m✓ Topics array length: 2[0m
 [33m[tester::#WQ2] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0].Name: blueberry[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000010[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[0].Name: banana[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-0000000001ac[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partitions.Length: 1[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partition[0].ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1].Name: pear[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1].UUID: 00000000-0000-4000-8000-000000000091[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[1].Name: raspberry[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[1].UUID: 71a59a51-8968-4f8b-937e-0000000004cb[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].ErrorCode: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partitions.Length: 2[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partition[0].ID: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partition[0].ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partition[1].ID: 1[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partition[1].ErrorCode: 0 (NO_ERROR)[0m
->>>>>>> list-partitions-refactor
 [33m[tester::#WQ2] [0m[92mTest passed.[0m
 [33m[tester::#WQ2] [0m[36mTerminating program[0m
 [33m[tester::#WQ2] [0m[36mProgram terminated successfully[0m

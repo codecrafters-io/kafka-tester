@@ -36,7 +36,7 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 			generatedTopicData.GeneratedRecordBatchesByPartition,
 			GeneratedRecordBatchesByPartition{
 				PartitionId:   partitionId,
-				recordBatches: recordBatches,
+				RecordBatches: recordBatches,
 			},
 		)
 	}

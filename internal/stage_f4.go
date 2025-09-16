@@ -28,7 +28,7 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
 						// No messages in this stage, however partition ID is needed for creating cluster metadata
-						PartitionID: 0,
+						PartitionId: 0,
 					},
 				},
 			},

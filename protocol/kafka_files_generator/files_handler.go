@@ -14,7 +14,7 @@ import (
 
 type GeneratedRecordBatchesByPartition struct {
 	PartitionId   int
-	recordBatches kafkaapi.RecordBatches
+	RecordBatches kafkaapi.RecordBatches
 }
 
 type GeneratedTopicData struct {

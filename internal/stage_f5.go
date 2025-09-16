@@ -28,7 +28,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 				UUID: topicUUID,
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionID: partitionID,
+						PartitionId: partitionID,
 						Logs:        []string{random.RandomWord()},
 					},
 				},
@@ -41,8 +41,7 @@ func testFetchWithSingleMessage(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	generatedTopicsData := files_handler.GetGeneratedLogDirectoryData().GeneratedTopicsData
-	expectedRecordBatches := generatedTopicsData[0].GeneratedRecordBatchesByPartition[partitionID]
-
+	expectedRecordBatches := generatedTopicsData[0].GeneratedRecordBatchesByPartition[0].RecordBatches
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
 	if err := b.Run(); err != nil {
