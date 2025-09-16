@@ -25,7 +25,6 @@ type ExpectedTopic struct {
 
 type DescribeTopicPartitionsResponseAssertion struct {
 	expectedCorrelationId int32
-	expectedErrorCode     int16
 	expectedTopics        []ExpectedTopic
 }
 
@@ -100,12 +99,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 		return nil
 	}
 
-	topicIsInternalPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.IsInternal$`)
+	topicIsInternalPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.IsInternal.*$`)
 	if topicIsInternalPattern.MatchString(path) {
 		return nil
 	}
 
-	topicAuthorizedOpsPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.TopicAuthorizedOperations$`)
+	topicAuthorizedOpsPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.TopicAuthorizedOperations.*$`)
 	if topicAuthorizedOpsPattern.MatchString(path) {
 		return nil
 	}
@@ -127,81 +126,49 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 		return nil
 	}
 
-	partitionLeaderIdPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderId$`)
+	partitionLeaderIdPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderId.*$`)
 	if partitionLeaderIdPattern.MatchString(path) {
 		return nil
 	}
 
-	partitionLeaderEpochPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderEpoch$`)
+	partitionLeaderEpochPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LeaderEpoch.*$`)
 	if partitionLeaderEpochPattern.MatchString(path) {
 		return nil
 	}
 
 	// ReplicaNodes array fields
-	replicaNodesLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ReplicaNodes\.Length$`)
-	if replicaNodesLengthPattern.MatchString(path) {
-		return nil
-	}
-
-	replicaNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ReplicaNodes\.ReplicaNodes\[\d+\]\.ReplicaNode$`)
-	if replicaNodePattern.MatchString(path) {
+	replicaNodesPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ReplicaNodes.*$`)
+	if replicaNodesPattern.MatchString(path) {
 		return nil
 	}
 
 	// IsrNodes array fields
-	isrNodesLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.IsrNodes\.Length$`)
-	if isrNodesLengthPattern.MatchString(path) {
-		return nil
-	}
-
-	isrNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.IsrNodes\.IsrNodes\[\d+\]\.IsrNode$`)
-	if isrNodePattern.MatchString(path) {
+	isrNodesPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.IsrNodes.*$`)
+	if isrNodesPattern.MatchString(path) {
 		return nil
 	}
 
 	// EligibleLeaderReplicas array fields
-	eligibleLeaderReplicasLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.EligibleLeaderReplicas\.Length$`)
-	if eligibleLeaderReplicasLengthPattern.MatchString(path) {
-		return nil
-	}
-
-	eligibleLeaderReplicaPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.EligibleLeaderReplicas\.EligibleLeaderReplicas\[\d+\]\.EligibleLeaderReplica$`)
-	if eligibleLeaderReplicaPattern.MatchString(path) {
+	eligibleLeaderReplicasPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.EligibleLeaderReplicas.*$`)
+	if eligibleLeaderReplicasPattern.MatchString(path) {
 		return nil
 	}
 
 	// LastKnownELR array fields
-	lastKnownELRLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastKnownELR\.Length$`)
-	if lastKnownELRLengthPattern.MatchString(path) {
-		return nil
-	}
-
-	lastKnownELRNodePattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastKnownELR\.LastKnownELR\[\d+\]\.LastKnownELRNode$`)
-	if lastKnownELRNodePattern.MatchString(path) {
+	lastKnownELRPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastKnownELR.*$`)
+	if lastKnownELRPattern.MatchString(path) {
 		return nil
 	}
 
 	// OfflineReplicas array fields
-	offlineReplicasLengthPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.OfflineReplicas\.Length$`)
-	if offlineReplicasLengthPattern.MatchString(path) {
-		return nil
-	}
-
-	offlineReplicaPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.OfflineReplicas\.OfflineReplicas\[\d+\]\.OfflineReplica$`)
-	if offlineReplicaPattern.MatchString(path) {
+	offlineReplicasPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.OfflineReplicas.*$`)
+	if offlineReplicasPattern.MatchString(path) {
 		return nil
 	}
 
 	// Cursor fields
-	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
-		return nil
-	}
-
-	if path == "DescribeTopicPartitionsResponse.Body.Cursor.TopicName" {
-		return nil
-	}
-
-	if path == "DescribeTopicPartitionsResponse.Body.Cursor.PartitionIndex" {
+	cursorPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Cursor.*$`)
+	if cursorPattern.MatchString(path) {
 		return nil
 	}
 
@@ -211,7 +178,6 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {
 	// Log success messages from single-field assertions
 	logger.Successf("✓ CorrelationID: %d", a.expectedCorrelationId)
-	logger.Successf("✓ ErrorCode: %d (%s)", a.expectedErrorCode, utils.ErrorCodeToName(a.expectedErrorCode))
 
 	if len(a.expectedTopics) != len(response.Body.Topics) {
 		return fmt.Errorf("Expected Topics array length to be %d, got %d", len(a.expectedTopics), len(response.Body.Topics))

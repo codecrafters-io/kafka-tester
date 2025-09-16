@@ -47,7 +47,7 @@ Debug = true
 [33m[tester::#YK1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#YK1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#YK1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#YK1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#YK1] [0m[36m0200 | 00 00 00 09 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#YK1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#YK1] [0m[36m[0m
 [33m[tester::#YK1] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -352,7 +352,6 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#VT6] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
 [33m[tester::#VT6] [0m[92m✓ CorrelationID: 265307650[0m
-[33m[tester::#VT6] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#VT6] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0] name: UNKNOWN_TOPIC_16[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0] UUID: 00000000-0000-0000-0000-000000000000[0m
@@ -420,7 +419,6 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#EA7] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
 [33m[tester::#EA7] [0m[92m✓ CorrelationID: 655447862[0m
-[33m[tester::#EA7] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#EA7] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0] name: mango[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0] UUID: 00000000-0000-4000-8000-000000000070[0m
@@ -511,7 +509,6 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#KU4] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
 [33m[tester::#KU4] [0m[92m✓ CorrelationID: 1111232230[0m
-[33m[tester::#KU4] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#KU4] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0] name: pear[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0] UUID: 00000000-0000-4000-8000-000000000003[0m
@@ -636,7 +633,6 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
 [33m[tester::#WQ2] [0m[92m✓ CorrelationID: 1888955582[0m
-[33m[tester::#WQ2] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
 [33m[tester::#WQ2] [0m[92m✓ Topics array length: 2[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0] name: blueberry[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0] UUID: 00000000-0000-4000-8000-000000000010[0m
