@@ -7,6 +7,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
+	int8_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int8"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
@@ -172,9 +173,8 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	}
 
 	// Cursor fields
-	cursorPattern := regexp.MustCompile(`^DescribeTopicPartitionsResponse\.Body\.Cursor.*$`)
-	if cursorPattern.MatchString(path) {
-		return nil
+	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
+		return int8_assertions.IsEqualTo(-1, field.Value)
 	}
 
 	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
