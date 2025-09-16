@@ -32,16 +32,10 @@ func (d *Decoder) ReadBoolean() (kafkaValue.Boolean, DecoderError) {
 		return kafkaValue.Boolean{}, d.wrapError(fmt.Errorf("Expected BOOLEAN length to be 1 byte, got %d bytes", rem))
 	}
 
-	boolValue := false
 	readByte := d.buffer.MustReadNBytes(1)[0]
 
-	// Kafka considers non-zero value as true
-	if readByte != 0 {
-		boolValue = true
-	}
-
 	return kafkaValue.Boolean{
-		Value: boolValue,
+		Value: readByte != 0,
 	}, nil
 }
 
@@ -137,7 +131,7 @@ func (d *Decoder) ReadCompactString() (kafkaValue.CompactString, DecoderError) {
 	}
 
 	if d.RemainingBytesCount() < lengthValue.ActualLength() {
-		return kafkaValue.CompactString{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for COMPACT_STRING to be %d, got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+		return kafkaValue.CompactString{}, d.wrapError(fmt.Errorf("Expected COMPACT_STRING contents to be %d bytes long, only got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
 	}
 
 	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
@@ -159,7 +153,7 @@ func (d *Decoder) ReadCompactNullableString() (kafkaValue.CompactNullableString,
 	}
 
 	if d.RemainingBytesCount() < lengthValue.ActualLength() {
-		return kafkaValue.CompactNullableString{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for COMPACT_NULLABLE_STRING to be %d, got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+		return kafkaValue.CompactNullableString{}, d.wrapError(fmt.Errorf("Expected COMPACT_NULLABLE_STRING contents to be %d bytes long, got only %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
 	}
 
 	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
@@ -173,7 +167,7 @@ func (d *Decoder) ReadCompactNullableString() (kafkaValue.CompactNullableString,
 func (d *Decoder) ReadUUID() (kafkaValue.UUID, DecoderError) {
 	uuidBytesCount := 16
 	if d.RemainingBytesCount() < uint64(uuidBytesCount) {
-		return kafkaValue.UUID{}, d.wrapError(fmt.Errorf("Expected remaining bytes count to be %d, got %d", uuidBytesCount, d.RemainingBytesCount()))
+		return kafkaValue.UUID{}, d.wrapError(fmt.Errorf("Expected UUID contents to be %d bytes long, got only %d", uuidBytesCount, d.RemainingBytesCount()))
 	}
 
 	uuidBytes := d.buffer.MustReadNBytes(uint64(uuidBytesCount))
