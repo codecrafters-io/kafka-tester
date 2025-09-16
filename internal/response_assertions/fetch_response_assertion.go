@@ -6,11 +6,13 @@ import (
 	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
@@ -193,167 +195,20 @@ func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedFi
 		return nil
 	}
 
-	// Topics array and its elements
 	if fieldPath == "FetchResponse.Body.Topics.Length" {
-		return nil
-	}
+		// Empty array
+		compactArrayLength := value.CompactArrayLength{Value: 1}
 
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.UUID`).MatchString(fieldPath) {
-		return nil
+		// With one element (Hardcoded because we use only one topic for the extension)
+		if a.expectedTopicUUID != nil {
+			compactArrayLength = value.CompactArrayLength{Value: 2}
+		}
+
+		return compact_array_length_assertions.IsEqualTo(compactArrayLength, field.Value)
 	}
 
 	// Partitions array and its elements
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Length`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.Id`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.ErrorCode`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.HighWaterMark`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LastStableOffset`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.LogStartOffset`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// AbortedTransactions array
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.Length`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.AbortedTransactions\[\d+\]\.ProducerID`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.AbortedTransactions\.AbortedTransactions\[\d+\]\.FirstOffset`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.PreferredReadReplica`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// RecordBatches array and size
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.Size`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// RecordBatch fields
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Offset`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Length`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.PartitionLeaderEpoch`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.MagicByte`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.CRC`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Attributes`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.LastOffsetDelta`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.FirstTimeStamp`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.MaxTimeStamp`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.ProducerID`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.ProducerEpoch`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.BaseSequence`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// Records array
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Length`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// Record fields
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Length`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Attributes`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.TimestampDelta`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.OffsetDelta`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.KeyLength`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Key`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.ValueLength`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.Value`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.HeadersLength`).MatchString(fieldPath) {
-		return nil
-	}
-
-	// Record headers (if any exist)
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.KeyLength`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.Key`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.ValueLength`).MatchString(fieldPath) {
-		return nil
-	}
-
-	if regexp.MustCompile(`FetchResponse\.Body\.Topics\.Topics\[\d+\]\.Partitions\.Partitions\[\d+\]\.RecordBatches\.RecordBatches\[\d+\]\.Records\.Records\[\d+\]\.Record\.RecordHeader\.Value`).MatchString(fieldPath) {
+	if regexp.MustCompile(`\.Topics\..*$`).MatchString(fieldPath) {
 		return nil
 	}
 
