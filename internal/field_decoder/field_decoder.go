@@ -294,7 +294,7 @@ func (d *FieldDecoder) WrapError(err error) FieldDecoderError {
 			offset:  decoderError.Offset(),
 			path:    d.currentPath(),
 		}
-	} else {
-		panic("CodeCrafters Internal Error: FieldDecoderError is not a decoder error")
 	}
+
+	return d.WrapError(d.decoder.WrapError(err))
 }
