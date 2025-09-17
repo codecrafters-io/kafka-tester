@@ -64,40 +64,25 @@ func (e *FieldEncoder) Bytes() []byte {
 	return e.encoder.Bytes()
 }
 
-func (e *FieldEncoder) WriteInt16Field(variableName string, in int16) {
+func (e *FieldEncoder) WriteInt16Field(variableName string, value value.Int16) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt16(in)
-
-	encodedValue := value.Int16{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteInt16(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteInt32Field(variableName string, in int32) {
+func (e *FieldEncoder) WriteInt32Field(variableName string, value value.Int32) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt32(in)
-
-	encodedValue := value.Int32{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteInt32(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteStringField(variableName string, in string) {
+func (e *FieldEncoder) WriteStringField(variableName string, value value.KafkaString) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteString(in)
-
-	encodedValue := value.KafkaString{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteString(value.Value)
+	e.appendEncodedField(value)
 }
 
 // WriteEmptyTagBuffer writes an empty tag buffer
