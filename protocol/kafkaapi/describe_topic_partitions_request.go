@@ -36,7 +36,12 @@ func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldE
 	}
 
 	encoder.WriteInt32("ResponsePartitionLimit", r.ResponsePartitionLimit)
+	r.encodeCursor(encoder)
 
+	encoder.WriteEmptyTagBuffer()
+}
+
+func (r DescribeTopicPartitionsRequestBody) encodeCursor(encoder *field_encoder.FieldEncoder) {
 	if r.Cursor == nil {
 		encoder.PushPathContext("Cursor")
 		encoder.WriteInt8("IsCursorPresent", -1)
@@ -44,8 +49,6 @@ func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldE
 	} else {
 		r.Cursor.Encode(encoder)
 	}
-
-	encoder.WriteEmptyTagBuffer()
 }
 
 type DescribeTopicPartitionsRequest struct {
