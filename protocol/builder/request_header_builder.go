@@ -49,3 +49,11 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 func (b *RequestHeaderBuilder) BuildApiVersionsRequestHeader(correlationId int32, apiVersion int16) headers.RequestHeader {
 	return b.WithApiKey(18).WithApiVersion(apiVersion).WithCorrelationId(correlationId).Build()
 }
+
+func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsHeader(correlationID int32) headers.RequestHeader {
+	return b.WithApiKey(75).WithApiVersion(0).WithCorrelationId(correlationID).Build()
+}
+
+func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationID int32) headers.RequestHeader {
+	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationID).Build()
+}

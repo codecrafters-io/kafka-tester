@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type ClusterMetadataGenerator struct {
@@ -37,7 +38,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 	encoder := encoder.NewEncoder()
 
 	var recordBatches []kafkaapi.RecordBatch
-	baseOffset := int64(0)
+	baseOffset := int64(1)
 
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
@@ -50,19 +51,19 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 	}
 
 	recordBatch1 := kafkaapi.RecordBatch{
-		BaseOffset:           baseOffset,
-		PartitionLeaderEpoch: 1,
-		Attributes:           0,
-		LastOffsetDelta:      0, // len(records) - 1
-		FirstTimestamp:       1726045943832,
-		MaxTimestamp:         1726045943832,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		BaseOffset:           value.Int64{Value: baseOffset},
+		PartitionLeaderEpoch: value.Int32{Value: 1},
+		Attributes:           value.Int16{Value: 0},
+		LastOffsetDelta:      value.Int32{Value: 0}, // len(records) - 1
+		FirstTimestamp:       value.Int64{Value: 1726045943832},
+		MaxTimestamp:         value.Int64{Value: 1726045943832},
+		ProducerId:           value.Int64{Value: -1},
+		ProducerEpoch:        value.Int16{Value: -1},
+		BaseSequence:         value.Int32{Value: -1},
 		Records: []kafkaapi.Record{
 			{
-				Attributes:     0,
-				TimestampDelta: 0,
+				Attributes:     value.Int8{Value: 0},
+				TimestampDelta: value.Varint{Value: 0},
 				Key:            nil,
 				Value:          GetEncodedBytes(featureLevelRecord),
 				Headers:        []kafkaapi.RecordHeader{},
@@ -87,13 +88,13 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 
 		// Collect all partition records for this topic
 		var partitionRecords []kafkaapi.ClusterMetadataPayload
-		for partitionID := range topicData.generatedRecordBatchesByPartition {
+		for _, generatedRecordBatchByPartition := range topicData.GeneratedRecordBatchesByPartition {
 			partitionRecord := kafkaapi.ClusterMetadataPayload{
 				FrameVersion: 1,
 				Type:         3,
 				Version:      1,
 				Data: &kafkaapi.PartitionRecord{
-					PartitionID:      int32(partitionID),
+					PartitionId:      int32(generatedRecordBatchByPartition.PartitionId),
 					TopicUUID:        topicData.UUID,
 					Replicas:         []int32{1},
 					ISReplicas:       []int32{1},
@@ -113,8 +114,9 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 
 		// Add topic record
 		records = append(records, kafkaapi.Record{
-			Attributes:     0,
-			TimestampDelta: 0,
+			Attributes:     value.Int8{Value: 0},
+			TimestampDelta: value.Varint{Value: 0},
+			OffsetDelta:    value.Varint{Value: 0},
 			Key:            nil,
 			Value:          GetEncodedBytes(topicRecord),
 			Headers:        []kafkaapi.RecordHeader{},
@@ -123,8 +125,9 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		// Add all partition records
 		for _, partitionRecord := range partitionRecords {
 			records = append(records, kafkaapi.Record{
-				Attributes:     0,
-				TimestampDelta: 0,
+				Attributes:     value.Int8{Value: 0},
+				TimestampDelta: value.Varint{Value: 0},
+				OffsetDelta:    value.Varint{Value: 0},
 				Key:            nil,
 				Value:          GetEncodedBytes(partitionRecord),
 				Headers:        []kafkaapi.RecordHeader{},
@@ -132,17 +135,20 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		}
 
 		recordBatch := kafkaapi.RecordBatch{
-			BaseOffset:           baseOffset,
-			PartitionLeaderEpoch: 1,
-			Attributes:           0,
-			LastOffsetDelta:      int32(len(records) - 1),
-			FirstTimestamp:       1726045957397,
-			MaxTimestamp:         1726045957397,
-			ProducerId:           -1,
-			ProducerEpoch:        -1,
-			BaseSequence:         -1,
+			BaseOffset:           value.Int64{Value: baseOffset},
+			PartitionLeaderEpoch: value.Int32{Value: 1},
+			Magic:                value.Int8{Value: 2},
+			Attributes:           value.Int16{Value: 0},
+			LastOffsetDelta:      value.Int32{Value: int32(len(records) - 1)},
+			FirstTimestamp:       value.Int64{Value: 1726045957397},
+			MaxTimestamp:         value.Int64{Value: 1726045957397},
+			ProducerId:           value.Int64{Value: -1},
+			ProducerEpoch:        value.Int16{Value: -1},
+			BaseSequence:         value.Int32{Value: -1},
 			Records:              records,
 		}
+
+		recordBatch.SetCRC()
 		recordBatches = append(recordBatches, recordBatch)
 		baseOffset += int64(len(records))
 	}

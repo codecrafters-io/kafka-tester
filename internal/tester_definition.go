@@ -54,7 +54,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "ku4",
-			TestFunc: testDTPartitionWithTopicAndMultiplePartitions2,
+			TestFunc: testDTPartitionWithTopicAndMultiplePartitions,
 		},
 		{
 			Slug:     "wq2",
@@ -70,7 +70,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "hn6",
-			TestFunc: testFetchWithUnknownTopicID,
+			TestFunc: testFetchWithUnknownTopicId,
 		},
 		{
 			Slug:     "cm4",

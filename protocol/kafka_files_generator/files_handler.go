@@ -12,10 +12,15 @@ import (
 
 // Structures to hold information about generated topics and partitions
 
+type GeneratedRecordBatchesByPartition struct {
+	PartitionId   int
+	RecordBatches kafkaapi.RecordBatches
+}
+
 type GeneratedTopicData struct {
 	Name                              string
 	UUID                              string
-	generatedRecordBatchesByPartition map[int]kafkaapi.RecordBatches
+	GeneratedRecordBatchesByPartition []GeneratedRecordBatchesByPartition
 }
 
 type GeneratedLogDirectoryData struct {
@@ -35,6 +40,10 @@ func NewFilesHandler(logger *logger.Logger) *FilesHandler {
 	return &FilesHandler{
 		logger: filesHandlerLogger,
 	}
+}
+
+func (f *FilesHandler) GetGeneratedLogDirectoryData() *GeneratedLogDirectoryData {
+	return f.generatedLogDirectoryData
 }
 
 func (f *FilesHandler) AddLogDirectoryGenerationConfig(logDirectoryGenerationConfig LogDirectoryGenerationConfig) *FilesHandler {

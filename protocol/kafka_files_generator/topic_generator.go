@@ -1,7 +1,6 @@
 package kafka_files_generator
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -16,12 +15,12 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 	generatedTopicData := &GeneratedTopicData{
 		Name:                              c.Name,
 		UUID:                              c.UUID,
-		generatedRecordBatchesByPartition: make(map[int]kafkaapi.RecordBatches),
+		GeneratedRecordBatchesByPartition: []GeneratedRecordBatchesByPartition{},
 	}
 
 	// generate logs by partition
 	for _, partitionGenerationConfig := range c.PartitonGenerationConfigList {
-		partitionID := partitionGenerationConfig.PartitionID
+		partitionId := partitionGenerationConfig.PartitionId
 
 		recordBatches, err := partitionGenerationConfig.Generate(PartitionMetadata{
 			Version:   0,
@@ -33,7 +32,13 @@ func (c *TopicGenerationConfig) Generate(logger *logger.Logger) (*GeneratedTopic
 			return nil, err
 		}
 
-		generatedTopicData.generatedRecordBatchesByPartition[partitionID] = recordBatches
+		generatedTopicData.GeneratedRecordBatchesByPartition = append(
+			generatedTopicData.GeneratedRecordBatchesByPartition,
+			GeneratedRecordBatchesByPartition{
+				PartitionId:   partitionId,
+				RecordBatches: recordBatches,
+			},
+		)
 	}
 
 	return generatedTopicData, nil

@@ -47,7 +47,7 @@ func (t *TopicRecord) GetEncodedBytes() []byte {
 }
 
 type PartitionRecord struct {
-	PartitionID      int32
+	PartitionId      int32
 	TopicUUID        string
 	Replicas         []int32
 	ISReplicas       []int32
@@ -64,7 +64,7 @@ func (p *PartitionRecord) isPayloadRecord() {}
 func (p *PartitionRecord) GetEncodedBytes() []byte {
 	encoder := encoder.NewEncoder()
 
-	encoder.WriteInt32(p.PartitionID)
+	encoder.WriteInt32(p.PartitionId)
 	encoder.WriteUUID(p.TopicUUID)
 	encoder.WriteCompactArrayOfInt32(p.Replicas)
 	encoder.WriteCompactArrayOfInt32(p.ISReplicas)

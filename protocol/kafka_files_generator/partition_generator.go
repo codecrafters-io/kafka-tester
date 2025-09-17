@@ -1,13 +1,16 @@
 package kafka_files_generator
 
 import (
+	"encoding/base64"
 	"fmt"
 	"os"
 	"path"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/google/uuid"
 )
 
 type PartitionMetadata struct {
@@ -17,7 +20,7 @@ type PartitionMetadata struct {
 }
 
 type PartitionGenerationConfig struct {
-	PartitionID int
+	PartitionId int
 	Logs        []string
 }
 
@@ -25,7 +28,7 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata, logger 
 	// Create directory first
 	partitionDirPath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 	)
 
 	if err := os.MkdirAll(partitionDirPath, 0755); err != nil {
@@ -48,11 +51,11 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata, logger 
 }
 
 func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, logger *logger.Logger) (kafkaapi.RecordBatches, error) {
-	recordBatches := c.generateRecordBatchesFromLogs(c.Logs)
+	recordBatches := c.generateRecordBatchFromLogs(c.Logs)
 
 	logFilePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 		LOG_FILE_NAME,
 	)
 
@@ -63,20 +66,20 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, log
 		return nil, fmt.Errorf("error writing file to %s: %w", logFilePath, err)
 	}
 
-	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, logFilePath)
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionId, metadata.TopicName, logFilePath)
 	return recordBatches, nil
 }
 
 func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata, logger *logger.Logger) error {
-	topicIDBase64, err := uuidToBase64(metadata.TopicUUID)
+	topicIDBase64, err := uuid.Parse(metadata.TopicUUID)
 	if err != nil {
 		return err
 	}
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIDBase64)
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, base64.StdEncoding.EncodeToString(topicIDBase64[:]))
 
 	filePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
-		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionID),
+		fmt.Sprintf("%s-%d", metadata.TopicName, c.PartitionId),
 		"partition.metadata",
 	)
 
@@ -86,31 +89,32 @@ func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMet
 		return fmt.Errorf("error writing partition metadata file: %w", err)
 	}
 
-	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionID, metadata.TopicName, filePath)
+	logger.Debugf("Wrote metadata for partition %d of topic %s at %s", c.PartitionId, metadata.TopicName, filePath)
 	return nil
 }
 
-func (c *PartitionGenerationConfig) generateRecordBatchesFromLogs(logs []string) kafkaapi.RecordBatches {
-	var recordBatches kafkaapi.RecordBatches
+func (c *PartitionGenerationConfig) generateRecordBatchFromLogs(logs []string) kafkaapi.RecordBatches {
+	recordBatches := kafkaapi.RecordBatches{}
 
 	for i, message := range logs {
 		recordBatches = append(recordBatches, kafkaapi.RecordBatch{
-			BaseOffset:           int64(i),
-			PartitionLeaderEpoch: 0,
-			Attributes:           0,
-			LastOffsetDelta:      0,
-			FirstTimestamp:       1726045973899,
-			MaxTimestamp:         1726045973899,
-			ProducerId:           0,
-			ProducerEpoch:        0,
-			BaseSequence:         0,
+			BaseOffset:           value.Int64{Value: int64(i)},
+			PartitionLeaderEpoch: value.Int32{Value: 0},
+			Magic:                value.Int8{Value: 2},
+			Attributes:           value.Int16{Value: 0},
+			LastOffsetDelta:      value.Int32{Value: 0},
+			FirstTimestamp:       value.Int64{Value: 1726045973899},
+			MaxTimestamp:         value.Int64{Value: 1726045973899},
+			ProducerId:           value.Int64{Value: 0},
+			ProducerEpoch:        value.Int16{Value: 0},
+			BaseSequence:         value.Int32{Value: 0},
 			Records: []kafkaapi.Record{
 				{
-					Attributes:     0,
-					TimestampDelta: 0,
+					Attributes:     value.Int8{Value: 0},
+					TimestampDelta: value.Varint{Value: 0},
 					Key:            nil,
 					Value:          []byte(message),
-					Headers:        []kafkaapi.RecordHeader{},
+					Headers:        nil,
 				},
 			},
 		})
