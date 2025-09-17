@@ -38,7 +38,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 	encoder := encoder.NewEncoder()
 
 	var recordBatches []kafkaapi.RecordBatch
-	baseOffset := int64(0)
+	baseOffset := int64(1)
 
 	featureLevelRecord := kafkaapi.ClusterMetadataPayload{
 		FrameVersion: 1,
@@ -63,9 +63,9 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		Records: []kafkaapi.Record{
 			{
 				Attributes:     value.Int8{Value: 0},
-				TimestampDelta: value.Int64{Value: 0},
-				Key:            value.RawBytes{Value: nil},
-				Value:          value.RawBytes{Value: GetEncodedBytes(featureLevelRecord)},
+				TimestampDelta: value.Varint{Value: 0},
+				Key:            nil,
+				Value:          GetEncodedBytes(featureLevelRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -115,9 +115,10 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		// Add topic record
 		records = append(records, kafkaapi.Record{
 			Attributes:     value.Int8{Value: 0},
-			TimestampDelta: value.Int64{Value: 0},
-			Key:            value.RawBytes{Value: nil},
-			Value:          value.RawBytes{Value: GetEncodedBytes(topicRecord)},
+			TimestampDelta: value.Varint{Value: 0},
+			OffsetDelta:    value.Varint{Value: 0},
+			Key:            nil,
+			Value:          GetEncodedBytes(topicRecord),
 			Headers:        []kafkaapi.RecordHeader{},
 		})
 
@@ -125,9 +126,10 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		for _, partitionRecord := range partitionRecords {
 			records = append(records, kafkaapi.Record{
 				Attributes:     value.Int8{Value: 0},
-				TimestampDelta: value.Int64{Value: 0},
-				Key:            value.RawBytes{Value: nil},
-				Value:          value.RawBytes{Value: GetEncodedBytes(partitionRecord)},
+				TimestampDelta: value.Varint{Value: 0},
+				OffsetDelta:    value.Varint{Value: 0},
+				Key:            nil,
+				Value:          GetEncodedBytes(partitionRecord),
 				Headers:        []kafkaapi.RecordHeader{},
 			})
 		}
@@ -135,6 +137,7 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 		recordBatch := kafkaapi.RecordBatch{
 			BaseOffset:           value.Int64{Value: baseOffset},
 			PartitionLeaderEpoch: value.Int32{Value: 1},
+			Magic:                value.Int8{Value: 2},
 			Attributes:           value.Int16{Value: 0},
 			LastOffsetDelta:      value.Int32{Value: int32(len(records) - 1)},
 			FirstTimestamp:       value.Int64{Value: 1726045957397},
@@ -144,6 +147,8 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 			BaseSequence:         value.Int32{Value: -1},
 			Records:              records,
 		}
+
+		recordBatch.SetCRC()
 		recordBatches = append(recordBatches, recordBatch)
 		baseOffset += int64(len(records))
 	}

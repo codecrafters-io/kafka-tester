@@ -1,6 +1,7 @@
 package kafka_files_generator
 
 import (
+	"encoding/base64"
 	"fmt"
 	"os"
 	"path"
@@ -9,6 +10,7 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/google/uuid"
 )
 
 type PartitionMetadata struct {
@@ -49,7 +51,7 @@ func (c *PartitionGenerationConfig) Generate(metadata PartitionMetadata, logger 
 }
 
 func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, logger *logger.Logger) (kafkaapi.RecordBatches, error) {
-	recordBatches := c.generateRecordBatchesFromLogs(c.Logs)
+	recordBatches := c.generateRecordBatchFromLogs(c.Logs)
 
 	logFilePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
@@ -69,11 +71,11 @@ func (c *PartitionGenerationConfig) writeLogFile(metadata PartitionMetadata, log
 }
 
 func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMetadata, logger *logger.Logger) error {
-	topicIdBase64, err := uuidToBase64(metadata.TopicUUID)
+	topicIDBase64, err := uuid.Parse(metadata.TopicUUID)
 	if err != nil {
 		return err
 	}
-	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, topicIdBase64)
+	content := fmt.Sprintf("version: %d\ntopic_id: %s", metadata.Version, base64.StdEncoding.EncodeToString(topicIDBase64[:]))
 
 	filePath := path.Join(
 		KRAFT_LOG_DIRECTORY,
@@ -91,13 +93,14 @@ func (c *PartitionGenerationConfig) writePartitionMetadata(metadata PartitionMet
 	return nil
 }
 
-func (c *PartitionGenerationConfig) generateRecordBatchesFromLogs(logs []string) kafkaapi.RecordBatches {
-	var recordBatches kafkaapi.RecordBatches
+func (c *PartitionGenerationConfig) generateRecordBatchFromLogs(logs []string) kafkaapi.RecordBatches {
+	recordBatches := kafkaapi.RecordBatches{}
 
 	for i, message := range logs {
 		recordBatches = append(recordBatches, kafkaapi.RecordBatch{
 			BaseOffset:           value.Int64{Value: int64(i)},
 			PartitionLeaderEpoch: value.Int32{Value: 0},
+			Magic:                value.Int8{Value: 2},
 			Attributes:           value.Int16{Value: 0},
 			LastOffsetDelta:      value.Int32{Value: 0},
 			FirstTimestamp:       value.Int64{Value: 1726045973899},
@@ -108,10 +111,10 @@ func (c *PartitionGenerationConfig) generateRecordBatchesFromLogs(logs []string)
 			Records: []kafkaapi.Record{
 				{
 					Attributes:     value.Int8{Value: 0},
-					TimestampDelta: value.Int64{Value: 0},
-					Key:            value.RawBytes{},
-					Value:          value.RawBytes{Value: []byte(message)},
-					Headers:        []kafkaapi.RecordHeader{},
+					TimestampDelta: value.Varint{Value: 0},
+					Key:            nil,
+					Value:          []byte(message),
+					Headers:        nil,
 				},
 			},
 		})

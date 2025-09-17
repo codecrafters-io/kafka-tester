@@ -47,7 +47,7 @@ Debug = true
 [33m[tester::#YK1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#YK1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#YK1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#YK1] [0m[36m0200 | 00 00 00 09 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#YK1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#YK1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#YK1] [0m[36m[0m
 [33m[tester::#YK1] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -317,33 +317,33 @@ Debug = true
 [33m[tester::#VT6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#VT6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#VT6] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#VT6] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 265307650)[0m
+[33m[tester::#VT6] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 2105232020)[0m
 [33m[tester::#VT6] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#VT6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#VT6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#VT6] [0m[36m0000 | 00 00 00 30 00 4b 00 00 0f d0 46 02 00 0c 6b 61 | ...0.K....F...ka[0m
+[33m[tester::#VT6] [0m[36m0000 | 00 00 00 30 00 4b 00 00 7d 7b 4a 94 00 0c 6b 61 | ...0.K..}{J...ka[0m
 [33m[tester::#VT6] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 11 55 4e 4b | fka-tester...UNK[0m
-[33m[tester::#VT6] [0m[36m0020 | 4e 4f 57 4e 5f 54 4f 50 49 43 5f 31 36 00 00 00 | NOWN_TOPIC_16...[0m
+[33m[tester::#VT6] [0m[36m0020 | 4e 4f 57 4e 5f 54 4f 50 49 43 5f 39 32 00 00 00 | NOWN_TOPIC_92...[0m
 [33m[tester::#VT6] [0m[36m0030 | 00 01 ff 00                                     | ....[0m
 [33m[tester::#VT6] [0m[36m[0m
 [33m[tester::#VT6] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
 [33m[tester::#VT6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#VT6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#VT6] [0m[36m0000 | 00 00 00 36 0f d0 46 02 00 00 00 00 00 02 00 03 | ...6..F.........[0m
-[33m[tester::#VT6] [0m[36m0010 | 11 55 4e 4b 4e 4f 57 4e 5f 54 4f 50 49 43 5f 31 | .UNKNOWN_TOPIC_1[0m
-[33m[tester::#VT6] [0m[36m0020 | 36 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | 6...............[0m
+[33m[tester::#VT6] [0m[36m0000 | 00 00 00 36 7d 7b 4a 94 00 00 00 00 00 02 00 03 | ...6}{J.........[0m
+[33m[tester::#VT6] [0m[36m0010 | 11 55 4e 4b 4e 4f 57 4e 5f 54 4f 50 49 43 5f 39 | .UNKNOWN_TOPIC_9[0m
+[33m[tester::#VT6] [0m[36m0020 | 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | 2...............[0m
 [33m[tester::#VT6] [0m[36m0030 | 00 00 01 00 00 0d f8 00 ff 00                   | ..........[0m
 [33m[tester::#VT6] [0m[36m[0m
 [33m[tester::#VT6] [Decoder] [0m[36m- DescribeTopicPartitionsResponse[0m
 [33m[tester::#VT6] [Decoder] [0m[36m  - Header[0m
-[33m[tester::#VT6] [Decoder] [0m[36m    - CorrelationID (265307650)[0m
+[33m[tester::#VT6] [Decoder] [0m[36m    - CorrelationID (2105232020)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#VT6] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#VT6] [Decoder] [0m[36m        - ErrorCode (3)[0m
-[33m[tester::#VT6] [Decoder] [0m[36m        - Name (UNKNOWN_TOPIC_16)[0m
+[33m[tester::#VT6] [Decoder] [0m[36m        - Name (UNKNOWN_TOPIC_92)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m        - UUID (00000000-0000-0000-0000-000000000000)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m        - IsInternal (False)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m        - Partitions[0m
@@ -351,10 +351,10 @@ Debug = true
 [33m[tester::#VT6] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#VT6] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#VT6] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#VT6] [0m[92m✓ CorrelationID: 265307650[0m
+[33m[tester::#VT6] [0m[92m✓ CorrelationID: 2105232020[0m
 [33m[tester::#VT6] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#VT6] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#VT6] [0m[92m✓ Topic[0].Name: UNKNOWN_TOPIC_16[0m
+[33m[tester::#VT6] [0m[92m✓ Topic[0].Name: UNKNOWN_TOPIC_92[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].UUID: 00000000-0000-0000-0000-000000000000[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].ErrorCode: 3[0m
 [33m[tester::#VT6] [0m[92m✓ Topic[0].Partitions.Length: 0[0m
@@ -366,26 +366,26 @@ Debug = true
 [33m[tester::#EA7] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#EA7] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#EA7] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#EA7] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 655447862)[0m
+[33m[tester::#EA7] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1886837589)[0m
 [33m[tester::#EA7] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#EA7] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EA7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#EA7] [0m[36m0000 | 00 00 00 25 00 4b 00 00 27 11 57 36 00 0c 6b 61 | ...%.K..'.W6..ka[0m
+[33m[tester::#EA7] [0m[36m0000 | 00 00 00 25 00 4b 00 00 70 76 db 55 00 0c 6b 61 | ...%.K..pv.U..ka[0m
 [33m[tester::#EA7] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 06 6d 61 6e | fka-tester...man[0m
 [33m[tester::#EA7] [0m[36m0020 | 67 6f 00 00 00 00 01 ff 00                      | go.......[0m
 [33m[tester::#EA7] [0m[36m[0m
 [33m[tester::#EA7] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
 [33m[tester::#EA7] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EA7] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#EA7] [0m[36m0000 | 00 00 00 47 27 11 57 36 00 00 00 00 00 02 00 00 | ...G'.W6........[0m
-[33m[tester::#EA7] [0m[36m0010 | 06 6d 61 6e 67 6f 00 00 00 00 00 00 40 00 80 00 | .mango......@...[0m
-[33m[tester::#EA7] [0m[36m0020 | 00 00 00 00 00 70 00 02 00 00 00 00 00 00 00 00 | .....p..........[0m
+[33m[tester::#EA7] [0m[36m0000 | 00 00 00 47 70 76 db 55 00 00 00 00 00 02 00 00 | ...Gpv.U........[0m
+[33m[tester::#EA7] [0m[36m0010 | 06 6d 61 6e 67 6f 71 a5 9a 51 89 68 4f 8b 93 7e | .mangoq..Q.hO..~[0m
+[33m[tester::#EA7] [0m[36m0020 | 2d 59 b2 dc 35 0e 00 02 00 00 00 00 00 00 00 00 | -Y..5...........[0m
 [33m[tester::#EA7] [0m[36m0030 | 00 01 00 00 00 00 02 00 00 00 01 02 00 00 00 01 | ................[0m
 [33m[tester::#EA7] [0m[36m0040 | 01 01 01 00 00 00 0d f8 00 ff 00                | ...........[0m
 [33m[tester::#EA7] [0m[36m[0m
 [33m[tester::#EA7] [Decoder] [0m[36m- DescribeTopicPartitionsResponse[0m
 [33m[tester::#EA7] [Decoder] [0m[36m  - Header[0m
-[33m[tester::#EA7] [Decoder] [0m[36m    - CorrelationID (655447862)[0m
+[33m[tester::#EA7] [Decoder] [0m[36m    - CorrelationID (1886837589)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - Topics[0m
@@ -393,7 +393,7 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#EA7] [Decoder] [0m[36m        - ErrorCode (0)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m        - Name (mango)[0m
-[33m[tester::#EA7] [Decoder] [0m[36m        - UUID (00000000-0000-4000-8000-000000000070)[0m
+[33m[tester::#EA7] [Decoder] [0m[36m        - UUID (71a59a51-8968-4f8b-937e-2d59b2dc350e)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m        - IsInternal (False)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m        - Partitions[0m
 [33m[tester::#EA7] [Decoder] [0m[36m          - Length (1)[0m
@@ -419,11 +419,11 @@ Debug = true
 [33m[tester::#EA7] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#EA7] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#EA7] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#EA7] [0m[92m✓ CorrelationID: 655447862[0m
+[33m[tester::#EA7] [0m[92m✓ CorrelationID: 1886837589[0m
 [33m[tester::#EA7] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#EA7] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Name: mango[0m
-[33m[tester::#EA7] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000070[0m
+[33m[tester::#EA7] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-2d59b2dc350e[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Partitions.Length: 1[0m
 [33m[tester::#EA7] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
@@ -436,36 +436,36 @@ Debug = true
 [33m[tester::#KU4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#KU4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#KU4] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#KU4] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1111232230)[0m
+[33m[tester::#KU4] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 32408702)[0m
 [33m[tester::#KU4] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#KU4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#KU4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#KU4] [0m[36m0000 | 00 00 00 24 00 4b 00 00 42 3c 0e e6 00 0c 6b 61 | ...$.K..B<....ka[0m
-[33m[tester::#KU4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 05 70 65 61 | fka-tester...pea[0m
-[33m[tester::#KU4] [0m[36m0020 | 72 00 00 00 00 02 ff 00                         | r.......[0m
+[33m[tester::#KU4] [0m[36m0000 | 00 00 00 25 00 4b 00 00 01 ee 84 7e 00 0c 6b 61 | ...%.K.....~..ka[0m
+[33m[tester::#KU4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 02 06 61 70 70 | fka-tester...app[0m
+[33m[tester::#KU4] [0m[36m0020 | 6c 65 00 00 00 00 02 ff 00                      | le.......[0m
 [33m[tester::#KU4] [0m[36m[0m
 [33m[tester::#KU4] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
 [33m[tester::#KU4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#KU4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#KU4] [0m[36m0000 | 00 00 00 62 42 3c 0e e6 00 00 00 00 00 02 00 00 | ...bB<..........[0m
-[33m[tester::#KU4] [0m[36m0010 | 05 70 65 61 72 00 00 00 00 00 00 40 00 80 00 00 | .pear......@....[0m
-[33m[tester::#KU4] [0m[36m0020 | 00 00 00 00 03 00 03 00 00 00 00 00 00 00 00 00 | ................[0m
-[33m[tester::#KU4] [0m[36m0030 | 01 00 00 00 00 02 00 00 00 01 02 00 00 00 01 01 | ................[0m
-[33m[tester::#KU4] [0m[36m0040 | 01 01 00 00 00 00 00 00 01 00 00 00 01 00 00 00 | ................[0m
-[33m[tester::#KU4] [0m[36m0050 | 00 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 | ................[0m
-[33m[tester::#KU4] [0m[36m0060 | 00 0d f8 00 ff 00                               | ......[0m
+[33m[tester::#KU4] [0m[36m0000 | 00 00 00 63 01 ee 84 7e 00 00 00 00 00 02 00 00 | ...c...~........[0m
+[33m[tester::#KU4] [0m[36m0010 | 06 61 70 70 6c 65 71 a5 9a 51 89 68 4f 8b 93 7e | .appleq..Q.hO..~[0m
+[33m[tester::#KU4] [0m[36m0020 | 7e 97 cc da aa 9c 00 03 00 00 00 00 00 00 00 00 | ~...............[0m
+[33m[tester::#KU4] [0m[36m0030 | 00 01 00 00 00 00 02 00 00 00 01 02 00 00 00 01 | ................[0m
+[33m[tester::#KU4] [0m[36m0040 | 01 01 01 00 00 00 00 00 00 01 00 00 00 01 00 00 | ................[0m
+[33m[tester::#KU4] [0m[36m0050 | 00 00 02 00 00 00 01 02 00 00 00 01 01 01 01 00 | ................[0m
+[33m[tester::#KU4] [0m[36m0060 | 00 00 0d f8 00 ff 00                            | .......[0m
 [33m[tester::#KU4] [0m[36m[0m
 [33m[tester::#KU4] [Decoder] [0m[36m- DescribeTopicPartitionsResponse[0m
 [33m[tester::#KU4] [Decoder] [0m[36m  - Header[0m
-[33m[tester::#KU4] [Decoder] [0m[36m    - CorrelationID (1111232230)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m    - CorrelationID (32408702)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#KU4] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#KU4] [Decoder] [0m[36m        - ErrorCode (0)[0m
-[33m[tester::#KU4] [Decoder] [0m[36m        - Name (pear)[0m
-[33m[tester::#KU4] [Decoder] [0m[36m        - UUID (00000000-0000-4000-8000-000000000003)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m        - Name (apple)[0m
+[33m[tester::#KU4] [Decoder] [0m[36m        - UUID (71a59a51-8968-4f8b-937e-7e97ccdaaa9c)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m        - IsInternal (False)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m        - Partitions[0m
 [33m[tester::#KU4] [Decoder] [0m[36m          - Length (2)[0m
@@ -510,11 +510,11 @@ Debug = true
 [33m[tester::#KU4] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#KU4] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#KU4] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#KU4] [0m[92m✓ CorrelationID: 1111232230[0m
+[33m[tester::#KU4] [0m[92m✓ CorrelationID: 32408702[0m
 [33m[tester::#KU4] [0m[92m✓ Topics array length: 1[0m
 [33m[tester::#KU4] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0].Name: pear[0m
-[33m[tester::#KU4] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000003[0m
+[33m[tester::#KU4] [0m[92m✓ Topic[0].Name: apple[0m
+[33m[tester::#KU4] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-7e97ccdaaa9c[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partitions.Length: 2[0m
 [33m[tester::#KU4] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
@@ -529,41 +529,41 @@ Debug = true
 [33m[tester::#WQ2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#WQ2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#WQ2] [0m[36mConnection to broker at localhost:9092 successful[0m
-[33m[tester::#WQ2] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1888955582)[0m
+[33m[tester::#WQ2] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1943775648)[0m
 [33m[tester::#WQ2] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#WQ2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WQ2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#WQ2] [0m[36m0000 | 00 00 00 2f 00 4b 00 00 70 97 2c be 00 0c 6b 61 | .../.K..p.,...ka[0m
-[33m[tester::#WQ2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 03 0a 62 6c 75 | fka-tester...blu[0m
-[33m[tester::#WQ2] [0m[36m0020 | 65 62 65 72 72 79 00 05 70 65 61 72 00 00 00 00 | eberry..pear....[0m
-[33m[tester::#WQ2] [0m[36m0030 | 03 ff 00                                        | ...[0m
+[33m[tester::#WQ2] [0m[36m0000 | 00 00 00 31 00 4b 00 00 73 db a9 a0 00 0c 6b 61 | ...1.K..s.....ka[0m
+[33m[tester::#WQ2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 03 07 62 61 6e | fka-tester...ban[0m
+[33m[tester::#WQ2] [0m[36m0020 | 61 6e 61 00 0a 72 61 73 70 62 65 72 72 79 00 00 | ana..raspberry..[0m
+[33m[tester::#WQ2] [0m[36m0030 | 00 00 03 ff 00                                  | .....[0m
 [33m[tester::#WQ2] [0m[36m[0m
 [33m[tester::#WQ2] [0m[36mHexdump of received "DescribeTopicPartitions" response: [0m
 [33m[tester::#WQ2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WQ2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#WQ2] [0m[36m0000 | 00 00 00 a1 70 97 2c be 00 00 00 00 00 03 00 00 | ....p.,.........[0m
-[33m[tester::#WQ2] [0m[36m0010 | 0a 62 6c 75 65 62 65 72 72 79 00 00 00 00 00 00 | .blueberry......[0m
-[33m[tester::#WQ2] [0m[36m0020 | 40 00 80 00 00 00 00 00 00 10 00 02 00 00 00 00 | @...............[0m
-[33m[tester::#WQ2] [0m[36m0030 | 00 00 00 00 00 01 00 00 00 00 02 00 00 00 01 02 | ................[0m
-[33m[tester::#WQ2] [0m[36m0040 | 00 00 00 01 01 01 01 00 00 00 0d f8 00 00 00 05 | ................[0m
-[33m[tester::#WQ2] [0m[36m0050 | 70 65 61 72 00 00 00 00 00 00 40 00 80 00 00 00 | pear......@.....[0m
-[33m[tester::#WQ2] [0m[36m0060 | 00 00 00 91 00 03 00 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#WQ2] [0m[36m0070 | 00 00 00 00 02 00 00 00 01 02 00 00 00 01 01 01 | ................[0m
-[33m[tester::#WQ2] [0m[36m0080 | 01 00 00 00 00 00 00 01 00 00 00 01 00 00 00 00 | ................[0m
-[33m[tester::#WQ2] [0m[36m0090 | 02 00 00 00 01 02 00 00 00 01 01 01 01 00 00 00 | ................[0m
-[33m[tester::#WQ2] [0m[36m00a0 | 0d f8 00 ff 00                                  | .....[0m
+[33m[tester::#WQ2] [0m[36m0000 | 00 00 00 a3 73 db a9 a0 00 00 00 00 00 03 00 00 | ....s...........[0m
+[33m[tester::#WQ2] [0m[36m0010 | 07 62 61 6e 61 6e 61 71 a5 9a 51 89 68 4f 8b 93 | .bananaq..Q.hO..[0m
+[33m[tester::#WQ2] [0m[36m0020 | 7e 00 00 00 00 01 ac 00 02 00 00 00 00 00 00 00 | ~...............[0m
+[33m[tester::#WQ2] [0m[36m0030 | 00 00 01 00 00 00 00 02 00 00 00 01 02 00 00 00 | ................[0m
+[33m[tester::#WQ2] [0m[36m0040 | 01 01 01 01 00 00 00 0d f8 00 00 00 0a 72 61 73 | .............ras[0m
+[33m[tester::#WQ2] [0m[36m0050 | 70 62 65 72 72 79 71 a5 9a 51 89 68 4f 8b 93 7e | pberryq..Q.hO..~[0m
+[33m[tester::#WQ2] [0m[36m0060 | 00 00 00 00 04 cb 00 03 00 00 00 00 00 00 00 00 | ................[0m
+[33m[tester::#WQ2] [0m[36m0070 | 00 01 00 00 00 00 02 00 00 00 01 02 00 00 00 01 | ................[0m
+[33m[tester::#WQ2] [0m[36m0080 | 01 01 01 00 00 00 00 00 00 01 00 00 00 01 00 00 | ................[0m
+[33m[tester::#WQ2] [0m[36m0090 | 00 00 02 00 00 00 01 02 00 00 00 01 01 01 01 00 | ................[0m
+[33m[tester::#WQ2] [0m[36m00a0 | 00 00 0d f8 00 ff 00                            | .......[0m
 [33m[tester::#WQ2] [0m[36m[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m- DescribeTopicPartitionsResponse[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m  - Header[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m    - CorrelationID (1888955582)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m    - CorrelationID (1943775648)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - Length (2)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - ErrorCode (0)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m        - Name (blueberry)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m        - UUID (00000000-0000-4000-8000-000000000010)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m        - Name (banana)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m        - UUID (71a59a51-8968-4f8b-937e-0000000001ac)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - IsInternal (False)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - Partitions[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m          - Length (1)[0m
@@ -589,8 +589,8 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - Topics[1][0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - ErrorCode (0)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m        - Name (pear)[0m
-[33m[tester::#WQ2] [Decoder] [0m[36m        - UUID (00000000-0000-4000-8000-000000000091)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m        - Name (raspberry)[0m
+[33m[tester::#WQ2] [Decoder] [0m[36m        - UUID (71a59a51-8968-4f8b-937e-0000000004cb)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - IsInternal (False)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m        - Partitions[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m          - Length (2)[0m
@@ -635,17 +635,17 @@ Debug = true
 [33m[tester::#WQ2] [Decoder] [0m[36m        - TopicAuthorizedOperations (3576)[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m    - Cursor[0m
 [33m[tester::#WQ2] [Decoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#WQ2] [0m[92m✓ CorrelationID: 1888955582[0m
+[33m[tester::#WQ2] [0m[92m✓ CorrelationID: 1943775648[0m
 [33m[tester::#WQ2] [0m[92m✓ Topics array length: 2[0m
 [33m[tester::#WQ2] [0m[92m✓ Cursor.IsCursorPresent: -1[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0].Name: blueberry[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[0].UUID: 00000000-0000-4000-8000-000000000010[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[0].Name: banana[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[0].UUID: 71a59a51-8968-4f8b-937e-0000000001ac[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].ErrorCode: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partitions.Length: 1[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partition[0].ID: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[0].Partition[0].ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1].Name: pear[0m
-[33m[tester::#WQ2] [0m[92m✓ Topic[1].UUID: 00000000-0000-4000-8000-000000000091[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[1].Name: raspberry[0m
+[33m[tester::#WQ2] [0m[92m✓ Topic[1].UUID: 71a59a51-8968-4f8b-937e-0000000004cb[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].ErrorCode: 0[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partitions.Length: 2[0m
 [33m[tester::#WQ2] [0m[92m✓ Topic[1].Partition[0].ID: 0[0m
