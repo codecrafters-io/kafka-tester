@@ -1,6 +1,8 @@
 package kafkaapi
 
 import (
+	"fmt"
+
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
@@ -30,19 +32,23 @@ func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldE
 	encoder.PushPathContext("Body")
 	defer encoder.PopPathContext()
 
-	r.encodeTopics(encoder)
+	r.encodeTopicNamesArray(encoder)
 	encoder.WriteInt32Field("ResponsePartitionLimit", r.ResponsePartitionLimit)
 	r.encodeCursor(encoder)
 
 	encoder.WriteEmptyTagBuffer()
 }
 
-func (r DescribeTopicPartitionsRequestBody) encodeTopics(encoder *field_encoder.FieldEncoder) {
-	encodableTopicNames := make([]value.KafkaProtocolValue, len(r.TopicNames))
+func (r DescribeTopicPartitionsRequestBody) encodeTopicNamesArray(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Topics")
+	defer encoder.PopPathContext()
+	encoder.WriteCompactArrayLengthField("Length", value.NewCompactArrayLength(r.TopicNames))
 	for i, topicName := range r.TopicNames {
-		encodableTopicNames[i] = topicName
+		encoder.PushPathContext(fmt.Sprintf("Topic[%d]", i))
+		encoder.WriteCompactStringField("Name", topicName)
+		encoder.WriteEmptyTagBuffer()
+		encoder.PopPathContext()
 	}
-	encoder.WriteCompactArrayField("Topics", encodableTopicNames)
 }
 
 func (r DescribeTopicPartitionsRequestBody) encodeCursor(encoder *field_encoder.FieldEncoder) {

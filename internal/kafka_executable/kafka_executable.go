@@ -50,6 +50,8 @@ func (b *KafkaExecutable) Run(args ...string) error {
 		return err
 	}
 
+	b.executable.TimeoutInMilliseconds = 3600 * 1000
+
 	return nil
 }
 

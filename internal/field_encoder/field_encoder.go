@@ -1,7 +1,6 @@
 package field_encoder
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
@@ -100,25 +99,11 @@ func (e *FieldEncoder) WriteCompactStringField(variableName string, value kafka_
 	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteCompactArrayField(variableName string, values []kafka_value.KafkaProtocolValue) {
+func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, value kafka_value.CompactArrayLength) {
 	e.PushPathContext(variableName)
-	e.PopPathContext()
-
-	if values == nil {
-		e.encoder.WriteUvarint(0)
-	} else {
-		e.encoder.WriteUvarint(uint64(len(values) + 1))
-	}
-
-	for index, value := range values {
-		if castedCompactString, ok := value.(kafka_value.CompactString); ok {
-			elementName := fmt.Sprintf("%s[%d]", variableName, index)
-			e.WriteCompactStringField(elementName, castedCompactString)
-			continue
-		}
-
-		panic(fmt.Sprintf("Codecrafters Internal Error: Encoding of Compact Array of %s is not supported", value.GetType()))
-	}
+	defer e.PopPathContext()
+	e.encoder.WriteUvarint(value.Value)
+	e.appendEncodedField(value)
 }
 
 // WriteEmptyTagBuffer writes an empty tag buffer
