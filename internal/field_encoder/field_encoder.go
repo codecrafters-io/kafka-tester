@@ -146,7 +146,7 @@ func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, actualL
 	})
 }
 
-func (e *FieldEncoder) WriteUUID(variableName string, value string) {
+func (e *FieldEncoder) WriteUUIDField(variableName string, value string) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 

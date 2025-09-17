@@ -14,8 +14,13 @@ func (f ForgottenTopic) Encode(encoder *field_encoder.FieldEncoder) {
 	encoder.PushPathContext("ForgottenTopic")
 	defer encoder.PopPathContext()
 
-	// topicEncoder.WriteUUID("UUID", f.UUID)
-	// topicEncoder.WriteCompactArrayOfInt32("Partitions", f.Partitions)
+	encoder.WriteUUIDField("UUID", f.UUID)
+	f.encodePartitions(encoder)
+}
+
+func (f ForgottenTopic) encodePartitions(encoder *field_encoder.FieldEncoder) {
+	// WIP
+	encoder.WriteCompactArrayLengthField()
 }
 
 type FetchRequestBody struct {
@@ -50,23 +55,19 @@ func (r FetchRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
 }
 
 func (r FetchRequestBody) encodeTopics(encoder *field_encoder.FieldEncoder) {
-	encoder.PushPathContext("Topics")
-	defer encoder.PopPathContext()
-
-	encoder.WriteCompactArrayLengthField("Length", len(r.Topics))
-	for _, topic := range r.Topics {
-		topic.Encode(encoder)
+	encodableTopics := make([]FieldEncodable, len(r.Topics))
+	for i, topic := range r.Topics {
+		encodableTopics[i] = topic
 	}
+	encodeCompactArray("Topics", encoder, encodableTopics)
 }
 
 func (r FetchRequestBody) encodeForgottenTopics(encoder *field_encoder.FieldEncoder) {
-	encoder.PushPathContext("Topics")
-	defer encoder.PopPathContext()
-
-	encoder.WriteCompactArrayLengthField("Length", len(r.ForgottenTopics))
-	for _, forgottenTopic := range r.ForgottenTopics {
-		forgottenTopic.Encode(encoder)
+	encodableForgottenTopics := make([]FieldEncodable, len(r.Topics))
+	for i, topic := range r.Topics {
+		encodableForgottenTopics[i] = topic
 	}
+	encodeCompactArray("ForgottenTopics", encoder, encodableForgottenTopics)
 }
 
 type FetchRequest struct {

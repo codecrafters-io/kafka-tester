@@ -1,6 +1,8 @@
 package kafkaapi
 
 import (
+	"fmt"
+
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 )
 
@@ -13,7 +15,9 @@ func encodeCompactArray(name string, encoder *field_encoder.FieldEncoder, encoda
 	encoder.PopPathContext()
 
 	encoder.WriteCompactArrayLengthField("Length", len(encodableArray))
-	for _, encodable := range encodableArray {
+	for i, encodable := range encodableArray {
+		encoder.PushPathContext(fmt.Sprintf("%s[%d]", name, i))
 		encodable.Encode(encoder)
+		encoder.PopPathContext()
 	}
 }
