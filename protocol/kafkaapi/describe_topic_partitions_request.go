@@ -2,7 +2,6 @@ package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 )
 
@@ -11,13 +10,12 @@ type Cursor struct {
 	PartitionIndex int32
 }
 
-func (c Cursor) Encode() []byte {
-	cursorEncoder := encoder.NewEncoder()
-
-	cursorEncoder.WriteCompactString(c.TopicName)
-	cursorEncoder.WriteInt32(c.PartitionIndex)
-	cursorEncoder.WriteEmptyTagBuffer()
-	return cursorEncoder.Bytes()
+func (c Cursor) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Cursor")
+	defer encoder.PopPathContext()
+	encoder.WriteCompactString("TopicName", c.TopicName)
+	encoder.WriteInt32("PartitionIndex", c.PartitionIndex)
+	encoder.WriteEmptyTagBuffer()
 }
 
 type DescribeTopicPartitionsRequestBody struct {
@@ -27,25 +25,27 @@ type DescribeTopicPartitionsRequestBody struct {
 	Cursor *Cursor
 }
 
-func (r DescribeTopicPartitionsRequestBody) Encode() []byte {
-	bodyEncoder := encoder.NewEncoder()
+func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Topics")
+	defer encoder.PopPathContext()
 
-	bodyEncoder.WriteCompactArrayLength(len(r.TopicNames))
+	encoder.WriteCompactArrayLength("Length", len(r.TopicNames))
 	for _, topicName := range r.TopicNames {
-		bodyEncoder.WriteCompactString(topicName)
-		bodyEncoder.WriteEmptyTagBuffer()
+		encoder.WriteCompactString("Name", topicName)
+		encoder.WriteEmptyTagBuffer()
 	}
 
-	bodyEncoder.WriteInt32(r.ResponsePartitionLimit)
+	encoder.WriteInt32("ResponsePartitionLimit", r.ResponsePartitionLimit)
 
 	if r.Cursor == nil {
-		bodyEncoder.WriteInt8(-1)
+		encoder.PushPathContext("Cursor")
+		encoder.WriteInt8("IsCursorPresent", -1)
+		encoder.PopPathContext()
 	} else {
-		bodyEncoder.WriteRawBytes(r.Cursor.Encode())
+		r.Cursor.Encode(encoder)
 	}
 
-	bodyEncoder.WriteEmptyTagBuffer()
-	return bodyEncoder.Bytes()
+	encoder.WriteEmptyTagBuffer()
 }
 
 type DescribeTopicPartitionsRequest struct {
@@ -60,5 +60,5 @@ func (r DescribeTopicPartitionsRequest) GetHeader() headers.RequestHeader {
 
 // EncodeBody implements the RequestI interface
 func (r DescribeTopicPartitionsRequest) EncodeBody(encoder *field_encoder.FieldEncoder) {
-	r.Body.Encode()
+	r.Body.Encode(encoder)
 }
