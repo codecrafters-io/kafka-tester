@@ -64,40 +64,25 @@ func (e *FieldEncoder) Bytes() []byte {
 	return e.encoder.Bytes()
 }
 
-func (e *FieldEncoder) WriteInt8Field(variableName string, in int8) {
+func (e *FieldEncoder) WriteInt8Field(variableName string, value kafka_value.Int8) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt8(in)
-
-	encodedValue := kafka_value.Int8{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteInt8(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteInt16Field(variableName string, in int16) {
+func (e *FieldEncoder) WriteInt16Field(variableName string, value kafka_value.Int16) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt16(in)
-
-	encodedValue := kafka_value.Int16{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteInt16(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteInt32Field(variableName string, in int32) {
+func (e *FieldEncoder) WriteInt32Field(variableName string, value kafka_value.Int32) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt32(in)
-
-	encodedValue := kafka_value.Int32{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteInt32(value.Value)
+	e.appendEncodedField(value)
 }
 
 func (e *FieldEncoder) WriteInt64Field(variableName string, in int64) {
@@ -112,38 +97,25 @@ func (e *FieldEncoder) WriteInt64Field(variableName string, in int64) {
 	e.appendEncodedField(encodedValue)
 }
 
-func (e *FieldEncoder) WriteStringField(variableName string, value string) {
+func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.KafkaString) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteString(value)
-
-	encodedValue := kafka_value.KafkaString{
-		Value: value,
-	}
-
-	e.appendEncodedField(encodedValue)
+	e.encoder.WriteString(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteCompactStringField(variableName string, value string) {
+func (e *FieldEncoder) WriteCompactStringField(variableName string, value kafka_value.CompactString) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-
-	e.encoder.WriteCompactString(value)
-
-	e.appendEncodedField(kafka_value.CompactString{
-		Value: value,
-	})
+	e.encoder.WriteCompactString(value.Value)
+	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, actualLength int) {
+func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, value kafka_value.CompactArrayLength) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-
-	e.encoder.WriteCompactArrayLength(actualLength)
-
-	e.appendEncodedField(kafka_value.CompactArrayLength{
-		Value: uint64(actualLength) + 1,
-	})
+	e.encoder.WriteUvarint(value.Value)
+	e.appendEncodedField(value)
 }
 
 func (e *FieldEncoder) WriteUUIDField(variableName string, value string) {

@@ -2,18 +2,19 @@ package headers
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 // RequestHeader defines the header for a Kafka request
 type RequestHeader struct {
 	// ApiKey defines the API key for the request
-	ApiKey int16
+	ApiKey value.Int16
 	// ApiVersion defines the API version for the request
-	ApiVersion int16
+	ApiVersion value.Int16
 	// CorrelationId defines the correlation ID for the request
-	CorrelationId int32
+	CorrelationId value.Int32
 	// ClientId defines the client ID for the request
-	ClientId string
+	ClientId value.KafkaString
 }
 
 func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) {

@@ -1,6 +1,9 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type ApiVersionsRequestBuilder struct {
 	version               int16
@@ -32,9 +35,9 @@ func (b *ApiVersionsRequestBuilder) Build() kafkaapi.ApiVersionsRequest {
 	return kafkaapi.ApiVersionsRequest{
 		Header: NewRequestHeaderBuilder().BuildApiVersionsRequestHeader(b.correlationId, b.version),
 		Body: kafkaapi.ApiVersionsRequestBody{
-			Version:               b.version,
-			ClientSoftwareName:    b.clientSoftwareName,
-			ClientSoftwareVersion: b.clientSoftwareVersion,
+			Version:               value.Int16{Value: b.version},
+			ClientSoftwareName:    value.CompactString{Value: b.clientSoftwareName},
+			ClientSoftwareVersion: value.CompactString{Value: b.clientSoftwareVersion},
 		},
 	}
 }

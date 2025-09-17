@@ -5,19 +5,20 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type ApiVersionsRequestBody struct {
 	// Version defines the protocol version to use for encode and decode
-	Version int16
+	Version value.Int16
 	// ClientSoftwareName contains the name of the client.
-	ClientSoftwareName string
+	ClientSoftwareName value.CompactString
 	// ClientSoftwareVersion contains the version of the client.
-	ClientSoftwareVersion string
+	ClientSoftwareVersion value.CompactString
 }
 
 func (r ApiVersionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
-	if r.Version < 4 {
+	if r.Version.Value < 4 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
 	encoder.PushPathContext("Body")
