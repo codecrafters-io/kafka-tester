@@ -85,15 +85,11 @@ func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.K
 	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteCompactStringField(variableName string, value string) {
+func (e *FieldEncoder) WriteCompactStringField(variableName string, value kafka_value.CompactString) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-
-	e.encoder.WriteCompactString(value)
-
-	e.appendEncodedField(kafka_value.CompactString{
-		Value: value,
-	})
+	e.encoder.WriteCompactString(value.Value)
+	e.appendEncodedField(value)
 }
 
 // WriteEmptyTagBuffer writes an empty tag buffer
