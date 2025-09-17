@@ -47,7 +47,6 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "vt6",
 			TestFunc: testDTPartitionWithUnknownTopic,
-			Timeout:  time.Hour,
 		},
 		{
 			Slug:     "ea7",
