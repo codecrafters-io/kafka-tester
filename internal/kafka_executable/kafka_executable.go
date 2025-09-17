@@ -46,8 +46,6 @@ func (b *KafkaExecutable) Run(args ...string) error {
 		b.logger.Infof(log)
 	}
 
-	b.executable.TimeoutInMilliseconds = 3600 * 1000
-
 	if err := b.executable.Start(b.args...); err != nil {
 		return err
 	}
