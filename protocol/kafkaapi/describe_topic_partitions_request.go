@@ -14,7 +14,7 @@ func (c Cursor) Encode(encoder *field_encoder.FieldEncoder) {
 	encoder.PushPathContext("Cursor")
 	defer encoder.PopPathContext()
 	encoder.WriteCompactString("TopicName", c.TopicName)
-	encoder.WriteInt32("PartitionIndex", c.PartitionIndex)
+	encoder.WriteInt32Field("PartitionIndex", c.PartitionIndex)
 	encoder.WriteEmptyTagBuffer()
 }
 
@@ -30,7 +30,7 @@ func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldE
 	defer encoder.PopPathContext()
 
 	r.encodeTopics(encoder)
-	encoder.WriteInt32("ResponsePartitionLimit", r.ResponsePartitionLimit)
+	encoder.WriteInt32Field("ResponsePartitionLimit", r.ResponsePartitionLimit)
 	r.encodeCursor(encoder)
 
 	encoder.WriteEmptyTagBuffer()
