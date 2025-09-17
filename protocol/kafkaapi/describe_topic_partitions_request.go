@@ -26,6 +26,17 @@ type DescribeTopicPartitionsRequestBody struct {
 }
 
 func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Body")
+	defer encoder.PopPathContext()
+
+	r.encodeTopics(encoder)
+	encoder.WriteInt32("ResponsePartitionLimit", r.ResponsePartitionLimit)
+	r.encodeCursor(encoder)
+
+	encoder.WriteEmptyTagBuffer()
+}
+
+func (r DescribeTopicPartitionsRequestBody) encodeTopics(encoder *field_encoder.FieldEncoder) {
 	encoder.PushPathContext("Topics")
 	defer encoder.PopPathContext()
 
@@ -34,11 +45,6 @@ func (r DescribeTopicPartitionsRequestBody) Encode(encoder *field_encoder.FieldE
 		encoder.WriteCompactString("Name", topicName)
 		encoder.WriteEmptyTagBuffer()
 	}
-
-	encoder.WriteInt32("ResponsePartitionLimit", r.ResponsePartitionLimit)
-	r.encodeCursor(encoder)
-
-	encoder.WriteEmptyTagBuffer()
 }
 
 func (r DescribeTopicPartitionsRequestBody) encodeCursor(encoder *field_encoder.FieldEncoder) {

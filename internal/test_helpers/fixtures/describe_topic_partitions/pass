@@ -332,9 +332,10 @@ Debug = true
 [33m[tester::#VT6] [Encoder] [0m[36m    - APIVersion (0)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - CorrelationID (2105232020)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
-[33m[tester::#VT6] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#VT6] [Encoder] [0m[36m    - Length (1)[0m
-[33m[tester::#VT6] [Encoder] [0m[36m    - Name (UNKNOWN_TOPIC_92)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#VT6] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#VT6] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m      - Name (UNKNOWN_TOPIC_92)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - ResponsePartitionLimit (1)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#VT6] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
@@ -393,9 +394,10 @@ Debug = true
 [33m[tester::#EA7] [Encoder] [0m[36m    - APIVersion (0)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - CorrelationID (1886837589)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
-[33m[tester::#EA7] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#EA7] [Encoder] [0m[36m    - Length (1)[0m
-[33m[tester::#EA7] [Encoder] [0m[36m    - Name (mango)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#EA7] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#EA7] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m      - Name (mango)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - ResponsePartitionLimit (1)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#EA7] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
@@ -475,9 +477,10 @@ Debug = true
 [33m[tester::#KU4] [Encoder] [0m[36m    - APIVersion (0)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - CorrelationID (32408702)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
-[33m[tester::#KU4] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#KU4] [Encoder] [0m[36m    - Length (1)[0m
-[33m[tester::#KU4] [Encoder] [0m[36m    - Name (apple)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#KU4] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#KU4] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m      - Name (apple)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - ResponsePartitionLimit (2)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#KU4] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
@@ -580,10 +583,11 @@ Debug = true
 [33m[tester::#WQ2] [Encoder] [0m[36m    - APIVersion (0)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - CorrelationID (1943775648)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m    - Length (2)[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m    - Name (banana)[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m    - Name (raspberry)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m      - Length (2)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m      - Name (banana)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m      - Name (raspberry)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - ResponsePartitionLimit (3)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
