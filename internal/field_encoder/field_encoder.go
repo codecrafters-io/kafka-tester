@@ -112,7 +112,7 @@ func (e *FieldEncoder) WriteStringField(variableName string, value string) {
 	e.appendEncodedField(encodedValue)
 }
 
-func (e *FieldEncoder) WriteCompactString(variableName string, value string) {
+func (e *FieldEncoder) WriteCompactStringField(variableName string, value string) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 
