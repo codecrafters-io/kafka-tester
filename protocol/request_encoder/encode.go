@@ -13,7 +13,7 @@ import (
 
 func Encode(request kafka_interface.RequestI, logger *logger.Logger) []byte {
 	requestHeader := request.GetHeader()
-	apiName := utils.APIKeyToName(requestHeader.ApiKey)
+	apiName := utils.APIKeyToName(requestHeader.ApiKey.Value)
 
 	requestEncoder := field_encoder.NewFieldEncoder()
 	requestEncoder.PushPathContext(fmt.Sprintf("%s%s", apiName, "Request"))

@@ -1,6 +1,7 @@
 package field_encoder
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
@@ -64,74 +65,60 @@ func (e *FieldEncoder) Bytes() []byte {
 	return e.encoder.Bytes()
 }
 
-func (e *FieldEncoder) WriteInt8(variableName string, in int8) {
+func (e *FieldEncoder) WriteInt8Field(variableName string, value kafka_value.Int8) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteInt8(in)
+	e.encoder.WriteInt8(value.Value)
+	e.appendEncodedField(value)
+}
 
-	encodedValue := kafka_value.Int8{
-		Value: in,
+func (e *FieldEncoder) WriteInt16Field(variableName string, value kafka_value.Int16) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteInt16(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteInt32Field(variableName string, value kafka_value.Int32) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteInt32(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.KafkaString) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteString(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteCompactStringField(variableName string, value kafka_value.CompactString) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteCompactString(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteCompactArrayField(variableName string, values []kafka_value.KafkaProtocolValue) {
+	e.PushPathContext(variableName)
+	e.PopPathContext()
+
+	if values == nil {
+		e.encoder.WriteUvarint(0)
+	} else {
+		e.encoder.WriteUvarint(uint64(len(values) + 1))
 	}
 
-	e.appendEncodedField(encodedValue)
-}
+	for index, value := range values {
+		if castedCompactString, ok := value.(kafka_value.CompactString); ok {
+			elementName := fmt.Sprintf("%s[%d]", variableName, index)
+			e.WriteCompactStringField(elementName, castedCompactString)
+			continue
+		}
 
-func (e *FieldEncoder) WriteInt16Field(variableName string, in int16) {
-	e.PushPathContext(variableName)
-	defer e.PopPathContext()
-	e.encoder.WriteInt16(in)
-
-	encodedValue := kafka_value.Int16{
-		Value: in,
+		panic(fmt.Sprintf("Codecrafters Internal Error: Encoding of Compact Array of %s is not supported", value.GetType()))
 	}
-
-	e.appendEncodedField(encodedValue)
-}
-
-func (e *FieldEncoder) WriteInt32Field(variableName string, in int32) {
-	e.PushPathContext(variableName)
-	defer e.PopPathContext()
-	e.encoder.WriteInt32(in)
-
-	encodedValue := kafka_value.Int32{
-		Value: in,
-	}
-
-	e.appendEncodedField(encodedValue)
-}
-
-func (e *FieldEncoder) WriteStringField(variableName string, value string) {
-	e.PushPathContext(variableName)
-	defer e.PopPathContext()
-	e.encoder.WriteString(value)
-
-	encodedValue := kafka_value.KafkaString{
-		Value: value,
-	}
-
-	e.appendEncodedField(encodedValue)
-}
-
-func (e *FieldEncoder) WriteCompactStringField(variableName string, value string) {
-	e.PushPathContext(variableName)
-	defer e.PopPathContext()
-
-	e.encoder.WriteCompactString(value)
-
-	e.appendEncodedField(kafka_value.CompactString{
-		Value: value,
-	})
-}
-
-func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, actualLength int) {
-	e.PushPathContext(variableName)
-	defer e.PopPathContext()
-
-	e.encoder.WriteCompactArrayLength(actualLength)
-
-	e.appendEncodedField(kafka_value.CompactArrayLength{
-		Value: uint64(actualLength) + 1,
-	})
 }
 
 // WriteEmptyTagBuffer writes an empty tag buffer

@@ -1,6 +1,9 @@
 package builder
 
-import "github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type DescribeTopicPartitionsRequestBuilder struct {
 	topicNames             []string
@@ -28,12 +31,19 @@ func (b *DescribeTopicPartitionsRequestBuilder) WithResponsePartitionLimit(respo
 }
 
 func (b *DescribeTopicPartitionsRequestBuilder) Build() kafkaapi.DescribeTopicPartitionsRequest {
+	topicNames := make([]value.CompactString, len(b.topicNames))
+	for i, topicName := range b.topicNames {
+		topicNames[i] = value.CompactString{
+			Value: topicName,
+		}
+	}
+
 	return kafkaapi.DescribeTopicPartitionsRequest{
 		// Always send v0 of DescribeTopicPartitions Request
 		Header: NewRequestHeaderBuilder().BuildDescribeTopicPartitionsHeader(b.correlationId),
 		Body: kafkaapi.DescribeTopicPartitionsRequestBody{
-			TopicNames:             b.topicNames,
-			ResponsePartitionLimit: b.responsePartitionLimit,
+			TopicNames:             topicNames,
+			ResponsePartitionLimit: value.Int32{Value: b.responsePartitionLimit},
 		},
 	}
 }
