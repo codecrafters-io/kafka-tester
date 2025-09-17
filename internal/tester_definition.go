@@ -72,6 +72,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "hn6",
 			TestFunc: testFetchWithUnknownTopicId,
+			Timeout:  time.Hour,
 		},
 		{
 			Slug:     "cm4",

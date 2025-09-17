@@ -3,11 +3,12 @@ package kafkaapi
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type ForgottenTopic struct {
-	UUID       string
-	Partitions []int32
+	UUID       value.UUID
+	Partitions []value.Int32
 }
 
 func (f ForgottenTopic) Encode(encoder *field_encoder.FieldEncoder) {
@@ -19,20 +20,23 @@ func (f ForgottenTopic) Encode(encoder *field_encoder.FieldEncoder) {
 }
 
 func (f ForgottenTopic) encodePartitions(encoder *field_encoder.FieldEncoder) {
-	// WIP
-	encoder.WriteCompactArrayLengthField()
+	partitionsKafkaValue := make([]value.KafkaProtocolValue, len(f.Partitions))
+	for i, partition := range f.Partitions {
+		partitionsKafkaValue[i] = partition
+	}
+	encoder.WriteCompactArrayOfValuesField("Partitions", partitionsKafkaValue)
 }
 
 type FetchRequestBody struct {
-	MaxWaitMS       int32
-	MinBytes        int32
-	MaxBytes        int32
-	IsolationLevel  int8
-	SessionId       int32
-	SessionEpoch    int32
+	MaxWaitMS       value.Int32
+	MinBytes        value.Int32
+	MaxBytes        value.Int32
+	IsolationLevel  value.Int8
+	SessionId       value.Int32
+	SessionEpoch    value.Int32
 	Topics          []Topic
 	ForgottenTopics []ForgottenTopic
-	RackId          string
+	RackId          value.CompactString
 }
 
 func (r FetchRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
@@ -63,8 +67,8 @@ func (r FetchRequestBody) encodeTopics(encoder *field_encoder.FieldEncoder) {
 }
 
 func (r FetchRequestBody) encodeForgottenTopics(encoder *field_encoder.FieldEncoder) {
-	encodableForgottenTopics := make([]FieldEncodable, len(r.Topics))
-	for i, topic := range r.Topics {
+	encodableForgottenTopics := make([]FieldEncodable, len(r.ForgottenTopics))
+	for i, topic := range r.ForgottenTopics {
 		encodableForgottenTopics[i] = topic
 	}
 	encodeCompactArray("ForgottenTopics", encoder, encodableForgottenTopics)

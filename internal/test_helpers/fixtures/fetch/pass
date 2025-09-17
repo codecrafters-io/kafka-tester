@@ -10,6 +10,9 @@ Debug = true
 [33m[tester::#GS0] [Encoder] [0m[36m    - APIVersion (4)[0m
 [33m[tester::#GS0] [Encoder] [0m[36m    - CorrelationID (177586623)[0m
 [33m[tester::#GS0] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#GS0] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
 [33m[tester::#GS0] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[tester::#GS0] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#GS0] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -329,6 +332,18 @@ Debug = true
 [33m[tester::#DH6] [Encoder] [0m[36m    - APIVersion (16)[0m
 [33m[tester::#DH6] [Encoder] [0m[36m    - CorrelationID (1616512461)[0m
 [33m[tester::#DH6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#DH6] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#DH6] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - RackID ()[0m
 [33m[tester::#DH6] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1616512461)[0m
 [33m[tester::#DH6] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#DH6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -341,8 +356,8 @@ Debug = true
 [33m[tester::#DH6] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#DH6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#DH6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#DH6] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 0b | ....`Z..........[0m
-[33m[tester::#DH6] [0m[36m0010 | ec f1 29 01 00                                  | ..)..[0m
+[33m[tester::#DH6] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 08 | ....`Z..........[0m
+[33m[tester::#DH6] [0m[36m0010 | c4 7f 79 01 00                                  | ..y..[0m
 [33m[tester::#DH6] [0m[36m[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- FetchResponse[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - Header[0m
@@ -350,7 +365,7 @@ Debug = true
 [33m[tester::#DH6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (200077609)[0m
+[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (147095417)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#DH6] [Decoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#DH6] [0m[92m✓ TopicResponses Length: 0[0m
@@ -368,6 +383,31 @@ Debug = true
 [33m[tester::#HN6] [Encoder] [0m[36m    - APIVersion (16)[0m
 [33m[tester::#HN6] [Encoder] [0m[36m    - CorrelationID (1979887704)[0m
 [33m[tester::#HN6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#HN6] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#HN6] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#HN6] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-000000000479)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m          - Partitions[0m
+[33m[tester::#HN6] [Encoder] [0m[36m            - Length (1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m            - Partitions[0][0m
+[33m[tester::#HN6] [Encoder] [0m[36m              - Partition[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - ID (0)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - CurrentLeaderEpoch (-1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - FetchOffset (0)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - LastFetchedOffset (-1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#HN6] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - RackID ()[0m
 [33m[tester::#HN6] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1979887704)[0m
 [33m[tester::#HN6] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#HN6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -383,8 +423,8 @@ Debug = true
 [33m[tester::#HN6] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#HN6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#HN6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#HN6] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 03 | ...Hv..X........[0m
-[33m[tester::#HN6] [0m[36m0010 | 85 75 35 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | .u5.q..Q.hO..~..[0m
+[33m[tester::#HN6] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 0f | ...Hv..X........[0m
+[33m[tester::#HN6] [0m[36m0010 | 95 9c 63 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | ..c.q..Q.hO..~..[0m
 [33m[tester::#HN6] [0m[36m0020 | 00 00 04 79 02 00 00 00 00 00 64 ff ff ff ff ff | ...y......d.....[0m
 [33m[tester::#HN6] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
 [33m[tester::#HN6] [0m[36m0040 | ff ff ff 01 ff ff ff ff 01 00 00 00             | ............[0m
@@ -395,7 +435,7 @@ Debug = true
 [33m[tester::#HN6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (59077941)[0m
+[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (261463139)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Topics[0][0m
@@ -432,6 +472,31 @@ Debug = true
 [33m[tester::#CM4] [Encoder] [0m[36m    - APIVersion (16)[0m
 [33m[tester::#CM4] [Encoder] [0m[36m    - CorrelationID (1557989289)[0m
 [33m[tester::#CM4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#CM4] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#CM4] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#CM4] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-71087585a62d)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m          - Partitions[0m
+[33m[tester::#CM4] [Encoder] [0m[36m            - Length (1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m            - Partitions[0][0m
+[33m[tester::#CM4] [Encoder] [0m[36m              - Partition[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - ID (0)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - CurrentLeaderEpoch (-1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - FetchOffset (0)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - LastFetchedOffset (-1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#CM4] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - RackID ()[0m
 [33m[tester::#CM4] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1557989289)[0m
 [33m[tester::#CM4] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#CM4] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -447,8 +512,8 @@ Debug = true
 [33m[tester::#CM4] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#CM4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#CM4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CM4] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 00 | ...H\...........[0m
-[33m[tester::#CM4] [0m[36m0010 | 4f 25 9b 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | O%..q..Q.hO..~q.[0m
+[33m[tester::#CM4] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 0c | ...H\...........[0m
+[33m[tester::#CM4] [0m[36m0010 | 82 d2 12 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | ....q..Q.hO..~q.[0m
 [33m[tester::#CM4] [0m[36m0020 | 75 85 a6 2d 02 00 00 00 00 00 00 00 00 00 00 00 | u..-............[0m
 [33m[tester::#CM4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#CM4] [0m[36m0040 | 00 00 00 00 ff ff ff ff 01 00 00 00             | ............[0m
@@ -459,7 +524,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (5186971)[0m
+[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (209900050)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Topics[0][0m
@@ -496,6 +561,31 @@ Debug = true
 [33m[tester::#EG2] [Encoder] [0m[36m    - APIVersion (16)[0m
 [33m[tester::#EG2] [Encoder] [0m[36m    - CorrelationID (26029879)[0m
 [33m[tester::#EG2] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#EG2] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#EG2] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#EG2] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-b2dc350e60ec)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m          - Partitions[0m
+[33m[tester::#EG2] [Encoder] [0m[36m            - Length (1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m            - Partitions[0][0m
+[33m[tester::#EG2] [Encoder] [0m[36m              - Partition[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - ID (0)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - CurrentLeaderEpoch (-1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - FetchOffset (0)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - LastFetchedOffset (-1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#EG2] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - RackID ()[0m
 [33m[tester::#EG2] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 26029879)[0m
 [33m[tester::#EG2] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#EG2] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -511,8 +601,8 @@ Debug = true
 [33m[tester::#EG2] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#EG2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EG2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#EG2] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 04 | ....../7........[0m
-[33m[tester::#EG2] [0m[36m0010 | 7e 3a 96 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | ~:..q..Q.hO..~..[0m
+[33m[tester::#EG2] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 0c | ....../7........[0m
+[33m[tester::#EG2] [0m[36m0010 | fc 9a 0d 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | ....q..Q.hO..~..[0m
 [33m[tester::#EG2] [0m[36m0020 | 35 0e 60 ec 02 00 00 00 00 00 00 00 00 00 00 00 | 5.`.............[0m
 [33m[tester::#EG2] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
 [33m[tester::#EG2] [0m[36m0040 | 00 00 00 00 ff ff ff ff 4e 00 00 00 00 00 00 00 | ........N.......[0m
@@ -528,7 +618,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (75381398)[0m
+[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (217881101)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Topics[0][0m
@@ -591,6 +681,31 @@ Debug = true
 [33m[tester::#FD8] [Encoder] [0m[36m    - APIVersion (16)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m    - CorrelationID (191200816)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#FD8] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#FD8] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-aaa9c9b1a62c)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m          - Partitions[0m
+[33m[tester::#FD8] [Encoder] [0m[36m            - Length (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m            - Partitions[0][0m
+[33m[tester::#FD8] [Encoder] [0m[36m              - Partition[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - ID (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - CurrentLeaderEpoch (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - FetchOffset (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - LastFetchedOffset (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - RackID ()[0m
 [33m[tester::#FD8] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 191200816)[0m
 [33m[tester::#FD8] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#FD8] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -606,8 +721,8 @@ Debug = true
 [33m[tester::#FD8] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#FD8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#FD8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#FD8] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 02 | .....e~0........[0m
-[33m[tester::#FD8] [0m[36m0010 | 07 8b 1e 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | ....q..Q.hO..~..[0m
+[33m[tester::#FD8] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 06 | .....e~0........[0m
+[33m[tester::#FD8] [0m[36m0010 | d0 2a 1e 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | .*..q..Q.hO..~..[0m
 [33m[tester::#FD8] [0m[36m0020 | c9 b1 a6 2c 02 00 00 00 00 00 00 00 00 00 00 00 | ...,............[0m
 [33m[tester::#FD8] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
 [33m[tester::#FD8] [0m[36m0040 | 00 00 00 00 ff ff ff ff 9b 01 00 00 00 00 00 00 | ................[0m
@@ -628,7 +743,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (34048798)[0m
+[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (114305566)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Topics[0][0m

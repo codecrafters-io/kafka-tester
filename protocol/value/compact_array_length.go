@@ -1,13 +1,17 @@
 package value
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 type CompactArrayLength struct {
 	Value uint64
 }
 
 func NewCompactArrayLength[T any](array []T) CompactArrayLength {
-	if array == nil {
+	// array could be a nil or an interface wrapper around nil in case of empty arrays
+	if array == nil || reflect.ValueOf(array).IsNil() {
 		return CompactArrayLength{
 			Value: 0,
 		}
