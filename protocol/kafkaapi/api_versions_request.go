@@ -22,8 +22,8 @@ func (r ApiVersionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
 	}
 	encoder.PushPathContext("Body")
 	defer encoder.PopPathContext()
-	encoder.WriteCompactString("ClientSoftwareName", r.ClientSoftwareName)
-	encoder.WriteCompactString("ClientSoftwareVersion", r.ClientSoftwareVersion)
+	encoder.WriteCompactStringField("ClientSoftwareName", r.ClientSoftwareName)
+	encoder.WriteCompactStringField("ClientSoftwareVersion", r.ClientSoftwareVersion)
 	encoder.WriteEmptyTagBuffer()
 }
 
