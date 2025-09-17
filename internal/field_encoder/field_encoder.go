@@ -64,7 +64,7 @@ func (e *FieldEncoder) Bytes() []byte {
 	return e.encoder.Bytes()
 }
 
-func (e *FieldEncoder) WriteInt16(variableName string, in int16) {
+func (e *FieldEncoder) WriteInt16Field(variableName string, in int16) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteInt16(in)
@@ -76,7 +76,7 @@ func (e *FieldEncoder) WriteInt16(variableName string, in int16) {
 	e.appendEncodedField(encodedValue)
 }
 
-func (e *FieldEncoder) WriteInt32(variableName string, in int32) {
+func (e *FieldEncoder) WriteInt32Field(variableName string, in int32) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteInt32(in)
@@ -88,7 +88,7 @@ func (e *FieldEncoder) WriteInt32(variableName string, in int32) {
 	e.appendEncodedField(encodedValue)
 }
 
-func (e *FieldEncoder) WriteString(variableName string, value string) {
+func (e *FieldEncoder) WriteStringField(variableName string, value string) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteString(value)
