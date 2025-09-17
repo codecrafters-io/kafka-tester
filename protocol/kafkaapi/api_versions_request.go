@@ -19,7 +19,7 @@ type ApiVersionsRequestBody struct {
 
 func (r ApiVersionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
 	if r.Version.Value < 4 {
-		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version.Value))
 	}
 	encoder.PushPathContext("Body")
 	defer encoder.PopPathContext()
