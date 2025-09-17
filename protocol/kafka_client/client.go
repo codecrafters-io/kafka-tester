@@ -106,7 +106,7 @@ func (c *Client) SendAndReceive(request kafka_interface.RequestI, stageLogger *l
 func (c *Client) Send(request kafka_interface.RequestI, stageLogger *logger.Logger) error {
 	header := request.GetHeader()
 	apiName := utils.APIKeyToName(header.ApiKey)
-	message := request_encoder.Encode(request)
+	message := request_encoder.Encode(request, stageLogger)
 	stageLogger.Infof("Sending \"%s\" (version: %v) request (Correlation id: %v)", apiName, header.ApiVersion, header.CorrelationId)
 	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
 

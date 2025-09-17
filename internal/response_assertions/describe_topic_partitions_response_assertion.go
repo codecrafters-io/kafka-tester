@@ -82,11 +82,11 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectCursorAbsence() *Descri
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	path := field.Path.String()
+	path := field.GetPath().String()
 
 	// Header fields
 	if path == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.Value)
+		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.GetValue())
 	}
 
 	// Body level fields
@@ -97,7 +97,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
 		return compact_array_length_assertions.IsEqualTo(
 			value.NewCompactArrayLength(a.expectedTopics),
-			field.Value,
+			field.GetValue(),
 		)
 	}
 
@@ -186,10 +186,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 	// Cursor fields
 	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
-		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.Value)
+		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.GetValue())
 	}
 
-	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
+	panic("CodeCrafters Internal Error: Unhandled field path: " + field.GetPath().String())
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {

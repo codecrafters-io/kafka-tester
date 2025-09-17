@@ -1,7 +1,7 @@
 package headers
 
 import (
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 )
 
 // RequestHeader defines the header for a Kafka request
@@ -16,12 +16,13 @@ type RequestHeader struct {
 	ClientId string
 }
 
-func (h RequestHeader) Encode() []byte {
-	encoder := encoder.NewEncoder()
-	encoder.WriteInt16(h.ApiKey)
-	encoder.WriteInt16(h.ApiVersion)
-	encoder.WriteInt32(h.CorrelationId)
-	encoder.WriteString(h.ClientId)
+func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) []byte {
+	encoder.PushPathContext("Header")
+	defer encoder.PopPathContext()
+	encoder.WriteInt16("APIKey", h.ApiKey)
+	encoder.WriteInt16("APIVersion", h.ApiVersion)
+	encoder.WriteInt32("CorrelationID", h.CorrelationId)
+	encoder.WriteString("ClientID", h.ClientId)
 	encoder.WriteEmptyTagBuffer()
 	return encoder.Bytes()
 }

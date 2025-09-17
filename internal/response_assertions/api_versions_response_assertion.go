@@ -48,41 +48,41 @@ func (a *ApiVersionsResponseAssertion) ExpectApiKeyEntry(expectedApiKey int16, e
 }
 
 func (a *ApiVersionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	if field.Path.String() == "ApiVersionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
+	if field.GetPath().String() == "ApiVersionsResponse.Header.CorrelationID" {
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.GetValue())
 	}
 
-	if field.Path.String() == "ApiVersionsResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.Value)
+	if field.GetPath().String() == "ApiVersionsResponse.Body.ErrorCode" {
+		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.GetValue())
 	}
 
-	if field.Path.String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {
+	if field.GetPath().String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {
 		// We don't validate ThrottleTimeMs
 		return nil
 	}
 
-	if field.Path.String() == "ApiVersionsResponse.Body.ApiKeys.Length" {
+	if field.GetPath().String() == "ApiVersionsResponse.Body.ApiKeys.Length" {
 		// TODO: See if we can assert this to be > 1?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.APIKey`).MatchString(field.Path.String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.APIKey`).MatchString(field.GetPath().String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MinVersion`).MatchString(field.Path.String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MinVersion`).MatchString(field.GetPath().String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MaxVersion`).MatchString(field.Path.String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MaxVersion`).MatchString(field.GetPath().String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
 	// This ensures that we're handling ALL possible fields
-	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
+	panic("CodeCrafters Internal Error: Unhandled field path: " + field.GetPath().String())
 }
 
 func (a *ApiVersionsResponseAssertion) AssertAcrossFields(response kafkaapi.ApiVersionsResponse, logger *logger.Logger) error {

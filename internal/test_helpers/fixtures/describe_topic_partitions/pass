@@ -4,6 +4,12 @@ Debug = true
 [33m[tester::#YK1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#YK1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#YK1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#YK1] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#YK1] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#YK1] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#YK1] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#YK1] [Encoder] [0m[36m    - CorrelationID (177586623)[0m
+[33m[tester::#YK1] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#YK1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[tester::#YK1] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#YK1] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -317,6 +323,12 @@ Debug = true
 [33m[tester::#VT6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#VT6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#VT6] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#VT6] [Encoder] [0m[36m- DescribeTopicPartitionsRequest[0m
+[33m[tester::#VT6] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#VT6] [Encoder] [0m[36m    - APIKey (75)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m    - APIVersion (0)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m    - CorrelationID (2105232020)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#VT6] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 2105232020)[0m
 [33m[tester::#VT6] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#VT6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -366,6 +378,12 @@ Debug = true
 [33m[tester::#EA7] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#EA7] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#EA7] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#EA7] [Encoder] [0m[36m- DescribeTopicPartitionsRequest[0m
+[33m[tester::#EA7] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#EA7] [Encoder] [0m[36m    - APIKey (75)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m    - APIVersion (0)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m    - CorrelationID (1886837589)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#EA7] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1886837589)[0m
 [33m[tester::#EA7] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#EA7] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -436,6 +454,12 @@ Debug = true
 [33m[tester::#KU4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#KU4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#KU4] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#KU4] [Encoder] [0m[36m- DescribeTopicPartitionsRequest[0m
+[33m[tester::#KU4] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#KU4] [Encoder] [0m[36m    - APIKey (75)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m    - APIVersion (0)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m    - CorrelationID (32408702)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#KU4] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 32408702)[0m
 [33m[tester::#KU4] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#KU4] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -529,6 +553,12 @@ Debug = true
 [33m[tester::#WQ2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#WQ2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#WQ2] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m- DescribeTopicPartitionsRequest[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m    - APIKey (75)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m    - APIVersion (0)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m    - CorrelationID (1943775648)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#WQ2] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1943775648)[0m
 [33m[tester::#WQ2] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#WQ2] [0m[36mIdx  | Hex                                             | ASCII[0m

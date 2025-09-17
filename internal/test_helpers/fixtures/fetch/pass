@@ -4,6 +4,12 @@ Debug = true
 [33m[tester::#GS0] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#GS0] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#GS0] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#GS0] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#GS0] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - CorrelationID (177586623)[0m
+[33m[tester::#GS0] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#GS0] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[tester::#GS0] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#GS0] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -47,7 +53,7 @@ Debug = true
 [33m[tester::#GS0] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#GS0] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#GS0] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#GS0] [0m[36m0200 | 00 00 00 09 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#GS0] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#GS0] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#GS0] [0m[36m[0m
 [33m[tester::#GS0] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -317,6 +323,12 @@ Debug = true
 [33m[tester::#DH6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#DH6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#DH6] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#DH6] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#DH6] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - CorrelationID (1616512461)[0m
+[33m[tester::#DH6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#DH6] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1616512461)[0m
 [33m[tester::#DH6] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#DH6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -329,8 +341,8 @@ Debug = true
 [33m[tester::#DH6] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#DH6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#DH6] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#DH6] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 0c | ....`Z..........[0m
-[33m[tester::#DH6] [0m[36m0010 | f5 62 33 01 00                                  | .b3..[0m
+[33m[tester::#DH6] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 0b | ....`Z..........[0m
+[33m[tester::#DH6] [0m[36m0010 | ec f1 29 01 00                                  | ..)..[0m
 [33m[tester::#DH6] [0m[36m[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- FetchResponse[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - Header[0m
@@ -338,7 +350,7 @@ Debug = true
 [33m[tester::#DH6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (217408051)[0m
+[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (200077609)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#DH6] [Decoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#DH6] [0m[92m✓ TopicResponses Length: 0[0m
@@ -350,6 +362,12 @@ Debug = true
 [33m[tester::#HN6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#HN6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#HN6] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#HN6] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#HN6] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - CorrelationID (1979887704)[0m
+[33m[tester::#HN6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#HN6] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1979887704)[0m
 [33m[tester::#HN6] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#HN6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -366,7 +384,7 @@ Debug = true
 [33m[tester::#HN6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#HN6] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#HN6] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 03 | ...Hv..X........[0m
-[33m[tester::#HN6] [0m[36m0010 | c0 e5 3b 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | ..;.q..Q.hO..~..[0m
+[33m[tester::#HN6] [0m[36m0010 | 85 75 35 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | .u5.q..Q.hO..~..[0m
 [33m[tester::#HN6] [0m[36m0020 | 00 00 04 79 02 00 00 00 00 00 64 ff ff ff ff ff | ...y......d.....[0m
 [33m[tester::#HN6] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
 [33m[tester::#HN6] [0m[36m0040 | ff ff ff 01 ff ff ff ff 01 00 00 00             | ............[0m
@@ -377,7 +395,7 @@ Debug = true
 [33m[tester::#HN6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (62973243)[0m
+[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (59077941)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Topics[0][0m
@@ -408,6 +426,12 @@ Debug = true
 [33m[tester::#CM4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#CM4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#CM4] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#CM4] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#CM4] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - CorrelationID (1557989289)[0m
+[33m[tester::#CM4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#CM4] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 1557989289)[0m
 [33m[tester::#CM4] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#CM4] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -423,8 +447,8 @@ Debug = true
 [33m[tester::#CM4] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#CM4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#CM4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CM4] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 02 | ...H\...........[0m
-[33m[tester::#CM4] [0m[36m0010 | 36 01 ff 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | 6...q..Q.hO..~q.[0m
+[33m[tester::#CM4] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 00 | ...H\...........[0m
+[33m[tester::#CM4] [0m[36m0010 | 4f 25 9b 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | O%..q..Q.hO..~q.[0m
 [33m[tester::#CM4] [0m[36m0020 | 75 85 a6 2d 02 00 00 00 00 00 00 00 00 00 00 00 | u..-............[0m
 [33m[tester::#CM4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#CM4] [0m[36m0040 | 00 00 00 00 ff ff ff ff 01 00 00 00             | ............[0m
@@ -435,7 +459,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (37093887)[0m
+[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (5186971)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Topics[0][0m
@@ -466,6 +490,12 @@ Debug = true
 [33m[tester::#EG2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#EG2] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#EG2] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#EG2] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#EG2] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - CorrelationID (26029879)[0m
+[33m[tester::#EG2] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#EG2] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 26029879)[0m
 [33m[tester::#EG2] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#EG2] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -482,7 +512,7 @@ Debug = true
 [33m[tester::#EG2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EG2] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#EG2] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 04 | ....../7........[0m
-[33m[tester::#EG2] [0m[36m0010 | ab ea 52 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | ..R.q..Q.hO..~..[0m
+[33m[tester::#EG2] [0m[36m0010 | 7e 3a 96 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | ~:..q..Q.hO..~..[0m
 [33m[tester::#EG2] [0m[36m0020 | 35 0e 60 ec 02 00 00 00 00 00 00 00 00 00 00 00 | 5.`.............[0m
 [33m[tester::#EG2] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
 [33m[tester::#EG2] [0m[36m0040 | 00 00 00 00 ff ff ff ff 4e 00 00 00 00 00 00 00 | ........N.......[0m
@@ -498,7 +528,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (78375506)[0m
+[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (75381398)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Topics[0][0m
@@ -555,6 +585,12 @@ Debug = true
 [33m[tester::#FD8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#FD8] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#FD8] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#FD8] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#FD8] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - CorrelationID (191200816)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#FD8] [0m[94mSending "Fetch" (version: 16) request (Correlation id: 191200816)[0m
 [33m[tester::#FD8] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#FD8] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -570,8 +606,8 @@ Debug = true
 [33m[tester::#FD8] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#FD8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#FD8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#FD8] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 08 | .....e~0........[0m
-[33m[tester::#FD8] [0m[36m0010 | 0f 25 57 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | .%W.q..Q.hO..~..[0m
+[33m[tester::#FD8] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 02 | .....e~0........[0m
+[33m[tester::#FD8] [0m[36m0010 | 07 8b 1e 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | ....q..Q.hO..~..[0m
 [33m[tester::#FD8] [0m[36m0020 | c9 b1 a6 2c 02 00 00 00 00 00 00 00 00 00 00 00 | ...,............[0m
 [33m[tester::#FD8] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
 [33m[tester::#FD8] [0m[36m0040 | 00 00 00 00 ff ff ff ff 9b 01 00 00 00 00 00 00 | ................[0m
@@ -592,7 +628,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (135210327)[0m
+[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (34048798)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Topics[0][0m

@@ -10,8 +10,18 @@ import (
 )
 
 type DecodedField struct {
-	Path  field_path.FieldPath
-	Value value.KafkaProtocolValue
+	path  field_path.FieldPath
+	value value.KafkaProtocolValue
+}
+
+// GetPath implements Field interface
+func (e *DecodedField) GetPath() field_path.FieldPath {
+	return e.path
+}
+
+// GetValue implements Field interface
+func (e *DecodedField) GetValue() value.KafkaProtocolValue {
+	return e.value
 }
 
 type FieldDecoder struct {
@@ -277,8 +287,8 @@ func (d *FieldDecoder) currentPath() field_path.FieldPath {
 
 func (d *FieldDecoder) appendDecodedField(decodedValue value.KafkaProtocolValue) {
 	d.decodedFields = append(d.decodedFields, DecodedField{
-		Value: decodedValue,
-		Path:  d.currentPath(),
+		value: decodedValue,
+		path:  d.currentPath(),
 	})
 }
 
