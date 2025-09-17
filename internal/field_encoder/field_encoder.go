@@ -120,8 +120,8 @@ func (e *FieldEncoder) WriteCompactArrayOfValuesField(variableName string, value
 
 	e.WriteCompactArrayLengthField("Length", kafka_value.NewCompactArrayLength(values))
 	for i, value := range values {
-		if castedInt32, ok := value.(*kafka_value.Int32); ok {
-			e.WriteInt32Field(fmt.Sprintf("%s[%d]", variableName, i), *castedInt32)
+		if castedInt32, ok := value.(kafka_value.Int32); ok {
+			e.WriteInt32Field(fmt.Sprintf("%s[%d]", variableName, i), castedInt32)
 			continue
 		}
 
