@@ -13,7 +13,7 @@ type Cursor struct {
 func (c Cursor) Encode(encoder *field_encoder.FieldEncoder) {
 	encoder.PushPathContext("Cursor")
 	defer encoder.PopPathContext()
-	encoder.WriteCompactString("TopicName", c.TopicName)
+	encoder.WriteCompactStringField("TopicName", c.TopicName)
 	encoder.WriteInt32Field("PartitionIndex", c.PartitionIndex)
 	encoder.WriteEmptyTagBuffer()
 }
@@ -40,9 +40,9 @@ func (r DescribeTopicPartitionsRequestBody) encodeTopics(encoder *field_encoder.
 	encoder.PushPathContext("Topics")
 	defer encoder.PopPathContext()
 
-	encoder.WriteCompactArrayLength("Length", len(r.TopicNames))
+	encoder.WriteCompactArrayLengthField("Length", len(r.TopicNames))
 	for _, topicName := range r.TopicNames {
-		encoder.WriteCompactString("Name", topicName)
+		encoder.WriteCompactStringField("Name", topicName)
 		encoder.WriteEmptyTagBuffer()
 	}
 }

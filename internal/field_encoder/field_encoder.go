@@ -123,7 +123,7 @@ func (e *FieldEncoder) WriteCompactStringField(variableName string, value string
 	})
 }
 
-func (e *FieldEncoder) WriteCompactArrayLength(variableName string, actualLength int) {
+func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, actualLength int) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 
