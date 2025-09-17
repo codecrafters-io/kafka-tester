@@ -2,6 +2,7 @@ package builder
 
 import (
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type RequestHeaderBuilder struct {
@@ -39,10 +40,10 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 	}
 
 	return headers.RequestHeader{
-		ApiKey:        b.apiKey,
-		ApiVersion:    b.apiVersion,
-		CorrelationId: b.correlationId,
-		ClientId:      "kafka-tester",
+		ApiKey:        value.Int16{Value: b.apiKey},
+		ApiVersion:    value.Int16{Value: b.apiVersion},
+		CorrelationId: value.Int32{Value: b.correlationId},
+		ClientId:      value.KafkaString{Value: "kafka-tester"},
 	}
 }
 
