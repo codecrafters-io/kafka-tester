@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -95,21 +96,21 @@ func (c *PartitionGenerationConfig) generateRecordBatchesFromLogs(logs []string)
 
 	for i, message := range logs {
 		recordBatches = append(recordBatches, kafkaapi.RecordBatch{
-			BaseOffset:           int64(i),
-			PartitionLeaderEpoch: 0,
-			Attributes:           0,
-			LastOffsetDelta:      0,
-			FirstTimestamp:       1726045973899,
-			MaxTimestamp:         1726045973899,
-			ProducerId:           0,
-			ProducerEpoch:        0,
-			BaseSequence:         0,
+			BaseOffset:           value.Int64{Value: int64(i)},
+			PartitionLeaderEpoch: value.Int32{Value: 0},
+			Attributes:           value.Int16{Value: 0},
+			LastOffsetDelta:      value.Int32{Value: 0},
+			FirstTimestamp:       value.Int64{Value: 1726045973899},
+			MaxTimestamp:         value.Int64{Value: 1726045973899},
+			ProducerId:           value.Int64{Value: 0},
+			ProducerEpoch:        value.Int16{Value: 0},
+			BaseSequence:         value.Int32{Value: 0},
 			Records: []kafkaapi.Record{
 				{
-					Attributes:     0,
-					TimestampDelta: 0,
-					Key:            nil,
-					Value:          []byte(message),
+					Attributes:     value.Int8{Value: 0},
+					TimestampDelta: value.Int64{Value: 0},
+					Key:            value.RawBytes{},
+					Value:          value.RawBytes{Value: []byte(message)},
 					Headers:        []kafkaapi.RecordHeader{},
 				},
 			},

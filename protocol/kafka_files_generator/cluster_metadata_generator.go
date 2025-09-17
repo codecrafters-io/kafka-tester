@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type ClusterMetadataGenerator struct {
@@ -50,21 +51,21 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 	}
 
 	recordBatch1 := kafkaapi.RecordBatch{
-		BaseOffset:           baseOffset,
-		PartitionLeaderEpoch: 1,
-		Attributes:           0,
-		LastOffsetDelta:      0, // len(records) - 1
-		FirstTimestamp:       1726045943832,
-		MaxTimestamp:         1726045943832,
-		ProducerId:           -1,
-		ProducerEpoch:        -1,
-		BaseSequence:         -1,
+		BaseOffset:           value.Int64{Value: baseOffset},
+		PartitionLeaderEpoch: value.Int32{Value: 1},
+		Attributes:           value.Int16{Value: 0},
+		LastOffsetDelta:      value.Int32{Value: 0}, // len(records) - 1
+		FirstTimestamp:       value.Int64{Value: 1726045943832},
+		MaxTimestamp:         value.Int64{Value: 1726045943832},
+		ProducerId:           value.Int64{Value: -1},
+		ProducerEpoch:        value.Int16{Value: -1},
+		BaseSequence:         value.Int32{Value: -1},
 		Records: []kafkaapi.Record{
 			{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(featureLevelRecord),
+				Attributes:     value.Int8{Value: 0},
+				TimestampDelta: value.Int64{Value: 0},
+				Key:            value.RawBytes{Value: nil},
+				Value:          value.RawBytes{Value: GetEncodedBytes(featureLevelRecord)},
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -113,34 +114,34 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 
 		// Add topic record
 		records = append(records, kafkaapi.Record{
-			Attributes:     0,
-			TimestampDelta: 0,
-			Key:            nil,
-			Value:          GetEncodedBytes(topicRecord),
+			Attributes:     value.Int8{Value: 0},
+			TimestampDelta: value.Int64{Value: 0},
+			Key:            value.RawBytes{Value: nil},
+			Value:          value.RawBytes{Value: GetEncodedBytes(topicRecord)},
 			Headers:        []kafkaapi.RecordHeader{},
 		})
 
 		// Add all partition records
 		for _, partitionRecord := range partitionRecords {
 			records = append(records, kafkaapi.Record{
-				Attributes:     0,
-				TimestampDelta: 0,
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord),
+				Attributes:     value.Int8{Value: 0},
+				TimestampDelta: value.Int64{Value: 0},
+				Key:            value.RawBytes{Value: nil},
+				Value:          value.RawBytes{Value: GetEncodedBytes(partitionRecord)},
 				Headers:        []kafkaapi.RecordHeader{},
 			})
 		}
 
 		recordBatch := kafkaapi.RecordBatch{
-			BaseOffset:           baseOffset,
-			PartitionLeaderEpoch: 1,
-			Attributes:           0,
-			LastOffsetDelta:      int32(len(records) - 1),
-			FirstTimestamp:       1726045957397,
-			MaxTimestamp:         1726045957397,
-			ProducerId:           -1,
-			ProducerEpoch:        -1,
-			BaseSequence:         -1,
+			BaseOffset:           value.Int64{Value: baseOffset},
+			PartitionLeaderEpoch: value.Int32{Value: 1},
+			Attributes:           value.Int16{Value: 0},
+			LastOffsetDelta:      value.Int32{Value: int32(len(records) - 1)},
+			FirstTimestamp:       value.Int64{Value: 1726045957397},
+			MaxTimestamp:         value.Int64{Value: 1726045957397},
+			ProducerId:           value.Int64{Value: -1},
+			ProducerEpoch:        value.Int16{Value: -1},
+			BaseSequence:         value.Int32{Value: -1},
 			Records:              records,
 		}
 		recordBatches = append(recordBatches, recordBatch)
