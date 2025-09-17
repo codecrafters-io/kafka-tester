@@ -5,12 +5,12 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/value"
+	kafka_value "github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type EncodedField struct {
 	path  field_path.FieldPath
-	value value.KafkaProtocolValue
+	value kafka_value.KafkaProtocolValue
 }
 
 // GetPath implements Field interface
@@ -19,7 +19,7 @@ func (e *EncodedField) GetPath() field_path.FieldPath {
 }
 
 // GetValue implements Field interface
-func (e *EncodedField) GetValue() value.KafkaProtocolValue {
+func (e *EncodedField) GetValue() kafka_value.KafkaProtocolValue {
 	return e.value
 }
 
@@ -53,7 +53,7 @@ func (e *FieldEncoder) currentPath() field_path.FieldPath {
 	return field_path.NewFieldPath(strings.Join(e.currentPathContexts, "."))
 }
 
-func (e *FieldEncoder) appendEncodedField(encodedValue value.KafkaProtocolValue) {
+func (e *FieldEncoder) appendEncodedField(encodedValue kafka_value.KafkaProtocolValue) {
 	e.encodedFields = append(e.encodedFields, EncodedField{
 		value: encodedValue,
 		path:  e.currentPath(),
@@ -69,7 +69,7 @@ func (e *FieldEncoder) WriteInt16(variableName string, in int16) {
 	defer e.PopPathContext()
 	e.encoder.WriteInt16(in)
 
-	encodedValue := value.Int16{
+	encodedValue := kafka_value.Int16{
 		Value: in,
 	}
 
@@ -81,23 +81,34 @@ func (e *FieldEncoder) WriteInt32(variableName string, in int32) {
 	defer e.PopPathContext()
 	e.encoder.WriteInt32(in)
 
-	encodedValue := value.Int32{
+	encodedValue := kafka_value.Int32{
 		Value: in,
 	}
 
 	e.appendEncodedField(encodedValue)
 }
 
-func (e *FieldEncoder) WriteString(variableName string, in string) {
+func (e *FieldEncoder) WriteString(variableName string, value string) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
-	e.encoder.WriteString(in)
+	e.encoder.WriteString(value)
 
-	encodedValue := value.KafkaString{
-		Value: in,
+	encodedValue := kafka_value.KafkaString{
+		Value: value,
 	}
 
 	e.appendEncodedField(encodedValue)
+}
+
+func (e *FieldEncoder) WriteCompactString(variableName string, value string) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+
+	e.encoder.WriteCompactString(value)
+
+	e.appendEncodedField(kafka_value.CompactString{
+		Value: value,
+	})
 }
 
 // WriteEmptyTagBuffer writes an empty tag buffer

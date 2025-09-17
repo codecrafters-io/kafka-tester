@@ -3,7 +3,7 @@ package kafkaapi
 import (
 	"fmt"
 
-	protocol_encoder "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 )
 
@@ -16,16 +16,15 @@ type ApiVersionsRequestBody struct {
 	ClientSoftwareVersion string
 }
 
-func (r ApiVersionsRequestBody) Encode() []byte {
+func (r ApiVersionsRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
 	if r.Version < 4 {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: Unsupported API version: %d", r.Version))
 	}
-
-	encoder := protocol_encoder.NewEncoder()
-	encoder.WriteCompactString(r.ClientSoftwareName)
-	encoder.WriteCompactString(r.ClientSoftwareVersion)
+	encoder.PushPathContext("Body")
+	defer encoder.PopPathContext()
+	encoder.WriteCompactString("ClientSoftwareName", r.ClientSoftwareName)
+	encoder.WriteCompactString("ClientSoftwareVersion", r.ClientSoftwareVersion)
 	encoder.WriteEmptyTagBuffer()
-	return encoder.Bytes()
 }
 
 type ApiVersionsRequest struct {
@@ -38,7 +37,7 @@ func (r ApiVersionsRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 
-// GetEncodedBody implements the RequestI interface
-func (r ApiVersionsRequest) GetEncodedBody() []byte {
-	return r.Body.Encode()
+// EncodeBody implements the RequestI interface
+func (r ApiVersionsRequest) EncodeBody(encoder *field_encoder.FieldEncoder) {
+	r.Body.Encode(encoder)
 }

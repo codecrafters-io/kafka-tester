@@ -19,13 +19,13 @@ func Encode(request kafka_interface.RequestI, logger *logger.Logger) []byte {
 	requestEncoder.PushPathContext(fmt.Sprintf("%s%s", apiName, "Request"))
 	defer requestEncoder.PopPathContext()
 
-	encodedHeader := requestHeader.Encode(requestEncoder)
-	encodedBody := request.GetEncodedBody()
+	request.GetHeader().Encode(requestEncoder)
+	request.EncodeBody(requestEncoder)
 
 	// Print encoded values tree
 	printEncodedTree(requestEncoder, logger)
 
-	return protocol_encoder.PackEncodedBytesAsMessage(append(encodedHeader, encodedBody...))
+	return protocol_encoder.PackEncodedBytesAsMessage(requestEncoder.Bytes())
 }
 
 func printEncodedTree(encoder *field_encoder.FieldEncoder, logger *logger.Logger) {

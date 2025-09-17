@@ -1,6 +1,7 @@
 package kafkaapi
 
 import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
 )
@@ -66,7 +67,7 @@ func (r FetchRequest) GetHeader() headers.RequestHeader {
 	return r.Header
 }
 
-// GetEncodedBody implements the RequestI interface
-func (r FetchRequest) GetEncodedBody() []byte {
-	return r.Body.Encode()
+// EncodeBody implements the RequestI interface
+func (r FetchRequest) EncodeBody(encoder *field_encoder.FieldEncoder) {
+	r.Body.Encode()
 }
