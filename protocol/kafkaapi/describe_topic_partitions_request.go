@@ -50,7 +50,7 @@ func (r DescribeTopicPartitionsRequestBody) encodeTopics(encoder *field_encoder.
 func (r DescribeTopicPartitionsRequestBody) encodeCursor(encoder *field_encoder.FieldEncoder) {
 	if r.Cursor == nil {
 		encoder.PushPathContext("Cursor")
-		encoder.WriteInt8("IsCursorPresent", -1)
+		encoder.WriteInt8Field("IsCursorPresent", -1)
 		encoder.PopPathContext()
 	} else {
 		r.Cursor.Encode(encoder)

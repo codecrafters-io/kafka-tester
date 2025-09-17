@@ -64,7 +64,7 @@ func (e *FieldEncoder) Bytes() []byte {
 	return e.encoder.Bytes()
 }
 
-func (e *FieldEncoder) WriteInt8(variableName string, in int8) {
+func (e *FieldEncoder) WriteInt8Field(variableName string, in int8) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteInt8(in)
@@ -94,6 +94,18 @@ func (e *FieldEncoder) WriteInt32Field(variableName string, in int32) {
 	e.encoder.WriteInt32(in)
 
 	encodedValue := kafka_value.Int32{
+		Value: in,
+	}
+
+	e.appendEncodedField(encodedValue)
+}
+
+func (e *FieldEncoder) WriteInt64Field(variableName string, in int64) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteInt64(in)
+
+	encodedValue := kafka_value.Int64{
 		Value: in,
 	}
 
@@ -131,6 +143,17 @@ func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, actualL
 
 	e.appendEncodedField(kafka_value.CompactArrayLength{
 		Value: uint64(actualLength) + 1,
+	})
+}
+
+func (e *FieldEncoder) WriteUUID(variableName string, value string) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+
+	e.encoder.WriteUUID(value)
+
+	e.appendEncodedField(kafka_value.UUID{
+		Value: value,
 	})
 }
 

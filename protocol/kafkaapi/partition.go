@@ -1,6 +1,8 @@
 package kafkaapi
 
-import "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
+)
 
 type Partition struct {
 	ID                 int32 // partition id
@@ -11,12 +13,14 @@ type Partition struct {
 	PartitionMaxBytes  int32 // max bytes to fetch
 }
 
-func (p Partition) Encode(pe *encoder.Encoder) {
-	pe.WriteInt32(p.ID)
-	pe.WriteInt32(p.CurrentLeaderEpoch)
-	pe.WriteInt64(p.FetchOffset)
-	pe.WriteInt32(p.LastFetchedOffset)
-	pe.WriteInt64(p.LogStartOffset)
-	pe.WriteInt32(p.PartitionMaxBytes)
+func (p Partition) Encode(pe *field_encoder.FieldEncoder) {
+	pe.PushPathContext("Partition")
+	defer pe.PopPathContext()
+	pe.WriteInt32Field("ID", p.ID)
+	pe.WriteInt32Field("CurrentLeaderEpoch", p.CurrentLeaderEpoch)
+	pe.WriteInt64Field("FetchOffset", p.FetchOffset)
+	pe.WriteInt32Field("LastFetchedOffset", p.LastFetchedOffset)
+	pe.WriteInt64Field("LogStartOffset", p.LogStartOffset)
+	pe.WriteInt32Field("PartitionMaxBytes", p.PartitionMaxBytes)
 	pe.WriteEmptyTagBuffer()
 }
