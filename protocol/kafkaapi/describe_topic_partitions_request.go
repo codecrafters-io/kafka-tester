@@ -14,11 +14,7 @@ type Cursor struct {
 }
 
 func (c Cursor) Encode(encoder *field_encoder.FieldEncoder) {
-	encoder.PushPathContext("Cursor")
-	defer encoder.PopPathContext()
-	encoder.WriteCompactStringField("TopicName", c.TopicName)
-	encoder.WriteInt32Field("PartitionIndex", c.PartitionIndex)
-	encoder.WriteEmptyTagBuffer()
+	panic("Codecrafters Internal Error - Encode() called on unused Cursor method")
 }
 
 type DescribeTopicPartitionsRequestBody struct {
