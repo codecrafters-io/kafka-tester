@@ -2,6 +2,7 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/request_encoders"
 	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
@@ -46,7 +47,12 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	for i, client := range clients {
 		correlationIds[i] = getRandomCorrelationId()
 		request := builder.NewApiVersionsRequestBuilder().WithCorrelationId(correlationIds[i]).Build()
-		err := client.Send(request, stageLogger)
+
+		err := client.Send(
+			request_encoders.Encode(request, stageLogger),
+			apiName,
+			stageLogger,
+		)
 
 		if err != nil {
 			return err

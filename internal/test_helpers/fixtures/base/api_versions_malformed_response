@@ -15,7 +15,7 @@ Debug = true
 [33m[tester::#PV1] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#PV1] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
 [33m[tester::#PV1] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
-[33m[tester::#PV1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[tester::#PV1] [0m[94mSending "ApiVersions" request[0m
 [33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
