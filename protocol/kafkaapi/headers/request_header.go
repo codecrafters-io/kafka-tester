@@ -17,7 +17,7 @@ type RequestHeader struct {
 	ClientId value.String
 }
 
-func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) []byte {
+func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) {
 	encoder.PushPathContext("Header")
 	defer encoder.PopPathContext()
 	encoder.WriteInt16Field("APIKey", h.ApiKey)
@@ -25,5 +25,4 @@ func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) []byte {
 	encoder.WriteInt32Field("CorrelationID", h.CorrelationId)
 	encoder.WriteStringField("ClientID", h.ClientId)
 	encoder.WriteEmptyTagBuffer()
-	return encoder.Bytes()
 }
