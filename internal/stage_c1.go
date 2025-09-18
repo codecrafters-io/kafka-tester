@@ -46,6 +46,10 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			stageLogger,
 		)
 
+		if err != nil {
+			return err
+		}
+
 		assertion := response_assertions.NewApiVersionsResponseAssertion().
 			ExpectCorrelationId(correlationId).
 			ExpectErrorCode(0).

@@ -44,6 +44,10 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		stageLogger,
 	)
 
+	if err != nil {
+		return err
+	}
+
 	assertion := response_assertions.NewApiVersionsResponseAssertion().
 		ExpectCorrelationId(correlationId).
 		ExpectErrorCode(0).
