@@ -33,13 +33,8 @@ func printEncodedTree(encoder *field_encoder.FieldEncoder, logger *logger.Logger
 	fieldTreePrinterLogger := logger.Clone()
 	fieldTreePrinterLogger.UpdateLastSecondaryPrefix("Encoder")
 
-	encodedFields := make([]field_tree_printer.Field, len(encoder.EncodedFields()))
-	for i, field := range encoder.EncodedFields() {
-		encodedFields[i] = &field
-	}
-
 	fieldTreePrinter := field_tree_printer.FieldTreePrinter{
-		Fields: encodedFields,
+		Fields: encoder.EncodedFields(),
 		Logger: fieldTreePrinterLogger,
 	}
 
