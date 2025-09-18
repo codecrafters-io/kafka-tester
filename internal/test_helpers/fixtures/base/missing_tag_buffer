@@ -6,6 +6,12 @@ Debug = true
 [33m[your_program] [0mLogs from your program will appear here!
 [33m[your_program] [0mThis server always responds with missing tag buffer in entries of ApiKeyEntry array. See response/ApiKeyEntry.Encode() for intentional mistake.
 [33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PV1] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#PV1] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - CorrelationID (177586623)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#PV1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m

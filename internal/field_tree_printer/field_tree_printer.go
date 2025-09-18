@@ -3,48 +3,49 @@ package field_tree_printer
 import (
 	"strings"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type FieldTreePrinter struct {
-	DecodedFields []field_decoder.DecodedField
-	Logger        *logger.Logger
+	Fields []field.Field
+	Logger *logger.Logger
 
 	currentIndentationLevel int
 	lastPrintedFieldPath    field_path.FieldPath
 }
 
-func (p FieldTreePrinter) PrintForErrorLogs(errorPath field_path.FieldPath) {
+func (p FieldTreePrinter) PrintForErrorLogs(errorPath field_path.FieldPath, errorMessage string) {
 	p.currentIndentationLevel = 0
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
-	for _, decodedField := range p.DecodedFields {
-		p.printNodesLeadingTo(decodedField.Path, p.Logger.Infof)
+	for _, field := range p.Fields {
+		p.printNodesLeadingTo(field.Path, p.Logger.Infof)
 
-		if errorPath.Is(decodedField.Path) {
-			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), decodedField.Path.LastSegment(), decodedField.Value.String())
+		if errorPath.Is(field.Path) {
+			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), errorMessage)
 			return
 		} else {
-			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), decodedField.Path.LastSegment(), decodedField.Value.String())
-			p.lastPrintedFieldPath = decodedField.Path
+			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+			p.lastPrintedFieldPath = field.Path
 		}
 	}
 
-	// If ErrorPath didn't match any decoded fields, must be a decode error
+	// If ErrorPath didn't match any fields, the error must have been encountered while processing the ErrorPath
+	// We use a separate directive 'X' instead of '❌' to specify this error
 	p.printNodesLeadingTo(errorPath, p.Logger.Infof)
-	p.Logger.Errorf("%sX %s (decode error)", p.buildIndentPrefix(), errorPath.LastSegment())
+	p.Logger.Errorf("%sX %s (%s)", p.buildIndentPrefix(), errorPath.LastSegment(), errorMessage)
 }
 
 func (p FieldTreePrinter) PrintForDebugLogs() {
 	p.currentIndentationLevel = 0
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
-	for _, decodedField := range p.DecodedFields {
-		p.printNodesLeadingTo(decodedField.Path, p.Logger.Debugf)
-		p.Logger.Debugf("%s- %s (%s)", p.buildIndentPrefix(), decodedField.Path.LastSegment(), decodedField.Value.String())
-		p.lastPrintedFieldPath = decodedField.Path
+	for _, field := range p.Fields {
+		p.printNodesLeadingTo(field.Path, p.Logger.Debugf)
+		p.Logger.Debugf("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+		p.lastPrintedFieldPath = field.Path
 	}
 }
 

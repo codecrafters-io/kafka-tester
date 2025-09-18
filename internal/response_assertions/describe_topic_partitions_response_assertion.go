@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"sort"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	int8_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int8"
@@ -81,7 +81,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectCursorAbsence() *Descri
 	return a
 }
 
-func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
+func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field.Field) error {
 	path := field.Path.String()
 
 	// Header fields

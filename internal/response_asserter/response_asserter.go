@@ -35,8 +35,8 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 	fieldTreePrinterLogger.PushSecondaryPrefix("Decoder")
 
 	fieldTreePrinter := field_tree_printer.FieldTreePrinter{
-		DecodedFields: decoder.DecodedFields(),
-		Logger:        fieldTreePrinterLogger,
+		Fields: decoder.DecodedFields(),
+		Logger: fieldTreePrinterLogger,
 	}
 
 	// TODO: Add tests for this and revive the logic: Will incorporate in a new PR
@@ -51,13 +51,13 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
-		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath)
+		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "value mismatch")
 
 		return actualResponse, singleFieldAssertionError
 	}
 
 	if decodeError != nil {
-		fieldTreePrinter.PrintForErrorLogs(decodeError.Path())
+		fieldTreePrinter.PrintForErrorLogs(decodeError.Path(), "decode error")
 
 		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
 		a.Logger.Errorln("Received bytes:")

@@ -4,6 +4,12 @@ Debug = true
 [33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#PV1] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PV1] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#PV1] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - CorrelationID (177586623)[0m
+[33m[tester::#PV1] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#PV1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
 [33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -315,6 +321,12 @@ Debug = true
 [33m[tester::#NC5] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NC5] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NC5] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#NC5] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#NC5] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#NC5] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#NC5] [Encoder] [0m[36m    - APIVersion (1698)[0m
+[33m[tester::#NC5] [Encoder] [0m[36m    - CorrelationID (1616512461)[0m
+[33m[tester::#NC5] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#NC5] [0m[94mSending "ApiVersions" (version: 1698) request (Correlation id: 1616512461)[0m
 [33m[tester::#NC5] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NC5] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -344,6 +356,12 @@ Debug = true
 [33m[tester::#WA6] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#WA6] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#WA6] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#WA6] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#WA6] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#WA6] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#WA6] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#WA6] [Encoder] [0m[36m    - CorrelationID (254678266)[0m
+[33m[tester::#WA6] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#WA6] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 254678266)[0m
 [33m[tester::#WA6] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#WA6] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -402,6 +420,12 @@ Debug = true
 [33m[tester::#NV3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NV3] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NV3] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#NV3] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#NV3] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - CorrelationID (7)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#NV3] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 7)[0m
 [33m[tester::#NV3] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NV3] [0m[36mIdx  | Hex                                             | ASCII[0m

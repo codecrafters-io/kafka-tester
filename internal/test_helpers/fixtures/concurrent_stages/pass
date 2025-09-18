@@ -4,6 +4,12 @@ Debug = true
 [33m[tester::#NH4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#NH4] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#NH4] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#NH4] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#NH4] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - CorrelationID (1616512461)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#NH4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1616512461)[0m
 [33m[tester::#NH4] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NH4] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -47,8 +53,8 @@ Debug = true
 [33m[tester::#NH4] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#NH4] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#NH4] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#NH4] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#NH4] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#NH4] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#NH4] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#NH4] [0m[36m[0m
 [33m[tester::#NH4] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#NH4] [Decoder] [0m[36m  - Header[0m
@@ -308,6 +314,12 @@ Debug = true
 [33m[tester::#NH4] [0m[92m✔ MinVersion for ApiVersions is <= 4 & >= 0[0m
 [33m[tester::#NH4] [0m[92m✔ MaxVersion for ApiVersions is >= 4[0m
 [33m[tester::#NH4] [0m[92m✓ Test 1 of 2: Passed[0m
+[33m[tester::#NH4] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#NH4] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - CorrelationID (1616512461)[0m
+[33m[tester::#NH4] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#NH4] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1616512461)[0m
 [33m[tester::#NH4] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#NH4] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -351,8 +363,8 @@ Debug = true
 [33m[tester::#NH4] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#NH4] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#NH4] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#NH4] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#NH4] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#NH4] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#NH4] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#NH4] [0m[36m[0m
 [33m[tester::#NH4] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#NH4] [Decoder] [0m[36m  - Header[0m
@@ -622,6 +634,12 @@ Debug = true
 [33m[tester::#SK0] [0m[36mConnection to broker at localhost:9092 successful[0m
 [33m[tester::#SK0] [0m[36mConnecting to broker at: localhost:9092[0m
 [33m[tester::#SK0] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#SK0] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#SK0] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - CorrelationID (254678266)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#SK0] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 254678266)[0m
 [33m[tester::#SK0] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#SK0] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -630,6 +648,12 @@ Debug = true
 [33m[tester::#SK0] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
 [33m[tester::#SK0] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
 [33m[tester::#SK0] [0m[36m[0m
+[33m[tester::#SK0] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#SK0] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - CorrelationID (1893237013)[0m
+[33m[tester::#SK0] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
 [33m[tester::#SK0] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 1893237013)[0m
 [33m[tester::#SK0] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#SK0] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -673,8 +697,8 @@ Debug = true
 [33m[tester::#SK0] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#SK0] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#SK0] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#SK0] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#SK0] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#SK0] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#SK0] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#SK0] [0m[36m[0m
 [33m[tester::#SK0] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#SK0] [Decoder] [0m[36m  - Header[0m
@@ -969,8 +993,8 @@ Debug = true
 [33m[tester::#SK0] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#SK0] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#SK0] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#SK0] [0m[36m0200 | 00 00 00 0c 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#SK0] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 14 00 14 00          | .version.....[0m
+[33m[tester::#SK0] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#SK0] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#SK0] [0m[36m[0m
 [33m[tester::#SK0] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#SK0] [Decoder] [0m[36m  - Header[0m

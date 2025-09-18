@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -47,7 +47,7 @@ func (a *ApiVersionsResponseAssertion) ExpectApiKeyEntry(expectedApiKey int16, e
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
+func (a *ApiVersionsResponseAssertion) AssertSingleField(field field.Field) error {
 	if field.Path.String() == "ApiVersionsResponse.Header.CorrelationID" {
 		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
