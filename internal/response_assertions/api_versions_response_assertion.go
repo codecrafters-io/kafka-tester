@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -47,42 +47,42 @@ func (a *ApiVersionsResponseAssertion) ExpectApiKeyEntry(expectedApiKey int16, e
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	if field.GetPath().String() == "ApiVersionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.GetValue())
+func (a *ApiVersionsResponseAssertion) AssertSingleField(field field.Field) error {
+	if field.Path.String() == "ApiVersionsResponse.Header.CorrelationID" {
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
 
-	if field.GetPath().String() == "ApiVersionsResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.GetValue())
+	if field.Path.String() == "ApiVersionsResponse.Body.ErrorCode" {
+		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.Value)
 	}
 
-	if field.GetPath().String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {
+	if field.Path.String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {
 		// We don't validate ThrottleTimeMs
 		return nil
 	}
 
-	if field.GetPath().String() == "ApiVersionsResponse.Body.ApiKeys.Length" {
+	if field.Path.String() == "ApiVersionsResponse.Body.ApiKeys.Length" {
 		// TODO: See if we can assert this to be > 1?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.APIKey`).MatchString(field.GetPath().String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.APIKey`).MatchString(field.Path.String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MinVersion`).MatchString(field.GetPath().String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MinVersion`).MatchString(field.Path.String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
-	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MaxVersion`).MatchString(field.GetPath().String()) {
+	if regexp.MustCompile(`ApiVersionsResponse\.Body\.ApiKeys\.ApiKeys\[\d+\]\.MaxVersion`).MatchString(field.Path.String()) {
 		// TODO: Assert this to be a positive number?
 		return nil
 	}
 
 	// This ensures that we're handling ALL possible fields
-	panic("CodeCrafters Internal Error: Unhandled field path: " + field.GetPath().String())
+	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
 }
 
 func (a *ApiVersionsResponseAssertion) AssertAcrossFields(response kafkaapi.ApiVersionsResponse, logger *logger.Logger) error {
