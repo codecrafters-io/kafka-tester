@@ -24,7 +24,7 @@ func (p FieldTreePrinter) PrintForErrorLogs(errorPath field_path.FieldPath, erro
 		p.printNodesLeadingTo(field.Path, p.Logger.Infof)
 
 		if errorPath.Is(field.Path) {
-			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), errorMessage)
 			return
 		} else {
 			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
@@ -32,7 +32,8 @@ func (p FieldTreePrinter) PrintForErrorLogs(errorPath field_path.FieldPath, erro
 		}
 	}
 
-	// If ErrorPath didn't match any decoded fields, must be an error
+	// If ErrorPath didn't match any fields, the error must have been encountered while processing the ErrorPath
+	// We use a separate directive 'X' instead of '❌' to specify this error
 	p.printNodesLeadingTo(errorPath, p.Logger.Infof)
 	p.Logger.Errorf("%sX %s (%s)", p.buildIndentPrefix(), errorPath.LastSegment(), errorMessage)
 }

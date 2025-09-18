@@ -51,7 +51,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
-		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "decode error")
+		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "value mismatch")
 
 		return actualResponse, singleFieldAssertionError
 	}
