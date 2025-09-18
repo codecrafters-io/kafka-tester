@@ -2,6 +2,7 @@ package internal
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
+	"github.com/codecrafters-io/kafka-tester/internal/request_encoders"
 	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
@@ -62,7 +63,12 @@ func testFetchNoMessages(stageHarness *test_case_harness.TestCaseHarness) error 
 		WithPartitionID(int32(partitionId)).
 		Build()
 
-	rawResponse, err := client.SendAndReceive(request, stageLogger)
+	rawResponse, err := client.SendAndReceive(
+		request_encoders.Encode(request, stageLogger),
+		request.Header.ApiKey.Value,
+		stageLogger,
+	)
+
 	if err != nil {
 		return err
 	}
