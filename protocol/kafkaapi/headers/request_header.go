@@ -14,7 +14,7 @@ type RequestHeader struct {
 	// CorrelationId defines the correlation ID for the request
 	CorrelationId value.Int32
 	// ClientId defines the client ID for the request
-	ClientId value.KafkaString
+	ClientId value.String
 }
 
 func (h RequestHeader) Encode(encoder *field_encoder.FieldEncoder) []byte {

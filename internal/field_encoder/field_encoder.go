@@ -78,7 +78,7 @@ func (e *FieldEncoder) WriteInt32Field(variableName string, value value.Int32) {
 	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteStringField(variableName string, value value.KafkaString) {
+func (e *FieldEncoder) WriteStringField(variableName string, value value.String) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteString(value.Value)
