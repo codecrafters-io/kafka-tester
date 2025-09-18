@@ -3,18 +3,13 @@ package field_tree_printer
 import (
 	"strings"
 
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
-	"github.com/codecrafters-io/kafka-tester/protocol/value"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
-type Field interface {
-	GetPath() field_path.FieldPath
-	GetValue() value.KafkaProtocolValue
-}
-
 type FieldTreePrinter struct {
-	Fields []Field
+	Fields []field.Field
 	Logger *logger.Logger
 
 	currentIndentationLevel int
@@ -26,18 +21,19 @@ func (p FieldTreePrinter) PrintForErrorLogs(errorPath field_path.FieldPath, erro
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
 	for _, field := range p.Fields {
-		p.printNodesLeadingTo(field.GetPath(), p.Logger.Infof)
+		p.printNodesLeadingTo(field.Path, p.Logger.Infof)
 
-		if errorPath.Is(field.GetPath()) {
-			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.GetPath().LastSegment(), field.GetValue().String())
+		if errorPath.Is(field.Path) {
+			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), errorMessage)
 			return
 		} else {
-			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.GetPath().LastSegment(), field.GetValue().String())
-			p.lastPrintedFieldPath = field.GetPath()
+			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+			p.lastPrintedFieldPath = field.Path
 		}
 	}
 
-	// If ErrorPath didn't match any decoded fields, must be an error
+	// If ErrorPath didn't match any fields, the error must have been encountered while processing the ErrorPath
+	// We use a separate directive 'X' instead of '❌' to specify this error
 	p.printNodesLeadingTo(errorPath, p.Logger.Infof)
 	p.Logger.Errorf("%sX %s (%s)", p.buildIndentPrefix(), errorPath.LastSegment(), errorMessage)
 }
@@ -47,9 +43,9 @@ func (p FieldTreePrinter) PrintForDebugLogs() {
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
 	for _, field := range p.Fields {
-		p.printNodesLeadingTo(field.GetPath(), p.Logger.Debugf)
-		p.Logger.Debugf("%s- %s (%s)", p.buildIndentPrefix(), field.GetPath().LastSegment(), field.GetValue().String())
-		p.lastPrintedFieldPath = field.GetPath()
+		p.printNodesLeadingTo(field.Path, p.Logger.Debugf)
+		p.Logger.Debugf("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+		p.lastPrintedFieldPath = field.Path
 	}
 }
 

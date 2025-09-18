@@ -26,7 +26,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 	for _, decodedField := range decoder.DecodedFields() {
 		if err := a.Assertion.AssertSingleField(decodedField); err != nil {
 			singleFieldAssertionError = err
-			singleFieldAssertionErrorPath = decodedField.GetPath()
+			singleFieldAssertionErrorPath = decodedField.Path
 			break
 		}
 	}
@@ -34,13 +34,8 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 	fieldTreePrinterLogger := a.Logger.Clone()
 	fieldTreePrinterLogger.PushSecondaryPrefix("Decoder")
 
-	decodedFields := make([]field_tree_printer.Field, len(decoder.DecodedFields()))
-	for i, field := range decoder.DecodedFields() {
-		decodedFields[i] = &field
-	}
-
 	fieldTreePrinter := field_tree_printer.FieldTreePrinter{
-		Fields: decodedFields,
+		Fields: decoder.DecodedFields(),
 		Logger: fieldTreePrinterLogger,
 	}
 
@@ -56,7 +51,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
-		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "decode error")
+		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "value mismatch")
 
 		return actualResponse, singleFieldAssertionError
 	}

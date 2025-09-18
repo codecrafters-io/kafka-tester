@@ -4,41 +4,27 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	kafka_value "github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
-type EncodedField struct {
-	path  field_path.FieldPath
-	value kafka_value.KafkaProtocolValue
-}
-
-// GetPath implements Field interface
-func (e *EncodedField) GetPath() field_path.FieldPath {
-	return e.path
-}
-
-// GetValue implements Field interface
-func (e *EncodedField) GetValue() kafka_value.KafkaProtocolValue {
-	return e.value
-}
-
 type FieldEncoder struct {
 	currentPathContexts []string
 	encoder             *encoder.Encoder
-	encodedFields       []EncodedField
+	encodedFields       []field.Field
 }
 
 func NewFieldEncoder() *FieldEncoder {
 	return &FieldEncoder{
 		currentPathContexts: []string{},
-		encodedFields:       []EncodedField{},
+		encodedFields:       []field.Field{},
 		encoder:             encoder.NewEncoder(),
 	}
 }
 
-func (e *FieldEncoder) EncodedFields() []EncodedField {
+func (e *FieldEncoder) EncodedFields() []field.Field {
 	return e.encodedFields
 }
 
@@ -55,9 +41,9 @@ func (e *FieldEncoder) currentPath() field_path.FieldPath {
 }
 
 func (e *FieldEncoder) appendEncodedField(encodedValue kafka_value.KafkaProtocolValue) {
-	e.encodedFields = append(e.encodedFields, EncodedField{
-		value: encodedValue,
-		path:  e.currentPath(),
+	e.encodedFields = append(e.encodedFields, field.Field{
+		Value: encodedValue,
+		Path:  e.currentPath(),
 	})
 }
 
@@ -93,7 +79,7 @@ func (e *FieldEncoder) WriteInt64Field(variableName string, value kafka_value.In
 	e.appendEncodedField(value)
 }
 
-func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.KafkaString) {
+func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.String) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteString(value.Value)

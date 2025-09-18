@@ -4,36 +4,22 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/protocol/decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
-type DecodedField struct {
-	path  field_path.FieldPath
-	value value.KafkaProtocolValue
-}
-
-// GetPath implements Field interface
-func (e *DecodedField) GetPath() field_path.FieldPath {
-	return e.path
-}
-
-// GetValue implements Field interface
-func (e *DecodedField) GetValue() value.KafkaProtocolValue {
-	return e.value
-}
-
 type FieldDecoder struct {
 	currentPathContexts []string
 	decoder             *decoder.Decoder
-	decodedFields       []DecodedField
+	decodedFields       []field.Field
 }
 
 func NewFieldDecoder(bytes []byte) *FieldDecoder {
 	return &FieldDecoder{
 		currentPathContexts: []string{},
-		decodedFields:       []DecodedField{},
+		decodedFields:       []field.Field{},
 		decoder:             decoder.NewDecoder(bytes),
 	}
 }
@@ -42,7 +28,7 @@ func (d *FieldDecoder) ReadBytesCount() uint64 {
 	return d.decoder.ReadBytesCount()
 }
 
-func (d *FieldDecoder) DecodedFields() []DecodedField {
+func (d *FieldDecoder) DecodedFields() []field.Field {
 	return d.decodedFields
 }
 
@@ -286,9 +272,9 @@ func (d *FieldDecoder) currentPath() field_path.FieldPath {
 }
 
 func (d *FieldDecoder) appendDecodedField(decodedValue value.KafkaProtocolValue) {
-	d.decodedFields = append(d.decodedFields, DecodedField{
-		value: decodedValue,
-		path:  d.currentPath(),
+	d.decodedFields = append(d.decodedFields, field.Field{
+		Value: decodedValue,
+		Path:  d.currentPath(),
 	})
 }
 
