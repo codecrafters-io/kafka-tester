@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"sort"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	int8_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int8"
@@ -81,12 +81,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectCursorAbsence() *Descri
 	return a
 }
 
-func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	path := field.GetPath().String()
+func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field.Field) error {
+	path := field.Path.String()
 
 	// Header fields
 	if path == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.GetValue())
+		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.Value)
 	}
 
 	// Body level fields
@@ -97,7 +97,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
 		return compact_array_length_assertions.IsEqualTo(
 			value.NewCompactArrayLength(a.expectedTopics),
-			field.GetValue(),
+			field.Value,
 		)
 	}
 
@@ -186,10 +186,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 	// Cursor fields
 	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
-		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.GetValue())
+		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.Value)
 	}
 
-	panic("CodeCrafters Internal Error: Unhandled field path: " + field.GetPath().String())
+	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())
 }
 
 func (a *DescribeTopicPartitionsResponseAssertion) AssertAcrossFields(response kafkaapi.DescribeTopicPartitionsResponse, logger *logger.Logger) error {

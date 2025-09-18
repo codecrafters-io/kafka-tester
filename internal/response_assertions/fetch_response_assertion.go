@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field"
 	compact_array_length_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/compact_array_length"
 	int16_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int16"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
@@ -183,21 +183,21 @@ func (a *FetchResponseAssertion) assertRecordBatchBytes(actualRecordBatches []ka
 	return nil
 }
 
-func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedField) error {
-	fieldPath := field.GetPath().String()
+func (a *FetchResponseAssertion) AssertSingleField(field field.Field) error {
+	fieldPath := field.Path.String()
 
 	// Header fields
 	if fieldPath == "FetchResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.GetValue())
+		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
 	}
 
 	// Body level fields
 	if fieldPath == "FetchResponse.Body.ThrottleTimeMS" {
-		return int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.GetValue())
+		return int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.Value)
 	}
 
 	if fieldPath == "FetchResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.GetValue())
+		return int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.Value)
 	}
 
 	if fieldPath == "FetchResponse.Body.SessionID" {
@@ -205,7 +205,7 @@ func (a *FetchResponseAssertion) AssertSingleField(field field_decoder.DecodedFi
 	}
 
 	if fieldPath == "FetchResponse.Body.Topics.Length" {
-		return compact_array_length_assertions.IsEqualTo(a.expectedTopicsLength, field.GetValue())
+		return compact_array_length_assertions.IsEqualTo(a.expectedTopicsLength, field.Value)
 	}
 
 	// Partitions array and its elements

@@ -43,7 +43,7 @@ func (b *RequestHeaderBuilder) Build() headers.RequestHeader {
 		ApiKey:        value.Int16{Value: b.apiKey},
 		ApiVersion:    value.Int16{Value: b.apiVersion},
 		CorrelationId: value.Int32{Value: b.correlationId},
-		ClientId:      value.KafkaString{Value: "kafka-tester"},
+		ClientId:      value.String{Value: "kafka-tester"},
 	}
 }
 
