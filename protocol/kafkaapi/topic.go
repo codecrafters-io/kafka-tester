@@ -1,19 +1,27 @@
 package kafkaapi
 
-import "github.com/codecrafters-io/kafka-tester/protocol/encoder"
+import (
+	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
+)
 
 type Topic struct {
-	UUID       string
+	UUID       value.UUID
 	Partitions []Partition
 }
 
-func (t Topic) Encode(pe *encoder.Encoder) {
-	pe.WriteUUID(t.UUID)
-	pe.WriteCompactArrayLength(len(t.Partitions))
+func (t Topic) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Topic")
+	defer encoder.PopPathContext()
+	encoder.WriteUUIDField("UUID", t.UUID)
+	t.encodePartitions(encoder)
+	encoder.WriteEmptyTagBuffer()
+}
 
-	for _, partition := range t.Partitions {
-		partition.Encode(pe)
+func (t Topic) encodePartitions(encoder *field_encoder.FieldEncoder) {
+	encodablePartitions := make([]FieldEncodable, len(t.Partitions))
+	for i, topic := range t.Partitions {
+		encodablePartitions[i] = topic
 	}
-
-	pe.WriteEmptyTagBuffer()
+	encodeCompactArray("Partitions", encoder, encodablePartitions)
 }

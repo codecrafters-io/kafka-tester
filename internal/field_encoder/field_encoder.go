@@ -1,6 +1,7 @@
 package field_encoder
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field"
@@ -71,6 +72,13 @@ func (e *FieldEncoder) WriteInt32Field(variableName string, value kafka_value.In
 	e.appendEncodedField(value)
 }
 
+func (e *FieldEncoder) WriteInt64Field(variableName string, value kafka_value.Int64) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteInt64(value.Value)
+	e.appendEncodedField(value)
+}
+
 func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.String) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
@@ -89,6 +97,28 @@ func (e *FieldEncoder) WriteCompactArrayLengthField(variableName string, value k
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()
 	e.encoder.WriteUvarint(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteCompactArrayOfValuesField(variableName string, values []kafka_value.KafkaProtocolValue) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+
+	e.WriteCompactArrayLengthField("Length", kafka_value.NewCompactArrayLength(values))
+	for i, value := range values {
+		if castedInt32, ok := value.(kafka_value.Int32); ok {
+			e.WriteInt32Field(fmt.Sprintf("%s[%d]", variableName, i), castedInt32)
+			continue
+		}
+
+		panic(fmt.Sprintf("Codecrafters Internal Error - Compact Array of %s cannot be encoded", value.GetType()))
+	}
+}
+
+func (e *FieldEncoder) WriteUUIDField(variableName string, value kafka_value.UUID) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteUUID(value.Value)
 	e.appendEncodedField(value)
 }
 

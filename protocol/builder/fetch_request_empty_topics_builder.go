@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type FetchRequstWithEmptyTopicsBuilder struct {
@@ -23,9 +24,9 @@ func (b *FetchRequstWithEmptyTopicsBuilder) Build() kafkaapi.FetchRequest {
 	return kafkaapi.FetchRequest{
 		Header: NewRequestHeaderBuilder().BuildFetchRequestHeader(b.correlationId),
 		Body: kafkaapi.FetchRequestBody{
-			MaxWaitMS:       500,
-			MinBytes:        1,
-			MaxBytes:        math.MaxInt32,
+			MaxWaitMS:       value.Int32{Value: 500},
+			MinBytes:        value.Int32{Value: 1},
+			MaxBytes:        value.Int32{Value: math.MaxInt32},
 			Topics:          []kafkaapi.Topic{},
 			ForgottenTopics: []kafkaapi.ForgottenTopic{},
 		},

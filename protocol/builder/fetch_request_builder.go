@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type FetchRequestPartition struct {
@@ -51,21 +52,21 @@ func (b *FetchRequestBuilder) Build() kafkaapi.FetchRequest {
 	return kafkaapi.FetchRequest{
 		Header: NewRequestHeaderBuilder().BuildFetchRequestHeader(b.correlationId),
 		Body: kafkaapi.FetchRequestBody{
-			MaxWaitMS: 500,
-			MinBytes:  1,
-			MaxBytes:  math.MaxInt32,
-			SessionId: b.sessionId,
+			MaxWaitMS: value.Int32{Value: 500},
+			MinBytes:  value.Int32{Value: 1},
+			MaxBytes:  value.Int32{Value: math.MaxInt32},
+			SessionId: value.Int32{Value: b.sessionId},
 			Topics: []kafkaapi.Topic{
 				{
-					UUID: b.topicUUID,
+					UUID: value.UUID{Value: b.topicUUID},
 					Partitions: []kafkaapi.Partition{
 						{
-							ID:                 b.partitionID,
-							CurrentLeaderEpoch: -1,
-							FetchOffset:        0,
-							LastFetchedOffset:  -1,
-							LogStartOffset:     -1,
-							PartitionMaxBytes:  math.MaxInt32,
+							ID:                 value.Int32{Value: b.partitionID},
+							CurrentLeaderEpoch: value.Int32{Value: -1},
+							FetchOffset:        value.Int64{Value: 0},
+							LastFetchedOffset:  value.Int32{Value: -1},
+							LogStartOffset:     value.Int64{Value: -1},
+							PartitionMaxBytes:  value.Int32{Value: math.MaxInt32},
 						},
 					},
 				},

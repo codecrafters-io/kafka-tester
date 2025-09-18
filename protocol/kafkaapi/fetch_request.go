@@ -2,59 +2,76 @@ package kafkaapi
 
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi/headers"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 type ForgottenTopic struct {
-	UUID       string
-	Partitions []int32
+	UUID       value.UUID
+	Partitions []value.Int32
 }
 
-func (f ForgottenTopic) Encode() []byte {
-	topicEncoder := encoder.NewEncoder()
-	topicEncoder.WriteUUID(f.UUID)
-	topicEncoder.WriteCompactArrayOfInt32(f.Partitions)
-	return topicEncoder.Bytes()
+func (f ForgottenTopic) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("ForgottenTopic")
+	defer encoder.PopPathContext()
+
+	encoder.WriteUUIDField("UUID", f.UUID)
+	f.encodePartitions(encoder)
+}
+
+func (f ForgottenTopic) encodePartitions(encoder *field_encoder.FieldEncoder) {
+	partitionsKafkaValue := make([]value.KafkaProtocolValue, len(f.Partitions))
+	for i, partition := range f.Partitions {
+		partitionsKafkaValue[i] = partition
+	}
+	encoder.WriteCompactArrayOfValuesField("Partitions", partitionsKafkaValue)
 }
 
 type FetchRequestBody struct {
-	MaxWaitMS       int32
-	MinBytes        int32
-	MaxBytes        int32
-	IsolationLevel  int8
-	SessionId       int32
-	SessionEpoch    int32
+	MaxWaitMS       value.Int32
+	MinBytes        value.Int32
+	MaxBytes        value.Int32
+	IsolationLevel  value.Int8
+	SessionId       value.Int32
+	SessionEpoch    value.Int32
 	Topics          []Topic
 	ForgottenTopics []ForgottenTopic
-	RackID          string
+	RackId          value.CompactString
 }
 
-func (r FetchRequestBody) Encode() []byte {
-	bodyEncoder := encoder.NewEncoder()
-	bodyEncoder.WriteInt32(r.MaxWaitMS)
-	bodyEncoder.WriteInt32(r.MinBytes)
-	bodyEncoder.WriteInt32(r.MaxBytes)
-	bodyEncoder.WriteInt8(r.IsolationLevel)
-	bodyEncoder.WriteInt32(r.SessionId)
-	bodyEncoder.WriteInt32(r.SessionEpoch)
+func (r FetchRequestBody) Encode(encoder *field_encoder.FieldEncoder) {
+	encoder.PushPathContext("Body")
+	defer encoder.PopPathContext()
+
+	encoder.WriteInt32Field("MaxWaitMS", r.MaxWaitMS)
+	encoder.WriteInt32Field("MinBytes", r.MinBytes)
+	encoder.WriteInt32Field("MaxBytes", r.MaxBytes)
+	encoder.WriteInt8Field("IsolationLevel", r.IsolationLevel)
+	encoder.WriteInt32Field("SessionID", r.SessionId)
+	encoder.WriteInt32Field("SessionEpoch", r.SessionEpoch)
 
 	// encode topics
-	bodyEncoder.WriteCompactArrayLength(len(r.Topics))
-	for _, topic := range r.Topics {
-		topic.Encode(bodyEncoder)
+	r.encodeTopics(encoder)
+	r.encodeForgottenTopics(encoder)
+
+	encoder.WriteCompactStringField("RackID", r.RackId)
+	encoder.WriteEmptyTagBuffer()
+}
+
+func (r FetchRequestBody) encodeTopics(encoder *field_encoder.FieldEncoder) {
+	encodableTopics := make([]FieldEncodable, len(r.Topics))
+	for i, topic := range r.Topics {
+		encodableTopics[i] = topic
 	}
+	encodeCompactArray("Topics", encoder, encodableTopics)
+}
 
-	// encode forgotten topics
-	bodyEncoder.WriteCompactArrayLength(len(r.ForgottenTopics))
-	for _, forgottenTopic := range r.ForgottenTopics {
-		bodyEncoder.WriteRawBytes(forgottenTopic.Encode())
+func (r FetchRequestBody) encodeForgottenTopics(encoder *field_encoder.FieldEncoder) {
+	encodableForgottenTopics := make([]FieldEncodable, len(r.ForgottenTopics))
+	for i, topic := range r.ForgottenTopics {
+		encodableForgottenTopics[i] = topic
 	}
-
-	bodyEncoder.WriteCompactString(r.RackID)
-
-	bodyEncoder.WriteEmptyTagBuffer()
-	return bodyEncoder.Bytes()
+	encodeCompactArray("ForgottenTopics", encoder, encodableForgottenTopics)
 }
 
 type FetchRequest struct {
@@ -69,5 +86,5 @@ func (r FetchRequest) GetHeader() headers.RequestHeader {
 
 // EncodeBody implements the RequestI interface
 func (r FetchRequest) EncodeBody(encoder *field_encoder.FieldEncoder) {
-	r.Body.Encode()
+	r.Body.Encode(encoder)
 }
