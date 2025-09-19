@@ -59,7 +59,7 @@ func testSequentialRequests(stageHarness *test_case_harness.TestCaseHarness) err
 			DecodeFunc: response_decoders.DecodeApiVersionsResponse,
 			Assertion:  assertion,
 			Logger:     stageLogger,
-		}.DecodeAndAssert(rawResponse.Payload)
+		}.DecodeAndAssert(rawResponse)
 
 		if err != nil {
 			return err

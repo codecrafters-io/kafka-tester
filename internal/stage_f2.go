@@ -60,7 +60,7 @@ func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) erro
 		DecodeFunc: response_decoders.DecodeFetchResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	return err
 }

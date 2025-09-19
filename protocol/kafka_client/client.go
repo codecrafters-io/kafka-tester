@@ -147,7 +147,7 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 		return response, fmt.Errorf("failed to set read deadline: %v", err)
 	}
 
-	_, err = io.ReadFull(c.conn, bodyResponse)
+	n, err := io.ReadFull(c.conn, bodyResponse)
 
 	// Reset the read deadline
 	c.conn.SetReadDeadline(time.Time{})
@@ -156,12 +156,12 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
 			// If the read timed out, return the partial response we have so far
 			// This way we can surface a better error message to help w debugging
-			return response.createFrom(lengthResponse, bodyResponse), nil
+			return response.createFrom(lengthResponse, bodyResponse[:n]), nil
 		}
 		return response, fmt.Errorf("error reading from connection: %v", err)
 	}
 
-	return response.createFrom(lengthResponse, bodyResponse), nil
+	return response.createFrom(lengthResponse, bodyResponse[:n]), nil
 }
 
 func (c *Client) ReceiveRaw() ([]byte, error) {

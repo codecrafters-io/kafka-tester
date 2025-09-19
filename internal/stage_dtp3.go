@@ -85,7 +85,7 @@ func testDTPartitionWithTopicAndSinglePartition(stageHarness *test_case_harness.
 		DecodeFunc: response_decoders.DecodeDescribeTopicPartitionsResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	return err
 }

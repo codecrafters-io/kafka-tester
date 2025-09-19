@@ -58,7 +58,7 @@ func testAPIVersionWithDescribeTopicPartitions(stageHarness *test_case_harness.T
 		DecodeFunc: response_decoders.DecodeApiVersionsResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	return err
 }

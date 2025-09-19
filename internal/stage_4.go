@@ -56,10 +56,11 @@ func testAPIVersionErrorCase(stageHarness *test_case_harness.TestCaseHarness) er
 		ExpectCorrelationId(correlationId).ExpectErrorCode(int16(expectedErrorCode))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ApiVersionsResponse]{
-		DecodeFunc: response_decoders.DecodeApiVersionsResponseUpToErrorCode,
-		Assertion:  assertion,
-		Logger:     stageLogger,
-	}.DecodeAndAssertSingleFields(response.Payload)
+		DecodeFunc:                   response_decoders.DecodeApiVersionsResponseUpToErrorCode,
+		Assertion:                    assertion,
+		Logger:                       stageLogger,
+		IgnoreMessageLengthAssertion: true,
+	}.DecodeAndAssertSingleFields(response)
 
 	if err != nil {
 		return err

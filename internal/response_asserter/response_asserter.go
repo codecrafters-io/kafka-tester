@@ -1,21 +1,36 @@
 package response_asserter
 
 import (
+	"encoding/binary"
+	"errors"
+
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
 	"github.com/codecrafters-io/kafka-tester/internal/field_tree_printer"
 	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
 type ResponseAsserter[ResponseType any] struct {
-	DecodeFunc func(decoder *field_decoder.FieldDecoder) (ResponseType, field_decoder.FieldDecoderError)
-	Assertion  response_assertions.ResponseAssertion[ResponseType]
-	Logger     *logger.Logger
+	DecodeFunc                   func(decoder *field_decoder.FieldDecoder) (ResponseType, field_decoder.FieldDecoderError)
+	Assertion                    response_assertions.ResponseAssertion[ResponseType]
+	Logger                       *logger.Logger
+	IgnoreMessageLengthAssertion bool
 }
 
-func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayload []byte) (ResponseType, error) {
+func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kafka_client.Response) (ResponseType, error) {
+
+	if !a.IgnoreMessageLengthAssertion {
+		if err := a.assertMessageLength(response); err != nil {
+			var zeroValue ResponseType
+			return zeroValue, err
+		}
+	}
+
+	responsePayload := response.Payload
+
 	decoder := field_decoder.NewFieldDecoder(responsePayload)
 	actualResponse, decodeError := a.DecodeFunc(decoder)
 
@@ -72,12 +87,43 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(responsePayl
 	return actualResponse, nil
 }
 
-func (a ResponseAsserter[ResponseType]) DecodeAndAssert(responsePayload []byte) (ResponseType, error) {
-	actualResponse, err := a.DecodeAndAssertSingleFields(responsePayload)
+func (a ResponseAsserter[ResponseType]) DecodeAndAssert(response kafka_client.Response) (ResponseType, error) {
+	actualResponse, err := a.DecodeAndAssertSingleFields(response)
 
 	if err != nil {
 		return actualResponse, err
 	}
 
 	return actualResponse, a.Assertion.AssertAcrossFields(actualResponse, a.Logger)
+}
+
+func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_client.Response) error {
+	messageSize := int32(binary.BigEndian.Uint32(response.RawBytes[0:4]))
+
+	if messageSize == int32(len(response.Payload)) {
+		return nil
+	}
+
+	possiblyIncludesMessageSize := messageSize == int32(len(response.Payload)+4)
+
+	a.Logger.Errorln("❌ Invalid response:")
+	a.Logger.Errorln("The Message Size field does not match the length of the received payload.")
+
+	a.Logger.Errorln("")
+
+	a.Logger.Errorln("🔍 Mismatch:")
+	a.Logger.Errorf(
+		"Message Size field:\t\t%d (Bytes: %02x %02x %02x %02x)",
+		messageSize,
+		response.RawBytes[0], response.RawBytes[1], response.RawBytes[2], response.RawBytes[3],
+	)
+	a.Logger.Errorf("Received payload length:\t%d", len(response.Payload))
+
+	if possiblyIncludesMessageSize {
+		a.Logger.Errorln("")
+		a.Logger.Errorln("💡 Hint:")
+		a.Logger.Errorln("The Message Size field should not count itself.")
+	}
+
+	return errors.New("")
 }

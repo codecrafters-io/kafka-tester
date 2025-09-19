@@ -87,7 +87,7 @@ func testFetchWithUnknownTopicId(stageHarness *test_case_harness.TestCaseHarness
 		DecodeFunc: response_decoders.DecodeFetchResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	return err
 }

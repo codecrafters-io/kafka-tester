@@ -57,7 +57,7 @@ func testAPIVersion(stageHarness *test_case_harness.TestCaseHarness) error {
 		DecodeFunc: response_decoders.DecodeApiVersionsResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	return err
 }
