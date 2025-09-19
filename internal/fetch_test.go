@@ -30,7 +30,7 @@ func TestFetchv16With0Messages(t *testing.T) {
 	assert.Equal(t, 0, int(response.Body.ThrottleTimeMs.Value))
 	assert.Equal(t, 1339416177, int(response.Body.SessionId.Value))
 	assert.Equal(t, 1, len(response.Body.TopicResponses))
-	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Body.TopicResponses[0].UUID)
+	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Body.TopicResponses[0].UUID.Value)
 	assert.Equal(t, 0, len(response.Body.TopicResponses[0].PartitionResponses[0].RecordBatches))
 
 	for _, partition := range response.Body.TopicResponses {
