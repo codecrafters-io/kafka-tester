@@ -2,13 +2,10 @@ package internal
 
 import (
 	"encoding/hex"
-	"fmt"
 	"testing"
 
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_decoder"
-	"github.com/codecrafters-io/kafka-tester/protocol/legacy_kafkaapi"
-	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,38 +17,28 @@ func TestFetchv16With0Messages(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := legacy_decoder.Decoder{}
-	decoder.Init(b)
+	decoder := field_decoder.NewFieldDecoder(b)
+	response, err := response_decoders.DecodeFetchResponse(decoder)
 
-	header := legacy_builder.BuildEmptyResponseHeaderv1()
-
-	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
-	response := legacy_kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
+	assert.Nil(t, err, "Could not decode Fetch Response")
 
 	assert.NoError(t, err)
 
-	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 0, int(response.ErrorCode))
-	assert.Equal(t, 0, int(response.ThrottleTimeMs))
-	assert.Equal(t, 1339416177, int(response.SessionID))
-	assert.Equal(t, 1, len(response.TopicResponses))
-	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.TopicResponses[0].Topic)
-	assert.Equal(t, 0, len(response.TopicResponses[0].PartitionResponses[0].RecordBatches))
+	assert.Equal(t, 11, int(response.Header.CorrelationId.Value))
 
-	for _, partition := range response.TopicResponses {
+	assert.Equal(t, 0, int(response.Body.ErrorCode.Value))
+	assert.Equal(t, 0, int(response.Body.ThrottleTimeMs.Value))
+	assert.Equal(t, 1339416177, int(response.Body.SessionId.Value))
+	assert.Equal(t, 1, len(response.Body.TopicResponses))
+	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Body.TopicResponses[0].UUID)
+	assert.Equal(t, 0, len(response.Body.TopicResponses[0].PartitionResponses[0].RecordBatches))
+
+	for _, partition := range response.Body.TopicResponses {
 		assert.Equal(t, 1, len(partition.PartitionResponses))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].Id.Value))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode.Value))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LastStableOffset.Value))
+		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset.Value))
 		assert.Equal(t, 0, len(partition.PartitionResponses[0].RecordBatches))
 	}
 }
@@ -64,39 +51,30 @@ func TestFetchv16With1Message(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := legacy_decoder.Decoder{}
-	decoder.Init(b)
+	decoder := field_decoder.NewFieldDecoder(b)
+	response, err := response_decoders.DecodeFetchResponse(decoder)
 
-	header := legacy_builder.BuildEmptyResponseHeaderv1()
-
-	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
-	response := legacy_kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
+	assert.Nil(t, err, "Could not decode Fetch Response")
 
 	assert.NoError(t, err)
+
+	assert.Equal(t, 11, int(response.Header.CorrelationId.Value))
+
+	assert.Equal(t, 0, int(response.Body.ErrorCode.Value))
+	assert.Equal(t, 0, int(response.Body.ThrottleTimeMs.Value))
+	assert.Equal(t, 2056797604, int(response.Body.SessionId.Value))
+	assert.Equal(t, 1, len(response.Body.TopicResponses))
+	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.Body.TopicResponses[0].UUID.Value)
+
 	messages := []string{}
 
-	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 0, int(response.ErrorCode))
-	assert.Equal(t, 0, int(response.ThrottleTimeMs))
-	assert.Equal(t, 2056797604, int(response.SessionID))
-	assert.Equal(t, 1, len(response.TopicResponses))
-	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.TopicResponses[0].Topic)
-
-	for _, partition := range response.TopicResponses {
+	for _, partition := range response.Body.TopicResponses {
 		for _, partition := range partition.PartitionResponses {
-			assert.Equal(t, 0, int(partition.ErrorCode))
-			assert.Equal(t, 1, int(partition.LastStableOffset))
-			assert.Equal(t, 0, int(partition.LogStartOffset))
+			assert.Equal(t, 0, int(partition.ErrorCode.Value))
+			assert.Equal(t, 1, int(partition.LastStableOffset.Value))
+			assert.Equal(t, 0, int(partition.LogStartOffset.Value))
 			assert.Equal(t, 1, len(partition.RecordBatches))
-			assert.Equal(t, 0, int(partition.PartitionIndex))
+			assert.Equal(t, 0, int(partition.Id.Value))
 			for _, recordBatch := range partition.RecordBatches {
 				for _, message := range recordBatch.Records {
 					messages = append(messages, string(message.Value))
@@ -116,40 +94,31 @@ func TestFetchv16With2Messages(t *testing.T) {
 		panic(err)
 	}
 
-	messages := []string{}
-	decoder := legacy_decoder.Decoder{}
-	decoder.Init(b)
+	decoder := field_decoder.NewFieldDecoder(b)
+	response, err := response_decoders.DecodeFetchResponse(decoder)
 
-	header := legacy_builder.BuildEmptyResponseHeaderv1()
-
-	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
-	response := legacy_kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
+	assert.Nil(t, err, "Could not decode Fetch Response")
 	assert.NoError(t, err)
 
-	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 1, len(response.TopicResponses))
-	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.TopicResponses[0].Topic)
-	for _, partition := range response.TopicResponses {
-		assert.Equal(t, 1, len(partition.PartitionResponses))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
-		assert.Equal(t, 2, int(partition.PartitionResponses[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
-		assert.Equal(t, 2, len(partition.PartitionResponses[0].RecordBatches))
-		for _, partition := range partition.PartitionResponses {
-			assert.Equal(t, 2, len(partition.RecordBatches))
-			for _, recordBatch := range partition.RecordBatches {
-				for _, message := range recordBatch.Records {
-					messages = append(messages, string(message.Value))
+	messages := []string{}
+
+	assert.Equal(t, 11, int(response.Header.CorrelationId.Value))
+	assert.Equal(t, 1, len(response.Body.TopicResponses))
+	assert.Equal(t, "82e9d296-c412-49f0-bcc9-b03cdcc4888a", response.Body.TopicResponses[0].UUID.Value)
+
+	for _, topicResponse := range response.Body.TopicResponses {
+		assert.Equal(t, 1, len(topicResponse.PartitionResponses))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].Id.Value))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].ErrorCode.Value))
+		assert.Equal(t, 2, int(topicResponse.PartitionResponses[0].LastStableOffset.Value))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].LogStartOffset.Value))
+		assert.Equal(t, 2, len(topicResponse.PartitionResponses[0].RecordBatches))
+
+		for _, partitionResponse := range topicResponse.PartitionResponses {
+			assert.Equal(t, 2, len(partitionResponse.RecordBatches))
+			for _, recordBatch := range partitionResponse.RecordBatches {
+				for _, record := range recordBatch.Records {
+					messages = append(messages, string(record.Value))
 				}
 			}
 		}
@@ -166,40 +135,31 @@ func TestFetchv16With3Messages(t *testing.T) {
 		panic(err)
 	}
 
-	messages := []string{}
-	decoder := legacy_decoder.Decoder{}
-	decoder.Init(b)
+	decoder := field_decoder.NewFieldDecoder(b)
+	response, err := response_decoders.DecodeFetchResponse(decoder)
 
-	header := legacy_builder.BuildEmptyResponseHeaderv1()
-
-	if err = header.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
-	response := legacy_kafkaapi.FetchResponse{Version: 16}
-	if err = response.Decode(&decoder, 16, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
+	assert.Nil(t, err, "Could not decode Fetch Response")
 	assert.NoError(t, err)
 
-	assert.Equal(t, 11, int(header.CorrelationId))
-	assert.Equal(t, 1, len(response.TopicResponses))
-	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.TopicResponses[0].Topic)
-	for _, partition := range response.TopicResponses {
-		assert.Equal(t, 1, len(partition.PartitionResponses))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].PartitionIndex))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].ErrorCode))
-		assert.Equal(t, 3, int(partition.PartitionResponses[0].LastStableOffset))
-		assert.Equal(t, 0, int(partition.PartitionResponses[0].LogStartOffset))
-		assert.Equal(t, 3, len(partition.PartitionResponses[0].RecordBatches))
-		for _, partition := range partition.PartitionResponses {
-			assert.Equal(t, 3, len(partition.RecordBatches))
-			for _, recordBatch := range partition.RecordBatches {
-				for _, message := range recordBatch.Records {
-					messages = append(messages, string(message.Value))
+	messages := []string{}
+
+	assert.Equal(t, 11, int(response.Header.CorrelationId.Value))
+	assert.Equal(t, 1, len(response.Body.TopicResponses))
+	assert.Equal(t, "c2a21ee2-3db7-4b6c-bcc3-2a051cc51fc9", response.Body.TopicResponses[0].UUID.Value)
+
+	for _, topicResponse := range response.Body.TopicResponses {
+		assert.Equal(t, 1, len(topicResponse.PartitionResponses))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].Id.Value))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].ErrorCode.Value))
+		assert.Equal(t, 3, int(topicResponse.PartitionResponses[0].LastStableOffset.Value))
+		assert.Equal(t, 0, int(topicResponse.PartitionResponses[0].LogStartOffset.Value))
+		assert.Equal(t, 3, len(topicResponse.PartitionResponses[0].RecordBatches))
+
+		for _, partitionResponse := range topicResponse.PartitionResponses {
+			assert.Equal(t, 3, len(partitionResponse.RecordBatches))
+			for _, recordBatch := range partitionResponse.RecordBatches {
+				for _, record := range recordBatch.Records {
+					messages = append(messages, string(record.Value))
 				}
 			}
 		}
@@ -216,21 +176,13 @@ func TestAPIVersionv3(t *testing.T) {
 		panic(err)
 	}
 
-	decoder := legacy_decoder.Decoder{}
-	decoder.Init(b)
+	decoder := field_decoder.NewFieldDecoder(b)
+	response, err := response_decoders.DecodeApiVersionsResponse(decoder)
 
-	responseHeader := legacy_builder.BuildEmptyResponseHeaderv0()
-
-	if err := responseHeader.Decode(&decoder, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
-	apiVersionsResponse := legacy_kafkaapi.ApiVersionsResponseBody{Version: 4}
-	if err := apiVersionsResponse.Decode(&decoder, 4, logger.GetQuietLogger(""), 0); err != nil {
-		fmt.Println(decoder.FormatDetailedError(err.Error()))
-		return
-	}
-
+	assert.Nil(t, err, "Could not decode API Versions Response")
 	assert.NoError(t, err)
+
+	// Basic validation that response was decoded successfully
+	assert.NotNil(t, response.Header)
+	assert.NotNil(t, response.Body)
 }
