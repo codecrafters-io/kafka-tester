@@ -2,9 +2,7 @@ package kafka_client
 
 import (
 	"bytes"
-	"encoding/binary"
 	"fmt"
-	"io"
 	"net"
 	"time"
 
@@ -18,37 +16,55 @@ type Response struct {
 	Payload  []byte
 }
 
-func (r *Response) createFrom(lengthResponse []byte, bodyResponse []byte) Response {
-	return Response{
-		RawBytes: append(lengthResponse, bodyResponse...),
-		Payload:  bodyResponse,
+func (r *Response) createFrom(rawBytes []byte) Response {
+	var payload []byte
+
+	if len(rawBytes) > 4 {
+		copy(payload, rawBytes[4:])
 	}
+	return Response{
+		RawBytes: rawBytes,
+		Payload:  payload,
+	}
+}
+
+type KafkaClientCallbacks struct {
+	BeforeMessageSend           func(bytes []byte, apiName string)
+	AfterResponseReceived       func(response Response, apiName string)
+	BeforeConnectAttempt        func(addr string)
+	AfterConnected              func(addr string)
+	AfterConnectRetriesExceeded func(addr string)
 }
 
 // Client represents a single connection to the Kafka broker.
 type Client struct {
-	id   int32
-	addr string
-	conn net.Conn
+	Addr      string
+	Conn      net.Conn
+	Callbacks KafkaClientCallbacks
 }
 
-// NewClient creates and returns a Client targeting the given host:port address.
+// NewFromAddr creates and returns a Client targeting the given host:port address.
 // This does not attempt to actually connect, you have to call Open() for that.
-func NewClient(addr string) *Client {
-	return &Client{id: -1, addr: addr}
+func NewFromAddr(addr string, callbacks KafkaClientCallbacks) *Client {
+	return &Client{
+		Addr:      addr,
+		Callbacks: callbacks,
+	}
 }
 
 func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable, logger *logger.Logger) error {
-	RETRIES := 10
-	logger.Debugf("Connecting to broker at: %s", c.addr)
+	c.Callbacks.BeforeConnectAttempt(c.Addr)
 
+	maxRetries := 10
 	retries := 0
 	var err error
 	var conn net.Conn
+
 	for {
-		conn, err = net.Dial("tcp", c.addr)
-		if err != nil && retries > RETRIES {
-			logger.Infof("All retries failed. Exiting.")
+		conn, err = net.Dial("tcp", c.Addr)
+
+		if err != nil && retries > maxRetries {
+			c.Callbacks.AfterConnectRetriesExceeded(c.Addr)
 			return err
 		}
 
@@ -69,16 +85,17 @@ func (c *Client) ConnectWithRetries(executable *kafka_executable.KafkaExecutable
 			break
 		}
 	}
-	logger.Debugf("Connection to broker at %s successful", c.addr)
-	c.conn = conn
+
+	c.Conn = conn
+	c.Callbacks.AfterConnected(c.Addr)
 
 	return nil
 }
 
 func (c *Client) Close() error {
-	err := c.conn.Close()
+	err := c.Conn.Close()
 	if err != nil {
-		return fmt.Errorf("Failed to close connection to broker at %s: %s", c.addr, err)
+		return fmt.Errorf("Failed to close connection to broker at %s: %s", c.Addr, err)
 	}
 	return nil
 }
@@ -100,19 +117,18 @@ func (c *Client) SendAndReceive(message []byte, apiKey int16, stageLogger *logge
 }
 
 func (c *Client) Send(message []byte, apiName string, stageLogger *logger.Logger) error {
-	stageLogger.Infof("Sending \"%s\" request", apiName)
-	stageLogger.Debugf("Hexdump of sent \"%s\" request: \n%v\n", apiName, utils.GetFormattedHexdump(message))
+	c.Callbacks.BeforeMessageSend(message, apiName)
 
 	// Set a deadline for the write operation
-	err := c.conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
+	err := c.Conn.SetWriteDeadline(time.Now().Add(100 * time.Millisecond))
 	if err != nil {
 		return fmt.Errorf("failed to set write deadline: %v", err)
 	}
 
-	_, err = c.conn.Write(message)
+	_, err = c.Conn.Write(message)
 
 	// Reset the write deadline
-	c.conn.SetWriteDeadline(time.Time{})
+	c.Conn.SetWriteDeadline(time.Time{})
 
 	if err != nil {
 		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
@@ -127,65 +143,35 @@ func (c *Client) Send(message []byte, apiName string, stageLogger *logger.Logger
 
 func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response Response, err error) {
 	defer func() {
+		// Reset connection read deadline
+		c.Conn.SetReadDeadline(time.Time{})
+
+		// If response was successfully received, invoke callback
 		if err == nil {
-			stageLogger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
+			c.Callbacks.AfterResponseReceived(response, apiName)
 		}
 	}()
 
-	lengthResponse := make([]byte, 4) // length
-	_, err = c.conn.Read(lengthResponse)
-	if err != nil {
-		return response, err
-	}
-	length := int32(binary.BigEndian.Uint32(lengthResponse))
+	var allResponse bytes.Buffer
 
-	bodyResponse := make([]byte, length)
+	// Set a time of 100MS for connection deadline
+	err = c.Conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
 
-	// Set a deadline for the read operation
-	err = c.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
-	if err != nil {
-		return response, fmt.Errorf("failed to set read deadline: %v", err)
-	}
+	for {
+		tempBuffer := make([]byte, 4096)
+		n, err := c.Conn.Read(tempBuffer)
 
-	n, err := io.ReadFull(c.conn, bodyResponse)
-
-	// Reset the read deadline
-	c.conn.SetReadDeadline(time.Time{})
-
-	if err != nil {
-		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-			// If the read timed out, return the partial response we have so far
-			// This way we can surface a better error message to help w debugging
-			return response.createFrom(lengthResponse, bodyResponse[:n]), nil
+		if n > 0 {
+			allResponse.Write(tempBuffer[:n])
 		}
-		return response, fmt.Errorf("error reading from connection: %v", err)
-	}
 
-	return response.createFrom(lengthResponse, bodyResponse[:n]), nil
-}
-
-func (c *Client) ReceiveRaw() ([]byte, error) {
-	var buf bytes.Buffer
-
-	// Set a deadline for the read operation
-	err := c.conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
-	if err != nil {
-		return nil, fmt.Errorf("failed to set read deadline: %v", err)
-	}
-
-	// Use a limited reader to prevent reading indefinitely
-	limitedReader := io.LimitReader(c.conn, 1024*1024) // Limit to 1MB, adjust as needed
-	_, err = io.Copy(&buf, limitedReader)
-
-	// Reset the read deadline
-	c.conn.SetReadDeadline(time.Time{})
-
-	if err != nil && err != io.EOF {
-		if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-		} else {
-			return nil, fmt.Errorf("error reading from connection: %v", err)
+		if err != nil {
+			if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
+				// If the read timed out, return the partial response we have so far
+				// This way we can surface a better error message to help w debugging
+				return response.createFrom(allResponse.Bytes()), nil
+			}
+			return response, fmt.Errorf("error reading from connection: %v", err)
 		}
 	}
-
-	return buf.Bytes(), nil
 }
