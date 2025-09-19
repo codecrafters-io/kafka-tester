@@ -29,16 +29,15 @@ func defaultCallbacks(logger *logger.Logger) kafka_client.KafkaClientCallbacks {
 		},
 		AfterResponseReceived: func(response kafka_client.Response, apiName string) {
 			logger.Debugf("Hexdump of received \"%s\" response: \n%v\n", apiName, utils.GetFormattedHexdump(response.RawBytes))
-
 		},
 		BeforeConnectAttempt: func(addr string) {
-			logger.Debugf("Connecting to broker at: %s", addr)
+			logger.Debugf("Connecting to broker at %s", addr)
 		},
 		AfterConnected: func(addr string) {
-			logger.Debugf("Connection to broker at %s successful", addr)
+			logger.Debugf("Successfully connected to broker at %s", addr)
 		},
 		AfterConnectRetriesExceeded: func(addr string) {
-			logger.Infof("All connection retries to %s failed. Exiting.", addr)
+			logger.Infof("All connection retries to broker at %s failed. Exiting.", addr)
 		},
 	}
 }

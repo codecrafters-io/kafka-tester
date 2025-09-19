@@ -20,8 +20,10 @@ func (r *Response) createFrom(rawBytes []byte) Response {
 	var payload []byte
 
 	if len(rawBytes) > 4 {
+		payload = make([]byte, len(rawBytes)-4)
 		copy(payload, rawBytes[4:])
 	}
+
 	return Response{
 		RawBytes: rawBytes,
 		Payload:  payload,

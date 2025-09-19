@@ -3,6 +3,7 @@ package response_asserter
 import (
 	"encoding/binary"
 	"errors"
+	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/internal/field_path"
@@ -98,6 +99,10 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(response kafka_client.Re
 }
 
 func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_client.Response) error {
+	if len(response.RawBytes) < 4 {
+		return fmt.Errorf("Response is not long enough to accomodate message size.")
+	}
+
 	messageSize := int32(binary.BigEndian.Uint32(response.RawBytes[0:4]))
 
 	if messageSize == int32(len(response.Payload)) {
