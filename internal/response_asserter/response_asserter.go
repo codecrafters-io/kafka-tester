@@ -109,8 +109,6 @@ func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_clien
 		return nil
 	}
 
-	possiblyIncludesMessageSize := messageSize == int32(len(response.Payload)+4)
-
 	a.Logger.Errorln("❌ Invalid response:")
 	a.Logger.Errorln("The Message Size field does not match the length of the received payload.")
 
@@ -123,6 +121,8 @@ func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_clien
 		response.RawBytes[0], response.RawBytes[1], response.RawBytes[2], response.RawBytes[3],
 	)
 	a.Logger.Errorf("Received payload length:\t%d", len(response.Payload))
+
+	possiblyIncludesMessageSize := messageSize == int32(len(response.Payload)+4)
 
 	if possiblyIncludesMessageSize {
 		a.Logger.Errorln("")

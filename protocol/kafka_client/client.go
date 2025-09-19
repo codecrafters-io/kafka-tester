@@ -169,8 +169,13 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 
 		if err != nil {
 			if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-				// If the read timed out, return the partial response we have so far
-				// This way we can surface a better error message to help w debugging
+				// Connection deadline has been reached, we have read all the response there is.
+
+				// In tcp stream, we cannot guarantee when all the message will be received.
+				// We could have stopped at reading 'messagelgnth' bytes like the previous approach
+				// But we also need to check for cases where the user's implementation may send extra bytes
+				// So, we wait for 100MS and read everything that's available.
+				// Any errors will be surfaced later by assertions.
 				return response.createFrom(allResponse.Bytes()), nil
 			}
 			return response, fmt.Errorf("error reading from connection: %v", err)
