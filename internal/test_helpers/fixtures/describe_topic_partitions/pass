@@ -13,7 +13,7 @@ Debug = true
 [33m[tester::#YK1] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#YK1] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
 [33m[tester::#YK1] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
-[33m[tester::#YK1] [0m[94mSending "ApiVersions" (version: 4) request (Correlation id: 177586623)[0m
+[33m[tester::#YK1] [0m[94mSending "ApiVersions" request[0m
 [33m[tester::#YK1] [0m[36mHexdump of sent "ApiVersions" request: [0m
 [33m[tester::#YK1] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#YK1] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -335,12 +335,13 @@ Debug = true
 [33m[tester::#VT6] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - Topics[0m
 [33m[tester::#VT6] [Encoder] [0m[36m      - Length (1)[0m
-[33m[tester::#VT6] [Encoder] [0m[36m      - Topic[0][0m
-[33m[tester::#VT6] [Encoder] [0m[36m        - Name (UNKNOWN_TOPIC_92)[0m
+[33m[tester::#VT6] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#VT6] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#VT6] [Encoder] [0m[36m          - Name (UNKNOWN_TOPIC_92)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - ResponsePartitionLimit (1)[0m
 [33m[tester::#VT6] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#VT6] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#VT6] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 2105232020)[0m
+[33m[tester::#VT6] [0m[94mSending "DescribeTopicPartitions" request[0m
 [33m[tester::#VT6] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#VT6] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#VT6] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -398,12 +399,13 @@ Debug = true
 [33m[tester::#EA7] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - Topics[0m
 [33m[tester::#EA7] [Encoder] [0m[36m      - Length (1)[0m
-[33m[tester::#EA7] [Encoder] [0m[36m      - Topic[0][0m
-[33m[tester::#EA7] [Encoder] [0m[36m        - Name (mango)[0m
+[33m[tester::#EA7] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#EA7] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#EA7] [Encoder] [0m[36m          - Name (mango)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - ResponsePartitionLimit (1)[0m
 [33m[tester::#EA7] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#EA7] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#EA7] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1886837589)[0m
+[33m[tester::#EA7] [0m[94mSending "DescribeTopicPartitions" request[0m
 [33m[tester::#EA7] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#EA7] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EA7] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -482,12 +484,13 @@ Debug = true
 [33m[tester::#KU4] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - Topics[0m
 [33m[tester::#KU4] [Encoder] [0m[36m      - Length (1)[0m
-[33m[tester::#KU4] [Encoder] [0m[36m      - Topic[0][0m
-[33m[tester::#KU4] [Encoder] [0m[36m        - Name (apple)[0m
+[33m[tester::#KU4] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#KU4] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#KU4] [Encoder] [0m[36m          - Name (apple)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - ResponsePartitionLimit (2)[0m
 [33m[tester::#KU4] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#KU4] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#KU4] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 32408702)[0m
+[33m[tester::#KU4] [0m[94mSending "DescribeTopicPartitions" request[0m
 [33m[tester::#KU4] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#KU4] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#KU4] [0m[36m-----+-------------------------------------------------+-----------------[0m
@@ -589,14 +592,16 @@ Debug = true
 [33m[tester::#WQ2] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - Topics[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m      - Length (2)[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m      - Topic[0][0m
-[33m[tester::#WQ2] [Encoder] [0m[36m        - Name (banana)[0m
-[33m[tester::#WQ2] [Encoder] [0m[36m      - Topic[1][0m
-[33m[tester::#WQ2] [Encoder] [0m[36m        - Name (raspberry)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#WQ2] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m          - Name (banana)[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m      - Topics[1][0m
+[33m[tester::#WQ2] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#WQ2] [Encoder] [0m[36m          - Name (raspberry)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - ResponsePartitionLimit (3)[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m    - Cursor[0m
 [33m[tester::#WQ2] [Encoder] [0m[36m      - IsCursorPresent (-1)[0m
-[33m[tester::#WQ2] [0m[94mSending "DescribeTopicPartitions" (version: 0) request (Correlation id: 1943775648)[0m
+[33m[tester::#WQ2] [0m[94mSending "DescribeTopicPartitions" request[0m
 [33m[tester::#WQ2] [0m[36mHexdump of sent "DescribeTopicPartitions" request: [0m
 [33m[tester::#WQ2] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WQ2] [0m[36m-----+-------------------------------------------------+-----------------[0m
