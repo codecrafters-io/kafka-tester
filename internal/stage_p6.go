@@ -56,7 +56,7 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 	correlationId := getRandomCorrelationId()
 
 	// Create partition creation data dynamically based on the number of partitions that exist
-	// We do not support creating partitions extension yet. So, re-use existing partitions
+	// We do not support creating partitions in our stages yet.
 	partitionCreationData := generatePartitionRequestWithRandomLogs(numPartitions)
 
 	request := builder.NewProduceRequestBuilder().
