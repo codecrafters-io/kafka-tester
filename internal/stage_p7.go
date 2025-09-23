@@ -103,7 +103,9 @@ func testProduceForMultipleTopics(stageHarness *test_case_harness.TestCaseHarnes
 		Logger:     stageLogger,
 	}.DecodeAndAssert(rawResponse.Payload)
 
-	// TODO: Check the contents of the disk
+	if err != nil {
+		return err
+	}
 
-	return err
+	return assertion.AssertFilesOnDisk(request.Body.Topics, stageLogger)
 }

@@ -1,12 +1,16 @@
 package response_assertions
 
 import (
+	"bytes"
 	"fmt"
+	"os"
 	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
+	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/utils"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -201,4 +205,57 @@ func (a *ProduceResponseAssertion) AssertAcrossFields(response kafkaapi.ProduceR
 	}
 
 	return nil
+}
+
+func (a *ProduceResponseAssertion) AssertFilesOnDisk(topics []kafkaapi.ProduceRequestTopicData, stageLogger *logger.Logger) error {
+	for _, topic := range topics {
+		for _, partition := range topic.Partitions {
+
+			// We support one recordbatch per partition in the stages
+			if len(partition.RecordBatches) != 1 {
+				panic(fmt.Sprintf("Codecrafters Internal Error - Expected exactly one record batch per partition, got %d for topic %s partition %d",
+					len(partition.RecordBatches), topic.Name.Value, partition.Id.Value))
+			}
+
+			recordBatch := partition.RecordBatches[0]
+
+			// Encode the record batch to get the expected byte representation
+			expectedBytes := getRecordBatchBytes(recordBatch)
+
+			// Read the actual log file content
+			logFilePath := fmt.Sprintf("/tmp/kraft-combined-logs/%s-%d/00000000000000000000.log",
+				topic.Name.Value, partition.Id.Value)
+
+			stageLogger.Infof("Checking file contents of the file %s", logFilePath)
+
+			actualBytes, err := os.ReadFile(logFilePath)
+			if err != nil {
+				return fmt.Errorf("failed to read log file %s: %w", logFilePath, err)
+			}
+
+			// Compare the bytes
+			if !bytes.Equal(expectedBytes, actualBytes) {
+				// Print hexdump in case of difference
+				stageLogger.Infof("Expected bytes for topic %s partition %d:\n%s\n",
+					topic.Name.Value, partition.Id.Value, utils.GetFormattedHexdump(expectedBytes))
+				stageLogger.Infof("Actual bytes in log file:\n%s\n",
+					utils.GetFormattedHexdump(actualBytes))
+
+				return fmt.Errorf("log file content mismatch for topic %s partition %d",
+					topic.Name.Value, partition.Id.Value)
+			}
+
+			stageLogger.Successf("✓ Contents of the file %s matches the recordbatch format sent in request", logFilePath)
+
+		}
+	}
+
+	return nil
+}
+
+// getRecordBatchBytes encodes a record batch and returns its byte representation
+func getRecordBatchBytes(recordBatch kafkaapi.RecordBatch) []byte {
+	encoder := encoder.NewEncoder()
+	recordBatch.Encode(encoder)
+	return encoder.Bytes()
 }
