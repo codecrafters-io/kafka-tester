@@ -12,28 +12,27 @@ func TestStages(t *testing.T) {
 	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
-		// "base_stages_pass": {
-		// 	UntilStageSlug:      "pv1",
-		// 	CodePath:            "./test_helpers/pass_all",
-		// 	ExpectedExitCode:    0,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// "base_stage_correlation_id_mismatch": {
-		// 	StageSlugs:          []string{"pv1"},
-		// 	CodePath:            "./test_helpers/scenarios/base/correlation_id_mismatch",
-		// 	ExpectedExitCode:    1,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/correlation_id_mismatch",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// "api_versions_malformed_response": {
-		// 	StageSlugs:          []string{"pv1"},
-		// 	CodePath:            "./test_helpers/scenarios/base/api_versions_malformed_response",
-		// 	ExpectedExitCode:    1,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/api_versions_malformed_response",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// Currently the tester crashes for this case, so commenting it out
+		"base_stages_pass": {
+			UntilStageSlug:      "pv1",
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"base_stage_correlation_id_mismatch": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/correlation_id_mismatch",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/correlation_id_mismatch",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"api_versions_malformed_response": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/api_versions_malformed_response",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/api_versions_malformed_response",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"wrong_array_length": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
@@ -41,34 +40,41 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		// "missing_tag_buffer": {
-		// 	StageSlugs:          []string{"pv1"},
-		// 	CodePath:            "./test_helpers/scenarios/base/missing_tag_buffer",
-		// 	ExpectedExitCode:    1,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/missing_tag_buffer",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// "concurrent_stages_pass": {
-		// 	StageSlugs:          []string{"nh4", "sk0"},
-		// 	CodePath:            "./test_helpers/pass_all",
-		// 	ExpectedExitCode:    0,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// "describe_topic_partitions_pass": {
-		// 	StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
-		// 	CodePath:            "./test_helpers/pass_all",
-		// 	ExpectedExitCode:    0,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
-		// "fetch_pass": {
-		// 	StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4", "eg2", "fd8"},
-		// 	CodePath:            "./test_helpers/pass_all",
-		// 	ExpectedExitCode:    0,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
+		"missing_tag_buffer": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/missing_tag_buffer",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/missing_tag_buffer",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"concurrent_stages_pass": {
+			StageSlugs:          []string{"nh4", "sk0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/concurrent_stages/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"describe_topic_partitions_pass": {
+			StageSlugs:          []string{"yk1", "vt6", "ea7", "ku4", "wq2"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/describe_topic_partitions/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"fetch_pass": {
+			StageSlugs:          []string{"gs0", "dh6", "hn6", "cm4", "eg2", "fd8"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"produce_pass": {
+			StageSlugs:          []string{"xz1", "zf2", "gg1", "ls8", "yd8", "ct4", "ov0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/produce/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)

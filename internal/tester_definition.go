@@ -114,7 +114,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testProduceForMultiplePartitions,
 		},
 		{
-			Slug:     "ow0",
+			Slug:     "ov0",
 			TestFunc: testProduceForMultipleTopics,
 		},
 	},
