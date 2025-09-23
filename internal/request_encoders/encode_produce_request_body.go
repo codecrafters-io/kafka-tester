@@ -1,8 +1,6 @@
 package request_encoders
 
 import (
-	"fmt"
-
 	"github.com/codecrafters-io/kafka-tester/internal/field_encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
@@ -60,16 +58,11 @@ func encodeProduceRequestRecordBatch(recordBatch kafkaapi.RecordBatch, encoder *
 	encoder.WriteInt64Field("ProducerId", recordBatch.ProducerId)
 	encoder.WriteInt16Field("ProducerEpoch", recordBatch.ProducerEpoch)
 	encoder.WriteInt32Field("BaseSequence", recordBatch.BaseSequence)
-	encoder.WriteInt32Field("RecordsLength", value.Int32{Value: int32(len(recordBatch.Records))})
-
-	for i, record := range recordBatch.Records {
-		record.OffsetDelta = value.Varint{Value: int64(i)}
-		encodeProduceRequestRecord(record, encoder)
-	}
+	encodeArray(recordBatch.Records, encoder, "Records", encodeProduceRequestRecord)
 }
 
 func encodeProduceRequestRecord(record kafkaapi.Record, encoder *field_encoder.FieldEncoder) {
-	encoder.PushPathContext(fmt.Sprintf("Record[%d]", record.OffsetDelta.Value))
+	encoder.PushPathContext("Record")
 	defer encoder.PopPathContext()
 
 	record.SetSize()
