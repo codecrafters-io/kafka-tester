@@ -38,7 +38,7 @@ test_fetch_with_kafka: build
 
 test_produce_with_kafka: build
 	CODECRAFTERS_REPOSITORY_DIR=./internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"xz1\",\"tester_log_prefix\":\"stage-P1\",\"title\":\"Stage #P1: API Version with Produce Key\"}, {\"slug\":\"zf2\",\"tester_log_prefix\":\"stage-P2\",\"title\":\"Stage #P2: Produce with Invalid Request\"}, {\"slug\":\"gg1\",\"tester_log_prefix\":\"stage-P3\",\"title\":\"Stage #P3: Produce Response\"}, {\"slug\":\"ls8\",\"tester_log_prefix\":\"stage-P4\",\"title\":\"Stage #P4: Produce Single Record\"}, {\"slug\":\"yd8\",\"tester_log_prefix\":\"stage-P5\",\"title\":\"Stage #P5: Produce Multiple Records\"}, {\"slug\":\"ct4\",\"tester_log_prefix\":\"stage-P6\",\"title\":\"Stage #P6: Produce for Multiple Partitions\"}, {\"slug\":\"ow0\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce for Multiple Topics\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"ow0\",\"tester_log_prefix\":\"stage-P7\",\"title\":\"Stage #P7: Produce for Multiple Topics\"}]" \
 	dist/main.out
 
 test:

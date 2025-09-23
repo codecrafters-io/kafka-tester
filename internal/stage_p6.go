@@ -59,14 +59,14 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 
 	// Create partition creation data dynamically based on the number of partitions that exist
 	// We do not support creating partitions extension yet. So, re-use existing partitions
-	partitionCreationData := generatePartitionRequestWithRandomLogs(numPartitions)
+	partitionRequestData := generatePartitionRequestWithRandomLogs(numPartitions)
 
 	request := builder.NewProduceRequestBuilder().
 		WithCorrelationId(correlationId).
 		WithTopicRequestData([]builder.ProduceRequestTopicData{
 			{
 				TopicName:              topicName,
-				PartitionsCreationData: partitionCreationData,
+				PartitionsCreationData: partitionRequestData,
 			},
 		}).
 		Build()
@@ -81,7 +81,10 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 		return err
 	}
 
-	assertion := response_assertions.NewProduceResponseAssertion()
+	assertion := response_assertions.NewProduceResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectThrottleTimeMs(0).
+		ExpectTopicProperties(response_assertions.GetTopicExpectationData(request.Body.Topics))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ProduceResponse]{
 		DecodeFunc: response_decoders.DecodeProduceResponse,
