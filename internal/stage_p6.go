@@ -19,8 +19,6 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 	stageLogger := stageHarness.Logger
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 
-	// One topic for creating log files and other one for testing in request
-
 	topicName := random.RandomWord()
 
 	// Randomize the number of partitions (2-3)
@@ -58,7 +56,7 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 	correlationId := getRandomCorrelationId()
 
 	// Create partition creation data dynamically based on the number of partitions that exist
-	// We do not support creating partitions extension yet. So, re-use existing partitions
+	// We do not support creating partitions extension yet.
 	partitionRequestData := generatePartitionRequestWithRandomLogs(numPartitions)
 
 	request := builder.NewProduceRequestBuilder().
