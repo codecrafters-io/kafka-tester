@@ -11,6 +11,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 	ExecutableFileName:       "your_program.sh",
 	LegacyExecutableFileName: "your_program.sh",
 	TestCases: []tester_definition.TestCase{
+		// Base stages
 		{
 			Slug:     "vi6",
 			TestFunc: testBindToPort,
@@ -32,6 +33,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "pv1",
 			TestFunc: testAPIVersion,
 		},
+		// Concurrent clients
 		{
 			Slug:     "nh4",
 			TestFunc: testSequentialRequests,
@@ -40,6 +42,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "sk0",
 			TestFunc: testConcurrentRequests,
 		},
+		// DescribeTopicPartitions
 		{
 			Slug:     "yk1",
 			TestFunc: testAPIVersionWithDescribeTopicPartitions,
@@ -60,6 +63,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "wq2",
 			TestFunc: testDTPartitionWithTopics,
 		},
+		// Fetch
 		{
 			Slug:     "gs0",
 			TestFunc: testAPIVersionWithFetchKey,
@@ -83,6 +87,35 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "fd8",
 			TestFunc: testFetchMultipleMessages,
+		},
+		// Produce
+		{
+			Slug:     "xz1",
+			TestFunc: testAPIVersionWithProduceKey,
+		},
+		{
+			Slug:     "zf2",
+			TestFunc: testProduceWithInvalidRequest,
+		},
+		{
+			Slug:     "gg1",
+			TestFunc: testProduceResponse,
+		},
+		{
+			Slug:     "ls8",
+			TestFunc: testProduceSingleRecord,
+		},
+		{
+			Slug:     "yd8",
+			TestFunc: testProduceMultipleRecords,
+		},
+		{
+			Slug:     "ct4",
+			TestFunc: testProduceForMultiplePartitions,
+		},
+		{
+			Slug:     "ow0",
+			TestFunc: testProduceForMultipleTopics,
 		},
 	},
 }

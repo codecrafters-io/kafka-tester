@@ -319,12 +319,12 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	}
 
 	return kafkaapi.Record{
-		Length:         value.Int32{Value: int32(recordLength.Value)},
+		Size:           recordLength,
 		Attributes:     attributes,
 		TimestampDelta: timestampDelta,
 		OffsetDelta:    offsetDelta,
-		Key:            key.Value,
-		Value:          recordValue.Value,
+		Key:            key,
+		Value:          recordValue,
 		Headers:        headers,
 	}, nil
 }

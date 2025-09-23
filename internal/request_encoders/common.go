@@ -32,6 +32,8 @@ func Encode(request kafka_interface.RequestI, logger *logger.Logger) []byte {
 		encodeDescribeTopicPartitionsRequestBody(req.Body, requestEncoder)
 	case kafkaapi.FetchRequest:
 		encodeFetchRequestBody(req.Body, requestEncoder)
+	case kafkaapi.ProduceRequest:
+		encodeProduceRequestBody(req.Body, requestEncoder)
 	default:
 		panic(fmt.Sprintf("Codecrafters Internal Error - Body encoder not implemented for %s request", apiName))
 	}

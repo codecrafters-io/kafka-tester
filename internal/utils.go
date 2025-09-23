@@ -6,6 +6,8 @@ import (
 	"math"
 	"strings"
 
+	"github.com/codecrafters-io/kafka-tester/protocol/builder"
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/google/uuid"
 )
@@ -103,4 +105,27 @@ func getRandomTopicUUIDs(count int) []string {
 
 func getEmptyTopicUUID() string {
 	return "00000000-0000-0000-0000-000000000000"
+}
+
+// generateEmptyPartitionConfigs is used to prepare partitions (directories and metadata) for a given topic
+func generateEmptyPartitionConfigs(numPartitions int) []kafka_files_generator.PartitionGenerationConfig {
+	partitionConfigs := make([]kafka_files_generator.PartitionGenerationConfig, numPartitions)
+	for i := range numPartitions {
+		partitionConfigs[i] = kafka_files_generator.PartitionGenerationConfig{
+			PartitionId: i,
+		}
+	}
+	return partitionConfigs
+}
+
+// generatePartitionRequestWithRandomLogs is used to build partition information about log to be created in Produce request
+func generatePartitionRequestWithRandomLogs(numPartitions int) []builder.ProduceRequestPartitionData {
+	partitionCreationData := make([]builder.ProduceRequestPartitionData, numPartitions)
+	for i := range numPartitions {
+		partitionCreationData[i] = builder.ProduceRequestPartitionData{
+			PartitionId: int32(i),
+			Logs:        random.RandomWords(random.RandomInt(2, 4)),
+		}
+	}
+	return partitionCreationData
 }
