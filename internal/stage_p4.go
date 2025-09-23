@@ -105,8 +105,9 @@ func testProduceSingleRecord(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	// Test by fetching the produced messages for the given topic's partition
+	fetchCorrelationId := getRandomCorrelationId()
 	fetchRequest := builder.NewFetchRequestBuilder().
-		WithCorrelationId(correlationId).
+		WithCorrelationId(fetchCorrelationId).
 		WithTopicUUID(topicUUID).
 		WithPartitionID(int32(partitionId)).
 		Build()
@@ -122,7 +123,7 @@ func testProduceSingleRecord(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	fetchAssertion := response_assertions.NewFetchResponseAssertion().
-		ExpectCorrelationId(correlationId).
+		ExpectCorrelationId(fetchCorrelationId).
 		ExpectErrorCodeInBody(0).
 		ExpectTopicUUID(topicUUID).
 		ExpectPartitionID(int32(partitionId)).

@@ -88,8 +88,9 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
+	fetchCorrelationId := getRandomCorrelationId()
 	fetchRequest := builder.NewFetchRequestBuilder().
-		WithCorrelationId(correlationId).
+		WithCorrelationId(fetchCorrelationId).
 		WithTopicUUID(topicUUID).
 		WithPartitionID(int32(partitionId)).
 		Build()
@@ -105,7 +106,7 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 	}
 
 	fetchAssertion := response_assertions.NewFetchResponseAssertion().
-		ExpectCorrelationId(correlationId).
+		ExpectCorrelationId(fetchCorrelationId).
 		ExpectErrorCodeInBody(0).
 		ExpectTopicUUID(topicUUID).
 		ExpectPartitionID(int32(partitionId)).
