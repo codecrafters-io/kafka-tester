@@ -56,7 +56,7 @@ Debug = true
 [33m[tester::#XZ1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
 [33m[tester::#XZ1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
 [33m[tester::#XZ1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#XZ1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#XZ1] [0m[36m0200 | 00 00 00 08 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
 [33m[tester::#XZ1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
 [33m[tester::#XZ1] [0m[36m[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m- ApiVersionsResponse[0m
@@ -359,7 +359,7 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m            - RecordsLength (1)[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -452,7 +452,7 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m            - RecordsLength (1)[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - Size (10)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -552,7 +552,7 @@ Debug = true
 [33m[tester::#GG1] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m            - RecordsLength (1)[0m
-[33m[tester::#GG1] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#GG1] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#GG1] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -652,7 +652,7 @@ Debug = true
 [33m[tester::#LS8] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m            - RecordsLength (1)[0m
-[33m[tester::#LS8] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#LS8] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#LS8] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -760,8 +760,8 @@ Debug = true
 [33m[tester::#LS8] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#LS8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#LS8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#LS8] [0m[36m0000 | 00 00 00 91 0e 29 0c c6 00 00 00 00 00 00 00 06 | .....)..........[0m
-[33m[tester::#LS8] [0m[36m0010 | a4 9c ac 02 71 a5 9a 51 89 68 4f 8b 93 7e 49 37 | ....q..Q.hO..~I7[0m
+[33m[tester::#LS8] [0m[36m0000 | 00 00 00 91 0e 29 0c c6 00 00 00 00 00 00 00 0f | .....)..........[0m
+[33m[tester::#LS8] [0m[36m0010 | 2e 58 e4 02 71 a5 9a 51 89 68 4f 8b 93 7e 49 37 | .X..q..Q.hO..~I7[0m
 [33m[tester::#LS8] [0m[36m0020 | 9a 7e 97 cc 02 00 00 00 00 00 00 00 00 00 00 00 | .~..............[0m
 [33m[tester::#LS8] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
 [33m[tester::#LS8] [0m[36m0040 | 00 00 00 00 ff ff ff ff 4a 00 00 00 00 00 00 00 | ........J.......[0m
@@ -777,7 +777,7 @@ Debug = true
 [33m[tester::#LS8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#LS8] [Decoder] [0m[36m    - SessionID (111451308)[0m
+[33m[tester::#LS8] [Decoder] [0m[36m    - SessionID (254695652)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#LS8] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m      - Topics[0][0m
@@ -866,7 +866,7 @@ Debug = true
 [33m[tester::#YD8] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m            - RecordsLength (3)[0m
-[33m[tester::#YD8] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#YD8] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Size (16)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -875,6 +875,7 @@ Debug = true
 [33m[tester::#YD8] [Encoder] [0m[36m              - ValueLength (10)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Value ([115 116 114 97 119 98 101 114 114 121] -> UTF-8: (strawberry))[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#YD8] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Size (10)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -883,6 +884,7 @@ Debug = true
 [33m[tester::#YD8] [Encoder] [0m[36m              - ValueLength (4)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Value ([112 101 97 114] -> UTF-8: (pear))[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#YD8] [Encoder] [0m[36m            - Record[2][0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -993,7 +995,7 @@ Debug = true
 [33m[tester::#YD8] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#YD8] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#YD8] [0m[36m0000 | 00 00 00 ad 59 62 f4 ae 00 00 00 00 00 00 00 0e | ....Yb..........[0m
-[33m[tester::#YD8] [0m[36m0010 | 5a 0c 0f 02 71 a5 9a 51 89 68 4f 8b 93 7e 9c 9b | Z...q..Q.hO..~..[0m
+[33m[tester::#YD8] [0m[36m0010 | 2b 76 b6 02 71 a5 9a 51 89 68 4f 8b 93 7e 9c 9b | +v..q..Q.hO..~..[0m
 [33m[tester::#YD8] [0m[36m0020 | 1a 62 c5 c5 02 00 00 00 00 00 00 00 00 00 00 00 | .b..............[0m
 [33m[tester::#YD8] [0m[36m0030 | 00 00 03 00 00 00 00 00 00 00 03 00 00 00 00 00 | ................[0m
 [33m[tester::#YD8] [0m[36m0040 | 00 00 00 00 ff ff ff ff 66 00 00 00 00 00 00 00 | ........f.......[0m
@@ -1011,7 +1013,7 @@ Debug = true
 [33m[tester::#YD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#YD8] [Decoder] [0m[36m    - SessionID (240782351)[0m
+[33m[tester::#YD8] [Decoder] [0m[36m    - SessionID (237729462)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#YD8] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m      - Topics[0][0m
@@ -1120,7 +1122,7 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m            - RecordsLength (2)[0m
-[33m[tester::#CT4] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#CT4] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Size (15)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1129,6 +1131,7 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m              - ValueLength (9)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Value ([114 97 115 112 98 101 114 114 121] -> UTF-8: (raspberry))[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#CT4] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Size (15)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1154,7 +1157,7 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m            - RecordsLength (2)[0m
-[33m[tester::#CT4] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#CT4] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Size (12)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1163,6 +1166,7 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m              - ValueLength (6)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Value ([111 114 97 110 103 101] -> UTF-8: (orange))[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#CT4] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Size (15)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1289,7 +1293,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - RecordsLength (3)[0m
-[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1298,6 +1302,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m              - ValueLength (5)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Value ([109 97 110 103 111] -> UTF-8: (mango))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (12)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1306,6 +1311,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m              - ValueLength (6)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Value ([98 97 110 97 110 97] -> UTF-8: (banana))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[2][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1335,7 +1341,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - RecordsLength (2)[0m
-[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (16)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1344,6 +1350,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m              - ValueLength (10)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Value ([115 116 114 97 119 98 101 114 114 121] -> UTF-8: (strawberry))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (10)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1369,7 +1376,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m            - ProducerEpoch (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - BaseSequence (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m            - RecordsLength (2)[0m
-[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (15)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
@@ -1378,6 +1385,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m              - ValueLength (9)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Value ([114 97 115 112 98 101 114 114 121] -> UTF-8: (raspberry))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - HeadersLength (0)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m            - Record[1][0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Size (11)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - Attributes (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m              - TimestampDelta (0)[0m
