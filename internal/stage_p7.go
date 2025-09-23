@@ -107,5 +107,5 @@ func testProduceForMultipleTopics(stageHarness *test_case_harness.TestCaseHarnes
 		return err
 	}
 
-	return assertion.AssertFilesOnDisk(request.Body.Topics, stageLogger)
+	return assertion.AssertLogFilesOnDisk(request.Body.Topics, stageLogger)
 }

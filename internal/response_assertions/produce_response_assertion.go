@@ -207,7 +207,7 @@ func (a *ProduceResponseAssertion) AssertAcrossFields(response kafkaapi.ProduceR
 	return nil
 }
 
-func (a *ProduceResponseAssertion) AssertFilesOnDisk(topics []kafkaapi.ProduceRequestTopicData, stageLogger *logger.Logger) error {
+func (a *ProduceResponseAssertion) AssertLogFilesOnDisk(topics []kafkaapi.ProduceRequestTopicData, stageLogger *logger.Logger) error {
 	for _, topic := range topics {
 		for _, partition := range topic.Partitions {
 

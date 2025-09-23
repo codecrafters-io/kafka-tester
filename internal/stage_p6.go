@@ -96,5 +96,5 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 		return err
 	}
 
-	return assertion.AssertFilesOnDisk(request.Body.Topics, stageLogger)
+	return assertion.AssertLogFilesOnDisk(request.Body.Topics, stageLogger)
 }
