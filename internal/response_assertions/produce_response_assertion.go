@@ -18,7 +18,7 @@ type ProduceResponsePartitionData struct {
 	LogStartOffset  int64
 }
 
-// GetTopicExpectationData returns what to expect from a response given produce request body
+// GetTopicExpectationData returns what to expect from a response given produce request body's topics information
 func GetTopicExpectationData(topics []kafkaapi.ProduceRequestTopicData) []ProduceResponseTopicData {
 	expectedTopicsData := []ProduceResponseTopicData{}
 
