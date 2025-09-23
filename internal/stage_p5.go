@@ -54,17 +54,7 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 
 	request := builder.NewProduceRequestBuilder().
 		WithCorrelationId(correlationId).
-		WithTopicRequestData([]builder.ProduceRequestTopicData{
-			{
-				TopicName: topicName,
-				PartitionsCreationData: []builder.ProduceRequestPartitionData{
-					{
-						PartitionId: 0,
-						Logs:        random.RandomWords(random.RandomInt(2, 4)),
-					},
-				},
-			},
-		}).
+		WithTopicRequestData(builder.GetProduceRequestTopicData(files_handler.GetGeneratedLogDirectoryData())).
 		Build()
 
 	rawResponse, err := client.SendAndReceive(
@@ -77,7 +67,10 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	assertion := response_assertions.NewProduceResponseAssertion()
+	assertion := response_assertions.NewProduceResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectThrottleTimeMs(0).
+		ExpectTopicProperties(response_assertions.GetTopicExpectationData(request.Body.Topics))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ProduceResponse]{
 		DecodeFunc: response_decoders.DecodeProduceResponse,

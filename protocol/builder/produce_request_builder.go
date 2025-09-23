@@ -1,9 +1,39 @@
 package builder
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
+	"github.com/codecrafters-io/tester-utils/random"
 )
+
+// GetProduceRequestTopicData builds TopicData for Produce request based on the topics and partitions created so far
+// The produce request will issue 2-3 logs per partition of each topic while building the request
+func GetProduceRequestTopicData(generatedLogDirectoryData *kafka_files_generator.GeneratedLogDirectoryData) []ProduceRequestTopicData {
+	// for each topic and each partition
+	// generate 2-3 logs
+	topicData := []ProduceRequestTopicData{}
+
+	for _, topic := range generatedLogDirectoryData.GeneratedTopicsData {
+
+		partitionData := []ProduceRequestPartitionData{}
+
+		// generate partition data for each partitions inside the topic
+		for _, partition := range topic.GeneratedRecordBatchesByPartition {
+			partitionData = append(partitionData, ProduceRequestPartitionData{
+				PartitionId: int32(partition.PartitionId),
+				Logs:        random.RandomWords(random.RandomInt(2, 4)),
+			})
+		}
+
+		topicData = append(topicData, ProduceRequestTopicData{
+			TopicName:              topic.Name,
+			PartitionsCreationData: partitionData,
+		})
+	}
+
+	return topicData
+}
 
 type ProduceRequestPartitionData struct {
 	PartitionId int32

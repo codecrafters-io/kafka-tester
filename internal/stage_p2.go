@@ -93,7 +93,24 @@ func testProduceWithTopicAndPartitionId(client *kafka_client.Client, stageLogger
 		return err
 	}
 
-	assertion := response_assertions.NewProduceResponseAssertion()
+	assertion := response_assertions.NewProduceResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectThrottleTimeMs(0).
+		ExpectTopicProperties([]response_assertions.ProduceResponseTopicData{
+			{
+				Name: topicName,
+				Partitions: []response_assertions.ProduceResponsePartitionData{
+					{
+						Id: partitionId,
+						// Error code for (UNKNOWN_TOPIC_OR_PARTITION)
+						ErrorCode:       3,
+						BaseOffset:      -1,
+						LogAppendTimeMs: -1,
+						LogStartOffset:  -1,
+					},
+				},
+			},
+		})
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ProduceResponse]{
 		DecodeFunc: response_decoders.DecodeProduceResponse,
