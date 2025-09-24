@@ -19,6 +19,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"base_stage_zero_message_length_pass": {
+			StageSlugs:          []string{"nv3"},
+			CodePath:            "./test_helpers/scenarios/base/zero_message_length_nv3",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/zero_message_length_nv3",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"base_stage_correlation_id_mismatch": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/correlation_id_mismatch",

@@ -3,6 +3,7 @@ package kafka_client
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net"
 	"time"
 
@@ -154,7 +155,17 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 		}
 	}()
 
-	var allResponse bytes.Buffer
+	var entireMessage bytes.Buffer
+
+	// We wait for the initial bytes outside of the loop because in some stages, Kafka is not guaranteed to send response within the
+	// usual deadline used below (100MS)
+	lengthResponse := make([]byte, 4)
+	_, err = c.Conn.Read(lengthResponse)
+	if err != nil {
+		return response, err
+	}
+
+	entireMessage.Write(lengthResponse)
 
 	// Set a time of 100MS for connection deadline
 	err = c.Conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
@@ -164,19 +175,24 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 		n, err := c.Conn.Read(tempBuffer)
 
 		if n > 0 {
-			allResponse.Write(tempBuffer[:n])
+			entireMessage.Write(tempBuffer[:n])
 		}
 
 		if err != nil {
+			// All message has been read
+			if err == io.EOF {
+				return response.createFrom(entireMessage.Bytes()), nil
+			}
+
+			// Connection deadline has been reached, we have read all the response there is.
 			if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-				// Connection deadline has been reached, we have read all the response there is.
 
 				// In tcp stream, we cannot guarantee when all the message will be received.
 				// We could have stopped at reading 'messagelgnth' bytes like the previous approach
 				// But we also need to check for cases where the user's implementation may send extra bytes
 				// So, we wait for 100MS and read everything that's available.
 				// Any errors will be surfaced later by assertions.
-				return response.createFrom(allResponse.Bytes()), nil
+				return response.createFrom(entireMessage.Bytes()), nil
 			}
 			return response, fmt.Errorf("error reading from connection: %v", err)
 		}
