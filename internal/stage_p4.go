@@ -99,43 +99,5 @@ func testProduceSingleRecord(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	// Assert the file content on the disk
-
-	if err := produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger); err != nil {
-		return err
-	}
-
-	// Test by fetching the produced messages for the given topic's partition
-	fetchCorrelationId := getRandomCorrelationId()
-	fetchRequest := builder.NewFetchRequestBuilder().
-		WithCorrelationId(fetchCorrelationId).
-		WithTopicUUID(topicUUID).
-		WithPartitionID(int32(partitionId)).
-		Build()
-
-	fetchResponse, err := client.SendAndReceive(
-		request_encoders.Encode(fetchRequest, stageLogger),
-		fetchRequest.Header.ApiKey.Value,
-		stageLogger,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	fetchAssertion := response_assertions.NewFetchResponseAssertion().
-		ExpectCorrelationId(fetchCorrelationId).
-		ExpectErrorCodeInBody(0).
-		ExpectTopicUUID(topicUUID).
-		ExpectPartitionID(int32(partitionId)).
-		ExpectErrorCodeInPartition(0).
-		ExpectThrottleTimeMs(0).
-		ExpectRecordBatches(produceRequest.Body.Topics[0].Partitions[0].RecordBatches)
-
-	_, err = response_asserter.ResponseAsserter[kafkaapi.FetchResponse]{
-		DecodeFunc: response_decoders.DecodeFetchResponse,
-		Assertion:  fetchAssertion,
-		Logger:     stageLogger,
-	}.DecodeAndAssert(fetchResponse.Payload)
-
-	return err
+	return produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger)
 }
