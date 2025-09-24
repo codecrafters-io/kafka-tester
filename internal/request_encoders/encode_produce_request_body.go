@@ -58,12 +58,7 @@ func encodeProduceRequestRecordBatch(recordBatch kafkaapi.RecordBatch, encoder *
 	encoder.WriteInt64Field("ProducerId", recordBatch.ProducerId)
 	encoder.WriteInt16Field("ProducerEpoch", recordBatch.ProducerEpoch)
 	encoder.WriteInt32Field("BaseSequence", recordBatch.BaseSequence)
-	encoder.WriteInt32Field("RecordsLength", value.Int32{Value: int32(len(recordBatch.Records))})
-
-	for i, record := range recordBatch.Records {
-		record.OffsetDelta = value.Varint{Value: int64(i)}
-		encodeProduceRequestRecord(record, encoder)
-	}
+	encodeArray(recordBatch.Records, encoder, "Records", encodeProduceRequestRecord)
 }
 
 func encodeProduceRequestRecord(record kafkaapi.Record, encoder *field_encoder.FieldEncoder) {

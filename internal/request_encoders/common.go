@@ -77,3 +77,16 @@ func encodeCompactArray[T any](array []T, encoder *field_encoder.FieldEncoder, p
 		encoder.PopPathContext()
 	}
 }
+
+func encodeArray[T any](array []T, encoder *field_encoder.FieldEncoder, path string, encodeFunc func(T, *field_encoder.FieldEncoder)) {
+	encoder.PushPathContext(path)
+	defer encoder.PopPathContext()
+
+	encoder.WriteInt32Field("Length", value.Int32{Value: int32(len(array))})
+
+	for i, element := range array {
+		encoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))
+		encodeFunc(element, encoder)
+		encoder.PopPathContext()
+	}
+}

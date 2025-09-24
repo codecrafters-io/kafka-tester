@@ -33,14 +33,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/api_versions_malformed_response",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		// Currently the tester crashes for this case, so commenting it out
-		// "wrong_array_length": {
-		// 	StageSlugs:          []string{"pv1"},
-		// 	CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
-		// 	ExpectedExitCode:    1,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
+		"wrong_array_length": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"missing_tag_buffer": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/missing_tag_buffer",
@@ -67,6 +66,13 @@ func TestStages(t *testing.T) {
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"produce_pass": {
+			StageSlugs:          []string{"xz1", "zf2", "gg1", "ls8", "yd8", "ct4", "ov0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/produce/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}

@@ -118,7 +118,9 @@ func generateEmptyPartitionConfigs(numPartitions int) []kafka_files_generator.Pa
 	return partitionConfigs
 }
 
-// generatePartitionRequestWithRandomLogs is used to build partition information about log to be created in Produce request
+// generatePartitionRequestWithRandomLogs generates partition data for a Produce request
+// with random log messages. It creates ProduceRequestPartitionData for the specified
+// number of partitions, each containing 2-4 random log messages.
 func generatePartitionRequestWithRandomLogs(numPartitions int) []builder.ProduceRequestPartitionData {
 	partitionCreationData := make([]builder.ProduceRequestPartitionData, numPartitions)
 	for i := range numPartitions {
