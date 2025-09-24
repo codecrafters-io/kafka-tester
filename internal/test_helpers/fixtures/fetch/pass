@@ -357,7 +357,7 @@ Debug = true
 [33m[tester::#DH6] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#DH6] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#DH6] [client] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 02 | ....`Z..........[0m
-[33m[tester::#DH6] [client] [0m[36m0010 | e9 9f 03 01 00                                  | .....[0m
+[33m[tester::#DH6] [client] [0m[36m0010 | 83 fc c7 01 00                                  | .....[0m
 [33m[tester::#DH6] [client] [0m[36m[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- FetchResponse[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - Header[0m
@@ -365,7 +365,7 @@ Debug = true
 [33m[tester::#DH6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (48865027)[0m
+[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (42204359)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#DH6] [Decoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
 [33m[tester::#DH6] [0m[92m✓ TopicResponses Length: 0[0m
@@ -423,8 +423,8 @@ Debug = true
 [33m[tester::#HN6] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#HN6] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#HN6] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#HN6] [client] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 08 | ...Hv..X........[0m
-[33m[tester::#HN6] [client] [0m[36m0010 | 21 c6 b1 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | !...q..Q.hO..~..[0m
+[33m[tester::#HN6] [client] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 07 | ...Hv..X........[0m
+[33m[tester::#HN6] [client] [0m[36m0010 | 47 7a 93 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | Gz..q..Q.hO..~..[0m
 [33m[tester::#HN6] [client] [0m[36m0020 | 00 00 04 79 02 00 00 00 00 00 64 ff ff ff ff ff | ...y......d.....[0m
 [33m[tester::#HN6] [client] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
 [33m[tester::#HN6] [client] [0m[36m0040 | ff ff ff 01 ff ff ff ff 01 00 00 00             | ............[0m
@@ -435,7 +435,7 @@ Debug = true
 [33m[tester::#HN6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (136431281)[0m
+[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (122124947)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Topics[0][0m
@@ -512,8 +512,8 @@ Debug = true
 [33m[tester::#CM4] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#CM4] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#CM4] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CM4] [client] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 05 | ...H\...........[0m
-[33m[tester::#CM4] [client] [0m[36m0010 | 68 63 88 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | hc..q..Q.hO..~q.[0m
+[33m[tester::#CM4] [client] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 07 | ...H\...........[0m
+[33m[tester::#CM4] [client] [0m[36m0010 | 4f cc 70 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | O.p.q..Q.hO..~q.[0m
 [33m[tester::#CM4] [client] [0m[36m0020 | 75 85 a6 2d 02 00 00 00 00 00 00 00 00 00 00 00 | u..-............[0m
 [33m[tester::#CM4] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#CM4] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 01 00 00 00             | ............[0m
@@ -524,7 +524,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (90727304)[0m
+[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (122670192)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Topics[0][0m
@@ -601,8 +601,8 @@ Debug = true
 [33m[tester::#EG2] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#EG2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EG2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#EG2] [client] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 02 | ....../7........[0m
-[33m[tester::#EG2] [client] [0m[36m0010 | 8d aa 57 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | ..W.q..Q.hO..~..[0m
+[33m[tester::#EG2] [client] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 03 | ....../7........[0m
+[33m[tester::#EG2] [client] [0m[36m0010 | 47 f1 73 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | G.s.q..Q.hO..~..[0m
 [33m[tester::#EG2] [client] [0m[36m0020 | 35 0e 60 ec 02 00 00 00 00 00 00 00 00 00 00 00 | 5.`.............[0m
 [33m[tester::#EG2] [client] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
 [33m[tester::#EG2] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 4e 00 00 00 00 00 00 00 | ........N.......[0m
@@ -618,7 +618,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (42838615)[0m
+[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (55046515)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Topics[0][0m
@@ -721,8 +721,8 @@ Debug = true
 [33m[tester::#FD8] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#FD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#FD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 0d | .....e~0........[0m
-[33m[tester::#FD8] [client] [0m[36m0010 | e9 af dd 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | ....q..Q.hO..~..[0m
+[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 03 | .....e~0........[0m
+[33m[tester::#FD8] [client] [0m[36m0010 | 51 44 17 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | QD..q..Q.hO..~..[0m
 [33m[tester::#FD8] [client] [0m[36m0020 | c9 b1 a6 2c 02 00 00 00 00 00 00 00 00 00 00 00 | ...,............[0m
 [33m[tester::#FD8] [client] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
 [33m[tester::#FD8] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 9b 01 00 00 00 00 00 00 | ................[0m
@@ -743,7 +743,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (233418717)[0m
+[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (55657495)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Length (1)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Topics[0][0m

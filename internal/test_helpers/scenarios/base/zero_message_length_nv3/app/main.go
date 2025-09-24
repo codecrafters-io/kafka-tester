@@ -36,8 +36,6 @@ func main() {
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
 
-	fmt.Println("Client connected")
-
 	// Read the incoming request (we don't need to parse it for this stage)
 	buffer := make([]byte, 1024)
 	_, err := conn.Read(buffer)
