@@ -10,7 +10,7 @@ import (
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/kafka-tester/protocol/utils"
+	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -235,11 +235,13 @@ func (a *ProduceResponseAssertion) AssertFilesOnDisk(topics []kafkaapi.ProduceRe
 
 			// Compare the bytes
 			if !bytes.Equal(expectedBytes, actualBytes) {
-				// Print hexdump in case of difference
-				stageLogger.Infof("Expected bytes for topic %s partition %d:\n%s\n",
-					topic.Name.Value, partition.Id.Value, utils.GetFormattedHexdump(expectedBytes))
-				stageLogger.Infof("Actual bytes in log file:\n%s\n",
-					utils.GetFormattedHexdump(actualBytes))
+				// Use bytes diff visualizer to show the difference
+				result := bytes_diff_visualizer.VisualizeByteDiff(expectedBytes, actualBytes)
+				stageLogger.Errorf("")
+				for _, line := range result {
+					stageLogger.Errorf("%s", line)
+				}
+				stageLogger.Errorf("")
 
 				return fmt.Errorf("log file content mismatch for topic %s partition %d",
 					topic.Name.Value, partition.Id.Value)
