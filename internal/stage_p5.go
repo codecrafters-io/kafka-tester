@@ -78,9 +78,15 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		Logger:     stageLogger,
 	}.DecodeAndAssert(rawResponse.Payload)
 
-	// TODO: Check the contents of the disk
+	if err != nil {
+		return err
+	}
+
+	if err := assertion.AssertFilesOnDisk(request.Body.Topics, stageLogger); err != nil {
+		return err
+	}
 
 	// TODO: Verify fetch response
 
-	return err
+	return nil
 }

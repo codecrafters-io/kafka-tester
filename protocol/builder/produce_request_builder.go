@@ -92,7 +92,7 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
 				RecordBatches: []kafkaapi.RecordBatch{
 					{
 						BaseOffset:           value.Int64{Value: 0},
-						PartitionLeaderEpoch: value.Int32{Value: 0},
+						PartitionLeaderEpoch: value.Int32{Value: 2},
 						Magic:                value.Int8{Value: 2},
 						Attributes:           value.Int16{Value: 0},
 						LastOffsetDelta:      value.Int32{Value: int32(len(records) - 1)},
