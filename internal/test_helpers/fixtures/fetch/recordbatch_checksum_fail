@@ -23,12 +23,12 @@ Debug = true
 [33m[tester::#FD8] [Encoder] [0m[36m    - SessionID (0)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m    - SessionEpoch (0)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m    - Topics[0m
-[33m[tester::#FD8] [Encoder] [0m[36m      - Length (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#FD8] [Encoder] [0m[36m      - Topics[0][0m
 [33m[tester::#FD8] [Encoder] [0m[36m        - Topic[0m
 [33m[tester::#FD8] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-36d1d292864e)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m          - Partitions[0m
-[33m[tester::#FD8] [Encoder] [0m[36m            - Length (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m            - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#FD8] [Encoder] [0m[36m            - Partitions[0][0m
 [33m[tester::#FD8] [Encoder] [0m[36m              - Partition[0m
 [33m[tester::#FD8] [Encoder] [0m[36m                - ID (0)[0m
@@ -38,8 +38,8 @@ Debug = true
 [33m[tester::#FD8] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
 [33m[tester::#FD8] [Encoder] [0m[36m    - ForgottenTopics[0m
-[33m[tester::#FD8] [Encoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
-[33m[tester::#FD8] [Encoder] [0m[36m    - RackID ()[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (1 (Array length(0) + 1))[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - RackID ("")[0m
 [33m[tester::#FD8] [client] [0m[94mSending "Fetch" request[0m
 [33m[tester::#FD8] [client] [0m[36mHexdump of sent "Fetch" request: [0m
 [33m[tester::#FD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
@@ -79,11 +79,11 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[94m    - ErrorCode (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m    - SessionID (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m    - Topics[0m
-[33m[tester::#FD8] [Decoder] [0m[94m      - Length (1)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#FD8] [Decoder] [0m[94m      - Topics[0][0m
 [33m[tester::#FD8] [Decoder] [0m[94m        - UUID (71a59a51-8968-4f8b-937e-36d1d292864e)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m        - Partitions[0m
-[33m[tester::#FD8] [Decoder] [0m[94m          - Length (1)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#FD8] [Decoder] [0m[94m          - Partitions[0][0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - Id (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - ErrorCode (0)[0m
@@ -91,16 +91,16 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[94m            - LastStableOffset (2)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - LogStartOffset (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - AbortedTransactions[0m
-[33m[tester::#FD8] [Decoder] [0m[94m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#FD8] [Decoder] [0m[94m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - PreferredReadReplica (-1)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m            - RecordBatches[0m
-[33m[tester::#FD8] [Decoder] [0m[94m              - Size (150)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m              - Size (151 (Record size(150) + 1))[0m
 [33m[tester::#FD8] [Decoder] [0m[94m              - RecordBatches[0][0m
 [33m[tester::#FD8] [Decoder] [0m[94m                - Offset (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m                - Length (65)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m                - PartitionLeaderEpoch (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[94m                - MagicByte (2)[0m
-[33m[tester::#FD8] [Decoder] [0m[94m                ❌ CRC (decode error)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m                ❌ CRC (818561181)[0m
 [33m[tester::#FD8] [0m[91mReceived bytes:[0m
 [33m[tester::#FD8] [0m[91mHex (bytes 82-97)                               | ASCII[0m
 [33m[tester::#FD8] [0m[91m------------------------------------------------+------------------[0m
