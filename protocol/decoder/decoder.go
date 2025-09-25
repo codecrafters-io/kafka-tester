@@ -303,3 +303,15 @@ func (d *Decoder) WrapError(err error) DecoderError {
 		offset:  int(d.buffer.Offset()),
 	}
 }
+
+func (d *Decoder) WrapErrorAtOffset(err error, offset uint64) DecoderError {
+	// If we've already wrapped the error, preserve the nested path
+	if decoderError, ok := err.(*decoderErrorImpl); ok {
+		return decoderError
+	}
+
+	return &decoderErrorImpl{
+		message: err.Error(),
+		offset:  int(offset),
+	}
+}

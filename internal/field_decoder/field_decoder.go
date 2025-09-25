@@ -294,3 +294,20 @@ func (d *FieldDecoder) WrapError(err error) FieldDecoderError {
 
 	return d.WrapError(d.decoder.WrapError(err))
 }
+
+func (d *FieldDecoder) WrapErrorAtOffset(err error, offset uint64) FieldDecoderError {
+	// If we've already wrapped the error, preserve the nested path
+	if fieldDecoderError, ok := err.(*fieldDecoderErrorImpl); ok {
+		return fieldDecoderError
+	}
+
+	if decoderError, ok := err.(decoder.DecoderError); ok {
+		return &fieldDecoderErrorImpl{
+			message: err.Error(),
+			offset:  decoderError.Offset(),
+			path:    d.currentPath(),
+		}
+	}
+
+	return d.WrapError(d.decoder.WrapErrorAtOffset(err, offset))
+}
