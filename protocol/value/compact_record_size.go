@@ -9,11 +9,12 @@ type CompactRecordSize struct {
 func (v CompactRecordSize) String() string {
 	switch v.Value {
 	case 0:
-		return "0 (NULL RECORD)"
+		return "0 (Null record)"
 	case 1:
-		return "0 (EMPTY RECORD)"
+		// Actual size is still 0
+		return "1 (Record size(0) + 1)"
 	}
-	return fmt.Sprintf("%d", v.ActualSize())
+	return fmt.Sprintf("%d (Record size(%d) + 1)", v.Value, v.ActualSize())
 }
 
 func (v CompactRecordSize) ActualSize() uint64 {

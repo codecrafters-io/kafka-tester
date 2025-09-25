@@ -65,7 +65,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - Length (61)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - Length (62 (Array length(61) + 1))[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
