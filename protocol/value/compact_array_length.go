@@ -25,7 +25,7 @@ func NewCompactArrayLength[T any](array []T) CompactArrayLength {
 func (v CompactArrayLength) String() string {
 	switch v.Value {
 	case 0:
-		return "0 (Null Array)"
+		return "0 (Null array)"
 	case 1:
 		// Actual length is still 0
 		return "1 (Array length(0) + 1)"

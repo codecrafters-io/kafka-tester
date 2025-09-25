@@ -356,8 +356,8 @@ Debug = true
 [33m[tester::#DH6] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#DH6] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#DH6] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#DH6] [client] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 03 | ....`Z..........[0m
-[33m[tester::#DH6] [client] [0m[36m0010 | be 24 5e 01 00                                  | .$^..[0m
+[33m[tester::#DH6] [client] [0m[36m0000 | 00 00 00 11 60 5a 05 cd 00 00 00 00 00 00 00 04 | ....`Z..........[0m
+[33m[tester::#DH6] [client] [0m[36m0010 | 4e 9e f7 01 00                                  | N....[0m
 [33m[tester::#DH6] [client] [0m[36m[0m
 [33m[tester::#DH6] [Decoder] [0m[36m- FetchResponse[0m
 [33m[tester::#DH6] [Decoder] [0m[36m  - Header[0m
@@ -365,7 +365,7 @@ Debug = true
 [33m[tester::#DH6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (62792798)[0m
+[33m[tester::#DH6] [Decoder] [0m[36m    - SessionID (72261367)[0m
 [33m[tester::#DH6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#DH6] [Decoder] [0m[36m      - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#DH6] [0m[92m✓ TopicResponses Length: 0[0m
@@ -424,7 +424,7 @@ Debug = true
 [33m[tester::#HN6] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#HN6] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#HN6] [client] [0m[36m0000 | 00 00 00 48 76 02 b0 58 00 00 00 00 00 00 00 03 | ...Hv..X........[0m
-[33m[tester::#HN6] [client] [0m[36m0010 | bb ea 8e 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | ....q..Q.hO..~..[0m
+[33m[tester::#HN6] [client] [0m[36m0010 | c9 96 e5 02 71 a5 9a 51 89 68 4f 8b 93 7e 00 00 | ....q..Q.hO..~..[0m
 [33m[tester::#HN6] [client] [0m[36m0020 | 00 00 04 79 02 00 00 00 00 00 64 ff ff ff ff ff | ...y......d.....[0m
 [33m[tester::#HN6] [client] [0m[36m0030 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
 [33m[tester::#HN6] [client] [0m[36m0040 | ff ff ff 01 ff ff ff ff 01 00 00 00             | ............[0m
@@ -435,7 +435,7 @@ Debug = true
 [33m[tester::#HN6] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (62646926)[0m
+[33m[tester::#HN6] [Decoder] [0m[36m    - SessionID (63543013)[0m
 [33m[tester::#HN6] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#HN6] [Decoder] [0m[36m      - Topics[0][0m
@@ -512,8 +512,8 @@ Debug = true
 [33m[tester::#CM4] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#CM4] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#CM4] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CM4] [client] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 04 | ...H\...........[0m
-[33m[tester::#CM4] [client] [0m[36m0010 | 47 34 9f 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | G4..q..Q.hO..~q.[0m
+[33m[tester::#CM4] [client] [0m[36m0000 | 00 00 00 48 5c dd 07 a9 00 00 00 00 00 00 00 06 | ...H\...........[0m
+[33m[tester::#CM4] [client] [0m[36m0010 | ab 7a 24 02 71 a5 9a 51 89 68 4f 8b 93 7e 71 08 | .z$.q..Q.hO..~q.[0m
 [33m[tester::#CM4] [client] [0m[36m0020 | 75 85 a6 2d 02 00 00 00 00 00 00 00 00 00 00 00 | u..-............[0m
 [33m[tester::#CM4] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#CM4] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 01 00 00 00             | ............[0m
@@ -524,7 +524,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (71775391)[0m
+[33m[tester::#CM4] [Decoder] [0m[36m    - SessionID (111901220)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#CM4] [Decoder] [0m[36m      - Topics[0][0m
@@ -538,7 +538,7 @@ Debug = true
 [33m[tester::#CM4] [Decoder] [0m[36m            - LastStableOffset (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m            - AbortedTransactions[0m
-[33m[tester::#CM4] [Decoder] [0m[36m              - Length (0 (Null Array))[0m
+[33m[tester::#CM4] [Decoder] [0m[36m              - Length (0 (Null array))[0m
 [33m[tester::#CM4] [Decoder] [0m[36m            - PreferredReadReplica (-1)[0m
 [33m[tester::#CM4] [Decoder] [0m[36m            - RecordBatches[0m
 [33m[tester::#CM4] [Decoder] [0m[36m              - Size (1 (Record size(0) + 1))[0m
@@ -601,8 +601,8 @@ Debug = true
 [33m[tester::#EG2] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#EG2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#EG2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#EG2] [client] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 0b | ....../7........[0m
-[33m[tester::#EG2] [client] [0m[36m0010 | 65 a7 6f 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | e.o.q..Q.hO..~..[0m
+[33m[tester::#EG2] [client] [0m[36m0000 | 00 00 00 95 01 8d 2f 37 00 00 00 00 00 00 00 0a | ....../7........[0m
+[33m[tester::#EG2] [client] [0m[36m0010 | 0c 61 cc 02 71 a5 9a 51 89 68 4f 8b 93 7e b2 dc | .a..q..Q.hO..~..[0m
 [33m[tester::#EG2] [client] [0m[36m0020 | 35 0e 60 ec 02 00 00 00 00 00 00 00 00 00 00 00 | 5.`.............[0m
 [33m[tester::#EG2] [client] [0m[36m0030 | 00 00 01 00 00 00 00 00 00 00 01 00 00 00 00 00 | ................[0m
 [33m[tester::#EG2] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 4e 00 00 00 00 00 00 00 | ........N.......[0m
@@ -618,7 +618,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (191211375)[0m
+[33m[tester::#EG2] [Decoder] [0m[36m    - SessionID (168583628)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#EG2] [Decoder] [0m[36m      - Topics[0][0m
@@ -632,7 +632,7 @@ Debug = true
 [33m[tester::#EG2] [Decoder] [0m[36m            - LastStableOffset (1)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m            - AbortedTransactions[0m
-[33m[tester::#EG2] [Decoder] [0m[36m              - Length (0 (Null Array))[0m
+[33m[tester::#EG2] [Decoder] [0m[36m              - Length (0 (Null array))[0m
 [33m[tester::#EG2] [Decoder] [0m[36m            - PreferredReadReplica (-1)[0m
 [33m[tester::#EG2] [Decoder] [0m[36m            - RecordBatches[0m
 [33m[tester::#EG2] [Decoder] [0m[36m              - Size (78 (Record size(77) + 1))[0m
@@ -721,8 +721,8 @@ Debug = true
 [33m[tester::#FD8] [client] [0m[36mHexdump of received "Fetch" response: [0m
 [33m[tester::#FD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#FD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 0d | .....e~0........[0m
-[33m[tester::#FD8] [client] [0m[36m0010 | 2b c7 55 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | +.U.q..Q.hO..~..[0m
+[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 e3 0b 65 7e 30 00 00 00 00 00 00 00 0c | .....e~0........[0m
+[33m[tester::#FD8] [client] [0m[36m0010 | 9f 78 54 02 71 a5 9a 51 89 68 4f 8b 93 7e aa a9 | .xT.q..Q.hO..~..[0m
 [33m[tester::#FD8] [client] [0m[36m0020 | c9 b1 a6 2c 02 00 00 00 00 00 00 00 00 00 00 00 | ...,............[0m
 [33m[tester::#FD8] [client] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
 [33m[tester::#FD8] [client] [0m[36m0040 | 00 00 00 00 ff ff ff ff 9b 01 00 00 00 00 00 00 | ................[0m
@@ -743,7 +743,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - ErrorCode (0)[0m
-[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (220972885)[0m
+[33m[tester::#FD8] [Decoder] [0m[36m    - SessionID (211777620)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m    - Topics[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#FD8] [Decoder] [0m[36m      - Topics[0][0m
@@ -757,7 +757,7 @@ Debug = true
 [33m[tester::#FD8] [Decoder] [0m[36m            - LastStableOffset (2)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m            - AbortedTransactions[0m
-[33m[tester::#FD8] [Decoder] [0m[36m              - Length (0 (Null Array))[0m
+[33m[tester::#FD8] [Decoder] [0m[36m              - Length (0 (Null array))[0m
 [33m[tester::#FD8] [Decoder] [0m[36m            - PreferredReadReplica (-1)[0m
 [33m[tester::#FD8] [Decoder] [0m[36m            - RecordBatches[0m
 [33m[tester::#FD8] [Decoder] [0m[36m              - Size (155 (Record size(154) + 1))[0m
