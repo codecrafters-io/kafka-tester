@@ -103,6 +103,4 @@ Debug = true
 [33m[tester::#FD8] [0m[91mExpected Recordbatches' total size to be 77, got 1 instead[0m
 [33m[tester::#FD8] [0m[91mTest failed[0m
 [33m[tester::#FD8] [0m[36mTerminating program[0m
-[33m[your_program] [0mError reading request: unexpected EOF
-[33m[your_program] [0mClosing connection...
 [33m[tester::#FD8] [0m[36mProgram terminated successfully[0m

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"net"
 	"os"
 )
@@ -42,15 +41,8 @@ func handleConnection(conn net.Conn) {
 	for {
 		request, err := ReadRequest(reader)
 		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			fmt.Printf("Error reading request: %v\n", err)
 			break
 		}
-
-		// Print the decoded request
-		PrintRequest(request)
 
 		// Find and read log file and get decoded batches
 		batches, err := FindAndReadLogFile(request.TopicID, request.PartitionID)
@@ -68,6 +60,4 @@ func handleConnection(conn net.Conn) {
 			break
 		}
 	}
-
-	fmt.Println("Closing connection...")
 }
