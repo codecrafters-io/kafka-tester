@@ -160,12 +160,12 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 	// We wait for the initial bytes outside of the loop because in some stages, Kafka is not guaranteed to send response within the
 	// usual deadline used below (100MS)
 	lengthResponse := make([]byte, 4)
-	_, err = c.Conn.Read(lengthResponse)
+	n, err := c.Conn.Read(lengthResponse)
 	if err != nil {
 		return response, err
 	}
 
-	entireMessage.Write(lengthResponse)
+	entireMessage.Write(lengthResponse[:n])
 
 	// Set a time of 100MS for connection deadline
 	err = c.Conn.SetReadDeadline(time.Now().Add(100 * time.Millisecond))

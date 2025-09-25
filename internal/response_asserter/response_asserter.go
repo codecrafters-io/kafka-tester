@@ -100,7 +100,8 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(response kafka_client.Re
 
 func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_client.Response) error {
 	if len(response.RawBytes) < 4 {
-		return fmt.Errorf("Response is not long enough to accomodate message size.")
+		// Since this is run after client's send/receive part, hex dump will be printed before this
+		return fmt.Errorf("Response is not long enough to accomodate message length.")
 	}
 
 	messageSize := int32(binary.BigEndian.Uint32(response.RawBytes[0:4]))

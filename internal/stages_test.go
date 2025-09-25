@@ -26,6 +26,20 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/zero_message_length_nv3",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"base_stage_wrong_message_length_pv1": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/wrong_message_length_pv1",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_message_length_pv1",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"base_stage_insufficient_message_length_bytes": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/insufficient_message_length_bytes",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/insufficient_message_length_bytes",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"base_stage_correlation_id_mismatch": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/correlation_id_mismatch",
@@ -40,14 +54,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/api_versions_malformed_response",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		// Currently the tester crashes for this case, so commenting it out
-		// "wrong_array_length": {
-		// 	StageSlugs:          []string{"pv1"},
-		// 	CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
-		// 	ExpectedExitCode:    1,
-		// 	StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
-		// 	NormalizeOutputFunc: normalizeTesterOutput,
-		// },
+		"wrong_array_length": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/wrong_array_length",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_array_length",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"missing_tag_buffer": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/missing_tag_buffer",

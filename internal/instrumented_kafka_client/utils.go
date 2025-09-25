@@ -11,7 +11,7 @@ func SpawnMultipleClients(count int, addr string, logger *logger.Logger) []*Inst
 	clients := make([]*InstrumentedKafkaClient, count)
 
 	for i := range count {
-		clients[i] = NewFromAddr(addr, logger, fmt.Sprintf("client-%d", i))
+		clients[i] = NewFromAddr(addr, logger, fmt.Sprintf("client-%d", i+1))
 	}
 
 	return clients
