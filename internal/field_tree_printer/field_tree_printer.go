@@ -42,8 +42,14 @@ func (p FieldTreePrinter) PrintForProtocolConversionError(errorPath field_path.F
 
 	for _, field := range p.Fields {
 		p.printNodesLeadingTo(field.Path, p.Logger.Infof)
-		p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
-		p.lastPrintedFieldPath = field.Path
+
+		if errorPath.Is(field.Path) {
+			p.Logger.Infof("%s❌ %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+			return
+		} else {
+			p.Logger.Infof("%s- %s (%s)", p.buildIndentPrefix(), field.Path.LastSegment(), field.Value.String())
+			p.lastPrintedFieldPath = field.Path
+		}
 	}
 
 	p.printNodesLeadingTo(errorPath, p.Logger.Infof)
