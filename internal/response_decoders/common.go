@@ -111,6 +111,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	}
 
 	if decoder.RemainingBytesCount() < recordBatchesCompactSize.ActualSize() {
+		decoder.PushPathContext("Size")
 		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
 		return kafkaapi.RecordBatches{}, decoder.WrapError(errorMessage)
 	}
@@ -131,6 +132,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 	// verify record batch size
 	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
+		decoder.PushPathContext("Size")
 		return nil, decoder.WrapError(fmt.Errorf("Expected recordbatches size to be %d, got %d", (decoder.ReadBytesCount() - recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()))
 	}
 
@@ -229,11 +231,13 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	// verify crc
 	crcOK := decodedRecordBatch.IsCRCValueOk()
 	if !crcOK {
+		decoder.PushPathContext("CRC")
 		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Incorrect CRC value for the record batch"))
 	}
 
 	// verify length
 	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLength.Value) {
+		decoder.PushPathContext("Length")
 		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Expected RecordBatch length to be %d, got %d", (recordBatchEndOffset - recordBatchStartOffset), batchLength.Value))
 	}
 
