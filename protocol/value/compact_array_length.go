@@ -25,12 +25,12 @@ func NewCompactArrayLength[T any](array []T) CompactArrayLength {
 func (v CompactArrayLength) String() string {
 	switch v.Value {
 	case 0:
-		return "0 (NULL ARRAY)"
+		return "0 (Null Array)"
 	case 1:
 		// Actual length is still 0
-		return "0 (EMPTY ARRAY)"
+		return "1 (Array length(0) + 1)"
 	}
-	return fmt.Sprintf("%d", v.ActualLength())
+	return fmt.Sprintf("%d (Array length(%d) + 1)", v.Value, v.ActualLength())
 }
 
 func (v CompactArrayLength) ActualLength() uint64 {

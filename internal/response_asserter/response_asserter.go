@@ -67,14 +67,12 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
-		fieldTreePrinter.PrintForErrorLogs(singleFieldAssertionErrorPath, "value mismatch")
-
+		fieldTreePrinter.PrintForValueMismatchError(singleFieldAssertionErrorPath)
 		return actualResponse, singleFieldAssertionError
 	}
 
 	if decodeError != nil {
-		fieldTreePrinter.PrintForErrorLogs(decodeError.Path(), "decode error")
-
+		fieldTreePrinter.PrintForProtocolConversionError(decodeError.Path(), "decode error")
 		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
 		a.Logger.Errorln("Received bytes:")
 		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffset(decodeError.Offset()))
