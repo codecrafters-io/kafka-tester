@@ -58,3 +58,7 @@ func (b *RequestHeaderBuilder) BuildDescribeTopicPartitionsHeader(correlationID 
 func (b *RequestHeaderBuilder) BuildFetchRequestHeader(correlationID int32) headers.RequestHeader {
 	return b.WithApiKey(1).WithApiVersion(16).WithCorrelationId(correlationID).Build()
 }
+
+func (b *RequestHeaderBuilder) BuildProduceRequestHeader(correlationId int32) headers.RequestHeader {
+	return b.WithApiKey(0).WithApiVersion(11).WithCorrelationId(correlationId).Build()
+}

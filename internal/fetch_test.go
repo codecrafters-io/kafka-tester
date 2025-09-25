@@ -77,7 +77,7 @@ func TestFetchv16With1Message(t *testing.T) {
 			assert.Equal(t, 0, int(partition.Id.Value))
 			for _, recordBatch := range partition.RecordBatches {
 				for _, message := range recordBatch.Records {
-					messages = append(messages, string(message.Value))
+					messages = append(messages, string(message.Value.Value))
 				}
 			}
 		}
@@ -118,7 +118,7 @@ func TestFetchv16With2Messages(t *testing.T) {
 			assert.Equal(t, 2, len(partitionResponse.RecordBatches))
 			for _, recordBatch := range partitionResponse.RecordBatches {
 				for _, record := range recordBatch.Records {
-					messages = append(messages, string(record.Value))
+					messages = append(messages, string(record.Value.Value))
 				}
 			}
 		}
@@ -159,7 +159,7 @@ func TestFetchv16With3Messages(t *testing.T) {
 			assert.Equal(t, 3, len(partitionResponse.RecordBatches))
 			for _, recordBatch := range partitionResponse.RecordBatches {
 				for _, record := range recordBatch.Records {
-					messages = append(messages, string(record.Value))
+					messages = append(messages, string(record.Value.Value))
 				}
 			}
 		}

@@ -86,6 +86,34 @@ func (e *FieldEncoder) WriteStringField(variableName string, value kafka_value.S
 	e.appendEncodedField(value)
 }
 
+func (e *FieldEncoder) WriteRawBytes(variableName string, value kafka_value.RawBytes) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteRawBytes(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteVarint(variableName string, value kafka_value.Varint) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteVarint(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteUvarint(variableName string, value kafka_value.UnsignedVarint) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteUvarint(value.Value)
+	e.appendEncodedField(value)
+}
+
+func (e *FieldEncoder) WriteCompactNullableStringField(variableName string, value kafka_value.CompactNullableString) {
+	e.PushPathContext(variableName)
+	defer e.PopPathContext()
+	e.encoder.WriteCompactNullableString(value.Value)
+	e.appendEncodedField(value)
+}
+
 func (e *FieldEncoder) WriteCompactStringField(variableName string, value kafka_value.CompactString) {
 	e.PushPathContext(variableName)
 	defer e.PopPathContext()

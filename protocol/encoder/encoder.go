@@ -77,6 +77,14 @@ func (re *Encoder) WriteCompactBytes(in []byte) {
 	re.WriteRawBytes(in)
 }
 
+func (re *Encoder) WriteCompactNullableString(in *string) {
+	if in == nil {
+		re.WriteUvarint(0)
+		return
+	}
+	re.WriteCompactString(*in)
+}
+
 func (re *Encoder) WriteCompactString(in string) {
 	re.WriteCompactArrayLength(len(in))
 	re.WriteRawBytes([]byte(in))
