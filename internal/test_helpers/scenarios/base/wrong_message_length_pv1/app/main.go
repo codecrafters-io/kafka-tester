@@ -49,7 +49,7 @@ func handleConnection(conn net.Conn) {
 	response := make([]byte, 8)
 
 	// message_size: 0 (message size is intentionally kept wrong for wrong error reporting)
-	binary.BigEndian.PutUint32(response[0:4], 0)
+	binary.BigEndian.PutUint32(response[0:4], 8)
 
 	// correlation_id: 7 (as required)
 	binary.BigEndian.PutUint32(response[4:8], 7)

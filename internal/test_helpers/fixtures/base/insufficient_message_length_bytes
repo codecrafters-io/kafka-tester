@@ -29,7 +29,7 @@ Debug = true
 [33m[tester::#PV1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
 [33m[tester::#PV1] [client] [0m[36m0000 | 00 00 00                                        | ...[0m
 [33m[tester::#PV1] [client] [0m[36m[0m
-[33m[tester::#PV1] [0m[91mResponse is not long enough to accomodate message length.[0m
+[33m[tester::#PV1] [0m[91mExpected 4-byte integer (message size), only found 3 bytes[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m

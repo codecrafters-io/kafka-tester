@@ -99,7 +99,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssert(response kafka_client.Re
 func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_client.Response) error {
 	if len(response.RawBytes) < 4 {
 		// Since this is run after client's send/receive part, hex dump will be printed before this
-		return fmt.Errorf("Response is not long enough to accomodate message length.")
+		return fmt.Errorf("Expected 4-byte integer (message size), only found %d bytes", len(response.RawBytes))
 	}
 
 	messageSize := int32(binary.BigEndian.Uint32(response.RawBytes[0:4]))
@@ -108,26 +108,13 @@ func (a ResponseAsserter[ResponseType]) assertMessageLength(response kafka_clien
 		return nil
 	}
 
-	a.Logger.Errorln("❌ Invalid response:")
-	a.Logger.Errorln("The Message Size field does not match the length of the received payload.")
-
-	a.Logger.Errorln("")
-
-	a.Logger.Errorln("🔍 Mismatch:")
-	a.Logger.Errorf(
-		"Message Size field:\t\t%d (Bytes: %02x %02x %02x %02x)",
-		messageSize,
-		response.RawBytes[0], response.RawBytes[1], response.RawBytes[2], response.RawBytes[3],
-	)
-	a.Logger.Errorf("Received payload length:\t%d", len(response.Payload))
+	errorMessage := fmt.Sprintf("Expected the first four bytes be %d (message size), got %d", len(response.Payload), messageSize)
 
 	possiblyIncludesMessageSize := messageSize == int32(len(response.Payload)+4)
 
 	if possiblyIncludesMessageSize {
-		a.Logger.Errorln("")
-		a.Logger.Errorln("💡 Hint:")
-		a.Logger.Errorln("The Message Size field should not count itself.")
+		errorMessage += "\nHint:The Message Size field should not count itself."
 	}
 
-	return errors.New("")
+	return errors.New(errorMessage)
 }
