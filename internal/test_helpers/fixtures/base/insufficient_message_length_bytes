@@ -3,8 +3,9 @@ Debug = true
 [33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
 [33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#PV1] [client] [0m[36mConnecting to broker at localhost:9092[0m
-[33m[your_program] [0mLogs from your program will appear here!
-[33m[your_program] [0mThis server always responds with correlation ID 0. See processing/ProcessApiVersionsRequest for intentional mistake.
+[33m[your_program] [0mStarting Kafka broker on port 9092...
+[33m[your_program] [0mBroker listening on port 9092.
+[33m[your_program] [0mThis server always sends response with insufficient bytes to accomodate message length.
 [33m[tester::#PV1] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#PV1] [Encoder] [0m[36m- ApiVersionsRequest[0m
 [33m[tester::#PV1] [Encoder] [0m[36m  - Header[0m
@@ -26,13 +27,9 @@ Debug = true
 [33m[tester::#PV1] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#PV1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#PV1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 00 13 00 00 00 00 00 00 02 00 12 00 00 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0010 | 04 00 00 00 00 00 00                            | .......[0m
+[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 00                                        | ...[0m
 [33m[tester::#PV1] [client] [0m[36m[0m
-[33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
-[33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
-[33m[tester::#PV1] [Decoder] [0m[94m    ❌ CorrelationID (value mismatch)[0m
-[33m[tester::#PV1] [0m[91mError: Expected INT32 value to be 177586623, got 0[0m
+[33m[tester::#PV1] [0m[91mExpected 4-byte integer (message size), only found 3 bytes[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m
 [33m[tester::#PV1] [0m[36mProgram terminated successfully[0m
