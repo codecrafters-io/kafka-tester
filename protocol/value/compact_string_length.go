@@ -9,12 +9,11 @@ type CompactStringLength struct {
 func (v CompactStringLength) String() string {
 	switch v.Value {
 	case 0:
-		return "0 (NULL STRING)"
+		return "0 (Null string)"
 	case 1:
-		// Actual length is still 0
-		return "0 (EMPTY STRING)"
+		return "1 (String length(0) + 1)"
 	}
-	return fmt.Sprintf("%d", v.ActualLength())
+	return fmt.Sprintf("%d (String length(%d) + 1)", v.Value, v.ActualLength())
 }
 
 func (v CompactStringLength) ActualLength() uint64 {

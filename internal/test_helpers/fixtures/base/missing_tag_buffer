@@ -35,13 +35,13 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[94m  - Body[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[94m      - Length (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#PV1] [Decoder] [0m[94m      - ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - APIKey (18)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[91m    X TAG_BUFFER (decode error)[0m
+[33m[tester::#PV1] [Decoder] [0m[91m    ❌ TAG_BUFFER (decode error)[0m
 [33m[tester::#PV1] [0m[91mReceived bytes:[0m
 [33m[tester::#PV1] [0m[91mHex (bytes 13-17)                               | ASCII[0m
 [33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m

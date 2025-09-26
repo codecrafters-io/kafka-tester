@@ -35,7 +35,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ThrottleTimeMs (1179648)[0m
 [33m[tester::#PV1] [0m[92m✓ CorrelationID: 177586623[0m
 [33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m

@@ -31,7 +31,7 @@ Debug = true
 [33m[tester::#PV1] [client] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
-[33m[tester::#PV1] [Decoder] [0m[94m    ❌ CorrelationID (value mismatch)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m    ❌ CorrelationID (0)[0m
 [33m[tester::#PV1] [0m[91mError: Expected INT32 value to be 177586623, got 0[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

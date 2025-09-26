@@ -162,7 +162,7 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 	lengthResponse := make([]byte, 4)
 	n, err := c.Conn.Read(lengthResponse)
 	if err != nil {
-		return response, err
+		return response, fmt.Errorf("error reading from connection: %v", err)
 	}
 
 	entireMessage.Write(lengthResponse[:n])
