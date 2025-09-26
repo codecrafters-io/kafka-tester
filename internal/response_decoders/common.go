@@ -77,7 +77,10 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 		if lengthValue.Value == -1 {
 			return nil, nil
 		}
-		return nil, decoder.WrapError(fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value))
+		return nil, decoder.WrapErrorForLastPathSegment(
+			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value),
+			"Length",
+		)
 	}
 
 	elements := make([]T, lengthValue.Value)
@@ -111,8 +114,12 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	}
 
 	if decoder.RemainingBytesCount() < recordBatchesCompactSize.ActualSize() {
-		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
-		return kafkaapi.RecordBatches{}, decoder.WrapError(errorMessage)
+		errorMessage := fmt.Errorf(
+			"RecordBatch byte count was decoded as %d bytes, got %d bytes remaining",
+			recordBatchesCompactSize.ActualSize(),
+			decoder.RemainingBytesCount(),
+		)
+		return kafkaapi.RecordBatches{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Size")
 	}
 
 	recordBatchesStartOffset := decoder.ReadBytesCount()
@@ -123,7 +130,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
 		recordBatch, err := decodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
 		if err != nil {
-			return nil, decoder.WrapError(err)
+			return nil, err
 		}
 		allRecordBatches = append(allRecordBatches, recordBatch)
 		index += 1
@@ -131,7 +138,12 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 	// verify record batch size
 	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
-		return nil, decoder.WrapError(fmt.Errorf("Expected recordbatches size to be %d, got %d", (decoder.ReadBytesCount() - recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()))
+		errorMessage := fmt.Errorf(
+			"Expected RecordBatch byte count to be %d, got %d instead",
+			(decoder.ReadBytesCount() - recordBatchesStartOffset),
+			recordBatchesCompactSize.ActualSize(),
+		)
+		return nil, decoder.WrapErrorForLastPathSegment(errorMessage, "Size")
 	}
 
 	return allRecordBatches, nil
@@ -229,12 +241,22 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	// verify crc
 	crcOK := decodedRecordBatch.IsCRCValueOk()
 	if !crcOK {
-		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Incorrect CRC value for the record batch"))
+		errorMessage := fmt.Errorf(
+			"Expected CRC value for the record batch to be %s, got %s instead",
+			decodedRecordBatch.GetComputedCRCValue(),
+			decodedRecordBatch.CRC,
+		)
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(errorMessage, "CRC")
 	}
 
 	// verify length
 	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLength.Value) {
-		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Expected RecordBatch length to be %d, got %d", (recordBatchEndOffset - recordBatchStartOffset), batchLength.Value))
+		errorMessage := fmt.Errorf(
+			"Expected RecordBatch length to be %d (actual record length), got %d",
+			(recordBatchEndOffset - recordBatchStartOffset),
+			batchLength.Value,
+		)
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Length")
 	}
 
 	return decodedRecordBatch, nil
@@ -315,7 +337,12 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	recordEndOffset := decoder.ReadBytesCount()
 
 	if recordEndOffset-recordStartOffset != uint64(recordLength.Value) {
-		return kafkaapi.Record{}, decoder.WrapError(fmt.Errorf("Expected record length to be %d, got %d", (recordEndOffset - recordStartOffset), recordLength.Value))
+		errorMessage := fmt.Errorf(
+			"Expected record length to be %d(actual size of record), got %d instead.",
+			(recordEndOffset - recordStartOffset),
+			recordLength.Value,
+		)
+		return kafkaapi.Record{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Length")
 	}
 
 	return kafkaapi.Record{
