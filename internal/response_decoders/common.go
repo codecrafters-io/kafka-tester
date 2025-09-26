@@ -247,7 +247,10 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	if !crcOK {
 		// Report crc error with proper offset
 		decoder.PushPathContext("CRC")
-		return kafkaapi.RecordBatch{}, decoder.WrapErrorAtOffset(fmt.Errorf("Incorrect CRC value for the record batch"), crcBytesOffset)
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorAtOffset(
+			fmt.Errorf("Expected CRC value for the record batch to be %s, got %s instead", decodedRecordBatch.GetComputedCRCValue(), decodedRecordBatch.CRC),
+			crcBytesOffset,
+		)
 	}
 
 	// verify length

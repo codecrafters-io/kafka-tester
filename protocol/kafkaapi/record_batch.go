@@ -62,6 +62,13 @@ func (rb *RecordBatch) IsCRCValueOk() bool {
 	return uint32(rb.CRC.Value) == computedCheckSum
 }
 
+func (rb *RecordBatch) GetComputedCRCValue() value.Int32 {
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	return value.Int32{
+		Value: int32(crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))),
+	}
+}
+
 func (rb *RecordBatch) SetCRC() {
 	propertiesBytes := rb.GetPropertiesAsBytes()
 	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))

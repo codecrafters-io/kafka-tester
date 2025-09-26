@@ -106,7 +106,7 @@ Debug = true
 [33m[tester::#FD8] [0m[91m------------------------------------------------+------------------[0m
 [33m[tester::#FD8] [0m[91m00 00 00 00 02 30 ca 40 9d 00 00 00 00 00 00 00 | .....0.@........[0m
 [33m[tester::#FD8] [0m[91m                ^                                      ^[0m
-[33m[tester::#FD8] [0m[91mIncorrect CRC value for the record batch[0m
+[33m[tester::#FD8] [0m[91mExpected CRC value for the record batch to be -818561182, got 818561181 instead[0m
 [33m[tester::#FD8] [0m[91mTest failed[0m
 [33m[tester::#FD8] [0m[36mTerminating program[0m
 [33m[tester::#FD8] [0m[36mProgram terminated successfully[0m
