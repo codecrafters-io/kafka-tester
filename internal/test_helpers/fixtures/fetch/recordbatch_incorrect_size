@@ -100,7 +100,7 @@ Debug = true
 [33m[tester::#FD8] [0m[91m------------------------------------------------+------------------[0m
 [33m[tester::#FD8] [0m[91m01 ff ff ff ff 02 00 00 00 00 00 00 00 00 00 00 | ................[0m
 [33m[tester::#FD8] [0m[91m                ^                                      ^[0m
-[33m[tester::#FD8] [0m[91mExpected Recordbatches' total size to be 77, got 1 instead[0m
+[33m[tester::#FD8] [0m[91mExpected RecordBatch byte count to be 77, got 1 instead[0m
 [33m[tester::#FD8] [0m[91mTest failed[0m
 [33m[tester::#FD8] [0m[36mTerminating program[0m
 [33m[tester::#FD8] [0m[36mProgram terminated successfully[0m

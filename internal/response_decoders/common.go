@@ -143,7 +143,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 		// But offset should be record batch's start offset
 		return nil, decoder.WrapErrorAtOffset(
-			fmt.Errorf("Expected Recordbatches' total size to be %d, got %d instead", (decoder.ReadBytesCount()-recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()),
+			fmt.Errorf("Expected RecordBatch byte count to be %d, got %d instead", (decoder.ReadBytesCount()-recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()),
 			recordBatchSizeStartOffset,
 		)
 	}
@@ -346,7 +346,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		decoder.PushPathContext("Length")
 		// Offset should be record's start offset just after 'length' bytes
 		return kafkaapi.Record{}, decoder.WrapErrorAtOffset(
-			fmt.Errorf("Expected record's length to be %d(actual size of record), got %d instead.", (recordEndOffset-recordStartOffset), recordLength.Value),
+			fmt.Errorf("Expected record length to be %d(actual size of record), got %d instead.", (recordEndOffset-recordStartOffset), recordLength.Value),
 			recordLengthStartOffset,
 		)
 	}
