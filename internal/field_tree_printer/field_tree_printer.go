@@ -17,7 +17,7 @@ type FieldTreePrinter struct {
 	lastPrintedFieldPath    field_path.FieldPath
 }
 
-func (p FieldTreePrinter) PrintForValueMismatchError(errorPath field_path.FieldPath) {
+func (p FieldTreePrinter) PrintForFieldAssertionError(errorPath field_path.FieldPath) {
 	p.currentIndentationLevel = 0
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
@@ -36,7 +36,7 @@ func (p FieldTreePrinter) PrintForValueMismatchError(errorPath field_path.FieldP
 	panic(fmt.Sprintf("Error field path '%s' not found in FieldTreePrinter.Fields", errorPath))
 }
 
-func (p FieldTreePrinter) PrintForProtocolConversionError(errorPath field_path.FieldPath, errorMessage string) {
+func (p FieldTreePrinter) PrintForDecodeError(errorPath field_path.FieldPath) {
 	p.currentIndentationLevel = 0
 	p.lastPrintedFieldPath = field_path.NewFieldPath("")
 
@@ -53,7 +53,7 @@ func (p FieldTreePrinter) PrintForProtocolConversionError(errorPath field_path.F
 	}
 
 	p.printNodesLeadingTo(errorPath, p.Logger.Infof)
-	p.Logger.Errorf("%sX %s (%s)", p.buildIndentPrefix(), errorPath.LastSegment(), errorMessage)
+	p.Logger.Errorf("%s❌ %s (%s)", p.buildIndentPrefix(), errorPath.LastSegment(), "decode error")
 }
 
 func (p FieldTreePrinter) PrintForDebugLogs() {
