@@ -10,17 +10,27 @@ import (
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
+type pathContext struct {
+	pathName string
+	offset   uint64 // the offset at which the pathName was added to the context
+}
+
+type fieldOffsetPair struct {
+	field  field.Field
+	offset uint64 // the offset at which the field was decoded
+}
+
 type FieldDecoder struct {
-	currentPathContexts []string
-	decoder             *decoder.Decoder
-	decodedFields       []field.Field
+	currentPathContexts     []pathContext
+	decoder                 *decoder.Decoder
+	decodedFieldOffsetPairs []fieldOffsetPair
 }
 
 func NewFieldDecoder(bytes []byte) *FieldDecoder {
 	return &FieldDecoder{
-		currentPathContexts: []string{},
-		decodedFields:       []field.Field{},
-		decoder:             decoder.NewDecoder(bytes),
+		currentPathContexts:     []pathContext{},
+		decodedFieldOffsetPairs: []fieldOffsetPair{},
+		decoder:                 decoder.NewDecoder(bytes),
 	}
 }
 
@@ -29,11 +39,20 @@ func (d *FieldDecoder) ReadBytesCount() uint64 {
 }
 
 func (d *FieldDecoder) DecodedFields() []field.Field {
-	return d.decodedFields
+	fields := []field.Field{}
+
+	for _, decodedFieldOffsetPair := range d.decodedFieldOffsetPairs {
+		fields = append(fields, decodedFieldOffsetPair.field)
+	}
+
+	return fields
 }
 
-func (d *FieldDecoder) PushPathContext(pathContext string) {
-	d.currentPathContexts = append(d.currentPathContexts, pathContext)
+func (d *FieldDecoder) PushPathContext(pathName string) {
+	d.currentPathContexts = append(d.currentPathContexts, pathContext{
+		pathName: pathName,
+		offset:   d.ReadBytesCount(), // capture current offset for the context
+	})
 }
 
 func (d *FieldDecoder) PopPathContext() {
@@ -268,13 +287,25 @@ func (d *FieldDecoder) RemainingBytesCount() uint64 {
 }
 
 func (d *FieldDecoder) currentPath() field_path.FieldPath {
-	return field_path.NewFieldPath(strings.Join(d.currentPathContexts, "."))
+	pathNamesFromContext := []string{}
+
+	for _, pathContext := range d.currentPathContexts {
+		pathNamesFromContext = append(pathNamesFromContext, pathContext.pathName)
+	}
+
+	return field_path.NewFieldPath(strings.Join(pathNamesFromContext, "."))
 }
 
 func (d *FieldDecoder) appendDecodedField(decodedValue value.KafkaProtocolValue) {
-	d.decodedFields = append(d.decodedFields, field.Field{
-		Value: decodedValue,
-		Path:  d.currentPath(),
+	// retrieve most recently added path context's offset so the offset of the decoded field can be the same
+	lastPathContextOffset := d.currentPathContexts[len(d.currentPathContexts)-1].offset
+
+	d.decodedFieldOffsetPairs = append(d.decodedFieldOffsetPairs, fieldOffsetPair{
+		field: field.Field{
+			Value: decodedValue,
+			Path:  d.currentPath(),
+		},
+		offset: lastPathContextOffset,
 	})
 }
 
@@ -295,19 +326,22 @@ func (d *FieldDecoder) WrapError(err error) FieldDecoderError {
 	return d.WrapError(d.decoder.WrapError(err))
 }
 
-func (d *FieldDecoder) WrapErrorAtOffset(err error, offset uint64) FieldDecoderError {
-	// If we've already wrapped the error, preserve the nested path
-	if fieldDecoderError, ok := err.(*fieldDecoderErrorImpl); ok {
-		return fieldDecoderError
-	}
+func (d *FieldDecoder) WrapErrorForLastPathSegment(err error, lastPathSegment string) FieldDecoderError {
+	decodedFieldPath := fmt.Sprintf("%s.%s", d.currentPath().String(), lastPathSegment)
 
-	if decoderError, ok := err.(decoder.DecoderError); ok {
-		return &fieldDecoderErrorImpl{
-			message: err.Error(),
-			offset:  decoderError.Offset(),
-			path:    d.currentPath(),
+	for _, decodedFieldOffsetPair := range d.decodedFieldOffsetPairs {
+		if decodedFieldPath == decodedFieldOffsetPair.field.Path.String() {
+
+			// adjust the context for throwing the error properly
+			d.PushPathContext(decodedFieldOffsetPair.field.Path.LastSegment())
+
+			return &fieldDecoderErrorImpl{
+				message: err.Error(),
+				offset:  int(decodedFieldOffsetPair.offset),
+				path:    d.currentPath(),
+			}
 		}
 	}
 
-	return d.WrapError(d.decoder.WrapErrorAtOffset(err, offset))
+	panic("Codecrafters Internal Error - Path '%s' not found in any any of the decoded fields.")
 }

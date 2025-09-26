@@ -67,7 +67,6 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 	decoder.PushPathContext(path)
 	defer decoder.PopPathContext()
 
-	arrayLengthOffset := decoder.ReadBytesCount()
 	lengthValue, err := decoder.ReadInt32Field("Length")
 	if err != nil {
 		return nil, err
@@ -78,9 +77,10 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 		if lengthValue.Value == -1 {
 			return nil, nil
 		}
-		// Show that length is wrong
-		decoder.PushPathContext("Length")
-		return nil, decoder.WrapErrorAtOffset(fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value), arrayLengthOffset)
+		return nil, decoder.WrapErrorForLastPathSegment(
+			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value),
+			"Length",
+		)
 	}
 
 	elements := make([]T, lengthValue.Value)
@@ -107,7 +107,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	decoder.PushPathContext(path)
 	defer decoder.PopPathContext()
 
-	recordBatchSizeStartOffset := decoder.ReadBytesCount()
+	// recordBatchSizeStartOffset := decoder.ReadBytesCount()
 	recordBatchesCompactSize, err := decoder.ReadCompactRecordSizeField("Size")
 
 	if err != nil {
@@ -115,10 +115,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	}
 
 	if decoder.RemainingBytesCount() < recordBatchesCompactSize.ActualSize() {
-		// Report that the size is wrong
-		decoder.PushPathContext("Size")
-		// However, the offset can be left unchanged because user want to see the bytes after the 'size' bytes
-		errorMessage := fmt.Errorf("RecordBatches' total size was decoded as %d bytes, got %d bytes remaining", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
+		errorMessage := fmt.Errorf("RecordBatch byte count was decoded as %d bytes, got %d bytes remaining", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
 		return kafkaapi.RecordBatches{}, decoder.WrapError(errorMessage)
 	}
 
@@ -138,13 +135,9 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 	// verify record batch size
 	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
-		// Report that size is wrong
-		decoder.PushPathContext("Size")
-
-		// But offset should be record batch's start offset
-		return nil, decoder.WrapErrorAtOffset(
+		return nil, decoder.WrapErrorForLastPathSegment(
 			fmt.Errorf("Expected RecordBatch byte count to be %d, got %d instead", (decoder.ReadBytesCount()-recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()),
-			recordBatchSizeStartOffset,
+			"Size",
 		)
 	}
 
@@ -160,7 +153,6 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 		return kafkaapi.RecordBatch{}, err
 	}
 
-	lengthOffset := decoder.ReadBytesCount()
 	batchLength, err := decoder.ReadInt32Field("Length")
 	if err != nil {
 		return kafkaapi.RecordBatch{}, err
@@ -178,7 +170,6 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 		return kafkaapi.RecordBatch{}, err
 	}
 
-	crcBytesOffset := decoder.ReadBytesCount()
 	crc, err := decoder.ReadInt32Field("CRC")
 	if err != nil {
 		return kafkaapi.RecordBatch{}, err
@@ -245,21 +236,17 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	// verify crc
 	crcOK := decodedRecordBatch.IsCRCValueOk()
 	if !crcOK {
-		// Report crc error with proper offset
-		decoder.PushPathContext("CRC")
-		return kafkaapi.RecordBatch{}, decoder.WrapErrorAtOffset(
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(
 			fmt.Errorf("Expected CRC value for the record batch to be %s, got %s instead", decodedRecordBatch.GetComputedCRCValue(), decodedRecordBatch.CRC),
-			crcBytesOffset,
+			"CRC",
 		)
 	}
 
 	// verify length
 	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLength.Value) {
-		// Report length error with bytes pointing to length
-		decoder.PushPathContext("Length")
-		return kafkaapi.RecordBatch{}, decoder.WrapErrorAtOffset(
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(
 			fmt.Errorf("Expected RecordBatch length to be %d (actual record length), got %d", (recordBatchEndOffset-recordBatchStartOffset), batchLength.Value),
-			lengthOffset,
+			"Length",
 		)
 	}
 
@@ -270,7 +257,6 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	decoder.PushPathContext("Record")
 	defer decoder.PopPathContext()
 
-	recordLengthStartOffset := decoder.ReadBytesCount()
 	recordLength, err := decoder.ReadVarint("Length")
 	if err != nil {
 		return kafkaapi.Record{}, err
@@ -342,12 +328,9 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	recordEndOffset := decoder.ReadBytesCount()
 
 	if recordEndOffset-recordStartOffset != uint64(recordLength.Value) {
-		// Report length as wrong
-		decoder.PushPathContext("Length")
-		// Offset should be record's start offset just after 'length' bytes
-		return kafkaapi.Record{}, decoder.WrapErrorAtOffset(
+		return kafkaapi.Record{}, decoder.WrapErrorForLastPathSegment(
 			fmt.Errorf("Expected record length to be %d(actual size of record), got %d instead.", (recordEndOffset-recordStartOffset), recordLength.Value),
-			recordLengthStartOffset,
+			"Length",
 		)
 	}
 
