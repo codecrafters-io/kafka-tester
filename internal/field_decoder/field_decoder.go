@@ -393,7 +393,7 @@ func (d *FieldDecoder) wrapError(err error) FieldDecoderError {
 func (d *FieldDecoder) WrapErrorForAugmentedValue(err error, augmentedValue value.AugmentedValue) FieldDecoderError {
 	return &fieldDecoderErrorImpl{
 		message: err.Error(),
-		// Use the startOffset, endOffset and path from the field's start and end offset
+		// Use the startOffset, endOffset and path from the augmented value's start and end offset
 		startOffset: augmentedValue.GetStartOffset(),
 		endOffset:   augmentedValue.GetEndOffset(),
 		path:        field_path.NewFieldPath(augmentedValue.GetPath()),
