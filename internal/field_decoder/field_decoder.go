@@ -334,5 +334,5 @@ func (d *FieldDecoder) WrapErrorForDecodedFieldWithLastPathSegment(err error, la
 		}
 	}
 
-	panic("Codecrafters Internal Error - Path '%s' not found in any any of the decoded fields.")
+	panic(fmt.Sprintf("Codecrafters Internal Error - Path '%s' not found in any any of the decoded fields.", decodedFieldPathString))
 }
