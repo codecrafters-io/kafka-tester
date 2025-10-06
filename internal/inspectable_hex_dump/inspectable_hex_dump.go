@@ -28,7 +28,12 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 // > 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
 // >              ^-----^                            |     ^-^
 //
-// If start
+// If start and end offsets are the same (for eg, startOffset = endOffset = 4), the return value will be something like this
+//
+// > Hex (bytes 0-11)                                | ASCII
+// > ------------------------------------------------+------------------
+// > 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
+// >              ^                                  |     ^
 func (s InspectableHexDump) FormatWithHighlightedOffsets(startOffset, endOffset int) string {
 	if endOffset < startOffset {
 		panic("Codecrafters Internal Error - Start offset larger than end offset in InspectableHexDump")
