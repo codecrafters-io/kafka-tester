@@ -57,9 +57,9 @@ func decodeFetchResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.Fetc
 	}
 
 	return kafkaapi.FetchResponseBody{
-		ThrottleTimeMs: throttleTimeMs,
-		ErrorCode:      errorCode,
-		SessionId:      sessionId,
+		ThrottleTimeMs: throttleTimeMs.KafkaValue,
+		ErrorCode:      errorCode.KafkaValue,
+		SessionId:      sessionId.KafkaValue,
 		TopicResponses: topicResponses,
 	}, nil
 }
@@ -80,7 +80,7 @@ func decodeFetchTopic(decoder *field_decoder.FieldDecoder) (kafkaapi.TopicRespon
 	}
 
 	return kafkaapi.TopicResponse{
-		UUID:               topicUUID,
+		UUID:               topicUUID.KafkaValue,
 		PartitionResponses: partitions,
 	}, nil
 }
@@ -131,13 +131,13 @@ func decodeFetchPartition(decoder *field_decoder.FieldDecoder) (kafkaapi.Partiti
 	}
 
 	return kafkaapi.PartitionResponse{
-		Id:                   id,
-		ErrorCode:            errorCode,
-		HighWatermark:        highWaterMark,
-		LastStableOffset:     lastStableOffset,
-		LogStartOffset:       logStartOffset,
+		Id:                   id.KafkaValue,
+		ErrorCode:            errorCode.KafkaValue,
+		HighWatermark:        highWaterMark.KafkaValue,
+		LastStableOffset:     lastStableOffset.KafkaValue,
+		LogStartOffset:       logStartOffset.KafkaValue,
 		AbortedTransactions:  abortedTransactions,
-		PreferredReadReplica: preferredReadReplica,
+		PreferredReadReplica: preferredReadReplica.KafkaValue,
 		RecordBatches:        recordBatches,
 	}, nil
 }
@@ -154,7 +154,7 @@ func decodeAbortedTransaction(decoder *field_decoder.FieldDecoder) (kafkaapi.Abo
 	}
 
 	return kafkaapi.AbortedTransaction{
-		ProducerID:  producerID,
-		FirstOffset: firstOffset,
+		ProducerID:  producerID.KafkaValue,
+		FirstOffset: firstOffset.KafkaValue,
 	}, nil
 }

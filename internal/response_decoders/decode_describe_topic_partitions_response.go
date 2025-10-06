@@ -53,7 +53,7 @@ func decodeDescribeTopicPartitionsResponseBody(decoder *field_decoder.FieldDecod
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseBody{
-		ThrottleTimeMs: throttleTimeMs,
+		ThrottleTimeMs: throttleTimeMs.KafkaValue,
 		Topics:         topics,
 		NextCursor:     cursor,
 	}, err
@@ -97,12 +97,12 @@ func decodeTopic(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPar
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseTopic{
-		ErrorCode:                 errorCode,
-		Name:                      name,
-		TopicUUID:                 topicUUID,
-		IsInternal:                isInternal,
+		ErrorCode:                 errorCode.KafkaValue,
+		Name:                      name.KafkaValue,
+		TopicUUID:                 topicUUID.KafkaValue,
+		IsInternal:                isInternal.KafkaValue,
 		Partitions:                partitions,
-		TopicAuthorizedOperations: topicAuthorizedOperations,
+		TopicAuthorizedOperations: topicAuthorizedOperations.KafkaValue,
 	}, nil
 }
 
@@ -157,10 +157,10 @@ func decodePartition(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopi
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponsePartition{
-		ErrorCode:              errorCode,
-		PartitionIndex:         partitionIndex,
-		LeaderId:               leaderId,
-		LeaderEpoch:            leaderEpoch,
+		ErrorCode:              errorCode.KafkaValue,
+		PartitionIndex:         partitionIndex.KafkaValue,
+		LeaderId:               leaderId.KafkaValue,
+		LeaderEpoch:            leaderEpoch.KafkaValue,
 		ReplicaNodes:           replicaNodes,
 		IsrNodes:               isrNodes,
 		EligibleLeaderReplicas: eligibleLeaderReplicas,
@@ -178,7 +178,7 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 		return kafkaapi.DescribeTopicPartitionsResponseCursor{}, err
 	}
 
-	if isCursorPresent.Value == -1 {
+	if isCursorPresent.KafkaValue.Value == -1 {
 		return kafkaapi.DescribeTopicPartitionsResponseCursor{}, nil
 	}
 
@@ -197,27 +197,32 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseCursor{
-		TopicName:      topicName,
-		PartitionIndex: partitionIndex,
+		TopicName:      topicName.KafkaValue,
+		PartitionIndex: partitionIndex.KafkaValue,
 	}, nil
 }
 
 func decodeReplicaNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("ReplicaNode")
+	replicaNode, err := decoder.ReadInt32Field("ReplicaNode")
+	return replicaNode.KafkaValue, err
 }
 
 func decodeIsrNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("IsrNode")
+	isrNode, err := decoder.ReadInt32Field("IsrNode")
+	return isrNode.KafkaValue, err
 }
 
 func decodeEligibleLeaderReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("EligibleLeaderReplica")
+	eligibleLeaderReplica, err := decoder.ReadInt32Field("EligibleLeaderReplica")
+	return eligibleLeaderReplica.KafkaValue, err
 }
 
 func decodeLastKnownELRNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("LastKnownELRNode")
+	lastKnownELRNode, err := decoder.ReadInt32Field("LastKnownELRNode")
+	return lastKnownELRNode.KafkaValue, err
 }
 
 func decodeOfflineReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("OfflineReplica")
+	offlineReplica, err := decoder.ReadInt32Field("OfflineReplica")
+	return offlineReplica.KafkaValue, err
 }

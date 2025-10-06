@@ -50,9 +50,9 @@ func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaap
 
 	return kafkaapi.ApiVersionsResponseBody{
 		Version:        4,
-		ErrorCode:      errorCode,
+		ErrorCode:      errorCode.KafkaValue,
 		ApiKeys:        apiKeyEntries,
-		ThrottleTimeMs: throttleTimeMs,
+		ThrottleTimeMs: throttleTimeMs.KafkaValue,
 	}, nil
 }
 
@@ -77,9 +77,9 @@ func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (
 	}
 
 	return kafkaapi.ApiKeyEntry{
-		ApiKey:     apiKey,
-		MinVersion: minVersion,
-		MaxVersion: maxVersion,
+		ApiKey:     apiKey.KafkaValue,
+		MinVersion: minVersion.KafkaValue,
+		MaxVersion: maxVersion.KafkaValue,
 	}, nil
 }
 
@@ -120,7 +120,7 @@ func DecodeApiVersionsResponseUpToErrorCode(decoder *field_decoder.FieldDecoder)
 	return kafkaapi.ApiVersionsResponse{
 		Header: header,
 		Body: kafkaapi.ApiVersionsResponseBody{
-			ErrorCode: errorCode,
+			ErrorCode: errorCode.KafkaValue,
 		},
 	}, nil
 }

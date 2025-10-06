@@ -44,3 +44,26 @@ func (v CompactArrayLength) ActualLength() uint64 {
 func (v CompactArrayLength) GetType() string {
 	return "COMPACT_ARRAY_LENGTH"
 }
+
+type AugmentedCompactArrayLength struct {
+	KafkaValue  CompactArrayLength
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedCompactArrayLength) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedCompactArrayLength) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedCompactArrayLength) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedCompactArrayLength) GetEndOffset() int {
+	return a.EndOffset
+}

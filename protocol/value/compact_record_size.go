@@ -28,3 +28,26 @@ func (v CompactRecordSize) ActualSize() uint64 {
 func (v CompactRecordSize) GetType() string {
 	return "COMPACT_RECORD_SIZE"
 }
+
+type AugmentedCompactRecordSize struct {
+	KafkaValue  CompactRecordSize
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedCompactRecordSize) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedCompactRecordSize) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedCompactRecordSize) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedCompactRecordSize) GetEndOffset() int {
+	return a.EndOffset
+}

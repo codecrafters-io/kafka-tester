@@ -14,3 +14,26 @@ func (v CompactNullableString) String() string {
 func (v CompactNullableString) GetType() string {
 	return "COMPACT_NULLABLE_STRING"
 }
+
+type AugmentedCompactNullableString struct {
+	KafkaValue  CompactNullableString
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedCompactNullableString) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedCompactNullableString) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedCompactNullableString) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedCompactNullableString) GetEndOffset() int {
+	return a.EndOffset
+}

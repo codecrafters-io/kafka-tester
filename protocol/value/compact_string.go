@@ -15,3 +15,26 @@ func (v CompactString) String() string {
 func (v CompactString) GetType() string {
 	return "COMPACT_STRING"
 }
+
+type AugmentedCompactString struct {
+	KafkaValue  CompactString
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedCompactString) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedCompactString) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedCompactString) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedCompactString) GetEndOffset() int {
+	return a.EndOffset
+}

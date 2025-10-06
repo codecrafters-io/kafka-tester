@@ -13,3 +13,26 @@ func (v Int64) String() string {
 func (v Int64) GetType() string {
 	return "INT64"
 }
+
+type AugmentedInt64 struct {
+	KafkaValue  Int64
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedInt64) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedInt64) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedInt64) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedInt64) GetEndOffset() int {
+	return a.EndOffset
+}

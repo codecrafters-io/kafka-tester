@@ -17,3 +17,26 @@ func (v String) String() string {
 func (v String) GetType() string {
 	return "STRING"
 }
+
+type AugmentedString struct {
+	KafkaValue  String
+	Path        string
+	StartOffset int
+	EndOffset   int
+}
+
+func (a AugmentedString) GetKafkaValue() KafkaProtocolValue {
+	return a.KafkaValue
+}
+
+func (a AugmentedString) GetPath() string {
+	return a.Path
+}
+
+func (a AugmentedString) GetStartOffset() int {
+	return a.StartOffset
+}
+
+func (a AugmentedString) GetEndOffset() int {
+	return a.EndOffset
+}
