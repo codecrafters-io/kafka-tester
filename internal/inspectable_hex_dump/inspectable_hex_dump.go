@@ -34,7 +34,11 @@ func (s InspectableHexDump) FormatWithHighlightedOffsets(startOffset, endOffset 
 		panic("Codecrafters Internal Error - Start offset larger than end offset in InspectableHexDump")
 	}
 
-	// We adjust the pointers for better visualization, offset pointer spanning multiple lines is not readable
+	// We only point to the start byte if the range is large.
+	// Most of the kafka values fit within one line of hexdump. Field which fail assertion
+	// are shown this way. See fixtures (mismatched correlation ID/CRC32 fail) for the result.
+	// This also helps display cases like where decoded strings span multiple-lines (cases like where string length is
+	// wrong and is an unusually large number, but the string following it is correct) in a readable manner.
 	if (endOffset - startOffset) > 10 {
 		endOffset = startOffset
 	}
