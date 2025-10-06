@@ -15,22 +15,17 @@ type pathContext struct {
 	offset   uint64 // the offset at which the pathName was added to the context
 }
 
-type fieldOffsetPair struct {
-	field  field.Field
-	offset uint64 // the offset at which the field was decoded
-}
-
 type FieldDecoder struct {
-	currentPathContexts     []pathContext
-	decoder                 *decoder.Decoder
-	decodedFieldOffsetPairs []fieldOffsetPair
+	currentPathContexts []pathContext
+	decoder             *decoder.Decoder
+	decodedFields       []field.Field
 }
 
 func NewFieldDecoder(bytes []byte) *FieldDecoder {
 	return &FieldDecoder{
-		currentPathContexts:     []pathContext{},
-		decodedFieldOffsetPairs: []fieldOffsetPair{},
-		decoder:                 decoder.NewDecoder(bytes),
+		currentPathContexts: []pathContext{},
+		decodedFields:       []field.Field{},
+		decoder:             decoder.NewDecoder(bytes),
 	}
 }
 
@@ -39,13 +34,7 @@ func (d *FieldDecoder) ReadBytesCount() uint64 {
 }
 
 func (d *FieldDecoder) DecodedFields() []field.Field {
-	fields := []field.Field{}
-
-	for _, decodedFieldOffsetPair := range d.decodedFieldOffsetPairs {
-		fields = append(fields, decodedFieldOffsetPair.field)
-	}
-
-	return fields
+	return d.decodedFields
 }
 
 func (d *FieldDecoder) PushPathContext(pathName string) {
@@ -300,12 +289,12 @@ func (d *FieldDecoder) appendDecodedField(decodedValue value.KafkaProtocolValue)
 	// retrieve most recently added path context's offset so the offset of the decoded field can be the same
 	lastPathContextOffset := d.currentPathContexts[len(d.currentPathContexts)-1].offset
 
-	d.decodedFieldOffsetPairs = append(d.decodedFieldOffsetPairs, fieldOffsetPair{
-		field: field.Field{
-			Value: decodedValue,
-			Path:  d.currentPath(),
-		},
-		offset: lastPathContextOffset,
+	d.decodedFields = append(d.decodedFields, field.Field{
+		Value:       decodedValue,
+		Path:        d.currentPath(),
+		StartOffset: int(lastPathContextOffset),
+		// The pointer will have pointed to the next byte already, so we re-adjust the pointer to the previous byte
+		EndOffset: int(d.ReadBytesCount() - 1),
 	})
 }
 
@@ -317,28 +306,30 @@ func (d *FieldDecoder) WrapError(err error) FieldDecoderError {
 
 	if decoderError, ok := err.(decoder.DecoderError); ok {
 		return &fieldDecoderErrorImpl{
-			message: err.Error(),
-			offset:  decoderError.Offset(),
-			path:    d.currentPath(),
+			message:     err.Error(),
+			startOffset: decoderError.StartOffset(),
+			endOffset:   decoderError.EndOffset(),
+			path:        d.currentPath(),
 		}
 	}
 
-	return d.WrapError(d.decoder.WrapError(err))
+	panic("Codecrafters Internal Error - error is not of type fieldDecoderErrorImpl or DecoderError")
 }
 
 func (d *FieldDecoder) WrapErrorForLastPathSegment(err error, lastPathSegment string) FieldDecoderError {
 	decodedFieldPath := fmt.Sprintf("%s.%s", d.currentPath().String(), lastPathSegment)
 
-	for _, decodedFieldOffsetPair := range d.decodedFieldOffsetPairs {
-		if decodedFieldPath == decodedFieldOffsetPair.field.Path.String() {
+	for _, decodedField := range d.decodedFields {
+		if decodedFieldPath == decodedField.Path.String() {
 
 			// adjust the context for throwing the error properly
-			d.PushPathContext(decodedFieldOffsetPair.field.Path.LastSegment())
+			d.PushPathContext(decodedField.Path.LastSegment())
 
 			return &fieldDecoderErrorImpl{
-				message: err.Error(),
-				offset:  int(decodedFieldOffsetPair.offset),
-				path:    d.currentPath(),
+				message:     err.Error(),
+				startOffset: int(decodedField.StartOffset),
+				endOffset:   int(decodedField.EndOffset),
+				path:        d.currentPath(),
 			}
 		}
 	}

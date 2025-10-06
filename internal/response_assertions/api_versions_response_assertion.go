@@ -47,13 +47,19 @@ func (a *ApiVersionsResponseAssertion) ExpectApiKeyEntry(expectedApiKey int16, e
 	return a
 }
 
-func (a *ApiVersionsResponseAssertion) AssertSingleField(field field.Field) error {
+func (a *ApiVersionsResponseAssertion) AssertSingleField(field field.Field) *SingleFieldAssertionError {
 	if field.Path.String() == "ApiVersionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value),
+		)
 	}
 
 	if field.Path.String() == "ApiVersionsResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCode, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int16_assertions.IsEqualTo(a.expectedErrorCode, field.Value),
+		)
 	}
 
 	if field.Path.String() == "ApiVersionsResponse.Body.ThrottleTimeMs" {

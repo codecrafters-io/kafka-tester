@@ -35,7 +35,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 	decoder := field_decoder.NewFieldDecoder(responsePayload)
 	actualResponse, decodeError := a.DecodeFunc(decoder)
 
-	var singleFieldAssertionError error
+	var singleFieldAssertionError *response_assertions.SingleFieldAssertionError
 	var singleFieldAssertionErrorPath field_path.FieldPath
 
 	// First, let's assert the decoded values
@@ -68,14 +68,20 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
 		fieldTreePrinter.PrintForFieldAssertionError(singleFieldAssertionErrorPath)
-		return actualResponse, singleFieldAssertionError
+		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
+		a.Logger.Errorln("Received bytes:")
+		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffsets(
+			singleFieldAssertionError.StartOffset,
+			singleFieldAssertionError.EndOffset,
+		))
+		return actualResponse, singleFieldAssertionError.Error
 	}
 
 	if decodeError != nil {
 		fieldTreePrinter.PrintForDecodeError(decodeError.Path())
 		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
 		a.Logger.Errorln("Received bytes:")
-		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffset(decodeError.Offset()))
+		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffsets(decodeError.StartOffset(), decodeError.EndOffset()))
 
 		return actualResponse, decodeError
 	}

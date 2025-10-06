@@ -1,6 +1,7 @@
 package inspectable_hex_dump
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -50,7 +51,49 @@ Hex (bytes 15-30)                               | ASCII
 	for _, testCase := range testCases {
 		t.Run(string(testCase.bytes), func(t *testing.T) {
 			ibs := NewInspectableHexDump(testCase.bytes)
-			result := ibs.FormatWithHighlightedOffset(testCase.highlightOffset)
+			result := ibs.FormatWithHighlightedOffsets(testCase.highlightOffset, testCase.highlightOffset)
+			assert.Equal(t, testCase.expected, result)
+		})
+	}
+}
+
+type formatWithHighlightedRangeTestCase struct {
+	bytes       []byte
+	startOffset int
+	endOffset   int
+	expected    string
+}
+
+func TestFormatWithHighlightedRange(t *testing.T) {
+	testCases := []formatWithHighlightedRangeTestCase{
+		{
+			bytes:       []byte("Hello World!"),
+			startOffset: 4,
+			endOffset:   7,
+			expected: strings.TrimSpace(`
+Hex (bytes 0-11)                                | ASCII
+------------------------------------------------+------------------
+48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
+             ^--------^                               ^--^
+			`),
+		},
+		{
+			bytes:       []byte("Hello World!"),
+			startOffset: 0,
+			endOffset:   2,
+			expected: strings.TrimSpace(`
+Hex (bytes 0-11)                                | ASCII
+------------------------------------------------+------------------
+48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
+ ^-----^                                          ^-^
+			`),
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(fmt.Sprintf("%s_%d_%d", string(testCase.bytes), testCase.startOffset, testCase.endOffset), func(t *testing.T) {
+			ibs := NewInspectableHexDump(testCase.bytes)
+			result := ibs.FormatWithHighlightedOffsets(testCase.startOffset, testCase.endOffset)
 			assert.Equal(t, testCase.expected, result)
 		})
 	}

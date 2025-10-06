@@ -81,12 +81,15 @@ func (a *DescribeTopicPartitionsResponseAssertion) ExpectCursorAbsence() *Descri
 	return a
 }
 
-func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field.Field) error {
+func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field.Field) *SingleFieldAssertionError {
 	path := field.Path.String()
 
 	// Header fields
 	if path == "DescribeTopicPartitionsResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationId, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int32_assertions.IsEqualTo(a.expectedCorrelationId, field.Value),
+		)
 	}
 
 	// Body level fields
@@ -95,9 +98,12 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	}
 
 	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
-		return compact_array_length_assertions.IsEqualTo(
-			value.NewCompactArrayLength(a.expectedTopics),
-			field.Value,
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			compact_array_length_assertions.IsEqualTo(
+				value.NewCompactArrayLength(a.expectedTopics),
+				field.Value,
+			),
 		)
 	}
 
@@ -186,7 +192,10 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 
 	// Cursor fields
 	if path == "DescribeTopicPartitionsResponse.Body.Cursor.IsCursorPresent" {
-		return int8_assertions.IsEqualTo(a.expectedCursorPresence, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int8_assertions.IsEqualTo(a.expectedCursorPresence, field.Value),
+		)
 	}
 
 	panic("CodeCrafters Internal Error: Unhandled field path: " + field.Path.String())

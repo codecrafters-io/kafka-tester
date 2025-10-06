@@ -19,25 +19,61 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 	return InspectableHexDump{bytes: bytes}
 }
 
-// FormatWithHighlightedOffset returns a string that represents the hexdump with the byteOffset highlighted
+// FormatWithHighlightedOffsets returns a string that represents the hexdump with the byteOffset highlighted
 //
-// For example, if called with highlightOffset 4, the return value will be something like this:
+// For example, if called with startOffset 4 and endOffset 6, the return value will be something like this:
 //
 // > Hex (bytes 0-11)                                | ASCII
 // > ------------------------------------------------+------------------
 // > 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
-// >              ^                                  |     ^
-func (s InspectableHexDump) FormatWithHighlightedOffset(highlightOffset int) string {
-	s = s.TruncateAroundOffset(highlightOffset)
+// >              ^-----^                            |     ^-^
+//
+// If start
+func (s InspectableHexDump) FormatWithHighlightedOffsets(startOffset, endOffset int) string {
+	if endOffset < startOffset {
+		panic("Codecrafters Internal Error - Start offset larger than end offset in InspectableHexDump")
+	}
+
+	// We adjust the pointers for better visualization, offset pointer spanning multiple lines is not readable
+	if (endOffset - startOffset) > 10 {
+		endOffset = startOffset
+	}
+
+	s = s.TruncateAroundOffset(startOffset)
 
 	lines := []string{}
 	lines = append(lines, s.FormattedStringWithHeading())
 
 	offsetPointerLine := ""
-	offsetPointerLine += strings.Repeat(" ", s.getOffsetInHexdump(highlightOffset)) + "^"
 
-	diff := s.getOffsetInAsciiString(highlightOffset) - len(offsetPointerLine)
-	offsetPointerLine += strings.Repeat(" ", diff) + "^"
+	if startOffset == endOffset {
+		// Single offset highlighting: just show ^
+		offsetPointerLine += strings.Repeat(" ", s.getOffsetInHexdump(startOffset)) + "^"
+
+		diff := s.getOffsetInAsciiString(startOffset) - len(offsetPointerLine)
+		offsetPointerLine += strings.Repeat(" ", diff) + "^"
+	} else {
+		// Range highlighting: show ^-----^ style
+		startHexPosition := s.getOffsetInHexdump(startOffset)
+		endHexPosition := s.getOffsetInHexdump(endOffset)
+
+		// Hex section highlighting
+		offsetPointerLine += strings.Repeat(" ", startHexPosition) + "^"
+		if endHexPosition > startHexPosition {
+			offsetPointerLine += strings.Repeat("-", endHexPosition-startHexPosition-1) + "^"
+		}
+
+		// ASCII section highlighting
+		startAsciiPosition := s.getOffsetInAsciiString(startOffset)
+		endAsciiPosition := s.getOffsetInAsciiString(endOffset)
+
+		diff := startAsciiPosition - len(offsetPointerLine)
+		offsetPointerLine += strings.Repeat(" ", diff) + "^"
+
+		if endAsciiPosition > startAsciiPosition {
+			offsetPointerLine += strings.Repeat("-", endAsciiPosition-startAsciiPosition-1) + "^"
+		}
+	}
 
 	lines = append(lines, offsetPointerLine)
 	return strings.Join(lines, "\n")

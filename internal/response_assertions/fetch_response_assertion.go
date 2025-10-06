@@ -183,21 +183,30 @@ func (a *FetchResponseAssertion) assertRecordBatchBytes(actualRecordBatches []ka
 	return nil
 }
 
-func (a *FetchResponseAssertion) AssertSingleField(field field.Field) error {
+func (a *FetchResponseAssertion) AssertSingleField(field field.Field) *SingleFieldAssertionError {
 	fieldPath := field.Path.String()
 
 	// Header fields
 	if fieldPath == "FetchResponse.Header.CorrelationID" {
-		return int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int32_assertions.IsEqualTo(a.expectedCorrelationID, field.Value),
+		)
 	}
 
 	// Body level fields
 	if fieldPath == "FetchResponse.Body.ThrottleTimeMS" {
-		return int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int32_assertions.IsEqualTo(a.expectedThrottleTimeMs, field.Value),
+		)
 	}
 
 	if fieldPath == "FetchResponse.Body.ErrorCode" {
-		return int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			int16_assertions.IsEqualTo(a.expectedErrorCodeInBody, field.Value),
+		)
 	}
 
 	if fieldPath == "FetchResponse.Body.SessionID" {
@@ -205,7 +214,10 @@ func (a *FetchResponseAssertion) AssertSingleField(field field.Field) error {
 	}
 
 	if fieldPath == "FetchResponse.Body.Topics.Length" {
-		return compact_array_length_assertions.IsEqualTo(a.expectedTopicsLength, field.Value)
+		return NewSingleFieldAssertionErrorFromFieldAndError(
+			field,
+			compact_array_length_assertions.IsEqualTo(a.expectedTopicsLength, field.Value),
+		)
 	}
 
 	// Partitions array and its elements
