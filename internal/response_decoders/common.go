@@ -77,7 +77,7 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 		if lengthValue.Value == -1 {
 			return nil, nil
 		}
-		return nil, decoder.WrapErrorForLastPathSegment(
+		return nil, decoder.WrapErrorForDecodedFieldWithLastPathSegment(
 			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value),
 			"Length",
 		)
@@ -119,7 +119,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 			recordBatchesCompactSize.ActualSize(),
 			decoder.RemainingBytesCount(),
 		)
-		return kafkaapi.RecordBatches{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Size")
+		return kafkaapi.RecordBatches{}, decoder.WrapErrorForDecodedFieldWithLastPathSegment(errorMessage, "Size")
 	}
 
 	recordBatchesStartOffset := decoder.ReadBytesCount()
@@ -143,7 +143,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 			(decoder.ReadBytesCount() - recordBatchesStartOffset),
 			recordBatchesCompactSize.ActualSize(),
 		)
-		return nil, decoder.WrapErrorForLastPathSegment(errorMessage, "Size")
+		return nil, decoder.WrapErrorForDecodedFieldWithLastPathSegment(errorMessage, "Size")
 	}
 
 	return allRecordBatches, nil
@@ -246,7 +246,7 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 			decodedRecordBatch.GetComputedCRCValue(),
 			decodedRecordBatch.CRC,
 		)
-		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(errorMessage, "CRC")
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForDecodedFieldWithLastPathSegment(errorMessage, "CRC")
 	}
 
 	// verify length
@@ -256,7 +256,7 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 			(recordBatchEndOffset - recordBatchStartOffset),
 			batchLength.Value,
 		)
-		return kafkaapi.RecordBatch{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Length")
+		return kafkaapi.RecordBatch{}, decoder.WrapErrorForDecodedFieldWithLastPathSegment(errorMessage, "Length")
 	}
 
 	return decodedRecordBatch, nil
@@ -342,7 +342,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 			(recordEndOffset - recordStartOffset),
 			recordLength.Value,
 		)
-		return kafkaapi.Record{}, decoder.WrapErrorForLastPathSegment(errorMessage, "Length")
+		return kafkaapi.Record{}, decoder.WrapErrorForDecodedFieldWithLastPathSegment(errorMessage, "Length")
 	}
 
 	return kafkaapi.Record{

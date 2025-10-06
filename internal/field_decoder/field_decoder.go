@@ -316,11 +316,11 @@ func (d *FieldDecoder) WrapError(err error) FieldDecoderError {
 	panic("Codecrafters Internal Error - error is not of type fieldDecoderErrorImpl or DecoderError")
 }
 
-func (d *FieldDecoder) WrapErrorForLastPathSegment(err error, lastPathSegment string) FieldDecoderError {
-	decodedFieldPath := fmt.Sprintf("%s.%s", d.currentPath().String(), lastPathSegment)
+func (d *FieldDecoder) WrapErrorForDecodedFieldWithLastPathSegment(err error, lastPathSegment string) FieldDecoderError {
+	decodedFieldPathString := fmt.Sprintf("%s.%s", d.currentPath().String(), lastPathSegment)
 
 	for _, decodedField := range d.decodedFields {
-		if decodedFieldPath == decodedField.Path.String() {
+		if decodedFieldPathString == decodedField.Path.String() {
 
 			// adjust the context for throwing the error properly
 			d.PushPathContext(decodedField.Path.LastSegment())
