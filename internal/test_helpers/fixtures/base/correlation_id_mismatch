@@ -32,6 +32,11 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    ❌ CorrelationID (0)[0m
+[33m[tester::#PV1] [0m[91mReceived bytes:[0m
+[33m[tester::#PV1] [0m[91mHex (bytes 0-15)                                | ASCII[0m
+[33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m
+[33m[tester::#PV1] [0m[91m00 00 00 00 00 00 02 00 12 00 00 00 04 00 00 00 | ................[0m
+[33m[tester::#PV1] [0m[91m ^--------^                                       ^--^[0m
 [33m[tester::#PV1] [0m[91mError: Expected INT32 value to be 177586623, got 0[0m
 [33m[tester::#PV1] [0m[91mTest failed[0m
 [33m[tester::#PV1] [0m[36mTerminating program[0m

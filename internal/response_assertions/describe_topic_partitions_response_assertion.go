@@ -95,10 +95,7 @@ func (a *DescribeTopicPartitionsResponseAssertion) AssertSingleField(field field
 	}
 
 	if path == "DescribeTopicPartitionsResponse.Body.Topics.Length" {
-		return compact_array_length_assertions.IsEqualTo(
-			value.NewCompactArrayLength(a.expectedTopics),
-			field.Value,
-		)
+		return compact_array_length_assertions.IsEqualTo(value.NewCompactArrayLength(a.expectedTopics), field.Value)
 	}
 
 	// Topic level fields (using regex for array indices)
