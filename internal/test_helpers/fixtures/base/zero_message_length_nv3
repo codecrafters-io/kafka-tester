@@ -1,0 +1,37 @@
+Debug = true
+
+[33m[tester::#NV3] [0m[94mRunning tests for Stage #NV3 (nv3)[0m
+[33m[tester::#NV3] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#NV3] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[your_program] [0mStarting Kafka broker on port 9092...
+[33m[your_program] [0mBroker listening on port 9092
+[33m[tester::#NV3] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
+[33m[tester::#NV3] [Encoder] [0m[36m- ApiVersionsRequest[0m
+[33m[tester::#NV3] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - APIKey (18)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - APIVersion (4)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - CorrelationID (7)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
+[33m[tester::#NV3] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
+[33m[tester::#NV3] [client] [0m[94mSending "ApiVersions" request[0m
+[33m[tester::#NV3] [client] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#NV3] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#NV3] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#NV3] [client] [0m[36m0000 | 00 00 00 26 00 12 00 04 00 00 00 07 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#NV3] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#NV3] [client] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#NV3] [client] [0m[36m[0m
+[33m[tester::#NV3] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[tester::#NV3] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#NV3] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#NV3] [client] [0m[36m0000 | 00 00 00 00 00 00 00 07                         | ........[0m
+[33m[tester::#NV3] [client] [0m[36m[0m
+[33m[tester::#NV3] [Decoder] [0m[36m- ApiVersionsResponse[0m
+[33m[tester::#NV3] [Decoder] [0m[36m  - Header[0m
+[33m[tester::#NV3] [Decoder] [0m[36m    - CorrelationID (7)[0m
+[33m[tester::#NV3] [0m[92m✓ CorrelationID: 7[0m
+[33m[tester::#NV3] [0m[92mTest passed.[0m
+[33m[tester::#NV3] [0m[36mTerminating program[0m
+[33m[tester::#NV3] [0m[36mProgram terminated successfully[0m

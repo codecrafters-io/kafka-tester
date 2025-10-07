@@ -1,13 +1,13 @@
 package internal
 
 import (
+	"github.com/codecrafters-io/kafka-tester/internal/instrumented_kafka_client"
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/internal/request_encoders"
 	"github.com/codecrafters-io/kafka-tester/internal/response_asserter"
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_client"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -44,7 +44,7 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	client := kafka_client.NewClient("localhost:9092")
+	client := instrumented_kafka_client.NewFromAddr("localhost:9092", stageLogger, "client")
 	defer client.Close()
 
 	if err := client.ConnectWithRetries(b, stageLogger); err != nil {
@@ -76,7 +76,7 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		DecodeFunc: response_decoders.DecodeProduceResponse,
 		Assertion:  assertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse.Payload)
+	}.DecodeAndAssert(rawResponse)
 
 	// TODO: Check the contents of the disk
 

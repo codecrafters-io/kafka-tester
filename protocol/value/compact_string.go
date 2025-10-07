@@ -5,6 +5,10 @@ type CompactString struct {
 }
 
 func (v CompactString) String() string {
+	// Print quotes in case of empty string
+	if v.Value == "" {
+		return `""`
+	}
 	return string(v.Value)
 }
 

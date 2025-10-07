@@ -2,10 +2,10 @@ Debug = true
 
 [33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
 [33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#PV1] [0m[36mConnecting to broker at: localhost:9092[0m
+[33m[tester::#PV1] [client] [0m[36mConnecting to broker at localhost:9092[0m
 [33m[your_program] [0mLogs from your program will appear here!
 [33m[your_program] [0mThis server always responds with missing tag buffer in entries of ApiKeyEntry array. See response/ApiKeyEntry.Encode() for intentional mistake.
-[33m[tester::#PV1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#PV1] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#PV1] [Encoder] [0m[36m- ApiVersionsRequest[0m
 [33m[tester::#PV1] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#PV1] [Encoder] [0m[36m    - APIKey (18)[0m
@@ -15,33 +15,33 @@ Debug = true
 [33m[tester::#PV1] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#PV1] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
 [33m[tester::#PV1] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
-[33m[tester::#PV1] [0m[94mSending "ApiVersions" request[0m
-[33m[tester::#PV1] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
-[33m[tester::#PV1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
-[33m[tester::#PV1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
-[33m[tester::#PV1] [0m[36m[0m
-[33m[tester::#PV1] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[tester::#PV1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#PV1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [0m[36m0000 | 00 00 00 12 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
-[33m[tester::#PV1] [0m[36m0010 | 04 00 00 00 00 00                               | ......[0m
-[33m[tester::#PV1] [0m[36m[0m
+[33m[tester::#PV1] [client] [0m[94mSending "ApiVersions" request[0m
+[33m[tester::#PV1] [client] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#PV1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#PV1] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#PV1] [client] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#PV1] [client] [0m[36m[0m
+[33m[tester::#PV1] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[tester::#PV1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#PV1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 00 12 0a 95 c1 bf 00 00 02 00 12 00 00 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0010 | 04 00 00 00 00 00                               | ......[0m
+[33m[tester::#PV1] [client] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[94m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[94m  - Header[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - CorrelationID (177586623)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m  - Body[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[94m      - Length (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[94m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#PV1] [Decoder] [0m[94m      - ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - APIKey (18)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[94m    - ThrottleTimeMs (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[91m    X TAG_BUFFER (decode error)[0m
+[33m[tester::#PV1] [Decoder] [0m[91m    ❌ TAG_BUFFER (decode error)[0m
 [33m[tester::#PV1] [0m[91mReceived bytes:[0m
 [33m[tester::#PV1] [0m[91mHex (bytes 13-17)                               | ASCII[0m
 [33m[tester::#PV1] [0m[91m------------------------------------------------+------------------[0m

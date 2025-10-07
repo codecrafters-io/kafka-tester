@@ -3,6 +3,7 @@ package response_decoders
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func DecodeApiVersionsResponse(decoder *field_decoder.FieldDecoder) (kafkaapi.ApiVersionsResponse, field_decoder.FieldDecoderError) {
@@ -50,9 +51,9 @@ func decodeApiVersionsResponseBody(decoder *field_decoder.FieldDecoder) (kafkaap
 
 	return kafkaapi.ApiVersionsResponseBody{
 		Version:        4,
-		ErrorCode:      errorCode,
+		ErrorCode:      value.MustBeInt16(errorCode.Value),
 		ApiKeys:        apiKeyEntries,
-		ThrottleTimeMs: throttleTimeMs,
+		ThrottleTimeMs: value.MustBeInt32(throttleTimeMs.Value),
 	}, nil
 }
 
@@ -77,9 +78,9 @@ func decodeApiVersionsResponseApiKeyEntry(decoder *field_decoder.FieldDecoder) (
 	}
 
 	return kafkaapi.ApiKeyEntry{
-		ApiKey:     apiKey,
-		MinVersion: minVersion,
-		MaxVersion: maxVersion,
+		ApiKey:     value.MustBeInt16(apiKey.Value),
+		MinVersion: value.MustBeInt16(minVersion.Value),
+		MaxVersion: value.MustBeInt16(maxVersion.Value),
 	}, nil
 }
 
@@ -120,7 +121,7 @@ func DecodeApiVersionsResponseUpToErrorCode(decoder *field_decoder.FieldDecoder)
 	return kafkaapi.ApiVersionsResponse{
 		Header: header,
 		Body: kafkaapi.ApiVersionsResponseBody{
-			ErrorCode: errorCode,
+			ErrorCode: value.MustBeInt16(errorCode.Value),
 		},
 	}, nil
 }
