@@ -36,29 +36,15 @@ type RecordBatch struct {
 }
 
 func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
-	propertiesEncoder := encoder.NewEncoder()
-	propertiesEncoder.WriteInt16(rb.Attributes.Value)
-	propertiesEncoder.WriteInt32(rb.LastOffsetDelta.Value)
-	propertiesEncoder.WriteInt64(rb.FirstTimestamp.Value)
-	propertiesEncoder.WriteInt64(rb.MaxTimestamp.Value)
-	propertiesEncoder.WriteInt64(rb.ProducerId.Value)
-	propertiesEncoder.WriteInt16(rb.ProducerEpoch.Value)
-	propertiesEncoder.WriteInt32(rb.BaseSequence.Value)
-	propertiesEncoder.WriteInt32(int32(len(rb.Records)))
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
 
-	for i, record := range rb.Records {
-		record.OffsetDelta = value.Varint{Value: int64(i)} // Offset Deltas are consecutive numerals from 0 to N-1
-		// We can set them programmatically as we know the order of the records
-		record.Encode(propertiesEncoder)
-	}
-
-	propertiesEncoderBytes := propertiesEncoder.Bytes()
-	computedChecksum := crc32.Checksum(propertiesEncoderBytes, crc32.MakeTable(crc32.Castagnoli))
 	rb.CRC = value.Int32{
 		Value: int32(computedChecksum),
 	}
+
 	rb.BatchLength = value.Int32{
-		Value: int32(len(propertiesEncoderBytes) + 4 + 1 + 4), // partitionLeaderEpoch + magic value + CRC
+		Value: int32(len(propertiesBytes) + 4 + 1 + 4), // partitionLeaderEpoch + magic value + CRC
 	}
 
 	// Encode everything now
@@ -67,14 +53,32 @@ func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	pe.WriteInt32(rb.PartitionLeaderEpoch.Value)
 	pe.WriteInt8(2)             // Magic value is 2
 	pe.WriteInt32(rb.CRC.Value) // CRC placeholder
-	pe.WriteRawBytes(propertiesEncoderBytes)
+	pe.WriteRawBytes(propertiesBytes)
 }
 
 func (rb *RecordBatch) IsCRCValueOk() bool {
-	return true
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	computedCheckSum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
+	return uint32(rb.CRC.Value) == computedCheckSum
+}
+
+func (rb *RecordBatch) GetComputedCRCValue() value.Int32 {
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	return value.Int32{
+		Value: int32(crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))),
+	}
 }
 
 func (rb *RecordBatch) SetCRC() {
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
+
+	rb.CRC = value.Int32{
+		Value: int32(computedChecksum),
+	}
+}
+
+func (rb *RecordBatch) GetPropertiesAsBytes() []byte {
 	propertiesEncoder := encoder.NewEncoder()
 	propertiesEncoder.WriteInt16(rb.Attributes.Value)
 	propertiesEncoder.WriteInt32(rb.LastOffsetDelta.Value)
@@ -91,8 +95,5 @@ func (rb *RecordBatch) SetCRC() {
 	}
 
 	propertiesEncoderBytes := propertiesEncoder.Bytes()
-	computedChecksum := crc32.Checksum(propertiesEncoderBytes, crc32.MakeTable(crc32.Castagnoli))
-	rb.CRC = value.Int32{
-		Value: int32(computedChecksum),
-	}
+	return propertiesEncoderBytes
 }

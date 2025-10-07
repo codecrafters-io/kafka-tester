@@ -89,6 +89,20 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"fetch_recordbatch_checksum_fail": {
+			StageSlugs:          []string{"fd8"},
+			CodePath:            "./test_helpers/scenarios/fetch/recordbatch_checksum_fail",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/recordbatch_checksum_fail",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"fetch_recordbatch_size_wrong": {
+			StageSlugs:          []string{"fd8"},
+			CodePath:            "./test_helpers/scenarios/fetch/recordbatch_incorrect_size",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/recordbatch_incorrect_size",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)

@@ -6,6 +6,8 @@ import (
 )
 
 type Field struct {
-	Path  field_path.FieldPath
-	Value value.KafkaProtocolValue
+	Path        field_path.FieldPath
+	Value       value.KafkaProtocolValue
+	StartOffset int
+	EndOffset   int
 }

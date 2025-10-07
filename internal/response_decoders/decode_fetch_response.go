@@ -3,6 +3,7 @@ package response_decoders
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func DecodeFetchResponse(decoder *field_decoder.FieldDecoder) (
@@ -57,9 +58,9 @@ func decodeFetchResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.Fetc
 	}
 
 	return kafkaapi.FetchResponseBody{
-		ThrottleTimeMs: throttleTimeMs,
-		ErrorCode:      errorCode,
-		SessionId:      sessionId,
+		ThrottleTimeMs: value.MustBeInt32(throttleTimeMs.Value),
+		ErrorCode:      value.MustBeInt16(errorCode.Value),
+		SessionId:      value.MustBeInt32(sessionId.Value),
 		TopicResponses: topicResponses,
 	}, nil
 }
@@ -80,7 +81,7 @@ func decodeFetchTopic(decoder *field_decoder.FieldDecoder) (kafkaapi.TopicRespon
 	}
 
 	return kafkaapi.TopicResponse{
-		UUID:               topicUUID,
+		UUID:               value.MustBeUUID(topicUUID.Value),
 		PartitionResponses: partitions,
 	}, nil
 }
@@ -131,13 +132,13 @@ func decodeFetchPartition(decoder *field_decoder.FieldDecoder) (kafkaapi.Partiti
 	}
 
 	return kafkaapi.PartitionResponse{
-		Id:                   id,
-		ErrorCode:            errorCode,
-		HighWatermark:        highWaterMark,
-		LastStableOffset:     lastStableOffset,
-		LogStartOffset:       logStartOffset,
+		Id:                   value.MustBeInt32(id.Value),
+		ErrorCode:            value.MustBeInt16(errorCode.Value),
+		HighWatermark:        value.MustBeInt64(highWaterMark.Value),
+		LastStableOffset:     value.MustBeInt64(lastStableOffset.Value),
+		LogStartOffset:       value.MustBeInt64(logStartOffset.Value),
 		AbortedTransactions:  abortedTransactions,
-		PreferredReadReplica: preferredReadReplica,
+		PreferredReadReplica: value.MustBeInt32(preferredReadReplica.Value),
 		RecordBatches:        recordBatches,
 	}, nil
 }
@@ -154,7 +155,7 @@ func decodeAbortedTransaction(decoder *field_decoder.FieldDecoder) (kafkaapi.Abo
 	}
 
 	return kafkaapi.AbortedTransaction{
-		ProducerID:  producerID,
-		FirstOffset: firstOffset,
+		ProducerID:  value.MustBeInt64(producerID.Value),
+		FirstOffset: value.MustBeInt64(firstOffset.Value),
 	}, nil
 }
