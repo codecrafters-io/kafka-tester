@@ -17,7 +17,7 @@ func decodeV0Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 
 	return headers.ResponseHeader{
 		Version:       0,
-		CorrelationId: correlationId,
+		CorrelationId: value.MustBeInt32(correlationId.Value),
 	}, nil
 }
 
@@ -33,7 +33,7 @@ func decodeV1Header(decoder *field_decoder.FieldDecoder) (headers.ResponseHeader
 
 	return headers.ResponseHeader{
 		Version:       1,
-		CorrelationId: correlationId,
+		CorrelationId: value.MustBeInt32(correlationId.Value),
 	}, nil
 }
 
@@ -46,9 +46,10 @@ func decodeCompactArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc f
 		return nil, err
 	}
 
-	elements := make([]T, lengthValue.ActualLength())
+	lengthValueAsCompactArrayLength := value.MustBeCompactArrayLength(lengthValue.Value)
+	elements := make([]T, lengthValueAsCompactArrayLength.ActualLength())
 
-	for i := 0; i < int(lengthValue.ActualLength()); i++ {
+	for i := 0; i < int(lengthValueAsCompactArrayLength.ActualLength()); i++ {
 		decoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))
 		element, err := decodeFunc(decoder)
 		decoder.PopPathContext()
@@ -72,17 +73,21 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 		return nil, err
 	}
 
-	if lengthValue.Value < 0 {
+	lengthValueAsInt32 := value.MustBeInt32(lengthValue.Value)
+	if lengthValueAsInt32.Value < 0 {
 		// Null array
-		if lengthValue.Value == -1 {
+		if lengthValueAsInt32.Value == -1 {
 			return nil, nil
 		}
-		return nil, decoder.WrapError(fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value))
+		return nil, decoder.GetDecoderErrorForField(
+			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValueAsInt32.Value),
+			lengthValue,
+		)
 	}
 
-	elements := make([]T, lengthValue.Value)
+	elements := make([]T, lengthValueAsInt32.Value)
 
-	for i := 0; i < int(lengthValue.Value); i++ {
+	for i := 0; i < int(lengthValueAsInt32.Value); i++ {
 		decoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))
 		element, err := decodeFunc(decoder)
 		decoder.PopPathContext()
@@ -110,9 +115,15 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 		return nil, err
 	}
 
-	if decoder.RemainingBytesCount() < recordBatchesCompactSize.ActualSize() {
-		errorMessage := fmt.Errorf("Expected total size of record batches to be %d bytes, got %d bytes", recordBatchesCompactSize.ActualSize(), decoder.RemainingBytesCount())
-		return kafkaapi.RecordBatches{}, decoder.WrapError(errorMessage)
+	recordBatchesSize := value.MustBeCompactRecordSize(recordBatchesCompactSize.Value)
+
+	if decoder.RemainingBytesCount() < recordBatchesSize.ActualSize() {
+		errorMessage := fmt.Errorf(
+			"RecordBatch byte count was decoded as %d bytes, got %d bytes remaining",
+			recordBatchesSize.ActualSize(),
+			decoder.RemainingBytesCount(),
+		)
+		return kafkaapi.RecordBatches{}, decoder.GetDecoderErrorForField(errorMessage, recordBatchesCompactSize)
 	}
 
 	recordBatchesStartOffset := decoder.ReadBytesCount()
@@ -120,18 +131,23 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	allRecordBatches := kafkaapi.RecordBatches{}
 
 	index := 0
-	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
+	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesSize.ActualSize()) {
 		recordBatch, err := decodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
 		if err != nil {
-			return nil, decoder.WrapError(err)
+			return nil, err
 		}
 		allRecordBatches = append(allRecordBatches, recordBatch)
 		index += 1
 	}
 
 	// verify record batch size
-	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesCompactSize.ActualSize()) {
-		return nil, decoder.WrapError(fmt.Errorf("Expected recordbatches size to be %d, got %d", (decoder.ReadBytesCount() - recordBatchesStartOffset), recordBatchesCompactSize.ActualSize()))
+	if decoder.ReadBytesCount() != (recordBatchesStartOffset + recordBatchesSize.ActualSize()) {
+		errorMessage := fmt.Errorf(
+			"Expected RecordBatch byte count to be %d, got %d instead",
+			(decoder.ReadBytesCount() - recordBatchesStartOffset),
+			recordBatchesSize.ActualSize(),
+		)
+		return nil, decoder.GetDecoderErrorForField(errorMessage, recordBatchesCompactSize)
 	}
 
 	return allRecordBatches, nil
@@ -211,30 +227,42 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	recordBatchEndOffset := decoder.ReadBytesCount()
 
 	decodedRecordBatch := kafkaapi.RecordBatch{
-		BaseOffset:           baseOffset,
-		BatchLength:          batchLength,
-		PartitionLeaderEpoch: partitionLeaderEpoch,
-		Magic:                magicByte,
-		CRC:                  crc,
-		Attributes:           attributes,
-		LastOffsetDelta:      lastOffsetDelta,
-		FirstTimestamp:       firstTimeStamp,
-		MaxTimestamp:         maxTimeStamp,
-		ProducerId:           producerId,
-		ProducerEpoch:        producerEpoch,
-		BaseSequence:         baseSequence,
+		BaseOffset:           value.MustBeInt64(baseOffset.Value),
+		BatchLength:          value.MustBeInt32(batchLength.Value),
+		PartitionLeaderEpoch: value.MustBeInt32(partitionLeaderEpoch.Value),
+		Magic:                value.MustBeInt8(magicByte.Value),
+		CRC:                  value.MustBeInt32(crc.Value),
+		Attributes:           value.MustBeInt16(attributes.Value),
+		LastOffsetDelta:      value.MustBeInt32(lastOffsetDelta.Value),
+		FirstTimestamp:       value.MustBeInt64(firstTimeStamp.Value),
+		MaxTimestamp:         value.MustBeInt64(maxTimeStamp.Value),
+		ProducerId:           value.MustBeInt64(producerId.Value),
+		ProducerEpoch:        value.MustBeInt16(producerEpoch.Value),
+		BaseSequence:         value.MustBeInt32(baseSequence.Value),
 		Records:              records,
 	}
 
 	// verify crc
 	crcOK := decodedRecordBatch.IsCRCValueOk()
 	if !crcOK {
-		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Incorrect CRC value for the record batch"))
+		errorMessage := fmt.Errorf(
+			"Expected CRC value for the record batch to be %s, got %s instead",
+			decodedRecordBatch.GetComputedCRCValue(),
+			decodedRecordBatch.CRC,
+		)
+		return kafkaapi.RecordBatch{}, decoder.GetDecoderErrorForField(errorMessage, crc)
 	}
 
 	// verify length
-	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLength.Value) {
-		return kafkaapi.RecordBatch{}, decoder.WrapError(fmt.Errorf("Expected RecordBatch length to be %d, got %d", (recordBatchEndOffset - recordBatchStartOffset), batchLength.Value))
+	batchLengthAsInt32 := value.MustBeInt32(batchLength.Value)
+
+	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLengthAsInt32.Value) {
+		errorMessage := fmt.Errorf(
+			"Expected RecordBatch length to be %d (actual record length), got %d",
+			(recordBatchEndOffset - recordBatchStartOffset),
+			batchLengthAsInt32.Value,
+		)
+		return kafkaapi.RecordBatch{}, decoder.GetDecoderErrorForField(errorMessage, batchLength)
 	}
 
 	return decodedRecordBatch, nil
@@ -248,6 +276,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	if err != nil {
 		return kafkaapi.Record{}, err
 	}
+	recordLengthAsVarint := value.MustBeVarint(recordLength.Value)
 
 	recordStartOffset := decoder.ReadBytesCount()
 
@@ -271,13 +300,17 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		return kafkaapi.Record{}, err
 	}
 
-	key := value.RawBytes{}
-	if keyLength.Value > -1 {
-		key, err = decoder.ReadRawBytes("Key", int(keyLength.Value))
+	keyLengthAsVarInt := value.MustBeVarint(keyLength.Value)
+	recordKey := value.RawBytes{}
+
+	if keyLengthAsVarInt.Value > -1 {
+		keyField, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarInt.Value))
 
 		if err != nil {
 			return kafkaapi.Record{}, err
 		}
+
+		recordKey = value.MustBeRawBytes(keyField.Value)
 	}
 
 	valueLength, err := decoder.ReadVarint("ValueLength")
@@ -286,12 +319,17 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		return kafkaapi.Record{}, err
 	}
 
+	valueLengthAsVarInt := value.MustBeVarint(valueLength.Value)
 	recordValue := value.RawBytes{}
-	if valueLength.Value > -1 {
-		recordValue, err = decoder.ReadRawBytes("Value", int(valueLength.Value))
+
+	if valueLengthAsVarInt.Value > -1 {
+		recordValueField, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarInt.Value))
+
 		if err != nil {
 			return kafkaapi.Record{}, err
 		}
+
+		recordValue = value.MustBeRawBytes(recordValueField.Value)
 	}
 
 	headersLength, err := decoder.ReadVarint("HeadersLength")
@@ -299,11 +337,13 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		return kafkaapi.Record{}, err
 	}
 
+	headersLengthAsVarInt := value.MustBeVarint(headersLength.Value)
+
 	var headers []kafkaapi.RecordHeader
 
-	if headersLength.Value != -1 {
-		headers = make([]kafkaapi.RecordHeader, headersLength.Value)
-		for i := 0; i < int(headersLength.Value); i++ {
+	if headersLengthAsVarInt.Value != -1 {
+		headers = make([]kafkaapi.RecordHeader, headersLengthAsVarInt.Value)
+		for i := 0; i < int(headersLengthAsVarInt.Value); i++ {
 			header, err := decodeRecordHeader(decoder)
 			if err != nil {
 				return kafkaapi.Record{}, err
@@ -314,16 +354,21 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 
 	recordEndOffset := decoder.ReadBytesCount()
 
-	if recordEndOffset-recordStartOffset != uint64(recordLength.Value) {
-		return kafkaapi.Record{}, decoder.WrapError(fmt.Errorf("Expected record length to be %d, got %d", (recordEndOffset - recordStartOffset), recordLength.Value))
+	if recordEndOffset-recordStartOffset != uint64(recordLengthAsVarint.Value) {
+		errorMessage := fmt.Errorf(
+			"Expected record length to be %d(actual size of record), got %d instead.",
+			(recordEndOffset - recordStartOffset),
+			recordLengthAsVarint.Value,
+		)
+		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(errorMessage, recordLength)
 	}
 
 	return kafkaapi.Record{
-		Size:           recordLength,
-		Attributes:     attributes,
-		TimestampDelta: timestampDelta,
-		OffsetDelta:    offsetDelta,
-		Key:            key,
+		Size:           value.MustBeVarint(recordLengthAsVarint),
+		Attributes:     value.MustBeInt8(attributes.Value),
+		TimestampDelta: value.MustBeVarint(timestampDelta.Value),
+		OffsetDelta:    value.MustBeVarint(offsetDelta.Value),
+		Key:            recordKey,
 		Value:          recordValue,
 		Headers:        headers,
 	}, nil
@@ -338,7 +383,9 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 		return kafkaapi.RecordHeader{}, err
 	}
 
-	keyBytes, err := decoder.ReadRawBytes("Key", int(keyLength.Value))
+	keyLengthAsVarint := value.MustBeVarint(keyLength.Value)
+
+	keyBytes, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarint.Value))
 	if err != nil {
 		return kafkaapi.RecordHeader{}, err
 	}
@@ -348,13 +395,15 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 		return kafkaapi.RecordHeader{}, err
 	}
 
-	valueBytes, err := decoder.ReadRawBytes("Value", int(valueLength.Value))
+	valueLengthAsVarint := value.MustBeVarint(valueLength.Value)
+
+	valueBytes, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarint.Value))
 	if err != nil {
 		return kafkaapi.RecordHeader{}, err
 	}
 
 	return kafkaapi.RecordHeader{
-		Key:   keyBytes,
-		Value: valueBytes,
+		Key:   value.MustBeRawBytes(keyBytes.Value),
+		Value: value.MustBeRawBytes(valueBytes.Value),
 	}, nil
 }
