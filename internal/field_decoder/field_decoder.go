@@ -48,18 +48,11 @@ func (d *FieldDecoder) PopPathContext() {
 	d.currentPathContexts = d.currentPathContexts[:len(d.currentPathContexts)-1]
 }
 
-func (d *FieldDecoder) getStartOffsetOfLastDecodedField() int {
+func (d *FieldDecoder) getLastDecodedField() field.Field {
 	if len(d.decodedFields) == 0 {
-		panic("Codecrafters Internal Error - getStartOffsetOfLastDecodedField was called when no fields have been decoded so far.")
+		panic("Codecrafters Internal Error - getLastDecodedField was called when no fields have been decoded so far.")
 	}
-	return d.decodedFields[len(d.decodedFields)-1].StartOffset
-}
-
-func (d *FieldDecoder) getEndOffsetOfLastDecodedField() int {
-	if len(d.decodedFields) == 0 {
-		panic("Codecrafters Internal Error - getEndOffsetOfLastDecodedField was called when no fields have been decoded so far.")
-	}
-	return d.decodedFields[len(d.decodedFields)-1].EndOffset
+	return d.decodedFields[len(d.decodedFields)-1]
 }
 
 func (d *FieldDecoder) ReadCompactArrayLengthField(path string) (field.Field, FieldDecoderError) {
@@ -73,12 +66,7 @@ func (d *FieldDecoder) ReadCompactArrayLengthField(path string) (field.Field, Fi
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadCompactRecordSizeField(path string) (field.Field, FieldDecoderError) {
@@ -92,12 +80,7 @@ func (d *FieldDecoder) ReadCompactRecordSizeField(path string) (field.Field, Fie
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadUnsignedVarInt(path string) (field.Field, FieldDecoderError) {
@@ -112,12 +95,7 @@ func (d *FieldDecoder) ReadUnsignedVarInt(path string) (field.Field, FieldDecode
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadVarint(path string) (field.Field, FieldDecoderError) {
@@ -132,12 +110,7 @@ func (d *FieldDecoder) ReadVarint(path string) (field.Field, FieldDecoderError) 
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadCompactNullableStringField(path string) (field.Field, FieldDecoderError) {
@@ -163,12 +136,7 @@ func (d *FieldDecoder) ReadCompactNullableStringField(path string) (field.Field,
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadCompactStringField(path string) (field.Field, FieldDecoderError) {
@@ -199,12 +167,7 @@ func (d *FieldDecoder) ReadCompactStringField(path string) (field.Field, FieldDe
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadUUIDField(path string) (field.Field, FieldDecoderError) {
@@ -217,12 +180,8 @@ func (d *FieldDecoder) ReadUUIDField(path string) (field.Field, FieldDecoderErro
 	}
 
 	d.appendDecodedField(decodedValue)
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadBooleanField(path string) (field.Field, FieldDecoderError) {
@@ -235,12 +194,8 @@ func (d *FieldDecoder) ReadBooleanField(path string) (field.Field, FieldDecoderE
 	}
 
 	d.appendDecodedField(decodedValue)
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadInt16Field(path string) (field.Field, FieldDecoderError) {
@@ -254,12 +209,7 @@ func (d *FieldDecoder) ReadInt16Field(path string) (field.Field, FieldDecoderErr
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadInt8Field(path string) (field.Field, FieldDecoderError) {
@@ -273,12 +223,7 @@ func (d *FieldDecoder) ReadInt8Field(path string) (field.Field, FieldDecoderErro
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadInt32Field(path string) (field.Field, FieldDecoderError) {
@@ -292,12 +237,7 @@ func (d *FieldDecoder) ReadInt32Field(path string) (field.Field, FieldDecoderErr
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadInt64Field(path string) (field.Field, FieldDecoderError) {
@@ -312,12 +252,7 @@ func (d *FieldDecoder) ReadInt64Field(path string) (field.Field, FieldDecoderErr
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ReadRawBytes(path string, count int) (field.Field, FieldDecoderError) {
@@ -331,12 +266,7 @@ func (d *FieldDecoder) ReadRawBytes(path string, count int) (field.Field, FieldD
 
 	d.appendDecodedField(decodedValue)
 
-	return field.Field{
-		Value:       decodedValue,
-		Path:        d.currentPath(),
-		StartOffset: d.getStartOffsetOfLastDecodedField(),
-		EndOffset:   d.getEndOffsetOfLastDecodedField(),
-	}, nil
+	return d.getLastDecodedField(), nil
 }
 
 func (d *FieldDecoder) ConsumeTagBufferField() FieldDecoderError {
