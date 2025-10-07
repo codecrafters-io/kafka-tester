@@ -80,7 +80,7 @@ func decodeArray[T any](decoder *field_decoder.FieldDecoder, decodeFunc func(*fi
 			return nil, nil
 		}
 		return nil, decoder.GetDecoderErrorForField(
-			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValue.Value),
+			fmt.Errorf("Expected array length to be -1 or a non-negative number, got %d", lengthValueAsInt32.Value),
 			lengthValue,
 		)
 	}
@@ -260,7 +260,7 @@ func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 		errorMessage := fmt.Errorf(
 			"Expected RecordBatch length to be %d (actual record length), got %d",
 			(recordBatchEndOffset - recordBatchStartOffset),
-			batchLength.Value,
+			batchLengthAsInt32.Value,
 		)
 		return kafkaapi.RecordBatch{}, decoder.GetDecoderErrorForField(errorMessage, batchLength)
 	}
@@ -358,7 +358,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		errorMessage := fmt.Errorf(
 			"Expected record length to be %d(actual size of record), got %d instead.",
 			(recordEndOffset - recordStartOffset),
-			recordLength.Value,
+			recordLengthAsVarint.Value,
 		)
 		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(errorMessage, recordLength)
 	}

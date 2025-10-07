@@ -49,10 +49,16 @@ func (d *FieldDecoder) PopPathContext() {
 }
 
 func (d *FieldDecoder) getStartOffsetOfLastDecodedField() int {
+	if len(d.decodedFields) == 0 {
+		panic("Codecrafters Internal Error - getStartOffsetOfLastDecodedField was called when no fields have been decoded so far.")
+	}
 	return d.decodedFields[len(d.decodedFields)-1].StartOffset
 }
 
 func (d *FieldDecoder) getEndOffsetOfLastDecodedField() int {
+	if len(d.decodedFields) == 0 {
+		panic("Codecrafters Internal Error - getEndOffsetOfLastDecodedField was called when no fields have been decoded so far.")
+	}
 	return d.decodedFields[len(d.decodedFields)-1].EndOffset
 }
 
