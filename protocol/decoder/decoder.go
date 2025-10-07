@@ -33,7 +33,7 @@ func (d *Decoder) RemainingBytesCount() uint64 {
 func (d *Decoder) ReadBoolean() (kafkaValue.Boolean, DecoderError) {
 	if d.RemainingBytesCount() < 1 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Boolean{}, d.GetDecodingError(fmt.Errorf("Expected BOOLEAN length to be 1 byte, got %d bytes", rem))
+		return kafkaValue.Boolean{}, d.wrapError(fmt.Errorf("Expected BOOLEAN length to be 1 byte, got %d bytes", rem))
 	}
 
 	readByte := d.buffer.MustReadNBytes(1)[0]
@@ -46,7 +46,7 @@ func (d *Decoder) ReadBoolean() (kafkaValue.Boolean, DecoderError) {
 func (d *Decoder) ReadInt8() (kafkaValue.Int8, DecoderError) {
 	if d.RemainingBytesCount() < 1 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Int8{}, d.GetDecodingError(fmt.Errorf("Expected INT8 length to be 1 bytes, got %d bytes", rem))
+		return kafkaValue.Int8{}, d.wrapError(fmt.Errorf("Expected INT8 length to be 1 bytes, got %d bytes", rem))
 	}
 
 	readByte := d.buffer.MustReadNBytes(1)[0]
@@ -60,7 +60,7 @@ func (d *Decoder) ReadInt8() (kafkaValue.Int8, DecoderError) {
 func (d *Decoder) ReadInt16() (kafkaValue.Int16, DecoderError) {
 	if d.RemainingBytesCount() < 2 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Int16{}, d.GetDecodingError(fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem))
+		return kafkaValue.Int16{}, d.wrapError(fmt.Errorf("Expected INT16 length to be 2 bytes, got %d bytes", rem))
 	}
 
 	decodedInteger := kafkaValue.Int16{
@@ -73,7 +73,7 @@ func (d *Decoder) ReadInt16() (kafkaValue.Int16, DecoderError) {
 func (d *Decoder) ReadInt32() (kafkaValue.Int32, DecoderError) {
 	if d.RemainingBytesCount() < 4 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Int32{}, d.GetDecodingError(fmt.Errorf("Expected INT32 length to be 4 bytes, got %d bytes", rem))
+		return kafkaValue.Int32{}, d.wrapError(fmt.Errorf("Expected INT32 length to be 4 bytes, got %d bytes", rem))
 	}
 
 	decodedInteger := kafkaValue.Int32{
@@ -86,7 +86,7 @@ func (d *Decoder) ReadInt32() (kafkaValue.Int32, DecoderError) {
 func (d *Decoder) ReadInt64() (kafkaValue.Int64, DecoderError) {
 	if d.RemainingBytesCount() < 8 {
 		rem := d.RemainingBytesCount()
-		return kafkaValue.Int64{}, d.GetDecodingError(fmt.Errorf("Expected INT64 length to be 8 bytes, got %d bytes", rem))
+		return kafkaValue.Int64{}, d.wrapError(fmt.Errorf("Expected INT64 length to be 8 bytes, got %d bytes", rem))
 	}
 
 	decodedInteger := kafkaValue.Int64{
@@ -104,12 +104,12 @@ func (d *Decoder) ReadUnsignedVarint() (kafkaValue.UnsignedVarint, DecoderError)
 
 	// binary.Uvarint returns 0 bytes read if buffer is too small
 	if numberOfBytesRead == 0 {
-		return kafkaValue.UnsignedVarint{}, d.GetDecodingError(errors.New("Insufficient bytes to decode UNSIGNED_VARINT"))
+		return kafkaValue.UnsignedVarint{}, d.wrapError(errors.New("Insufficient bytes to decode UNSIGNED_VARINT"))
 	}
 
 	// binary.Uvarint returns negative if malformed
 	if numberOfBytesRead < 0 {
-		return kafkaValue.UnsignedVarint{}, d.GetDecodingError(errors.New("Malformed UNSIGNED_VARINT encoding"))
+		return kafkaValue.UnsignedVarint{}, d.wrapError(errors.New("Malformed UNSIGNED_VARINT encoding"))
 	}
 
 	return kafkaValue.UnsignedVarint{
@@ -125,12 +125,12 @@ func (d *Decoder) ReadVarint() (kafkaValue.Varint, DecoderError) {
 
 	// binary.Varint returns 0 bytes read if buffer is too small
 	if numberOfBytesRead == 0 {
-		return kafkaValue.Varint{}, d.GetDecodingError(errors.New("Insufficient bytes to decode VARINT"))
+		return kafkaValue.Varint{}, d.wrapError(errors.New("Insufficient bytes to decode VARINT"))
 	}
 
 	// binary.Varint returns negative if malformed
 	if numberOfBytesRead < 0 {
-		return kafkaValue.Varint{}, d.GetDecodingError(errors.New("Malformed VARINT encoding"))
+		return kafkaValue.Varint{}, d.wrapError(errors.New("Malformed VARINT encoding"))
 	}
 
 	return kafkaValue.Varint{
@@ -163,11 +163,11 @@ func (d *Decoder) ReadCompactString() (kafkaValue.CompactString, DecoderError) {
 
 	lengthValue, err := d.ReadCompactStringLength()
 	if err != nil {
-		return kafkaValue.CompactString{}, d.GetDecodingError(err)
+		return kafkaValue.CompactString{}, d.wrapError(err)
 	}
 
 	if lengthValue.Value == 0 {
-		return kafkaValue.CompactString{}, d.GetInvalidDecodedValueError(
+		return kafkaValue.CompactString{}, NewDecoderErrorForRange(
 			fmt.Errorf("Compact string length cannot be 0"),
 			int(lengthStartOffset),
 			// Because buffer points to the byte next to the last byte of the lengthValue, we adjust that here
@@ -176,7 +176,7 @@ func (d *Decoder) ReadCompactString() (kafkaValue.CompactString, DecoderError) {
 	}
 
 	if d.RemainingBytesCount() < lengthValue.ActualLength() {
-		return kafkaValue.CompactString{}, d.GetDecodingError(fmt.Errorf("Expected COMPACT_STRING contents to be %d bytes long, only got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+		return kafkaValue.CompactString{}, d.wrapError(fmt.Errorf("Expected COMPACT_STRING contents to be %d bytes long, only got %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
 	}
 
 	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
@@ -204,7 +204,7 @@ func (d *Decoder) ReadCompactRecordSize() (kafkaValue.CompactRecordSize, Decoder
 // So, need help implementing a better solution if exists.
 func (d *Decoder) ReadRawBytes(count int) (kafkaValue.RawBytes, DecoderError) {
 	if d.RemainingBytesCount() < uint64(count) {
-		return kafkaValue.RawBytes{}, d.GetDecodingError(fmt.Errorf("Expected remaining bytes count for reading raw bytes to be %d, got %d", count, d.RemainingBytesCount()))
+		return kafkaValue.RawBytes{}, d.wrapError(fmt.Errorf("Expected remaining bytes count for reading raw bytes to be %d, got %d", count, d.RemainingBytesCount()))
 	}
 
 	readBytes := d.buffer.MustReadNBytes(uint64(count))
@@ -218,7 +218,7 @@ func (d *Decoder) ReadCompactNullableString() (kafkaValue.CompactNullableString,
 	lengthValue, err := d.ReadCompactStringLength()
 
 	if err != nil {
-		return kafkaValue.CompactNullableString{}, d.GetDecodingError(err)
+		return kafkaValue.CompactNullableString{}, d.wrapError(err)
 	}
 
 	if lengthValue.Value == 0 {
@@ -226,7 +226,7 @@ func (d *Decoder) ReadCompactNullableString() (kafkaValue.CompactNullableString,
 	}
 
 	if d.RemainingBytesCount() < lengthValue.ActualLength() {
-		return kafkaValue.CompactNullableString{}, d.GetDecodingError(fmt.Errorf("Expected COMPACT_NULLABLE_STRING contents to be %d bytes long, got only %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
+		return kafkaValue.CompactNullableString{}, d.wrapError(fmt.Errorf("Expected COMPACT_NULLABLE_STRING contents to be %d bytes long, got only %d", lengthValue.ActualLength(), d.RemainingBytesCount()))
 	}
 
 	rawBytes := d.buffer.MustReadNBytes(lengthValue.ActualLength())
@@ -241,7 +241,7 @@ func (d *Decoder) ReadUUID() (kafkaValue.UUID, DecoderError) {
 	uuidBytesCount := 16
 
 	if d.RemainingBytesCount() < uint64(uuidBytesCount) {
-		return kafkaValue.UUID{}, d.GetDecodingError(fmt.Errorf("Expected UUID contents to be %d bytes long, got only %d", uuidBytesCount, d.RemainingBytesCount()))
+		return kafkaValue.UUID{}, d.wrapError(fmt.Errorf("Expected UUID contents to be %d bytes long, got only %d", uuidBytesCount, d.RemainingBytesCount()))
 	}
 
 	uuidStartOffset := d.buffer.Offset()
@@ -249,7 +249,7 @@ func (d *Decoder) ReadUUID() (kafkaValue.UUID, DecoderError) {
 
 	uuid, err := uuid.FromBytes(uuidBytes)
 	if err != nil {
-		return kafkaValue.UUID{}, d.GetInvalidDecodedValueError(
+		return kafkaValue.UUID{}, NewDecoderErrorForRange(
 			fmt.Errorf("Failed to decode UUID: %s", err),
 			int(uuidStartOffset),
 			int(d.buffer.Offset()-1),
@@ -284,7 +284,7 @@ func (d *Decoder) ConsumeTagBuffer() DecoderError {
 		if err != nil {
 			return err
 		} else if int(length.Value) < 0 {
-			return d.GetInvalidDecodedValueError(
+			return NewDecoderErrorForRange(
 				errors.New("Expected length of value in tag buffer to be non-negative"),
 				int(lengthStartOffset),
 				int(d.buffer.Offset()-1),
@@ -301,7 +301,7 @@ func (d *Decoder) ConsumeTagBuffer() DecoderError {
 
 func (d *Decoder) consumeRawBytes(length uint64) DecoderError {
 	if length > uint64(d.RemainingBytesCount()) {
-		return d.GetDecodingError(fmt.Errorf("Expected length to be lesser than remaining bytes (%d), got %d", d.RemainingBytesCount(), length))
+		return d.wrapError(fmt.Errorf("Expected length to be lesser than remaining bytes (%d), got %d", d.RemainingBytesCount(), length))
 	}
 
 	// Moves the offset
@@ -310,22 +310,11 @@ func (d *Decoder) consumeRawBytes(length uint64) DecoderError {
 	return nil
 }
 
-func (d *Decoder) GetDecodingError(err error) *decodingError {
+func (d *Decoder) wrapError(err error) *decoderErrorImpl {
 	// If we've already wrapped the error, preserve the offset
-	if decoderError, ok := err.(*decodingError); ok {
+	if decoderError, ok := err.(*decoderErrorImpl); ok {
 		return decoderError
 	}
 
-	return &decodingError{
-		message: err.Error(),
-		offset:  int(d.buffer.Offset()),
-	}
-}
-
-func (d *Decoder) GetInvalidDecodedValueError(err error, startOffset, endOffset int) *invalidDecodedValueError {
-	return &invalidDecodedValueError{
-		message:     err.Error(),
-		startOffset: startOffset,
-		endOffset:   endOffset,
-	}
+	return NewDecoderErrorForOffset(err, int(d.buffer.Offset()))
 }
