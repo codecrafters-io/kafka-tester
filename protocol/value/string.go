@@ -8,6 +8,9 @@ type String struct {
 }
 
 func (v String) String() string {
+	if v.Value == "" {
+		return `""`
+	}
 	return v.Value
 }
 

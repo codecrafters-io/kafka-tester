@@ -1,0 +1,112 @@
+Debug = true
+
+[33m[tester::#FD8] [0m[94mRunning tests for Stage #FD8 (fd8)[0m
+[33m[tester::#FD8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
+[33m[tester::#FD8] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[your_program] [0mLogs from your program will appear here!
+[33m[your_program] [0mThis server will always assume that a fetch request will be sent to it.
+[33m[your_program] [0mThis server will always assume that the topic sent in the request exists.
+[33m[your_program] [0mIt will deliberately tamper the CRC32 bytes of recordbatch.
+[33m[your_program] [0mListening on port: 9092
+[33m[tester::#FD8] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
+[33m[tester::#FD8] [Encoder] [0m[36m- FetchRequest[0m
+[33m[tester::#FD8] [Encoder] [0m[36m  - Header[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - APIKey (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - APIVersion (16)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - CorrelationID (2105232020)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - ClientID (kafka-tester)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m  - Body[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MaxWaitMS (500)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MinBytes (1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - MaxBytes (2147483647)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - IsolationLevel (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - SessionID (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - SessionEpoch (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - Topics[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Topics[0][0m
+[33m[tester::#FD8] [Encoder] [0m[36m        - Topic[0m
+[33m[tester::#FD8] [Encoder] [0m[36m          - UUID (71a59a51-8968-4f8b-937e-36d1d292864e)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m          - Partitions[0m
+[33m[tester::#FD8] [Encoder] [0m[36m            - Length (2 (Array length(1) + 1))[0m
+[33m[tester::#FD8] [Encoder] [0m[36m            - Partitions[0][0m
+[33m[tester::#FD8] [Encoder] [0m[36m              - Partition[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - ID (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - CurrentLeaderEpoch (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - FetchOffset (0)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - LastFetchedOffset (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - LogStartOffset (-1)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m                - PartitionMaxBytes (2147483647)[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - ForgottenTopics[0m
+[33m[tester::#FD8] [Encoder] [0m[36m      - Length (1 (Array length(0) + 1))[0m
+[33m[tester::#FD8] [Encoder] [0m[36m    - RackID ("")[0m
+[33m[tester::#FD8] [client] [0m[94mSending "Fetch" request[0m
+[33m[tester::#FD8] [client] [0m[36mHexdump of sent "Fetch" request: [0m
+[33m[tester::#FD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#FD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 63 00 01 00 10 7d 7b 4a 94 00 0c 6b 61 | ...c....}{J...ka[0m
+[33m[tester::#FD8] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 00 01 f4 00 | fka-tester......[0m
+[33m[tester::#FD8] [client] [0m[36m0020 | 00 00 01 7f ff ff ff 00 00 00 00 00 00 00 00 00 | ................[0m
+[33m[tester::#FD8] [client] [0m[36m0030 | 02 71 a5 9a 51 89 68 4f 8b 93 7e 36 d1 d2 92 86 | .q..Q.hO..~6....[0m
+[33m[tester::#FD8] [client] [0m[36m0040 | 4e 02 00 00 00 00 ff ff ff ff 00 00 00 00 00 00 | N...............[0m
+[33m[tester::#FD8] [client] [0m[36m0050 | 00 00 ff ff ff ff ff ff ff ff ff ff ff ff 7f ff | ................[0m
+[33m[tester::#FD8] [client] [0m[36m0060 | ff ff 00 00 01 01 00                            | .......[0m
+[33m[tester::#FD8] [client] [0m[36m[0m
+[33m[tester::#FD8] [client] [0m[36mHexdump of received "Fetch" response: [0m
+[33m[tester::#FD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#FD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#FD8] [client] [0m[36m0000 | 00 00 00 df 7d 7b 4a 94 00 00 00 00 00 00 00 00 | ....}{J.........[0m
+[33m[tester::#FD8] [client] [0m[36m0010 | 00 00 00 02 71 a5 9a 51 89 68 4f 8b 93 7e 36 d1 | ....q..Q.hO..~6.[0m
+[33m[tester::#FD8] [client] [0m[36m0020 | d2 92 86 4e 02 00 00 00 00 00 00 00 00 00 00 00 | ...N............[0m
+[33m[tester::#FD8] [client] [0m[36m0030 | 00 00 02 00 00 00 00 00 00 00 02 00 00 00 00 00 | ................[0m
+[33m[tester::#FD8] [client] [0m[36m0040 | 00 00 00 01 ff ff ff ff 97 01 00 00 00 00 00 00 | ................[0m
+[33m[tester::#FD8] [client] [0m[36m0050 | 00 00 00 00 00 41 00 00 00 00 02 30 ca 40 9d 00 | .....A.....0.@..[0m
+[33m[tester::#FD8] [client] [0m[36m0060 | 00 00 00 00 00 00 00 01 91 e0 5b 6d 8b 00 00 01 | ..........[m....[0m
+[33m[tester::#FD8] [client] [0m[36m0070 | 91 e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 | ..[m............[0m
+[33m[tester::#FD8] [client] [0m[36m0080 | 00 00 00 00 00 00 01 1e 00 00 00 01 12 70 69 6e | .............pin[0m
+[33m[tester::#FD8] [client] [0m[36m0090 | 65 61 70 70 6c 65 01 00 00 00 00 00 00 00 01 00 | eapple..........[0m
+[33m[tester::#FD8] [client] [0m[36m00a0 | 00 00 3d 00 00 00 00 02 52 f4 6e 2e 00 00 00 00 | ..=.....R.n.....[0m
+[33m[tester::#FD8] [client] [0m[36m00b0 | 00 00 00 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b | .......[m......[[0m
+[33m[tester::#FD8] [client] [0m[36m00c0 | 6d 8b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | m...............[0m
+[33m[tester::#FD8] [client] [0m[36m00d0 | 00 00 00 01 16 00 00 00 01 0a 67 72 61 70 65 01 | ..........grape.[0m
+[33m[tester::#FD8] [client] [0m[36m00e0 | 00 00 00                                        | ...[0m
+[33m[tester::#FD8] [client] [0m[36m[0m
+[33m[tester::#FD8] [Decoder] [0m[94m- FetchResponse[0m
+[33m[tester::#FD8] [Decoder] [0m[94m  - Header[0m
+[33m[tester::#FD8] [Decoder] [0m[94m    - CorrelationID (2105232020)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m  - Body[0m
+[33m[tester::#FD8] [Decoder] [0m[94m    - ThrottleTimeMS (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m    - ErrorCode (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m    - SessionID (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m    - Topics[0m
+[33m[tester::#FD8] [Decoder] [0m[94m      - Length (2 (Array length(1) + 1))[0m
+[33m[tester::#FD8] [Decoder] [0m[94m      - Topics[0][0m
+[33m[tester::#FD8] [Decoder] [0m[94m        - UUID (71a59a51-8968-4f8b-937e-36d1d292864e)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m        - Partitions[0m
+[33m[tester::#FD8] [Decoder] [0m[94m          - Length (2 (Array length(1) + 1))[0m
+[33m[tester::#FD8] [Decoder] [0m[94m          - Partitions[0][0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - Id (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - ErrorCode (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - HighWaterMark (2)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - LastStableOffset (2)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - LogStartOffset (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - AbortedTransactions[0m
+[33m[tester::#FD8] [Decoder] [0m[94m              - Length (1 (Array length(0) + 1))[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - PreferredReadReplica (-1)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m            - RecordBatches[0m
+[33m[tester::#FD8] [Decoder] [0m[94m              - Size (151 (Record size(150) + 1))[0m
+[33m[tester::#FD8] [Decoder] [0m[94m              - RecordBatches[0][0m
+[33m[tester::#FD8] [Decoder] [0m[94m                - Offset (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m                - Length (65)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m                - PartitionLeaderEpoch (0)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m                - MagicByte (2)[0m
+[33m[tester::#FD8] [Decoder] [0m[94m                ❌ CRC (818561181)[0m
+[33m[tester::#FD8] [0m[91mReceived bytes:[0m
+[33m[tester::#FD8] [0m[91mHex (bytes 82-97)                               | ASCII[0m
+[33m[tester::#FD8] [0m[91m------------------------------------------------+------------------[0m
+[33m[tester::#FD8] [0m[91m00 00 00 00 02 30 ca 40 9d 00 00 00 00 00 00 00 | .....0.@........[0m
+[33m[tester::#FD8] [0m[91m                ^--------^                             ^--^[0m
+[33m[tester::#FD8] [0m[91mExpected CRC value for the record batch to be -818561182, got 818561181 instead[0m
+[33m[tester::#FD8] [0m[91mTest failed[0m
+[33m[tester::#FD8] [0m[36mTerminating program[0m
+[33m[tester::#FD8] [0m[36mProgram terminated successfully[0m

@@ -36,9 +36,16 @@ type RecordBatch struct {
 }
 
 func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
-	// Set CRC and batch size
-	rb.SetCRC()
-	rb.SetBatchLength()
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
+
+	rb.CRC = value.Int32{
+		Value: int32(computedChecksum),
+	}
+
+	rb.BatchLength = value.Int32{
+		Value: int32(len(propertiesBytes) + 4 + 1 + 4), // partitionLeaderEpoch + magic value + CRC
+	}
 
 	// Encode everything now
 	pe.WriteInt64(rb.BaseOffset.Value)
@@ -46,15 +53,24 @@ func (rb *RecordBatch) Encode(pe *encoder.Encoder) {
 	pe.WriteInt32(rb.PartitionLeaderEpoch.Value)
 	pe.WriteInt8(2)             // Magic value is 2
 	pe.WriteInt32(rb.CRC.Value) // CRC placeholder
-	pe.WriteRawBytes(rb.getPropertiesAsBytes())
+	pe.WriteRawBytes(propertiesBytes)
 }
 
 func (rb *RecordBatch) IsCRCValueOk() bool {
-	return true
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	computedCheckSum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
+	return uint32(rb.CRC.Value) == computedCheckSum
+}
+
+func (rb *RecordBatch) GetComputedCRCValue() value.Int32 {
+	propertiesBytes := rb.GetPropertiesAsBytes()
+	return value.Int32{
+		Value: int32(crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))),
+	}
 }
 
 func (rb *RecordBatch) SetBatchLength() {
-	propertiesBytes := rb.getPropertiesAsBytes()
+	propertiesBytes := rb.GetPropertiesAsBytes()
 
 	rb.BatchLength = value.Int32{
 		Value: int32(len(propertiesBytes) + 4 + 1 + 4), // partitionLeaderEpoch + magic value + CRC
@@ -62,15 +78,15 @@ func (rb *RecordBatch) SetBatchLength() {
 }
 
 func (rb *RecordBatch) SetCRC() {
-	propertiesBytes := rb.getPropertiesAsBytes()
-
+	propertiesBytes := rb.GetPropertiesAsBytes()
 	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))
+
 	rb.CRC = value.Int32{
 		Value: int32(computedChecksum),
 	}
 }
 
-func (rb *RecordBatch) getPropertiesAsBytes() []byte {
+func (rb *RecordBatch) GetPropertiesAsBytes() []byte {
 	propertiesEncoder := encoder.NewEncoder()
 	propertiesEncoder.WriteInt16(rb.Attributes.Value)
 	propertiesEncoder.WriteInt32(rb.LastOffsetDelta.Value)
@@ -86,5 +102,6 @@ func (rb *RecordBatch) getPropertiesAsBytes() []byte {
 		record.Encode(propertiesEncoder)
 	}
 
-	return propertiesEncoder.Bytes()
+	propertiesEncoderBytes := propertiesEncoder.Bytes()
+	return propertiesEncoderBytes
 }

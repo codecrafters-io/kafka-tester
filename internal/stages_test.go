@@ -19,6 +19,27 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/base/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"base_stage_zero_message_length_nv3": {
+			StageSlugs:          []string{"nv3"},
+			CodePath:            "./test_helpers/scenarios/base/zero_message_length_nv3",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/zero_message_length_nv3",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"base_stage_wrong_message_length_pv1": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/wrong_message_length_pv1",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/wrong_message_length_pv1",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"base_stage_insufficient_message_length_bytes": {
+			StageSlugs:          []string{"pv1"},
+			CodePath:            "./test_helpers/scenarios/base/insufficient_message_length_bytes",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/base/insufficient_message_length_bytes",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"base_stage_correlation_id_mismatch": {
 			StageSlugs:          []string{"pv1"},
 			CodePath:            "./test_helpers/scenarios/base/correlation_id_mismatch",
@@ -75,6 +96,20 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/produce/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"fetch_recordbatch_checksum_fail": {
+			StageSlugs:          []string{"fd8"},
+			CodePath:            "./test_helpers/scenarios/fetch/recordbatch_checksum_fail",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/recordbatch_checksum_fail",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"fetch_recordbatch_size_wrong": {
+			StageSlugs:          []string{"fd8"},
+			CodePath:            "./test_helpers/scenarios/fetch/recordbatch_incorrect_size",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/fetch/recordbatch_incorrect_size",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
@@ -82,7 +117,7 @@ func TestStages(t *testing.T) {
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"hexdump":                {regexp.MustCompile(`(?m)(^\x1b\[33m\[tester::#[a-zA-Z0-9-]{3}\] \x1b\[0m\x1b\[36m[0-9a-f]{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
+		"hexdump":                {regexp.MustCompile(`(?m)(^\x1b\[33m\[tester::#[a-zA-Z0-9-]{3}\]( \[[a-zA-Z0-9-]+\])? \x1b\[0m\x1b\[36m[0-9a-f]{4} \| ([a-f0-9][a-f0-9] ){1,16} *\| [[:ascii:]]{1,16}\x1b\[0m\n?)+`)},
 		"session_id":             {regexp.MustCompile(`- .session_id \([0-9]{0,16}\)`)},
 		"leader_id":              {regexp.MustCompile(`- .leader_id \([-0-9]{1,}\)`)},
 		"leader_epoch":           {regexp.MustCompile(`- .leader_epoch \([-0-9]{1,}\)`)},
