@@ -53,7 +53,7 @@ func decodeDescribeTopicPartitionsResponseBody(decoder *field_decoder.FieldDecod
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseBody{
-		ThrottleTimeMs: throttleTimeMs,
+		ThrottleTimeMs: value.MustBeInt32(throttleTimeMs.Value),
 		Topics:         topics,
 		NextCursor:     cursor,
 	}, err
@@ -97,12 +97,12 @@ func decodeTopic(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPar
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseTopic{
-		ErrorCode:                 errorCode,
-		Name:                      name,
-		TopicUUID:                 topicUUID,
-		IsInternal:                isInternal,
+		ErrorCode:                 value.MustBeInt16(errorCode.Value),
+		Name:                      value.MustBeCompactNullableString(name.Value),
+		TopicUUID:                 value.MustBeUUID(topicUUID.Value),
+		IsInternal:                value.MustBeBoolean(isInternal.Value),
 		Partitions:                partitions,
-		TopicAuthorizedOperations: topicAuthorizedOperations,
+		TopicAuthorizedOperations: value.MustBeInt32(topicAuthorizedOperations.Value),
 	}, nil
 }
 
@@ -157,10 +157,10 @@ func decodePartition(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopi
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponsePartition{
-		ErrorCode:              errorCode,
-		PartitionIndex:         partitionIndex,
-		LeaderId:               leaderId,
-		LeaderEpoch:            leaderEpoch,
+		ErrorCode:              value.MustBeInt16(errorCode.Value),
+		PartitionIndex:         value.MustBeInt32(partitionIndex.Value),
+		LeaderId:               value.MustBeInt32(leaderId.Value),
+		LeaderEpoch:            value.MustBeInt32(leaderEpoch.Value),
 		ReplicaNodes:           replicaNodes,
 		IsrNodes:               isrNodes,
 		EligibleLeaderReplicas: eligibleLeaderReplicas,
@@ -178,7 +178,8 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 		return kafkaapi.DescribeTopicPartitionsResponseCursor{}, err
 	}
 
-	if isCursorPresent.Value == -1 {
+	isCursorPresentAsInt8 := value.MustBeInt8(isCursorPresent.Value)
+	if isCursorPresentAsInt8.Value == -1 {
 		return kafkaapi.DescribeTopicPartitionsResponseCursor{}, nil
 	}
 
@@ -197,27 +198,47 @@ func decodeCursor(decoder *field_decoder.FieldDecoder) (kafkaapi.DescribeTopicPa
 	}
 
 	return kafkaapi.DescribeTopicPartitionsResponseCursor{
-		TopicName:      topicName,
-		PartitionIndex: partitionIndex,
+		TopicName:      value.MustBeCompactString(topicName.Value),
+		PartitionIndex: value.MustBeInt32(partitionIndex.Value),
 	}, nil
 }
 
 func decodeReplicaNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("ReplicaNode")
+	replicaNode, err := decoder.ReadInt32Field("ReplicaNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return value.MustBeInt32(replicaNode.Value), nil
 }
 
 func decodeIsrNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("IsrNode")
+	isrNode, err := decoder.ReadInt32Field("IsrNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return value.MustBeInt32(isrNode.Value), nil
 }
 
 func decodeEligibleLeaderReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("EligibleLeaderReplica")
+	eligibleLeaderReplica, err := decoder.ReadInt32Field("EligibleLeaderReplica")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return value.MustBeInt32(eligibleLeaderReplica.Value), nil
 }
 
 func decodeLastKnownELRNode(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("LastKnownELRNode")
+	lastKnownELRNode, err := decoder.ReadInt32Field("LastKnownELRNode")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return value.MustBeInt32(lastKnownELRNode.Value), nil
 }
 
 func decodeOfflineReplica(decoder *field_decoder.FieldDecoder) (value.Int32, field_decoder.FieldDecoderError) {
-	return decoder.ReadInt32Field("OfflineReplica")
+	offlineReplica, err := decoder.ReadInt32Field("OfflineReplica")
+	if err != nil {
+		return value.Int32{}, err
+	}
+	return value.MustBeInt32(offlineReplica.Value), nil
 }

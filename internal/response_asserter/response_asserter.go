@@ -37,12 +37,16 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 
 	var singleFieldAssertionError error
 	var singleFieldAssertionErrorPath field_path.FieldPath
+	var singleFieldAssertionErrorStartOffset int
+	var singleFieldAssertionErrorEndOffset int
 
 	// First, let's assert the decoded values
 	for _, decodedField := range decoder.DecodedFields() {
 		if err := a.Assertion.AssertSingleField(decodedField); err != nil {
 			singleFieldAssertionError = err
 			singleFieldAssertionErrorPath = decodedField.Path
+			singleFieldAssertionErrorStartOffset = decodedField.StartOffset
+			singleFieldAssertionErrorEndOffset = decodedField.EndOffset
 			break
 		}
 	}
@@ -55,19 +59,15 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 		Logger: fieldTreePrinterLogger,
 	}
 
-	// TODO: Add tests for this and revive the logic: Will incorporate in a new PR
-	//
-	// If there are bytes remaining after decoding, we should report this as an error
-	// if assertionError == nil && decodeError == nil && decoder.RemainingBytesCount() != 0 {
-	// 	decodeError = &field_decoder.FieldDecoderError{
-	// 		Message: fmt.Sprintf("unexpected %d bytes found after decoding response", decoder.RemainingBytesCount()),
-	// 		Path:    field_path.NewFieldPath("RemainingBytes"), // Used for formatting error message
-	// 	}
-	// }
-
 	// Let's prefer single-field assertion errors over decode errors since they're more friendly and actionable
 	if singleFieldAssertionError != nil {
 		fieldTreePrinter.PrintForFieldAssertionError(singleFieldAssertionErrorPath)
+		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
+		a.Logger.Errorln("Received bytes:")
+		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedRange(
+			singleFieldAssertionErrorStartOffset,
+			singleFieldAssertionErrorEndOffset,
+		))
 		return actualResponse, singleFieldAssertionError
 	}
 
@@ -75,7 +75,7 @@ func (a ResponseAsserter[ResponseType]) DecodeAndAssertSingleFields(response kaf
 		fieldTreePrinter.PrintForDecodeError(decodeError.Path())
 		receivedBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(responsePayload)
 		a.Logger.Errorln("Received bytes:")
-		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedOffset(decodeError.Offset()))
+		a.Logger.Errorln(receivedBytesHexDump.FormatWithHighlightedRange(decodeError.StartOffset(), decodeError.EndOffset()))
 
 		return actualResponse, decodeError
 	}

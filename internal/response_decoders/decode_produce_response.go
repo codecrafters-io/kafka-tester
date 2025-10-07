@@ -3,6 +3,7 @@ package response_decoders
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
+	"github.com/codecrafters-io/kafka-tester/protocol/value"
 )
 
 func DecodeProduceResponse(decoder *field_decoder.FieldDecoder) (
@@ -48,7 +49,7 @@ func decodeProduceResponseBody(decoder *field_decoder.FieldDecoder) (kafkaapi.Pr
 
 	return kafkaapi.ProduceResponseBody{
 		Topics:         topics,
-		ThrottleTimeMs: throttleTimeMs,
+		ThrottleTimeMs: value.MustBeInt32(throttleTimeMs.Value),
 	}, nil
 }
 
@@ -68,7 +69,7 @@ func decodeProduceResponseTopicData(decoder *field_decoder.FieldDecoder) (kafkaa
 	}
 
 	return kafkaapi.ProduceResponseTopicData{
-		Name:       name,
+		Name:       value.MustBeCompactString(name.Value),
 		Partitions: partitions,
 	}, nil
 }
@@ -114,13 +115,13 @@ func decodeProduceResponsePartitionData(decoder *field_decoder.FieldDecoder) (ka
 	}
 
 	return kafkaapi.ProduceResponsePartitionData{
-		Id:              id,
-		ErrorCode:       errorCode,
-		BaseOffset:      baseOffset,
-		LogAppendTimeMs: logAppendTimeMs,
-		LogStartOffset:  logStartOffset,
+		Id:              value.MustBeInt32(id.Value),
+		ErrorCode:       value.MustBeInt16(errorCode.Value),
+		BaseOffset:      value.MustBeInt64(baseOffset.Value),
+		LogAppendTimeMs: value.MustBeInt64(logAppendTimeMs.Value),
+		LogStartOffset:  value.MustBeInt64(logStartOffset.Value),
 		RecordErrors:    recordErrors,
-		ErrorMessage:    errorMessage,
+		ErrorMessage:    value.MustBeCompactNullableString(errorMessage.Value),
 	}, nil
 }
 
@@ -140,7 +141,7 @@ func decodeProduceResponseRecordErrorsData(decoder *field_decoder.FieldDecoder) 
 	}
 
 	return kafkaapi.ProduceResponseRecordErrorData{
-		BatchIndex:   batchIndex,
-		ErrorMessage: errorMessage,
+		BatchIndex:   value.MustBeInt32(batchIndex.Value),
+		ErrorMessage: value.MustBeCompactNullableString(errorMessage.Value),
 	}, nil
 }
