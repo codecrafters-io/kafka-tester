@@ -9,7 +9,7 @@ type ResponseAssertion[T any] interface {
 	// AssertSingleField is used to assert fields as they're decoded.
 	//
 	// Errors will be rendered in the middle of the decoded response, right after the specific field.
-	AssertSingleField(field field.Field) *SingleFieldAssertionError
+	AssertSingleField(field field.Field) error
 
 	// AssertAcrossFields is used to run assertions that span multiple fields and hence wouldn't fit in AssertSingleField.
 	//

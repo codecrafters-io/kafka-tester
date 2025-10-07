@@ -51,7 +51,7 @@ Hex (bytes 15-30)                               | ASCII
 	for _, testCase := range testCases {
 		t.Run(string(testCase.bytes), func(t *testing.T) {
 			ibs := NewInspectableHexDump(testCase.bytes)
-			result := ibs.FormatWithHighlightedOffsets(testCase.highlightOffset, testCase.highlightOffset)
+			result := ibs.FormatWithHighlightedRange(testCase.highlightOffset, testCase.highlightOffset)
 			assert.Equal(t, testCase.expected, result)
 		})
 	}
@@ -93,7 +93,7 @@ Hex (bytes 0-11)                                | ASCII
 	for _, testCase := range testCases {
 		t.Run(fmt.Sprintf("%s_%d_%d", string(testCase.bytes), testCase.startOffset, testCase.endOffset), func(t *testing.T) {
 			ibs := NewInspectableHexDump(testCase.bytes)
-			result := ibs.FormatWithHighlightedOffsets(testCase.startOffset, testCase.endOffset)
+			result := ibs.FormatWithHighlightedRange(testCase.startOffset, testCase.endOffset)
 			assert.Equal(t, testCase.expected, result)
 		})
 	}

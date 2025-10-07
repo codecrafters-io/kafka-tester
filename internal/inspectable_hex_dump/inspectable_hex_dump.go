@@ -19,7 +19,7 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 	return InspectableHexDump{bytes: bytes}
 }
 
-// FormatWithHighlightedOffsets returns a string that represents the hexdump with the byteOffset highlighted
+// FormatWithHighlightedRange returns a string that represents the hexdump with the byteOffset highlighted
 //
 // For example, if called with startOffset 4 and endOffset 6, the return value will be something like this:
 //
@@ -34,7 +34,7 @@ func NewInspectableHexDump(bytes []byte) InspectableHexDump {
 // > ------------------------------------------------+------------------
 // > 48 65 6c 6c 6f 20 57 6f 72 6c 64 21             | Hello World!
 // >              ^                                  |     ^
-func (s InspectableHexDump) FormatWithHighlightedOffsets(startOffset, endOffset int) string {
+func (s InspectableHexDump) FormatWithHighlightedRange(startOffset, endOffset int) string {
 	if endOffset < startOffset {
 		panic("Codecrafters Internal Error - Start offset larger than end offset in InspectableHexDump")
 	}
