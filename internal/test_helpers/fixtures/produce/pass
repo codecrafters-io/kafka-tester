@@ -2,8 +2,8 @@ Debug = true
 
 [33m[tester::#XZ1] [0m[94mRunning tests for Stage #XZ1 (xz1)[0m
 [33m[tester::#XZ1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#XZ1] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#XZ1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#XZ1] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#XZ1] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#XZ1] [Encoder] [0m[36m- ApiVersionsRequest[0m
 [33m[tester::#XZ1] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#XZ1] [Encoder] [0m[36m    - APIKey (18)[0m
@@ -13,59 +13,59 @@ Debug = true
 [33m[tester::#XZ1] [Encoder] [0m[36m  - Body[0m
 [33m[tester::#XZ1] [Encoder] [0m[36m    - ClientSoftwareName (kafka-cli)[0m
 [33m[tester::#XZ1] [Encoder] [0m[36m    - ClientSoftwareVersion (0.1)[0m
-[33m[tester::#XZ1] [0m[94mSending "ApiVersions" request[0m
-[33m[tester::#XZ1] [0m[36mHexdump of sent "ApiVersions" request: [0m
-[33m[tester::#XZ1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#XZ1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#XZ1] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
-[33m[tester::#XZ1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
-[33m[tester::#XZ1] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
-[33m[tester::#XZ1] [0m[36m[0m
-[33m[tester::#XZ1] [0m[36mHexdump of received "ApiVersions" response: [0m
-[33m[tester::#XZ1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#XZ1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#XZ1] [0m[36m0000 | 00 00 02 19 0a 95 c1 bf 00 00 3e 00 00 00 00 00 | ..........>.....[0m
-[33m[tester::#XZ1] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[tester::#XZ1] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[tester::#XZ1] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[tester::#XZ1] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[tester::#XZ1] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[tester::#XZ1] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[tester::#XZ1] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[tester::#XZ1] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[tester::#XZ1] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[tester::#XZ1] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[tester::#XZ1] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
-[33m[tester::#XZ1] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
-[33m[tester::#XZ1] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
-[33m[tester::#XZ1] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[tester::#XZ1] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
-[33m[tester::#XZ1] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[tester::#XZ1] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[tester::#XZ1] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[tester::#XZ1] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[tester::#XZ1] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[tester::#XZ1] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[tester::#XZ1] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[tester::#XZ1] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[tester::#XZ1] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#XZ1] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#XZ1] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
-[33m[tester::#XZ1] [0m[36m[0m
+[33m[tester::#XZ1] [client] [0m[94mSending "ApiVersions" request[0m
+[33m[tester::#XZ1] [client] [0m[36mHexdump of sent "ApiVersions" request: [0m
+[33m[tester::#XZ1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#XZ1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#XZ1] [client] [0m[36m0000 | 00 00 00 26 00 12 00 04 0a 95 c1 bf 00 0c 6b 61 | ...&..........ka[0m
+[33m[tester::#XZ1] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 0a 6b 61 66 6b | fka-tester..kafk[0m
+[33m[tester::#XZ1] [client] [0m[36m0020 | 61 2d 63 6c 69 04 30 2e 31 00                   | a-cli.0.1.[0m
+[33m[tester::#XZ1] [client] [0m[36m[0m
+[33m[tester::#XZ1] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
+[33m[tester::#XZ1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#XZ1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#XZ1] [client] [0m[36m0000 | 00 00 02 19 0a 95 c1 bf 00 00 3e 00 00 00 00 00 | ..........>.....[0m
+[33m[tester::#XZ1] [client] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
+[33m[tester::#XZ1] [client] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
+[33m[tester::#XZ1] [client] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
+[33m[tester::#XZ1] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
+[33m[tester::#XZ1] [client] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
+[33m[tester::#XZ1] [client] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
+[33m[tester::#XZ1] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
+[33m[tester::#XZ1] [client] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
+[33m[tester::#XZ1] [client] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
+[33m[tester::#XZ1] [client] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
+[33m[tester::#XZ1] [client] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
+[33m[tester::#XZ1] [client] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
+[33m[tester::#XZ1] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
+[33m[tester::#XZ1] [client] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
+[33m[tester::#XZ1] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
+[33m[tester::#XZ1] [client] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
+[33m[tester::#XZ1] [client] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
+[33m[tester::#XZ1] [client] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
+[33m[tester::#XZ1] [client] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
+[33m[tester::#XZ1] [client] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
+[33m[tester::#XZ1] [client] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
+[33m[tester::#XZ1] [client] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
+[33m[tester::#XZ1] [client] [0m[36m[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m    - CorrelationID (177586623)[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m    - ErrorCode (0)[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m    - ApiKeys[0m
-[33m[tester::#XZ1] [Decoder] [0m[36m      - Length (61)[0m
+[33m[tester::#XZ1] [Decoder] [0m[36m      - Length (62 (Array length(61) + 1))[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m      - ApiKeys[0][0m
 [33m[tester::#XZ1] [Decoder] [0m[36m        - APIKey (0)[0m
 [33m[tester::#XZ1] [Decoder] [0m[36m        - MinVersion (0)[0m
@@ -324,8 +324,8 @@ Debug = true
 
 [33m[tester::#ZF2] [0m[94mRunning tests for Stage #ZF2 (zf2)[0m
 [33m[tester::#ZF2] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#ZF2] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#ZF2] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#ZF2] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#ZF2] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#ZF2] [0m[94mTesting Response for valid topic but invalid partition[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m  - Header[0m
@@ -337,11 +337,11 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m      - Name (orange)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m          - Id (720)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m          - RecordBatchesSize (74)[0m
@@ -370,37 +370,37 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - ValueLength (5)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - Value ([109 97 110 103 111] -> UTF-8: (mango))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#ZF2] [0m[94mSending "Produce" request[0m
-[33m[tester::#ZF2] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#ZF2] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#ZF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#ZF2] [0m[36m0000 | 00 00 00 78 00 00 00 0b 47 b3 69 78 00 0c 6b 61 | ...x....G.ix..ka[0m
-[33m[tester::#ZF2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#ZF2] [0m[36m0020 | 75 30 02 07 6f 72 61 6e 67 65 02 00 00 02 d0 4a | u0..orange.....J[0m
-[33m[tester::#ZF2] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 3d 00 00 00 00 | ...........=....[0m
-[33m[tester::#ZF2] [0m[36m0040 | 02 72 bc 4a b0 00 00 00 00 00 00 00 00 01 91 e0 | .r.J............[0m
-[33m[tester::#ZF2] [0m[36m0050 | 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 | [m......[m......[0m
-[33m[tester::#ZF2] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 01 16 00 00 | ................[0m
-[33m[tester::#ZF2] [0m[36m0070 | 00 01 0a 6d 61 6e 67 6f 00 00 00 00             | ...mango....[0m
-[33m[tester::#ZF2] [0m[36m[0m
-[33m[tester::#ZF2] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#ZF2] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#ZF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#ZF2] [0m[36m0000 | 00 00 00 35 47 b3 69 78 00 02 07 6f 72 61 6e 67 | ...5G.ix...orang[0m
-[33m[tester::#ZF2] [0m[36m0010 | 65 02 00 00 02 d0 00 03 ff ff ff ff ff ff ff ff | e...............[0m
-[33m[tester::#ZF2] [0m[36m0020 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
-[33m[tester::#ZF2] [0m[36m0030 | 01 00 00 00 00 00 00 00 00                      | .........[0m
-[33m[tester::#ZF2] [0m[36m[0m
+[33m[tester::#ZF2] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#ZF2] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#ZF2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#ZF2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#ZF2] [client] [0m[36m0000 | 00 00 00 78 00 00 00 0b 47 b3 69 78 00 0c 6b 61 | ...x....G.ix..ka[0m
+[33m[tester::#ZF2] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#ZF2] [client] [0m[36m0020 | 75 30 02 07 6f 72 61 6e 67 65 02 00 00 02 d0 4a | u0..orange.....J[0m
+[33m[tester::#ZF2] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 3d 00 00 00 00 | ...........=....[0m
+[33m[tester::#ZF2] [client] [0m[36m0040 | 02 72 bc 4a b0 00 00 00 00 00 00 00 00 01 91 e0 | .r.J............[0m
+[33m[tester::#ZF2] [client] [0m[36m0050 | 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 | [m......[m......[0m
+[33m[tester::#ZF2] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 01 16 00 00 | ................[0m
+[33m[tester::#ZF2] [client] [0m[36m0070 | 00 01 0a 6d 61 6e 67 6f 00 00 00 00             | ...mango....[0m
+[33m[tester::#ZF2] [client] [0m[36m[0m
+[33m[tester::#ZF2] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#ZF2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#ZF2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#ZF2] [client] [0m[36m0000 | 00 00 00 35 47 b3 69 78 00 02 07 6f 72 61 6e 67 | ...5G.ix...orang[0m
+[33m[tester::#ZF2] [client] [0m[36m0010 | 65 02 00 00 02 d0 00 03 ff ff ff ff ff ff ff ff | e...............[0m
+[33m[tester::#ZF2] [client] [0m[36m0020 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff | ................[0m
+[33m[tester::#ZF2] [client] [0m[36m0030 | 01 00 00 00 00 00 00 00 00                      | .........[0m
+[33m[tester::#ZF2] [client] [0m[36m[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - CorrelationID (1202940280)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#ZF2] [Decoder] [0m[36m        - Name (orange)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ID (720)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ErrorCode (3)[0m
@@ -408,7 +408,7 @@ Debug = true
 [33m[tester::#ZF2] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - LogStartOffset (-1)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#ZF2] [0m[92m✓ CorrelationID: 1202940280[0m
@@ -432,11 +432,11 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m      - Name (pear)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#ZF2] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#ZF2] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#ZF2] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m          - RecordBatchesSize (73)[0m
@@ -465,37 +465,37 @@ Debug = true
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - ValueLength (4)[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - Value ([112 101 97 114] -> UTF-8: (pear))[0m
 [33m[tester::#ZF2] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#ZF2] [0m[94mSending "Produce" request[0m
-[33m[tester::#ZF2] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#ZF2] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#ZF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#ZF2] [0m[36m0000 | 00 00 00 75 00 00 00 0b 27 11 57 36 00 0c 6b 61 | ...u....'.W6..ka[0m
-[33m[tester::#ZF2] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#ZF2] [0m[36m0020 | 75 30 02 05 70 65 61 72 02 00 00 00 00 49 00 00 | u0..pear.....I..[0m
-[33m[tester::#ZF2] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 3c 00 00 00 00 02 74 | .........<.....t[0m
-[33m[tester::#ZF2] [0m[36m0040 | be 71 fd 00 00 00 00 00 00 00 00 01 91 e0 5b 6d | .q............[m[0m
-[33m[tester::#ZF2] [0m[36m0050 | 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 00 | ......[m........[0m
-[33m[tester::#ZF2] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 01 14 00 00 00 01 | ................[0m
-[33m[tester::#ZF2] [0m[36m0070 | 08 70 65 61 72 00 00 00 00                      | .pear....[0m
-[33m[tester::#ZF2] [0m[36m[0m
-[33m[tester::#ZF2] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#ZF2] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#ZF2] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#ZF2] [0m[36m0000 | 00 00 00 33 27 11 57 36 00 02 05 70 65 61 72 02 | ...3'.W6...pear.[0m
-[33m[tester::#ZF2] [0m[36m0010 | 00 00 00 00 00 03 ff ff ff ff ff ff ff ff ff ff | ................[0m
-[33m[tester::#ZF2] [0m[36m0020 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 00 | ................[0m
-[33m[tester::#ZF2] [0m[36m0030 | 00 00 00 00 00 00 00                            | .......[0m
-[33m[tester::#ZF2] [0m[36m[0m
+[33m[tester::#ZF2] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#ZF2] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#ZF2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#ZF2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#ZF2] [client] [0m[36m0000 | 00 00 00 75 00 00 00 0b 27 11 57 36 00 0c 6b 61 | ...u....'.W6..ka[0m
+[33m[tester::#ZF2] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#ZF2] [client] [0m[36m0020 | 75 30 02 05 70 65 61 72 02 00 00 00 00 49 00 00 | u0..pear.....I..[0m
+[33m[tester::#ZF2] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 3c 00 00 00 00 02 74 | .........<.....t[0m
+[33m[tester::#ZF2] [client] [0m[36m0040 | be 71 fd 00 00 00 00 00 00 00 00 01 91 e0 5b 6d | .q............[m[0m
+[33m[tester::#ZF2] [client] [0m[36m0050 | 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 00 | ......[m........[0m
+[33m[tester::#ZF2] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 01 14 00 00 00 01 | ................[0m
+[33m[tester::#ZF2] [client] [0m[36m0070 | 08 70 65 61 72 00 00 00 00                      | .pear....[0m
+[33m[tester::#ZF2] [client] [0m[36m[0m
+[33m[tester::#ZF2] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#ZF2] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#ZF2] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#ZF2] [client] [0m[36m0000 | 00 00 00 33 27 11 57 36 00 02 05 70 65 61 72 02 | ...3'.W6...pear.[0m
+[33m[tester::#ZF2] [client] [0m[36m0010 | 00 00 00 00 00 03 ff ff ff ff ff ff ff ff ff ff | ................[0m
+[33m[tester::#ZF2] [client] [0m[36m0020 | ff ff ff ff ff ff ff ff ff ff ff ff ff ff 01 00 | ................[0m
+[33m[tester::#ZF2] [client] [0m[36m0030 | 00 00 00 00 00 00 00                            | .......[0m
+[33m[tester::#ZF2] [client] [0m[36m[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - CorrelationID (655447862)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#ZF2] [Decoder] [0m[36m        - Name (pear)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ErrorCode (3)[0m
@@ -503,7 +503,7 @@ Debug = true
 [33m[tester::#ZF2] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - LogStartOffset (-1)[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#ZF2] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#ZF2] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#ZF2] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#ZF2] [0m[92m✓ CorrelationID: 655447862[0m
@@ -522,8 +522,8 @@ Debug = true
 
 [33m[tester::#GG1] [0m[94mRunning tests for Stage #GG1 (gg1)[0m
 [33m[tester::#GG1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#GG1] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#GG1] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#GG1] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#GG1] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#GG1] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#GG1] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#GG1] [Encoder] [0m[36m    - APIKey (0)[0m
@@ -534,11 +534,11 @@ Debug = true
 [33m[tester::#GG1] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#GG1] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#GG1] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#GG1] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#GG1] [Encoder] [0m[36m      - Name (apple)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#GG1] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#GG1] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#GG1] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#GG1] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m          - RecordBatchesSize (74)[0m
@@ -567,37 +567,37 @@ Debug = true
 [33m[tester::#GG1] [Encoder] [0m[36m                  - ValueLength (5)[0m
 [33m[tester::#GG1] [Encoder] [0m[36m                  - Value ([97 112 112 108 101] -> UTF-8: (apple))[0m
 [33m[tester::#GG1] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#GG1] [0m[94mSending "Produce" request[0m
-[33m[tester::#GG1] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#GG1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#GG1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#GG1] [0m[36m0000 | 00 00 00 77 00 00 00 0b 51 7f 2d 86 00 0c 6b 61 | ...w....Q.-...ka[0m
-[33m[tester::#GG1] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#GG1] [0m[36m0020 | 75 30 02 06 61 70 70 6c 65 02 00 00 00 00 4a 00 | u0..apple.....J.[0m
-[33m[tester::#GG1] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 3d 00 00 00 00 02 | ..........=.....[0m
-[33m[tester::#GG1] [0m[36m0040 | a4 37 a6 ee 00 00 00 00 00 00 00 00 01 91 e0 5b | .7.............[[0m
-[33m[tester::#GG1] [0m[36m0050 | 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 | m......[m.......[0m
-[33m[tester::#GG1] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 01 16 00 00 00 | ................[0m
-[33m[tester::#GG1] [0m[36m0070 | 01 0a 61 70 70 6c 65 00 00 00 00                | ..apple....[0m
-[33m[tester::#GG1] [0m[36m[0m
-[33m[tester::#GG1] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#GG1] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#GG1] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#GG1] [0m[36m0000 | 00 00 00 34 51 7f 2d 86 00 02 06 61 70 70 6c 65 | ...4Q.-....apple[0m
-[33m[tester::#GG1] [0m[36m0010 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
-[33m[tester::#GG1] [0m[36m0020 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#GG1] [0m[36m0030 | 00 00 00 00 00 00 00 00                         | ........[0m
-[33m[tester::#GG1] [0m[36m[0m
+[33m[tester::#GG1] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#GG1] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#GG1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#GG1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#GG1] [client] [0m[36m0000 | 00 00 00 77 00 00 00 0b 51 7f 2d 86 00 0c 6b 61 | ...w....Q.-...ka[0m
+[33m[tester::#GG1] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#GG1] [client] [0m[36m0020 | 75 30 02 06 61 70 70 6c 65 02 00 00 00 00 4a 00 | u0..apple.....J.[0m
+[33m[tester::#GG1] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 3d 00 00 00 00 02 | ..........=.....[0m
+[33m[tester::#GG1] [client] [0m[36m0040 | a4 37 a6 ee 00 00 00 00 00 00 00 00 01 91 e0 5b | .7.............[[0m
+[33m[tester::#GG1] [client] [0m[36m0050 | 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 | m......[m.......[0m
+[33m[tester::#GG1] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 01 16 00 00 00 | ................[0m
+[33m[tester::#GG1] [client] [0m[36m0070 | 01 0a 61 70 70 6c 65 00 00 00 00                | ..apple....[0m
+[33m[tester::#GG1] [client] [0m[36m[0m
+[33m[tester::#GG1] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#GG1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#GG1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#GG1] [client] [0m[36m0000 | 00 00 00 34 51 7f 2d 86 00 02 06 61 70 70 6c 65 | ...4Q.-....apple[0m
+[33m[tester::#GG1] [client] [0m[36m0010 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
+[33m[tester::#GG1] [client] [0m[36m0020 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#GG1] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00                         | ........[0m
+[33m[tester::#GG1] [client] [0m[36m[0m
 [33m[tester::#GG1] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#GG1] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#GG1] [Decoder] [0m[36m    - CorrelationID (1367289222)[0m
 [33m[tester::#GG1] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#GG1] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#GG1] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#GG1] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#GG1] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#GG1] [Decoder] [0m[36m        - Name (apple)[0m
 [33m[tester::#GG1] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#GG1] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#GG1] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#GG1] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#GG1] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#GG1] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -605,7 +605,7 @@ Debug = true
 [33m[tester::#GG1] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#GG1] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#GG1] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#GG1] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#GG1] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#GG1] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#GG1] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#GG1] [0m[92m✓ CorrelationID: 1367289222[0m
@@ -624,8 +624,8 @@ Debug = true
 
 [33m[tester::#LS8] [0m[94mRunning tests for Stage #LS8 (ls8)[0m
 [33m[tester::#LS8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#LS8] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#LS8] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#LS8] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#LS8] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#LS8] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#LS8] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#LS8] [Encoder] [0m[36m    - APIKey (0)[0m
@@ -636,11 +636,11 @@ Debug = true
 [33m[tester::#LS8] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#LS8] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#LS8] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#LS8] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#LS8] [Encoder] [0m[36m      - Name (pineapple)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#LS8] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#LS8] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#LS8] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#LS8] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m          - RecordBatchesSize (74)[0m
@@ -669,37 +669,37 @@ Debug = true
 [33m[tester::#LS8] [Encoder] [0m[36m                  - ValueLength (5)[0m
 [33m[tester::#LS8] [Encoder] [0m[36m                  - Value ([97 112 112 108 101] -> UTF-8: (apple))[0m
 [33m[tester::#LS8] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#LS8] [0m[94mSending "Produce" request[0m
-[33m[tester::#LS8] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#LS8] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#LS8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#LS8] [0m[36m0000 | 00 00 00 7b 00 00 00 0b 7b 4d 6d 13 00 0c 6b 61 | ...{....{Mm...ka[0m
-[33m[tester::#LS8] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#LS8] [0m[36m0020 | 75 30 02 0a 70 69 6e 65 61 70 70 6c 65 02 00 00 | u0..pineapple...[0m
-[33m[tester::#LS8] [0m[36m0030 | 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 3d 00 | ..J...........=.[0m
-[33m[tester::#LS8] [0m[36m0040 | 00 00 00 02 a4 37 a6 ee 00 00 00 00 00 00 00 00 | .....7..........[0m
-[33m[tester::#LS8] [0m[36m0050 | 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 | ...[m......[m...[0m
-[33m[tester::#LS8] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#LS8] [0m[36m0070 | 16 00 00 00 01 0a 61 70 70 6c 65 00 00 00 00    | ......apple....[0m
-[33m[tester::#LS8] [0m[36m[0m
-[33m[tester::#LS8] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#LS8] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#LS8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#LS8] [0m[36m0000 | 00 00 00 38 7b 4d 6d 13 00 02 0a 70 69 6e 65 61 | ...8{Mm....pinea[0m
-[33m[tester::#LS8] [0m[36m0010 | 70 70 6c 65 02 00 00 00 00 00 00 00 00 00 00 00 | pple............[0m
-[33m[tester::#LS8] [0m[36m0020 | 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 00 | ................[0m
-[33m[tester::#LS8] [0m[36m0030 | 00 00 00 01 00 00 00 00 00 00 00 00             | ............[0m
-[33m[tester::#LS8] [0m[36m[0m
+[33m[tester::#LS8] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#LS8] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#LS8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#LS8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#LS8] [client] [0m[36m0000 | 00 00 00 7b 00 00 00 0b 7b 4d 6d 13 00 0c 6b 61 | ...{....{Mm...ka[0m
+[33m[tester::#LS8] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#LS8] [client] [0m[36m0020 | 75 30 02 0a 70 69 6e 65 61 70 70 6c 65 02 00 00 | u0..pineapple...[0m
+[33m[tester::#LS8] [client] [0m[36m0030 | 00 00 4a 00 00 00 00 00 00 00 00 00 00 00 3d 00 | ..J...........=.[0m
+[33m[tester::#LS8] [client] [0m[36m0040 | 00 00 00 02 a4 37 a6 ee 00 00 00 00 00 00 00 00 | .....7..........[0m
+[33m[tester::#LS8] [client] [0m[36m0050 | 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 | ...[m......[m...[0m
+[33m[tester::#LS8] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#LS8] [client] [0m[36m0070 | 16 00 00 00 01 0a 61 70 70 6c 65 00 00 00 00    | ......apple....[0m
+[33m[tester::#LS8] [client] [0m[36m[0m
+[33m[tester::#LS8] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#LS8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#LS8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#LS8] [client] [0m[36m0000 | 00 00 00 38 7b 4d 6d 13 00 02 0a 70 69 6e 65 61 | ...8{Mm....pinea[0m
+[33m[tester::#LS8] [client] [0m[36m0010 | 70 70 6c 65 02 00 00 00 00 00 00 00 00 00 00 00 | pple............[0m
+[33m[tester::#LS8] [client] [0m[36m0020 | 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 00 | ................[0m
+[33m[tester::#LS8] [client] [0m[36m0030 | 00 00 00 01 00 00 00 00 00 00 00 00             | ............[0m
+[33m[tester::#LS8] [client] [0m[36m[0m
 [33m[tester::#LS8] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#LS8] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - CorrelationID (2068671763)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#LS8] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#LS8] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#LS8] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#LS8] [Decoder] [0m[36m        - Name (pineapple)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#LS8] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#LS8] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#LS8] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#LS8] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -707,7 +707,7 @@ Debug = true
 [33m[tester::#LS8] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#LS8] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#LS8] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#LS8] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#LS8] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#LS8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#LS8] [0m[92m✓ CorrelationID: 2068671763[0m
@@ -728,8 +728,8 @@ Debug = true
 
 [33m[tester::#YD8] [0m[94mRunning tests for Stage #YD8 (yd8)[0m
 [33m[tester::#YD8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#YD8] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#YD8] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#YD8] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#YD8] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#YD8] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#YD8] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#YD8] [Encoder] [0m[36m    - APIKey (0)[0m
@@ -740,11 +740,11 @@ Debug = true
 [33m[tester::#YD8] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#YD8] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#YD8] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#YD8] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#YD8] [Encoder] [0m[36m      - Name (apple)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#YD8] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#YD8] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#YD8] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#YD8] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m          - RecordBatchesSize (110)[0m
@@ -793,39 +793,39 @@ Debug = true
 [33m[tester::#YD8] [Encoder] [0m[36m                  - ValueLength (9)[0m
 [33m[tester::#YD8] [Encoder] [0m[36m                  - Value ([98 108 117 101 98 101 114 114 121] -> UTF-8: (blueberry))[0m
 [33m[tester::#YD8] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#YD8] [0m[94mSending "Produce" request[0m
-[33m[tester::#YD8] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#YD8] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#YD8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#YD8] [0m[36m0000 | 00 00 00 9b 00 00 00 0b 7c 6a 25 f8 00 0c 6b 61 | ........|j%...ka[0m
-[33m[tester::#YD8] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#YD8] [0m[36m0020 | 75 30 02 06 61 70 70 6c 65 02 00 00 00 00 6e 00 | u0..apple.....n.[0m
-[33m[tester::#YD8] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 61 00 00 00 00 02 | ..........a.....[0m
-[33m[tester::#YD8] [0m[36m0040 | ef 19 92 85 00 00 00 00 00 02 00 00 01 91 e0 5b | ...............[[0m
-[33m[tester::#YD8] [0m[36m0050 | 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 | m......[m.......[0m
-[33m[tester::#YD8] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 03 1e 00 00 00 | ................[0m
-[33m[tester::#YD8] [0m[36m0070 | 01 12 70 69 6e 65 61 70 70 6c 65 00 1e 00 00 02 | ..pineapple.....[0m
-[33m[tester::#YD8] [0m[36m0080 | 01 12 72 61 73 70 62 65 72 72 79 00 1e 00 00 04 | ..raspberry.....[0m
-[33m[tester::#YD8] [0m[36m0090 | 01 12 62 6c 75 65 62 65 72 72 79 00 00 00 00    | ..blueberry....[0m
-[33m[tester::#YD8] [0m[36m[0m
-[33m[tester::#YD8] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#YD8] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#YD8] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#YD8] [0m[36m0000 | 00 00 00 34 7c 6a 25 f8 00 02 06 61 70 70 6c 65 | ...4|j%....apple[0m
-[33m[tester::#YD8] [0m[36m0010 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
-[33m[tester::#YD8] [0m[36m0020 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#YD8] [0m[36m0030 | 00 00 00 00 00 00 00 00                         | ........[0m
-[33m[tester::#YD8] [0m[36m[0m
+[33m[tester::#YD8] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#YD8] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#YD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#YD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#YD8] [client] [0m[36m0000 | 00 00 00 9b 00 00 00 0b 7c 6a 25 f8 00 0c 6b 61 | ........|j%...ka[0m
+[33m[tester::#YD8] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#YD8] [client] [0m[36m0020 | 75 30 02 06 61 70 70 6c 65 02 00 00 00 00 6e 00 | u0..apple.....n.[0m
+[33m[tester::#YD8] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 61 00 00 00 00 02 | ..........a.....[0m
+[33m[tester::#YD8] [client] [0m[36m0040 | ef 19 92 85 00 00 00 00 00 02 00 00 01 91 e0 5b | ...............[[0m
+[33m[tester::#YD8] [client] [0m[36m0050 | 6d 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 | m......[m.......[0m
+[33m[tester::#YD8] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 03 1e 00 00 00 | ................[0m
+[33m[tester::#YD8] [client] [0m[36m0070 | 01 12 70 69 6e 65 61 70 70 6c 65 00 1e 00 00 02 | ..pineapple.....[0m
+[33m[tester::#YD8] [client] [0m[36m0080 | 01 12 72 61 73 70 62 65 72 72 79 00 1e 00 00 04 | ..raspberry.....[0m
+[33m[tester::#YD8] [client] [0m[36m0090 | 01 12 62 6c 75 65 62 65 72 72 79 00 00 00 00    | ..blueberry....[0m
+[33m[tester::#YD8] [client] [0m[36m[0m
+[33m[tester::#YD8] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#YD8] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#YD8] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#YD8] [client] [0m[36m0000 | 00 00 00 34 7c 6a 25 f8 00 02 06 61 70 70 6c 65 | ...4|j%....apple[0m
+[33m[tester::#YD8] [client] [0m[36m0010 | 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
+[33m[tester::#YD8] [client] [0m[36m0020 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#YD8] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00                         | ........[0m
+[33m[tester::#YD8] [client] [0m[36m[0m
 [33m[tester::#YD8] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#YD8] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - CorrelationID (2087331320)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#YD8] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#YD8] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#YD8] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#YD8] [Decoder] [0m[36m        - Name (apple)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#YD8] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#YD8] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#YD8] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#YD8] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -833,7 +833,7 @@ Debug = true
 [33m[tester::#YD8] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#YD8] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#YD8] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#YD8] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#YD8] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#YD8] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#YD8] [0m[92m✓ CorrelationID: 2087331320[0m
@@ -854,8 +854,8 @@ Debug = true
 
 [33m[tester::#CT4] [0m[94mRunning tests for Stage #CT4 (ct4)[0m
 [33m[tester::#CT4] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#CT4] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#CT4] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#CT4] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#CT4] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#CT4] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#CT4] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#CT4] [Encoder] [0m[36m    - APIKey (0)[0m
@@ -866,11 +866,11 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#CT4] [Encoder] [0m[36m    - Length (1)[0m
+[33m[tester::#CT4] [Encoder] [0m[36m    - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#CT4] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#CT4] [Encoder] [0m[36m      - Name (pear)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#CT4] [Encoder] [0m[36m        - Length (2)[0m
+[33m[tester::#CT4] [Encoder] [0m[36m        - Length (3 (Array length(2) + 1))[0m
 [33m[tester::#CT4] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#CT4] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m          - RecordBatchesSize (103)[0m
@@ -957,47 +957,47 @@ Debug = true
 [33m[tester::#CT4] [Encoder] [0m[36m                  - ValueLength (9)[0m
 [33m[tester::#CT4] [Encoder] [0m[36m                  - Value ([114 97 115 112 98 101 114 114 121] -> UTF-8: (raspberry))[0m
 [33m[tester::#CT4] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#CT4] [0m[94mSending "Produce" request[0m
-[33m[tester::#CT4] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#CT4] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#CT4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CT4] [0m[36m0000 | 00 00 00 f3 00 00 00 0b 5c f5 55 e7 00 0c 6b 61 | ........\.U...ka[0m
-[33m[tester::#CT4] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#CT4] [0m[36m0020 | 75 30 02 05 70 65 61 72 03 00 00 00 00 67 00 00 | u0..pear.....g..[0m
-[33m[tester::#CT4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 5a 00 00 00 00 02 05 | .........Z......[0m
-[33m[tester::#CT4] [0m[36m0040 | 07 c8 bd 00 00 00 00 00 02 00 00 01 91 e0 5b 6d | ..............[m[0m
-[33m[tester::#CT4] [0m[36m0050 | 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 00 | ......[m........[0m
-[33m[tester::#CT4] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 03 16 00 00 00 01 | ................[0m
-[33m[tester::#CT4] [0m[36m0070 | 0a 67 72 61 70 65 00 1e 00 00 02 01 12 72 61 73 | .grape.......ras[0m
-[33m[tester::#CT4] [0m[36m0080 | 70 62 65 72 72 79 00 18 00 00 04 01 0c 6f 72 61 | pberry.......ora[0m
-[33m[tester::#CT4] [0m[36m0090 | 6e 67 65 00 00 00 00 00 01 5b 00 00 00 00 00 00 | nge......[......[0m
-[33m[tester::#CT4] [0m[36m00a0 | 00 00 00 00 00 4e 00 00 00 00 02 49 12 63 90 00 | .....N.....I.c..[0m
-[33m[tester::#CT4] [0m[36m00b0 | 00 00 00 00 01 00 00 01 91 e0 5b 6d 8b 00 00 01 | ..........[m....[0m
-[33m[tester::#CT4] [0m[36m00c0 | 91 e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 | ..[m............[0m
-[33m[tester::#CT4] [0m[36m00d0 | 00 00 00 00 00 00 02 18 00 00 00 01 0c 6f 72 61 | .............ora[0m
-[33m[tester::#CT4] [0m[36m00e0 | 6e 67 65 00 1e 00 00 02 01 12 72 61 73 70 62 65 | nge.......raspbe[0m
-[33m[tester::#CT4] [0m[36m00f0 | 72 72 79 00 00 00 00                            | rry....[0m
-[33m[tester::#CT4] [0m[36m[0m
-[33m[tester::#CT4] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#CT4] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#CT4] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#CT4] [0m[36m0000 | 00 00 00 54 5c f5 55 e7 00 02 05 70 65 61 72 03 | ...T\.U....pear.[0m
-[33m[tester::#CT4] [0m[36m0010 | 00 00 00 01 00 00 00 00 00 00 00 00 00 00 ff ff | ................[0m
-[33m[tester::#CT4] [0m[36m0020 | ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 | ................[0m
-[33m[tester::#CT4] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
-[33m[tester::#CT4] [0m[36m0040 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
-[33m[tester::#CT4] [0m[36m0050 | 00 00 00 00 00 00 00 00                         | ........[0m
-[33m[tester::#CT4] [0m[36m[0m
+[33m[tester::#CT4] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#CT4] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#CT4] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#CT4] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#CT4] [client] [0m[36m0000 | 00 00 00 f3 00 00 00 0b 5c f5 55 e7 00 0c 6b 61 | ........\.U...ka[0m
+[33m[tester::#CT4] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#CT4] [client] [0m[36m0020 | 75 30 02 05 70 65 61 72 03 00 00 00 00 67 00 00 | u0..pear.....g..[0m
+[33m[tester::#CT4] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 5a 00 00 00 00 02 05 | .........Z......[0m
+[33m[tester::#CT4] [client] [0m[36m0040 | 07 c8 bd 00 00 00 00 00 02 00 00 01 91 e0 5b 6d | ..............[m[0m
+[33m[tester::#CT4] [client] [0m[36m0050 | 8b 00 00 01 91 e0 5b 6d 8b 00 00 00 00 00 00 00 | ......[m........[0m
+[33m[tester::#CT4] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 03 16 00 00 00 01 | ................[0m
+[33m[tester::#CT4] [client] [0m[36m0070 | 0a 67 72 61 70 65 00 1e 00 00 02 01 12 72 61 73 | .grape.......ras[0m
+[33m[tester::#CT4] [client] [0m[36m0080 | 70 62 65 72 72 79 00 18 00 00 04 01 0c 6f 72 61 | pberry.......ora[0m
+[33m[tester::#CT4] [client] [0m[36m0090 | 6e 67 65 00 00 00 00 00 01 5b 00 00 00 00 00 00 | nge......[......[0m
+[33m[tester::#CT4] [client] [0m[36m00a0 | 00 00 00 00 00 4e 00 00 00 00 02 49 12 63 90 00 | .....N.....I.c..[0m
+[33m[tester::#CT4] [client] [0m[36m00b0 | 00 00 00 00 01 00 00 01 91 e0 5b 6d 8b 00 00 01 | ..........[m....[0m
+[33m[tester::#CT4] [client] [0m[36m00c0 | 91 e0 5b 6d 8b 00 00 00 00 00 00 00 00 00 00 00 | ..[m............[0m
+[33m[tester::#CT4] [client] [0m[36m00d0 | 00 00 00 00 00 00 02 18 00 00 00 01 0c 6f 72 61 | .............ora[0m
+[33m[tester::#CT4] [client] [0m[36m00e0 | 6e 67 65 00 1e 00 00 02 01 12 72 61 73 70 62 65 | nge.......raspbe[0m
+[33m[tester::#CT4] [client] [0m[36m00f0 | 72 72 79 00 00 00 00                            | rry....[0m
+[33m[tester::#CT4] [client] [0m[36m[0m
+[33m[tester::#CT4] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#CT4] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#CT4] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#CT4] [client] [0m[36m0000 | 00 00 00 54 5c f5 55 e7 00 02 05 70 65 61 72 03 | ...T\.U....pear.[0m
+[33m[tester::#CT4] [client] [0m[36m0010 | 00 00 00 01 00 00 00 00 00 00 00 00 00 00 ff ff | ................[0m
+[33m[tester::#CT4] [client] [0m[36m0020 | ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 | ................[0m
+[33m[tester::#CT4] [client] [0m[36m0030 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff | ................[0m
+[33m[tester::#CT4] [client] [0m[36m0040 | ff ff ff ff ff ff ff 00 00 00 00 00 00 00 00 01 | ................[0m
+[33m[tester::#CT4] [client] [0m[36m0050 | 00 00 00 00 00 00 00 00                         | ........[0m
+[33m[tester::#CT4] [client] [0m[36m[0m
 [33m[tester::#CT4] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#CT4] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#CT4] [Decoder] [0m[36m    - CorrelationID (1559582183)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#CT4] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#CT4] [Decoder] [0m[36m      - Length (1)[0m
+[33m[tester::#CT4] [Decoder] [0m[36m      - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#CT4] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#CT4] [Decoder] [0m[36m        - Name (pear)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#CT4] [Decoder] [0m[36m          - Length (2)[0m
+[33m[tester::#CT4] [Decoder] [0m[36m          - Length (3 (Array length(2) + 1))[0m
 [33m[tester::#CT4] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - ID (1)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -1005,7 +1005,7 @@ Debug = true
 [33m[tester::#CT4] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#CT4] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#CT4] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#CT4] [Decoder] [0m[36m          - Partitions[1][0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - ID (0)[0m
@@ -1014,7 +1014,7 @@ Debug = true
 [33m[tester::#CT4] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#CT4] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#CT4] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#CT4] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#CT4] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#CT4] [0m[92m✓ CorrelationID: 1559582183[0m
@@ -1042,8 +1042,8 @@ Debug = true
 
 [33m[tester::#OV0] [0m[94mRunning tests for Stage #OV0 (ov0)[0m
 [33m[tester::#OV0] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
-[33m[tester::#OV0] [0m[36mConnecting to broker at: localhost:9092[0m
-[33m[tester::#OV0] [0m[36mConnection to broker at localhost:9092 successful[0m
+[33m[tester::#OV0] [client] [0m[36mConnecting to broker at localhost:9092[0m
+[33m[tester::#OV0] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#OV0] [Encoder] [0m[36m- ProduceRequest[0m
 [33m[tester::#OV0] [Encoder] [0m[36m  - Header[0m
 [33m[tester::#OV0] [Encoder] [0m[36m    - APIKey (0)[0m
@@ -1054,11 +1054,11 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m  - Acks (-1)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m  - TimeoutMS (30000)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m  - Topics[0m
-[33m[tester::#OV0] [Encoder] [0m[36m    - Length (2)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m    - Length (3 (Array length(2) + 1))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m    - Topics[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m      - Name (strawberry)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#OV0] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m          - RecordBatchesSize (86)[0m
@@ -1100,7 +1100,7 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m    - Topics[1][0m
 [33m[tester::#OV0] [Encoder] [0m[36m      - Name (grape)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m      - Partitions[0m
-[33m[tester::#OV0] [Encoder] [0m[36m        - Length (1)[0m
+[33m[tester::#OV0] [Encoder] [0m[36m        - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m        - Partitions[0][0m
 [33m[tester::#OV0] [Encoder] [0m[36m          - Id (0)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m          - RecordBatchesSize (100)[0m
@@ -1149,48 +1149,48 @@ Debug = true
 [33m[tester::#OV0] [Encoder] [0m[36m                  - ValueLength (6)[0m
 [33m[tester::#OV0] [Encoder] [0m[36m                  - Value ([111 114 97 110 103 101] -> UTF-8: (orange))[0m
 [33m[tester::#OV0] [Encoder] [0m[36m                  - HeadersLength (0)[0m
-[33m[tester::#OV0] [0m[94mSending "Produce" request[0m
-[33m[tester::#OV0] [0m[36mHexdump of sent "Produce" request: [0m
-[33m[tester::#OV0] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#OV0] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#OV0] [0m[36m0000 | 00 00 00 f9 00 00 00 0b 63 61 17 89 00 0c 6b 61 | ........ca....ka[0m
-[33m[tester::#OV0] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
-[33m[tester::#OV0] [0m[36m0020 | 75 30 03 0b 73 74 72 61 77 62 65 72 72 79 02 00 | u0..strawberry..[0m
-[33m[tester::#OV0] [0m[36m0030 | 00 00 00 56 00 00 00 00 00 00 00 00 00 00 00 49 | ...V...........I[0m
-[33m[tester::#OV0] [0m[36m0040 | 00 00 00 00 02 dd f3 7f 79 00 00 00 00 00 01 00 | ........y.......[0m
-[33m[tester::#OV0] [0m[36m0050 | 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 | ....[m......[m..[0m
-[33m[tester::#OV0] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
-[33m[tester::#OV0] [0m[36m0070 | 02 16 00 00 00 01 0a 61 70 70 6c 65 00 16 00 00 | .......apple....[0m
-[33m[tester::#OV0] [0m[36m0080 | 02 01 0a 6d 61 6e 67 6f 00 00 00 06 67 72 61 70 | ...mango....grap[0m
-[33m[tester::#OV0] [0m[36m0090 | 65 02 00 00 00 00 64 00 00 00 00 00 00 00 00 00 | e.....d.........[0m
-[33m[tester::#OV0] [0m[36m00a0 | 00 00 57 00 00 00 00 02 59 1f 02 26 00 00 00 00 | ..W.....Y..&....[0m
-[33m[tester::#OV0] [0m[36m00b0 | 00 02 00 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b | .......[m......[[0m
-[33m[tester::#OV0] [0m[36m00c0 | 6d 8b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | m...............[0m
-[33m[tester::#OV0] [0m[36m00d0 | 00 00 00 03 16 00 00 00 01 0a 61 70 70 6c 65 00 | ..........apple.[0m
-[33m[tester::#OV0] [0m[36m00e0 | 18 00 00 02 01 0c 62 61 6e 61 6e 61 00 18 00 00 | ......banana....[0m
-[33m[tester::#OV0] [0m[36m00f0 | 04 01 0c 6f 72 61 6e 67 65 00 00 00 00          | ...orange....[0m
-[33m[tester::#OV0] [0m[36m[0m
-[33m[tester::#OV0] [0m[36mHexdump of received "Produce" response: [0m
-[33m[tester::#OV0] [0m[36mIdx  | Hex                                             | ASCII[0m
-[33m[tester::#OV0] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#OV0] [0m[36m0000 | 00 00 00 62 63 61 17 89 00 03 0b 73 74 72 61 77 | ...bca.....straw[0m
-[33m[tester::#OV0] [0m[36m0010 | 62 65 72 72 79 02 00 00 00 00 00 00 00 00 00 00 | berry...........[0m
-[33m[tester::#OV0] [0m[36m0020 | 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 | ................[0m
-[33m[tester::#OV0] [0m[36m0030 | 00 00 00 00 01 00 00 00 06 67 72 61 70 65 02 00 | .........grape..[0m
-[33m[tester::#OV0] [0m[36m0040 | 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
-[33m[tester::#OV0] [0m[36m0050 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
-[33m[tester::#OV0] [0m[36m0060 | 00 00 00 00 00 00                               | ......[0m
-[33m[tester::#OV0] [0m[36m[0m
+[33m[tester::#OV0] [client] [0m[94mSending "Produce" request[0m
+[33m[tester::#OV0] [client] [0m[36mHexdump of sent "Produce" request: [0m
+[33m[tester::#OV0] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#OV0] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#OV0] [client] [0m[36m0000 | 00 00 00 f9 00 00 00 0b 63 61 17 89 00 0c 6b 61 | ........ca....ka[0m
+[33m[tester::#OV0] [client] [0m[36m0010 | 66 6b 61 2d 74 65 73 74 65 72 00 00 ff ff 00 00 | fka-tester......[0m
+[33m[tester::#OV0] [client] [0m[36m0020 | 75 30 03 0b 73 74 72 61 77 62 65 72 72 79 02 00 | u0..strawberry..[0m
+[33m[tester::#OV0] [client] [0m[36m0030 | 00 00 00 56 00 00 00 00 00 00 00 00 00 00 00 49 | ...V...........I[0m
+[33m[tester::#OV0] [client] [0m[36m0040 | 00 00 00 00 02 dd f3 7f 79 00 00 00 00 00 01 00 | ........y.......[0m
+[33m[tester::#OV0] [client] [0m[36m0050 | 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b 6d 8b 00 | ....[m......[m..[0m
+[33m[tester::#OV0] [client] [0m[36m0060 | 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | ................[0m
+[33m[tester::#OV0] [client] [0m[36m0070 | 02 16 00 00 00 01 0a 61 70 70 6c 65 00 16 00 00 | .......apple....[0m
+[33m[tester::#OV0] [client] [0m[36m0080 | 02 01 0a 6d 61 6e 67 6f 00 00 00 06 67 72 61 70 | ...mango....grap[0m
+[33m[tester::#OV0] [client] [0m[36m0090 | 65 02 00 00 00 00 64 00 00 00 00 00 00 00 00 00 | e.....d.........[0m
+[33m[tester::#OV0] [client] [0m[36m00a0 | 00 00 57 00 00 00 00 02 59 1f 02 26 00 00 00 00 | ..W.....Y..&....[0m
+[33m[tester::#OV0] [client] [0m[36m00b0 | 00 02 00 00 01 91 e0 5b 6d 8b 00 00 01 91 e0 5b | .......[m......[[0m
+[33m[tester::#OV0] [client] [0m[36m00c0 | 6d 8b 00 00 00 00 00 00 00 00 00 00 00 00 00 00 | m...............[0m
+[33m[tester::#OV0] [client] [0m[36m00d0 | 00 00 00 03 16 00 00 00 01 0a 61 70 70 6c 65 00 | ..........apple.[0m
+[33m[tester::#OV0] [client] [0m[36m00e0 | 18 00 00 02 01 0c 62 61 6e 61 6e 61 00 18 00 00 | ......banana....[0m
+[33m[tester::#OV0] [client] [0m[36m00f0 | 04 01 0c 6f 72 61 6e 67 65 00 00 00 00          | ...orange....[0m
+[33m[tester::#OV0] [client] [0m[36m[0m
+[33m[tester::#OV0] [client] [0m[36mHexdump of received "Produce" response: [0m
+[33m[tester::#OV0] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
+[33m[tester::#OV0] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
+[33m[tester::#OV0] [client] [0m[36m0000 | 00 00 00 62 63 61 17 89 00 03 0b 73 74 72 61 77 | ...bca.....straw[0m
+[33m[tester::#OV0] [client] [0m[36m0010 | 62 65 72 72 79 02 00 00 00 00 00 00 00 00 00 00 | berry...........[0m
+[33m[tester::#OV0] [client] [0m[36m0020 | 00 00 00 00 ff ff ff ff ff ff ff ff 00 00 00 00 | ................[0m
+[33m[tester::#OV0] [client] [0m[36m0030 | 00 00 00 00 01 00 00 00 06 67 72 61 70 65 02 00 | .........grape..[0m
+[33m[tester::#OV0] [client] [0m[36m0040 | 00 00 00 00 00 00 00 00 00 00 00 00 00 ff ff ff | ................[0m
+[33m[tester::#OV0] [client] [0m[36m0050 | ff ff ff ff ff 00 00 00 00 00 00 00 00 01 00 00 | ................[0m
+[33m[tester::#OV0] [client] [0m[36m0060 | 00 00 00 00 00 00                               | ......[0m
+[33m[tester::#OV0] [client] [0m[36m[0m
 [33m[tester::#OV0] [Decoder] [0m[36m- ProduceResponse[0m
 [33m[tester::#OV0] [Decoder] [0m[36m  - Header[0m
 [33m[tester::#OV0] [Decoder] [0m[36m    - CorrelationID (1667307401)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#OV0] [Decoder] [0m[36m    - Topics[0m
-[33m[tester::#OV0] [Decoder] [0m[36m      - Length (2)[0m
+[33m[tester::#OV0] [Decoder] [0m[36m      - Length (3 (Array length(2) + 1))[0m
 [33m[tester::#OV0] [Decoder] [0m[36m      - Topics[0][0m
 [33m[tester::#OV0] [Decoder] [0m[36m        - Name (strawberry)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#OV0] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#OV0] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#OV0] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -1198,12 +1198,12 @@ Debug = true
 [33m[tester::#OV0] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#OV0] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#OV0] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#OV0] [Decoder] [0m[36m      - Topics[1][0m
 [33m[tester::#OV0] [Decoder] [0m[36m        - Name (grape)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m        - Partitions[0m
-[33m[tester::#OV0] [Decoder] [0m[36m          - Length (1)[0m
+[33m[tester::#OV0] [Decoder] [0m[36m          - Length (2 (Array length(1) + 1))[0m
 [33m[tester::#OV0] [Decoder] [0m[36m          - Partitions[0][0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ID (0)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ErrorCode (0)[0m
@@ -1211,7 +1211,7 @@ Debug = true
 [33m[tester::#OV0] [Decoder] [0m[36m            - LogAppendTimeMs (-1)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - LogStartOffset (0)[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - RecordErrors[0m
-[33m[tester::#OV0] [Decoder] [0m[36m              - Length (0 (EMPTY ARRAY))[0m
+[33m[tester::#OV0] [Decoder] [0m[36m              - Length (1 (Array length(0) + 1))[0m
 [33m[tester::#OV0] [Decoder] [0m[36m            - ErrorMessage ()[0m
 [33m[tester::#OV0] [Decoder] [0m[36m    - ThrottleTimeMS (0)[0m
 [33m[tester::#OV0] [0m[92m✓ CorrelationID: 1667307401[0m
