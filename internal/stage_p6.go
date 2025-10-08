@@ -91,7 +91,9 @@ func testProduceForMultiplePartitions(stageHarness *test_case_harness.TestCaseHa
 		Logger:     stageLogger,
 	}.DecodeAndAssert(rawResponse)
 
-	// TODO: Check the contents of the disk
+	if err != nil {
+		return err
+	}
 
-	return err
+	return assertion.AssertLogFilesOnDisk(request.Body.Topics, stageLogger)
 }

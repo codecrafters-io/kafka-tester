@@ -2,9 +2,14 @@ package response_assertions
 
 import (
 	"fmt"
+	"os"
 	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_tree_printer"
+	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -201,4 +206,77 @@ func (a *ProduceResponseAssertion) AssertAcrossFields(response kafkaapi.ProduceR
 	}
 
 	return nil
+}
+
+func (a *ProduceResponseAssertion) AssertLogFilesOnDisk(topics []kafkaapi.ProduceRequestTopicData, stageLogger *logger.Logger) error {
+	for _, topic := range topics {
+		for _, partition := range topic.Partitions {
+
+			// We support one recordbatch per partition in the stages
+			if len(partition.RecordBatches) != 1 {
+				panic(fmt.Sprintf("Codecrafters Internal Error - Expected exactly one record batch per partition, got %d for topic %s partition %d",
+					len(partition.RecordBatches), topic.Name.Value, partition.Id.Value))
+			}
+
+			expectedRecordBatch := partition.RecordBatches[0]
+
+			// Read the actual log file content
+			logFilePath := fmt.Sprintf("/tmp/kraft-combined-logs/%s-%d/00000000000000000000.log",
+				topic.Name.Value, partition.Id.Value)
+
+			stageLogger.Infof("Checking file contents of the file %s", logFilePath)
+
+			bytesOnDisk, err := os.ReadFile(logFilePath)
+			if err != nil {
+				return fmt.Errorf("failed to read log file %s: %w", logFilePath, err)
+			}
+
+			// Decode the RecordBatch object in the file
+			decoder := field_decoder.NewFieldDecoder(bytesOnDisk)
+			decodedRecordBatch, decodeError := response_decoders.DecodeCompactRecordBatch(decoder, "RecordBatch")
+
+			// DecodeError while decoding RecordBatch from the file
+			if decodeError != nil {
+				printFieldTreeForDecodeError(decodeError, stageLogger, decoder, bytesOnDisk)
+				return decodeError
+			}
+
+			// Check CRC32 checksum
+			if err := int32_assertions.IsEqualTo(expectedRecordBatch.CRC.Value, decodedRecordBatch.CRC); err != nil {
+				logFileHexDump := inspectable_hex_dump.NewInspectableHexDump(bytesOnDisk)
+				stageLogger.Errorln("File contents of " + logFilePath)
+				crc32StartOffset := 8 + 4 + 4 + 1 // BaseOffset (8 bytes) + Batch Length (4 bytes) + Partition Leader Epoch (4 bytes) + Magic Byte (1 Byte)
+				stageLogger.Errorln(logFileHexDump.FormatWithHighlightedRange(
+					crc32StartOffset,
+					// End offset should be the last byte of CRC32
+					crc32StartOffset+3,
+				))
+				return fmt.Errorf("Expected CRC32 of Record Batch to be %d, got %d", expectedRecordBatch.CRC.Value, decodedRecordBatch.CRC.Value)
+			}
+
+			stageLogger.Successf("✓ Contents of the file %s matches the recordbatch format sent in request", logFilePath)
+
+		}
+	}
+
+	return nil
+}
+
+func printFieldTreeForDecodeError(
+	decodeError field_decoder.FieldDecoderError,
+	stageLogger *logger.Logger,
+	decoder *field_decoder.FieldDecoder,
+	bytesOnDisk []byte,
+) {
+	fieldTreePrinterLogger := stageLogger.Clone()
+	fieldTreePrinterLogger.PushSecondaryPrefix("Decoder")
+
+	fieldTreePrinter := field_tree_printer.FieldTreePrinter{
+		Fields: decoder.DecodedFields(),
+		Logger: fieldTreePrinterLogger,
+	}
+	fieldTreePrinter.PrintForDecodeError(decodeError.Path())
+	fileBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(bytesOnDisk)
+	stageLogger.Errorln("Bytes in file:")
+	stageLogger.Errorln(fileBytesHexDump.FormatWithHighlightedRange(decodeError.StartOffset(), decodeError.EndOffset()))
 }

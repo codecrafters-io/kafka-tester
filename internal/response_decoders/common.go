@@ -132,7 +132,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 	index := 0
 	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesSize.ActualSize()) {
-		recordBatch, err := decodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
+		recordBatch, err := DecodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
 		if err != nil {
 			return nil, err
 		}
@@ -153,7 +153,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	return allRecordBatches, nil
 }
 
-func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) (kafkaapi.RecordBatch, field_decoder.FieldDecoderError) {
+func DecodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) (kafkaapi.RecordBatch, field_decoder.FieldDecoderError) {
 	decoder.PushPathContext(path)
 	defer decoder.PopPathContext()
 
