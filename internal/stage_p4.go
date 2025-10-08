@@ -93,7 +93,7 @@ func testProduceSingleRecord(stageHarness *test_case_harness.TestCaseHarness) er
 		return err
 	}
 
-	if err := assertion.AssertFilesOnDisk(request.Body.Topics, stageLogger); err != nil {
+	if err := assertion.AssertLogFilesOnDisk(request.Body.Topics, stageLogger); err != nil {
 		return err
 	}
 
