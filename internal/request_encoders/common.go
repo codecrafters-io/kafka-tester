@@ -32,6 +32,8 @@ func Encode(request kafka_interface.RequestI, logger *logger.Logger) []byte {
 		encodeDescribeTopicPartitionsRequestBody(req.Body, requestEncoder)
 	case kafkaapi.FetchRequest:
 		encodeFetchRequestBody(req.Body, requestEncoder)
+	case kafkaapi.ProduceRequest:
+		encodeProduceRequestBody(req.Body, requestEncoder)
 	default:
 		panic(fmt.Sprintf("Codecrafters Internal Error - Body encoder not implemented for %s request", apiName))
 	}
@@ -68,6 +70,19 @@ func encodeCompactArray[T any](array []T, encoder *field_encoder.FieldEncoder, p
 	defer encoder.PopPathContext()
 
 	encoder.WriteCompactArrayLengthField("Length", value.NewCompactArrayLength(array))
+
+	for i, element := range array {
+		encoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))
+		encodeFunc(element, encoder)
+		encoder.PopPathContext()
+	}
+}
+
+func encodeArray[T any](array []T, encoder *field_encoder.FieldEncoder, path string, encodeFunc func(T, *field_encoder.FieldEncoder)) {
+	encoder.PushPathContext(path)
+	defer encoder.PopPathContext()
+
+	encoder.WriteInt32Field("Length", value.Int32{Value: int32(len(array))})
 
 	for i, element := range array {
 		encoder.PushPathContext(fmt.Sprintf("%s[%d]", path, i))

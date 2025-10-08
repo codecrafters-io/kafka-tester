@@ -89,6 +89,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/fetch/pass",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"produce_pass": {
+			StageSlugs:          []string{"xz1", "zf2", "gg1", "ls8", "yd8", "ct4", "ov0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/produce/pass",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"fetch_recordbatch_checksum_fail": {
 			StageSlugs:          []string{"fd8"},
 			CodePath:            "./test_helpers/scenarios/fetch/recordbatch_checksum_fail",

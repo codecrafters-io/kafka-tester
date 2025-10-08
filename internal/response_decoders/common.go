@@ -132,7 +132,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 
 	index := 0
 	for decoder.ReadBytesCount() < (recordBatchesStartOffset + recordBatchesSize.ActualSize()) {
-		recordBatch, err := decodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
+		recordBatch, err := DecodeCompactRecordBatch(decoder, fmt.Sprintf("RecordBatches[%d]", index))
 		if err != nil {
 			return nil, err
 		}
@@ -153,7 +153,7 @@ func decodeCompactRecordBatches(decoder *field_decoder.FieldDecoder, path string
 	return allRecordBatches, nil
 }
 
-func decodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) (kafkaapi.RecordBatch, field_decoder.FieldDecoderError) {
+func DecodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) (kafkaapi.RecordBatch, field_decoder.FieldDecoderError) {
 	decoder.PushPathContext(path)
 	defer decoder.PopPathContext()
 
@@ -364,12 +364,12 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	}
 
 	return kafkaapi.Record{
-		Length:         value.Int32{Value: int32(recordLengthAsVarint.Value)},
+		Size:           recordLengthAsVarint,
 		Attributes:     value.MustBeInt8(attributes.Value),
 		TimestampDelta: value.MustBeVarint(timestampDelta.Value),
 		OffsetDelta:    value.MustBeVarint(offsetDelta.Value),
-		Key:            recordKey.Value,
-		Value:          recordValue.Value,
+		Key:            recordKey,
+		Value:          recordValue,
 		Headers:        headers,
 	}, nil
 }

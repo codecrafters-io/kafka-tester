@@ -64,8 +64,8 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 			{
 				Attributes:     value.Int8{Value: 0},
 				TimestampDelta: value.Varint{Value: 0},
-				Key:            nil,
-				Value:          GetEncodedBytes(featureLevelRecord),
+				Key:            value.RawBytes{},
+				Value:          value.RawBytes{Value: GetEncodedBytes(featureLevelRecord)},
 				Headers:        []kafkaapi.RecordHeader{},
 			},
 		},
@@ -117,8 +117,8 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 			Attributes:     value.Int8{Value: 0},
 			TimestampDelta: value.Varint{Value: 0},
 			OffsetDelta:    value.Varint{Value: 0},
-			Key:            nil,
-			Value:          GetEncodedBytes(topicRecord),
+			Key:            value.RawBytes{},
+			Value:          value.RawBytes{Value: GetEncodedBytes(topicRecord)},
 			Headers:        []kafkaapi.RecordHeader{},
 		})
 
@@ -128,8 +128,8 @@ func (g *ClusterMetadataGenerator) writeLogFile() error {
 				Attributes:     value.Int8{Value: 0},
 				TimestampDelta: value.Varint{Value: 0},
 				OffsetDelta:    value.Varint{Value: 0},
-				Key:            nil,
-				Value:          GetEncodedBytes(partitionRecord),
+				Key:            value.RawBytes{},
+				Value:          value.RawBytes{Value: GetEncodedBytes(partitionRecord)},
 				Headers:        []kafkaapi.RecordHeader{},
 			})
 		}

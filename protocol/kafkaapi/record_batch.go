@@ -69,6 +69,14 @@ func (rb *RecordBatch) GetComputedCRCValue() value.Int32 {
 	}
 }
 
+func (rb *RecordBatch) SetBatchLength() {
+	propertiesBytes := rb.GetPropertiesAsBytes()
+
+	rb.BatchLength = value.Int32{
+		Value: int32(len(propertiesBytes) + 4 + 1 + 4), // partitionLeaderEpoch + magic value + CRC
+	}
+}
+
 func (rb *RecordBatch) SetCRC() {
 	propertiesBytes := rb.GetPropertiesAsBytes()
 	computedChecksum := crc32.Checksum(propertiesBytes, crc32.MakeTable(crc32.Castagnoli))

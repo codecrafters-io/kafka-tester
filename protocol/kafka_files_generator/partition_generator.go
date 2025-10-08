@@ -112,8 +112,8 @@ func (c *PartitionGenerationConfig) generateRecordBatchFromLogs(logs []string) k
 				{
 					Attributes:     value.Int8{Value: 0},
 					TimestampDelta: value.Varint{Value: 0},
-					Key:            nil,
-					Value:          []byte(message),
+					Key:            value.RawBytes{},
+					Value:          value.RawBytes{Value: []byte(message)},
 					Headers:        nil,
 				},
 			},
