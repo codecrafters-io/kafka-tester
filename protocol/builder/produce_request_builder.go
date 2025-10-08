@@ -1,9 +1,39 @@
 package builder
 
 import (
+	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/value"
+	"github.com/codecrafters-io/tester-utils/random"
 )
+
+// GetProduceRequestTopicData builds TopicData for Produce request based on information on generated log directories
+// The produce request will issue 2-3 logs per partition of each topic while building the request
+func GetProduceRequestTopicData(generatedLogDirectoryData *kafka_files_generator.GeneratedLogDirectoryData) []ProduceRequestTopicData {
+
+	topicData := []ProduceRequestTopicData{}
+
+	for _, topic := range generatedLogDirectoryData.GeneratedTopicsData {
+
+		partitionData := []ProduceRequestPartitionData{}
+
+		// generate partition data for each partitions inside the topic
+		for _, partition := range topic.GeneratedRecordBatchesByPartition {
+			partitionData = append(partitionData, ProduceRequestPartitionData{
+				PartitionId: int32(partition.PartitionId),
+				// for each partition, generate 2-3 logs
+				Logs: random.RandomWords(random.RandomInt(2, 4)),
+			})
+		}
+
+		topicData = append(topicData, ProduceRequestTopicData{
+			TopicName:              topic.Name,
+			PartitionsCreationData: partitionData,
+		})
+	}
+
+	return topicData
+}
 
 type ProduceRequestPartitionData struct {
 	PartitionId int32
@@ -47,10 +77,11 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
 			records := []kafkaapi.Record{}
 
 			// Make one record object for one log inside the partition
-			for _, log := range partition.Logs {
+			for i, log := range partition.Logs {
 				records = append(records, kafkaapi.Record{
 					Attributes:     value.Int8{Value: 0},
 					TimestampDelta: value.Varint{Value: 0},
+					OffsetDelta:    value.Varint{Value: int64(i)},
 					Key:            value.RawBytes{},
 					Value:          value.RawBytes{Value: []byte(log)},
 					Headers:        []kafkaapi.RecordHeader{},

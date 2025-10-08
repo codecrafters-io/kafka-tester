@@ -79,7 +79,10 @@ func testProduceResponse(stageHarness *test_case_harness.TestCaseHarness) error 
 		return err
 	}
 
-	assertion := response_assertions.NewProduceResponseAssertion()
+	assertion := response_assertions.NewProduceResponseAssertion().
+		ExpectCorrelationId(correlationId).
+		ExpectThrottleTimeMs(0).
+		ExpectTopicProperties(response_assertions.GetTopicExpectationData(request.Body.Topics))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ProduceResponse]{
 		DecodeFunc: response_decoders.DecodeProduceResponse,
