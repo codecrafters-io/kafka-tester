@@ -84,5 +84,11 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	return produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger)
+	if err := produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger); err != nil {
+		return err
+	}
+
+	// TODO: Verify fetch response
+
+	return nil
 }

@@ -99,5 +99,9 @@ func testProduceSingleRecord(stageHarness *test_case_harness.TestCaseHarness) er
 	}
 
 	// Assert the file content on the disk
-	return produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger)
+	if err := produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger); err != nil {
+		return err
+	}
+
+	return nil
 }

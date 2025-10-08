@@ -1,16 +1,17 @@
 package response_assertions
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"regexp"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field"
+	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
+	"github.com/codecrafters-io/kafka-tester/internal/field_tree_printer"
+	"github.com/codecrafters-io/kafka-tester/internal/inspectable_hex_dump"
+	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	int32_assertions "github.com/codecrafters-io/kafka-tester/internal/value_assertions/int32"
-	"github.com/codecrafters-io/kafka-tester/protocol/encoder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/tester-utils/bytes_diff_visualizer"
 	"github.com/codecrafters-io/tester-utils/logger"
 )
 
@@ -217,10 +218,7 @@ func (a *ProduceResponseAssertion) AssertLogFilesOnDisk(topics []kafkaapi.Produc
 					len(partition.RecordBatches), topic.Name.Value, partition.Id.Value))
 			}
 
-			recordBatch := partition.RecordBatches[0]
-
-			// Encode the record batch to get the expected byte representation
-			expectedBytes := getRecordBatchBytes(recordBatch)
+			expectedRecordBatch := partition.RecordBatches[0]
 
 			// Read the actual log file content
 			logFilePath := fmt.Sprintf("/tmp/kraft-combined-logs/%s-%d/00000000000000000000.log",
@@ -228,23 +226,32 @@ func (a *ProduceResponseAssertion) AssertLogFilesOnDisk(topics []kafkaapi.Produc
 
 			stageLogger.Infof("Checking file contents of the file %s", logFilePath)
 
-			actualBytes, err := os.ReadFile(logFilePath)
+			bytesOnDisk, err := os.ReadFile(logFilePath)
 			if err != nil {
 				return fmt.Errorf("failed to read log file %s: %w", logFilePath, err)
 			}
 
-			// Compare the bytes
-			if !bytes.Equal(expectedBytes, actualBytes) {
-				// Use bytes diff visualizer to show the difference
-				result := bytes_diff_visualizer.VisualizeByteDiff(expectedBytes, actualBytes)
-				stageLogger.Errorf("")
-				for _, line := range result {
-					stageLogger.Errorf("%s", line)
-				}
-				stageLogger.Errorf("")
+			// Decode the RecordBatch object in the file
+			decoder := field_decoder.NewFieldDecoder(bytesOnDisk)
+			decodedRecordBatch, decodeError := response_decoders.DecodeCompactRecordBatch(decoder, "RecordBatch")
 
-				return fmt.Errorf("log file content mismatch for topic %s partition %d",
-					topic.Name.Value, partition.Id.Value)
+			// DecodeError while decoding RecordBatch from the file
+			if decodeError != nil {
+				printFieldTreeForDecodeError(decodeError, stageLogger, decoder, bytesOnDisk)
+				return decodeError
+			}
+
+			// Check CRC32 checksum
+			if err := int32_assertions.IsEqualTo(expectedRecordBatch.CRC.Value, decodedRecordBatch.CRC); err != nil {
+				logFileHexDump := inspectable_hex_dump.NewInspectableHexDump(bytesOnDisk)
+				stageLogger.Errorln("File contents of " + logFilePath)
+				crc32StartOffset := 8 + 4 + 4 + 1 // BaseOffset (8 bytes) + Batch Length (4 bytes) + Partition Leader Epoch (4 bytes) + Magic Byte (1 Byte)
+				stageLogger.Errorln(logFileHexDump.FormatWithHighlightedRange(
+					crc32StartOffset,
+					// End offset should be the last byte of CRC32
+					crc32StartOffset+3,
+				))
+				return fmt.Errorf("Expected CRC32 of Record Batch to be %d, got %d", expectedRecordBatch.CRC.Value, decodedRecordBatch.CRC.Value)
 			}
 
 			stageLogger.Successf("✓ Contents of the file %s matches the recordbatch format sent in request", logFilePath)
@@ -255,9 +262,21 @@ func (a *ProduceResponseAssertion) AssertLogFilesOnDisk(topics []kafkaapi.Produc
 	return nil
 }
 
-// getRecordBatchBytes encodes a record batch and returns its byte representation
-func getRecordBatchBytes(recordBatch kafkaapi.RecordBatch) []byte {
-	encoder := encoder.NewEncoder()
-	recordBatch.Encode(encoder)
-	return encoder.Bytes()
+func printFieldTreeForDecodeError(
+	decodeError field_decoder.FieldDecoderError,
+	stageLogger *logger.Logger,
+	decoder *field_decoder.FieldDecoder,
+	bytesOnDisk []byte,
+) {
+	fieldTreePrinterLogger := stageLogger.Clone()
+	fieldTreePrinterLogger.PushSecondaryPrefix("Decoder")
+
+	fieldTreePrinter := field_tree_printer.FieldTreePrinter{
+		Fields: decoder.DecodedFields(),
+		Logger: fieldTreePrinterLogger,
+	}
+	fieldTreePrinter.PrintForDecodeError(decodeError.Path())
+	fileBytesHexDump := inspectable_hex_dump.NewInspectableHexDump(bytesOnDisk)
+	stageLogger.Errorln("Bytes in file:")
+	stageLogger.Errorln(fileBytesHexDump.FormatWithHighlightedRange(decodeError.StartOffset(), decodeError.EndOffset()))
 }
