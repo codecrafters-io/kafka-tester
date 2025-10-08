@@ -7,11 +7,10 @@ import (
 	"github.com/codecrafters-io/tester-utils/random"
 )
 
-// GetProduceRequestTopicData builds TopicData for Produce request based on the topics and partitions created so far
+// GetProduceRequestTopicData builds TopicData for Produce request based on information on generated log directories
 // The produce request will issue 2-3 logs per partition of each topic while building the request
 func GetProduceRequestTopicData(generatedLogDirectoryData *kafka_files_generator.GeneratedLogDirectoryData) []ProduceRequestTopicData {
-	// for each topic and each partition
-	// generate 2-3 logs
+
 	topicData := []ProduceRequestTopicData{}
 
 	for _, topic := range generatedLogDirectoryData.GeneratedTopicsData {
@@ -22,7 +21,8 @@ func GetProduceRequestTopicData(generatedLogDirectoryData *kafka_files_generator
 		for _, partition := range topic.GeneratedRecordBatchesByPartition {
 			partitionData = append(partitionData, ProduceRequestPartitionData{
 				PartitionId: int32(partition.PartitionId),
-				Logs:        random.RandomWords(random.RandomInt(2, 4)),
+				// for each partition, generate 2-3 logs
+				Logs: random.RandomWords(random.RandomInt(2, 4)),
 			})
 		}
 
@@ -77,10 +77,11 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
 			records := []kafkaapi.Record{}
 
 			// Make one record object for one log inside the partition
-			for _, log := range partition.Logs {
+			for i, log := range partition.Logs {
 				records = append(records, kafkaapi.Record{
 					Attributes:     value.Int8{Value: 0},
 					TimestampDelta: value.Varint{Value: 0},
+					OffsetDelta:    value.Varint{Value: int64(i)},
 					Key:            value.RawBytes{},
 					Value:          value.RawBytes{Value: []byte(log)},
 					Headers:        []kafkaapi.RecordHeader{},
@@ -92,7 +93,7 @@ func (b *ProduceRequestBuilder) Build() kafkaapi.ProduceRequest {
 				RecordBatches: []kafkaapi.RecordBatch{
 					{
 						BaseOffset:           value.Int64{Value: 0},
-						PartitionLeaderEpoch: value.Int32{Value: 2},
+						PartitionLeaderEpoch: value.Int32{Value: 0},
 						Magic:                value.Int8{Value: 2},
 						Attributes:           value.Int16{Value: 0},
 						LastOffsetDelta:      value.Int32{Value: int32(len(records) - 1)},

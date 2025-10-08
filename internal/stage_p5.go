@@ -20,14 +20,16 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
 
 	topicName := random.RandomWord()
+	topicUUID := getRandomTopicUUID()
+	partitionId := 0
 	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
 		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{
 			{
 				Name: topicName,
-				UUID: getRandomTopicUUID(),
+				UUID: topicUUID,
 				PartitonGenerationConfigList: []kafka_files_generator.PartitionGenerationConfig{
 					{
-						PartitionId: 0,
+						PartitionId: partitionId,
 					},
 				},
 			},
@@ -52,14 +54,14 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 	}
 	correlationId := getRandomCorrelationId()
 
-	request := builder.NewProduceRequestBuilder().
+	produceRequest := builder.NewProduceRequestBuilder().
 		WithCorrelationId(correlationId).
 		WithTopicRequestData(builder.GetProduceRequestTopicData(files_handler.GetGeneratedLogDirectoryData())).
 		Build()
 
-	rawResponse, err := client.SendAndReceive(
-		request_encoders.Encode(request, stageLogger),
-		request.Header.ApiKey.Value,
+	produceResponse, err := client.SendAndReceive(
+		request_encoders.Encode(produceRequest, stageLogger),
+		produceRequest.Header.ApiKey.Value,
 		stageLogger,
 	)
 
@@ -67,22 +69,22 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	assertion := response_assertions.NewProduceResponseAssertion().
+	produceAssertion := response_assertions.NewProduceResponseAssertion().
 		ExpectCorrelationId(correlationId).
 		ExpectThrottleTimeMs(0).
-		ExpectTopicProperties(response_assertions.GetTopicExpectationData(request.Body.Topics))
+		ExpectTopicProperties(response_assertions.GetTopicExpectationData(produceRequest.Body.Topics))
 
 	_, err = response_asserter.ResponseAsserter[kafkaapi.ProduceResponse]{
 		DecodeFunc: response_decoders.DecodeProduceResponse,
-		Assertion:  assertion,
+		Assertion:  produceAssertion,
 		Logger:     stageLogger,
-	}.DecodeAndAssert(rawResponse)
+	}.DecodeAndAssert(produceResponse)
 
 	if err != nil {
 		return err
 	}
 
-	if err := assertion.AssertLogFilesOnDisk(request.Body.Topics, stageLogger); err != nil {
+	if err := produceAssertion.AssertLogFilesOnDisk(produceRequest.Body.Topics, stageLogger); err != nil {
 		return err
 	}
 
