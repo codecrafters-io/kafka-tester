@@ -364,7 +364,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	}
 
 	return kafkaapi.Record{
-		Size:           value.MustBeVarint(recordLengthAsVarint),
+		Size:           recordLengthAsVarint,
 		Attributes:     value.MustBeInt8(attributes.Value),
 		TimestampDelta: value.MustBeVarint(timestampDelta.Value),
 		OffsetDelta:    value.MustBeVarint(offsetDelta.Value),
