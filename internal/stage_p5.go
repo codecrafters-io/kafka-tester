@@ -88,7 +88,5 @@ func testProduceMultipleRecords(stageHarness *test_case_harness.TestCaseHarness)
 		return err
 	}
 
-	// TODO: Verify fetch response
-
 	return nil
 }
