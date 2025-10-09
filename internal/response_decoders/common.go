@@ -1,6 +1,7 @@
 package response_decoders
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
@@ -276,7 +277,16 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	if err != nil {
 		return kafkaapi.Record{}, err
 	}
+
 	recordLengthAsVarint := value.MustBeVarint(recordLength.Value)
+
+	// Check record length
+	if recordLengthAsVarint.Value <= 0 {
+		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
+			errors.New("Record length must be positive"),
+			recordLength,
+		)
+	}
 
 	recordStartOffset := decoder.ReadBytesCount()
 
@@ -300,11 +310,25 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		return kafkaapi.Record{}, err
 	}
 
-	keyLengthAsVarInt := value.MustBeVarint(keyLength.Value)
+	keyLengthAsVarint := value.MustBeVarint(keyLength.Value)
+
+	// -1 is reserved for null key
+	if keyLengthAsVarint.Value < -1 {
+		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
+			errors.New("Length of record key cannot be less than -1"),
+			keyLength,
+		)
+	}
+
+	// Null key
 	recordKey := value.RawBytes{}
 
-	if keyLengthAsVarInt.Value > -1 {
-		keyField, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarInt.Value))
+	if keyLengthAsVarint.Value == 0 {
+		// Empty key
+		recordKey = value.NewEmptyRawBytes()
+	} else if keyLengthAsVarint.Value > 0 {
+		// Non empty key
+		keyField, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarint.Value))
 
 		if err != nil {
 			return kafkaapi.Record{}, err
@@ -319,11 +343,23 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		return kafkaapi.Record{}, err
 	}
 
-	valueLengthAsVarInt := value.MustBeVarint(valueLength.Value)
+	valueLengthAsVarint := value.MustBeVarint(valueLength.Value)
+
+	if valueLengthAsVarint.Value < -1 {
+		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
+			errors.New("Length of record value cannot be less than -1"),
+			valueLength,
+		)
+	}
+
+	// Initialize record value as null
 	recordValue := value.RawBytes{}
 
-	if valueLengthAsVarInt.Value > -1 {
-		recordValueField, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarInt.Value))
+	// Value is empty for 0 length and non-empty for positive length
+	if valueLengthAsVarint.Value == 0 {
+		recordValue = value.NewEmptyRawBytes()
+	} else if valueLengthAsVarint.Value > 0 {
+		recordValueField, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarint.Value))
 
 		if err != nil {
 			return kafkaapi.Record{}, err
@@ -332,18 +368,29 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 		recordValue = value.MustBeRawBytes(recordValueField.Value)
 	}
 
-	headersLength, err := decoder.ReadVarint("HeadersLength")
+	headersArrayLength, err := decoder.ReadVarint("HeadersLength")
 	if err != nil {
 		return kafkaapi.Record{}, err
 	}
 
-	headersLengthAsVarInt := value.MustBeVarint(headersLength.Value)
+	headersArrayLengthAsVarint := value.MustBeVarint(headersArrayLength.Value)
 
+	if headersArrayLengthAsVarint.Value < -1 {
+		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
+			errors.New("Length of record headers array cannot be less than -1"),
+			headersArrayLength,
+		)
+	}
+
+	// Null headers array
 	var headers []kafkaapi.RecordHeader
 
-	if headersLengthAsVarInt.Value != -1 {
-		headers = make([]kafkaapi.RecordHeader, headersLengthAsVarInt.Value)
-		for i := 0; i < int(headersLengthAsVarInt.Value); i++ {
+	if headersArrayLengthAsVarint.Value == 0 {
+		// Empty array in case of 0 ength
+		headers = make([]kafkaapi.RecordHeader, 0)
+	} else if headersArrayLengthAsVarint.Value > 0 {
+		headers = make([]kafkaapi.RecordHeader, headersArrayLengthAsVarint.Value)
+		for i := 0; i < int(headersArrayLengthAsVarint.Value); i++ {
 			header, err := decodeRecordHeader(decoder)
 			if err != nil {
 				return kafkaapi.Record{}, err
@@ -385,9 +432,26 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 
 	keyLengthAsVarint := value.MustBeVarint(keyLength.Value)
 
-	keyBytes, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarint.Value))
-	if err != nil {
-		return kafkaapi.RecordHeader{}, err
+	// Check key length value
+	if keyLengthAsVarint.Value < -1 {
+		return kafkaapi.RecordHeader{}, decoder.GetDecoderErrorForField(
+			errors.New("Key length of record header cannot cannot be less than -1"),
+			keyLength,
+		)
+	}
+
+	keyBytes := value.RawBytes{}
+
+	if keyLengthAsVarint.Value == 0 {
+		keyBytes = value.NewEmptyRawBytes()
+	} else if keyLengthAsVarint.Value > 0 {
+		keyBytesField, err := decoder.ReadRawBytes("Key", int(keyLengthAsVarint.Value))
+
+		if err != nil {
+			return kafkaapi.RecordHeader{}, err
+		}
+
+		keyBytes = value.MustBeRawBytes(keyBytesField.Value)
 	}
 
 	valueLength, err := decoder.ReadVarint("ValueLength")
@@ -397,13 +461,28 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 
 	valueLengthAsVarint := value.MustBeVarint(valueLength.Value)
 
-	valueBytes, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarint.Value))
-	if err != nil {
-		return kafkaapi.RecordHeader{}, err
+	if valueLengthAsVarint.Value < -1 {
+		return kafkaapi.RecordHeader{}, decoder.GetDecoderErrorForField(
+			errors.New("Value length of record header cannot cannot be less than -1"),
+			keyLength,
+		)
+	}
+
+	valueBytes := value.RawBytes{}
+
+	if valueLengthAsVarint.Value == 0 {
+		valueBytes = value.NewEmptyRawBytes()
+	} else if valueLengthAsVarint.Value > 0 {
+		valueBytesField, err := decoder.ReadRawBytes("Value", int(valueLengthAsVarint.Value))
+		if err != nil {
+			return kafkaapi.RecordHeader{}, err
+		}
+
+		valueBytes = value.MustBeRawBytes(valueBytesField.Value)
 	}
 
 	return kafkaapi.RecordHeader{
-		Key:   value.MustBeRawBytes(keyBytes.Value),
-		Value: value.MustBeRawBytes(valueBytes.Value),
+		Key:   value.MustBeRawBytes(keyBytes),
+		Value: value.MustBeRawBytes(valueBytes),
 	}, nil
 }
