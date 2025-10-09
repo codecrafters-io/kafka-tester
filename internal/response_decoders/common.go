@@ -472,7 +472,7 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 	if valueLengthAsVarint.Value < -1 {
 		return kafkaapi.RecordHeader{}, decoder.GetDecoderErrorForField(
 			errors.New("Value length of record header cannot cannot be less than -1"),
-			keyLength,
+			valueLength,
 		)
 	}
 
