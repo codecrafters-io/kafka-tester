@@ -168,6 +168,15 @@ func DecodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 		return kafkaapi.RecordBatch{}, err
 	}
 
+	batchLengthAsInt32 := value.MustBeInt32(batchLength.Value)
+
+	if batchLengthAsInt32.Value <= 0 {
+		return kafkaapi.RecordBatch{}, decoder.GetDecoderErrorForField(
+			errors.New("RecordBatch length must be positive"),
+			batchLength,
+		)
+	}
+
 	recordBatchStartOffset := decoder.ReadBytesCount()
 
 	partitionLeaderEpoch, err := decoder.ReadInt32Field("PartitionLeaderEpoch")
@@ -255,7 +264,6 @@ func DecodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 	}
 
 	// verify length
-	batchLengthAsInt32 := value.MustBeInt32(batchLength.Value)
 
 	if recordBatchEndOffset-recordBatchStartOffset != uint64(batchLengthAsInt32.Value) {
 		errorMessage := fmt.Errorf(
