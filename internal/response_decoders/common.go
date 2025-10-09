@@ -490,7 +490,7 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 	}
 
 	return kafkaapi.RecordHeader{
-		Key:   value.MustBeRawBytes(keyBytes),
-		Value: value.MustBeRawBytes(valueBytes),
+		Key:   keyBytes,
+		Value: valueBytes,
 	}, nil
 }
