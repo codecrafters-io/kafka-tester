@@ -16,3 +16,9 @@ func (v RawBytes) String() string {
 func (v RawBytes) GetType() string {
 	return "RAW_BYTES"
 }
+
+func NewEmptyRawBytes() RawBytes {
+	return RawBytes{
+		Value: []byte{},
+	}
+}
