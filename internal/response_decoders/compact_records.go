@@ -1,7 +1,6 @@
 package response_decoders
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/codecrafters-io/kafka-tester/internal/field_decoder"
@@ -76,7 +75,7 @@ func DecodeCompactRecordBatch(decoder *field_decoder.FieldDecoder, path string) 
 
 	if batchLengthAsInt32.Value <= 0 {
 		return kafkaapi.RecordBatch{}, decoder.GetDecoderErrorForField(
-			errors.New("RecordBatch length must be positive"),
+			fmt.Errorf("Expected RecordBatch length to be positive, got %d", batchLengthAsInt32.Value),
 			batchLength,
 		)
 	}
@@ -195,7 +194,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	// Check record length
 	if recordLengthAsVarint.Value <= 0 {
 		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
-			errors.New("Record length must be positive"),
+			fmt.Errorf("Expected record length to be positive, got %d", recordLengthAsVarint.Value),
 			recordLength,
 		)
 	}
@@ -227,7 +226,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 	// -1 is reserved for null key
 	if keyLengthAsVarint.Value < -1 {
 		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
-			errors.New("Length of record key cannot be less than -1"),
+			fmt.Errorf("Expected the length of record key to be greater than or equal to -1, got %d", keyLengthAsVarint.Value),
 			keyLength,
 		)
 	}
@@ -259,7 +258,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 
 	if valueLengthAsVarint.Value < -1 {
 		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
-			errors.New("Length of record value cannot be less than -1"),
+			fmt.Errorf("Expected the length of record value to be greater than or equal to -1, got %d", valueLengthAsVarint.Value),
 			valueLength,
 		)
 	}
@@ -289,7 +288,7 @@ func decodeRecord(decoder *field_decoder.FieldDecoder) (kafkaapi.Record, field_d
 
 	if headersArrayLengthAsVarint.Value < -1 {
 		return kafkaapi.Record{}, decoder.GetDecoderErrorForField(
-			errors.New("Length of record headers array cannot be less than -1"),
+			fmt.Errorf("Expected length of record headers array to be greater than or equal to -1, got %d", headersArrayLengthAsVarint.Value),
 			headersArrayLength,
 		)
 	}
@@ -347,7 +346,7 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 	// Check key length value
 	if keyLengthAsVarint.Value < -1 {
 		return kafkaapi.RecordHeader{}, decoder.GetDecoderErrorForField(
-			errors.New("Key length of record header cannot cannot be less than -1"),
+			fmt.Errorf("Expected key length of record header to be greater than or equal to -1, got %d", keyLengthAsVarint.Value),
 			keyLength,
 		)
 	}
@@ -375,7 +374,7 @@ func decodeRecordHeader(decoder *field_decoder.FieldDecoder) (kafkaapi.RecordHea
 
 	if valueLengthAsVarint.Value < -1 {
 		return kafkaapi.RecordHeader{}, decoder.GetDecoderErrorForField(
-			errors.New("Value length of record header cannot cannot be less than -1"),
+			fmt.Errorf("Expected the value length of record header to be greater than or equal to -1, got %d", valueLengthAsVarint.Value),
 			valueLength,
 		)
 	}
