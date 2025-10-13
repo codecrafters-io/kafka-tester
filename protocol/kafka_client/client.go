@@ -2,9 +2,11 @@ package kafka_client
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"net"
+	"syscall"
 	"time"
 
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
@@ -180,7 +182,7 @@ func (c *Client) Receive(apiName string, stageLogger *logger.Logger) (response R
 
 		if err != nil {
 			// All message has been read
-			if err == io.EOF {
+			if err == io.EOF || errors.Is(err, syscall.ECONNRESET) {
 				return response.createFrom(entireMessage.Bytes()), nil
 			}
 
