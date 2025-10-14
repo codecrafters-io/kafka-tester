@@ -150,7 +150,7 @@ func (d *FieldDecoder) ReadCompactStringField(path string) (field.Field, FieldDe
 	}
 
 	if lengthValue.Value == 0 {
-		return field.Field{}, d.wrapError(fmt.Errorf("Compact string length cannot be 0"))
+		return field.Field{}, d.getDecoderErrorForLastPathContext(fmt.Errorf("Expected length of compact string to be non-zero, got %d", lengthValue.Value))
 	}
 
 	rawBytes, err := d.decoder.ReadRawBytes(int(lengthValue.ActualLength()))
@@ -332,5 +332,16 @@ func (d *FieldDecoder) GetDecoderErrorForField(err error, field field.Field) Fie
 		startOffset: field.StartOffset,
 		endOffset:   field.EndOffset,
 		path:        field.Path,
+	}
+}
+
+func (d *FieldDecoder) getDecoderErrorForLastPathContext(err error) FieldDecoderError {
+	lastPathContext := d.currentPathContexts[len(d.currentPathContexts)-1]
+
+	return &fieldDecoderErrorImpl{
+		message:     err.Error(),
+		startOffset: int(lastPathContext.offset),
+		endOffset:   int(d.ReadBytesCount() - 1),
+		path:        d.currentPath(),
 	}
 }
