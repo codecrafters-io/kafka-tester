@@ -3,11 +3,11 @@ Debug = true
 [33m[tester::#FD8] [0m[94mRunning tests for Stage #FD8 (fd8)[0m
 [33m[tester::#FD8] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#FD8] [client] [0m[36mConnecting to broker at localhost:9092[0m
-[33m[your_program] [0mLogs from your program will appear here!
-[33m[your_program] [0mThis server will always assume that a fetch request will be sent to it.
-[33m[your_program] [0mThis server will always assume that the topic sent in the request exists.
-[33m[your_program] [0mIt will deliberately send the wrong value of recordbatch
-[33m[your_program] [0mListening on port: 9092
+[33m[your_program] [0m[0mLogs from your program will appear here![0m
+[33m[your_program] [0m[0mThis server will always assume that a fetch request will be sent to it.[0m
+[33m[your_program] [0m[0mThis server will always assume that the topic sent in the request exists.[0m
+[33m[your_program] [0m[0mIt will deliberately send the wrong value of recordbatch[0m
+[33m[your_program] [0m[0mListening on port: 9092[0m
 [33m[tester::#FD8] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#FD8] [Encoder] [0m[36m- FetchRequest[0m
 [33m[tester::#FD8] [Encoder] [0m[36m  - Header[0m

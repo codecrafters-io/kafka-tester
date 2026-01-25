@@ -3,8 +3,8 @@ Debug = true
 [33m[tester::#PV1] [0m[94mRunning tests for Stage #PV1 (pv1)[0m
 [33m[tester::#PV1] [0m[94m$ ./your_program.sh /tmp/server.properties[0m
 [33m[tester::#PV1] [client] [0m[36mConnecting to broker at localhost:9092[0m
-[33m[your_program] [0mLogs from your program will appear here!
-[33m[your_program] [0mThis server always responds with correlation ID 0. See processing/ProcessApiVersionsRequest for intentional mistake.
+[33m[your_program] [0m[0mLogs from your program will appear here![0m
+[33m[your_program] [0m[0mThis server always responds with correlation ID 0. See processing/ProcessApiVersionsRequest for intentional mistake.[0m
 [33m[tester::#PV1] [client] [0m[36mSuccessfully connected to broker at localhost:9092[0m
 [33m[tester::#PV1] [Encoder] [0m[36m- ApiVersionsRequest[0m
 [33m[tester::#PV1] [Encoder] [0m[36m  - Header[0m

@@ -24,40 +24,51 @@ Debug = true
 [33m[tester::#PV1] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#PV1] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#PV1] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 02 19 0a 95 c1 bf 00 00 3e 00 00 00 00 00 | ..........>.....[0m
-[33m[tester::#PV1] [client] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0000 | 00 00 02 c0 0a 95 c1 bf 00 00 4a 00 00 00 00 00 | ..........J.....[0m
+[33m[tester::#PV1] [client] [0m[36m0010 | 0d 00 00 01 00 04 00 12 00 00 02 00 01 00 0a 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0020 | 00 03 00 00 00 0d 00 00 08 00 02 00 09 00 00 09 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0030 | 00 01 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
 [33m[tester::#PV1] [client] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 06 00 00 | ................[0m
 [33m[tester::#PV1] [client] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m0070 | 00 00 04 00 00 13 00 02 00 07 00 00 14 00 01 00 | ................[0m
 [33m[tester::#PV1] [client] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[tester::#PV1] [client] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[tester::#PV1] [client] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[tester::#PV1] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[tester::#PV1] [client] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[tester::#PV1] [client] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[tester::#PV1] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
+[33m[tester::#PV1] [client] [0m[36m0090 | 00 17 00 02 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 05 00 00 1b 00 01 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 05 00 00 1d 00 01 00 03 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m00c0 | 00 00 1e 00 01 00 03 00 00 1f 00 01 00 03 00 00 | ................[0m
+[33m[tester::#PV1] [client] [0m[36m00d0 | 20 00 01 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
+[33m[tester::#PV1] [client] [0m[36m00e0 | 01 00 02 00 00 23 00 01 00 04 00 00 24 00 00 00 | .....#......$...[0m
+[33m[tester::#PV1] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 01 00 03 00 | ...%......&.....[0m
+[33m[tester::#PV1] [client] [0m[36m0100 | 00 27 00 01 00 02 00 00 28 00 01 00 02 00 00 29 | .'......(......)[0m
+[33m[tester::#PV1] [client] [0m[36m0110 | 00 01 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
+[33m[tester::#PV1] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 01 | ....,......-....[0m
 [33m[tester::#PV1] [client] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
 [33m[tester::#PV1] [client] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
 [33m[tester::#PV1] [client] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[tester::#PV1] [client] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
+[33m[tester::#PV1] [client] [0m[36m0160 | 02 00 00 39 00 00 00 02 00 00 3c 00 00 00 02 00 | ...9......<.....[0m
 [33m[tester::#PV1] [client] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[tester::#PV1] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[tester::#PV1] [client] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[tester::#PV1] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[tester::#PV1] [client] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[tester::#PV1] [client] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[tester::#PV1] [client] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[tester::#PV1] [client] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[tester::#PV1] [client] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#PV1] [client] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#PV1] [client] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
+[33m[tester::#PV1] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 02 00 00 44 00 00 | ......B......D..[0m
+[33m[tester::#PV1] [client] [0m[36m0190 | 00 01 00 00 45 00 00 00 01 00 00 4a 00 00 00 01 | ....E......J....[0m
+[33m[tester::#PV1] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 4c 00 01 00 01 00 00 | ..K......L......[0m
+[33m[tester::#PV1] [client] [0m[36m01b0 | 4d 00 01 00 01 00 00 4e 00 01 00 01 00 00 4f 00 | M......N......O.[0m
+[33m[tester::#PV1] [client] [0m[36m01c0 | 01 00 01 00 00 50 00 00 00 00 00 00 51 00 00 00 | .....P......Q...[0m
+[33m[tester::#PV1] [client] [0m[36m01d0 | 00 00 00 53 00 00 00 00 00 00 54 00 00 00 00 00 | ...S......T.....[0m
+[33m[tester::#PV1] [client] [0m[36m01e0 | 00 55 00 00 00 00 00 00 56 00 00 00 00 00 00 57 | .U......V......W[0m
+[33m[tester::#PV1] [client] [0m[36m01f0 | 00 00 00 00 00 00 5a 00 00 00 00 00 00 5b 00 00 | ......Z......[..[0m
+[33m[tester::#PV1] [client] [0m[36m0200 | 00 00 00 00 5c 00 00 00 00 00 00 00 00 00 03 00 | ....\...........[0m
+[33m[tester::#PV1] [client] [0m[36m0210 | 8f 01 07 0e 67 72 6f 75 70 2e 76 65 72 73 69 6f | ....group.versio[0m
+[33m[tester::#PV1] [client] [0m[36m0220 | 6e 00 00 00 01 00 0e 6b 72 61 66 74 2e 76 65 72 | n......kraft.ver[0m
+[33m[tester::#PV1] [client] [0m[36m0230 | 73 69 6f 6e 00 00 00 01 00 11 6d 65 74 61 64 61 | sion......metada[0m
+[33m[tester::#PV1] [client] [0m[36m0240 | 74 61 2e 76 65 72 73 69 6f 6e 00 07 00 1b 00 0e | ta.version......[0m
+[33m[tester::#PV1] [client] [0m[36m0250 | 73 68 61 72 65 2e 76 65 72 73 69 6f 6e 00 00 00 | share.version...[0m
+[33m[tester::#PV1] [client] [0m[36m0260 | 01 00 14 74 72 61 6e 73 61 63 74 69 6f 6e 2e 76 | ...transaction.v[0m
+[33m[tester::#PV1] [client] [0m[36m0270 | 65 72 73 69 6f 6e 00 00 00 02 00 21 65 6c 69 67 | ersion.....!elig[0m
+[33m[tester::#PV1] [client] [0m[36m0280 | 69 62 6c 65 2e 6c 65 61 64 65 72 2e 72 65 70 6c | ible.leader.repl[0m
+[33m[tester::#PV1] [client] [0m[36m0290 | 69 63 61 73 2e 76 65 72 73 69 6f 6e 00 00 00 01 | icas.version....[0m
+[33m[tester::#PV1] [client] [0m[36m02a0 | 00 01 08 00 00 00 00 00 00 00 08 02 17 02 11 6d | ...............m[0m
+[33m[tester::#PV1] [client] [0m[36m02b0 | 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 | etadata.version.[0m
+[33m[tester::#PV1] [client] [0m[36m02c0 | 1b 00 1b 00                                     | ....[0m
 [33m[tester::#PV1] [client] [0m[36m[0m
 [33m[tester::#PV1] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#PV1] [Decoder] [0m[36m  - Header[0m
@@ -65,30 +76,30 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m  - Body[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ErrorCode (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ApiKeys[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - Length (62 (Array length(61) + 1))[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - Length (74 (Array length(73) + 1))[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[0][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (11)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (13)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[1][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (1)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (17)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (18)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[2][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (2)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (10)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[3][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (12)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (13)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[4][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (8)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[5][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (9)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (9)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[6][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (10)[0m
@@ -113,7 +124,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[11][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (15)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (6)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[12][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (16)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
@@ -128,11 +139,11 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[15][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (19)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (7)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[16][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (20)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (6)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[17][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (21)[0m
@@ -144,7 +155,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[19][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (23)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[20][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (24)[0m
@@ -157,30 +168,30 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[22][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (26)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[23][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (27)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[24][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (28)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (5)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[25][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (29)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[26][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (30)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[27][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (31)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[28][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (32)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[29][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (33)[0m
@@ -188,11 +199,11 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[30][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (34)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[31][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (35)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (4)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[32][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (36)[0m
@@ -204,19 +215,19 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[34][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (38)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[35][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (39)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[36][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (40)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[37][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (41)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (3)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[38][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (42)[0m
@@ -233,7 +244,7 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[41][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (45)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[42][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (46)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
@@ -265,11 +276,11 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[49][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (57)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[50][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (60)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[51][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (61)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
@@ -285,35 +296,83 @@ Debug = true
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[54][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (66)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (2)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[55][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (68)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[56][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (69)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[57][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (74)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[58][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (75)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[59][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (76)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[60][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (77)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[61][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (78)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[62][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (79)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (1)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[63][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (80)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
-[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[60][0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[64][0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (81)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[65][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (83)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[66][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (84)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[67][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (85)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[68][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (86)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[69][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (87)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[70][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (90)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[71][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (91)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
+[33m[tester::#PV1] [Decoder] [0m[36m      - ApiKeys[72][0m
+[33m[tester::#PV1] [Decoder] [0m[36m        - APIKey (92)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MinVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m        - MaxVersion (0)[0m
 [33m[tester::#PV1] [Decoder] [0m[36m    - ThrottleTimeMs (0)[0m
 [33m[tester::#PV1] [0m[92m✓ CorrelationID: 177586623[0m
 [33m[tester::#PV1] [0m[92m✓ ErrorCode: 0 (NO_ERROR)[0m
-[33m[tester::#PV1] [0m[92m✓ API keys array length: 61[0m
+[33m[tester::#PV1] [0m[92m✓ API keys array length: 73[0m
 [33m[tester::#PV1] [0m[92m✔ MinVersion for ApiVersions is <= 4 & >= 0[0m
 [33m[tester::#PV1] [0m[92m✔ MaxVersion for ApiVersions is >= 4[0m
 [33m[tester::#PV1] [0m[92mTest passed.[0m
@@ -382,40 +441,51 @@ Debug = true
 [33m[tester::#WA6] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#WA6] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#WA6] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#WA6] [client] [0m[36m0000 | 00 00 02 19 0f 2e 14 fa 00 00 3e 00 00 00 00 00 | ..........>.....[0m
-[33m[tester::#WA6] [client] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m0000 | 00 00 02 c0 0f 2e 14 fa 00 00 4a 00 00 00 00 00 | ..........J.....[0m
+[33m[tester::#WA6] [client] [0m[36m0010 | 0d 00 00 01 00 04 00 12 00 00 02 00 01 00 0a 00 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m0020 | 00 03 00 00 00 0d 00 00 08 00 02 00 09 00 00 09 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m0030 | 00 01 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
 [33m[tester::#WA6] [client] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 06 00 00 | ................[0m
 [33m[tester::#WA6] [client] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m0070 | 00 00 04 00 00 13 00 02 00 07 00 00 14 00 01 00 | ................[0m
 [33m[tester::#WA6] [client] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[tester::#WA6] [client] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[tester::#WA6] [client] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[tester::#WA6] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[tester::#WA6] [client] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[tester::#WA6] [client] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[tester::#WA6] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
+[33m[tester::#WA6] [client] [0m[36m0090 | 00 17 00 02 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 05 00 00 1b 00 01 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 05 00 00 1d 00 01 00 03 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m00c0 | 00 00 1e 00 01 00 03 00 00 1f 00 01 00 03 00 00 | ................[0m
+[33m[tester::#WA6] [client] [0m[36m00d0 | 20 00 01 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
+[33m[tester::#WA6] [client] [0m[36m00e0 | 01 00 02 00 00 23 00 01 00 04 00 00 24 00 00 00 | .....#......$...[0m
+[33m[tester::#WA6] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 01 00 03 00 | ...%......&.....[0m
+[33m[tester::#WA6] [client] [0m[36m0100 | 00 27 00 01 00 02 00 00 28 00 01 00 02 00 00 29 | .'......(......)[0m
+[33m[tester::#WA6] [client] [0m[36m0110 | 00 01 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
+[33m[tester::#WA6] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 01 | ....,......-....[0m
 [33m[tester::#WA6] [client] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
 [33m[tester::#WA6] [client] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
 [33m[tester::#WA6] [client] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[tester::#WA6] [client] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
+[33m[tester::#WA6] [client] [0m[36m0160 | 02 00 00 39 00 00 00 02 00 00 3c 00 00 00 02 00 | ...9......<.....[0m
 [33m[tester::#WA6] [client] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[tester::#WA6] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[tester::#WA6] [client] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[tester::#WA6] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[tester::#WA6] [client] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[tester::#WA6] [client] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[tester::#WA6] [client] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[tester::#WA6] [client] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[tester::#WA6] [client] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#WA6] [client] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#WA6] [client] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
+[33m[tester::#WA6] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 02 00 00 44 00 00 | ......B......D..[0m
+[33m[tester::#WA6] [client] [0m[36m0190 | 00 01 00 00 45 00 00 00 01 00 00 4a 00 00 00 01 | ....E......J....[0m
+[33m[tester::#WA6] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 4c 00 01 00 01 00 00 | ..K......L......[0m
+[33m[tester::#WA6] [client] [0m[36m01b0 | 4d 00 01 00 01 00 00 4e 00 01 00 01 00 00 4f 00 | M......N......O.[0m
+[33m[tester::#WA6] [client] [0m[36m01c0 | 01 00 01 00 00 50 00 00 00 00 00 00 51 00 00 00 | .....P......Q...[0m
+[33m[tester::#WA6] [client] [0m[36m01d0 | 00 00 00 53 00 00 00 00 00 00 54 00 00 00 00 00 | ...S......T.....[0m
+[33m[tester::#WA6] [client] [0m[36m01e0 | 00 55 00 00 00 00 00 00 56 00 00 00 00 00 00 57 | .U......V......W[0m
+[33m[tester::#WA6] [client] [0m[36m01f0 | 00 00 00 00 00 00 5a 00 00 00 00 00 00 5b 00 00 | ......Z......[..[0m
+[33m[tester::#WA6] [client] [0m[36m0200 | 00 00 00 00 5c 00 00 00 00 00 00 00 00 00 03 00 | ....\...........[0m
+[33m[tester::#WA6] [client] [0m[36m0210 | 8f 01 07 0e 67 72 6f 75 70 2e 76 65 72 73 69 6f | ....group.versio[0m
+[33m[tester::#WA6] [client] [0m[36m0220 | 6e 00 00 00 01 00 0e 6b 72 61 66 74 2e 76 65 72 | n......kraft.ver[0m
+[33m[tester::#WA6] [client] [0m[36m0230 | 73 69 6f 6e 00 00 00 01 00 11 6d 65 74 61 64 61 | sion......metada[0m
+[33m[tester::#WA6] [client] [0m[36m0240 | 74 61 2e 76 65 72 73 69 6f 6e 00 07 00 1b 00 0e | ta.version......[0m
+[33m[tester::#WA6] [client] [0m[36m0250 | 73 68 61 72 65 2e 76 65 72 73 69 6f 6e 00 00 00 | share.version...[0m
+[33m[tester::#WA6] [client] [0m[36m0260 | 01 00 14 74 72 61 6e 73 61 63 74 69 6f 6e 2e 76 | ...transaction.v[0m
+[33m[tester::#WA6] [client] [0m[36m0270 | 65 72 73 69 6f 6e 00 00 00 02 00 21 65 6c 69 67 | ersion.....!elig[0m
+[33m[tester::#WA6] [client] [0m[36m0280 | 69 62 6c 65 2e 6c 65 61 64 65 72 2e 72 65 70 6c | ible.leader.repl[0m
+[33m[tester::#WA6] [client] [0m[36m0290 | 69 63 61 73 2e 76 65 72 73 69 6f 6e 00 00 00 01 | icas.version....[0m
+[33m[tester::#WA6] [client] [0m[36m02a0 | 00 01 08 00 00 00 00 00 00 00 08 02 17 02 11 6d | ...............m[0m
+[33m[tester::#WA6] [client] [0m[36m02b0 | 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 | etadata.version.[0m
+[33m[tester::#WA6] [client] [0m[36m02c0 | 1b 00 1b 00                                     | ....[0m
 [33m[tester::#WA6] [client] [0m[36m[0m
 [33m[tester::#WA6] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#WA6] [Decoder] [0m[36m  - Header[0m
@@ -449,40 +519,51 @@ Debug = true
 [33m[tester::#NV3] [client] [0m[36mHexdump of received "ApiVersions" response: [0m
 [33m[tester::#NV3] [client] [0m[36mIdx  | Hex                                             | ASCII[0m
 [33m[tester::#NV3] [client] [0m[36m-----+-------------------------------------------------+-----------------[0m
-[33m[tester::#NV3] [client] [0m[36m0000 | 00 00 02 19 00 00 00 07 00 00 3e 00 00 00 00 00 | ..........>.....[0m
-[33m[tester::#NV3] [client] [0m[36m0010 | 0b 00 00 01 00 00 00 11 00 00 02 00 00 00 09 00 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m0020 | 00 03 00 00 00 0c 00 00 08 00 00 00 09 00 00 09 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m0030 | 00 00 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m0000 | 00 00 02 c0 00 00 00 07 00 00 4a 00 00 00 00 00 | ..........J.....[0m
+[33m[tester::#NV3] [client] [0m[36m0010 | 0d 00 00 01 00 04 00 12 00 00 02 00 01 00 0a 00 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m0020 | 00 03 00 00 00 0d 00 00 08 00 02 00 09 00 00 09 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m0030 | 00 01 00 09 00 00 0a 00 00 00 06 00 00 0b 00 00 | ................[0m
 [33m[tester::#NV3] [client] [0m[36m0040 | 00 09 00 00 0c 00 00 00 04 00 00 0d 00 00 00 05 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 05 00 00 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m0050 | 00 00 0e 00 00 00 05 00 00 0f 00 00 00 06 00 00 | ................[0m
 [33m[tester::#NV3] [client] [0m[36m0060 | 10 00 00 00 05 00 00 11 00 00 00 01 00 00 12 00 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m0070 | 00 00 04 00 00 13 00 00 00 07 00 00 14 00 00 00 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m0070 | 00 00 04 00 00 13 00 02 00 07 00 00 14 00 01 00 | ................[0m
 [33m[tester::#NV3] [client] [0m[36m0080 | 06 00 00 15 00 00 00 02 00 00 16 00 00 00 05 00 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m0090 | 00 17 00 00 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 04 00 00 1b 00 00 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 04 00 00 1d 00 00 00 03 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m00c0 | 00 00 1e 00 00 00 03 00 00 1f 00 00 00 03 00 00 | ................[0m
-[33m[tester::#NV3] [client] [0m[36m00d0 | 20 00 00 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
-[33m[tester::#NV3] [client] [0m[36m00e0 | 00 00 02 00 00 23 00 00 00 04 00 00 24 00 00 00 | .....#......$...[0m
-[33m[tester::#NV3] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 00 00 03 00 | ...%......&.....[0m
-[33m[tester::#NV3] [client] [0m[36m0100 | 00 27 00 00 00 02 00 00 28 00 00 00 02 00 00 29 | .'......(......)[0m
-[33m[tester::#NV3] [client] [0m[36m0110 | 00 00 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
-[33m[tester::#NV3] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 00 | ....,......-....[0m
+[33m[tester::#NV3] [client] [0m[36m0090 | 00 17 00 02 00 04 00 00 18 00 00 00 05 00 00 19 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m00a0 | 00 00 00 04 00 00 1a 00 00 00 05 00 00 1b 00 01 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m00b0 | 00 01 00 00 1c 00 00 00 05 00 00 1d 00 01 00 03 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m00c0 | 00 00 1e 00 01 00 03 00 00 1f 00 01 00 03 00 00 | ................[0m
+[33m[tester::#NV3] [client] [0m[36m00d0 | 20 00 01 00 04 00 00 21 00 00 00 02 00 00 22 00 |  ......!......".[0m
+[33m[tester::#NV3] [client] [0m[36m00e0 | 01 00 02 00 00 23 00 01 00 04 00 00 24 00 00 00 | .....#......$...[0m
+[33m[tester::#NV3] [client] [0m[36m00f0 | 02 00 00 25 00 00 00 03 00 00 26 00 01 00 03 00 | ...%......&.....[0m
+[33m[tester::#NV3] [client] [0m[36m0100 | 00 27 00 01 00 02 00 00 28 00 01 00 02 00 00 29 | .'......(......)[0m
+[33m[tester::#NV3] [client] [0m[36m0110 | 00 01 00 03 00 00 2a 00 00 00 02 00 00 2b 00 00 | ......*......+..[0m
+[33m[tester::#NV3] [client] [0m[36m0120 | 00 02 00 00 2c 00 00 00 01 00 00 2d 00 00 00 01 | ....,......-....[0m
 [33m[tester::#NV3] [client] [0m[36m0130 | 00 00 2e 00 00 00 00 00 00 2f 00 00 00 00 00 00 | ........./......[0m
 [33m[tester::#NV3] [client] [0m[36m0140 | 30 00 00 00 01 00 00 31 00 00 00 01 00 00 32 00 | 0......1......2.[0m
 [33m[tester::#NV3] [client] [0m[36m0150 | 00 00 00 00 00 33 00 00 00 00 00 00 37 00 00 00 | .....3......7...[0m
-[33m[tester::#NV3] [client] [0m[36m0160 | 02 00 00 39 00 00 00 01 00 00 3c 00 00 00 01 00 | ...9......<.....[0m
+[33m[tester::#NV3] [client] [0m[36m0160 | 02 00 00 39 00 00 00 02 00 00 3c 00 00 00 02 00 | ...9......<.....[0m
 [33m[tester::#NV3] [client] [0m[36m0170 | 00 3d 00 00 00 00 00 00 40 00 00 00 00 00 00 41 | .=......@......A[0m
-[33m[tester::#NV3] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 01 00 00 44 00 00 | ......B......D..[0m
-[33m[tester::#NV3] [client] [0m[36m0190 | 00 00 00 00 45 00 00 00 00 00 00 4a 00 00 00 00 | ....E......J....[0m
-[33m[tester::#NV3] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 50 00 00 00 00 00 00 | ..K......P......[0m
-[33m[tester::#NV3] [client] [0m[36m01b0 | 51 00 00 00 00 00 00 00 00 00 03 00 3d 04 0e 67 | Q...........=..g[0m
-[33m[tester::#NV3] [client] [0m[36m01c0 | 72 6f 75 70 2e 76 65 72 73 69 6f 6e 00 00 00 01 | roup.version....[0m
-[33m[tester::#NV3] [client] [0m[36m01d0 | 00 0e 6b 72 61 66 74 2e 76 65 72 73 69 6f 6e 00 | ..kraft.version.[0m
-[33m[tester::#NV3] [client] [0m[36m01e0 | 00 00 01 00 11 6d 65 74 61 64 61 74 61 2e 76 65 | .....metadata.ve[0m
-[33m[tester::#NV3] [client] [0m[36m01f0 | 72 73 69 6f 6e 00 01 00 16 00 01 08 00 00 00 00 | rsion...........[0m
-[33m[tester::#NV3] [client] [0m[36m0200 | 00 00 00 07 02 17 02 11 6d 65 74 61 64 61 74 61 | ........metadata[0m
-[33m[tester::#NV3] [client] [0m[36m0210 | 2e 76 65 72 73 69 6f 6e 00 16 00 16 00          | .version.....[0m
+[33m[tester::#NV3] [client] [0m[36m0180 | 00 00 00 00 00 00 42 00 00 00 02 00 00 44 00 00 | ......B......D..[0m
+[33m[tester::#NV3] [client] [0m[36m0190 | 00 01 00 00 45 00 00 00 01 00 00 4a 00 00 00 01 | ....E......J....[0m
+[33m[tester::#NV3] [client] [0m[36m01a0 | 00 00 4b 00 00 00 00 00 00 4c 00 01 00 01 00 00 | ..K......L......[0m
+[33m[tester::#NV3] [client] [0m[36m01b0 | 4d 00 01 00 01 00 00 4e 00 01 00 01 00 00 4f 00 | M......N......O.[0m
+[33m[tester::#NV3] [client] [0m[36m01c0 | 01 00 01 00 00 50 00 00 00 00 00 00 51 00 00 00 | .....P......Q...[0m
+[33m[tester::#NV3] [client] [0m[36m01d0 | 00 00 00 53 00 00 00 00 00 00 54 00 00 00 00 00 | ...S......T.....[0m
+[33m[tester::#NV3] [client] [0m[36m01e0 | 00 55 00 00 00 00 00 00 56 00 00 00 00 00 00 57 | .U......V......W[0m
+[33m[tester::#NV3] [client] [0m[36m01f0 | 00 00 00 00 00 00 5a 00 00 00 00 00 00 5b 00 00 | ......Z......[..[0m
+[33m[tester::#NV3] [client] [0m[36m0200 | 00 00 00 00 5c 00 00 00 00 00 00 00 00 00 03 00 | ....\...........[0m
+[33m[tester::#NV3] [client] [0m[36m0210 | 8f 01 07 0e 67 72 6f 75 70 2e 76 65 72 73 69 6f | ....group.versio[0m
+[33m[tester::#NV3] [client] [0m[36m0220 | 6e 00 00 00 01 00 0e 6b 72 61 66 74 2e 76 65 72 | n......kraft.ver[0m
+[33m[tester::#NV3] [client] [0m[36m0230 | 73 69 6f 6e 00 00 00 01 00 11 6d 65 74 61 64 61 | sion......metada[0m
+[33m[tester::#NV3] [client] [0m[36m0240 | 74 61 2e 76 65 72 73 69 6f 6e 00 07 00 1b 00 0e | ta.version......[0m
+[33m[tester::#NV3] [client] [0m[36m0250 | 73 68 61 72 65 2e 76 65 72 73 69 6f 6e 00 00 00 | share.version...[0m
+[33m[tester::#NV3] [client] [0m[36m0260 | 01 00 14 74 72 61 6e 73 61 63 74 69 6f 6e 2e 76 | ...transaction.v[0m
+[33m[tester::#NV3] [client] [0m[36m0270 | 65 72 73 69 6f 6e 00 00 00 02 00 21 65 6c 69 67 | ersion.....!elig[0m
+[33m[tester::#NV3] [client] [0m[36m0280 | 69 62 6c 65 2e 6c 65 61 64 65 72 2e 72 65 70 6c | ible.leader.repl[0m
+[33m[tester::#NV3] [client] [0m[36m0290 | 69 63 61 73 2e 76 65 72 73 69 6f 6e 00 00 00 01 | icas.version....[0m
+[33m[tester::#NV3] [client] [0m[36m02a0 | 00 01 08 00 00 00 00 00 00 00 08 02 17 02 11 6d | ...............m[0m
+[33m[tester::#NV3] [client] [0m[36m02b0 | 65 74 61 64 61 74 61 2e 76 65 72 73 69 6f 6e 00 | etadata.version.[0m
+[33m[tester::#NV3] [client] [0m[36m02c0 | 1b 00 1b 00                                     | ....[0m
 [33m[tester::#NV3] [client] [0m[36m[0m
 [33m[tester::#NV3] [Decoder] [0m[36m- ApiVersionsResponse[0m
 [33m[tester::#NV3] [Decoder] [0m[36m  - Header[0m
