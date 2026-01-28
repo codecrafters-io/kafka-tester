@@ -44,6 +44,9 @@ test_produce_with_kafka: build
 test:
 	TESTER_DIR=$(shell pwd) go test -v ./internal/ -failfast --count=1
 
+record_fixtures:
+	CODECRAFTERS_RECORD_FIXTURES=true make test
+
 test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
 
