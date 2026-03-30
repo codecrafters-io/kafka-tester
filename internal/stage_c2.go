@@ -8,10 +8,8 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
 	"github.com/codecrafters-io/kafka-tester/protocol/utils"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -20,7 +18,7 @@ func testConcurrentRequests(stageHarness *test_case_harness.TestCaseHarness) err
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 	stageLogger := stageHarness.Logger
 
-	if err := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger("")).GenerateServerConfiguration(); err != nil {
+	if err := generateEmptyClusterMetadata(); err != nil {
 		return err
 	}
 

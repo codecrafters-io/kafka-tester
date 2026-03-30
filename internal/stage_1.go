@@ -3,15 +3,13 @@ package internal
 import (
 	"github.com/codecrafters-io/kafka-tester/internal/kafka_executable"
 	"github.com/codecrafters-io/kafka-tester/internal/test_cases"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testBindToPort(stageHarness *test_case_harness.TestCaseHarness) error {
 	b := kafka_executable.NewKafkaExecutable(stageHarness)
 
-	if err := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger("")).GenerateServerConfiguration(); err != nil {
+	if err := generateEmptyClusterMetadata(); err != nil {
 		return err
 	}
 

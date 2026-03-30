@@ -8,23 +8,14 @@ import (
 	"github.com/codecrafters-io/kafka-tester/internal/response_assertions"
 	"github.com/codecrafters-io/kafka-tester/internal/response_decoders"
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
-	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafkaapi"
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testFetchWithNoTopics(stageHarness *test_case_harness.TestCaseHarness) error {
 	stageLogger := stageHarness.Logger
 
-	files_handler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
-
-	// Generate __cluster_metadata-0/00000000000000000000.log (with no topics) for consistency with other stages
-	files_handler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
-		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{},
-	})
-
-	if err := files_handler.GenerateServerConfigAndLogDirs(); err != nil {
+	if err := generateEmptyClusterMetadata(); err != nil {
 		return err
 	}
 
