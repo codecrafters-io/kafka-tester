@@ -8,6 +8,7 @@ import (
 
 	"github.com/codecrafters-io/kafka-tester/protocol/builder"
 	"github.com/codecrafters-io/kafka-tester/protocol/kafka_files_generator"
+	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/google/uuid"
 )
@@ -130,4 +131,12 @@ func generatePartitionRequestWithRandomLogs(numPartitions int) []builder.Produce
 		}
 	}
 	return partitionCreationData
+}
+
+func generateEmptyClusterMetadata() error {
+	filesHandler := kafka_files_generator.NewFilesHandler(logger.GetQuietLogger(""))
+	filesHandler.AddLogDirectoryGenerationConfig(kafka_files_generator.LogDirectoryGenerationConfig{
+		TopicGenerationConfigList: []kafka_files_generator.TopicGenerationConfig{},
+	})
+	return filesHandler.GenerateServerConfigAndLogDirs()
 }
